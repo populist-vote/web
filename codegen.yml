@@ -1,0 +1,19 @@
+schema: ${GRAPHQL_SCHEMA_PATH}
+      
+documents: './graphql/**/*.graphql'
+generates:
+  ./graphql/schema.graphql:
+    plugins:
+      - schema-ast
+  ./generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher:
+        endpoint: ${GRAPHQL_SCHEMA_PATH}
+        
+
+
+        

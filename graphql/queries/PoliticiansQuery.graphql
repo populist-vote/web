@@ -1,0 +1,27 @@
+query AllPoliticians {
+    allPoliticians {
+        fullName,
+        homeState,
+        officeParty
+    }
+}
+
+query PoliticianBySlug($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    fullName
+    nickname
+    preferredName
+    homeState
+    officeParty
+    votesmartCandidateBio {
+      candidate {
+        family
+      }
+    }
+    endorsements {
+      slug
+      name
+      thumbnailImageUrl
+    }
+  }
+}

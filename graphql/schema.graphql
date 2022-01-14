@@ -1,0 +1,813 @@
+type Amendment {
+  adopted: Int!
+  amendmentId: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  description: String!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  title: String!
+  url: String!
+}
+
+enum ArgumentPosition {
+  NEUTRAL
+  OPPOSE
+  SUPPORT
+}
+
+type ArgumentResult {
+  author: AuthorResult!
+  authorId: ID!
+  authorType: AuthorType!
+  body: String
+  createdAt: DateTime!
+  id: ID!
+  position: String!
+  title: String!
+  updatedAt: DateTime!
+  votes: Int!
+}
+
+union AuthorResult = OrganizationResult | PoliticianResult
+
+enum AuthorType {
+  ORGANIZATION
+  POLITICIAN
+}
+
+type BallotMeasureResult {
+  arguments: [BallotMeasureResult!]!
+  ballotMeasureCode: String!
+  ballotState: State!
+  createdAt: DateTime!
+  definitions: String!
+  description: String
+  electionId: ID!
+  fullTextUrl: String
+  id: ID!
+  legislationStatus: LegislationStatus!
+  measureType: String!
+  officialSummary: String
+  populistSummary: String
+  slug: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+input BallotMeasureSearch {
+  ballotState: State
+  legislationStatus: LegislationStatus
+  slug: String
+  title: String
+}
+
+type Bill {
+  amendments: [Amendment!]!
+  billId: Int!
+  billNumber: String!
+  billType: String!
+  billTypeId: String!
+  body: String!
+  bodyId: Int!
+  calendar: [Calendar!]!
+  changeHash: String!
+  committee: JSON!
+  completed: Int!
+  currentBody: String!
+  currentBodyId: Int!
+  history: [History!]!
+  pendingCommitteeId: Int!
+  progress: [Progress!]!
+  referrals: [Referral!]
+  sasts: [Sast!]!
+  session: Session!
+  sessionId: Int!
+  sponsors: [Sponsor!]!
+  state: String!
+  stateId: Int!
+  stateLink: String!
+  status: Int!
+  statusDate: String
+  statusType: String!
+  subjects: [Subject!]!
+  supplements: [Supplement!]!
+  texts: [Text!]!
+  title: String!
+  url: String!
+  votes: [Vote!]!
+}
+
+type BillResult {
+  arguments: [ArgumentResult!]!
+  billNumber: String!
+  createdAt: DateTime!
+  description: String
+  fullTextUrl: String
+  history: JSON!
+  id: ID!
+  legiscanBillId: Int
+  legiscanData: Bill!
+  legislationStatus: LegislationStatus!
+  officialSummary: String
+  populistSummary: String
+  slug: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+input BillSearch {
+  billNumber: String
+  legislationStatus: LegislationStatus
+  slug: String
+  title: String
+}
+
+type Calendar {
+  date: String!
+  description: String!
+  location: String!
+  time: String!
+  typeField: String!
+  typeId: Int!
+}
+
+type Candidate {
+  birthDate: String!
+  birthPlace: String!
+  candidateId: String!
+  congMembership: JSON!
+  crpId: String!
+  education: JSON!
+  family: String!
+  firstName: String!
+  gender: String!
+  homeCity: String!
+  homeState: String!
+  lastName: String!
+  middleName: String!
+  nickName: String!
+  orgMembership: JSON!
+  photo: String!
+  political: JSON!
+  preferredName: String!
+  profession: JSON!
+  pronunciation: String!
+  religion: String!
+  specialMsg: String!
+  suffix: String!
+}
+
+input CreateArgumentInput {
+  authorId: String!
+  body: String
+  position: ArgumentPosition!
+  title: String!
+}
+
+input CreateBallotMeasureInput {
+  ballotMeasureCode: String!
+  ballotState: State!
+  definitions: String!
+  description: String
+  fullTextUrl: String
+  legislationStatus: LegislationStatus!
+  measureType: String!
+  officialSummary: String
+  populistSummary: String
+  slug: String
+  title: String!
+}
+
+input CreateBillInput {
+  arguments: [CreateArgumentInput!]
+  billNumber: String!
+  description: String
+  fullTextUrl: String
+  legiscanBillId: Int
+  legiscanData: JSON
+  legislationStatus: LegislationStatus!
+  officialSummary: String
+  populistSummary: String
+  slug: String
+  title: String!
+  votesmartBillId: Int
+}
+
+input CreateElectionInput {
+  description: String
+
+  """Must use format YYYY-MM-DD"""
+  electionDate: NaiveDate!
+  slug: String
+  title: String!
+}
+
+input CreateIssueTagInput {
+  description: String
+  name: String!
+  slug: String
+}
+
+input CreateOrConnectIssueTagInput {
+  connect: [String!]
+  create: [CreateIssueTagInput!]
+}
+
+input CreateOrConnectOrganizationInput {
+  connect: [String!]
+  create: [CreateOrganizationInput!]
+}
+
+input CreateOrganizationInput {
+  description: String
+  email: String
+  facebookUrl: String
+  headquartersPhone: String
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  name: String!
+  slug: String
+  taxClassification: String
+  thumbnailImageUrl: String
+  twitterUrl: String
+  websiteUrl: String
+}
+
+input CreatePoliticianInput {
+  ballotName: String
+  description: String
+  endorsements: CreateOrConnectOrganizationInput
+  facebookUrl: String
+  firstName: String!
+  homeState: State!
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  lastName: String!
+  legiscanPeopleId: Int
+  middleName: String
+  nickname: String
+  officeParty: PoliticalParty
+  preferredName: String
+  slug: String!
+  thumbnailImageUrl: String
+  twitterUrl: String
+  votesmartCandidateBio: JSON
+  votesmartCandidateId: Int
+  websiteUrl: String
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  role: Role
+  username: String!
+}
+
+type CreateUserResult {
+  id: ID!
+}
+
+"""
+Implement the DateTime<Utc> scalar
+
+The input/output is a string in RFC3339 format.
+"""
+scalar DateTime
+
+type DeleteArgumentResult {
+  id: String!
+}
+
+type DeleteBallotMeasureResult {
+  id: String!
+}
+
+type DeleteBillResult {
+  id: String!
+}
+
+type DeleteElectionResult {
+  id: String!
+}
+
+type DeleteIssueTagResult {
+  id: String!
+}
+
+type DeleteOrganizationResult {
+  id: String!
+}
+
+type DeletePoliticianResult {
+  id: String!
+}
+
+type ElectionResult {
+  description: String
+  electionDate: NaiveDate!
+  id: ID!
+  slug: String!
+  title: String!
+}
+
+input ElectionSearchInput {
+  slug: String
+  title: String
+}
+
+type GeneralInfo {
+  linkBack: String!
+  title: String!
+}
+
+type GetCandidateBioResponse {
+  candidate: Candidate!
+  generalInfo: GeneralInfo!
+  office: Office
+}
+
+type History {
+  action: String!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  importance: Int!
+}
+
+type IssueTagResult {
+  ballotMeasures: [BallotMeasureResult!]!
+  bills: [BillResult!]!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  name: String!
+  organizations: [OrganizationResult!]!
+  politicians: [PoliticianResult!]!
+  slug: String!
+  updatedAt: DateTime!
+}
+
+input IssueTagSearch {
+  name: String
+}
+
+"""A scalar that can represent any JSON value."""
+scalar JSON
+
+enum LegislationStatus {
+  BECAME_LAW
+  FAILED_HOUSE
+  FAILED_SENATE
+  INTRODUCED
+  PASSED_HOUSE
+  PASSED_SENATE
+  RESOLVING_DIFFERENCES
+  SENT_TO_EXECUTIVE
+  UNKNOWN
+  VETOED
+}
+
+input LoginInput {
+  emailOrUsername: String!
+  password: String!
+}
+
+type LoginResult {
+  accessToken: String!
+}
+
+type Mutation {
+  createBallotMeasure(electionId: UUID!, input: CreateBallotMeasureInput!): BallotMeasureResult!
+  createBill(input: CreateBillInput!): BillResult!
+  createElection(input: CreateElectionInput!): ElectionResult!
+  createIssueTag(input: CreateIssueTagInput!): IssueTagResult!
+  createOrganization(input: CreateOrganizationInput!): OrganizationResult!
+  createPolitician(input: CreatePoliticianInput!): PoliticianResult!
+  createUser(input: CreateUserInput!): CreateUserResult!
+  deleteArgument(id: String!): DeleteArgumentResult!
+  deleteBallotMeasure(id: String!): DeleteBallotMeasureResult!
+  deleteBill(id: String!): DeleteBillResult!
+  deleteElection(id: String!): DeleteElectionResult!
+  deleteIssueTag(id: String!): DeleteIssueTagResult!
+  deleteOrganization(id: String!): DeleteOrganizationResult!
+  deletePolitician(id: String!): DeletePoliticianResult!
+  downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
+  login(input: LoginInput!): LoginResult!
+  updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
+  updateBallotMeasure(id: String!, input: UpdateBallotMeasureInput!): BallotMeasureResult!
+  updateBill(id: String, input: UpdateBillInput!, legiscanBillId: Int): BillResult!
+  updateElection(id: String!, input: UpdateElectionInput!): ElectionResult!
+  updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
+  updateOrganization(id: String!, input: UpdateOrganizationInput!): OrganizationResult!
+  updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
+  uploadPoliticianThumbnail(file: Upload!): Int!
+  upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
+}
+
+"""
+ISO 8601 calendar date without timezone.
+Format: %Y-%m-%d
+
+# Examples
+
+* `1994-11-13`
+* `2000-02-24`
+"""
+scalar NaiveDate
+
+type Office {
+  district: String!
+  districtId: String!
+  firstElect: String!
+  lastElect: String!
+  name: [String!]!
+  nextElect: String!
+  parties: String!
+  shortTitle: String!
+  stateId: String!
+  status: String!
+  termEnd: String!
+  termStart: String!
+  title: String!
+  typeField: String!
+}
+
+type OrganizationResult {
+  description: String
+  id: ID!
+  name: String!
+  slug: String!
+  thumbnailImageUrl: String
+  websiteUrl: String
+}
+
+input OrganizationSearch {
+  name: String
+}
+
+enum PoliticalParty {
+  CONSTITUTION
+  DEMOCRATIC
+  GREEN
+  LIBERTARIAN
+  REPUBLICAN
+  UNKNOWN
+}
+
+type PoliticianResult {
+  ballotName: String
+  createdAt: DateTime!
+  description: String
+  endorsements: [OrganizationResult!]!
+  facebookUrl: String
+  firstName: String!
+  fullName: String!
+  homeState: State!
+  id: ID!
+  instagramUrl: String
+  issueTags: [IssueTagResult!]!
+  lastName: String!
+  middleName: String
+  nickname: String
+  officeParty: PoliticalParty
+  preferredName: String
+  slug: String!
+  sponsoredBills: [BillResult!]!
+  twitterUrl: String
+  updatedAt: DateTime!
+  votesmartCandidateBio: GetCandidateBioResponse!
+  votesmartCandidateId: Int!
+  websiteUrl: String
+}
+
+input PoliticianSearch {
+  homeState: State
+  lastName: String
+  officeParty: PoliticalParty
+}
+
+type Progress {
+  date: String!
+  event: Int!
+}
+
+type Query {
+  allBallotMeasures: [BallotMeasureResult!]!
+  allElections: [ElectionResult!]!
+  allIssueTags: [IssueTagResult!]!
+  allOrganizations: [OrganizationResult!]!
+  allPoliticians: [PoliticianResult!]!
+  ballotMeasures(
+    """Search by voteStatus, name, or slug"""
+    search: BallotMeasureSearch!
+  ): [BallotMeasureResult!]!
+  bills(
+    """Search by voteStatus, title, or slug"""
+    search: BillSearch!
+  ): [BillResult!]!
+  electionById(id: String!): ElectionResult!
+  elections(
+    """Search by slug or title"""
+    search: ElectionSearchInput!
+  ): [ElectionResult!]!
+  health: Boolean!
+  issueTagBySlug(
+    """Search issue tag by slug"""
+    slug: String!
+  ): IssueTagResult!
+  issueTags(
+    """Search by issue tag name"""
+    search: IssueTagSearch!
+  ): [IssueTagResult!]!
+  organizations(
+    """Search by organization name"""
+    search: OrganizationSearch!
+  ): [OrganizationResult!]!
+  politicianById(id: String!): PoliticianResult!
+  politicianBySlug(slug: String!): PoliticianResult!
+  politicians(
+    """Search by homeState or lastName"""
+    search: PoliticianSearch!
+  ): [PoliticianResult!]!
+  upcomingElections: [ElectionResult!]!
+}
+
+type Referral {
+  chamber: String!
+  chamberId: Int!
+  committeeId: Int!
+  date: String!
+  name: String!
+}
+
+enum Role {
+  BASIC
+  PREMIUM
+  STAFF
+  SUPERUSER
+}
+
+type RollCall {
+  absent: Int!
+  billId: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  desc: String!
+  nay: Int!
+  nv: Int!
+  passed: Int!
+  rollCallId: Int!
+  total: Int!
+  votes: [Vote!]!
+  yea: Int!
+}
+
+type Sast {
+  sastBillId: Int!
+  sastBillNumber: String!
+  typeField: String!
+  typeId: Int!
+}
+
+type Session {
+  sessionId: Int!
+  sessionName: String!
+  sessionTitle: String!
+  special: Int!
+  yearEnd: Int!
+  yearStart: Int!
+}
+
+type Sponsor {
+  ballotpedia: String!
+  committeeId: JSON!
+  committeeSponsor: Int!
+  district: String!
+  firstName: String!
+  ftmEid: Int!
+  lastName: String!
+  middleName: String!
+  name: String!
+  nickname: String!
+  opensecretsId: String!
+  party: String!
+  partyId: JSON!
+  peopleId: Int!
+  personHash: String!
+  role: String!
+  roleId: Int!
+  sponsorOrder: Int!
+  sponsorTypeId: Int!
+  suffix: String!
+  votesmartId: Int!
+}
+
+enum State {
+  AK
+  AL
+  AR
+  AZ
+  CA
+  CO
+  CT
+  DC
+  DE
+  FL
+  GA
+  HI
+  IA
+  ID
+  IL
+  IN
+  KS
+  KY
+  LA
+  MA
+  MD
+  ME
+  MI
+  MN
+  MO
+  MS
+  MT
+  NC
+  ND
+  NE
+  NH
+  NJ
+  NM
+  NV
+  NY
+  OH
+  OK
+  OR
+  PA
+  RI
+  SC
+  SD
+  TN
+  TX
+  UT
+  VA
+  VT
+  WA
+  WI
+  WV
+  WY
+}
+
+type Subject {
+  subjectId: Int!
+  subjectName: String!
+}
+
+type Supplement {
+  date: String!
+  description: String!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  supplementId: Int!
+  title: String!
+  typeField: String!
+  typeId: Int!
+  url: String!
+}
+
+type Text {
+  date: String!
+  docId: Int!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  textSize: Int!
+  typeField: String!
+  typeId: Int!
+  url: String!
+}
+
+"""
+A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as Strings
+within GraphQL. UUIDs are used to assign unique identifiers to entities without requiring a central
+allocating authority.
+
+# References
+
+* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
+"""
+scalar UUID
+
+input UpdateArgumentInput {
+  body: String
+  position: ArgumentPosition!
+  title: String
+}
+
+input UpdateBallotMeasureInput {
+  ballotMeasureCode: String
+  ballotState: State
+  definitions: String
+  description: String
+  fullTextUrl: String
+  legislationStatus: LegislationStatus
+  measureType: String
+  officialSummary: String
+  populistSummary: String
+  slug: String
+  title: String
+}
+
+input UpdateBillInput {
+  arguments: [CreateArgumentInput!]
+  billNumber: String!
+  description: String
+  fullTextUrl: String
+  legiscanBillId: Int
+  legiscanData: JSON
+  legislationStatus: LegislationStatus
+  officialSummary: String
+  populistSummary: String
+  slug: String
+  title: String
+}
+
+input UpdateElectionInput {
+  description: String
+
+  """Must use format YYYY-MM-DD"""
+  electionDate: NaiveDate
+  slug: String
+  title: String
+}
+
+input UpdateIssueTagInput {
+  description: String
+  name: String
+  slug: String
+}
+
+input UpdateOrganizationInput {
+  description: String
+  email: String
+  facebookUrl: String
+  headquartersPhone: String
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  name: String
+  slug: String
+  taxClassification: String
+  thumbnailImageUrl: String
+  twitterUrl: String
+  websiteUrl: String
+}
+
+input UpdatePoliticianInput {
+  ballotName: String
+  description: String
+  endorsements: CreateOrConnectOrganizationInput
+  facebookUrl: String
+  firstName: String
+  homeState: State
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  lastName: String
+  legiscanPeopleId: Int
+  middleName: String
+  nickname: String
+  officeParty: PoliticalParty
+  preferredName: String
+  slug: String
+  thumbnailImageUrl: String
+  twitterUrl: String
+  votesmartCandidateBio: JSON
+  votesmartCandidateId: Int
+  websiteUrl: String
+}
+
+scalar Upload
+
+type Vote {
+  absent: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  desc: String!
+  nay: Int!
+  nv: Int!
+  passed: Int!
+
+  """
+  This field is not returned from get_bill, but can be populated with a subsequent call to `get_roll_call`
+  """
+  rollCallData: RollCall
+  rollCallId: Int!
+  stateLink: String!
+  total: Int!
+  url: String!
+  yea: Int!
+}

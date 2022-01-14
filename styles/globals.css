@@ -1,9 +1,129 @@
+@font-face {
+  font-family: "commuters_sans";
+  src:
+    url("../public/fonts/commuter_sans_regular-webfont.woff2") format("woff2"),
+    url("../public/fonts/commuter_sans_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "commuters_sans";
+  src:
+    url("../public/fonts/commuter_sans_light-webfont.woff2") format("woff2"),
+    url("../public/fonts/commuter_sans_light-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "commuters_sans";
+  src:
+    url("../public/fonts/commuter_sans_bold_italic-webfont.woff2") format("woff2"),
+    url("../public/fonts/commuter_sans_bold_italic-webfont.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "commuters_sans";
+  src:
+    url("../public/fonts/commuter_sans_bold-webfont.woff2") format("woff2"),
+    url("../public/fonts/commuter_sans_bold-webfont.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-bold-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-bold-webfont.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-boldit-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-boldit-webfont.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-light-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-light-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-lightitalic-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-lightitalic-webfont.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-regular-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-regularitalic-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-regularitalic-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-semibold-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-semibold-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "proxima_nova";
+  src:
+    url("../public/fonts/proximanova-semibolditalic-webfont.woff2") format("woff2"),
+    url("../public/fonts/proximanova-semibolditalic-webfont.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+  background: var(--background-primary);
+  color: var(--text-primary);
 }
 
 a {
@@ -13,4 +133,35 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* CSS Variables */
+:root {
+  --text-primary: var(--white);
+  --text-secondary: var(--blue-darkest);
+  --background-primary: var(--blueDarkest);
+  --blue-text: #55a3bd;
+  --blue-light: #8ed7ee;
+  --blue: #006586;
+  --blue-dark: #003c55;
+  --blue-darker: #002b41;
+  --blue-darkest: #002135;
+  --red: #d64646;
+  --yellow: #ffe45c;
+  --green: #8eea78;
+  --green-support: #46b918;
+  --aqua: #6ee1ba;
+  --violet: #c3b1e5;
+  --salmon: #e78f84;
+  --orange: #ffb45c;
+  --purple: #8f77bb;
+  --white: #fff;
+  --grey-darkest: #333;
+  --grey-darker: #666;
+  --grey-dark: #999;
+  --grey: #aaa;
+  --grey-light: #ccc;
+  --grey-lighter: #ddd;
+  --grey-lightest: #eee;
+  --black: #002135;
 }
