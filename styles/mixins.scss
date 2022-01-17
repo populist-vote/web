@@ -1,0 +1,24 @@
+/* Breakpoints - need to use SCSS variables in media queries */
+$mobile-breakpoint: 596px;
+$tablet-breakpoint: 896px;
+$desktop-breakpoint: 1024px;
+
+@mixin for-phone-only {
+  @media (max-width: $mobile-breakpoint) { @content; }
+}
+
+@mixin for-tablet-portrait-up {
+  @media (min-width: calc($mobile-breakpoint + 5px)) { @content; }
+}
+
+@mixin for-tablet-landscape-up {
+  @media (min-width: $tablet-breakpoint) { @content; }
+}
+
+@mixin for-desktop-up {
+  @media (min-width: $desktop-breakpoint) { @content; }
+}
+
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) { @content; }
+}

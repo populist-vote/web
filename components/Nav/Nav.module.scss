@@ -1,0 +1,44 @@
+@import '../../styles/mixins.scss';
+
+.nav {
+  grid-area: nav;
+  background-color: var(--blue-darker);
+
+  .navContent {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    @include for-tablet-landscape-up {
+      position: sticky;
+      top: 0;
+      height: calc(99vh);
+
+      .subTitle {
+        display: none;
+      }
+    }
+  }
+
+  @include for-tablet-landscape-up {
+    height: 100%;
+  }
+
+  .items {
+    padding: 0;
+    margin: 2.5rem -1rem;
+
+    @include for-phone-only {
+      display: none;
+    }
+  }
+
+  .navItem {
+    background-color: var(--blue-dark);
+    text-align: center;
+    font-size: 1.25rem;
+    list-style: none;
+    width: 100%;
+    padding: 1rem;
+  }
+}

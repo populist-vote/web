@@ -1,0 +1,109 @@
+@import '../../styles/mixins';
+
+.container {
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-areas:
+    'nav'
+    'content'
+    'contextNav'
+    'footer';
+  grid-template-rows: 1fr 10fr 1fr 1fr;
+
+  @include for-tablet-landscape-up {
+    height: 100vh;
+    grid-template-columns: 180px 5fr;
+    grid-template-areas:
+      'nav     contextNav'
+      'nav     content'
+      'nav     footer';
+    grid-template-rows: 1fr 10fr 1fr;
+  }
+
+  input {
+    border-radius: 25px;
+    border: none;
+    padding: 0.5rem 1rem;
+
+    &.wide {
+      width: 21rem;
+    }
+  }
+
+  button {
+    background: var(--blue);
+    color: var(--white);
+    border-radius: 25px;
+    border: none;
+    padding: 0.5rem 1rem;
+  }
+
+  select {
+    background: transparent;
+    color: var(--white);
+    border-radius: 25px;
+    border: 1px solid var(--blue);
+    padding: 0.5rem 1rem;
+  }
+
+  hr {
+    border: 1px solid var(--blue);
+  }
+
+  .mb3 {
+    margin-bottom: 3rem;
+  }
+
+  .flexBetween {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .inputWithIcon {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-right: 0.75rem;
+
+    input {
+      margin-right: -1.5rem;
+    }
+
+    input:focus + svg {
+      opacity: 0;
+    }
+  }
+
+  .verticalDivider {
+    border-left: 1px solid var(--blue);
+    margin: 0 1rem;
+  }
+}
+
+.content {
+  height: 100%;
+  padding: 1rem;
+
+  @include for-tablet-landscape-up {
+    padding: 2.75rem;
+  }
+}
+
+.rowItem {
+  list-style: none;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+// .fixedScrollable {
+//   position: relative;
+//   overflow: scroll;
+//   z-index: 1;
+// }

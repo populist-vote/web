@@ -1040,22 +1040,29 @@ export type Vote = {
 export type AllPoliticiansQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllPoliticiansQuery = { __typename?: 'Query', allPoliticians: Array<{ __typename?: 'PoliticianResult', fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined }> };
+export type AllPoliticiansQuery = { __typename?: 'Query', allPoliticians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', candidate: { __typename?: 'Candidate', photo: string } } }> };
 
 export type PoliticianBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', candidate: { __typename?: 'Candidate', family: string } }, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
 
 
 export const AllPoliticiansDocument = `
     query AllPoliticians {
   allPoliticians {
+    id
+    slug
     fullName
     homeState
     officeParty
+    votesmartCandidateBio {
+      candidate {
+        photo
+      }
+    }
   }
 }
     `;
@@ -1079,6 +1086,11 @@ export const PoliticianBySlugDocument = `
     preferredName
     homeState
     officeParty
+    votesmartCandidateBio {
+      candidate {
+        family
+      }
+    }
     endorsements {
       slug
       name

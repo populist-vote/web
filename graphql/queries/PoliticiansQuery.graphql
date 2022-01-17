@@ -1,9 +1,16 @@
 query AllPoliticians {
-    allPoliticians {
-        fullName,
-        homeState,
-        officeParty
+  allPoliticians {
+    id
+    slug
+    fullName
+    homeState
+    officeParty
+    votesmartCandidateBio {
+      candidate {
+        photo
+      }
     }
+  }
 }
 
 query PoliticianBySlug($slug: String!) {
