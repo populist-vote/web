@@ -6,6 +6,11 @@ query AllPoliticians {
     homeState
     officeParty
     votesmartCandidateBio {
+      office {
+        title
+        district
+        typeField
+      }
       candidate {
         photo
       }

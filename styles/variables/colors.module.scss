@@ -1,6 +1,7 @@
-$text-primary: var($white);
-$text-secondary: var($blue-darkest);
-$background-primary: var($blueDarkest);
+$text-primary: var(--white);
+$text-secondary: var(--blue-text);
+$background-primary: var(--blue-darkest);
+$background-secondary: var(--blue-darker);
 $blue-text: #55a3bd;
 $blue-light: #8ed7ee;
 $blue: #006586;

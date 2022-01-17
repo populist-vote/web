@@ -1,58 +1,83 @@
-@import '../../styles/mixins';
+@import "../../styles/mixins";
+@import "../../styles/variables/colors.module";
+@import "../../styles/variables/fonts.module";
 
-.container {
-  width: 100vw;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.app {
+  background: $background-primary;
   display: grid;
   grid-template-areas:
-    'nav'
-    'content'
-    'contextNav'
-    'footer';
-  grid-template-rows: 1fr 10fr 1fr 1fr;
+    "nav"
+    "content"
+    "contextNav"
+    "footer";
+  grid-template-rows: auto 10fr auto auto;
 
   @include for-tablet-landscape-up {
-    height: 100vh;
     grid-template-columns: 180px 5fr;
     grid-template-areas:
-      'nav     contextNav'
-      'nav     content'
-      'nav     footer';
-    grid-template-rows: 1fr 10fr 1fr;
+      "nav     contextNav"
+      "nav     content"
+      "nav     footer";
+    grid-template-rows: repeat(3, auto);
+    max-width: $desktop-max;
+    margin: 0 auto;
   }
 
   input {
     border-radius: 25px;
     border: none;
     padding: 0.5rem 1rem;
+    width: 100%;
+    max-width: $mobile-breakpoint;
 
     &.wide {
       width: 21rem;
     }
   }
 
+  .radioLabel {
+    appearance: button;
+    background: $background-secondary;
+    color: $white;
+    border-radius: 25px;
+    border: 1px solid $blue;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  input[type="radio"]:checked + label {
+    background: $blue;
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
   button {
-    background: var(--blue);
-    color: var(--white);
+    background: $blue;
+    color: $white;
     border-radius: 25px;
     border: none;
     padding: 0.5rem 1rem;
+    width: 100%;
   }
 
   select {
     background: transparent;
-    color: var(--white);
+    color: $white;
     border-radius: 25px;
-    border: 1px solid var(--blue);
+    border: 1px solid $blue;
     padding: 0.5rem 1rem;
   }
 
   hr {
-    border: 1px solid var(--blue);
+    border: 1px solid $blue;
   }
 
   .mb3 {
@@ -62,6 +87,11 @@
   .flexBetween {
     display: flex;
     justify-content: space-between;
+    gap: 0.25rem;
+  }
+
+  .filtersContainer {
+    max-width: $mobile-breakpoint;
   }
 
   .inputWithIcon {
@@ -69,6 +99,7 @@
     align-items: center;
     flex-direction: row;
     margin-right: 0.75rem;
+    width: 100%;
 
     input {
       margin-right: -1.5rem;
@@ -80,30 +111,51 @@
   }
 
   .verticalDivider {
-    border-left: 1px solid var(--blue);
+    border-left: 1px solid $blue;
     margin: 0 1rem;
   }
 }
 
 .content {
-  height: 100%;
   padding: 1rem;
 
   @include for-tablet-landscape-up {
     padding: 2.75rem;
   }
+
+  table {
+    width: 100%;
+  }
 }
 
 .rowItem {
+  font-family: $font-secondary;
+  font-weight: $weight-normal;
   list-style: none;
   padding: 0.5rem 0;
-  display: flex;
-  flex-direction: row;
+  gap: 1rem;
   align-items: center;
-}
+  border-bottom: 1px solid $blue-dark;
+  display: flex;
 
-// .fixedScrollable {
-//   position: relative;
-//   overflow: scroll;
-//   z-index: 1;
-// }
+  @include for-tablet-landscape-up {
+    display: grid;
+    grid-template-columns: 1fr 15fr;
+  }
+
+  .politicianInfo {
+    display: flex;
+    flex-direction: column;
+
+    .bold {
+      text-transform: uppercase;
+      color: $blue-text;
+    }
+
+    @include for-tablet-landscape-up {
+      display: grid;
+      grid-template-columns: 8fr 2fr 2fr;
+      width: 100%;
+    }
+  }
+}

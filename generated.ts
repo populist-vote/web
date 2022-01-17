@@ -1040,7 +1040,7 @@ export type Vote = {
 export type AllPoliticiansQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllPoliticiansQuery = { __typename?: 'Query', allPoliticians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', candidate: { __typename?: 'Candidate', photo: string } } }> };
+export type AllPoliticiansQuery = { __typename?: 'Query', allPoliticians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } }> };
 
 export type PoliticianBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1059,6 +1059,11 @@ export const AllPoliticiansDocument = `
     homeState
     officeParty
     votesmartCandidateBio {
+      office {
+        title
+        district
+        typeField
+      }
       candidate {
         photo
       }

@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactAvatar, { ReactAvatarProps } from 'react-avatar';
-import styled, { css, useTheme } from 'styled-components';
-import { PoliticalParty } from '../../generated';
+import React from "react";
+import ReactAvatar, { ReactAvatarProps } from "react-avatar";
+import styled, { css, useTheme } from "styled-components";
+import { PoliticalParty } from "../../generated";
 
 interface BadgeProps {
   background?: string;
@@ -28,7 +28,7 @@ const AvatarWrapper = styled.div`
 `;
 
 interface BadgeWrapperProps {
-  background: BadgeProps['background'];
+  background: BadgeProps["background"];
   size: string;
   fontSize: string;
 }
@@ -44,8 +44,8 @@ const BadgeWrapper = styled.div<BadgeWrapperProps>(
       height: ${size};
       font-size: ${fontSize};
       text-transform: uppercase;
-      color: 'var(--white)';
-      background: ${background || 'var(--gray)'};
+      color: "var(--white)";
+      background: ${background || "var(--gray)"};
       display: flex;
       justify-content: center;
       align-items: center;
@@ -77,14 +77,14 @@ const Wrapper = styled.div`
 `;
 
 export function Avatar(props: AvatarProps): JSX.Element {
-  const { badge, name = '', round = true, ...rest } = props;
+  const { badge, name = "", round = true, ...rest } = props;
 
   const avatarProps = {
-    color: 'red',
+    color: "red",
     ...rest,
     round, // default to round Avatars
     name,
-    ...{ style: rest.onClick && { cursor: 'pointer' } },
+    ...{ style: rest.onClick && { cursor: "pointer" } },
   };
 
   return (
@@ -99,8 +99,8 @@ export function Avatar(props: AvatarProps): JSX.Element {
 
 export function PartyAvatar({
   party,
-  badgeSize = '1.25rem',
-  badgeFontSize = '0.75rem',
+  badgeSize = "1.25rem",
+  badgeFontSize = "0.75rem",
   ...rest
 }: PartyAvatarProps): JSX.Element {
   const badge = {
@@ -117,10 +117,10 @@ export function getPartyColor(
 ): string {
   switch (party) {
     case PoliticalParty.Democratic:
-      return 'var(--blue)';
+      return "var(--blue)";
     case PoliticalParty.Republican:
-      return 'var(--red)';
+      return "var(--red)";
     default:
-      return 'purple';
+      return "purple";
   }
 }

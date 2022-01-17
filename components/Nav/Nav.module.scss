@@ -1,13 +1,42 @@
-@import '../../styles/mixins.scss';
+@import "../../styles/mixins";
+@import "../../styles/variables/colors.module.scss";
+@import "../../styles/variables/fonts.module.scss";
 
 .nav {
-  grid-area: nav;
-  background-color: var(--blue-darker);
+  // grid-area: nav;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transform: translateY(-100%);
+  transition: transform 400ms ease-in;
+  background-color: $background-primary;
+  box-shadow: 0 7px 9px 0 $background-primary;
+
+  &.sticky {
+    transform: translateY(0%);
+  }
 
   .navContent {
     display: flex;
     flex-direction: column;
+    text-align: center;
     padding: 1rem;
+    height: auto;
+
+    .logoContainer {
+      width: 30%;
+      align-self: center;
+
+      @include for-tablet-landscape-up {
+        width: 100%;
+      }
+    }
+
+    .subTitle {
+      font-size: 0.85em;
+      font-family: $font-primary;
+      margin: 0.25rem 0;
+    }
 
     @include for-tablet-landscape-up {
       position: sticky;
@@ -20,25 +49,38 @@
     }
   }
 
-  @include for-tablet-landscape-up {
+  @include for-tablet-portrait-up {
     height: 100%;
+    background-color: $background-secondary;
   }
 
   .items {
     padding: 0;
     margin: 2.5rem -1rem;
 
-    @include for-phone-only {
+    @include for-tablet-portrait-down {
       display: none;
     }
   }
 
   .navItem {
-    background-color: var(--blue-dark);
+    font-family: $font-primary;
+    background-color: $background-secondary;
     text-align: center;
     font-size: 1.25rem;
     list-style: none;
     width: 100%;
     padding: 1rem;
+    cursor: pointer;
+
+    :hover {
+      color: $salmon;
+      transition: ease-in-out 0.3s;
+    }
+
+    &.active {
+      color: $salmon;
+      background-color: $background-primary;
+    }
   }
 }
