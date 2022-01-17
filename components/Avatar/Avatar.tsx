@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import ReactAvatar, { ReactAvatarProps } from "react-avatar";
 import styled, { css, useTheme } from "styled-components";
 import { PoliticalParty } from "../../generated";
@@ -80,7 +80,6 @@ export function Avatar(props: AvatarProps): JSX.Element {
   const { badge, name = "", round = true, ...rest } = props;
 
   const avatarProps = {
-    color: "red",
     ...rest,
     round, // default to round Avatars
     name,
@@ -103,8 +102,10 @@ export function PartyAvatar({
   badgeFontSize = "0.75rem",
   ...rest
 }: PartyAvatarProps): JSX.Element {
+  const partyColor = useMemo(() => getPartyColor(party), [party]);
+
   const badge = {
-    background: getPartyColor(party),
+    background: partyColor,
     text: party.slice(0, 1).toUpperCase(),
     size: badgeSize,
     fontSize: badgeFontSize,
