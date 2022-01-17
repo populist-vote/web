@@ -1,8 +1,8 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-display: fallback;
 }
 
 body {
@@ -12,20 +12,20 @@ body {
 }
 
 p {
-  font-family: "proxima_nova", sans-serif;
+  font-family: 'proxima_nova', sans-serif;
   font-size: 20px;
   font-weight: 300;
   line-height: 1.4em;
 }
 
 h1 {
-  font-family: "commuters_sans", sans-serif;
+  font-family: 'commuters_sans', sans-serif;
   font-weight: 300;
   font-size: 32px;
 }
 
 h2 {
-  font-family: "commuters_sans", sans-serif;
+  font-family: 'commuters_sans', sans-serif;
   font-weight: 300;
   font-size: 24px;
   line-height: 1.4em;
@@ -53,7 +53,7 @@ ul.nav li {
   list-style: none;
   display: inline-block;
   position: relative;
-  font-family: "commuters_sans", sans-serif;
+  font-family: 'commuters_sans', sans-serif;
   margin-left: 50px;
 }
 
@@ -77,7 +77,7 @@ ul.nav li {
 
 input.button {
   display: inline-block;
-  font-family: "commuters_sans", sans-serif !important;
+  font-family: 'commuters_sans', sans-serif !important;
   font-size: 16px !important;
   font-weight: normal !important;
   padding: 0 40px !important;
@@ -94,7 +94,7 @@ input.button:hover {
 span.button {
   display: inline-block;
   background-color: #ffe45c;
-  font-family: "commuters_sans", sans-serif;
+  font-family: 'commuters_sans', sans-serif;
   font-size: 16px;
   font-weight: normal;
   padding: 0 40px;
@@ -301,7 +301,7 @@ div.contentwide {
 
 #mc_embed_signup {
   clear: left;
-  font-family: "proxima_nova";
+  font-family: 'proxima_nova';
   font-size: 20px;
   width: 100%;
 }

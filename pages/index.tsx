@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import headerLogo from '../public/images/PopulistLogo.svg'
-import landing1 from '../public/images/landing/politicianBrowser.gif'
-import landing2 from '../public/images/landing/amplify.png'
-import landing3 from '../public/images/landing/3.png'
-import landing4 from '../public/images/landing/Connections.png'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import headerLogo from '../public/images/PopulistLogo.svg';
+import landing1 from '../public/images/landing/politicianBrowser.gif';
+import landing2 from '../public/images/landing/amplify.png';
+import landing3 from '../public/images/landing/3.png';
+import landing4 from '../public/images/landing/Connections.png';
 
 const Home: NextPage = () => {
   return (
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <body>
+      <main>
         <div id="container1">
           <div id="menu">
             <ul className="nav">
@@ -110,8 +110,8 @@ const Home: NextPage = () => {
                   alt="people becoming involved in government"
                 />
                 <h1>
-                  Populist is for <span className="emphasized">voters</span>,{" "}
-                  <span className="emphasized">organizations</span>, and{" "}
+                  Populist is for <span className="emphasized">voters</span>,{' '}
+                  <span className="emphasized">organizations</span>, and{' '}
                   <span className="emphasized">politicians</span>.
                 </h1>
                 <p>
@@ -139,7 +139,6 @@ const Home: NextPage = () => {
                     <div id="mc_embed_signup_scroll">
                       <input
                         type="email"
-                        value=""
                         name="EMAIL"
                         className="email"
                         id="mce-EMAIL"
@@ -147,14 +146,13 @@ const Home: NextPage = () => {
                         required
                       />
                       <div
-                        style={{ position: "absolute", left: "-5000px" }}
+                        style={{ position: 'absolute', left: '-5000px' }}
                         aria-hidden="true"
                       >
                         <input
                           type="text"
                           name="b_f24fbd8a9a3cd91b78cb4a457_361b16ea14"
                           tabIndex={-1}
-                          value=""
                         />
                       </div>
                       <div className="clear">
@@ -203,9 +201,9 @@ const Home: NextPage = () => {
             </footer>
           </div>
         </div>
-      </body>
+      </main>
     </>
   );
-}
+};
 
-export default Home
+export default Home;
