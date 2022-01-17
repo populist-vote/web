@@ -3,8 +3,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import headerLogo from '../public/images/PopulistLogo.svg'
-import landing1 from '../public/images/landing/1.png'
-import landing2 from '../public/images/landing/desktop_ballot.png'
+import landing1 from '../public/images/landing/politicianBrowser.gif'
+import landing2 from '../public/images/landing/amplify.png'
 import landing3 from '../public/images/landing/3.png'
 import landing4 from '../public/images/landing/Connections.png'
 
@@ -65,7 +65,7 @@ const Home: NextPage = () => {
             </div>
             <div id="s1bcol2">
               <a href="ballot/">
-                <Image src={landing1} alt="politician browser on mobile" />
+                <Image src={landing1} alt="Politician browser on mobile" />
               </a>
             </div>
           </div>
