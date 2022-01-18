@@ -1,12 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import headerLogo from '../public/images/PopulistLogo.svg';
-import landing1 from '../public/images/landing/politicianBrowser.gif';
-import landing2 from '../public/images/landing/amplify.png';
-import landing3 from '../public/images/landing/3.png';
-import landing4 from '../public/images/landing/Connections.png';
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import headerLogo from "../public/images/PopulistLogo.svg";
+import landing1 from "../public/images/landing/politicianBrowser.gif";
+import landing2 from "../public/images/landing/amplify.png";
+import landing3 from "../public/images/landing/3.png";
+import landing4 from "../public/images/landing/Connections.png";
+import Footer from "../components/Footer/Footer";
 
 const Home: NextPage = () => {
   return (
@@ -15,7 +16,7 @@ const Home: NextPage = () => {
         <title>Populist</title>
         <meta
           name="description"
-          content="Non partisan politics for the people"
+          content="Non-partisan politics for the people"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -64,9 +65,9 @@ const Home: NextPage = () => {
               </div>
             </div>
             <div id="s1bcol2">
-              <a href="ballot/">
-                <Image src={landing1} alt="Politician browser on mobile" />
-              </a>
+              {/* <a href="ballot/"> */}
+              <Image src={landing1} alt="Politician browser on mobile" />
+              {/* </a> */}
             </div>
           </div>
 
@@ -104,14 +105,14 @@ const Home: NextPage = () => {
 
           <div id="section4">
             <div id="s4row1">
-              <div className="contentwide">
+              <div className="contentwide2">
                 <Image
                   src={landing4}
                   alt="people becoming involved in government"
                 />
                 <h1>
-                  Populist is for <span className="emphasized">voters</span>,{' '}
-                  <span className="emphasized">organizations</span>, and{' '}
+                  Populist is for <span className="emphasized">voters</span>,{" "}
+                  <span className="emphasized">organizations</span>, and{" "}
                   <span className="emphasized">politicians</span>.
                 </h1>
                 <p>
@@ -124,7 +125,6 @@ const Home: NextPage = () => {
             <div id="s4row2">
               <div className="contentwide last">
                 <h1 className="botspace">Interested? Sign up to learn more.</h1>
-                <p>Sign up for updates.</p>
 
                 <div id="mc_embed_signup">
                   <form
@@ -146,7 +146,7 @@ const Home: NextPage = () => {
                         required
                       />
                       <div
-                        style={{ position: 'absolute', left: '-5000px' }}
+                        style={{ position: "absolute", left: "-5000px" }}
                         aria-hidden="true"
                       >
                         <input
@@ -170,35 +170,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <footer id="footer">
-              <p>
-                <a
-                  href="https://www.facebook.com/populist.us"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <i className="fab fa-facebook"></i>
-                </a>
-                <a
-                  href="https://twitter.com/populist_us"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <i className="fab fa-twitter"></i>
-                </a>
-                <a
-                  href="https://www.instagram.com/populist.us/"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <i className="fab fa-instagram"></i>
-                </a>
-              </p>
-              <p id="copyright">
-                &#169; {new Date().getFullYear()} Populist. &nbsp;Made in
-                Colorado.
-              </p>
-            </footer>
+            <Footer />
           </div>
         </div>
       </main>

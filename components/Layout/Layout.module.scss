@@ -78,6 +78,7 @@
     border-radius: 25px;
     border: 1px solid $blue;
     padding: 0.5rem 1rem;
+    cursor: pointer;
   }
 
   hr {
@@ -96,7 +97,7 @@
 
   .filtersContainer {
     border-bottom: 1px solid $blue-dark;
-    padding: 0 0 1.5rem 0;
+    padding: 0 0 1.5rem;
 
     > * {
       max-width: $mobile-breakpoint;
