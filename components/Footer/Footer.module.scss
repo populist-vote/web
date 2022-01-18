@@ -1,7 +1,6 @@
 .footer {
-  height: fit-content;
+  grid-area: footer;
   text-align: center;
-  margin: auto;
 
   svg {
     margin: 0 1rem;

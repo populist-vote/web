@@ -31,9 +31,8 @@ const PoliticianRow = ({
   };
   const district = politician.votesmartCandidateBio.office?.district;
 
-  const districtDisplay = isNaN(Number(district))
-    ? district
-    : `DISTRICT ${district}`;
+  const districtDisplay =
+    !district || isNaN(+district) ? district : `DISTRICT ${district}`;
 
   return (
     <Link href={`/politicians/${politician.slug}`} passHref>
@@ -129,8 +128,8 @@ const PoliticianIndex: NextPage = () => {
           <input placeholder="Enter address"></input>
           <button>Search</button>
         </div> */}
-        {!isMobile && <h2>Browse</h2>}
         <div className={styles.filtersContainer}>
+          {!isMobile && <h2>Browse</h2>}
           <div className={styles.inputWithIcon}>
             <input
               placeholder="Search"
@@ -179,7 +178,6 @@ const PoliticianIndex: NextPage = () => {
             </select>
           </form>
         </div>
-        <hr />
       </div>
       <div>
         {isLoading && <LoaderFlag />}
