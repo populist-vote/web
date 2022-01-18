@@ -4,6 +4,7 @@ html {
   /* font-smoothing: antialiased; */
   text-rendering: optimizeLegibility;
   font-display: fallback;
+  background: var(--blue-darkest);
 }
 
 body {
