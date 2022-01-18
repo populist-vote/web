@@ -7,7 +7,7 @@ import landing1 from "../public/images/landing/politicianBrowser.gif";
 import landing2 from "../public/images/landing/amplify.png";
 import landing3 from "../public/images/landing/3.png";
 import landing4 from "../public/images/landing/Connections.png";
-import Script from "next/script";
+import Footer from "../components/Footer/Footer";
 
 const Home: NextPage = () => {
   return (
@@ -20,10 +20,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Script
-        src="https://kit.fontawesome.com/b435f97e19.js"
-        crossOrigin="anonymous"
-      />
+
       <main>
         <div id="container1">
           <div id="menu">
@@ -173,35 +170,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <footer id="footer">
-              <p>
-                <a
-                  href="https://www.facebook.com/populist.us"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <i className="fab fa-facebook"></i>
-                </a>
-                <a
-                  href="https://twitter.com/populist_us"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <i className="fab fa-twitter"></i>
-                </a>
-                <a
-                  href="https://www.instagram.com/populist.us/"
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <i className="fab fa-instagram"></i>
-                </a>
-              </p>
-              <p id="copyright">
-                &#169; {new Date().getFullYear()} Populist. &nbsp;Made in
-                Colorado.
-              </p>
-            </footer>
+            <Footer />
           </div>
         </div>
       </main>
