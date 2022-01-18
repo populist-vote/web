@@ -7,6 +7,7 @@ import landing1 from "../public/images/landing/politicianBrowser.gif";
 import landing2 from "../public/images/landing/amplify.png";
 import landing3 from "../public/images/landing/3.png";
 import landing4 from "../public/images/landing/Connections.png";
+import Script from "next/script";
 
 const Home: NextPage = () => {
   return (
@@ -18,12 +19,11 @@ const Home: NextPage = () => {
           content="Non-partisan politics for the people"
         />
         <link rel="icon" href="/favicon.ico" />
-        <script
-          src="https://kit.fontawesome.com/b435f97e19.js"
-          crossOrigin="anonymous"
-        ></script>
       </Head>
-
+      <Script
+        src="https://kit.fontawesome.com/b435f97e19.js"
+        crossOrigin="anonymous"
+      />
       <main>
         <div id="container1">
           <div id="menu">
