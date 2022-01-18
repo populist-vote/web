@@ -47,6 +47,7 @@ export default function Nav({
             alt="Populist"
             layout="responsive"
             objectFit="contain"
+            priority
           />
         </div>
         <h5 className={styles.subTitle}>{mobileNavTitle}</h5>

@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Layout from "../../components/Layout/Layout";
 import styles from "../../components/Layout/Layout.module.scss";
 import { FaSearch } from "react-icons/fa";
@@ -10,6 +10,7 @@ import Link from "next/link";
 import useDeviceInfo from "../../hooks/useDeviceInfo";
 import Spacer from "../../components/Spacer/Spacer";
 import { useState } from "react";
+import { dehydrate, QueryClient } from "react-query";
 
 const PoliticianRow = ({
   politician,
@@ -72,6 +73,7 @@ const PoliticianIndex: NextPage = () => {
   // TODO use `politicians` query with search params and accept user selected filters
   // instead of filtering clientside.
   const { data, isLoading, error } = useAllPoliticiansQuery();
+
   const { isMobile } = useDeviceInfo();
 
   type LocalityFilter = "all" | "federal" | "state";
@@ -123,6 +125,7 @@ const PoliticianIndex: NextPage = () => {
     <Layout>
       <div className={`${styles.stickyMainHeader} ${styles.shadow}`}>
         {!isMobile && <h1>Colorado Legislators</h1>}
+
         {/* <div className={styles.mb3}>
           <p>Find your legislators by entering your address.</p>
           <input placeholder="Enter address"></input>
@@ -206,3 +209,20 @@ const PoliticianIndex: NextPage = () => {
 };
 
 export default PoliticianIndex;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    useAllPoliticiansQuery.getKey(),
+    useAllPoliticiansQuery.fetcher()
+  );
+
+  let state = JSON.parse(JSON.stringify(dehydrate(queryClient)));
+
+  return {
+    props: {
+      dehydratedState: state,
+    },
+  };
+};

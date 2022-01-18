@@ -1,6 +1,6 @@
 schema: ${GRAPHQL_SCHEMA_PATH}
-      
-documents: './graphql/**/*.graphql'
+
+documents: "./graphql/**/*.graphql"
 generates:
   ./graphql/schema.graphql:
     plugins:
@@ -11,9 +11,7 @@ generates:
       - typescript-operations
       - typescript-react-query
     config:
+      exposeQueryKeys: true
+      exposeFetcher: true
       fetcher:
         endpoint: ${GRAPHQL_SCHEMA_PATH}
-        
-
-
-        

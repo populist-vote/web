@@ -41,7 +41,7 @@
     @include for-tablet-landscape-up {
       position: sticky;
       top: 0;
-      height: calc(99vh);
+      height: 100vh;
 
       .subTitle {
         display: none;

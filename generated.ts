@@ -1083,6 +1083,11 @@ export const useAllPoliticiansQuery = <
       fetcher<AllPoliticiansQuery, AllPoliticiansQueryVariables>(AllPoliticiansDocument, variables),
       options
     );
+
+useAllPoliticiansQuery.getKey = (variables?: AllPoliticiansQueryVariables) => variables === undefined ? ['AllPoliticians'] : ['AllPoliticians', variables];
+;
+
+useAllPoliticiansQuery.fetcher = (variables?: AllPoliticiansQueryVariables) => fetcher<AllPoliticiansQuery, AllPoliticiansQueryVariables>(AllPoliticiansDocument, variables);
 export const PoliticianBySlugDocument = `
     query PoliticianBySlug($slug: String!) {
   politicianBySlug(slug: $slug) {
@@ -1116,3 +1121,8 @@ export const usePoliticianBySlugQuery = <
       fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, variables),
       options
     );
+
+usePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVariables) => ['PoliticianBySlug', variables];
+;
+
+usePoliticianBySlugQuery.fetcher = (variables: PoliticianBySlugQueryVariables) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, variables);
