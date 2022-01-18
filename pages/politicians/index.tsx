@@ -1,4 +1,4 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Layout from "../../components/Layout/Layout";
 import styles from "../../components/Layout/Layout.module.scss";
 import { FaSearch } from "react-icons/fa";
@@ -155,7 +155,6 @@ const PoliticianIndex: NextPage = () => {
             <label htmlFor="federal-radio" className={styles.radioLabel}>
               Federal
             </label>
-
             <input
               name="scope"
               id="state-radio"
