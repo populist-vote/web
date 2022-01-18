@@ -66,7 +66,11 @@ const Home: NextPage = () => {
             </div>
             <div id="s1bcol2">
               {/* <a href="ballot/"> */}
-              <Image src={landing1} alt="Politician browser on mobile" />
+              <Image
+                src={landing1}
+                alt="Politician browser on mobile"
+                priority
+              />
               {/* </a> */}
             </div>
           </div>
