@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["static.votesmart.org"],
+    format: ["image/webp", "image/png", "image/jpeg", "image/gif"],
   },
   i18n: {
     // These are all the locales you want to support in

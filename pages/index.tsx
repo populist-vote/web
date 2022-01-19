@@ -18,10 +18,6 @@ const Home: NextPage = () => {
         <title>Populist</title>
         <meta
           name="description"
-          content="Non-partisan politics for the people"
-        />
-        <meta
-          name="description"
           content="We believe in people. In transparent, non-partisan, accessible information."
         />
 
