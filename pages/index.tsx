@@ -3,12 +3,13 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import headerLogo from "../public/images/PopulistLogo.svg";
-import landing1 from "../public/images/landing/politicianBrowser.gif";
-import landing1placeholder from "../public/images/landing/1.png";
+import landing1 from "../public/images/landing/politicianBrowser.webp";
+import landing1fallback from "../public/images/landing/1.png";
 import landing2 from "../public/images/landing/amplify.png";
 import landing3 from "../public/images/landing/3.png";
 import landing4 from "../public/images/landing/Connections.png";
 import Footer from "../components/Footer/Footer";
+import ImageWithFallback from "../components/ImageWithFallback";
 
 const Home: NextPage = () => {
   return (
@@ -98,8 +99,9 @@ const Home: NextPage = () => {
               </div>
             </div>
             <div id="s1bcol2">
-              <Image
+              <ImageWithFallback
                 src={landing1}
+                fallbackSrc={landing1fallback}
                 alt="Politician browser on mobile"
                 priority
               />
