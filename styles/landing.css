@@ -154,7 +154,7 @@ div.contentwide2 {
 
 #s1bcol2 {
   width: 28%;
-
+  max-width: fit-content;
   /* height:300px; */
   max-height: 200px;
   min-width: 300px;
