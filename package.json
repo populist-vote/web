@@ -3,12 +3,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3030",
+    "generate": "dotenv -c local -- graphql-codegen",
+    "generate-prod": "dotenv -c production -- graphql-codegen",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "DOTENV_CONFIG_PATH=.env.local graphql-codegen --config codegen.yml -r dotenv/config",
-    "generate-prod": "DOTENV_CONFIG_PATH=.env.production graphql-codegen --config codegen.yml -r dotenv/config",
-    "prestart": "graphql-codegen"
+    "prebuild": "dotenv -c production -- graphql-codegen"
   },
   "dependencies": {
     "@graphql-codegen/add": "^3.1.1",
@@ -34,6 +34,7 @@
     "prettier": "^2.5.1",
     "stylelint": "^14.2.0",
     "stylelint-config-standard-scss": "^3.0.0",
-    "typescript": "4.5.4"
+    "typescript": "4.5.4",
+    "dotenv-cli": "^4.1.1"
   }
 }
