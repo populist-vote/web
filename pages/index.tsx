@@ -4,6 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import headerLogo from "../public/images/PopulistLogo.svg";
 import landing1 from "../public/images/landing/politicianBrowser.gif";
+import landing1placeholder from "../public/images/landing/1.png";
 import landing2 from "../public/images/landing/amplify.png";
 import landing3 from "../public/images/landing/3.png";
 import landing4 from "../public/images/landing/Connections.png";
@@ -18,17 +19,49 @@ const Home: NextPage = () => {
           name="description"
           content="Non-partisan politics for the people"
         />
+        <meta
+          name="description"
+          content="We believe in people. In transparent, non-partisan, accessible information."
+        />
+
+        {/* OG FB meta tags */}
+        <meta
+          property="og:image"
+          content="https://populist-static-assets.s3.amazonaws.com/social/preview-image-fb.jpg"
+        />
+        <meta
+          property="og:title"
+          content="Populist - Non-partisan politics for the people."
+        />
+        <meta
+          property="og:description"
+          content="We believe in people. In transparent, non-partisan, accessible information."
+        />
+
+        {/* Twitter meta tags */}
+        <meta
+          name="twitter:card"
+          content="https://populist-static-assets.s3.amazonaws.com/social/preview-image-fb.jpg"
+        />
+        <meta
+          name="twitter:title"
+          content="Populist - Non-partisan politics for the people."
+        />
+        <meta
+          name="twitter:description"
+          content="We believe in people. In transparent, non-partisan, accessible information."
+        />
+        <meta name="twitter:site" content="@populist_us" />
+
+        <link
+          rel="apple-touch-icon"
+          href="https://populist-static-assets.s3.amazonaws.com/images/LogoFlag.svg"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <div id="container1">
-          <div id="menu">
-            <ul className="nav">
-              {/* <li><span className="button">COLORADO BALLOT MEASURES</span></li> */}
-            </ul>
-          </div>
-
           <div id="section1">
             <div className="content">
               <Image
