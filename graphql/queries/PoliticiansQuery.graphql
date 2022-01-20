@@ -30,6 +30,7 @@ query PoliticianBySlug($slug: String!) {
         family
       }
     }
+    
     endorsements {
       slug
       name

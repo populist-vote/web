@@ -14,49 +14,6 @@ import ImageWithFallback from "../components/ImageWithFallback";
 const Home: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Populist</title>
-        <meta
-          name="description"
-          content="We believe in people. In transparent, non-partisan, accessible information."
-        />
-
-        {/* OG FB meta tags */}
-        <meta
-          property="og:image"
-          content="https://populist-static-assets.s3.amazonaws.com/social/preview-image-fb.jpg"
-        />
-        <meta
-          property="og:title"
-          content="Populist - Non-partisan politics for the people."
-        />
-        <meta
-          property="og:description"
-          content="We believe in people. In transparent, non-partisan, accessible information."
-        />
-
-        {/* Twitter meta tags */}
-        <meta
-          name="twitter:card"
-          content="https://populist-static-assets.s3.amazonaws.com/social/preview-image-fb.jpg"
-        />
-        <meta
-          name="twitter:title"
-          content="Populist - Non-partisan politics for the people."
-        />
-        <meta
-          name="twitter:description"
-          content="We believe in people. In transparent, non-partisan, accessible information."
-        />
-        <meta name="twitter:site" content="@populist_us" />
-
-        <link
-          rel="apple-touch-icon"
-          href="https://populist-static-assets.s3.amazonaws.com/images/LogoFlag.svg"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main>
         <div id="container1">
           <div id="section1">
