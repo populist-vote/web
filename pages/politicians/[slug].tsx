@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { useRouter } from "next/router";
@@ -35,10 +36,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     usePoliticianBySlugQuery.getKey({ slug }),
     usePoliticianBySlugQuery.fetcher({ slug })
   );
-
-  let state = JSON.parse(JSON.stringify(dehydrate(queryClient)));
+  let state = dehydrate(queryClient);
 
   return {
+    notFound: state.queries.length === 0,
     props: {
       dehydratedState: state,
     },

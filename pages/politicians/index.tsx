@@ -229,7 +229,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     useAllPoliticiansQuery.fetcher()
   );
 
-  let state = JSON.parse(JSON.stringify(dehydrate(queryClient)));
+  let state = dehydrate(queryClient);
 
   return {
     props: {

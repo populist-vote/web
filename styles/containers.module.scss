@@ -1,0 +1,17 @@
+@import "../styles/variables/colors.module.scss";
+
+.hero {
+  margin-top: 0;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    color: $blue-text;
+    border-bottom: 1px dotted;
+    width: fit-content;
+  }
+}
