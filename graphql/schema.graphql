@@ -89,11 +89,6 @@ type Bill {
   state: String!
   stateId: Int!
   stateLink: String!
-
-  """
-  Can be cast to its BillStatus with
-  `BillStatus::try_from(status).unwrap()`
-  """
   status: Int!
   statusDate: String
   statusType: String!
@@ -107,6 +102,7 @@ type Bill {
 
 type BillResult {
   arguments: [ArgumentResult!]!
+  billNumber: String!
   createdAt: DateTime!
   description: String
   fullTextUrl: String
@@ -220,6 +216,11 @@ input CreateOrConnectIssueTagInput {
   create: [CreateIssueTagInput!]
 }
 
+input CreateOrConnectOrganizationInput {
+  connect: [String!]
+  create: [CreateOrganizationInput!]
+}
+
 input CreateOrganizationInput {
   description: String
   email: String
@@ -228,6 +229,7 @@ input CreateOrganizationInput {
   instagramUrl: String
   issueTags: CreateOrConnectIssueTagInput
   name: String!
+  slug: String
   taxClassification: String
   thumbnailImageUrl: String
   twitterUrl: String
@@ -237,6 +239,7 @@ input CreateOrganizationInput {
 input CreatePoliticianInput {
   ballotName: String
   description: String
+  endorsements: CreateOrConnectOrganizationInput
   facebookUrl: String
   firstName: String!
   homeState: State!
@@ -259,6 +262,7 @@ input CreatePoliticianInput {
 input CreateUserInput {
   email: String!
   password: String!
+  role: Role
   username: String!
 }
 
@@ -471,6 +475,7 @@ type PoliticianResult {
   officeParty: PoliticalParty
   preferredName: String
   slug: String!
+  sponsoredBills: [BillResult!]!
   twitterUrl: String
   updatedAt: DateTime!
   votesmartCandidateBio: GetCandidateBioResponse!
@@ -491,7 +496,6 @@ type Progress {
 
 type Query {
   allBallotMeasures: [BallotMeasureResult!]!
-  allBills: [BillResult!]!
   allElections: [ElectionResult!]!
   allIssueTags: [IssueTagResult!]!
   allOrganizations: [OrganizationResult!]!
@@ -537,6 +541,29 @@ type Referral {
   committeeId: Int!
   date: String!
   name: String!
+}
+
+enum Role {
+  BASIC
+  PREMIUM
+  STAFF
+  SUPERUSER
+}
+
+type RollCall {
+  absent: Int!
+  billId: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  desc: String!
+  nay: Int!
+  nv: Int!
+  passed: Int!
+  rollCallId: Int!
+  total: Int!
+  votes: [Vote!]!
+  yea: Int!
 }
 
 type Sast {
@@ -742,6 +769,7 @@ input UpdateOrganizationInput {
 input UpdatePoliticianInput {
   ballotName: String
   description: String
+  endorsements: CreateOrConnectOrganizationInput
   facebookUrl: String
   firstName: String
   homeState: State
@@ -772,6 +800,11 @@ type Vote {
   nay: Int!
   nv: Int!
   passed: Int!
+
+  """
+  This field is not returned from get_bill, but can be populated with a subsequent call to `get_roll_call`
+  """
+  rollCallData: RollCall
   rollCallId: Int!
   stateLink: String!
   total: Int!

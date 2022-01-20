@@ -7,7 +7,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("https://api.populist.us/", {
+    const res = await fetch("https://api.staging.populist.us/", {
     method: "POST",
       body: JSON.stringify({ query, variables }),
     });
@@ -157,10 +157,6 @@ export type Bill = {
   state: Scalars['String'];
   stateId: Scalars['Int'];
   stateLink: Scalars['String'];
-  /**
-   * Can be cast to its BillStatus with
-   * `BillStatus::try_from(status).unwrap()`
-   */
   status: Scalars['Int'];
   statusDate?: Maybe<Scalars['String']>;
   statusType: Scalars['String'];
@@ -175,6 +171,7 @@ export type Bill = {
 export type BillResult = {
   __typename?: 'BillResult';
   arguments: Array<ArgumentResult>;
+  billNumber: Scalars['String'];
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   fullTextUrl?: Maybe<Scalars['String']>;
@@ -289,6 +286,11 @@ export type CreateOrConnectIssueTagInput = {
   create?: InputMaybe<Array<CreateIssueTagInput>>;
 };
 
+export type CreateOrConnectOrganizationInput = {
+  connect?: InputMaybe<Array<Scalars['String']>>;
+  create?: InputMaybe<Array<CreateOrganizationInput>>;
+};
+
 export type CreateOrganizationInput = {
   description?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
@@ -297,6 +299,7 @@ export type CreateOrganizationInput = {
   instagramUrl?: InputMaybe<Scalars['String']>;
   issueTags?: InputMaybe<CreateOrConnectIssueTagInput>;
   name: Scalars['String'];
+  slug?: InputMaybe<Scalars['String']>;
   taxClassification?: InputMaybe<Scalars['String']>;
   thumbnailImageUrl?: InputMaybe<Scalars['String']>;
   twitterUrl?: InputMaybe<Scalars['String']>;
@@ -306,6 +309,7 @@ export type CreateOrganizationInput = {
 export type CreatePoliticianInput = {
   ballotName?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
+  endorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   facebookUrl?: InputMaybe<Scalars['String']>;
   firstName: Scalars['String'];
   homeState: State;
@@ -328,6 +332,7 @@ export type CreatePoliticianInput = {
 export type CreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
+  role?: InputMaybe<Role>;
   username: Scalars['String'];
 };
 
@@ -673,6 +678,7 @@ export type PoliticianResult = {
   officeParty?: Maybe<PoliticalParty>;
   preferredName?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
+  sponsoredBills: Array<BillResult>;
   twitterUrl?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   votesmartCandidateBio: GetCandidateBioResponse;
@@ -695,7 +701,6 @@ export type Progress = {
 export type Query = {
   __typename?: 'Query';
   allBallotMeasures: Array<BallotMeasureResult>;
-  allBills: Array<BillResult>;
   allElections: Array<ElectionResult>;
   allIssueTags: Array<IssueTagResult>;
   allOrganizations: Array<OrganizationResult>;
@@ -771,6 +776,30 @@ export type Referral = {
   committeeId: Scalars['Int'];
   date: Scalars['String'];
   name: Scalars['String'];
+};
+
+export enum Role {
+  Basic = 'BASIC',
+  Premium = 'PREMIUM',
+  Staff = 'STAFF',
+  Superuser = 'SUPERUSER'
+}
+
+export type RollCall = {
+  __typename?: 'RollCall';
+  absent: Scalars['Int'];
+  billId: Scalars['Int'];
+  chamber: Scalars['String'];
+  chamberId: Scalars['Int'];
+  date: Scalars['String'];
+  desc: Scalars['String'];
+  nay: Scalars['Int'];
+  nv: Scalars['Int'];
+  passed: Scalars['Int'];
+  rollCallId: Scalars['Int'];
+  total: Scalars['Int'];
+  votes: Array<Vote>;
+  yea: Scalars['Int'];
 };
 
 export type Sast = {
@@ -969,6 +998,7 @@ export type UpdateOrganizationInput = {
 export type UpdatePoliticianInput = {
   ballotName?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
+  endorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   facebookUrl?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   homeState?: InputMaybe<State>;
@@ -998,6 +1028,8 @@ export type Vote = {
   nay: Scalars['Int'];
   nv: Scalars['Int'];
   passed: Scalars['Int'];
+  /** This field is not returned from get_bill, but can be populated with a subsequent call to `get_roll_call` */
+  rollCallData?: Maybe<RollCall>;
   rollCallId: Scalars['Int'];
   stateLink: Scalars['String'];
   total: Scalars['Int'];
