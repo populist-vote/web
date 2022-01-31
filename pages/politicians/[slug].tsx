@@ -14,6 +14,8 @@ const PoliticianPage: NextPage = () => {
 
   if (isLoading) return <LoaderFlag />;
 
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <Layout>
       <pre>{JSON.stringify(data, null, 4)}</pre>
