@@ -11,6 +11,8 @@ generates:
       - typescript-operations
       - typescript-react-query
     config:
+      addInfiniteQuery: true
+      pureMagicComment: true
       exposeQueryKeys: true
       exposeFetcher: true
       fetcher:

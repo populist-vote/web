@@ -1,19 +1,32 @@
-query AllPoliticians {
-  allPoliticians {
-    id
-    slug
-    fullName
-    homeState
-    officeParty
-    votesmartCandidateBio {
-      office {
-        title
-        district
-        typeField
+query PoliticianIndex(
+  $pageSize: Int
+  $cursor: String
+  $search: PoliticianSearch
+) {
+  politicians(first: $pageSize, after: $cursor, search: $search) {
+    edges {
+      node {
+        id
+        slug
+        fullName
+        homeState
+        officeParty
+        votesmartCandidateBio {
+          office {
+            title
+            district
+            typeField
+          }
+          candidate {
+            photo
+          }
+        }
       }
-      candidate {
-        photo
-      }
+    }
+    totalCount
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
 }
@@ -30,7 +43,7 @@ query PoliticianBySlug($slug: String!) {
         family
       }
     }
-    
+
     endorsements {
       slug
       name
