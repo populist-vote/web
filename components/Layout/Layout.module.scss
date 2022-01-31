@@ -17,8 +17,8 @@
       "nav     content"
       "nav     content"
       "nav     footer";
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
     grid-template-rows: auto 10fr auto;
-    max-width: $desktop-max;
     margin: 0 auto;
   }
 

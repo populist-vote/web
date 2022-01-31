@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions, useInfiniteQuery, UseInfiniteQueryOptions, QueryFunctionContext } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -187,6 +187,25 @@ export type BillResult = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type BillResultConnection = {
+  __typename?: 'BillResultConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<BillResultEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Total result set count */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type BillResultEdge = {
+  __typename?: 'BillResultEdge';
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge */
+  node: BillResult;
+};
+
 export type BillSearch = {
   billNumber?: InputMaybe<Scalars['String']>;
   legislationStatus?: InputMaybe<LegislationStatus>;
@@ -276,6 +295,7 @@ export type CreateElectionInput = {
 };
 
 export type CreateIssueTagInput = {
+  category?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   slug?: InputMaybe<Scalars['String']>;
@@ -640,6 +660,7 @@ export type OrganizationResult = {
   __typename?: 'OrganizationResult';
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  issueTags: Array<IssueTagResult>;
   name: Scalars['String'];
   slug: Scalars['String'];
   thumbnailImageUrl?: Maybe<Scalars['String']>;
@@ -648,6 +669,19 @@ export type OrganizationResult = {
 
 export type OrganizationSearch = {
   name?: InputMaybe<Scalars['String']>;
+};
+
+/** Information about pagination in a connection */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']>;
 };
 
 export enum PoliticalParty {
@@ -686,6 +720,25 @@ export type PoliticianResult = {
   websiteUrl?: Maybe<Scalars['String']>;
 };
 
+export type PoliticianResultConnection = {
+  __typename?: 'PoliticianResultConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<PoliticianResultEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Total result set count */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type PoliticianResultEdge = {
+  __typename?: 'PoliticianResultEdge';
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge */
+  node: PoliticianResult;
+};
+
 export type PoliticianSearch = {
   homeState?: InputMaybe<State>;
   lastName?: InputMaybe<Scalars['String']>;
@@ -704,9 +757,8 @@ export type Query = {
   allElections: Array<ElectionResult>;
   allIssueTags: Array<IssueTagResult>;
   allOrganizations: Array<OrganizationResult>;
-  allPoliticians: Array<PoliticianResult>;
   ballotMeasures: Array<BallotMeasureResult>;
-  bills: Array<BillResult>;
+  bills: BillResultConnection;
   electionById: ElectionResult;
   elections: Array<ElectionResult>;
   health: Scalars['Boolean'];
@@ -715,7 +767,7 @@ export type Query = {
   organizations: Array<OrganizationResult>;
   politicianById: PoliticianResult;
   politicianBySlug: PoliticianResult;
-  politicians: Array<PoliticianResult>;
+  politicians: PoliticianResultConnection;
   upcomingElections: Array<ElectionResult>;
 };
 
@@ -726,7 +778,11 @@ export type QueryBallotMeasuresArgs = {
 
 
 export type QueryBillsArgs = {
-  search: BillSearch;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  search?: BillSearch;
 };
 
 
@@ -766,7 +822,11 @@ export type QueryPoliticianBySlugArgs = {
 
 
 export type QueryPoliticiansArgs = {
-  search: PoliticianSearch;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<PoliticianSearch>;
 };
 
 export type Referral = {
@@ -975,6 +1035,7 @@ export type UpdateElectionInput = {
 };
 
 export type UpdateIssueTagInput = {
+  category?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
@@ -1037,10 +1098,14 @@ export type Vote = {
   yea: Scalars['Int'];
 };
 
-export type AllPoliticiansQueryVariables = Exact<{ [key: string]: never; }>;
+export type PoliticianIndexQueryVariables = Exact<{
+  pageSize?: InputMaybe<Scalars['Int']>;
+  cursor?: InputMaybe<Scalars['String']>;
+  search?: InputMaybe<PoliticianSearch>;
+}>;
 
 
-export type AllPoliticiansQuery = { __typename?: 'Query', allPoliticians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } }> };
+export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null | undefined } } };
 
 export type PoliticianBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1050,45 +1115,72 @@ export type PoliticianBySlugQueryVariables = Exact<{
 export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', candidate: { __typename?: 'Candidate', family: string } }, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
 
 
-export const AllPoliticiansDocument = `
-    query AllPoliticians {
-  allPoliticians {
-    id
-    slug
-    fullName
-    homeState
-    officeParty
-    votesmartCandidateBio {
-      office {
-        title
-        district
-        typeField
+export const PoliticianIndexDocument = /*#__PURE__*/ `
+    query PoliticianIndex($pageSize: Int, $cursor: String, $search: PoliticianSearch) {
+  politicians(first: $pageSize, after: $cursor, search: $search) {
+    edges {
+      node {
+        id
+        slug
+        fullName
+        homeState
+        officeParty
+        votesmartCandidateBio {
+          office {
+            title
+            district
+            typeField
+          }
+          candidate {
+            photo
+          }
+        }
       }
-      candidate {
-        photo
-      }
+    }
+    totalCount
+    pageInfo {
+      hasNextPage
+      endCursor
     }
   }
 }
     `;
-export const useAllPoliticiansQuery = <
-      TData = AllPoliticiansQuery,
+export const usePoliticianIndexQuery = <
+      TData = PoliticianIndexQuery,
       TError = unknown
     >(
-      variables?: AllPoliticiansQueryVariables,
-      options?: UseQueryOptions<AllPoliticiansQuery, TError, TData>
+      variables?: PoliticianIndexQueryVariables,
+      options?: UseQueryOptions<PoliticianIndexQuery, TError, TData>
     ) =>
-    useQuery<AllPoliticiansQuery, TError, TData>(
-      variables === undefined ? ['AllPoliticians'] : ['AllPoliticians', variables],
-      fetcher<AllPoliticiansQuery, AllPoliticiansQueryVariables>(AllPoliticiansDocument, variables),
+    useQuery<PoliticianIndexQuery, TError, TData>(
+      variables === undefined ? ['PoliticianIndex'] : ['PoliticianIndex', variables],
+      fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(PoliticianIndexDocument, variables),
       options
     );
 
-useAllPoliticiansQuery.getKey = (variables?: AllPoliticiansQueryVariables) => variables === undefined ? ['AllPoliticians'] : ['AllPoliticians', variables];
+usePoliticianIndexQuery.getKey = (variables?: PoliticianIndexQueryVariables) => variables === undefined ? ['PoliticianIndex'] : ['PoliticianIndex', variables];
 ;
 
-useAllPoliticiansQuery.fetcher = (variables?: AllPoliticiansQueryVariables) => fetcher<AllPoliticiansQuery, AllPoliticiansQueryVariables>(AllPoliticiansDocument, variables);
-export const PoliticianBySlugDocument = `
+export const useInfinitePoliticianIndexQuery = <
+      TData = PoliticianIndexQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof PoliticianIndexQueryVariables,
+      variables?: PoliticianIndexQueryVariables,
+      options?: UseInfiniteQueryOptions<PoliticianIndexQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<PoliticianIndexQuery, TError, TData>(
+      variables === undefined ? ['PoliticianIndex.infinite'] : ['PoliticianIndex.infinite', variables],
+      (metaData) => fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(PoliticianIndexDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfinitePoliticianIndexQuery.getKey = (variables?: PoliticianIndexQueryVariables) => variables === undefined ? ['PoliticianIndex.infinite'] : ['PoliticianIndex.infinite', variables];
+;
+
+usePoliticianIndexQuery.fetcher = (variables?: PoliticianIndexQueryVariables) => fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(PoliticianIndexDocument, variables);
+export const PoliticianBySlugDocument = /*#__PURE__*/ `
     query PoliticianBySlug($slug: String!) {
   politicianBySlug(slug: $slug) {
     fullName
@@ -1123,6 +1215,24 @@ export const usePoliticianBySlugQuery = <
     );
 
 usePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVariables) => ['PoliticianBySlug', variables];
+;
+
+export const useInfinitePoliticianBySlugQuery = <
+      TData = PoliticianBySlugQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof PoliticianBySlugQueryVariables,
+      variables: PoliticianBySlugQueryVariables,
+      options?: UseInfiniteQueryOptions<PoliticianBySlugQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<PoliticianBySlugQuery, TError, TData>(
+      ['PoliticianBySlug.infinite', variables],
+      (metaData) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfinitePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVariables) => ['PoliticianBySlug.infinite', variables];
 ;
 
 usePoliticianBySlugQuery.fetcher = (variables: PoliticianBySlugQueryVariables) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, variables);

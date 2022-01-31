@@ -118,6 +118,26 @@ type BillResult {
   updatedAt: DateTime!
 }
 
+type BillResultConnection {
+  """A list of edges."""
+  edges: [BillResultEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type BillResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: BillResult!
+}
+
 input BillSearch {
   billNumber: String
   legislationStatus: LegislationStatus
@@ -206,6 +226,7 @@ input CreateElectionInput {
 }
 
 input CreateIssueTagInput {
+  category: String
   description: String
   name: String!
   slug: String
@@ -438,6 +459,7 @@ type Office {
 type OrganizationResult {
   description: String
   id: ID!
+  issueTags: [IssueTagResult!]!
   name: String!
   slug: String!
   thumbnailImageUrl: String
@@ -446,6 +468,21 @@ type OrganizationResult {
 
 input OrganizationSearch {
   name: String
+}
+
+"""Information about pagination in a connection"""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
 }
 
 enum PoliticalParty {
@@ -483,6 +520,26 @@ type PoliticianResult {
   websiteUrl: String
 }
 
+type PoliticianResultConnection {
+  """A list of edges."""
+  edges: [PoliticianResultEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type PoliticianResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: PoliticianResult!
+}
+
 input PoliticianSearch {
   homeState: State
   lastName: String
@@ -499,15 +556,19 @@ type Query {
   allElections: [ElectionResult!]!
   allIssueTags: [IssueTagResult!]!
   allOrganizations: [OrganizationResult!]!
-  allPoliticians: [PoliticianResult!]!
   ballotMeasures(
     """Search by voteStatus, name, or slug"""
     search: BallotMeasureSearch!
   ): [BallotMeasureResult!]!
   bills(
+    after: String
+    before: String
+    first: Int
+    last: Int
+
     """Search by voteStatus, title, or slug"""
-    search: BillSearch!
-  ): [BillResult!]!
+    search: BillSearch! = {billNumber: null, legislationStatus: null, slug: null, title: null}
+  ): BillResultConnection!
   electionById(id: String!): ElectionResult!
   elections(
     """Search by slug or title"""
@@ -529,9 +590,14 @@ type Query {
   politicianById(id: String!): PoliticianResult!
   politicianBySlug(slug: String!): PoliticianResult!
   politicians(
+    after: String
+    before: String
+    first: Int
+    last: Int
+
     """Search by homeState or lastName"""
-    search: PoliticianSearch!
-  ): [PoliticianResult!]!
+    search: PoliticianSearch
+  ): PoliticianResultConnection!
   upcomingElections: [ElectionResult!]!
 }
 
@@ -746,6 +812,7 @@ input UpdateElectionInput {
 }
 
 input UpdateIssueTagInput {
+  category: String
   description: String
   name: String
   slug: String

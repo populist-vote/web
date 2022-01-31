@@ -1,23 +1,32 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetStaticPropsContext,
+  NextPage,
+} from "next";
 import Layout from "../../components/Layout/Layout";
 import styles from "../../components/Layout/Layout.module.scss";
 import { FaSearch } from "react-icons/fa";
-import { PoliticalParty, useAllPoliticiansQuery } from "../../generated";
-import type { AllPoliticiansQuery, PoliticianResult } from "../../generated";
+import {
+  PoliticalParty,
+  useInfinitePoliticianIndexQuery,
+  usePoliticianIndexQuery,
+} from "../../generated";
+import type { PoliticianIndexQuery, PoliticianResult } from "../../generated";
 import { LoaderFlag } from "../../components/LoaderFlag";
 import { PartyAvatar } from "../../components/Avatar/Avatar";
 import Link from "next/link";
 import useDeviceInfo from "../../hooks/useDeviceInfo";
 import Spacer from "../../components/Spacer/Spacer";
-import { useState } from "react";
-import { dehydrate, QueryClient } from "react-query";
+import { useEffect, useRef, useState } from "react";
+import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
 import Head from "next/head";
+import useDebounce from "../../hooks/useDebounce";
+import { useRouter } from "next/router";
 
-const PoliticianRow = ({
-  politician,
-}: {
-  politician: AllPoliticiansQuery["allPoliticians"][0];
-}) => {
+const PAGE_SIZE = 20;
+
+const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const { isMobile } = useDeviceInfo();
 
   const officeTitle = politician.votesmartCandidateBio.office?.title;
@@ -73,16 +82,62 @@ const PoliticianRow = ({
 const PoliticianIndex: NextPage = () => {
   // TODO use `politicians` query with search params and accept user selected filters
   // instead of filtering clientside.
-  const { data, isLoading, error } = useAllPoliticiansQuery();
-
-  const { isMobile } = useDeviceInfo();
+  const router = useRouter();
 
   type LocalityFilter = "all" | "federal" | "state";
   type ChamberFilter = "all" | "house" | "senate";
 
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
-  const [localityFilter, setLocalityFilter] = useState<LocalityFilter>("all");
-  const [chamberFilter, setChamberFilter] = useState<ChamberFilter>("all");
+  const debouncedSearchQuery = useDebounce<string | null>(searchQuery, 500);
+  const [localityFilter, setLocalityFilter] = useState<LocalityFilter>(
+    (router.query.locality as LocalityFilter) || "all"
+  );
+  const [chamberFilter, setChamberFilter] = useState<ChamberFilter>(
+    (router.query.chambers as ChamberFilter) || "all"
+  );
+
+  useEffect(() => {
+    if (!searchQuery) {
+      router.push({ query: null });
+    } else {
+      router.push({ query: { search: searchQuery } });
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    router.push({
+      query: { locality: localityFilter, chambers: chamberFilter },
+    });
+  }, [localityFilter, chamberFilter]);
+
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfinitePoliticianIndexQuery(
+    "cursor",
+    {
+      pageSize: PAGE_SIZE,
+      search: {
+        lastName: debouncedSearchQuery || null,
+      },
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
+        return {
+          cursor: lastPage.politicians.pageInfo.endCursor,
+        };
+      },
+    }
+  );
+
+  const { isMobile } = useDeviceInfo();
 
   const localityFilterFn = (
     politician: PoliticianResult,
@@ -121,6 +176,30 @@ const PoliticianIndex: NextPage = () => {
         return politician;
     }
   };
+
+  const loadMoreRef = useRef(null);
+
+  // Handle infinite scroll
+  useEffect(() => {
+    if (!hasNextPage) {
+      return;
+    }
+    const observer = new IntersectionObserver((entries) =>
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          fetchNextPage();
+        }
+      })
+    );
+    const el = loadMoreRef && loadMoreRef.current;
+    if (!el) {
+      return;
+    }
+    observer.observe(el);
+    return () => {
+      observer.unobserve(el);
+    };
+  }, [loadMoreRef.current, hasNextPage]);
 
   return (
     <>
@@ -196,23 +275,33 @@ const PoliticianIndex: NextPage = () => {
             <h4>Something went wrong fetching politician records...</h4>
           )}
           <div>
-            {data &&
-              data.allPoliticians
-                .filter((p) =>
-                  localityFilterFn(p as PoliticianResult, localityFilter)
+            {data?.pages.map((page, i) =>
+              page.politicians.edges
+                ?.map((edge) => edge?.node as PoliticianResult)
+                .filter((p: PoliticianResult) =>
+                  localityFilterFn(p, localityFilter)
                 )
-                .filter((p) =>
-                  chamberFilterFn(p as PoliticianResult, chamberFilter)
+                .filter((p: PoliticianResult) =>
+                  chamberFilterFn(p, chamberFilter)
                 )
-                .filter((p) =>
-                  p.fullName
-                    .toLowerCase()
-                    .includes(searchQuery?.toLowerCase() || "")
-                )
-                .map((politician) => (
+                .map((politician: PoliticianResult) => (
                   <PoliticianRow politician={politician} key={politician.id} />
-                ))}
+                ))
+            )}
           </div>
+          {hasNextPage && (
+            <button
+              ref={loadMoreRef}
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+            >
+              {isFetchingNextPage
+                ? "Loading more..."
+                : hasNextPage
+                ? "Load More"
+                : "Nothing more to load"}
+            </button>
+          )}
         </div>
       </Layout>
     </>
@@ -221,19 +310,21 @@ const PoliticianIndex: NextPage = () => {
 
 export default PoliticianIndex;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const queryClient = new QueryClient();
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  // const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(
-    useAllPoliticiansQuery.getKey(),
-    useAllPoliticiansQuery.fetcher()
-  );
+  // await queryClient.prefetchInfiniteQuery(
+  //   useInfinitePoliticianIndexQuery.getKey(),
+  //   usePoliticianIndexQuery.fetcher({ pageSize: PAGE_SIZE })
+  // );
 
-  let state = dehydrate(queryClient);
+  // let state = dehydrate(queryClient);
 
   return {
     props: {
-      dehydratedState: state,
+      // dehydratedState: state,
     },
   };
 };
