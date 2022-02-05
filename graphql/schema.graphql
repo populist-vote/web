@@ -466,6 +466,26 @@ type OrganizationResult {
   websiteUrl: String
 }
 
+type OrganizationResultConnection {
+  """A list of edges."""
+  edges: [OrganizationResultEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type OrganizationResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: OrganizationResult!
+}
+
 input OrganizationSearch {
   name: String
 }
@@ -513,6 +533,7 @@ type PoliticianResult {
   preferredName: String
   slug: String!
   sponsoredBills: [BillResult!]!
+  thumbnailImageUrl: String
   twitterUrl: String
   updatedAt: DateTime!
   votesmartCandidateBio: GetCandidateBioResponse!
@@ -555,7 +576,6 @@ type Query {
   allBallotMeasures: [BallotMeasureResult!]!
   allElections: [ElectionResult!]!
   allIssueTags: [IssueTagResult!]!
-  allOrganizations: [OrganizationResult!]!
   ballotMeasures(
     """Search by voteStatus, name, or slug"""
     search: BallotMeasureSearch!
@@ -584,9 +604,14 @@ type Query {
     search: IssueTagSearch!
   ): [IssueTagResult!]!
   organizations(
+    after: String
+    before: String
+    first: Int
+    last: Int
+
     """Search by organization name"""
-    search: OrganizationSearch!
-  ): [OrganizationResult!]!
+    search: OrganizationSearch
+  ): OrganizationResultConnection!
   politicianById(id: String!): PoliticianResult!
   politicianBySlug(slug: String!): PoliticianResult!
   politicians(

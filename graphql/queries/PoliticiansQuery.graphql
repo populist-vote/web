@@ -38,10 +38,25 @@ query PoliticianBySlug($slug: String!) {
     preferredName
     homeState
     officeParty
+    thumbnailImageUrl
+    websiteUrl
+    twitterUrl
+    facebookUrl
+    instagramUrl
     votesmartCandidateBio {
-      candidate {
-        family
+      office {
+        name
+        termStart
+        termEnd
       }
+      candidate {
+        photo
+      }
+    }
+
+    sponsoredBills {
+      billNumber
+      title
     }
 
     endorsements {

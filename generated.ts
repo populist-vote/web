@@ -667,6 +667,25 @@ export type OrganizationResult = {
   websiteUrl?: Maybe<Scalars['String']>;
 };
 
+export type OrganizationResultConnection = {
+  __typename?: 'OrganizationResultConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<OrganizationResultEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Total result set count */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+export type OrganizationResultEdge = {
+  __typename?: 'OrganizationResultEdge';
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge */
+  node: OrganizationResult;
+};
+
 export type OrganizationSearch = {
   name?: InputMaybe<Scalars['String']>;
 };
@@ -713,6 +732,7 @@ export type PoliticianResult = {
   preferredName?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
   sponsoredBills: Array<BillResult>;
+  thumbnailImageUrl?: Maybe<Scalars['String']>;
   twitterUrl?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   votesmartCandidateBio: GetCandidateBioResponse;
@@ -756,7 +776,6 @@ export type Query = {
   allBallotMeasures: Array<BallotMeasureResult>;
   allElections: Array<ElectionResult>;
   allIssueTags: Array<IssueTagResult>;
-  allOrganizations: Array<OrganizationResult>;
   ballotMeasures: Array<BallotMeasureResult>;
   bills: BillResultConnection;
   electionById: ElectionResult;
@@ -764,7 +783,7 @@ export type Query = {
   health: Scalars['Boolean'];
   issueTagBySlug: IssueTagResult;
   issueTags: Array<IssueTagResult>;
-  organizations: Array<OrganizationResult>;
+  organizations: OrganizationResultConnection;
   politicianById: PoliticianResult;
   politicianBySlug: PoliticianResult;
   politicians: PoliticianResultConnection;
@@ -807,7 +826,11 @@ export type QueryIssueTagsArgs = {
 
 
 export type QueryOrganizationsArgs = {
-  search: OrganizationSearch;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  search?: InputMaybe<OrganizationSearch>;
 };
 
 
@@ -1112,7 +1135,7 @@ export type PoliticianBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', candidate: { __typename?: 'Candidate', family: string } }, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string }>, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
 
 
 export const PoliticianIndexDocument = /*#__PURE__*/ `
@@ -1188,10 +1211,24 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
     preferredName
     homeState
     officeParty
+    thumbnailImageUrl
+    websiteUrl
+    twitterUrl
+    facebookUrl
+    instagramUrl
     votesmartCandidateBio {
-      candidate {
-        family
+      office {
+        name
+        termStart
+        termEnd
       }
+      candidate {
+        photo
+      }
+    }
+    sponsoredBills {
+      billNumber
+      title
     }
     endorsements {
       slug
