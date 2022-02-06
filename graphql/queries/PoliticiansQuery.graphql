@@ -57,6 +57,7 @@ query PoliticianBySlug($slug: String!) {
     sponsoredBills {
       billNumber
       title
+      legislationStatus
     }
 
     endorsements {

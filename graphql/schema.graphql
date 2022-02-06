@@ -563,7 +563,7 @@ type PoliticianResultEdge {
 
 input PoliticianSearch {
   homeState: State
-  lastName: String
+  name: String
   officeParty: PoliticalParty
 }
 

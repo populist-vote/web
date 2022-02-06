@@ -12,10 +12,9 @@ export default function Nav({
 }: {
   mobileNavTitle?: string;
 }) {
-  const { pathname } = useRouter();
-
   const [sticky, setSticky] = useState<boolean>(true);
 
+  const { pathname } = useRouter();
   const { isMobile } = useDeviceInfo();
 
   useScrollPosition(
@@ -68,6 +67,15 @@ export default function Nav({
               }`}
             >
               Bills
+            </li>
+          </Link>
+          <Link href="/organizations" passHref>
+            <li
+              className={`${styles.navItem} ${
+                pathname.includes("/organizations") && styles.active
+              }`}
+            >
+              Organizations
             </li>
           </Link>
         </ul>

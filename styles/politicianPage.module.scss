@@ -1,0 +1,147 @@
+@import "../styles/variables/fonts.module.scss";
+@import "../styles/variables/colors.module.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+
+  h1 {
+    font-size: $text-xxl;
+    font-weight: 600;
+    margin: 0.25rem;
+  }
+
+  h2 {
+    font-size: $text-md;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: $blue-text;
+    margin: 0;
+  }
+
+  h3 {
+    font-size: $text-sm;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: $white;
+    margin: 0;
+  }
+
+  section {
+    width: 100%;
+    padding: 1rem 0;
+    border-bottom: 1px solid $blue-dark;
+
+    &.center {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.flexBetween {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  gap: 0.5rem;
+  margin: 0.25rem;
+  padding: 0 1rem;
+
+  span {
+    min-width: fit-content;
+    margin: 0;
+
+    &.dots {
+      width: 100%;
+      border-bottom: 1px dotted $blue-text;
+    }
+  }
+}
+
+.roundedCard {
+  border-radius: 25px;
+  border: 1px solid $blue-dark;
+  background: $blue-darker;
+  width: 90%;
+  text-align: center;
+  padding: 1.5rem;
+  margin: 1rem;
+
+  h1 {
+    font-weight: 400;
+  }
+}
+
+.horizontalScrollContainer {
+  margin: 1rem -1rem;
+  max-width: calc(100vw);
+  max-height: max-content;
+}
+
+.tagPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 1rem;
+}
+
+.tag {
+  background: $blue-dark;
+  color: $white;
+  border-radius: 40px;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  font-size: $text-sm;
+  font-weight: 400;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.billCard {
+  background: $white;
+  color: black;
+  display: flex;
+  border-radius: 15px;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  width: calc(100vw - 2rem);
+  margin: 0 1rem;
+
+  .cardContent {
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    h1 {
+      font-size: $text-lg;
+      font-weight: $weight-normal;
+      text-decoration: 1px dotted underline;
+    }
+
+    h2 {
+      font-size: $text-sm;
+      text-decoration: 1px dotted underline;
+      text-transform: none;
+      color: black;
+    }
+
+    .statusPill {
+      background: #eee;
+      border-radius: 40px;
+      padding: 10px;
+      text-transform: capitalize;
+    }
+  }
+}

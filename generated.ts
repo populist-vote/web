@@ -761,7 +761,7 @@ export type PoliticianResultEdge = {
 
 export type PoliticianSearch = {
   homeState?: InputMaybe<State>;
-  lastName?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   officeParty?: InputMaybe<PoliticalParty>;
 };
 
@@ -1135,7 +1135,7 @@ export type PoliticianBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string }>, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
 
 
 export const PoliticianIndexDocument = /*#__PURE__*/ `
@@ -1229,6 +1229,7 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
     sponsoredBills {
       billNumber
       title
+      legislationStatus
     }
     endorsements {
       slug

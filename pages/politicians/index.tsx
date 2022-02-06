@@ -214,11 +214,6 @@ const PoliticianIndex: NextPage = () => {
         <div className={`${styles.stickyMainHeader} ${styles.shadow}`}>
           {!isMobile && <h1>Colorado Legislators</h1>}
 
-          {/* <div className={styles.mb3}>
-          <p>Find your legislators by entering your address.</p>
-          <input placeholder="Enter address"></input>
-          <button>Search</button>
-        </div> */}
           <div className={styles.filtersContainer}>
             {!isMobile && <h2>Browse</h2>}
             <div className={styles.inputWithIcon}>
@@ -290,17 +285,20 @@ const PoliticianIndex: NextPage = () => {
             )}
           </div>
           {hasNextPage && (
-            <button
-              ref={loadMoreRef}
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-            >
-              {isFetchingNextPage
-                ? "Loading more..."
-                : hasNextPage
-                ? "Load More"
-                : "Nothing more to load"}
-            </button>
+            <>
+              <button
+                style={{ margin: "1rem 0 0 " }}
+                ref={loadMoreRef}
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+              >
+                {isFetchingNextPage
+                  ? "Loading more..."
+                  : hasNextPage
+                  ? "Load More"
+                  : "Nothing more to load"}
+              </button>
+            </>
           )}
         </div>
       </Layout>

@@ -126,18 +126,6 @@
   }
 }
 
-.content {
-  padding: 1rem;
-
-  @include for-tablet-landscape-up {
-    padding: 2.75rem;
-  }
-
-  table {
-    width: 100%;
-  }
-}
-
 .rowItem {
   font-family: $font-secondary;
   font-weight: $weight-normal;
