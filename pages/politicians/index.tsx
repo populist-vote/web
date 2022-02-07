@@ -213,7 +213,6 @@ const PoliticianIndex: NextPage = () => {
       <Layout>
         <div className={`${styles.stickyMainHeader} ${styles.shadow}`}>
           {!isMobile && <h1>Colorado Legislators</h1>}
-
           <div className={styles.filtersContainer}>
             {!isMobile && <h2>Browse</h2>}
             <div className={styles.inputWithIcon}>
