@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const getMobileDetect = (userAgent: string) => {
   const isAndroid = (): boolean => Boolean(userAgent.match(/Android/i));
@@ -21,7 +21,12 @@ const getMobileDetect = (userAgent: string) => {
   };
 };
 export default function useDeviceInfo() {
-  const userAgent =
-    typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
-  return getMobileDetect(userAgent);
+  const [userAgentString, setUserAgentString] = useState("SSR")
+
+  useEffect(() => {
+    const userAgent = typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
+    setUserAgentString(userAgent)
+  }, [])
+  
+  return getMobileDetect(userAgentString);
 }

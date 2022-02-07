@@ -25,6 +25,8 @@ const AvatarWrapper = styled.div`
   padding: 0;
   margin: auto;
   display: inline-flex;
+
+  img { object-fit: cover }
 `;
 
 interface BadgeWrapperProps {
@@ -44,8 +46,8 @@ const BadgeWrapper = styled.div<BadgeWrapperProps>(
       height: ${size};
       font-size: ${fontSize};
       text-transform: uppercase;
-      color: "var(--white)";
-      background: ${background || "var(--gray)"};
+      color: var(--white);
+      background: ${background || var(--gray)};
       display: flex;
       justify-content: center;
       align-items: center;
