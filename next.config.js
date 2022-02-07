@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["static.votesmart.org"],
+    domains: [
+      "static.votesmart.org",
+      "populist-platform.s3.us-east-2.amazonaws.com",
+    ],
     format: ["image/webp", "image/png", "image/jpeg", "image/gif"],
   },
   i18n: {

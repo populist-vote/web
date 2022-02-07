@@ -783,6 +783,7 @@ export type Query = {
   health: Scalars['Boolean'];
   issueTagBySlug: IssueTagResult;
   issueTags: Array<IssueTagResult>;
+  organizationBySlug: OrganizationResult;
   organizations: OrganizationResultConnection;
   politicianById: PoliticianResult;
   politicianBySlug: PoliticianResult;
@@ -822,6 +823,11 @@ export type QueryIssueTagBySlugArgs = {
 
 export type QueryIssueTagsArgs = {
   search: IssueTagSearch;
+};
+
+
+export type QueryOrganizationBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -1135,7 +1141,14 @@ export type PoliticianBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: Array<{ __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
+
+export type OrganizationBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type OrganizationBySlugQuery = { __typename?: 'Query', organizationBySlug: { __typename?: 'OrganizationResult', id: string, name: string, thumbnailImageUrl?: string | null | undefined } };
 
 
 export const PoliticianIndexDocument = /*#__PURE__*/ `
@@ -1232,6 +1245,7 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
       legislationStatus
     }
     endorsements {
+      id
       slug
       name
       thumbnailImageUrl
@@ -1274,3 +1288,47 @@ useInfinitePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVaria
 ;
 
 usePoliticianBySlugQuery.fetcher = (variables: PoliticianBySlugQueryVariables) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, variables);
+export const OrganizationBySlugDocument = /*#__PURE__*/ `
+    query OrganizationBySlug($slug: String!) {
+  organizationBySlug(slug: $slug) {
+    id
+    name
+    thumbnailImageUrl
+  }
+}
+    `;
+export const useOrganizationBySlugQuery = <
+      TData = OrganizationBySlugQuery,
+      TError = unknown
+    >(
+      variables: OrganizationBySlugQueryVariables,
+      options?: UseQueryOptions<OrganizationBySlugQuery, TError, TData>
+    ) =>
+    useQuery<OrganizationBySlugQuery, TError, TData>(
+      ['OrganizationBySlug', variables],
+      fetcher<OrganizationBySlugQuery, OrganizationBySlugQueryVariables>(OrganizationBySlugDocument, variables),
+      options
+    );
+
+useOrganizationBySlugQuery.getKey = (variables: OrganizationBySlugQueryVariables) => ['OrganizationBySlug', variables];
+;
+
+export const useInfiniteOrganizationBySlugQuery = <
+      TData = OrganizationBySlugQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof OrganizationBySlugQueryVariables,
+      variables: OrganizationBySlugQueryVariables,
+      options?: UseInfiniteQueryOptions<OrganizationBySlugQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<OrganizationBySlugQuery, TError, TData>(
+      ['OrganizationBySlug.infinite', variables],
+      (metaData) => fetcher<OrganizationBySlugQuery, OrganizationBySlugQueryVariables>(OrganizationBySlugDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfiniteOrganizationBySlugQuery.getKey = (variables: OrganizationBySlugQueryVariables) => ['OrganizationBySlug.infinite', variables];
+;
+
+useOrganizationBySlugQuery.fetcher = (variables: OrganizationBySlugQueryVariables) => fetcher<OrganizationBySlugQuery, OrganizationBySlugQueryVariables>(OrganizationBySlugDocument, variables);

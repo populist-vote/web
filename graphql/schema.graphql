@@ -603,6 +603,7 @@ type Query {
     """Search by issue tag name"""
     search: IssueTagSearch!
   ): [IssueTagResult!]!
+  organizationBySlug(slug: String!): OrganizationResult!
   organizations(
     after: String
     before: String

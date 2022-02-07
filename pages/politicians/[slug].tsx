@@ -1,5 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
+import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
@@ -53,31 +55,52 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   const sponsoredBills = politician?.sponsoredBills;
 
-  return (
-    <Layout mobileNavTitle={mobileNavTitle}>
-      <div className={styles.container}>
-        <section className={styles.center}>
-          <PartyAvatar
-            size={"8rem"}
-            party={politician?.officeParty as PoliticalParty}
-            src={politician?.votesmartCandidateBio.candidate.photo}
-          />
-          <h1>{politician?.votesmartCandidateBio.office?.name[0]}</h1>
-          <h2>Colorado</h2>
-        </section>
+  const getYear = (date: string) => {
+    return new Date(date).getFullYear();
+  };
 
-        <section>
+  const termStart = getYear(
+    politician?.votesmartCandidateBio.office?.termStart as string
+  );
+
+  const termEnd = getYear(
+    politician?.votesmartCandidateBio.office?.termEnd as string
+  );
+
+  const endorsements = politician?.endorsements;
+
+  function HeaderSection() {
+    return (
+      <section className={styles.center}>
+        <PartyAvatar
+          size={"8rem"}
+          party={politician?.officeParty as PoliticalParty}
+          src={politician?.votesmartCandidateBio.candidate.photo}
+        />
+        <h1>{politician?.votesmartCandidateBio.office?.name[0]}</h1>
+        <h2>Colorado</h2>
+      </section>
+    );
+  }
+
+  function BasicInfoSection() {
+    return (
+      <section>
+        {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
             <span className={styles.dots} />
-            <span>{politician?.votesmartCandidateBio.office?.termStart}</span>
+            <span>{termStart}</span>
           </p>
+        )}
+        {!!termEnd && (
           <p className={styles.flexBetween}>
             <span>Term Ends</span>
             <span className={styles.dots} />
-            <span>{politician?.votesmartCandidateBio.office?.termEnd}</span>
+            <span>{termEnd}</span>
           </p>
-          <p className={styles.flexBetween}>
+        )}
+        {/* <p className={styles.flexBetween}>
             <span>Elections Won / Lost</span>
             <span className={styles.dots} />
             <span>-</span>
@@ -86,78 +109,140 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>Years in Public Office</span>
             <span className={styles.dots} />
             <span>-</span>
-          </p>
-        </section>
-        <section className={styles.center}>
-          <h3>Next Election</h3>
-          <div className={styles.roundedCard}>
-            <h2>Primary</h2>
-            <h1>Jun 28, 2022</h1>
-          </div>
-          <h3>Running For</h3>
-          <div className={styles.roundedCard}>
-            <h2>Colorado</h2>
-            <h1>U.S. Senate</h1>
-          </div>
-          <h3>Opponent</h3>
-          <div className={styles.roundedCard}>
-            <h2>None</h2>
-          </div>
-        </section>
-        <section className={styles.center}>
-          <h3>Committees</h3>
+          </p> */}
+      </section>
+    );
+  }
+
+  function ElectionInfoSection() {
+    return (
+      <section className={styles.center}>
+        <h3>Next Election</h3>
+        <div className={styles.roundedCard}>
+          <h2>Primary</h2>
+          <h1>Jun 28, 2022</h1>
+        </div>
+        <h3>Running For</h3>
+        <div className={styles.roundedCard}>
+          <h2>Colorado</h2>
+          <h1>U.S. Senate</h1>
+        </div>
+        <h3>Opponent</h3>
+        <div className={styles.roundedCard}>
+          <h2>None</h2>
+        </div>
+      </section>
+    );
+  }
+
+  function CommitteesSection() {
+    return (
+      <section className={styles.center}>
+        <h3>Committees</h3>
+        <div className={styles.horizontalScrollContainer}>
+          <ScrollMenu>
+            <div className={styles.tagPage} key={1}>
+              <div className={styles.tag}>
+                Conservation, Forestry, Environment, Etc. Long Long Long
+              </div>
+              <div className={styles.tag}>Economy</div>
+              <div className={styles.tag}>Finance</div>
+              <div className={styles.tag}>
+                Conservation, Forestry, Environment, Etc. Long Long Long
+              </div>
+            </div>
+            <div className={styles.tagPage} key={1}>
+              <div className={styles.tag}>
+                Conservation, Forestry, Environment, Etc. Long Long Long
+              </div>
+              <div className={styles.tag}>
+                Conservation, Forestry, Environment, Etc. Long Long Long
+              </div>
+              <div className={styles.tag}>
+                Conservation, Forestry, Environment, Etc. Long Long Long
+              </div>
+              <div className={styles.tag}>
+                Conservation, Forestry, Environment, Etc. Long Long Long
+              </div>
+            </div>
+          </ScrollMenu>
+        </div>
+      </section>
+    );
+  }
+
+  function SponsoredBillsSection() {
+    return (
+      <section className={styles.center}>
+        <h3>Sponsored Bills</h3>
+        {sponsoredBills && (
           <div className={styles.horizontalScrollContainer}>
             <ScrollMenu>
-              <div className={styles.tagPage} key={1}>
-                <div className={styles.tag}>
-                  Conservation, Forestry, Environment, Etc. Long Long Long
+              {sponsoredBills.map((bill) => (
+                <div className={styles.billCard} key={bill.billNumber}>
+                  <div className={styles.cardContent}>
+                    <h1>{bill.billNumber}</h1>
+                    <h2>{bill.title}</h2>
+                    <span className={styles.statusPill}>
+                      {bill.legislationStatus}
+                    </span>
+                  </div>
                 </div>
-                <div className={styles.tag}>Economy</div>
-                <div className={styles.tag}>Finance</div>
-                <div className={styles.tag}>
-                  Conservation, Forestry, Environment, Etc. Long Long Long
-                </div>
-              </div>
-              <div className={styles.tagPage} key={1}>
-                <div className={styles.tag}>
-                  Conservation, Forestry, Environment, Etc. Long Long Long
-                </div>
-                <div className={styles.tag}>
-                  Conservation, Forestry, Environment, Etc. Long Long Long
-                </div>
-                <div className={styles.tag}>
-                  Conservation, Forestry, Environment, Etc. Long Long Long
-                </div>
-                <div className={styles.tag}>
-                  Conservation, Forestry, Environment, Etc. Long Long Long
-                </div>
-              </div>
+              ))}
             </ScrollMenu>
           </div>
-        </section>
-        <section className={styles.center}>
-          <h3>Sponsored Bills</h3>
-          {sponsoredBills && (
-            <div className={styles.horizontalScrollContainer}>
-              <ScrollMenu>
-                {sponsoredBills.map((bill) => (
-                  <div className={styles.billCard} key={bill.billNumber}>
-                    <div className={styles.cardContent}>
-                      <h1>{bill.billNumber}</h1>
-                      <h2>{bill.title}</h2>
-                      <span className={styles.statusPill}>
-                        {bill.legislationStatus}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </ScrollMenu>
-            </div>
-          )}
-        </section>
-      </div>
+        )}
+      </section>
+    );
+  }
 
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
+  function EndorsementsSection() {
+    if (!endorsements) return null;
+    return (
+      <section className={styles.center}>
+        <h3 className={styles.gradientHeader}>Endorsements</h3>
+        <h3>Organizations</h3>
+        <div className={styles.horizontalScrollContainer}>
+          <ScrollMenu>
+            {endorsements.map((organization) => (
+              <Link
+                href={`/organizations/${slug}`}
+                key={organization.id}
+                passHref
+              >
+                <div className={styles.organizationContainer}>
+                  {organization.thumbnailImageUrl ? (
+                    <div className={styles.organizationAvatar}>
+                      <Image
+                        src={organization.thumbnailImageUrl}
+                        alt={organization.name}
+                        width={50}
+                        height={50}
+                      />
+                    </div>
+                  ) : (
+                    <span>No Image</span>
+                  )}
+                  <h4>{organization.name}</h4>
+                </div>
+              </Link>
+            ))}
+          </ScrollMenu>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <Layout mobileNavTitle={mobileNavTitle}>
+      <div className={styles.container}>
+        <HeaderSection />
+        <BasicInfoSection />
+        <ElectionInfoSection />
+        <CommitteesSection />
+        <SponsoredBillsSection />
+        <EndorsementsSection />
+      </div>
     </Layout>
   );
 };

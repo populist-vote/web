@@ -6,7 +6,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 100%;
+  width: 100vw;
+  overflow-x: hidden;
 
   h1 {
     font-size: $text-xxl;
@@ -44,6 +45,14 @@
   }
 }
 
+.gradientHeader {
+  width: 100%;
+  margin: -1rem 0 1rem !important;
+  padding: 1rem;
+  background: linear-gradient(180deg, #003c55 0%, #002e45 100%);
+  text-align: center;
+}
+
 .flexBetween {
   display: inline-flex;
   justify-content: space-between;
@@ -60,6 +69,10 @@
     &.dots {
       width: 100%;
       border-bottom: 1px dotted $blue-text;
+    }
+
+    &:last-child {
+      color: $blue-light;
     }
   }
 }
@@ -80,7 +93,7 @@
 
 .horizontalScrollContainer {
   margin: 1rem -1rem;
-  max-width: calc(100vw);
+  max-width: 100%;
   max-height: max-content;
 }
 
@@ -144,4 +157,32 @@
       text-transform: capitalize;
     }
   }
+}
+
+.organizationContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem;
+  width: calc(33vw - 2rem);
+
+  h4 {
+    font-size: $text-sm;
+    font-weight: 300;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.organizationAvatar {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50%;
 }
