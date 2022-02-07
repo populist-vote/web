@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -10,7 +11,6 @@ import { FaSearch } from "react-icons/fa";
 import {
   PoliticalParty,
   useInfinitePoliticianIndexQuery,
-  usePoliticianIndexQuery,
 } from "../../generated";
 import type { PoliticianIndexQuery, PoliticianResult } from "../../generated";
 import { LoaderFlag } from "../../components/LoaderFlag";
@@ -124,7 +124,7 @@ const PoliticianIndex: NextPage = () => {
     {
       pageSize: PAGE_SIZE,
       search: {
-        lastName: debouncedSearchQuery || null,
+        name: debouncedSearchQuery || null,
       },
     },
     {
