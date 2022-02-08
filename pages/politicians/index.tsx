@@ -18,11 +18,12 @@ import { PartyAvatar } from "../../components/Avatar/Avatar";
 import Link from "next/link";
 import useDeviceInfo from "../../hooks/useDeviceInfo";
 import Spacer from "../../components/Spacer/Spacer";
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
 import Head from "next/head";
 import useDebounce from "../../hooks/useDebounce";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "../_app";
 
 const PAGE_SIZE = 20;
 
@@ -79,7 +80,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   );
 };
 
-const PoliticianIndex: NextPage = () => {
+const PoliticianIndex: NextPageWithLayout = () => {
   // TODO use `politicians` query with search params and accept user selected filters
   // instead of filtering clientside.
   const router = useRouter();
@@ -210,7 +211,7 @@ const PoliticianIndex: NextPage = () => {
           content="Find information on your government representatives like voting histories, endorsements, and financial data."
         />
       </Head>
-      <Layout>
+      <div>
         <div className={`${styles.stickyMainHeader} ${styles.shadow}`}>
           {!isMobile && <h1>Colorado Legislators</h1>}
           <div className={styles.filtersContainer}>
@@ -300,9 +301,13 @@ const PoliticianIndex: NextPage = () => {
             </>
           )}
         </div>
-      </Layout>
+      </div>
     </>
   );
+};
+
+PoliticianIndex.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default PoliticianIndex;

@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import { ReactElement } from "react";
 import Layout from "../../components/Layout/Layout";
 
 const OrganizationIndex: NextPage = () => {
@@ -17,6 +18,10 @@ const OrganizationIndex: NextPage = () => {
       </Layout>
     </>
   );
+};
+
+OrganizationIndex.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default OrganizationIndex;

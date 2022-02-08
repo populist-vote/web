@@ -4,10 +4,22 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { AppContextProvider } from "../context/App";
+import { ReactElement, ReactNode } from "react";
+import { NextPage } from "next";
 
 const queryClient = new QueryClient();
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <AppContextProvider>
       <QueryClientProvider client={queryClient}>
@@ -63,7 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             />
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </Hydrate>
       </QueryClientProvider>
     </AppContextProvider>
