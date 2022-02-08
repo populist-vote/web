@@ -5,6 +5,10 @@ import Layout from "../../components/Layout/Layout";
 import { NextPageWithLayout } from "../_app";
 
 const OrganizationIndex: NextPageWithLayout = () => {
+  return <h1>Organizations</h1>;
+};
+
+OrganizationIndex.getLayout = function getLayout(page: ReactElement) {
   return (
     <>
       <Head>
@@ -14,15 +18,9 @@ const OrganizationIndex: NextPageWithLayout = () => {
           content="Find information on your government representatives like voting histories, endorsements, and financial data."
         />
       </Head>
-      <Layout>
-        <h1>Organizations</h1>
-      </Layout>
+      <Layout>{page}</Layout>
     </>
   );
-};
-
-OrganizationIndex.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
 };
 
 export default OrganizationIndex;
