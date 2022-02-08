@@ -1,9 +1,12 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { ReactElement } from "react";
+import Layout from "../../components/Layout/Layout";
 import { LoaderFlag } from "../../components/LoaderFlag";
 import { useOrganizationBySlugQuery } from "../../generated";
+import { NextPageWithLayout } from "../_app";
 
-const OrganizationPage: NextPage = () => {
+const OrganizationPage: NextPageWithLayout = () => {
   const { query } = useRouter();
   const slug = query.slug as string;
   const { data, isLoading, error } = useOrganizationBySlugQuery({ slug });
@@ -13,6 +16,10 @@ const OrganizationPage: NextPage = () => {
   if (error) return <p>Error: {error}</p>;
 
   return <pre>{JSON.stringify(data, null, 4)}</pre>;
+};
+
+OrganizationPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default OrganizationPage;
