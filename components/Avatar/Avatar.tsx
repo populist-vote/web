@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import ReactAvatar, { ReactAvatarProps } from "react-avatar";
-import styled, { css, useTheme } from "styled-components";
+import styled, { css } from "styled-components";
 import { PoliticalParty } from "../../generated";
 
 interface BadgeProps {
@@ -26,7 +26,9 @@ const AvatarWrapper = styled.div`
   margin: auto;
   display: inline-flex;
 
-  img { object-fit: cover }
+  img {
+    object-fit: cover;
+  }
 `;
 
 interface BadgeWrapperProps {
@@ -47,7 +49,7 @@ const BadgeWrapper = styled.div<BadgeWrapperProps>(
       font-size: ${fontSize};
       text-transform: uppercase;
       color: var(--white);
-      background: ${background || var(--gray)};
+      background: ${background || "var(--gray)"};
       display: flex;
       justify-content: center;
       align-items: center;

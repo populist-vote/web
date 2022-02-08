@@ -21,12 +21,13 @@ const getMobileDetect = (userAgent: string) => {
   };
 };
 export default function useDeviceInfo() {
-  const [userAgentString, setUserAgentString] = useState("SSR")
+  const [userAgentString, setUserAgentString] = useState("SSR");
 
   useEffect(() => {
-    const userAgent = typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
-    setUserAgentString(userAgent)
-  }, [])
-  
+    const userAgent =
+      typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
+    setUserAgentString(userAgent);
+  }, []);
+
   return getMobileDetect(userAgentString);
 }
