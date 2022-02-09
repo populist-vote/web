@@ -9,8 +9,10 @@ import useDeviceInfo from "../../hooks/useDeviceInfo";
 
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
+  showBackButton
 }: {
-  mobileNavTitle?: string;
+  mobileNavTitle?: string,
+  showBackButton?: boolean
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
 
@@ -49,6 +51,9 @@ export default function Nav({
             priority
           />
         </div>
+        {showBackButton && (
+          <button className={styles.backButton} aria-label="Go back">{"<"}</button>
+        )}
         <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
         <ul className={styles.items}>
           <Link href="/politicians" passHref>

@@ -287,6 +287,7 @@ const PoliticianIndex: NextPageWithLayout = () => {
           {hasNextPage && (
             <>
               <button
+                className={styles.wideButton}
                 style={{ margin: "1rem 0 0 " }}
                 ref={loadMoreRef}
                 onClick={() => fetchNextPage()}

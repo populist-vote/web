@@ -5,11 +5,15 @@ import styles from "./Layout.module.scss";
 
 export default function Layout({
   mobileNavTitle,
+  showNavBackButton,
   children,
-}: PropsWithChildren<{ mobileNavTitle?: string }>) {
+}: PropsWithChildren<{
+  mobileNavTitle?: string,
+  showBackButton?: boolean,
+}>) {
   return (
     <div className={styles.app}>
-      <Nav mobileNavTitle={mobileNavTitle} />
+      <Nav mobileNavTitle={mobileNavTitle} showBackButton={showNavBackButton} />
       <main className={styles.content}>{children}</main>
       <Footer />
     </div>

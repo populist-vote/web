@@ -10,13 +10,14 @@ import { PartyAvatar } from "../../components/Avatar/Avatar";
 import Layout from "../../components/Layout/Layout";
 import { LoaderFlag } from "../../components/LoaderFlag";
 import { useAppContext } from "../../context/App";
+import Spacer from "../../components/Spacer/Spacer";
 import {
   PoliticalParty,
   PoliticianBySlugQuery,
   usePoliticianBySlugQuery,
 } from "../../generated";
 import styles from "../../styles/politicianPage.module.scss";
-
+import states from "./states"
 function LeftArrow() {
   const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
 
@@ -53,6 +54,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   const politician = data?.politicianBySlug;
 
+  console.log(data)
+
   const sponsoredBills = politician?.sponsoredBills;
 
   const getYear = (date: string) => {
@@ -73,19 +76,21 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <section className={styles.center}>
         <PartyAvatar
-          size={"8rem"}
+          badgeSize={"3.125rem"}
+          badgeFontSize={"2rem"}
+          size={"12.5rem"}
           party={politician?.officeParty as PoliticalParty}
           src={politician?.votesmartCandidateBio.candidate.photo}
         />
-        <h1>{politician?.votesmartCandidateBio.office?.name[0]}</h1>
-        <h2>Colorado</h2>
       </section>
-    );
+    )
   }
 
   function BasicInfoSection() {
     return (
-      <section>
+      <section className={styles.center}>
+        <h1 className={styles.politicianOffice}>{politician?.votesmartCandidateBio.office?.name[0]}</h1>
+        {politician?.homeState && (<h2>{states[politician?.homeState]}</h2>)}
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
@@ -111,7 +116,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>-</span>
           </p> */}
       </section>
-    );
+    )
   }
 
   function ElectionInfoSection() {
@@ -234,7 +239,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   return (
-    <Layout mobileNavTitle={mobileNavTitle}>
+    <Layout mobileNavTitle={mobileNavTitle} showNavBackButton>
       <div className={styles.container}>
         <HeaderSection />
         <BasicInfoSection />

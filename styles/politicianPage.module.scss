@@ -15,6 +15,16 @@
     margin: 0.25rem;
   }
 
+  h1.politicianOffice {
+    margin: 0 0 0.75rem;
+    text-align: center;
+    max-width: 80%;
+
+    & + h2 {
+      margin-bottom: 1rem;
+    }
+  }
+
   h2 {
     font-size: $text-md;
     font-weight: 400;
@@ -33,7 +43,7 @@
 
   section {
     width: 100%;
-    padding: 1rem 0;
+    padding: 2rem 0;
     border-bottom: 1px solid $blue-dark;
 
     &.center {
@@ -60,7 +70,7 @@
   width: 100%;
   gap: 0.5rem;
   margin: 0.25rem;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
 
   span {
     min-width: fit-content;
