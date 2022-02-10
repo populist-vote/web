@@ -5,13 +5,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { dehydrate, QueryClient } from "react-query";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
 import {
   BillCard,
   Layout,
   LoaderFlag,
   PartyAvatar,
+  Scroller,
   Spacer
 } from "components"
 
@@ -23,29 +23,9 @@ import {
   usePoliticianBySlugQuery,
 } from "../../generated";
 
-import styles from "../../styles/politicianPage.module.scss";
+import styles from "styles/politicianPage.module.scss";
 
-import states from "../../util/states"
-
-function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
-
-  return (
-    <button disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
-      Left
-    </button>
-  );
-}
-
-function RightArrow() {
-  const { isLastItemVisible, scrollNext } = useContext(VisibilityContext);
-
-  return (
-    <button disabled={isLastItemVisible} onClick={() => scrollNext()}>
-      Right
-    </button>
-  );
-}
+import states from "util/states"
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -62,8 +42,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   if (error) return <p>Error: {error}</p>;
 
   const politician = data?.politicianBySlug;
-
-  console.log(data)
 
   const sponsoredBills = politician?.sponsoredBills;
 
@@ -153,34 +131,32 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <section className={styles.center}>
         <h3>Committees</h3>
-        <div className={styles.horizontalScrollContainer}>
-          <ScrollMenu>
-            <div className={styles.tagPage} key={1}>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>Economy</div>
-              <div className={styles.tag}>Finance</div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
+        <Scroller>
+          <div className={styles.tagPage} key={1}>
+            <div className={styles.tag}>
+              Conservation, Forestry, Environment, Etc. Long Long Long
             </div>
-            <div className={styles.tagPage} key={1}>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
+            <div className={styles.tag}>Economy</div>
+            <div className={styles.tag}>Finance</div>
+            <div className={styles.tag}>
+              Conservation, Forestry, Environment, Etc. Long Long Long
             </div>
-          </ScrollMenu>
-        </div>
+          </div>
+          <div className={styles.tagPage} key={1}>
+            <div className={styles.tag}>
+              Conservation, Forestry, Environment, Etc. Long Long Long
+            </div>
+            <div className={styles.tag}>
+              Conservation, Forestry, Environment, Etc. Long Long Long
+            </div>
+            <div className={styles.tag}>
+              Conservation, Forestry, Environment, Etc. Long Long Long
+            </div>
+            <div className={styles.tag}>
+              Conservation, Forestry, Environment, Etc. Long Long Long
+            </div>
+          </div>
+        </Scroller>
       </section>
     );
   }
@@ -190,11 +166,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       <section className={styles.center}>
         <h3>Sponsored Bills</h3>
         {sponsoredBills && (
-          <div className={styles.horizontalScrollContainer}>
-            <ScrollMenu>
-              {sponsoredBills.map((bill) => <BillCard bill={bill} />)}
-            </ScrollMenu>
-          </div>
+          <Scroller>
+            {sponsoredBills.map((bill) => <BillCard bill={bill} />)}
+          </Scroller>
         )}
       </section>
     );
@@ -206,33 +180,31 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       <section className={styles.center}>
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         <h3>Organizations</h3>
-        <div className={styles.horizontalScrollContainer}>
-          <ScrollMenu>
-            {endorsements.map((organization) => (
-              <Link
-                href={`/organizations/${slug}`}
-                key={organization.id}
-                passHref
-              >
-                <div className={styles.organizationContainer}>
-                  {organization.thumbnailImageUrl ? (
-                    <div className={styles.organizationAvatar}>
-                      <Image
-                        src={organization.thumbnailImageUrl}
-                        alt={organization.name}
-                        width={50}
-                        height={50}
-                      />
-                    </div>
-                  ) : (
-                    <span>No Image</span>
-                  )}
-                  <h4>{organization.name}</h4>
-                </div>
-              </Link>
-            ))}
-          </ScrollMenu>
-        </div>
+        <Scroller>
+          {endorsements.map((organization) => (
+            <Link
+              href={`/organizations/${slug}`}
+              key={organization.id}
+              passHref
+            >
+              <div className={styles.organizationContainer}>
+                {organization.thumbnailImageUrl ? (
+                  <div className={styles.organizationAvatar}>
+                    <Image
+                      src={organization.thumbnailImageUrl}
+                      alt={organization.name}
+                      width={50}
+                      height={50}
+                    />
+                  </div>
+                ) : (
+                  <span>No Image</span>
+                )}
+                <h4>{organization.name}</h4>
+              </div>
+            </Link>
+          ))}
+        </Scroller>
       </section>
     );
   }
