@@ -9,7 +9,7 @@ export default function Layout({
   children,
 }: PropsWithChildren<{
   mobileNavTitle?: string,
-  showBackButton?: boolean,
+  showNavBackButton?: boolean,
 }>) {
   return (
     <div className={styles.app}>
