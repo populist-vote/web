@@ -142,7 +142,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               Conservation, Forestry, Environment, Etc. Long Long Long
             </div>
           </div>
-          <div className={styles.tagPage} key={1}>
+          <div className={styles.tagPage} key={2}>
             <div className={styles.tag}>
               Conservation, Forestry, Environment, Etc. Long Long Long
             </div>

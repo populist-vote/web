@@ -1,9 +1,9 @@
 import styles from "./BillCard.module.scss"
 
 type Bill = {
-  billNumber: String,
-  title: String,
-  legislationStatus:String,
+  billNumber: string,
+  title: string,
+  legislationStatus:string,
 }
 
 const BillCard = ({
