@@ -9,7 +9,7 @@ type Bill = {
 const BillCard = ({
   bill
 } : {
-  bill?: Bill
+  bill: Bill
 }) => {
 
   return (
