@@ -2,9 +2,7 @@
 
 ## Getting Started
 
-First, run `cp .env.example .env.local` to create your local .env file.
-
-Then, run the development server:
+First, run the development server:
 
 ```bash
 npm run dev
