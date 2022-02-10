@@ -127,35 +127,44 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function CommitteeTagPage({ tags, itemId }: { tags: string [], itemId: string }) {
+    return (
+      <div className={styles.tagPage}>
+        {tags.map((tag, index) => <CommitteeTag tag={tag} key={`${tag}${index}`} />)}
+      </div>
+    )
+  }
+
+  function CommitteeTag({ tag } : { tag: string }) {
+    return <div className={styles.tag}>{tag}</div>
+  }
+
   function CommitteesSection() {
+
+    // TODO Replace with data here
+    const tags = [
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Economy",
+      "Finance",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long"
+    ]
+
+    const tagPageSize = 4
+    const tagPages: string [][] = Array(
+      Math.ceil(tags.length / tagPageSize)
+    ).fill("").map((_, index) => index * tagPageSize).map(
+      begin => tags.slice(begin, begin + tagPageSize)
+    )
+
     return (
       <section className={styles.center}>
         <h3>Committees</h3>
         <Scroller>
-          <div className={styles.tagPage} key={1}>
-            <div className={styles.tag}>
-              Conservation, Forestry, Environment, Etc. Long Long Long
-            </div>
-            <div className={styles.tag}>Economy</div>
-            <div className={styles.tag}>Finance</div>
-            <div className={styles.tag}>
-              Conservation, Forestry, Environment, Etc. Long Long Long
-            </div>
-          </div>
-          <div className={styles.tagPage} key={2}>
-            <div className={styles.tag}>
-              Conservation, Forestry, Environment, Etc. Long Long Long
-            </div>
-            <div className={styles.tag}>
-              Conservation, Forestry, Environment, Etc. Long Long Long
-            </div>
-            <div className={styles.tag}>
-              Conservation, Forestry, Environment, Etc. Long Long Long
-            </div>
-            <div className={styles.tag}>
-              Conservation, Forestry, Environment, Etc. Long Long Long
-            </div>
-          </div>
+          {tagPages.map((tagPage, index) => <CommitteeTagPage tags={tagPage} key={`tagPage-${index}`} itemId={`tagPage-${index}`} />)}
         </Scroller>
       </section>
     );
@@ -167,11 +176,45 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3>Sponsored Bills</h3>
         {sponsoredBills && (
           <Scroller>
-            {sponsoredBills.map((bill) => <BillCard bill={bill} />)}
+            {sponsoredBills.map((bill) => <BillCard bill={bill} key={bill.billNumber} itemId={bill.billNumber} />)}
           </Scroller>
         )}
       </section>
     );
+  }
+
+  function Endorsement({ organization, itemId }: {
+    organization: {
+      id: string,
+      slug: string,
+      name: string,
+      thumbnailImageUrl?: string | null
+    },
+    itemId: string
+  }) {
+    return (
+      <Link
+        href={`/organizations/${organization.slug}`}
+        key={organization.id}
+        passHref
+      >
+        <div className={styles.organizationContainer}>
+          {organization.thumbnailImageUrl ? (
+            <div className={styles.organizationAvatar}>
+              <Image
+                src={organization.thumbnailImageUrl}
+                alt={organization.name}
+                width={50}
+                height={50}
+              />
+            </div>
+          ) : (
+            <span>No Image</span>
+          )}
+          <h4>{organization.name}</h4>
+        </div>
+      </Link>
+    )
   }
 
   function EndorsementsSection() {
@@ -181,36 +224,14 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         <h3>Organizations</h3>
         <Scroller>
-          {endorsements.map((organization) => (
-            <Link
-              href={`/organizations/${slug}`}
-              key={organization.id}
-              passHref
-            >
-              <div className={styles.organizationContainer}>
-                {organization.thumbnailImageUrl ? (
-                  <div className={styles.organizationAvatar}>
-                    <Image
-                      src={organization.thumbnailImageUrl}
-                      alt={organization.name}
-                      width={50}
-                      height={50}
-                    />
-                  </div>
-                ) : (
-                  <span>No Image</span>
-                )}
-                <h4>{organization.name}</h4>
-              </div>
-            </Link>
-          ))}
+          {endorsements.map((organization) => <Endorsement organization={organization} key={organization.slug} itemId={organization.slug} />)}
         </Scroller>
       </section>
     );
   }
 
   return (
-    <Layout mobileNavTitle={mobileNavTitle} showNavBackButton>
+    <Layout mobileNavTitle={mobileNavTitle} showNavBackButton showNavLogoOnMobile={false}>
       <div className={styles.container}>
         <HeaderSection />
         <BasicInfoSection />

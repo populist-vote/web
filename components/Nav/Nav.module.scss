@@ -31,8 +31,10 @@
         width: 100%;
       }
 
-      @include for-tablet-portrait-down {
-        display: none;
+      &.hideLogo {
+        @include for-tablet-portrait-down {
+          display: none;
+        }
       }
     }
 

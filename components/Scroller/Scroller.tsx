@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { ReactElement, useContext } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
 import styles from "./Scroller.module.scss";
@@ -23,11 +23,20 @@ function RightArrow() {
   );
 }
 
-function Scroller({ children }) {
+type ScrollerItem = ReactElement<{
+  /**
+      Required. id for every item, should be unique
+     */
+  itemId: string;
+}>
+
+function Scroller(props: {
+  children: ScrollerItem | ScrollerItem[]
+}) {
   return (
     <div className={styles.horizontalScrollContainer}>
       <ScrollMenu>
-        {children}
+        {props.children}
       </ScrollMenu>
     </div>
   )

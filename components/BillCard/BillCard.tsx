@@ -7,13 +7,15 @@ type Bill = {
 }
 
 const BillCard = ({
-  bill
+  bill,
+  itemId
 } : {
-  bill: Bill
+  bill: Bill,
+  itemId: string
 }) => {
 
   return (
-    <div className={styles.billCard} key={bill.billNumber}>
+    <div className={styles.billCard}>
       <div className={styles.cardContent}>
         <h1 className={styles.billNumber}>{bill.billNumber}</h1>
         <h2 className={styles.billTitle}>{bill.title}</h2>
