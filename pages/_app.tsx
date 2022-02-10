@@ -1,11 +1,13 @@
-import "../styles/globals.scss";
-import "../styles/landing.css";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { AppContextProvider } from "../context/App";
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
+
+import { AppContextProvider } from "context/App";
+
+import "styles/globals.scss";
+import "styles/landing.css";
 
 const queryClient = new QueryClient();
 

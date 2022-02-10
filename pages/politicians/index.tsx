@@ -5,24 +5,23 @@ import type {
   GetStaticPropsContext,
   NextPage,
 } from "next";
-import Layout from "../../components/Layout/Layout";
-import styles from "../../components/Layout/Layout.module.scss";
+import { ReactElement, useEffect, useRef, useState } from "react";
+import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
+import Link from "next/link";
+
+import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
+import styles from "components/Layout/Layout.module.scss"; // TODO not use Layout styles module here
+
 import {
   PoliticalParty,
   useInfinitePoliticianIndexQuery,
 } from "../../generated";
 import type { PoliticianIndexQuery, PoliticianResult } from "../../generated";
-import { LoaderFlag } from "../../components/LoaderFlag";
-import { PartyAvatar } from "../../components/Avatar/Avatar";
-import Link from "next/link";
-import useDeviceInfo from "../../hooks/useDeviceInfo";
-import Spacer from "../../components/Spacer/Spacer";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
-import Head from "next/head";
-import useDebounce from "../../hooks/useDebounce";
-import { useRouter } from "next/router";
+import useDeviceInfo from "hooks/useDeviceInfo";
+import useDebounce from "hooks/useDebounce";
 import { NextPageWithLayout } from "../_app";
 
 const PAGE_SIZE = 20;
@@ -287,6 +286,7 @@ const PoliticianIndex: NextPageWithLayout = () => {
           {hasNextPage && (
             <>
               <button
+                className={styles.wideButton}
                 style={{ margin: "1rem 0 0 " }}
                 ref={loadMoreRef}
                 onClick={() => fetchNextPage()}

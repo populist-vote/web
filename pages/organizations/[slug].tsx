@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
-import Layout from "../../components/Layout/Layout";
-import { LoaderFlag } from "../../components/LoaderFlag";
+
+import { Layout, LoaderFlag } from "components";
 import { useOrganizationBySlugQuery } from "../../generated";
 import { NextPageWithLayout } from "../_app";
 

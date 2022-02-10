@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
-import Layout from "../../components/Layout/Layout";
-import { LoaderFlag } from "../../components/LoaderFlag";
+
+import { Layout, LoaderFlag } from "components"
+
 import { NextPageWithLayout } from "../_app";
 
 const BillPage: NextPageWithLayout = () => {

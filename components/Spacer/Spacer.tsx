@@ -28,4 +28,5 @@ const Spacer = ({
     </span>
   );
 };
+
 export default Spacer;

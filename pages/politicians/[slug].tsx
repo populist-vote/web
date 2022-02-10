@@ -4,38 +4,28 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import { dehydrate, QueryClient } from "react-query";
-import { PartyAvatar } from "../../components/Avatar/Avatar";
-import Layout from "../../components/Layout/Layout";
-import { LoaderFlag } from "../../components/LoaderFlag";
-import { useAppContext } from "../../context/App";
+
+import {
+  BillCard,
+  Layout,
+  LoaderFlag,
+  PartyAvatar,
+  Scroller,
+  Spacer
+} from "components"
+
+import { useAppContext } from "context/App";
+
 import {
   PoliticalParty,
   PoliticianBySlugQuery,
   usePoliticianBySlugQuery,
 } from "../../generated";
-import styles from "../../styles/politicianPage.module.scss";
 
-function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
+import styles from "styles/politicianPage.module.scss";
 
-  return (
-    <button disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
-      Left
-    </button>
-  );
-}
-
-function RightArrow() {
-  const { isLastItemVisible, scrollNext } = useContext(VisibilityContext);
-
-  return (
-    <button disabled={isLastItemVisible} onClick={() => scrollNext()}>
-      Right
-    </button>
-  );
-}
+import states from "util/states"
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -73,19 +63,21 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <section className={styles.center}>
         <PartyAvatar
-          size={"8rem"}
+          badgeSize={"3.125rem"}
+          badgeFontSize={"2rem"}
+          size={"12.5rem"}
           party={politician?.officeParty as PoliticalParty}
           src={politician?.votesmartCandidateBio.candidate.photo}
         />
-        <h1>{politician?.votesmartCandidateBio.office?.name[0]}</h1>
-        <h2>Colorado</h2>
       </section>
-    );
+    )
   }
 
   function BasicInfoSection() {
     return (
-      <section>
+      <section className={styles.center}>
+        <h1 className={styles.politicianOffice}>{politician?.votesmartCandidateBio.office?.name[0]}</h1>
+        {politician?.homeState && (<h2>{states[politician?.homeState]}</h2>)}
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
@@ -111,7 +103,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>-</span>
           </p> */}
       </section>
-    );
+    )
   }
 
   function ElectionInfoSection() {
@@ -135,38 +127,45 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function CommitteeTagPage({ tags, itemId }: { tags: string [], itemId: string }) {
+    return (
+      <div className={styles.tagPage}>
+        {tags.map((tag, index) => <CommitteeTag tag={tag} key={`${tag}${index}`} />)}
+      </div>
+    )
+  }
+
+  function CommitteeTag({ tag } : { tag: string }) {
+    return <div className={styles.tag}>{tag}</div>
+  }
+
   function CommitteesSection() {
+
+    // TODO Replace with data here
+    const tags = [
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Economy",
+      "Finance",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+      "Conservation, Forestry, Environment, Etc. Long Long Long"
+    ]
+
+    const tagPageSize = 4
+    const tagPages: string [][] = Array(
+      Math.ceil(tags.length / tagPageSize)
+    ).fill("").map((_, index) => index * tagPageSize).map(
+      begin => tags.slice(begin, begin + tagPageSize)
+    )
+
     return (
       <section className={styles.center}>
         <h3>Committees</h3>
-        <div className={styles.horizontalScrollContainer}>
-          <ScrollMenu>
-            <div className={styles.tagPage} key={1}>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>Economy</div>
-              <div className={styles.tag}>Finance</div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-            </div>
-            <div className={styles.tagPage} key={1}>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-              <div className={styles.tag}>
-                Conservation, Forestry, Environment, Etc. Long Long Long
-              </div>
-            </div>
-          </ScrollMenu>
-        </div>
+        <Scroller>
+          {tagPages.map((tagPage, index) => <CommitteeTagPage tags={tagPage} key={`tagPage-${index}`} itemId={`tagPage-${index}`} />)}
+        </Scroller>
       </section>
     );
   }
@@ -176,24 +175,46 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       <section className={styles.center}>
         <h3>Sponsored Bills</h3>
         {sponsoredBills && (
-          <div className={styles.horizontalScrollContainer}>
-            <ScrollMenu>
-              {sponsoredBills.map((bill) => (
-                <div className={styles.billCard} key={bill.billNumber}>
-                  <div className={styles.cardContent}>
-                    <h1>{bill.billNumber}</h1>
-                    <h2>{bill.title}</h2>
-                    <span className={styles.statusPill}>
-                      {bill.legislationStatus}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </ScrollMenu>
-          </div>
+          <Scroller>
+            {sponsoredBills.map((bill) => <BillCard bill={bill} key={bill.billNumber} itemId={bill.billNumber} />)}
+          </Scroller>
         )}
       </section>
     );
+  }
+
+  function Endorsement({ organization, itemId }: {
+    organization: {
+      id: string,
+      slug: string,
+      name: string,
+      thumbnailImageUrl?: string | null
+    },
+    itemId: string
+  }) {
+    return (
+      <Link
+        href={`/organizations/${organization.slug}`}
+        key={organization.id}
+        passHref
+      >
+        <div className={styles.organizationContainer}>
+          {organization.thumbnailImageUrl ? (
+            <div className={styles.organizationAvatar}>
+              <Image
+                src={organization.thumbnailImageUrl}
+                alt={organization.name}
+                width={50}
+                height={50}
+              />
+            </div>
+          ) : (
+            <span>No Image</span>
+          )}
+          <h4>{organization.name}</h4>
+        </div>
+      </Link>
+    )
   }
 
   function EndorsementsSection() {
@@ -202,39 +223,15 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       <section className={styles.center}>
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         <h3>Organizations</h3>
-        <div className={styles.horizontalScrollContainer}>
-          <ScrollMenu>
-            {endorsements.map((organization) => (
-              <Link
-                href={`/organizations/${slug}`}
-                key={organization.id}
-                passHref
-              >
-                <div className={styles.organizationContainer}>
-                  {organization.thumbnailImageUrl ? (
-                    <div className={styles.organizationAvatar}>
-                      <Image
-                        src={organization.thumbnailImageUrl}
-                        alt={organization.name}
-                        width={50}
-                        height={50}
-                      />
-                    </div>
-                  ) : (
-                    <span>No Image</span>
-                  )}
-                  <h4>{organization.name}</h4>
-                </div>
-              </Link>
-            ))}
-          </ScrollMenu>
-        </div>
+        <Scroller>
+          {endorsements.map((organization) => <Endorsement organization={organization} key={organization.slug} itemId={organization.slug} />)}
+        </Scroller>
       </section>
     );
   }
 
   return (
-    <Layout mobileNavTitle={mobileNavTitle}>
+    <Layout mobileNavTitle={mobileNavTitle} showNavBackButton showNavLogoOnMobile={false}>
       <div className={styles.container}>
         <HeaderSection />
         <BasicInfoSection />
