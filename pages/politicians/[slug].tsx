@@ -4,20 +4,29 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import { dehydrate, QueryClient } from "react-query";
-import { PartyAvatar } from "../../components/Avatar/Avatar";
-import Layout from "../../components/Layout/Layout";
-import { LoaderFlag } from "../../components/LoaderFlag";
-import { useAppContext } from "../../context/App";
-import Spacer from "../../components/Spacer/Spacer";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+
+import {
+  BillCard,
+  Layout,
+  LoaderFlag,
+  PartyAvatar,
+  Spacer
+} from "components"
+
+import { useAppContext } from "context/App";
+
 import {
   PoliticalParty,
   PoliticianBySlugQuery,
   usePoliticianBySlugQuery,
 } from "../../generated";
+
 import styles from "../../styles/politicianPage.module.scss";
-import states from "./states"
+
+import states from "../../util/states"
+
 function LeftArrow() {
   const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
 
@@ -183,17 +192,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         {sponsoredBills && (
           <div className={styles.horizontalScrollContainer}>
             <ScrollMenu>
-              {sponsoredBills.map((bill) => (
-                <div className={styles.billCard} key={bill.billNumber}>
-                  <div className={styles.cardContent}>
-                    <h1>{bill.billNumber}</h1>
-                    <h2>{bill.title}</h2>
-                    <span className={styles.statusPill}>
-                      {bill.legislationStatus}
-                    </span>
-                  </div>
-                </div>
-              ))}
+              {sponsoredBills.map((bill) => <BillCard bill={bill} />)}
             </ScrollMenu>
           </div>
         )}

@@ -10,11 +10,11 @@ interface BadgeProps {
   fontSize: string;
 }
 
-export interface AvatarProps extends ReactAvatarProps {
+interface AvatarProps extends ReactAvatarProps {
   badge?: BadgeProps;
 }
 
-export interface PartyAvatarProps extends ReactAvatarProps {
+interface PartyAvatarProps extends ReactAvatarProps {
   party: PoliticalParty;
   badgeSize?: string;
   badgeFontSize?: string;
@@ -80,7 +80,7 @@ const Wrapper = styled.div`
   display: inline;
 `;
 
-export function Avatar(props: AvatarProps): JSX.Element {
+function Avatar(props: AvatarProps): JSX.Element {
   const { badge, name = "", round = true, ...rest } = props;
 
   const avatarProps = {
@@ -100,7 +100,7 @@ export function Avatar(props: AvatarProps): JSX.Element {
   );
 }
 
-export function PartyAvatar({
+function PartyAvatar({
   party,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
@@ -117,7 +117,7 @@ export function PartyAvatar({
   return <Avatar badge={badge} {...rest} />;
 }
 
-export function getPartyColor(
+function getPartyColor(
   party: PoliticalParty = PoliticalParty.Unknown
 ): string {
   switch (party) {
@@ -128,4 +128,12 @@ export function getPartyColor(
     default:
       return "purple";
   }
+}
+
+export {
+  Avatar,
+  AvatarProps,
+  getPartyColor,
+  PartyAvatar,
+  PartyAvatarProps
 }

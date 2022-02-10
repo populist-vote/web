@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { ReactElement } from "react";
-import Layout from "../../components/Layout/Layout";
+import { Layout } from "components";
 import { NextPageWithLayout } from "../_app";
 
 const BillIndex: NextPageWithLayout = () => {

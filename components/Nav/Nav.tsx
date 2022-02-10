@@ -1,11 +1,15 @@
-import styles from "./Nav.module.scss";
-import PopulistLogo from "../../public/images/PopulistLogo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useScrollPosition } from "../../hooks/useScrollPosition";
+import { FaChevronLeft } from "react-icons/fa"
 import { useState } from "react";
-import useDeviceInfo from "../../hooks/useDeviceInfo";
+
+import { useScrollPosition } from "hooks/useScrollPosition";
+import useDeviceInfo from "hooks/useDeviceInfo";
+
+import styles from "./Nav.module.scss";
+
+import PopulistLogo from "public/images/PopulistLogo.svg";
 
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
@@ -52,7 +56,7 @@ export default function Nav({
           />
         </div>
         {showBackButton && (
-          <button className={styles.backButton} aria-label="Go back">{"<"}</button>
+          <Link href={`/politicians`} aria-label="Go back">{<FaChevronLeft className={styles.backButton} color="var(--white)" />}</Link>
         )}
         <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
         <ul className={styles.items}>

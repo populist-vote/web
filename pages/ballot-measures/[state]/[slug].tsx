@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { LoaderFlag } from '../../../components/LoaderFlag';
-import styled from 'styled-components';
+import { LoaderFlag } from 'components';
 
 const BallotMeasurePage: NextPage = () => {
   const { query } = useRouter();

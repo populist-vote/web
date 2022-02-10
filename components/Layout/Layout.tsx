@@ -1,6 +1,6 @@
 import type { PropsWithChildren, ReactNode } from "react";
-import Footer from "../Footer/Footer";
-import Nav from "../Nav/Nav";
+import Footer from "components/Footer/Footer";
+import Nav from "components/Nav/Nav";
 import styles from "./Layout.module.scss";
 
 export default function Layout({

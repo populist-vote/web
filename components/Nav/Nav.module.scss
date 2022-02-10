@@ -1,6 +1,6 @@
-@import "../../styles/mixins";
-@import "../../styles/variables/colors.module.scss";
-@import "../../styles/variables/fonts.module.scss";
+@import "styles/mixins";
+@import "styles/variables/colors.module.scss";
+@import "styles/variables/fonts.module.scss";
 
 .nav {
   // grid-area: nav;
@@ -37,14 +37,13 @@
     }
 
     .backButton {
-      color: var(--text-primary);
       background: transparent;
       position: absolute;
       left: 1.25rem;
       height: 1.25rem;
       border: none;
       padding: 0;
-      transform: scaleY(2.5);
+      margin: 0.25rem 0;
 
       @include for-tablet-landscape-up {
         display: none;
