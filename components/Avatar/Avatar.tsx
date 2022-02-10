@@ -10,11 +10,11 @@ interface BadgeProps {
   fontSize: string;
 }
 
-interface AvatarProps extends ReactAvatarProps {
+export interface AvatarProps extends ReactAvatarProps {
   badge?: BadgeProps;
 }
 
-interface PartyAvatarProps extends ReactAvatarProps {
+export interface PartyAvatarProps extends ReactAvatarProps {
   party: PoliticalParty;
   badgeSize?: string;
   badgeFontSize?: string;
@@ -132,8 +132,6 @@ function getPartyColor(
 
 export {
   Avatar,
-  AvatarProps,
   getPartyColor,
-  PartyAvatar,
-  PartyAvatarProps
+  PartyAvatar
 }
