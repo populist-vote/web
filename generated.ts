@@ -311,6 +311,11 @@ export type CreateOrConnectOrganizationInput = {
   create?: InputMaybe<Array<CreateOrganizationInput>>;
 };
 
+export type CreateOrConnectPoliticianInput = {
+  connect?: InputMaybe<Array<Scalars['String']>>;
+  create?: InputMaybe<Array<CreatePoliticianInput>>;
+};
+
 export type CreateOrganizationInput = {
   description?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
@@ -329,7 +334,6 @@ export type CreateOrganizationInput = {
 export type CreatePoliticianInput = {
   ballotName?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  endorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   facebookUrl?: InputMaybe<Scalars['String']>;
   firstName: Scalars['String'];
   homeState: State;
@@ -340,6 +344,8 @@ export type CreatePoliticianInput = {
   middleName?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
   officeParty?: InputMaybe<PoliticalParty>;
+  organizationEndorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
+  politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
   preferredName?: InputMaybe<Scalars['String']>;
   slug: Scalars['String'];
   thumbnailImageUrl?: InputMaybe<Scalars['String']>;
@@ -408,6 +414,12 @@ export type ElectionResult = {
 export type ElectionSearchInput = {
   slug?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+export type Endorsements = {
+  __typename?: 'Endorsements';
+  organizations: Array<OrganizationResult>;
+  politicians: Array<PoliticianResult>;
 };
 
 export type GeneralInfo = {
@@ -717,7 +729,7 @@ export type PoliticianResult = {
   ballotName?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
-  endorsements: Array<OrganizationResult>;
+  endorsements: Endorsements;
   facebookUrl?: Maybe<Scalars['String']>;
   firstName: Scalars['String'];
   fullName: Scalars['String'];
@@ -1088,7 +1100,6 @@ export type UpdateOrganizationInput = {
 export type UpdatePoliticianInput = {
   ballotName?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  endorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   facebookUrl?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   homeState?: InputMaybe<State>;
@@ -1099,6 +1110,8 @@ export type UpdatePoliticianInput = {
   middleName?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
   officeParty?: InputMaybe<PoliticalParty>;
+  organizationEndorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
+  politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
   preferredName?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
   thumbnailImageUrl?: InputMaybe<Scalars['String']>;
@@ -1148,7 +1161,7 @@ export type PoliticianBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } } };
 
 
 export const OrganizationBySlugDocument = /*#__PURE__*/ `
@@ -1289,10 +1302,12 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
       legislationStatus
     }
     endorsements {
-      id
-      slug
-      name
-      thumbnailImageUrl
+      organizations {
+        id
+        slug
+        name
+        thumbnailImageUrl
+      }
     }
   }
 }

@@ -12,8 +12,8 @@ import {
   LoaderFlag,
   PartyAvatar,
   Scroller,
-  Spacer
-} from "components"
+  Spacer,
+} from "components";
 
 import { useAppContext } from "context/App";
 
@@ -25,7 +25,7 @@ import {
 
 import styles from "styles/politicianPage.module.scss";
 
-import states from "util/states"
+import states from "util/states";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -70,14 +70,16 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           src={politician?.votesmartCandidateBio.candidate.photo}
         />
       </section>
-    )
+    );
   }
 
   function BasicInfoSection() {
     return (
       <section className={styles.center}>
-        <h1 className={styles.politicianOffice}>{politician?.votesmartCandidateBio.office?.name[0]}</h1>
-        {politician?.homeState && (<h2>{states[politician?.homeState]}</h2>)}
+        <h1 className={styles.politicianOffice}>
+          {politician?.votesmartCandidateBio.office?.name[0]}
+        </h1>
+        {politician?.homeState && <h2>{states[politician?.homeState]}</h2>}
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
@@ -103,7 +105,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>-</span>
           </p> */}
       </section>
-    )
+    );
   }
 
   function ElectionInfoSection() {
@@ -127,20 +129,27 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function CommitteeTagPage({ tags, itemId }: { tags: string [], itemId: string }) {
+  function CommitteeTagPage({
+    tags,
+    itemId,
+  }: {
+    tags: string[];
+    itemId: string;
+  }) {
     return (
       <div className={styles.tagPage}>
-        {tags.map((tag, index) => <CommitteeTag tag={tag} key={`${tag}${index}`} />)}
+        {tags.map((tag, index) => (
+          <CommitteeTag tag={tag} key={`${tag}${index}`} />
+        ))}
       </div>
-    )
+    );
   }
 
-  function CommitteeTag({ tag } : { tag: string }) {
-    return <div className={styles.tag}>{tag}</div>
+  function CommitteeTag({ tag }: { tag: string }) {
+    return <div className={styles.tag}>{tag}</div>;
   }
 
   function CommitteesSection() {
-
     // TODO Replace with data here
     const tags = [
       "Conservation, Forestry, Environment, Etc. Long Long Long",
@@ -150,21 +159,26 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       "Conservation, Forestry, Environment, Etc. Long Long Long",
       "Conservation, Forestry, Environment, Etc. Long Long Long",
       "Conservation, Forestry, Environment, Etc. Long Long Long",
-      "Conservation, Forestry, Environment, Etc. Long Long Long"
-    ]
+      "Conservation, Forestry, Environment, Etc. Long Long Long",
+    ];
 
-    const tagPageSize = 4
-    const tagPages: string [][] = Array(
-      Math.ceil(tags.length / tagPageSize)
-    ).fill("").map((_, index) => index * tagPageSize).map(
-      begin => tags.slice(begin, begin + tagPageSize)
-    )
+    const tagPageSize = 4;
+    const tagPages: string[][] = Array(Math.ceil(tags.length / tagPageSize))
+      .fill("")
+      .map((_, index) => index * tagPageSize)
+      .map((begin) => tags.slice(begin, begin + tagPageSize));
 
     return (
       <section className={styles.center}>
         <h3>Committees</h3>
         <Scroller>
-          {tagPages.map((tagPage, index) => <CommitteeTagPage tags={tagPage} key={`tagPage-${index}`} itemId={`tagPage-${index}`} />)}
+          {tagPages.map((tagPage, index) => (
+            <CommitteeTagPage
+              tags={tagPage}
+              key={`tagPage-${index}`}
+              itemId={`tagPage-${index}`}
+            />
+          ))}
         </Scroller>
       </section>
     );
@@ -176,21 +190,30 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3>Sponsored Bills</h3>
         {sponsoredBills && (
           <Scroller>
-            {sponsoredBills.map((bill) => <BillCard bill={bill} key={bill.billNumber} itemId={bill.billNumber} />)}
+            {sponsoredBills.map((bill) => (
+              <BillCard
+                bill={bill}
+                key={bill.billNumber}
+                itemId={bill.billNumber}
+              />
+            ))}
           </Scroller>
         )}
       </section>
     );
   }
 
-  function Endorsement({ organization, itemId }: {
+  function Endorsement({
+    organization,
+    itemId,
+  }: {
     organization: {
-      id: string,
-      slug: string,
-      name: string,
-      thumbnailImageUrl?: string | null
-    },
-    itemId: string
+      id: string;
+      slug: string;
+      name: string;
+      thumbnailImageUrl?: string | null;
+    };
+    itemId: string;
   }) {
     return (
       <Link
@@ -214,7 +237,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <h4>{organization.name}</h4>
         </div>
       </Link>
-    )
+    );
   }
 
   function EndorsementsSection() {
@@ -224,14 +247,24 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         <h3>Organizations</h3>
         <Scroller>
-          {endorsements.map((organization) => <Endorsement organization={organization} key={organization.slug} itemId={organization.slug} />)}
+          {endorsements.organizations.map((organization) => (
+            <Endorsement
+              organization={organization}
+              key={organization.slug}
+              itemId={organization.slug}
+            />
+          ))}
         </Scroller>
       </section>
     );
   }
 
   return (
-    <Layout mobileNavTitle={mobileNavTitle} showNavBackButton showNavLogoOnMobile={false}>
+    <Layout
+      mobileNavTitle={mobileNavTitle}
+      showNavBackButton
+      showNavLogoOnMobile={false}
+    >
       <div className={styles.container}>
         <HeaderSection />
         <BasicInfoSection />

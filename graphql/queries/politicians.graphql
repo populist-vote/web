@@ -61,10 +61,12 @@ query PoliticianBySlug($slug: String!) {
     }
 
     endorsements {
-      id
-      slug
-      name
-      thumbnailImageUrl
+      organizations {
+        id
+        slug
+        name
+        thumbnailImageUrl
+      }
     }
   }
 }

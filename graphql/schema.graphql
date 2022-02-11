@@ -242,6 +242,11 @@ input CreateOrConnectOrganizationInput {
   create: [CreateOrganizationInput!]
 }
 
+input CreateOrConnectPoliticianInput {
+  connect: [String!]
+  create: [CreatePoliticianInput!]
+}
+
 input CreateOrganizationInput {
   description: String
   email: String
@@ -260,7 +265,6 @@ input CreateOrganizationInput {
 input CreatePoliticianInput {
   ballotName: String
   description: String
-  endorsements: CreateOrConnectOrganizationInput
   facebookUrl: String
   firstName: String!
   homeState: State!
@@ -271,6 +275,8 @@ input CreatePoliticianInput {
   middleName: String
   nickname: String
   officeParty: PoliticalParty
+  organizationEndorsements: CreateOrConnectOrganizationInput
+  politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
   slug: String!
   thumbnailImageUrl: String
@@ -337,6 +343,11 @@ type ElectionResult {
 input ElectionSearchInput {
   slug: String
   title: String
+}
+
+type Endorsements {
+  organizations: [OrganizationResult!]!
+  politicians: [PoliticianResult!]!
 }
 
 type GeneralInfo {
@@ -518,7 +529,7 @@ type PoliticianResult {
   ballotName: String
   createdAt: DateTime!
   description: String
-  endorsements: [OrganizationResult!]!
+  endorsements: Endorsements!
   facebookUrl: String
   firstName: String!
   fullName: String!
@@ -862,7 +873,6 @@ input UpdateOrganizationInput {
 input UpdatePoliticianInput {
   ballotName: String
   description: String
-  endorsements: CreateOrConnectOrganizationInput
   facebookUrl: String
   firstName: String
   homeState: State
@@ -873,6 +883,8 @@ input UpdatePoliticianInput {
   middleName: String
   nickname: String
   officeParty: PoliticalParty
+  organizationEndorsements: CreateOrConnectOrganizationInput
+  politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
   slug: String
   thumbnailImageUrl: String
