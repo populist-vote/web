@@ -237,23 +237,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         passHref
       >
         <div className={styles.organizationContainer}>
-          {politician.thumbnailImageUrl ? (
-            <div className={styles.organizationAvatar}>
-              <Image
-                src={politician.thumbnailImageUrl}
-                alt={politician.fullName}
-                width={50}
-                height={50}
-              />
-            </div>
-          ) : (
-            <span>No Image</span>
-          )}
+          <PartyAvatar
+            party={(politician.officeParty as PoliticalParty) || "DEMOCRATIC"}
+            src={politician?.votesmartCandidateBio?.candidate.photo as string}
+          />
           <h4>{politician.fullName}</h4>
         </div>
       </Link>
     );
   }
+
+  console.log(endorsements.politicians);
 
   function EndorsementsSection() {
     if (!endorsements?.organizations && !endorsements?.politicians) return null;
@@ -279,7 +273,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <Scroller>
               {endorsements.politicians.map((politician) => (
                 <PoliticianEndorsement
-                  politician={politician}
+                  politician={politician as Partial<PoliticianResult>}
                   key={politician.slug}
                 />
               ))}

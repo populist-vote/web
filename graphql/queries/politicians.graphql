@@ -77,6 +77,16 @@ query PoliticianBySlug($slug: String!) {
         fullName
         officeParty
         thumbnailImageUrl
+        votesmartCandidateBio {
+          office {
+            name
+            district
+            typeField
+          }
+          candidate {
+            photo
+          }
+        }
       }
     }
   }
