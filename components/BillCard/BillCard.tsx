@@ -1,30 +1,19 @@
-import styles from "./BillCard.module.scss"
+import Link from "next/link";
+import styles from "./BillCard.module.scss";
+import type { BillResult } from "generated";
 
-type Bill = {
-  billNumber: string,
-  title: string,
-  legislationStatus:string,
-}
-
-const BillCard = ({
-  bill,
-  itemId
-} : {
-  bill: Bill,
-  itemId: string
-}) => {
-
+const BillCard = ({ bill }: { bill: Partial<BillResult> }) => {
   return (
-    <div className={styles.billCard}>
-      <div className={styles.cardContent}>
-        <h1 className={styles.billNumber}>{bill.billNumber}</h1>
-        <h2 className={styles.billTitle}>{bill.title}</h2>
-        <span className={styles.statusPill}>
-          {bill.legislationStatus}
-        </span>
+    <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
+      <div className={styles.billCard}>
+        <div className={styles.cardContent}>
+          <h1 className={styles.billNumber}>{bill.billNumber}</h1>
+          <h2 className={styles.billTitle}>{bill.title}</h2>
+          <span className={styles.statusPill}>{bill.legislationStatus}</span>
+        </div>
       </div>
-    </div>
-  )
-}
+    </Link>
+  );
+};
 
-export default BillCard
+export default BillCard;
