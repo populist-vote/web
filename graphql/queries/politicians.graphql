@@ -43,18 +43,22 @@ query PoliticianBySlug($slug: String!) {
     twitterUrl
     facebookUrl
     instagramUrl
+    yearsInPublicOffice
     votesmartCandidateBio {
       office {
         name
         termStart
         termEnd
       }
+
       candidate {
         photo
+        congMembership
       }
     }
 
     sponsoredBills {
+      slug
       billNumber
       title
       legislationStatus
@@ -66,6 +70,23 @@ query PoliticianBySlug($slug: String!) {
         slug
         name
         thumbnailImageUrl
+      }
+      politicians {
+        id
+        slug
+        fullName
+        officeParty
+        thumbnailImageUrl
+        votesmartCandidateBio {
+          office {
+            name
+            district
+            typeField
+          }
+          candidate {
+            photo
+          }
+        }
       }
     }
   }

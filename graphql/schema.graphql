@@ -550,6 +550,13 @@ type PoliticianResult {
   votesmartCandidateBio: GetCandidateBioResponse!
   votesmartCandidateId: Int!
   websiteUrl: String
+
+  """
+  Calculates the total years a politician has been in office using
+  the votesmart politicial experience array.  Does not take into account
+  objects where the politician is considered a 'candidate'
+  """
+  yearsInPublicOffice: Int!
 }
 
 type PoliticianResultConnection {

@@ -750,6 +750,12 @@ export type PoliticianResult = {
   votesmartCandidateBio: GetCandidateBioResponse;
   votesmartCandidateId: Scalars['Int'];
   websiteUrl?: Maybe<Scalars['String']>;
+  /**
+   * Calculates the total years a politician has been in office using
+   * the votesmart politicial experience array.  Does not take into account
+   * objects where the politician is considered a 'candidate'
+   */
+  yearsInPublicOffice: Scalars['Int'];
 };
 
 export type PoliticianResultConnection = {
@@ -1161,7 +1167,7 @@ export type PoliticianBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } }, sponsoredBills: Array<{ __typename?: 'BillResult', billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }> } } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, yearsInPublicOffice: number, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } }, sponsoredBills: Array<{ __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } }> } } };
 
 
 export const OrganizationBySlugDocument = /*#__PURE__*/ `
@@ -1286,6 +1292,7 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
     twitterUrl
     facebookUrl
     instagramUrl
+    yearsInPublicOffice
     votesmartCandidateBio {
       office {
         name
@@ -1294,9 +1301,11 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
       }
       candidate {
         photo
+        congMembership
       }
     }
     sponsoredBills {
+      slug
       billNumber
       title
       legislationStatus
@@ -1307,6 +1316,23 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
         slug
         name
         thumbnailImageUrl
+      }
+      politicians {
+        id
+        slug
+        fullName
+        officeParty
+        thumbnailImageUrl
+        votesmartCandidateBio {
+          office {
+            name
+            district
+            typeField
+          }
+          candidate {
+            photo
+          }
+        }
       }
     }
   }

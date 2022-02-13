@@ -2,24 +2,23 @@ import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
 import { dehydrate, QueryClient } from "react-query";
 
-import {
-  BillCard,
-  Layout,
-  LoaderFlag,
-  PartyAvatar,
-  Scroller,
-  Spacer,
-} from "components";
+import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
 
-import { useAppContext } from "context/App";
+// Note: this is a dynamic import because the react-horizontal-scrolling-menu
+// uses useLayoutEffect which is not supported by the server.
+const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
+  ssr: false,
+});
 
 import {
+  OrganizationResult,
   PoliticalParty,
   PoliticianBySlugQuery,
+  PoliticianResult,
   usePoliticianBySlugQuery,
 } from "../../generated";
 
@@ -35,13 +34,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { query } = useRouter();
   const slug = query.slug as string;
   const { data, isLoading, error } = usePoliticianBySlugQuery({ slug });
-  const { dispatch } = useAppContext();
 
   if (isLoading) return <LoaderFlag />;
-
   if (error) return <p>Error: {error}</p>;
-
   const politician = data?.politicianBySlug;
+  if (!politician) return <p>No politician found</p>;
 
   const sponsoredBills = politician?.sponsoredBills;
 
@@ -52,10 +49,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const termStart = getYear(
     politician?.votesmartCandidateBio.office?.termStart as string
   );
-
   const termEnd = getYear(
     politician?.votesmartCandidateBio.office?.termEnd as string
   );
+  const yearsInPublicOffice = politician?.yearsInPublicOffice;
 
   const endorsements = politician?.endorsements;
 
@@ -94,16 +91,19 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{termEnd}</span>
           </p>
         )}
+        {/* Dont have this datapoint yet */}
         {/* <p className={styles.flexBetween}>
-            <span>Elections Won / Lost</span>
-            <span className={styles.dots} />
-            <span>-</span>
-          </p>
+          <span>Elections Won / Lost</span>
+          <span className={styles.dots} />
+          <span>-</span>
+        </p> */}
+        {!!yearsInPublicOffice && (
           <p className={styles.flexBetween}>
             <span>Years in Public Office</span>
             <span className={styles.dots} />
-            <span>-</span>
-          </p> */}
+            <span>{yearsInPublicOffice}</span>
+          </p>
+        )}
       </section>
     );
   }
@@ -150,23 +150,19 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function CommitteesSection() {
-    // TODO Replace with data here
-    const tags = [
-      "Conservation, Forestry, Environment, Etc. Long Long Long",
-      "Economy",
-      "Finance",
-      "Conservation, Forestry, Environment, Etc. Long Long Long",
-      "Conservation, Forestry, Environment, Etc. Long Long Long",
-      "Conservation, Forestry, Environment, Etc. Long Long Long",
-      "Conservation, Forestry, Environment, Etc. Long Long Long",
-      "Conservation, Forestry, Environment, Etc. Long Long Long",
-    ];
+    const tags =
+      politician?.votesmartCandidateBio?.candidate?.congMembership?.experience?.map(
+        (committee: any) =>
+          committee.organization.replace("Subcommittee on", "")
+      ) ?? [];
 
     const tagPageSize = 4;
     const tagPages: string[][] = Array(Math.ceil(tags.length / tagPageSize))
       .fill("")
       .map((_, index) => index * tagPageSize)
       .map((begin) => tags.slice(begin, begin + tagPageSize));
+
+    if (tags.length === 0) return null;
 
     return (
       <section className={styles.center}>
@@ -191,11 +187,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         {sponsoredBills && (
           <Scroller>
             {sponsoredBills.map((bill) => (
-              <BillCard
-                bill={bill}
-                key={bill.billNumber}
-                itemId={bill.billNumber}
-              />
+              <BillCard bill={bill} key={bill.slug} />
             ))}
           </Scroller>
         )}
@@ -203,17 +195,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function Endorsement({
+  function OrganizationEndorsement({
     organization,
-    itemId,
   }: {
-    organization: {
-      id: string;
-      slug: string;
-      name: string;
-      thumbnailImageUrl?: string | null;
-    };
-    itemId: string;
+    organization: Partial<OrganizationResult>;
   }) {
     return (
       <Link
@@ -240,21 +225,61 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function PoliticianEndorsement({
+    politician,
+  }: {
+    politician: Partial<PoliticianResult>;
+  }) {
+    return (
+      <Link
+        href={`/politicians/${politician.slug}`}
+        key={politician.id}
+        passHref
+      >
+        <div className={styles.organizationContainer}>
+          <PartyAvatar
+            party={(politician.officeParty as PoliticalParty) || "DEMOCRATIC"}
+            src={politician?.votesmartCandidateBio?.candidate.photo as string}
+          />
+          <h4>{politician.fullName}</h4>
+        </div>
+      </Link>
+    );
+  }
+
+  console.log(endorsements.politicians);
+
   function EndorsementsSection() {
-    if (!endorsements) return null;
+    if (!endorsements?.organizations && !endorsements?.politicians) return null;
     return (
       <section className={styles.center}>
-        <h3 className={styles.gradientHeader}>Endorsements</h3>
-        <h3>Organizations</h3>
-        <Scroller>
-          {endorsements.organizations.map((organization) => (
-            <Endorsement
-              organization={organization}
-              key={organization.slug}
-              itemId={organization.slug}
-            />
-          ))}
-        </Scroller>
+        {endorsements.organizations.length > 0 && (
+          <>
+            <h3 className={styles.gradientHeader}>Endorsements</h3>
+            <h3>Organizations</h3>
+            <Scroller>
+              {endorsements.organizations.map((organization) => (
+                <OrganizationEndorsement
+                  organization={organization}
+                  key={organization.slug}
+                />
+              ))}
+            </Scroller>
+          </>
+        )}
+        {endorsements.politicians.length > 0 && (
+          <>
+            <h3>Individuals</h3>
+            <Scroller>
+              {endorsements.politicians.map((politician) => (
+                <PoliticianEndorsement
+                  politician={politician as Partial<PoliticianResult>}
+                  key={politician.slug}
+                />
+              ))}
+            </Scroller>
+          </>
+        )}
       </section>
     );
   }

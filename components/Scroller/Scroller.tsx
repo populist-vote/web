@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { ReactElement, useContext } from "react";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
@@ -24,22 +25,15 @@ function RightArrow() {
 }
 
 type ScrollerItem = ReactElement<{
-  /**
-      Required. id for every item, should be unique
-     */
-  itemId: string;
-}>
+  itemId: string; // Required. id for every item, should be unique
+}>;
 
-function Scroller(props: {
-  children: ScrollerItem | ScrollerItem[]
-}) {
+function Scroller(props: { children: ScrollerItem | ScrollerItem[] }) {
   return (
     <div className={styles.horizontalScrollContainer}>
-      <ScrollMenu>
-        {props.children}
-      </ScrollMenu>
+      <ScrollMenu>{props.children}</ScrollMenu>
     </div>
-  )
+  );
 }
 
-export default Scroller
+export default Scroller;
