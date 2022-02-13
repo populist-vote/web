@@ -150,11 +150,16 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function CommitteesSection() {
+    const politicalExperience =
+      politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
+
+    // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
     const tags =
-      politician?.votesmartCandidateBio?.candidate?.congMembership?.experience?.map(
-        (committee: any) =>
-          committee.organization.replace("Subcommittee on", "")
-      ) ?? [];
+      politicalExperience.constructor === Array
+        ? politicalExperience.map((committee: any) =>
+            committee.organization.replace("Subcommittee on", "")
+          )
+        : [];
 
     const tagPageSize = 4;
     const tagPages: string[][] = Array(Math.ceil(tags.length / tagPageSize))
