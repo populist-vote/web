@@ -125,6 +125,12 @@
     border-left: 1px solid $blue;
     margin: 0 1rem;
   }
+
+  .desktopOnly {
+    @include for-phone-only {
+      display: none;
+    }
+  }
 }
 
 .rowItem {

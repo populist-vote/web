@@ -247,15 +247,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  console.log(endorsements.politicians);
-
   function EndorsementsSection() {
     if (!endorsements?.organizations && !endorsements?.politicians) return null;
     return (
       <section className={styles.center}>
+        <h3 className={styles.gradientHeader}>Endorsements</h3>
         {endorsements.organizations.length > 0 && (
           <>
-            <h3 className={styles.gradientHeader}>Endorsements</h3>
             <h3>Organizations</h3>
             <Scroller>
               {endorsements.organizations.map((organization) => (
