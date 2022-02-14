@@ -155,7 +155,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
     // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
     const tags =
-      politicalExperience.constructor === Array
+      politicalExperience?.constructor === Array
         ? politicalExperience.map((committee: any) =>
             committee.organization.replace("Subcommittee on", "")
           )
@@ -287,6 +287,15 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function BioSection() {
+    return (
+      <section className={styles.center}>
+        <h3 className={styles.gradientHeader}>Bio</h3>
+        <p>This is a cool politician dude.</p>
+      </section>
+    );
+  }
+
   return (
     <Layout
       mobileNavTitle={mobileNavTitle}
@@ -300,6 +309,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <CommitteesSection />
         <SponsoredBillsSection />
         <EndorsementsSection />
+        {/* <BioSection /> */}
       </div>
     </Layout>
   );
