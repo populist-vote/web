@@ -137,8 +137,6 @@ const PoliticianIndex: NextPageWithLayout = () => {
     }
   );
 
-  const { isMobile } = useDeviceInfo();
-
   const localityFilterFn = (
     politician: PoliticianResult,
     scope: LocalityFilter
@@ -211,7 +209,7 @@ const PoliticianIndex: NextPageWithLayout = () => {
         />
       </Head>
       <div>
-        <div className={`${styles.stickyMainHeader} ${styles.shadow}`}>
+        <header>
           <h1 className={styles.desktopOnly}>Colorado Legislators</h1>
           <div className={styles.filtersContainer}>
             <h2 className={styles.desktopOnly}>Browse</h2>
@@ -262,9 +260,14 @@ const PoliticianIndex: NextPageWithLayout = () => {
               </select>
             </form>
           </div>
-        </div>
+        </header>
         <div>
-          {isLoading && <LoaderFlag />}
+          {(isLoading || isFetching) && (
+            <div className={styles.center}>
+              {" "}
+              <LoaderFlag />
+            </div>
+          )}
           {error && (
             <h4>Something went wrong fetching politician records...</h4>
           )}

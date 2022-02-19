@@ -301,6 +301,16 @@ export type CreateIssueTagInput = {
   slug?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateOfficeInput = {
+  district?: InputMaybe<Scalars['String']>;
+  encumbentId: Scalars['UUID'];
+  officeType?: InputMaybe<Scalars['String']>;
+  politicalScope: PoliticalScope;
+  slug?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<State>;
+  title: Scalars['String'];
+};
+
 export type CreateOrConnectIssueTagInput = {
   connect?: InputMaybe<Array<Scalars['String']>>;
   create?: InputMaybe<Array<CreateIssueTagInput>>;
@@ -343,6 +353,7 @@ export type CreatePoliticianInput = {
   legiscanPeopleId?: InputMaybe<Scalars['Int']>;
   middleName?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
+  officeId?: InputMaybe<Scalars['UUID']>;
   officeParty?: InputMaybe<PoliticalParty>;
   organizationEndorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
@@ -350,9 +361,25 @@ export type CreatePoliticianInput = {
   slug: Scalars['String'];
   thumbnailImageUrl?: InputMaybe<Scalars['String']>;
   twitterUrl?: InputMaybe<Scalars['String']>;
+  upcomingRaceId?: InputMaybe<Scalars['UUID']>;
   votesmartCandidateBio?: InputMaybe<Scalars['JSON']>;
   votesmartCandidateId?: InputMaybe<Scalars['Int']>;
   websiteUrl?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateRaceInput = {
+  ballotpediaLink?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  earlyVotingBeginsDate?: InputMaybe<Scalars['NaiveDate']>;
+  electionDate?: InputMaybe<Scalars['NaiveDate']>;
+  electionId?: InputMaybe<Scalars['UUID']>;
+  officeId: Scalars['UUID'];
+  officePosition: Scalars['String'];
+  officialWebsite?: InputMaybe<Scalars['String']>;
+  raceType: Scalars['String'];
+  slug?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<State>;
+  title: Scalars['String'];
 };
 
 export type CreateUserInput = {
@@ -392,6 +419,11 @@ export type DeleteIssueTagResult = {
   id: Scalars['String'];
 };
 
+export type DeleteOfficeResult = {
+  __typename?: 'DeleteOfficeResult';
+  id: Scalars['String'];
+};
+
 export type DeleteOrganizationResult = {
   __typename?: 'DeleteOrganizationResult';
   id: Scalars['String'];
@@ -399,6 +431,11 @@ export type DeleteOrganizationResult = {
 
 export type DeletePoliticianResult = {
   __typename?: 'DeletePoliticianResult';
+  id: Scalars['String'];
+};
+
+export type DeleteRaceResult = {
+  __typename?: 'DeleteRaceResult';
   id: Scalars['String'];
 };
 
@@ -491,16 +528,20 @@ export type Mutation = {
   createBill: BillResult;
   createElection: ElectionResult;
   createIssueTag: IssueTagResult;
+  createOffice: OfficeResult;
   createOrganization: OrganizationResult;
   createPolitician: PoliticianResult;
+  createRace: RaceResult;
   createUser: CreateUserResult;
   deleteArgument: DeleteArgumentResult;
   deleteBallotMeasure: DeleteBallotMeasureResult;
   deleteBill: DeleteBillResult;
   deleteElection: DeleteElectionResult;
   deleteIssueTag: DeleteIssueTagResult;
+  deleteOffice: DeleteOfficeResult;
   deleteOrganization: DeleteOrganizationResult;
   deletePolitician: DeletePoliticianResult;
+  deleteRace: DeleteRaceResult;
   downvoteArgument: Scalars['Boolean'];
   login: LoginResult;
   updateArgument: ArgumentResult;
@@ -508,8 +549,10 @@ export type Mutation = {
   updateBill: BillResult;
   updateElection: ElectionResult;
   updateIssueTag: IssueTagResult;
+  updateOffice: OfficeResult;
   updateOrganization: OrganizationResult;
   updatePolitician: PoliticianResult;
+  updateRace: RaceResult;
   uploadPoliticianThumbnail: Scalars['Int'];
   upvoteArgument: Scalars['Boolean'];
 };
@@ -536,6 +579,11 @@ export type MutationCreateIssueTagArgs = {
 };
 
 
+export type MutationCreateOfficeArgs = {
+  input: CreateOfficeInput;
+};
+
+
 export type MutationCreateOrganizationArgs = {
   input: CreateOrganizationInput;
 };
@@ -543,6 +591,11 @@ export type MutationCreateOrganizationArgs = {
 
 export type MutationCreatePoliticianArgs = {
   input: CreatePoliticianInput;
+};
+
+
+export type MutationCreateRaceArgs = {
+  input: CreateRaceInput;
 };
 
 
@@ -576,12 +629,22 @@ export type MutationDeleteIssueTagArgs = {
 };
 
 
+export type MutationDeleteOfficeArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationDeleteOrganizationArgs = {
   id: Scalars['String'];
 };
 
 
 export type MutationDeletePoliticianArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteRaceArgs = {
   id: Scalars['String'];
 };
 
@@ -628,6 +691,12 @@ export type MutationUpdateIssueTagArgs = {
 };
 
 
+export type MutationUpdateOfficeArgs = {
+  id: Scalars['String'];
+  input: UpdateOfficeInput;
+};
+
+
 export type MutationUpdateOrganizationArgs = {
   id: Scalars['String'];
   input: UpdateOrganizationInput;
@@ -637,6 +706,12 @@ export type MutationUpdateOrganizationArgs = {
 export type MutationUpdatePoliticianArgs = {
   id: Scalars['String'];
   input: UpdatePoliticianInput;
+};
+
+
+export type MutationUpdateRaceArgs = {
+  id: Scalars['String'];
+  input: UpdateRaceInput;
 };
 
 
@@ -666,6 +741,25 @@ export type Office = {
   termStart: Scalars['String'];
   title: Scalars['String'];
   typeField: Scalars['String'];
+};
+
+export type OfficeResult = {
+  __typename?: 'OfficeResult';
+  createdAt: Scalars['DateTime'];
+  district?: Maybe<Scalars['String']>;
+  encumbent: PoliticianResult;
+  id: Scalars['ID'];
+  officeType?: Maybe<Scalars['String']>;
+  politicalScope: PoliticalScope;
+  slug: Scalars['String'];
+  state?: Maybe<State>;
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type OfficeSearch = {
+  query?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<State>;
 };
 
 export type OrganizationResult = {
@@ -724,10 +818,17 @@ export enum PoliticalParty {
   Unknown = 'UNKNOWN'
 }
 
+export enum PoliticalScope {
+  Federal = 'FEDERAL',
+  Local = 'LOCAL',
+  State = 'STATE'
+}
+
 export type PoliticianResult = {
   __typename?: 'PoliticianResult';
   ballotName?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
+  currentOffice?: Maybe<OfficeResult>;
   description?: Maybe<Scalars['String']>;
   endorsements: Endorsements;
   facebookUrl?: Maybe<Scalars['String']>;
@@ -740,12 +841,15 @@ export type PoliticianResult = {
   lastName: Scalars['String'];
   middleName?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
+  officeId?: Maybe<Scalars['ID']>;
   officeParty?: Maybe<PoliticalParty>;
   preferredName?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
-  sponsoredBills: Array<BillResult>;
+  sponsoredBills: BillResultConnection;
   thumbnailImageUrl?: Maybe<Scalars['String']>;
   twitterUrl?: Maybe<Scalars['String']>;
+  upcomingRace?: Maybe<RaceResult>;
+  upcomingRaceId?: Maybe<Scalars['ID']>;
   updatedAt: Scalars['DateTime'];
   votesmartCandidateBio: GetCandidateBioResponse;
   votesmartCandidateId: Scalars['Int'];
@@ -756,6 +860,14 @@ export type PoliticianResult = {
    * objects where the politician is considered a 'candidate'
    */
   yearsInPublicOffice: Scalars['Int'];
+};
+
+
+export type PoliticianResultSponsoredBillsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
 };
 
 export type PoliticianResultConnection = {
@@ -801,11 +913,17 @@ export type Query = {
   health: Scalars['Boolean'];
   issueTagBySlug: IssueTagResult;
   issueTags: Array<IssueTagResult>;
+  officeById: OfficeResult;
+  officeBySlug: OfficeResult;
+  offices: Array<OfficeResult>;
   organizationBySlug: OrganizationResult;
   organizations: OrganizationResultConnection;
   politicianById: PoliticianResult;
   politicianBySlug: PoliticianResult;
   politicians: PoliticianResultConnection;
+  raceById: RaceResult;
+  raceBySlug: RaceResult;
+  races: Array<RaceResult>;
   upcomingElections: Array<ElectionResult>;
 };
 
@@ -844,6 +962,21 @@ export type QueryIssueTagsArgs = {
 };
 
 
+export type QueryOfficeByIdArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryOfficeBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+export type QueryOfficesArgs = {
+  search?: InputMaybe<OfficeSearch>;
+};
+
+
 export type QueryOrganizationBySlugArgs = {
   slug: Scalars['String'];
 };
@@ -874,6 +1007,47 @@ export type QueryPoliticiansArgs = {
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
   search?: InputMaybe<PoliticianSearch>;
+};
+
+
+export type QueryRaceByIdArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryRaceBySlugArgs = {
+  slug: Scalars['String'];
+};
+
+
+export type QueryRacesArgs = {
+  search?: InputMaybe<RaceSearch>;
+};
+
+export type RaceResult = {
+  __typename?: 'RaceResult';
+  ballotpediaLink?: Maybe<Scalars['String']>;
+  candidates: Array<PoliticianResult>;
+  createdAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  earlyVotingBeginsDate?: Maybe<Scalars['NaiveDate']>;
+  electionDate?: Maybe<Scalars['NaiveDate']>;
+  electionId?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  office: OfficeResult;
+  officeId: Scalars['ID'];
+  officePosition: Scalars['String'];
+  officialWebsite?: Maybe<Scalars['String']>;
+  raceType: Scalars['String'];
+  slug: Scalars['String'];
+  state?: Maybe<State>;
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type RaceSearch = {
+  query?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<State>;
 };
 
 export type Referral = {
@@ -1088,6 +1262,17 @@ export type UpdateIssueTagInput = {
   slug?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateOfficeInput = {
+  district?: InputMaybe<Scalars['String']>;
+  encumbentId?: InputMaybe<Scalars['UUID']>;
+  name?: InputMaybe<Scalars['String']>;
+  officeType?: InputMaybe<Scalars['String']>;
+  politicalScope?: InputMaybe<PoliticalScope>;
+  slug?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<State>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type UpdateOrganizationInput = {
   description?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
@@ -1115,6 +1300,7 @@ export type UpdatePoliticianInput = {
   legiscanPeopleId?: InputMaybe<Scalars['Int']>;
   middleName?: InputMaybe<Scalars['String']>;
   nickname?: InputMaybe<Scalars['String']>;
+  officeId?: InputMaybe<Scalars['UUID']>;
   officeParty?: InputMaybe<PoliticalParty>;
   organizationEndorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
@@ -1122,9 +1308,25 @@ export type UpdatePoliticianInput = {
   slug?: InputMaybe<Scalars['String']>;
   thumbnailImageUrl?: InputMaybe<Scalars['String']>;
   twitterUrl?: InputMaybe<Scalars['String']>;
+  upcomingRaceId?: InputMaybe<Scalars['UUID']>;
   votesmartCandidateBio?: InputMaybe<Scalars['JSON']>;
   votesmartCandidateId?: InputMaybe<Scalars['Int']>;
   websiteUrl?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateRaceInput = {
+  ballotpediaLink?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  earlyVotingBeginsDate?: InputMaybe<Scalars['NaiveDate']>;
+  electionDate?: InputMaybe<Scalars['NaiveDate']>;
+  electionId?: InputMaybe<Scalars['UUID']>;
+  officeId?: InputMaybe<Scalars['UUID']>;
+  officePosition?: InputMaybe<Scalars['String']>;
+  officialWebsite?: InputMaybe<Scalars['String']>;
+  raceType: Scalars['String'];
+  slug?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<State>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type Vote = {
@@ -1167,7 +1369,7 @@ export type PoliticianBySlugQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, yearsInPublicOffice: number, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } }, sponsoredBills: Array<{ __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus }>, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } }> } } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, yearsInPublicOffice: number, upcomingRace?: { __typename?: 'RaceResult', raceType: string, officePosition: string, state?: State | null | undefined, electionDate?: any | null | undefined } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } }, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null | undefined> | null | undefined }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } }> } } };
 
 
 export const OrganizationBySlugDocument = /*#__PURE__*/ `
@@ -1293,6 +1495,12 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
     facebookUrl
     instagramUrl
     yearsInPublicOffice
+    upcomingRace {
+      raceType
+      officePosition
+      state
+      electionDate
+    }
     votesmartCandidateBio {
       office {
         name
@@ -1305,10 +1513,14 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
       }
     }
     sponsoredBills {
-      slug
-      billNumber
-      title
-      legislationStatus
+      edges {
+        node {
+          slug
+          billNumber
+          title
+          legislationStatus
+        }
+      }
     }
     endorsements {
       organizations {

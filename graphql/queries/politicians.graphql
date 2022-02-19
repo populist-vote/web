@@ -44,6 +44,14 @@ query PoliticianBySlug($slug: String!) {
     facebookUrl
     instagramUrl
     yearsInPublicOffice
+
+    upcomingRace {
+      raceType
+      officePosition
+      state
+      electionDate
+    }
+
     votesmartCandidateBio {
       office {
         name
@@ -58,10 +66,14 @@ query PoliticianBySlug($slug: String!) {
     }
 
     sponsoredBills {
-      slug
-      billNumber
-      title
-      legislationStatus
+      edges {
+        node {
+          slug
+          billNumber
+          title
+          legislationStatus
+        }
+      }
     }
 
     endorsements {

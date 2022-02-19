@@ -1,3 +1,3 @@
 module.exports = {
-  schema: 'https://api.staging.populist.us/',
+  schema: "https://api.staging.populist.us/",
 };

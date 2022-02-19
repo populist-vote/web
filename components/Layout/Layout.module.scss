@@ -56,6 +56,10 @@
     }
   }
 
+  .content {
+    max-height: 100%;
+  }
+
   form {
     width: 100%;
   }
@@ -131,6 +135,13 @@
       display: none;
     }
   }
+}
+
+.center {
+  min-height: 18rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .rowItem {

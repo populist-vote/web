@@ -232,6 +232,16 @@ input CreateIssueTagInput {
   slug: String
 }
 
+input CreateOfficeInput {
+  district: String
+  encumbentId: UUID!
+  officeType: String
+  politicalScope: PoliticalScope!
+  slug: String
+  state: State
+  title: String!
+}
+
 input CreateOrConnectIssueTagInput {
   connect: [String!]
   create: [CreateIssueTagInput!]
@@ -274,6 +284,7 @@ input CreatePoliticianInput {
   legiscanPeopleId: Int
   middleName: String
   nickname: String
+  officeId: UUID
   officeParty: PoliticalParty
   organizationEndorsements: CreateOrConnectOrganizationInput
   politicianEndorsements: CreateOrConnectPoliticianInput
@@ -281,9 +292,25 @@ input CreatePoliticianInput {
   slug: String!
   thumbnailImageUrl: String
   twitterUrl: String
+  upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   websiteUrl: String
+}
+
+input CreateRaceInput {
+  ballotpediaLink: String
+  description: String
+  earlyVotingBeginsDate: NaiveDate
+  electionDate: NaiveDate
+  electionId: UUID
+  officeId: UUID!
+  officePosition: String!
+  officialWebsite: String
+  raceType: String!
+  slug: String
+  state: State
+  title: String!
 }
 
 input CreateUserInput {
@@ -324,11 +351,19 @@ type DeleteIssueTagResult {
   id: String!
 }
 
+type DeleteOfficeResult {
+  id: String!
+}
+
 type DeleteOrganizationResult {
   id: String!
 }
 
 type DeletePoliticianResult {
+  id: String!
+}
+
+type DeleteRaceResult {
   id: String!
 }
 
@@ -416,16 +451,20 @@ type Mutation {
   createBill(input: CreateBillInput!): BillResult!
   createElection(input: CreateElectionInput!): ElectionResult!
   createIssueTag(input: CreateIssueTagInput!): IssueTagResult!
+  createOffice(input: CreateOfficeInput!): OfficeResult!
   createOrganization(input: CreateOrganizationInput!): OrganizationResult!
   createPolitician(input: CreatePoliticianInput!): PoliticianResult!
+  createRace(input: CreateRaceInput!): RaceResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteArgument(id: String!): DeleteArgumentResult!
   deleteBallotMeasure(id: String!): DeleteBallotMeasureResult!
   deleteBill(id: String!): DeleteBillResult!
   deleteElection(id: String!): DeleteElectionResult!
   deleteIssueTag(id: String!): DeleteIssueTagResult!
+  deleteOffice(id: String!): DeleteOfficeResult!
   deleteOrganization(id: String!): DeleteOrganizationResult!
   deletePolitician(id: String!): DeletePoliticianResult!
+  deleteRace(id: String!): DeleteRaceResult!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   login(input: LoginInput!): LoginResult!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
@@ -433,8 +472,10 @@ type Mutation {
   updateBill(id: String, input: UpdateBillInput!, legiscanBillId: Int): BillResult!
   updateElection(id: String!, input: UpdateElectionInput!): ElectionResult!
   updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
+  updateOffice(id: String!, input: UpdateOfficeInput!): OfficeResult!
   updateOrganization(id: String!, input: UpdateOrganizationInput!): OrganizationResult!
   updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
+  updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
   uploadPoliticianThumbnail(file: Upload!): Int!
   upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
 }
@@ -465,6 +506,24 @@ type Office {
   termStart: String!
   title: String!
   typeField: String!
+}
+
+type OfficeResult {
+  createdAt: DateTime!
+  district: String
+  encumbent: PoliticianResult!
+  id: ID!
+  officeType: String
+  politicalScope: PoliticalScope!
+  slug: String!
+  state: State
+  title: String!
+  updatedAt: DateTime!
+}
+
+input OfficeSearch {
+  query: String
+  state: State
 }
 
 type OrganizationResult {
@@ -525,9 +584,16 @@ enum PoliticalParty {
   UNKNOWN
 }
 
+enum PoliticalScope {
+  FEDERAL
+  LOCAL
+  STATE
+}
+
 type PoliticianResult {
   ballotName: String
   createdAt: DateTime!
+  currentOffice: OfficeResult
   description: String
   endorsements: Endorsements!
   facebookUrl: String
@@ -540,12 +606,15 @@ type PoliticianResult {
   lastName: String!
   middleName: String
   nickname: String
+  officeId: ID
   officeParty: PoliticalParty
   preferredName: String
   slug: String!
-  sponsoredBills: [BillResult!]!
+  sponsoredBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
   thumbnailImageUrl: String
   twitterUrl: String
+  upcomingRace: RaceResult
+  upcomingRaceId: ID
   updatedAt: DateTime!
   votesmartCandidateBio: GetCandidateBioResponse!
   votesmartCandidateId: Int!
@@ -621,6 +690,12 @@ type Query {
     """Search by issue tag name"""
     search: IssueTagSearch!
   ): [IssueTagResult!]!
+  officeById(id: String!): OfficeResult!
+  officeBySlug(slug: String!): OfficeResult!
+  offices(
+    """Search by office title or state"""
+    search: OfficeSearch
+  ): [OfficeResult!]!
   organizationBySlug(slug: String!): OrganizationResult!
   organizations(
     after: String
@@ -642,7 +717,38 @@ type Query {
     """Search by homeState or lastName"""
     search: PoliticianSearch
   ): PoliticianResultConnection!
+  raceById(id: String!): RaceResult!
+  raceBySlug(slug: String!): RaceResult!
+  races(
+    """Search by race title or state"""
+    search: RaceSearch
+  ): [RaceResult!]!
   upcomingElections: [ElectionResult!]!
+}
+
+type RaceResult {
+  ballotpediaLink: String
+  candidates: [PoliticianResult!]!
+  createdAt: DateTime!
+  description: String
+  earlyVotingBeginsDate: NaiveDate
+  electionDate: NaiveDate
+  electionId: ID
+  id: ID!
+  office: OfficeResult!
+  officeId: ID!
+  officePosition: String!
+  officialWebsite: String
+  raceType: String!
+  slug: String!
+  state: State
+  title: String!
+  updatedAt: DateTime!
+}
+
+input RaceSearch {
+  query: String
+  state: State
 }
 
 type Referral {
@@ -862,6 +968,17 @@ input UpdateIssueTagInput {
   slug: String
 }
 
+input UpdateOfficeInput {
+  district: String
+  encumbentId: UUID
+  name: String
+  officeType: String
+  politicalScope: PoliticalScope
+  slug: String
+  state: State
+  title: String
+}
+
 input UpdateOrganizationInput {
   description: String
   email: String
@@ -889,6 +1006,7 @@ input UpdatePoliticianInput {
   legiscanPeopleId: Int
   middleName: String
   nickname: String
+  officeId: UUID
   officeParty: PoliticalParty
   organizationEndorsements: CreateOrConnectOrganizationInput
   politicianEndorsements: CreateOrConnectPoliticianInput
@@ -896,9 +1014,25 @@ input UpdatePoliticianInput {
   slug: String
   thumbnailImageUrl: String
   twitterUrl: String
+  upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   websiteUrl: String
+}
+
+input UpdateRaceInput {
+  ballotpediaLink: String
+  description: String
+  earlyVotingBeginsDate: NaiveDate
+  electionDate: NaiveDate
+  electionId: UUID
+  officeId: UUID
+  officePosition: String
+  officialWebsite: String
+  raceType: String!
+  slug: String
+  state: State
+  title: String
 }
 
 scalar Upload

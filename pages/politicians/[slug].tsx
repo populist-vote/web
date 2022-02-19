@@ -15,6 +15,7 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
 });
 
 import {
+  BillResult,
   OrganizationResult,
   PoliticalParty,
   PoliticianBySlugQuery,
@@ -63,7 +64,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           badgeSize={"3.125rem"}
           badgeFontSize={"2rem"}
           size={"12.5rem"}
-          party={politician?.officeParty as PoliticalParty}
+          party={politician?.officeParty || ("UNKNOWN" as PoliticalParty)}
           src={politician?.votesmartCandidateBio.candidate.photo}
         />
       </section>
@@ -186,18 +187,26 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function SponsoredBillsSection() {
-    return (
-      <section className={styles.center}>
-        <h3>Sponsored Bills</h3>
-        {sponsoredBills && (
-          <Scroller>
-            {sponsoredBills.map((bill) => (
-              <BillCard bill={bill} key={bill.slug} />
-            ))}
-          </Scroller>
-        )}
-      </section>
-    );
+    if (
+      sponsoredBills &&
+      sponsoredBills.edges &&
+      sponsoredBills.edges.length > 1
+    )
+      return (
+        <section className={styles.center}>
+          <h3>Sponsored Bills</h3>
+          {sponsoredBills.edges && (
+            <Scroller>
+              {sponsoredBills?.edges?.map((edge) => (
+                <BillCard
+                  bill={edge?.node as Partial<BillResult>}
+                  key={edge?.node.slug}
+                />
+              ))}
+            </Scroller>
+          )}
+        </section>
+      );
   }
 
   function OrganizationEndorsement({
@@ -253,7 +262,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function EndorsementsSection() {
-    if (!endorsements?.organizations && !endorsements?.politicians) return null;
+    if (
+      [...endorsements?.organizations, ...endorsements?.politicians].length < 1
+    )
+      return null;
     return (
       <section className={styles.center}>
         <h3 className={styles.gradientHeader}>Endorsements</h3>

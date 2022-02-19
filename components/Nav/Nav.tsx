@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaChevronLeft } from "react-icons/fa"
+import { FaChevronLeft } from "react-icons/fa";
 import { useState } from "react";
 
 import { useScrollPosition } from "hooks/useScrollPosition";
@@ -14,11 +14,11 @@ import PopulistLogo from "public/images/PopulistLogo.svg";
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
   showBackButton,
-  showLogoOnMobile
+  showLogoOnMobile,
 }: {
-  mobileNavTitle?: string,
-  showBackButton: boolean,
-  showLogoOnMobile: boolean
+  mobileNavTitle?: string;
+  showBackButton: boolean;
+  showLogoOnMobile: boolean;
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
 
@@ -48,7 +48,11 @@ export default function Nav({
   return (
     <nav className={`${styles.nav} ${sticky ? styles.sticky : ""}`}>
       <div className={styles.navContent}>
-        <div className={`${styles.logoContainer} ${!showLogoOnMobile ? styles.hideLogo : ""}`}>
+        <div
+          className={`${styles.logoContainer} ${
+            !showLogoOnMobile ? styles.hideLogo : ""
+          }`}
+        >
           <Image
             src={PopulistLogo}
             alt="Populist"
@@ -60,7 +64,10 @@ export default function Nav({
         {showBackButton && (
           <Link href={`/politicians`} passHref>
             <a aria-label="Go back">
-              <FaChevronLeft className={styles.backButton} color="var(--white)" />
+              <FaChevronLeft
+                className={styles.backButton}
+                color="var(--white)"
+              />
             </a>
           </Link>
         )}

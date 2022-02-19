@@ -37,7 +37,7 @@ interface BadgeWrapperProps {
   fontSize: string;
 }
 
-const BadgeWrapper = styled.div<BadgeWrapperProps>(
+const BadgeWrapper = styled.span<BadgeWrapperProps>(
   ({ theme: { color, font }, background, size, fontSize }) => {
     return css`
       position: absolute;
@@ -93,7 +93,7 @@ function Avatar(props: AvatarProps): JSX.Element {
   return (
     <Wrapper>
       <AvatarWrapper>
-        <ReactAvatar {...avatarProps} />
+        <ReactAvatar {...avatarProps} color="mint" />
         {badge && <Badge {...badge} />}
       </AvatarWrapper>
     </Wrapper>
@@ -117,21 +117,17 @@ function PartyAvatar({
   return <Avatar badge={badge} {...rest} />;
 }
 
-function getPartyColor(
-  party: PoliticalParty = PoliticalParty.Unknown
-): string {
+function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
   switch (party) {
     case PoliticalParty.Democratic:
       return "var(--blue)";
     case PoliticalParty.Republican:
       return "var(--red)";
+    case PoliticalParty.Green:
+      return "var(--green)";
     default:
-      return "purple";
+      return "magenta";
   }
 }
 
-export {
-  Avatar,
-  getPartyColor,
-  PartyAvatar
-}
+export { Avatar, getPartyColor, PartyAvatar };
