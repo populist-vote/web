@@ -17,3 +17,6 @@ generates:
       exposeFetcher: true
       fetcher:
         endpoint: ${GRAPHQL_SCHEMA_PATH}
+        fetchParams:
+          headers:
+            { "Content-Type": "application/json", "Accept-Encoding": "gzip" }

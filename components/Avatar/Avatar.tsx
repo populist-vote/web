@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import ReactAvatar, { ReactAvatarProps } from "react-avatar";
+import { BiUserCircle } from "react-icons/bi";
 import styled, { css } from "styled-components";
 import { PoliticalParty } from "../../generated";
 
@@ -83,6 +84,8 @@ const Wrapper = styled.div`
 function Avatar(props: AvatarProps): JSX.Element {
   const { badge, name = "", round = true, ...rest } = props;
 
+  if (!props.src) return <BiUserCircle size={props.size} color="var(--blue)" />;
+
   const avatarProps = {
     ...rest,
     round, // default to round Avatars
@@ -93,7 +96,7 @@ function Avatar(props: AvatarProps): JSX.Element {
   return (
     <Wrapper>
       <AvatarWrapper>
-        <ReactAvatar {...avatarProps} color="mint" />
+        <ReactAvatar {...avatarProps} />
         {badge && <Badge {...badge} />}
       </AvatarWrapper>
     </Wrapper>

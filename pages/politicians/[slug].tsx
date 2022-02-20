@@ -57,6 +57,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   const endorsements = politician?.endorsements;
 
+  const upcomingElection = politician?.upcomingRace;
+
   function HeaderSection() {
     return (
       <section className={styles.center}>
@@ -110,21 +112,47 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function ElectionInfoSection() {
+    if (!upcomingElection) return null;
     return (
       <section className={styles.center}>
         <h3>Next Election</h3>
         <div className={styles.roundedCard}>
-          <h2>Primary</h2>
-          <h1>Jun 28, 2022</h1>
+          <h2>{upcomingElection?.raceType}</h2>
+          <h1>
+            {new Date(upcomingElection?.electionDate)
+              .toDateString()
+              .split(" ")
+              .slice(1)
+              .join(" ")}
+          </h1>
         </div>
         <h3>Running For</h3>
         <div className={styles.roundedCard}>
-          <h2>Colorado</h2>
-          <h1>U.S. Senate</h1>
+          {upcomingElection?.state && <h2>{states[upcomingElection.state]}</h2>}
+          <h1>{upcomingElection?.officePosition}</h1>
         </div>
         <h3>Opponent</h3>
         <div className={styles.roundedCard}>
-          <h2>None</h2>
+          {upcomingElection.candidates
+            .slice(0, 1)
+            .filter((c) => c.id != politician.id)
+            .map((candidate: Partial<PoliticianResult>) => {
+              if (candidate.thumbnailImageUrl)
+                return (
+                  <>
+                    <PartyAvatar
+                      key={candidate.id}
+                      size="60"
+                      party={
+                        candidate.officeParty || ("UNKNOWN" as PoliticalParty)
+                      }
+                      src={candidate.thumbnailImageUrl}
+                      alt={politician.fullName}
+                    />
+                    <h1>{candidate.fullName}</h1>
+                  </>
+                );
+            })}
         </div>
       </section>
     );
@@ -191,7 +219,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       sponsoredBills &&
       sponsoredBills.edges &&
       sponsoredBills.edges.length > 1
-    )
+    ) {
       return (
         <section className={styles.center}>
           <h3>Sponsored Bills</h3>
@@ -207,6 +235,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           )}
         </section>
       );
+    } else {
+      return null;
+    }
   }
 
   function OrganizationEndorsement({
