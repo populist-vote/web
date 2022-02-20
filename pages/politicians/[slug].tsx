@@ -131,29 +131,34 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           {upcomingElection?.state && <h2>{states[upcomingElection.state]}</h2>}
           <h1>{upcomingElection?.officePosition}</h1>
         </div>
-        <h3>Opponent</h3>
-        <div className={styles.roundedCard}>
-          {upcomingElection.candidates
-            .slice(0, 1)
-            .filter((c) => c.id != politician.id)
-            .map((candidate: Partial<PoliticianResult>) => {
-              if (candidate.thumbnailImageUrl)
-                return (
-                  <>
-                    <PartyAvatar
-                      key={candidate.id}
-                      size="60"
-                      party={
-                        candidate.officeParty || ("UNKNOWN" as PoliticalParty)
-                      }
-                      src={candidate.thumbnailImageUrl}
-                      alt={politician.fullName}
-                    />
-                    <h1>{candidate.fullName}</h1>
-                  </>
-                );
-            })}
-        </div>
+        {upcomingElection.candidates.length > 1 && (
+          <>
+            <h3>Opponent</h3>
+            <div className={styles.roundedCard}>
+              {upcomingElection.candidates
+                .slice(0, 1)
+                .filter((c) => c.id != politician.id)
+                .map((candidate: Partial<PoliticianResult>) => {
+                  if (candidate.thumbnailImageUrl)
+                    return (
+                      <>
+                        <PartyAvatar
+                          key={candidate.id}
+                          size="60"
+                          party={
+                            candidate.officeParty ||
+                            ("UNKNOWN" as PoliticalParty)
+                          }
+                          src={candidate.thumbnailImageUrl}
+                          alt={politician.fullName}
+                        />
+                        <h1>{candidate.fullName}</h1>
+                      </>
+                    );
+                })}
+            </div>
+          </>
+        )}
       </section>
     );
   }
