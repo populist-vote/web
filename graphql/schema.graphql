@@ -180,6 +180,12 @@ type Candidate {
   suffix: String!
 }
 
+enum Chambers {
+  ALL_CHAMBERS
+  HOUSE
+  SENATE
+}
+
 input CreateArgumentInput {
   authorId: String!
   body: String
@@ -590,6 +596,11 @@ enum PoliticalScope {
   STATE
 }
 
+input PoliticianFilter {
+  chambers: Chambers
+  politicalScope: PoliticalScope
+}
+
 type PoliticianResult {
   ballotName: String
   createdAt: DateTime!
@@ -711,6 +722,9 @@ type Query {
   politicians(
     after: String
     before: String
+
+    """Filter by politicalScope or chambers"""
+    filter: PoliticianFilter
     first: Int
     last: Int
 

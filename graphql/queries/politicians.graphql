@@ -2,8 +2,14 @@ query PoliticianIndex(
   $pageSize: Int
   $cursor: String
   $search: PoliticianSearch
+  $filter: PoliticianFilter
 ) {
-  politicians(first: $pageSize, after: $cursor, search: $search) {
+  politicians(
+    first: $pageSize
+    after: $cursor
+    search: $search
+    filter: $filter
+  ) {
     edges {
       node {
         id

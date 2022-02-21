@@ -3,13 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaChevronLeft } from "react-icons/fa";
 import { useState } from "react";
-
 import { useScrollPosition } from "hooks/useScrollPosition";
-import useDeviceInfo from "hooks/useDeviceInfo";
-
 import styles from "./Nav.module.scss";
-
 import PopulistLogo from "public/images/PopulistLogo.svg";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
@@ -23,7 +20,7 @@ export default function Nav({
   const [sticky, setSticky] = useState<boolean>(true);
 
   const { pathname } = useRouter();
-  const { isMobile } = useDeviceInfo();
+  const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   useScrollPosition(
     ({
@@ -33,7 +30,7 @@ export default function Nav({
       prevPos: { y: number };
       currPos: { y: number };
     }) => {
-      if (!isMobile) return;
+      if (!isSmallScreen) return;
       // hack because safari thinks its cool to have a bouncy effect and allow scroll position to exceed 0
       let prevPosY = prevPos.y;
       if (prevPosY > 0) {

@@ -137,13 +137,12 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <div className={styles.roundedCard}>
               {upcomingElection.candidates
                 .slice(0, 1)
-                .filter((c) => c.id != politician.id)
+                .filter((candidate) => candidate.id != politician.id)
                 .map((candidate: Partial<PoliticianResult>) => {
                   if (candidate.thumbnailImageUrl)
                     return (
-                      <>
+                      <div key={candidate.id}>
                         <PartyAvatar
-                          key={candidate.id}
                           size="60"
                           party={
                             candidate.officeParty ||
@@ -153,7 +152,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                           alt={politician.fullName}
                         />
                         <h1>{candidate.fullName}</h1>
-                      </>
+                      </div>
                     );
                 })}
             </div>
