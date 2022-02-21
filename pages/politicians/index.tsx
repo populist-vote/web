@@ -6,7 +6,7 @@ import type {
   NextPage,
 } from "next";
 import { ReactElement, useEffect, useRef, useState } from "react";
-// import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
+import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FaSearch } from "react-icons/fa";
@@ -31,8 +31,13 @@ const PAGE_SIZE = 20;
 const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const { isMobile } = useDeviceInfo();
 
-  const officeTitle = politician.votesmartCandidateBio.office?.title;
-  const officeType = politician.votesmartCandidateBio.office?.typeField;
+  const officeTitle =
+    politician?.currentOffice?.title ||
+    politician.votesmartCandidateBio.office?.title;
+  const officeType =
+    politician.currentOffice?.officeType ||
+    politician.votesmartCandidateBio.office?.typeField;
+
   const computeOfficeTitle = () => {
     switch (true) {
       case officeType === "State Legislative" && officeTitle === "Senator":
@@ -40,12 +45,14 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
       case officeType === "State Legislative" &&
         officeTitle === "Representative":
         return `${politician.homeState} House`;
+      case officeType === "Local Executive":
+        return `${politician.currentOffice?.municipality ?? ""} ${officeTitle}`;
       case officeTitle === "Senator":
         return "U.S. Congress";
       case officeTitle === "Representative":
         return "U.S. House";
       default:
-        return `${politician.homeState} ${officeTitle}`;
+        return officeTitle;
     }
   };
 
@@ -53,7 +60,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const district = politician.votesmartCandidateBio.office?.district;
 
   const districtDisplay =
-    !district || isNaN(+district) ? district : `DISTRICT ${district}`;
+    !district || isNaN(+district) ? null : `DISTRICT ${district}`;
 
   return (
     <Link href={`/politicians/${politician.slug}`} passHref>
@@ -265,22 +272,3 @@ PoliticianIndex.getLayout = function getLayout(page: ReactElement) {
 };
 
 export default PoliticianIndex;
-
-export const getServerSideProps: GetServerSideProps = async (
-  ctx: GetServerSidePropsContext
-) => {
-  // const queryClient = new QueryClient();
-
-  // await queryClient.prefetchInfiniteQuery(
-  //   useInfinitePoliticianIndexQuery.getKey(),
-  //   usePoliticianIndexQuery.fetcher({ pageSize: PAGE_SIZE })
-  // );
-
-  // let state = dehydrate(queryClient);
-
-  return {
-    props: {
-      // dehydratedState: state,
-    },
-  };
-};

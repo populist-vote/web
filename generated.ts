@@ -7,7 +7,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("http://localhost:1234", {
+    const res = await fetch("https://api.staging.populist.us/", {
     method: "POST",
     ...({"headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
@@ -311,6 +311,7 @@ export type CreateIssueTagInput = {
 export type CreateOfficeInput = {
   district?: InputMaybe<Scalars['String']>;
   encumbentId: Scalars['UUID'];
+  municipality?: InputMaybe<Scalars['String']>;
   officeType?: InputMaybe<Scalars['String']>;
   politicalScope: PoliticalScope;
   slug?: InputMaybe<Scalars['String']>;
@@ -756,6 +757,7 @@ export type OfficeResult = {
   district?: Maybe<Scalars['String']>;
   encumbent: PoliticianResult;
   id: Scalars['ID'];
+  municipality?: Maybe<Scalars['String']>;
   officeType?: Maybe<Scalars['String']>;
   politicalScope: PoliticalScope;
   slug: Scalars['String'];
@@ -1278,6 +1280,7 @@ export type UpdateIssueTagInput = {
 export type UpdateOfficeInput = {
   district?: InputMaybe<Scalars['String']>;
   encumbentId?: InputMaybe<Scalars['UUID']>;
+  municipality?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   officeType?: InputMaybe<Scalars['String']>;
   politicalScope?: InputMaybe<PoliticalScope>;
@@ -1376,7 +1379,7 @@ export type PoliticianIndexQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null | undefined } } };
+export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null | undefined } } };
 
 export type PoliticianBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1440,6 +1443,15 @@ export const PoliticianIndexDocument = /*#__PURE__*/ `
         fullName
         homeState
         officeParty
+        currentOffice {
+          id
+          slug
+          title
+          municipality
+          district
+          state
+          officeType
+        }
         votesmartCandidateBio {
           office {
             title

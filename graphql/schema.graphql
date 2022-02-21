@@ -241,6 +241,7 @@ input CreateIssueTagInput {
 input CreateOfficeInput {
   district: String
   encumbentId: UUID!
+  municipality: String
   officeType: String
   politicalScope: PoliticalScope!
   slug: String
@@ -519,6 +520,7 @@ type OfficeResult {
   district: String
   encumbent: PoliticianResult!
   id: ID!
+  municipality: String
   officeType: String
   politicalScope: PoliticalScope!
   slug: String!
@@ -985,6 +987,7 @@ input UpdateIssueTagInput {
 input UpdateOfficeInput {
   district: String
   encumbentId: UUID
+  municipality: String
   name: String
   officeType: String
   politicalScope: PoliticalScope
