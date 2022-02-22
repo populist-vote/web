@@ -1,6 +1,7 @@
-# Populist Web Application
-
+# Populist Web App
 ## Getting Started
+
+To get started, you'll
 
 First, run the development server:
 
