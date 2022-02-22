@@ -4,7 +4,6 @@
   "scripts": {
     "dev": "next dev -p 3030",
     "generate": "dotenv -c local -- graphql-codegen",
-    "generate-prod": "dotenv -c production -- graphql-codegen",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
