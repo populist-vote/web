@@ -9,7 +9,7 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FaSearch } from "react-icons/fa";
+import { FaChevronDown, FaSearch } from "react-icons/fa";
 import Link from "next/link";
 
 import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
@@ -112,9 +112,7 @@ const PoliticianIndex: NextPageWithLayout = () => {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    status,
   } = useInfinitePoliticianIndexQuery(
     "cursor",
     {
@@ -128,6 +126,7 @@ const PoliticianIndex: NextPageWithLayout = () => {
       },
     },
     {
+      queryKey: `politicianIndex-${debouncedSearchQuery}-${politicalScope}-${chamberFilter}`,
       getNextPageParam: (lastPage) => {
         if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
         return {
@@ -211,18 +210,20 @@ const PoliticianIndex: NextPageWithLayout = () => {
                 State
               </label>
               <select
-                name="chamber"
+                className={styles.pillSelect}
+                name="chambers"
                 onChange={(e) => setChamberFilter(e.target.value as Chambers)}
               >
                 <option value={Chambers.AllChambers}>All Chambers</option>
                 <option value={Chambers.House}>House</option>
                 <option value={Chambers.Senate}>Senate</option>
               </select>
+              <FaChevronDown className={styles.chevron} />
             </form>
           </div>
         </header>
         <div>
-          {(isLoading || isFetching) && (
+          {isLoading && (
             <div className={styles.center}>
               {" "}
               <LoaderFlag />

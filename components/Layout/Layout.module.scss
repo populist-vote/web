@@ -40,14 +40,15 @@
   }
 
   .radioLabel {
-    appearance: button;
     background: $background-secondary;
     color: $white;
     border-radius: 25px;
     border: 1px solid $blue;
     padding: 0.5rem 1rem;
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
 
     &:hover {
@@ -81,13 +82,27 @@
     width: 100%;
   }
 
-  select {
+  .pillSelect {
     background: transparent;
     color: $white;
     border-radius: 25px;
     border: 1px solid $blue;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem;
     cursor: pointer;
+    font-size: $text-sm;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+  }
+
+  select + svg.chevron {
+    color: $blue;
+    height: 1rem;
+    width: 3rem;
+    margin: 0;
+    margin-left: -2rem;
+    pointer-events: none;
+    align-self: center;
   }
 
   hr {
