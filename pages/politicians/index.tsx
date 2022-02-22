@@ -60,7 +60,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const district = politician.votesmartCandidateBio.office?.district;
 
   const districtDisplay =
-    !district || isNaN(+district) ? null : `DISTRICT ${district}`;
+    !district || isNaN(+district) ? district : `DISTRICT ${district}`;
 
   return (
     <Link href={`/politicians/${politician.slug}`} passHref>
