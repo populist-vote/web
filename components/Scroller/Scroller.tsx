@@ -28,10 +28,13 @@ type ScrollerItem = ReactElement<{
   itemId: string; // Required. id for every item, should be unique
 }>;
 
-function Scroller(props: { children: ScrollerItem | ScrollerItem[] }) {
+function Scroller(props: {
+  children: ScrollerItem | ScrollerItem[];
+  onePageAtATime?: boolean;
+}) {
   return (
     <div className={styles.horizontalScrollContainer}>
-      <ScrollMenu>{props.children}</ScrollMenu>
+      <ScrollMenu itemClassName={props.onePageAtATime ? styles.scrollPage : ""}>{props.children}</ScrollMenu>
     </div>
   );
 }
