@@ -110,8 +110,18 @@ query PoliticianBySlug($slug: String!) {
         id
         slug
         fullName
+        homeState
         officeParty
         thumbnailImageUrl
+        currentOffice {
+          id
+          slug
+          title
+          municipality
+          district
+          state
+          officeType
+        }
         votesmartCandidateBio {
           office {
             name

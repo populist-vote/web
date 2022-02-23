@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useMemo } from "react"
 import { dehydrate, QueryClient } from "react-query";
 
 import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
@@ -26,6 +27,8 @@ import {
 import styles from "styles/politicianPage.module.scss";
 
 import states from "util/states";
+
+import { computeShortOfficeTitle } from "util/politician";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -205,7 +208,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <section className={styles.center}>
         <h3>Committees</h3>
-        <Scroller>
+        <Scroller onePageAtATime>
           {tagPages.map((tagPage, index) => (
             <CommitteeTagPage
               tags={tagPage}
@@ -279,6 +282,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }: {
     politician: Partial<PoliticianResult>;
   }) {
+    const officeTitle = useMemo(() => computeShortOfficeTitle(politician), [politician])
     return (
       <Link
         href={`/politicians/${politician.slug}`}
@@ -289,8 +293,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <PartyAvatar
             party={(politician.officeParty as PoliticalParty) || "DEMOCRATIC"}
             src={politician?.votesmartCandidateBio?.candidate.photo as string}
+            size={"5rem"}
           />
           <h4>{politician.fullName}</h4>
+          {officeTitle && <span className={styles.politicianEndorsementOffice}>{officeTitle}</span>}
         </div>
       </Link>
     );

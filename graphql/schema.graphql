@@ -302,6 +302,7 @@ input CreatePoliticianInput {
   upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
+  votesmartCandidateRatings: JSON
   websiteUrl: String
 }
 
@@ -1034,6 +1035,7 @@ input UpdatePoliticianInput {
   upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
+  votesmartCandidateRatings: JSON
   websiteUrl: String
 }
 

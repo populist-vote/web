@@ -25,38 +25,13 @@ import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
 import { NextPageWithLayout } from "../_app";
+import { computeOfficeTitle } from "util/politician"
 
 const PAGE_SIZE = 20;
 
 const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const { isMobile } = useDeviceInfo();
-
-  const officeTitle =
-    politician?.currentOffice?.title ||
-    politician.votesmartCandidateBio.office?.title;
-  const officeType =
-    politician.currentOffice?.officeType ||
-    politician.votesmartCandidateBio.office?.typeField;
-
-  const computeOfficeTitle = () => {
-    switch (true) {
-      case officeType === "State Legislative" && officeTitle === "Senator":
-        return `${politician.homeState} Senate`;
-      case officeType === "State Legislative" &&
-        officeTitle === "Representative":
-        return `${politician.homeState} House`;
-      case officeType === "Local Executive":
-        return `${politician.currentOffice?.municipality ?? ""} ${officeTitle}`;
-      case officeTitle === "Senator":
-        return "U.S. Congress";
-      case officeTitle === "Representative":
-        return "U.S. House";
-      default:
-        return officeTitle;
-    }
-  };
-
-  const officeTitleDisplay = computeOfficeTitle();
+  const officeTitleDisplay = computeOfficeTitle(politician);
   const district = politician.votesmartCandidateBio.office?.district;
 
   const districtDisplay =
