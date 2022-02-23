@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useMemo } from "react"
 import { dehydrate, QueryClient } from "react-query";
 
 import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
@@ -281,7 +282,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }: {
     politician: Partial<PoliticianResult>;
   }) {
-    const officeTitle = computeShortOfficeTitle(politician)
+    const officeTitle = useMemo(() => computeShortOfficeTitle(politician), [politician])
     return (
       <Link
         href={`/politicians/${politician.slug}`}

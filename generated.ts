@@ -372,6 +372,7 @@ export type CreatePoliticianInput = {
   upcomingRaceId?: InputMaybe<Scalars['UUID']>;
   votesmartCandidateBio?: InputMaybe<Scalars['JSON']>;
   votesmartCandidateId?: InputMaybe<Scalars['Int']>;
+  votesmartCandidateRatings?: InputMaybe<Scalars['JSON']>;
   websiteUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -1327,6 +1328,7 @@ export type UpdatePoliticianInput = {
   upcomingRaceId?: InputMaybe<Scalars['UUID']>;
   votesmartCandidateBio?: InputMaybe<Scalars['JSON']>;
   votesmartCandidateId?: InputMaybe<Scalars['Int']>;
+  votesmartCandidateRatings?: InputMaybe<Scalars['JSON']>;
   websiteUrl?: InputMaybe<Scalars['String']>;
 };
 
