@@ -1,12 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import type {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetStaticPropsContext,
-  NextPage,
-} from "next";
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { dehydrate, GetNextPageParamFunction, QueryClient } from "react-query";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FaChevronDown, FaSearch } from "react-icons/fa";
@@ -39,7 +32,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
 
   return (
     <Link href={`/politicians/${politician.slug}`} passHref>
-      <li className={styles.rowItem}>
+      <li className={styles.rowItem}> 
         <PartyAvatar
           size="60"
           party={politician.officeParty || ("UNKNOWN" as PoliticalParty)}

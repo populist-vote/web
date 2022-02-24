@@ -268,6 +268,7 @@ input CreateOrganizationInput {
   description: String
   email: String
   facebookUrl: String
+  headquartersAddressId: UUID
   headquartersPhone: String
   instagramUrl: String
   issueTags: CreateOrConnectIssueTagInput
@@ -276,6 +277,7 @@ input CreateOrganizationInput {
   taxClassification: String
   thumbnailImageUrl: String
   twitterUrl: String
+  votesmartSigId: Int
   websiteUrl: String
 }
 
@@ -623,6 +625,9 @@ type PoliticianResult {
   officeId: ID
   officeParty: PoliticalParty
   preferredName: String
+
+  """Leverages Votesmart data for the time being"""
+  ratings(after: String, before: String, first: Int, last: Int): RatingResultConnection!
   slug: String!
   sponsoredBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
   thumbnailImageUrl: String
@@ -632,6 +637,7 @@ type PoliticianResult {
   updatedAt: DateTime!
   votesmartCandidateBio: GetCandidateBioResponse!
   votesmartCandidateId: Int!
+  votesmartCandidateRatings: [VsRating!]!
   websiteUrl: String
 
   """
@@ -766,6 +772,31 @@ type RaceResult {
 input RaceSearch {
   query: String
   state: State
+}
+
+type RatingResult {
+  organization: OrganizationResult
+  vsRating: VsRating!
+}
+
+type RatingResultConnection {
+  """A list of edges."""
+  edges: [RatingResultEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type RatingResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+
+  """The item at the end of the edge"""
+  node: RatingResult!
 }
 
 type Referral {
@@ -1001,6 +1032,7 @@ input UpdateOrganizationInput {
   description: String
   email: String
   facebookUrl: String
+  headquartersAddressId: UUID
   headquartersPhone: String
   instagramUrl: String
   issueTags: CreateOrConnectIssueTagInput
@@ -1009,6 +1041,7 @@ input UpdateOrganizationInput {
   taxClassification: String
   thumbnailImageUrl: String
   twitterUrl: String
+  votesmartSigId: Int
   websiteUrl: String
 }
 
@@ -1075,4 +1108,14 @@ type Vote {
   total: Int!
   url: String!
   yea: Int!
+}
+
+type VsRating {
+  categories: JSON!
+  rating: JSON!
+  ratingId: JSON
+  ratingName: String!
+  ratingText: String!
+  sigId: JSON!
+  timespan: JSON!
 }

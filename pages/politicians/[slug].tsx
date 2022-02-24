@@ -21,12 +21,15 @@ import {
   PoliticalParty,
   PoliticianBySlugQuery,
   PoliticianResult,
+  RatingResult,
+  RatingResultEdge,
   usePoliticianBySlugQuery,
 } from "../../generated";
 
 import styles from "styles/politicianPage.module.scss";
 
 import states from "util/states";
+import { FaAccessibleIcon, FaAddressCard, FaCircle } from "react-icons/fa";
 
 import { computeShortOfficeTitle } from "util/politician";
 
@@ -37,7 +40,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 }) => {
   const { query } = useRouter();
   const slug = query.slug as string;
-  const { data, isLoading, error } = usePoliticianBySlugQuery({ slug });
+  const { data, isLoading, error } = usePoliticianBySlugQuery(
+    { slug },
+    {
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <p>Error: {error}</p>;
@@ -62,13 +71,15 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   const upcomingElection = politician?.upcomingRace;
 
+  const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
+
   function HeaderSection() {
     return (
       <section className={styles.center}>
         <PartyAvatar
-          badgeSize={"3.125rem"}
-          badgeFontSize={"2rem"}
-          size={"12.5rem"}
+          badgeSize={"2.5rem"}
+          badgeFontSize={"1.5rem"}
+          size={"10rem"}
           party={politician?.officeParty || ("UNKNOWN" as PoliticalParty)}
           src={politician?.votesmartCandidateBio.candidate.photo}
         />
@@ -340,6 +351,58 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function RatingsItem({ rating }: { rating: RatingResult }) {
+    let ratingPercent = parseInt(rating.vsRating.rating);
+
+    return (
+      <div className={styles.ratingContainer} key={rating?.vsRating.ratingId}>
+        <div className={styles.circlesContainer}>
+          {rating.organization?.thumbnailImageUrl ? (
+            <div className={styles.organizationAvatar}>
+              <Image
+                src={rating.organization.thumbnailImageUrl}
+                alt={rating.organization?.name}
+                width={50}
+                height={50}
+              />
+            </div>
+          ) : (
+            <FaCircle size="3rem" />
+          )}
+          <div
+            className={styles.ratingCircle}
+            style={{
+              background: `${
+                ratingPercent > 50 ? "var(--green)" : "var(--red)"
+              }`,
+            }}
+          >
+            <span>{rating.vsRating.rating}</span>
+          </div>
+        </div>
+        <h5>{rating.organization?.name}</h5>
+      </div>
+    );
+  }
+
+  function RatingsSection() {
+    if (ratings.length > 1)
+      return (
+        <section className={styles.center}>
+          <h2>Ratings</h2>
+          <Scroller>
+            {ratings.map((edge: RatingResultEdge) => (
+              <RatingsItem
+                rating={edge.node}
+                key={edge.node.vsRating.ratingId}
+              />
+            ))}
+          </Scroller>
+        </section>
+      );
+    return null;
+  }
+
   function BioSection() {
     return (
       <section className={styles.center}>
@@ -362,6 +425,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <CommitteesSection />
         <SponsoredBillsSection />
         <EndorsementsSection />
+        <RatingsSection />
         {/* <BioSection /> */}
       </div>
     </Layout>
