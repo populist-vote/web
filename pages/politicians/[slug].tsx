@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useMemo } from "react"
+import { useMemo } from "react";
 import { dehydrate, QueryClient } from "react-query";
 
 import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
@@ -129,7 +129,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     if (!upcomingElection) return null;
     return (
       <section className={styles.center}>
-        <h3>Next Election</h3>
+        <h3 className={styles.subHeader}>Next Election</h3>
         <div className={styles.roundedCard}>
           <h2>{upcomingElection?.raceType}</h2>
           <h1>
@@ -218,7 +218,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
     return (
       <section className={styles.center}>
-        <h3>Committees</h3>
+        <h3 className={styles.subHeader}>Committees</h3>
         <Scroller onePageAtATime>
           {tagPages.map((tagPage, index) => (
             <CommitteeTagPage
@@ -240,7 +240,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     ) {
       return (
         <section className={styles.center}>
-          <h3>Sponsored Bills</h3>
+          <h3 className={styles.subHeader}>Sponsored Bills</h3>
           {sponsoredBills.edges && (
             <Scroller>
               {sponsoredBills?.edges?.map((edge) => (
@@ -293,7 +293,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }: {
     politician: Partial<PoliticianResult>;
   }) {
-    const officeTitle = useMemo(() => computeShortOfficeTitle(politician), [politician])
+    const officeTitle = useMemo(
+      () => computeShortOfficeTitle(politician),
+      [politician]
+    );
     return (
       <Link
         href={`/politicians/${politician.slug}`}
@@ -307,7 +310,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             size={"5rem"}
           />
           <h4>{politician.fullName}</h4>
-          {officeTitle && <span className={styles.politicianEndorsementOffice}>{officeTitle}</span>}
+          {officeTitle && (
+            <span className={styles.politicianEndorsementOffice}>
+              {officeTitle}
+            </span>
+          )}
         </div>
       </Link>
     );
@@ -323,7 +330,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         {endorsements.organizations.length > 0 && (
           <>
-            <h3>Organizations</h3>
+            <h3 className={styles.subHeader}>Organizations</h3>
             <Scroller>
               {endorsements.organizations.map((organization) => (
                 <OrganizationEndorsement
@@ -336,7 +343,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         )}
         {endorsements.politicians.length > 0 && (
           <>
-            <h3>Individuals</h3>
+            <h3 className={styles.subHeader}>Individuals</h3>
             <Scroller>
               {endorsements.politicians.map((politician) => (
                 <PoliticianEndorsement
@@ -389,7 +396,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     if (ratings.length > 1)
       return (
         <section className={styles.center}>
-          <h2>Ratings</h2>
+          <h3 className={styles.gradientHeader}>Ratings</h3>
           <Scroller>
             {ratings.map((edge: RatingResultEdge) => (
               <RatingsItem

@@ -33,12 +33,12 @@
     margin: 0;
   }
 
-  h3 {
+  h3.subHeader {
     font-size: $text-sm;
     font-weight: 400;
-    text-transform: uppercase;
     color: $white;
     margin: 0;
+    text-transform: uppercase;
   }
 
   section {
@@ -59,8 +59,16 @@
   width: 100%;
   margin: -2rem 0 1rem !important;
   padding: 1rem;
+  font-size: 20px;
   background: linear-gradient(180deg, #003c55 0%, #002e45 100%);
   text-align: center;
+  text-transform: none;
+  font-family: $font-primary;
+
+  h3 {
+    font-size: $text-md !important;
+    font-weight: 600;
+  }
 }
 
 .flexBetween {
