@@ -1,4 +1,15 @@
-.wrapper {
-  border-radius: 50px;
+.imageContainer {
+  border-radius: 250px;
   overflow: hidden;
+}
+
+.container {
+  position: relative;
+  padding: 0;
+  margin: auto;
+  display: inline-flex;
+
+  img {
+    object-fit: cover;
+  }
 }

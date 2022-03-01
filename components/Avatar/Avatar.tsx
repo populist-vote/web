@@ -1,8 +1,9 @@
+import { ImageWithFallback } from "components";
 import React, { useMemo } from "react";
-import ReactAvatar, { ReactAvatarProps } from "react-avatar";
-import { BiUserCircle } from "react-icons/bi";
-import styled, { css } from "styled-components";
+import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
 import { PoliticalParty } from "../../generated";
+import styles from "./Avatar.module.scss";
+import styled, { css } from "styled-components";
 
 interface BadgeProps {
   background?: string;
@@ -11,26 +12,21 @@ interface BadgeProps {
   fontSize: string;
 }
 
-export interface AvatarProps extends ReactAvatarProps {
+export interface AvatarProps {
+  src: string;
+  alt: string;
+  size: number;
   badge?: BadgeProps;
+  name?: string;
+  round?: boolean;
+  onClick?: () => void;
 }
 
-export interface PartyAvatarProps extends ReactAvatarProps {
+export interface PartyAvatarProps extends AvatarProps {
   party: PoliticalParty;
   badgeSize?: string;
   badgeFontSize?: string;
 }
-
-const AvatarWrapper = styled.div`
-  position: relative;
-  padding: 0;
-  margin: auto;
-  display: inline-flex;
-
-  img {
-    object-fit: cover;
-  }
-`;
 
 interface BadgeWrapperProps {
   background: BadgeProps["background"];
@@ -84,21 +80,18 @@ const Wrapper = styled.div`
 function Avatar(props: AvatarProps): JSX.Element {
   const { badge, name = "", round = true, ...rest } = props;
 
-  if (!props.src) return <BiUserCircle size={props.size} color="var(--blue)" />;
-
-  const avatarProps = {
-    ...rest,
-    round, // default to round Avatars
-    name,
-    ...{ style: rest.onClick && { cursor: "pointer" } },
-  };
-
   return (
     <Wrapper>
-      <AvatarWrapper>
-        <ReactAvatar {...avatarProps} />
+      <div className={styles.container}>
+        <ImageWithFallback
+          src={props.src || PERSON_FALLBACK_IMAGE_URL}
+          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+          width={props.size}
+          height={props.size}
+          className={styles.imageContainer}
+        />
         {badge && <Badge {...badge} />}
-      </AvatarWrapper>
+      </div>
     </Wrapper>
   );
 }

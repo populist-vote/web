@@ -607,6 +607,7 @@ input PoliticianFilter {
 }
 
 type PoliticianResult {
+  age: Int
   ballotName: String
   createdAt: DateTime!
   currentOffice: OfficeResult
@@ -626,7 +627,7 @@ type PoliticianResult {
   officeParty: PoliticalParty
   preferredName: String
 
-  """Leverages Votesmart data for the time being"""
+  """Leverages Votesmart ratings data for the time being"""
   ratings(after: String, before: String, first: Int, last: Int): RatingResultConnection!
   slug: String!
   sponsoredBills(after: String, before: String, first: Int, last: Int): BillResultConnection!

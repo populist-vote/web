@@ -843,6 +843,7 @@ export type PoliticianFilter = {
 
 export type PoliticianResult = {
   __typename?: 'PoliticianResult';
+  age?: Maybe<Scalars['Int']>;
   ballotName?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   currentOffice?: Maybe<OfficeResult>;
@@ -861,7 +862,7 @@ export type PoliticianResult = {
   officeId?: Maybe<Scalars['ID']>;
   officeParty?: Maybe<PoliticalParty>;
   preferredName?: Maybe<Scalars['String']>;
-  /** Leverages Votesmart data for the time being */
+  /** Leverages Votesmart ratings data for the time being */
   ratings: RatingResultConnection;
   slug: Scalars['String'];
   sponsoredBills: BillResultConnection;
@@ -1432,7 +1433,7 @@ export type PoliticianIndexQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null | undefined } } };
+export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null | undefined } } };
 
 export type PoliticianBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1496,6 +1497,7 @@ export const PoliticianIndexDocument = /*#__PURE__*/ `
         fullName
         homeState
         officeParty
+        thumbnailImageUrl
         currentOffice {
           id
           slug

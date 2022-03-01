@@ -79,9 +79,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <PartyAvatar
           badgeSize={"2.5rem"}
           badgeFontSize={"1.5rem"}
-          size={"10rem"}
+          size={160}
           party={politician?.officeParty || ("UNKNOWN" as PoliticalParty)}
-          src={politician?.votesmartCandidateBio.candidate.photo}
+          src={
+            (politician?.thumbnailImageUrl ||
+              politician?.votesmartCandidateBio.candidate.photo) as string
+          }
+          alt={politician?.fullName as string}
         />
       </section>
     );

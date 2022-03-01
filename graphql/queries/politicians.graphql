@@ -17,6 +17,7 @@ query PoliticianIndex(
         fullName
         homeState
         officeParty
+        thumbnailImageUrl
         currentOffice {
           id
           slug

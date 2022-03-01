@@ -10,6 +10,8 @@ const ImageWithFallback = (props: {
   const { src, fallbackSrc, ...rest } = props;
   const [imgSrc, setImgSrc] = useState(src);
 
+  console.log(imgSrc);
+
   return (
     <Image
       {...rest}

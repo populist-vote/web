@@ -18,7 +18,7 @@ import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
 import { NextPageWithLayout } from "../_app";
-import { computeOfficeTitle } from "util/politician"
+import { computeOfficeTitle } from "util/politician";
 
 const PAGE_SIZE = 20;
 
@@ -32,11 +32,14 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
 
   return (
     <Link href={`/politicians/${politician.slug}`} passHref>
-      <li className={styles.rowItem}> 
+      <li className={styles.rowItem}>
         <PartyAvatar
           size="60"
           party={politician.officeParty || ("UNKNOWN" as PoliticalParty)}
-          src={politician.votesmartCandidateBio.candidate.photo}
+          src={
+            politician.thumbnailImageUrl ||
+            politician.votesmartCandidateBio.candidate.photo
+          }
           alt={politician.fullName}
         />
         <div className={styles.politicianInfo}>

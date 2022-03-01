@@ -1,3 +1,4 @@
+@import "styles/mixins.scss";
 @import "styles/variables/fonts.module.scss";
 @import "styles/variables/colors.module.scss";
 
@@ -11,6 +12,11 @@
   padding: 10px;
   width: calc(100vw - 2rem);
   margin: 0 1rem;
+
+  @include for-tablet-landscape-up {
+    max-width: calc(100vw / 3 - 7rem);
+    margin: 0 1rem;
+  }
 
   .cardContent {
     padding: 1rem;
