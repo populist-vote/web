@@ -39,3 +39,12 @@ $desktop-max: 1440px;
     @content;
   }
 }
+
+@mixin clamp-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

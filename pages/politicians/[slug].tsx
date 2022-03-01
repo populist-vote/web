@@ -58,8 +58,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const politician = data?.politicianBySlug;
   if (!politician) return <p>No politician found</p>;
 
-  const sponsoredBills = politician?.sponsoredBills;
-
   const getYear = (date: string) => {
     return new Date(date).getFullYear();
   };
@@ -70,12 +68,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const termEnd = getYear(
     politician?.votesmartCandidateBio.office?.termEnd as string
   );
+  const sponsoredBills = politician?.sponsoredBills;
   const yearsInPublicOffice = politician?.yearsInPublicOffice;
-
+  const age = politician?.age;
   const endorsements = politician?.endorsements;
-
   const upcomingElection = politician?.upcomingRace;
-
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
 
   function HeaderSection() {
@@ -129,6 +126,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>Years in Public Office</span>
             <span className={styles.dots} />
             <span>{yearsInPublicOffice}</span>
+          </p>
+        )}
+        {!!age && (
+          <p className={styles.flexBetween}>
+            <span>Age</span>
+            <span className={styles.dots} />
+            <span>{age}</span>
           </p>
         )}
       </section>
@@ -372,18 +376,12 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <div className={styles.ratingContainer} key={rating?.vsRating.ratingId}>
         <div className={styles.circlesContainer}>
-          {rating.organization?.thumbnailImageUrl ? (
-            <div className={styles.organizationAvatar}>
-              <Image
-                src={rating.organization.thumbnailImageUrl}
-                alt={rating.organization?.name}
-                width={50}
-                height={50}
-              />
-            </div>
-          ) : (
-            <FaCircle size="3rem" />
-          )}
+          <OrganizationAvatar
+            src={rating?.organization?.thumbnailImageUrl as string}
+            fallbackSrc={ORAGANIZATION_FALLBACK_IMAGE_URL}
+            alt={rating?.organization?.name as string}
+            size={50}
+          />
           <div
             className={styles.ratingCircle}
             style={{
@@ -406,10 +404,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <section className={styles.center}>
           <h3 className={styles.gradientHeader}>Ratings</h3>
           <Scroller>
-            {ratings.map((edge: RatingResultEdge) => (
+            {ratings.map((edge: RatingResultEdge, i) => (
               <RatingsItem
                 rating={edge.node}
-                key={edge.node.vsRating.ratingId}
+                key={`${edge.node.vsRating.ratingId}-${i}`}
               />
             ))}
           </Scroller>
