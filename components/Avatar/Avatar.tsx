@@ -1,6 +1,9 @@
 import { ImageWithFallback } from "components";
 import React, { useMemo } from "react";
-import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
+import {
+  ORAGANIZATION_FALLBACK_IMAGE_URL,
+  PERSON_FALLBACK_IMAGE_URL,
+} from "util/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
 import styled, { css } from "styled-components";
@@ -14,6 +17,7 @@ interface BadgeProps {
 
 export interface AvatarProps {
   src: string;
+  fallbackSrc: string;
   alt: string;
   size: number;
   badge?: BadgeProps;
@@ -84,8 +88,8 @@ function Avatar(props: AvatarProps): JSX.Element {
     <Wrapper>
       <div className={styles.container}>
         <ImageWithFallback
-          src={props.src || PERSON_FALLBACK_IMAGE_URL}
-          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+          src={props.src || props.fallbackSrc}
+          fallbackSrc={props.fallbackSrc as string}
           width={props.size}
           height={props.size}
           className={styles.imageContainer}
@@ -100,6 +104,8 @@ function PartyAvatar({
   party,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
+  src,
+  fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
   ...rest
 }: PartyAvatarProps): JSX.Element {
   const partyColor = useMemo(() => getPartyColor(party), [party]);
@@ -110,7 +116,15 @@ function PartyAvatar({
     size: badgeSize,
     fontSize: badgeFontSize,
   };
-  return <Avatar badge={badge} {...rest} />;
+  return <Avatar badge={badge} src={src} fallbackSrc={fallbackSrc} {...rest} />;
+}
+
+function OrganizationAvatar({
+  src,
+  fallbackSrc = ORAGANIZATION_FALLBACK_IMAGE_URL,
+  ...rest
+}: AvatarProps) {
+  return <Avatar src={src} fallbackSrc={fallbackSrc} {...rest} />;
 }
 
 function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
@@ -126,4 +140,4 @@ function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
   }
 }
 
-export { Avatar, getPartyColor, PartyAvatar };
+export { Avatar, getPartyColor, PartyAvatar, OrganizationAvatar };

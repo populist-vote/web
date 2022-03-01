@@ -32,6 +32,11 @@ import states from "util/states";
 import { FaAccessibleIcon, FaAddressCard, FaCircle } from "react-icons/fa";
 
 import { computeShortOfficeTitle } from "util/politician";
+import {
+  ORAGANIZATION_FALLBACK_IMAGE_URL,
+  PERSON_FALLBACK_IMAGE_URL,
+} from "util/constants";
+import { OrganizationAvatar } from "components/Avatar/Avatar";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -85,6 +90,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             (politician?.thumbnailImageUrl ||
               politician?.votesmartCandidateBio.candidate.photo) as string
           }
+          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={politician?.fullName as string}
         />
       </section>
@@ -161,12 +167,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                     return (
                       <div key={candidate.id}>
                         <PartyAvatar
-                          size="60"
+                          size={60}
                           party={
                             candidate.officeParty ||
                             ("UNKNOWN" as PoliticalParty)
                           }
                           src={candidate.thumbnailImageUrl}
+                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
                           alt={politician.fullName}
                         />
                         <h1>{candidate.fullName}</h1>
@@ -274,18 +281,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         passHref
       >
         <div className={styles.organizationContainer}>
-          {organization.thumbnailImageUrl ? (
-            <div className={styles.organizationAvatar}>
-              <Image
-                src={organization.thumbnailImageUrl}
-                alt={organization.name}
-                width={50}
-                height={50}
-              />
-            </div>
-          ) : (
-            <span>No Image</span>
-          )}
+          <OrganizationAvatar
+            src={organization.thumbnailImageUrl as string}
+            fallbackSrc={ORAGANIZATION_FALLBACK_IMAGE_URL}
+            alt={organization.name as string}
+            size={80}
+          />
+
           <h4>{organization.name}</h4>
         </div>
       </Link>
@@ -310,8 +312,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <div className={styles.organizationContainer}>
           <PartyAvatar
             party={(politician.officeParty as PoliticalParty) || "DEMOCRATIC"}
-            src={politician?.votesmartCandidateBio?.candidate.photo as string}
-            size={"5rem"}
+            src={politician?.thumbnailImageUrl as string}
+            fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+            alt={politician?.fullName as string}
+            size={80}
           />
           <h4>{politician.fullName}</h4>
           {officeTitle && (

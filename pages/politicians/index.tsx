@@ -19,6 +19,7 @@ import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
 import { NextPageWithLayout } from "../_app";
 import { computeOfficeTitle } from "util/politician";
+import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
 
 const PAGE_SIZE = 20;
 
@@ -34,12 +35,13 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
     <Link href={`/politicians/${politician.slug}`} passHref>
       <li className={styles.rowItem}>
         <PartyAvatar
-          size="60"
+          size={60}
           party={politician.officeParty || ("UNKNOWN" as PoliticalParty)}
           src={
             politician.thumbnailImageUrl ||
             politician.votesmartCandidateBio.candidate.photo
           }
+          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={politician.fullName}
         />
         <div className={styles.politicianInfo}>
