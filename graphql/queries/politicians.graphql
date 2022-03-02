@@ -146,6 +146,7 @@ query PoliticianBySlug($slug: String!) {
           organization {
             slug
             name
+            thumbnailImageUrl
           }
         }
       }
