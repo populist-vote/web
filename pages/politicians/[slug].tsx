@@ -390,7 +390,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               }`,
             }}
           >
-            <span>{rating.vsRating.rating}</span>
+            <span>{ratingPercent}</span>
           </div>
         </div>
         <h5>{rating.organization?.name}</h5>
