@@ -11,7 +11,7 @@ import "styles/landing.css";
 
 const queryClient = new QueryClient();
 
-export type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout<P = {}> = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

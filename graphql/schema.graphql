@@ -688,6 +688,7 @@ type Query {
     """Search by voteStatus, name, or slug"""
     search: BallotMeasureSearch!
   ): [BallotMeasureResult!]!
+  billBySlug(slug: String!): BillResult
   bills(
     after: String
     before: String

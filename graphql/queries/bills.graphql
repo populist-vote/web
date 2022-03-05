@@ -1,0 +1,10 @@
+query BillBySlug($slug: String!) {
+  billBySlug(slug: $slug) {
+    title
+    description
+    billNumber
+    legislationStatus
+    officialSummary
+    fullTextUrl
+  }
+}

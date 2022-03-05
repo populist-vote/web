@@ -47,7 +47,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
         <div className={styles.politicianInfo}>
           <p style={{ margin: 0 }}>{politician.fullName}</p>
           {isMobile ? (
-            <div className={`${styles.bold} ${styles.flexBetween}`}>
+            <div className={styles.flexBetween}>
               {officeTitleDisplay && <span>{officeTitleDisplay}</span>}
               {district && officeTitleDisplay && (
                 <Spacer size={8} delimiter="•" />

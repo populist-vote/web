@@ -9,13 +9,17 @@ export default function Layout({
   showNavLogoOnMobile = true,
   children,
 }: PropsWithChildren<{
-  mobileNavTitle?: string,
-  showNavBackButton?: boolean,
-  showNavLogoOnMobile?: boolean
+  mobileNavTitle?: string;
+  showNavBackButton?: boolean;
+  showNavLogoOnMobile?: boolean;
 }>) {
   return (
     <div className={styles.app}>
-      <Nav mobileNavTitle={mobileNavTitle} showBackButton={showNavBackButton} showLogoOnMobile={showNavLogoOnMobile} />
+      <Nav
+        mobileNavTitle={mobileNavTitle}
+        showBackButton={showNavBackButton}
+        showLogoOnMobile={showNavLogoOnMobile}
+      />
       <main className={styles.content}>{children}</main>
       <Footer />
     </div>

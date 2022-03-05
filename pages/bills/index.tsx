@@ -1,10 +1,9 @@
-import type { NextPage } from "next";
 import { ReactElement } from "react";
 import { Layout } from "components";
 import { NextPageWithLayout } from "../_app";
 
 const BillIndex: NextPageWithLayout = () => {
-  return <div>Bill Index Page</div>;
+  return <h1>Bills</h1>;
 };
 
 BillIndex.getLayout = function getLayout(page: ReactElement) {

@@ -29,7 +29,6 @@ import {
 import styles from "styles/politicianPage.module.scss";
 
 import states from "util/states";
-import { FaAccessibleIcon, FaAddressCard, FaCircle } from "react-icons/fa";
 
 import { computeShortOfficeTitle } from "util/politician";
 import {

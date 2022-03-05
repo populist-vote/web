@@ -11,6 +11,17 @@
     "footer";
   grid-template-rows: auto 10fr auto;
 
+  main {
+    padding: 0.35rem;
+  }
+
+  h3 {
+    font-size: $text-sm;
+    font-weight: 400;
+    color: $white;
+    text-transform: uppercase;
+  }
+
   @include for-tablet-landscape-up {
     grid-template-columns: 12rem 5fr;
     grid-template-areas:
@@ -37,6 +48,23 @@
     &.wide {
       width: 21rem;
     }
+  }
+
+  .roundedCard {
+    border-radius: 25px;
+    border: 1px solid $blue-dark;
+    background: $blue-darker;
+    text-align: center;
+    padding: 1.5rem;
+    margin: 0 0.25rem;
+
+    h1 {
+      font-weight: 400;
+    }
+  }
+
+  .inset {
+    margin: 0 1.5rem;
   }
 
   .radioLabel {
@@ -121,8 +149,8 @@
   .flexBetween {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 0.5rem;
-    max-width: max-content;
   }
 
   .filtersContainer {

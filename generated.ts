@@ -936,6 +936,7 @@ export type Query = {
   allElections: Array<ElectionResult>;
   allIssueTags: Array<IssueTagResult>;
   ballotMeasures: Array<BallotMeasureResult>;
+  billBySlug?: Maybe<BillResult>;
   bills: BillResultConnection;
   electionById: ElectionResult;
   elections: Array<ElectionResult>;
@@ -959,6 +960,11 @@ export type Query = {
 
 export type QueryBallotMeasuresArgs = {
   search: BallotMeasureSearch;
+};
+
+
+export type QueryBillBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -1418,6 +1424,13 @@ export type VsRating = {
   timespan: Scalars['JSON'];
 };
 
+export type BillBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type BillBySlugQuery = { __typename?: 'Query', billBySlug?: { __typename?: 'BillResult', title: string, description?: string | null | undefined, billNumber: string, legislationStatus: LegislationStatus, officialSummary?: string | null | undefined, fullTextUrl?: string | null | undefined } | null | undefined };
+
 export type OrganizationBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -1443,6 +1456,53 @@ export type PoliticianBySlugQueryVariables = Exact<{
 export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, yearsInPublicOffice: number, age?: number | null | undefined, upcomingRace?: { __typename?: 'RaceResult', raceType: string, officePosition: string, state?: State | null | undefined, electionDate?: any | null | undefined, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null | undefined, officeParty?: PoliticalParty | null | undefined }> } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } }, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null | undefined> | null | undefined }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState: State, officeParty?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined } | null | undefined } } | null | undefined> | null | undefined } } };
 
 
+export const BillBySlugDocument = /*#__PURE__*/ `
+    query BillBySlug($slug: String!) {
+  billBySlug(slug: $slug) {
+    title
+    description
+    billNumber
+    legislationStatus
+    officialSummary
+    fullTextUrl
+  }
+}
+    `;
+export const useBillBySlugQuery = <
+      TData = BillBySlugQuery,
+      TError = unknown
+    >(
+      variables: BillBySlugQueryVariables,
+      options?: UseQueryOptions<BillBySlugQuery, TError, TData>
+    ) =>
+    useQuery<BillBySlugQuery, TError, TData>(
+      ['BillBySlug', variables],
+      fetcher<BillBySlugQuery, BillBySlugQueryVariables>(BillBySlugDocument, variables),
+      options
+    );
+
+useBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => ['BillBySlug', variables];
+;
+
+export const useInfiniteBillBySlugQuery = <
+      TData = BillBySlugQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof BillBySlugQueryVariables,
+      variables: BillBySlugQueryVariables,
+      options?: UseInfiniteQueryOptions<BillBySlugQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<BillBySlugQuery, TError, TData>(
+      ['BillBySlug.infinite', variables],
+      (metaData) => fetcher<BillBySlugQuery, BillBySlugQueryVariables>(BillBySlugDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfiniteBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => ['BillBySlug.infinite', variables];
+;
+
+useBillBySlugQuery.fetcher = (variables: BillBySlugQueryVariables) => fetcher<BillBySlugQuery, BillBySlugQueryVariables>(BillBySlugDocument, variables);
 export const OrganizationBySlugDocument = /*#__PURE__*/ `
     query OrganizationBySlug($slug: String!) {
   organizationBySlug(slug: $slug) {
