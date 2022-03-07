@@ -1,0 +1,68 @@
+@import "styles/variables/colors.module.scss";
+@import "styles/mixins.scss";
+
+.container {
+  padding: 0.5rem;
+}
+
+.sectionTitle {
+  display: none;
+}
+
+@include for-tablet-portrait-up {
+  .container {
+    position: relative;
+    padding: 0 0 1.5rem;
+    border-left: 1px solid $blue; // Default color
+    margin-bottom: 5rem;
+
+    .sectionTitle {
+      display: flex;
+      width: max-content;
+      font-family: "Commuters Sans", sans-serif;
+      background: $blue; // Default color
+      color: $white;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 40px;
+      border-radius: 0 40px 40px 0;
+      padding: 0 40px;
+      text-transform: uppercase;
+    }
+
+    &.green {
+      border-left: 1px solid $green;
+
+      .sectionTitle {
+        background: $green;
+        color: $background-primary;
+      }
+    }
+
+    &.yellow {
+      border-left: 1px solid $yellow;
+
+      .sectionTitle {
+        background: $yellow;
+        color: $background-primary;
+      }
+    }
+
+    &.salmon {
+      border-left: 1px solid $salmon;
+
+      .sectionTitle {
+        background: $salmon;
+        color: $background-primary;
+      }
+    }
+
+    .header {
+      justify-content: space-between;
+    }
+
+    .content {
+      padding: 1rem 0 0 1.5rem;
+    }
+  }
+}

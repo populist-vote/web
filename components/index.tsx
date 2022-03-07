@@ -1,15 +1,13 @@
-import BillCard from "./BillCard"
-import Footer from "./Footer/Footer"
-import ImageWithFallback from "./ImageWithFallback"
-import Layout from "./Layout/Layout"
-import LoaderFlag from "./LoaderFlag"
-import Nav from "./Nav/Nav"
-import Scroller from "./Scroller"
-import Spacer from "./Spacer/Spacer"
-import {
-  Avatar,
-  PartyAvatar
-} from "./Avatar/Avatar"
+import BillCard from "./BillCard";
+import Footer from "./Footer/Footer";
+import ImageWithFallback from "./ImageWithFallback/ImageWithFallback";
+import Layout from "./Layout/Layout";
+import LoaderFlag from "./LoaderFlag/LoaderFlag";
+import Nav from "./Nav/Nav";
+import Scroller from "./Scroller";
+import Spacer from "./Spacer/Spacer";
+import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
+import { Avatar, PartyAvatar } from "./Avatar/Avatar";
 
 export {
   Avatar,
@@ -21,5 +19,6 @@ export {
   Nav,
   PartyAvatar,
   Scroller,
-  Spacer
-}
+  Spacer,
+  VerticalDivider,
+};

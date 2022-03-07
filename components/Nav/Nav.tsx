@@ -70,6 +70,15 @@ export default function Nav({
         )}
         <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
         <ul className={styles.items}>
+          <Link href="/ballot" passHref>
+            <li
+              className={`${styles.navItem} ${
+                pathname.includes("/ballot") && styles.active
+              }`}
+            >
+              Ballot
+            </li>
+          </Link>
           <Link href="/politicians" passHref>
             <li
               className={`${styles.navItem} ${

@@ -48,3 +48,9 @@ $desktop-max: 1440px;
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+@mixin desktop-only {
+  @include for-phone-only {
+    display: none;
+  }
+}

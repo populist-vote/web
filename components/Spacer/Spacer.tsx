@@ -17,8 +17,8 @@ const Spacer = ({
       style={{
         display: "block",
         width,
-        minWidth: width,
         height,
+        minWidth: width,
         minHeight: height,
         ...style,
       }}
