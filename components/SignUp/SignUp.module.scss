@@ -34,6 +34,13 @@
   justify-content: stretch;
   width: 496px;
 
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
   input {
     border-radius: 6px;
     display: flex;
@@ -51,18 +58,19 @@
   }
 
   button {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     background-color: $blue;
     font-family: $font-primary;
     border: none;
-    border-radius: 6px;
+    border-radius: 100px;
     color: #fff;
     font-size: 21px;
     letter-spacing: 0.2px;
     padding: 15px 24px;
-    width: 100%;
+    width: 75%;
     text-transform: uppercase;
     cursor: pointer;
+    justify-self: center;
 
     &:hover {
       background-color: $blue-dark;
