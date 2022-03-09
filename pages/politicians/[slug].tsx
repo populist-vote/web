@@ -81,7 +81,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           badgeSize={"2.5rem"}
           badgeFontSize={"1.5rem"}
           size={160}
-          party={politician?.officeParty || ("UNKNOWN" as PoliticalParty)}
+          party={politician?.party || ("UNKNOWN" as PoliticalParty)}
           src={
             (politician?.thumbnailImageUrl ||
               politician?.votesmartCandidateBio.candidate.photo) as string
@@ -172,8 +172,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                         <PartyAvatar
                           size={60}
                           party={
-                            candidate.officeParty ||
-                            ("UNKNOWN" as PoliticalParty)
+                            candidate.party || ("UNKNOWN" as PoliticalParty)
                           }
                           src={candidate.thumbnailImageUrl}
                           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
@@ -314,7 +313,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       >
         <div className={styles.organizationContainer}>
           <PartyAvatar
-            party={(politician.officeParty as PoliticalParty) || "DEMOCRATIC"}
+            party={(politician.party as PoliticalParty) || "DEMOCRATIC"}
             src={politician?.thumbnailImageUrl as string}
             fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
             alt={politician?.fullName as string}
