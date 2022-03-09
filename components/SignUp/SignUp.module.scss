@@ -1,0 +1,72 @@
+@import "styles/variables/colors.module.scss";
+@import "styles/variables/fonts.module";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+
+  .logo {
+    width: 100%;
+    align-items: left;
+
+    div {
+      position: absolute;
+      top: 3rem;
+      left: 3rem;
+      width: 15rem;
+    }
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.formWrapper {
+  align-content: space-between;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  width: 496px;
+
+  input {
+    border-radius: 6px;
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: hidden;
+    position: relative;
+    background-color: #fff;
+    border: none;
+    color: #1f1f30;
+    font-size: 19px;
+    letter-spacing: 0.2px;
+    line-height: 24px;
+    padding: 15px 24px;
+    width: 100%;
+  }
+
+  button {
+    margin-top: 1rem;
+    background-color: $blue;
+    font-family: $font-primary;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 21px;
+    letter-spacing: 0.2px;
+    padding: 15px 24px;
+    width: 100%;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $blue-dark;
+      transition: 0.3s ease-in-out;
+    }
+  }
+}
