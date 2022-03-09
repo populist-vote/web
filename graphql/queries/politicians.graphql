@@ -16,7 +16,7 @@ query PoliticianIndex(
         slug
         fullName
         homeState
-        officeParty
+        party
         thumbnailImageUrl
         currentOffice {
           id
@@ -54,7 +54,7 @@ query PoliticianBySlug($slug: String!) {
     nickname
     preferredName
     homeState
-    officeParty
+    party
     thumbnailImageUrl
     websiteUrl
     twitterUrl
@@ -73,7 +73,7 @@ query PoliticianBySlug($slug: String!) {
         slug
         fullName
         thumbnailImageUrl
-        officeParty
+        party
       }
     }
 
@@ -113,7 +113,7 @@ query PoliticianBySlug($slug: String!) {
         slug
         fullName
         homeState
-        officeParty
+        party
         thumbnailImageUrl
         currentOffice {
           id

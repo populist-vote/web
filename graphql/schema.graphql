@@ -240,12 +240,13 @@ input CreateIssueTagInput {
 
 input CreateOfficeInput {
   district: String
-  encumbentId: UUID!
+  incumbentId: UUID
   municipality: String
   officeType: String
   politicalScope: PoliticalScope!
   slug: String
   state: State
+  termLength: Int
   title: String!
 }
 
@@ -286,7 +287,7 @@ input CreatePoliticianInput {
   description: String
   facebookUrl: String
   firstName: String!
-  homeState: State!
+  homeState: State
   instagramUrl: String
   issueTags: CreateOrConnectIssueTagInput
   lastName: String!
@@ -294,8 +295,8 @@ input CreatePoliticianInput {
   middleName: String
   nickname: String
   officeId: UUID
-  officeParty: PoliticalParty
   organizationEndorsements: CreateOrConnectOrganizationInput
+  party: PoliticalParty
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
   slug: String!
@@ -317,7 +318,8 @@ input CreateRaceInput {
   officeId: UUID!
   officePosition: String!
   officialWebsite: String
-  raceType: String!
+  party: PoliticalParty
+  raceType: RaceType!
   slug: String
   state: State
   title: String!
@@ -381,6 +383,7 @@ type ElectionResult {
   description: String
   electionDate: NaiveDate!
   id: ID!
+  races: [RaceResult!]!
   slug: String!
   title: String!
 }
@@ -521,8 +524,8 @@ type Office {
 type OfficeResult {
   createdAt: DateTime!
   district: String
-  encumbent: PoliticianResult!
   id: ID!
+  incumbent: PoliticianResult!
   municipality: String
   officeType: String
   politicalScope: PoliticalScope!
@@ -616,7 +619,7 @@ type PoliticianResult {
   facebookUrl: String
   firstName: String!
   fullName: String!
-  homeState: State!
+  homeState: State
   id: ID!
   instagramUrl: String
   issueTags: [IssueTagResult!]!
@@ -624,7 +627,7 @@ type PoliticianResult {
   middleName: String
   nickname: String
   officeId: ID
-  officeParty: PoliticalParty
+  party: PoliticalParty
   preferredName: String
 
   """Leverages Votesmart ratings data for the time being"""
@@ -672,7 +675,7 @@ type PoliticianResultEdge {
 input PoliticianSearch {
   homeState: State
   name: String
-  officeParty: PoliticalParty
+  party: PoliticalParty
 }
 
 type Progress {
@@ -764,7 +767,8 @@ type RaceResult {
   officeId: ID!
   officePosition: String!
   officialWebsite: String
-  raceType: String!
+  party: PoliticalParty
+  raceType: RaceType!
   slug: String!
   state: State
   title: String!
@@ -774,6 +778,11 @@ type RaceResult {
 input RaceSearch {
   query: String
   state: State
+}
+
+enum RaceType {
+  GENERAL
+  PRIMARY
 }
 
 type RatingResult {
@@ -1020,13 +1029,14 @@ input UpdateIssueTagInput {
 
 input UpdateOfficeInput {
   district: String
-  encumbentId: UUID
+  incumbentId: UUID
   municipality: String
   name: String
   officeType: String
   politicalScope: PoliticalScope
   slug: String
   state: State
+  termLength: Int
   title: String
 }
 
@@ -1060,8 +1070,8 @@ input UpdatePoliticianInput {
   middleName: String
   nickname: String
   officeId: UUID
-  officeParty: PoliticalParty
   organizationEndorsements: CreateOrConnectOrganizationInput
+  party: PoliticalParty
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
   slug: String
@@ -1083,7 +1093,8 @@ input UpdateRaceInput {
   officeId: UUID
   officePosition: String
   officialWebsite: String
-  raceType: String!
+  party: PoliticalParty
+  raceType: RaceType!
   slug: String
   state: State
   title: String
