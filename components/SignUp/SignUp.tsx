@@ -202,7 +202,11 @@ export function SignUp() {
       <main>
         <div className={styles.formWrapper}>{renderStep()}</div>
       </main>
-      <footer />
+      <footer className={utils.flexBetween}>
+        <Link href="/faq" passHref>
+          <small>Why can't I sign in with Facebook or Google?</small>
+        </Link>
+      </footer>
     </div>
   );
 }
