@@ -11,13 +11,19 @@
   padding-bottom: 3rem;
 
   h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-top: 0;
     margin-bottom: 1.5rem;
 
     @include for-tablet-portrait-up {
       font-size: 3.5rem;
     }
+  }
+
+  a {
+    font-family: $font-primary;
+    text-transform: uppercase;
+    color: $white;
   }
 
   .header {
@@ -32,12 +38,6 @@
 
     @include for-tablet-portrait-up {
       padding: 3.5rem;
-    }
-
-    a {
-      font-family: $font-primary;
-      text-transform: uppercase;
-      color: $white;
     }
   }
 
@@ -97,7 +97,6 @@
 
   .inputError {
     color: $red;
-    height: 0.5rem;
     margin: 0.25rem;
   }
 

@@ -46,8 +46,6 @@ export function SignUp() {
   function Step2() {
     const { register, handleSubmit, formState } = useForm();
 
-    console.log(formState.errors);
-
     const submitForm = (data: any) => alert(JSON.stringify(data));
     return (
       <>
@@ -136,7 +134,47 @@ export function SignUp() {
           </div>
           <button>Create Account</button>
           <br />
-          <small>SKIP THIS STEP</small>
+          <Link href="/ballot">Skip This Step</Link>
+        </form>
+      </>
+    );
+  }
+
+  function Step3() {
+    const { register, handleSubmit, formState } = useForm();
+
+    const submitForm = (data: any) => alert(JSON.stringify(data));
+    return (
+      <>
+        <p>
+          With current technologies, a ten character alphanumeric password takes
+          around 5 years to crack.
+        </p>
+        <form onSubmit={handleSubmit(submitForm)}>
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              placeholder="Password"
+              {...register("password", { required: "Password is required" })}
+            />
+            <small className={styles.inputError}>
+              {formState.errors.password && formState.errors.password.message}
+            </small>
+          </div>
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              placeholder="Confirm Password"
+              {...register("confirmPassword", {
+                required: "Confirm password is required",
+              })}
+            />
+            <small className={styles.inputError}>
+              {formState.errors.confirmPassword &&
+                formState.errors.confirmPassword.message}
+            </small>
+          </div>
+          <button>Create Account</button>
         </form>
       </>
     );
@@ -148,6 +186,8 @@ export function SignUp() {
         return <Step1 />;
       case 2:
         return <Step2 />;
+      case 3:
+        return <Step3 />;
     }
   };
 
