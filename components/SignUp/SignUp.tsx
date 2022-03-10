@@ -4,6 +4,7 @@ import styles from "./SignUp.module.scss";
 import utils from "styles/utils.module.scss";
 import { useState } from "react";
 import Link from "next/link";
+import BasicLayout from "components/BasicLayout/BasicLayout";
 
 export function SignUp() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -39,6 +40,11 @@ export function SignUp() {
           </div>
           <button>Continue</button>
         </form>
+        <Link href="/faq#no-google-fb-signin" passHref>
+          <small className={styles.footnote}>
+            Why can't I sign in with Facebook or Google?
+          </small>
+        </Link>
       </>
     );
   }
@@ -49,12 +55,13 @@ export function SignUp() {
     const submitForm = (data: any) => alert(JSON.stringify(data));
     return (
       <>
+        <h1 className="title">Get Local</h1>
         <p>
           For a more personalized experience, please provide the address where
           you're registered to vote so we can localize your ballot information.
         </p>
         <form onSubmit={handleSubmit(submitForm)}>
-          <div className={utils.flexBetween}>
+          <div className={styles.flexBetween}>
             <div className={styles.inputWrapper}>
               <input
                 type="text"
@@ -107,7 +114,7 @@ export function SignUp() {
               {formState.errors.city && formState.errors.city.message}
             </small>
           </div>
-          <div className={utils.flexBetween}>
+          <div className={styles.flexBetween}>
             <div className={styles.inputWrapper}>
               <input type="text" placeholder="State" {...register("state")} />
               <small className={styles.inputError}>
@@ -134,7 +141,7 @@ export function SignUp() {
           </div>
           <button>Create Account</button>
           <br />
-          <Link href="/ballot">Skip This Step</Link>
+          <a onClick={() => setCurrentStep(3)}>Skip This Step</a>
         </form>
       </>
     );
@@ -146,6 +153,7 @@ export function SignUp() {
     const submitForm = (data: any) => alert(JSON.stringify(data));
     return (
       <>
+        <h1 className="title">Get Secure</h1>
         <p>
           With current technologies, a ten character alphanumeric password takes
           around 5 years to crack.
@@ -175,6 +183,8 @@ export function SignUp() {
             </small>
           </div>
           <button>Create Account</button>
+          <br />
+          <Link href="/ballot">Skip This Step</Link>
         </form>
       </>
     );
@@ -192,21 +202,8 @@ export function SignUp() {
   };
 
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <div style={{ width: "10rem" }}>
-          <LogoText />
-        </div>
-        <Link href="/signin">Sign In</Link>
-      </header>
-      <main>
-        <div className={styles.formWrapper}>{renderStep()}</div>
-      </main>
-      <footer className={utils.flexBetween}>
-        <Link href="/faq" passHref>
-          <small>Why can't I sign in with Facebook or Google?</small>
-        </Link>
-      </footer>
-    </div>
+    <BasicLayout hideFooter>
+      <div className={styles.formWrapper}>{renderStep()}</div>
+    </BasicLayout>
   );
 }

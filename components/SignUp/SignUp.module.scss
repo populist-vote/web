@@ -2,64 +2,15 @@
 @import "styles/variables/fonts.module";
 @import "styles/mixins.scss";
 
-.container {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
+.footnote {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-style: italic;
+  cursor: pointer;
 
-  h1 {
-    font-size: 2.5rem;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-
-    @include for-tablet-portrait-up {
-      font-size: 3.5rem;
-    }
-  }
-
-  a {
-    font-family: $font-primary;
-    text-transform: uppercase;
-    color: $white;
-  }
-
-  .header {
-    height: 3rem;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-
-    @include for-tablet-portrait-up {
-      padding: 3.5rem;
-    }
-  }
-
-  main {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-  }
-
-  footer {
-    padding: 1rem;
-
-    small {
-      font-style: italic;
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+  &:hover {
+    text-decoration: underline;
   }
 }
 
@@ -131,5 +82,18 @@
       background-color: $blue-dark;
       transition: 0.3s ease-in-out;
     }
+  }
+}
+
+.flexBetween {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @include for-tablet-portrait-up {
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
   }
 }
