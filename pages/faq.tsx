@@ -18,6 +18,15 @@ export const FaqPage: NextPage = () => {
         At Populist, we will never sell your data and you can expect our
         platform to remain ad free for the foreseaable future.
       </p>
+      <h2>How was Populist built?</h2>
+      <p>
+        All of our code is open source and available{" "}
+        <a href="https://github.com/populist-vote">on GitHub.</a> We encourage
+        you to join our community and help us in building a stronger democracy
+        through public civic engagement. If you're interested in contributing,
+        get in touch! Someone on our team would be happy to help you get up and
+        running with our applications.
+      </p>
     </BasicLayout>
   );
 };
