@@ -2,19 +2,31 @@ import { LogoText } from "components/LogoText/LogoText";
 import { useForm } from "react-hook-form";
 import styles from "./SignUp.module.scss";
 import utils from "styles/utils.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import BasicLayout from "components/BasicLayout/BasicLayout";
+import { useRouter } from "next/router";
 
-export function SignUp() {
-  const [currentStep, setCurrentStep] = useState(1);
+type SignUpStep = "email" | "address";
 
-  function Step1() {
+export function SignUp({ step }: { step: SignUpStep }) {
+  const router = useRouter();
+  const { step: stepParam } = router.query;
+  const [currentStep, setCurrentStep] = useState<SignUpStep>(
+    (router.query.step as SignUpStep) ?? "email"
+  );
+
+  useEffect(() => {
+    setCurrentStep(stepParam as SignUpStep);
+  }, [stepParam]);
+
+  function EmailStep() {
     const { register, handleSubmit, formState } = useForm();
-    console.log(formState.errors);
+
     const submitForm = (data: any) => {
       alert(JSON.stringify(data));
-      setCurrentStep(currentStep + 1);
+      setCurrentStep("address");
+      router.push({ query: { step: "address" } });
     };
 
     return (
@@ -49,7 +61,7 @@ export function SignUp() {
     );
   }
 
-  function Step2() {
+  function AddressStep() {
     const { register, handleSubmit, formState } = useForm();
 
     const submitForm = (data: any) => alert(JSON.stringify(data));
@@ -57,8 +69,9 @@ export function SignUp() {
       <>
         <h1 className="title">Get Local</h1>
         <p>
-          For a more personalized experience, please provide the address where
+          For a more personalized experience, we'll need the address where
           you're registered to vote so we can localize your ballot information.
+          Don't worry, this will not be shared with anyone.
         </p>
         <form onSubmit={handleSubmit(submitForm)}>
           <div className={styles.flexBetween}>
@@ -92,7 +105,9 @@ export function SignUp() {
             <input
               type="text"
               placeholder="Street Address"
-              {...register("line1")}
+              {...register("line1", {
+                required: "Address line 1 is required",
+              })}
             />
             <small className={styles.inputError}>
               {formState.errors.line1 && formState.errors.line1.message}
@@ -109,14 +124,26 @@ export function SignUp() {
             </small>
           </div>
           <div className={styles.inputWrapper}>
-            <input type="text" placeholder="City" {...register("city")} />
+            <input
+              type="text"
+              placeholder="City"
+              {...register("city", {
+                required: "City is required",
+              })}
+            />
             <small className={styles.inputError}>
               {formState.errors.city && formState.errors.city.message}
             </small>
           </div>
           <div className={styles.flexBetween}>
             <div className={styles.inputWrapper}>
-              <input type="text" placeholder="State" {...register("state")} />
+              <input
+                type="text"
+                placeholder="State"
+                {...register("state", {
+                  required: "State is required",
+                })}
+              />
               <small className={styles.inputError}>
                 {formState.errors.state && formState.errors.state.message}
               </small>
@@ -125,7 +152,9 @@ export function SignUp() {
               <input
                 type="text"
                 placeholder="Postal Code"
-                {...register("postalCode")}
+                {...register("postalCode", {
+                  required: "Postal code is required",
+                })}
               />
               <small className={styles.inputError}>
                 {formState.errors.postalCode &&
@@ -134,20 +163,26 @@ export function SignUp() {
             </div>
           </div>
           <div className={styles.inputWrapper}>
-            <input type="text" placeholder="Country" {...register("country")} />
+            <input
+              type="text"
+              placeholder="Country"
+              {...register("country", {
+                required: "Country is required",
+              })}
+            />
             <small className={styles.inputError}>
               {formState.errors.country && formState.errors.country.message}
             </small>
           </div>
-          <button>Create Account</button>
+          <button>Show Me My Ballot</button>
           <br />
-          <a onClick={() => setCurrentStep(3)}>Skip This Step</a>
+          <Link href="/signup?step=email">Back</Link>
         </form>
       </>
     );
   }
 
-  function Step3() {
+  function PasswordStep() {
     const { register, handleSubmit, formState } = useForm();
 
     const submitForm = (data: any) => alert(JSON.stringify(data));
@@ -192,12 +227,10 @@ export function SignUp() {
 
   const renderStep = () => {
     switch (currentStep) {
-      case 1:
-        return <Step1 />;
-      case 2:
-        return <Step2 />;
-      case 3:
-        return <Step3 />;
+      case "email":
+        return <EmailStep />;
+      case "address":
+        return <AddressStep />;
     }
   };
 

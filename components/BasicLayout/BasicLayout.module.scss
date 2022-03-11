@@ -37,7 +37,7 @@
     padding: 1rem;
 
     @include for-tablet-portrait-up {
-      padding: 3.5rem;
+      padding: 1.5rem;
     }
   }
 
@@ -47,5 +47,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: left;
+
+    :first-child {
+      h1 {
+        margin: 0 0 1rem;
+      }
+    }
   }
 }
