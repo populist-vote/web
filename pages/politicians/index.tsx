@@ -187,7 +187,7 @@ const PoliticianIndex: NextPageWithLayout = () => {
                 name="chambers"
                 onChange={(e) => setChamberFilter(e.target.value as Chambers)}
               >
-                <option value={Chambers.AllChambers}>All Chambers</option>
+                <option value={Chambers.All}>All Chambers</option>
                 <option value={Chambers.House}>House</option>
                 <option value={Chambers.Senate}>Senate</option>
               </select>
