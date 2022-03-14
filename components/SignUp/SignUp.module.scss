@@ -35,32 +35,39 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-  }
+    margin-bottom: 0.5rem;
 
-  input {
-    border-radius: 6px;
-    display: flex;
-    flex-flow: row nowrap;
-    overflow: hidden;
-    position: relative;
-    background-color: #fff;
-    border: none;
-    color: #1f1f30;
-    font-size: 19px;
-    letter-spacing: 0.2px;
-    line-height: 24px;
-    padding: 15px 24px;
-    width: 100%;
+    input {
+      border-radius: 6px;
+      display: flex;
+      flex-flow: row nowrap;
+      overflow: hidden;
+      position: relative;
+      background-color: #fff;
+      border: none;
+      color: #1f1f30;
+      font-size: 19px;
+      letter-spacing: 0.2px;
+      line-height: 24px;
+      padding: 15px 24px;
+      width: 100%;
 
-    &:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px $blue;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px $blue;
+      }
     }
-  }
 
-  .inputError {
-    color: $red;
-    margin: 0.25rem;
+    .inputError {
+      color: $red;
+      margin: 0.25rem;
+    }
+
+    &.invalid {
+      input {
+        box-shadow: 0 0 0 2px $red;
+      }
+    }
   }
 
   button {

@@ -1,0 +1,23 @@
+query ValidateEmailAvailable($email: String!) {
+  validateEmailAvailable(email: $email)
+}
+
+mutation BeginUserRegistration(
+  $email: String!
+  $password: String!
+  $firstName: String!
+  $lastName: String!
+  $address: Address!
+) {
+  beginUserRegistration(
+    input: {
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      address: $address
+    }
+  ) {
+    userId
+  }
+}

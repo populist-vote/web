@@ -1,3 +1,12 @@
+input Address {
+  city: String!
+  country: String!
+  line1: String!
+  line2: String
+  postalCode: String!
+  state: String!
+}
+
 type Amendment {
   adopted: Int!
   amendmentId: Int!
@@ -62,6 +71,14 @@ input BallotMeasureSearch {
   legislationStatus: LegislationStatus
   slug: String
   title: String
+}
+
+input BeginUserRegistrationInput {
+  address: Address!
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
 }
 
 type Bill {
@@ -181,7 +198,7 @@ type Candidate {
 }
 
 enum Chambers {
-  ALL_CHAMBERS
+  ALL
   HOUSE
   SENATE
 }
@@ -456,10 +473,12 @@ input LoginInput {
 }
 
 type LoginResult {
-  accessToken: String!
+  userId: ID!
 }
 
 type Mutation {
+  beginUserRegistration(input: BeginUserRegistrationInput!): LoginResult!
+  confirmUserEmail(confirmationToken: String!): Boolean!
   createBallotMeasure(electionId: UUID!, input: CreateBallotMeasureInput!): BallotMeasureResult!
   createBill(input: CreateBillInput!): BillResult!
   createElection(input: CreateElectionInput!): ElectionResult!
@@ -480,6 +499,8 @@ type Mutation {
   deleteRace(id: String!): DeleteRaceResult!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   login(input: LoginInput!): LoginResult!
+  requestPasswordReset(email: String!): Boolean!
+  resetPassword(input: ResetPasswordInput!): Boolean!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
   updateBallotMeasure(id: String!, input: UpdateBallotMeasureInput!): BallotMeasureResult!
   updateBill(id: String, input: UpdateBillInput!, legiscanBillId: Int): BillResult!
@@ -525,7 +546,7 @@ type OfficeResult {
   createdAt: DateTime!
   district: String
   id: ID!
-  incumbent: PoliticianResult!
+  incumbent: PoliticianResult
   municipality: String
   officeType: String
   politicalScope: PoliticalScope!
@@ -752,6 +773,9 @@ type Query {
     search: RaceSearch
   ): [RaceResult!]!
   upcomingElections: [ElectionResult!]!
+
+  """Validate that a user does not already exist with this email"""
+  validateEmailAvailable(email: String!): Boolean!
 }
 
 type RaceResult {
@@ -816,6 +840,13 @@ type Referral {
   committeeId: Int!
   date: String!
   name: String!
+}
+
+input ResetPasswordInput {
+  confirmPassword: String!
+  email: String!
+  password: String!
+  resetToken: String!
 }
 
 enum Role {
