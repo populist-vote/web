@@ -29,10 +29,9 @@ export function AddressStep() {
   });
 
   const handleUserRegistration = useBeginUserRegistrationMutation({
-    onSuccess: ({ beginUserRegistration }) => {
-      let token = beginUserRegistration.accessToken;
-      
-    },
+    // onSuccess: ({ beginUserRegistration }) => {
+    //   let token = beginUserRegistration.accessToken;
+    // },
   });
 
   const submitForm = (data: any) => {
