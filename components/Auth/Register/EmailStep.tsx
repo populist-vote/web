@@ -70,7 +70,9 @@ export function EmailStep() {
   return (
     <div className={styles.container}>
       <h1 className="title">Get Started</h1>
-      <p>All we need is your name, email, a strong password to get started.</p>
+      <p>
+        All we need is your name, email, and a strong password to get started.
+      </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)}>
           <div className={styles.flexBetween}>
