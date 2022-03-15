@@ -57,7 +57,7 @@ export function EmailStep() {
           "email",
           {
             type: "manual",
-            message: error as string,
+            message: "This email is already associated with another account.",
           },
           {
             shouldFocus: true,
@@ -67,14 +67,12 @@ export function EmailStep() {
     });
   };
 
+  console.log({ errors });
+
   return (
     <>
       <h1 className="title">Get Started</h1>
-      <p>
-        All we need is your name, email, and a new password to get started. With
-        current technologies, a ten character alphanumeric password takes around
-        5 years to crack.
-      </p>
+      <p>All we need is your name, email, a strong password to get started.</p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)}>
           <div className={styles.flexBetween}>
@@ -140,6 +138,8 @@ export function EmailStep() {
           <button disabled={isLoading}>
             {isLoading ? "Loading..." : "Continue"}
           </button>
+          <br />
+          <small className={styles.formError}>{errors?.email?.message}</small>
         </form>
       </div>
       <Link href="/faq#no-google-fb-signin" passHref>
