@@ -32,40 +32,42 @@ export function LogIn() {
 
   return (
     <BasicLayout hideFooter>
-      <h1>Log In</h1>
-      <div className={styles.formWrapper}>
-        <form onSubmit={handleSubmit(submitForm)}>
-          <div
-            className={`${styles.inputWrapper} ${
-              errors.emailOrUsername && styles.invalid
-            }`}
-          >
-            <input
-              type="text"
-              placeholder="Email or Username"
-              {...register("emailOrUsername", {
-                required: "Email or Username is required",
-              })}
-            />
-          </div>
-          <div
-            className={`${styles.inputWrapper} ${
-              errors.password && styles.invalid
-            }`}
-          >
-            <input
-              type="password"
-              placeholder="Password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: 10,
-              })}
-            />
-          </div>
-          <button>{login.isLoading ? "Loading..." : "Sign In"}</button>
-          <br />
-          <small className={styles.formError}>{loginError}</small>
-        </form>
+      <div className={styles.container}>
+        <h1>Log In</h1>
+        <div className={styles.formWrapper}>
+          <form onSubmit={handleSubmit(submitForm)}>
+            <div
+              className={`${styles.inputWrapper} ${
+                errors.emailOrUsername && styles.invalid
+              }`}
+            >
+              <input
+                type="text"
+                placeholder="Email or Username"
+                {...register("emailOrUsername", {
+                  required: "Email or Username is required",
+                })}
+              />
+            </div>
+            <div
+              className={`${styles.inputWrapper} ${
+                errors.password && styles.invalid
+              }`}
+            >
+              <input
+                type="password"
+                placeholder="Password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: 10,
+                })}
+              />
+            </div>
+            <button>{login.isLoading ? "Loading..." : "Sign In"}</button>
+            <br />
+            <small className={styles.formError}>{loginError}</small>
+          </form>
+        </div>
       </div>
     </BasicLayout>
   );

@@ -43,7 +43,7 @@ export function AddressStep() {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <h1>Get Local</h1>
       <p>
         For a more personalized experience, we'll need the address where you're
@@ -111,6 +111,6 @@ export function AddressStep() {
           <Link href="/register?step=email">Back</Link>
         </form>
       </div>
-    </>
+    </div>
   );
 }

@@ -68,7 +68,7 @@ export function EmailStep() {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <h1 className="title">Get Started</h1>
       <p>All we need is your name, email, a strong password to get started.</p>
       <div className={styles.formWrapper}>
@@ -145,6 +145,6 @@ export function EmailStep() {
           Why can't I sign in with Facebook or Google?
         </small>
       </Link>
-    </>
+    </div>
   );
 }

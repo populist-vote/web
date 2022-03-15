@@ -14,14 +14,17 @@
   }
 }
 
+.container {
+  min-width: 364px;
+  max-width: 496px;
+}
+
 .formWrapper {
   align-content: space-between;
   display: flex;
   flex-flow: column nowrap;
   justify-content: stretch;
   width: 100%;
-  min-width: 364px;
-  max-width: 496px;
 
   form {
     display: flex;
