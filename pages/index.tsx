@@ -11,6 +11,7 @@ import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
 
 import { Footer, ImageWithFallback } from "components";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -57,7 +58,9 @@ const Home: NextPage = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <button className="populist-button-1">Get Started</button>
+                  <Link href="register" passHref>
+                    <button className="populist-button-1">Get Started</button>
+                  </Link>
                 </div>
               </div>
             </div>
