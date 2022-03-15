@@ -25,6 +25,15 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <Hydrate state={pageProps.dehydratedState}>
         <Head>
           <title>Populist</title>
+          <meta name="application-name" content="Populist" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="default"
+          />
+          <meta name="apple-mobile-web-app-title" content="Populist" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1"
