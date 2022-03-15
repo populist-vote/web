@@ -1,8 +1,8 @@
 {
   "name": "Populist - Civic Engagement",
   "short_name": "Populist",
-  "theme_color": "#006586",
-  "background_color": "#006586",
+  "theme_color": "#002135",
+  "background_color": "#002135",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
