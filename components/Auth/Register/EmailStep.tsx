@@ -71,7 +71,12 @@ export function EmailStep() {
     <div className={styles.container}>
       <h1 className="title">Get Started</h1>
       <p>
-        All we need is your name, email, and a strong password to get started.
+        All we need is your name, email, and a strong password to get started.{" "}
+        <Link href="/faq#no-google-fb-signin" passHref>
+          <small className={styles.footnote}>
+            Why can't I sign in with Facebook or Google?
+          </small>
+        </Link>
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)}>
@@ -142,11 +147,6 @@ export function EmailStep() {
           <small className={styles.formError}>{errors?.email?.message}</small>
         </form>
       </div>
-      <Link href="/faq#no-google-fb-signin" passHref>
-        <small className={styles.footnote}>
-          Why can't I sign in with Facebook or Google?
-        </small>
-      </Link>
     </div>
   );
 }

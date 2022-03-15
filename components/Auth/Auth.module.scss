@@ -3,11 +3,9 @@
 @import "styles/mixins.scss";
 
 .footnote {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
   font-style: italic;
   cursor: pointer;
+  color: $blue-light;
 
   &:hover {
     text-decoration: underline;
