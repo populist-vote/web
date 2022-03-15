@@ -67,8 +67,6 @@ export function EmailStep() {
     });
   };
 
-  console.log({ errors });
-
   return (
     <>
       <h1 className="title">Get Started</h1>
