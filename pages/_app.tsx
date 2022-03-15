@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
             name="apple-mobile-web-app-status-bar-style"
-            content="default"
+            content="black-translucent"
           />
           <meta name="apple-mobile-web-app-title" content="Populist" />
           <meta name="format-detection" content="telephone=no" />
