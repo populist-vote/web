@@ -73,6 +73,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             href="https://populist-static-assets.s3.amazonaws.com/images/LogoFlag.svg"
           />
           <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/icons/icon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/icons/icon-16x16.png"
+          />
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         {getLayout(<Component {...pageProps} />)}
       </Hydrate>
