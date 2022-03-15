@@ -1,0 +1,118 @@
+@import "styles/variables/colors.module.scss";
+@import "styles/variables/fonts.module";
+@import "styles/mixins.scss";
+
+.footnote {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-style: italic;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.container {
+  min-width: 364px;
+  max-width: 496px;
+}
+
+.formWrapper {
+  align-content: space-between;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+  width: 100%;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .inputWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0.5rem;
+
+    input {
+      border-radius: 6px;
+      display: flex;
+      flex-flow: row nowrap;
+      overflow: hidden;
+      position: relative;
+      background-color: #fff;
+      border: none;
+      color: #1f1f30;
+      font-size: 19px;
+      letter-spacing: 0.2px;
+      line-height: 24px;
+      padding: 15px 24px;
+      width: 100%;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px $blue;
+      }
+    }
+
+    .inputError {
+      color: $red;
+      margin: 0.25rem;
+    }
+
+    &.invalid {
+      input {
+        box-shadow: 0 0 0 2px $red;
+      }
+    }
+  }
+
+  button {
+    margin-top: 1.5rem;
+    background-color: $blue;
+    font-family: $font-primary;
+    border: none;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 19px;
+    letter-spacing: 0.2px;
+    padding: 15px 24px;
+    text-transform: uppercase;
+    cursor: pointer;
+    justify-self: center;
+
+    &:hover {
+      background-color: $blue-dark;
+      transition: 0.3s ease-in-out;
+    }
+
+    @include for-tablet-portrait-up {
+      width: 75%;
+    }
+  }
+
+  .formError {
+    color: $red;
+    margin: 0.25rem;
+  }
+}
+
+.flexBetween {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @include for-tablet-portrait-up {
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

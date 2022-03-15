@@ -34,7 +34,7 @@
 
     @include for-tablet-landscape-up {
       main {
-        padding: 1.5rem;
+        padding: 3rem;
       }
     }
   }
@@ -50,13 +50,27 @@
     }
   }
 
+  .sideText {
+    color: $blue;
+    font-family: $font-primary;
+    letter-spacing: 0.05em;
+    writing-mode: tb-rl; /* For backward compatability */
+    writing-mode: vertical-rl;
+    transform: rotate(180deg); /* so text reads from bottom up */
+    font-size: 0.75rem;
+    width: 15px;
+    text-transform: uppercase;
+    align-self: center;
+  }
+
   .roundedCard {
+    flex: 0 1 auto;
     border-radius: 25px;
     border: 1px solid $blue-dark;
     background: $blue-darker;
     text-align: center;
-    padding: 1.5rem;
-    margin: 0 0.25rem;
+    padding: 0.75rem;
+    margin: 0 0 1.25rem 0.25rem;
 
     h1 {
       font-weight: 400;
@@ -64,7 +78,7 @@
   }
 
   .inset {
-    margin: 0 1.5rem;
+    margin: 0 1rem;
   }
 
   .radioLabel {
@@ -174,11 +188,6 @@
     }
   }
 
-  .verticalDivider {
-    border-left: 1px solid $blue;
-    margin: 0 1rem;
-  }
-
   .desktopOnly {
     @include for-phone-only {
       display: none;
@@ -191,6 +200,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.avatarContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem;
+
+  h4 {
+    font-size: $text-sm;
+    font-weight: 300;
+    text-align: center;
+    margin: 1rem 0 0.375rem;
+
+    @include clamp-ellipsis;
+  }
 }
 
 .rowItem {

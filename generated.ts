@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions, useInfiniteQuery, UseInfiniteQueryOptions, QueryFunctionContext } from 'react-query';
+import { useQuery, UseQueryOptions, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, UseMutationOptions, QueryFunctionContext } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,9 +7,9 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("https://api.staging.populist.us/", {
+    const res = await fetch("http://localhost:1234/", {
     method: "POST",
-    ...({"headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
+    ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
     });
 
@@ -61,6 +61,15 @@ export type Scalars = {
    */
   UUID: any;
   Upload: any;
+};
+
+export type Address = {
+  city: Scalars['String'];
+  country: Scalars['String'];
+  line1: Scalars['String'];
+  line2?: InputMaybe<Scalars['String']>;
+  postalCode: Scalars['String'];
+  state: Scalars['String'];
 };
 
 export type Amendment = {
@@ -130,6 +139,14 @@ export type BallotMeasureSearch = {
   legislationStatus?: InputMaybe<LegislationStatus>;
   slug?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+export type BeginUserRegistrationInput = {
+  address: Address;
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Bill = {
@@ -252,7 +269,7 @@ export type Candidate = {
 };
 
 export enum Chambers {
-  AllChambers = 'ALL_CHAMBERS',
+  All = 'ALL',
   House = 'HOUSE',
   Senate = 'SENATE'
 }
@@ -533,11 +550,13 @@ export type LoginInput = {
 
 export type LoginResult = {
   __typename?: 'LoginResult';
-  accessToken: Scalars['String'];
+  userId: Scalars['ID'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  beginUserRegistration: LoginResult;
+  confirmUserEmail: Scalars['Boolean'];
   createBallotMeasure: BallotMeasureResult;
   createBill: BillResult;
   createElection: ElectionResult;
@@ -558,6 +577,8 @@ export type Mutation = {
   deleteRace: DeleteRaceResult;
   downvoteArgument: Scalars['Boolean'];
   login: LoginResult;
+  requestPasswordReset: Scalars['Boolean'];
+  resetPassword: Scalars['Boolean'];
   updateArgument: ArgumentResult;
   updateBallotMeasure: BallotMeasureResult;
   updateBill: BillResult;
@@ -569,6 +590,16 @@ export type Mutation = {
   updateRace: RaceResult;
   uploadPoliticianThumbnail: Scalars['Int'];
   upvoteArgument: Scalars['Boolean'];
+};
+
+
+export type MutationBeginUserRegistrationArgs = {
+  input: BeginUserRegistrationInput;
+};
+
+
+export type MutationConfirmUserEmailArgs = {
+  confirmationToken: Scalars['String'];
 };
 
 
@@ -674,6 +705,16 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationRequestPasswordResetArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  input: ResetPasswordInput;
+};
+
+
 export type MutationUpdateArgumentArgs = {
   id: Scalars['ID'];
   input: UpdateArgumentInput;
@@ -762,7 +803,7 @@ export type OfficeResult = {
   createdAt: Scalars['DateTime'];
   district?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  incumbent: PoliticianResult;
+  incumbent?: Maybe<PoliticianResult>;
   municipality?: Maybe<Scalars['String']>;
   officeType?: Maybe<Scalars['String']>;
   politicalScope: PoliticalScope;
@@ -958,6 +999,8 @@ export type Query = {
   raceBySlug: RaceResult;
   races: Array<RaceResult>;
   upcomingElections: Array<ElectionResult>;
+  /** Validate that a user does not already exist with this email */
+  validateEmailAvailable: Scalars['Boolean'];
 };
 
 
@@ -1063,6 +1106,11 @@ export type QueryRacesArgs = {
   search?: InputMaybe<RaceSearch>;
 };
 
+
+export type QueryValidateEmailAvailableArgs = {
+  email: Scalars['String'];
+};
+
 export type RaceResult = {
   __typename?: 'RaceResult';
   ballotpediaLink?: Maybe<Scalars['String']>;
@@ -1127,6 +1175,13 @@ export type Referral = {
   committeeId: Scalars['Int'];
   date: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type ResetPasswordInput = {
+  confirmPassword: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  resetToken: Scalars['String'];
 };
 
 export enum Role {
@@ -1435,6 +1490,32 @@ export type VsRating = {
   timespan: Scalars['JSON'];
 };
 
+export type ValidateEmailAvailableQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type ValidateEmailAvailableQuery = { __typename?: 'Query', validateEmailAvailable: boolean };
+
+export type BeginUserRegistrationMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  address: Address;
+}>;
+
+
+export type BeginUserRegistrationMutation = { __typename?: 'Mutation', beginUserRegistration: { __typename?: 'LoginResult', userId: string } };
+
+export type LogInMutationVariables = Exact<{
+  emailOrUsername: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LogInMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResult', userId: string } };
+
 export type BillBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -1467,6 +1548,82 @@ export type PoliticianBySlugQueryVariables = Exact<{
 export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, yearsInPublicOffice: number, age?: number | null | undefined, upcomingRace?: { __typename?: 'RaceResult', raceType: RaceType, officePosition: string, state?: State | null | undefined, electionDate?: any | null | undefined, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null | undefined, party?: PoliticalParty | null | undefined }> } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } }, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null | undefined> | null | undefined }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined } | null | undefined } } | null | undefined> | null | undefined } } };
 
 
+export const ValidateEmailAvailableDocument = /*#__PURE__*/ `
+    query ValidateEmailAvailable($email: String!) {
+  validateEmailAvailable(email: $email)
+}
+    `;
+export const useValidateEmailAvailableQuery = <
+      TData = ValidateEmailAvailableQuery,
+      TError = unknown
+    >(
+      variables: ValidateEmailAvailableQueryVariables,
+      options?: UseQueryOptions<ValidateEmailAvailableQuery, TError, TData>
+    ) =>
+    useQuery<ValidateEmailAvailableQuery, TError, TData>(
+      ['ValidateEmailAvailable', variables],
+      fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, variables),
+      options
+    );
+
+useValidateEmailAvailableQuery.getKey = (variables: ValidateEmailAvailableQueryVariables) => ['ValidateEmailAvailable', variables];
+;
+
+export const useInfiniteValidateEmailAvailableQuery = <
+      TData = ValidateEmailAvailableQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof ValidateEmailAvailableQueryVariables,
+      variables: ValidateEmailAvailableQueryVariables,
+      options?: UseInfiniteQueryOptions<ValidateEmailAvailableQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<ValidateEmailAvailableQuery, TError, TData>(
+      ['ValidateEmailAvailable.infinite', variables],
+      (metaData) => fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfiniteValidateEmailAvailableQuery.getKey = (variables: ValidateEmailAvailableQueryVariables) => ['ValidateEmailAvailable.infinite', variables];
+;
+
+useValidateEmailAvailableQuery.fetcher = (variables: ValidateEmailAvailableQueryVariables) => fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, variables);
+export const BeginUserRegistrationDocument = /*#__PURE__*/ `
+    mutation BeginUserRegistration($email: String!, $password: String!, $firstName: String!, $lastName: String!, $address: Address!) {
+  beginUserRegistration(
+    input: {email: $email, password: $password, firstName: $firstName, lastName: $lastName, address: $address}
+  ) {
+    userId
+  }
+}
+    `;
+export const useBeginUserRegistrationMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<BeginUserRegistrationMutation, TError, BeginUserRegistrationMutationVariables, TContext>) =>
+    useMutation<BeginUserRegistrationMutation, TError, BeginUserRegistrationMutationVariables, TContext>(
+      ['BeginUserRegistration'],
+      (variables?: BeginUserRegistrationMutationVariables) => fetcher<BeginUserRegistrationMutation, BeginUserRegistrationMutationVariables>(BeginUserRegistrationDocument, variables)(),
+      options
+    );
+useBeginUserRegistrationMutation.fetcher = (variables: BeginUserRegistrationMutationVariables) => fetcher<BeginUserRegistrationMutation, BeginUserRegistrationMutationVariables>(BeginUserRegistrationDocument, variables);
+export const LogInDocument = /*#__PURE__*/ `
+    mutation LogIn($emailOrUsername: String!, $password: String!) {
+  login(input: {emailOrUsername: $emailOrUsername, password: $password}) {
+    userId
+  }
+}
+    `;
+export const useLogInMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<LogInMutation, TError, LogInMutationVariables, TContext>) =>
+    useMutation<LogInMutation, TError, LogInMutationVariables, TContext>(
+      ['LogIn'],
+      (variables?: LogInMutationVariables) => fetcher<LogInMutation, LogInMutationVariables>(LogInDocument, variables)(),
+      options
+    );
+useLogInMutation.fetcher = (variables: LogInMutationVariables) => fetcher<LogInMutation, LogInMutationVariables>(LogInDocument, variables);
 export const BillBySlugDocument = /*#__PURE__*/ `
     query BillBySlug($slug: String!) {
   billBySlug(slug: $slug) {

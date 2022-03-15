@@ -5,8 +5,9 @@ import { FaChevronLeft } from "react-icons/fa";
 import { useState } from "react";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import styles from "./Nav.module.scss";
-import PopulistLogo from "public/images/PopulistLogo.svg";
+
 import { useMediaQuery } from "hooks/useMediaQuery";
+import { LogoText } from "components/LogoText/LogoText";
 
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
@@ -50,13 +51,7 @@ export default function Nav({
             !showLogoOnMobile ? styles.hideLogo : ""
           }`}
         >
-          <Image
-            src={PopulistLogo}
-            alt="Populist"
-            layout="responsive"
-            objectFit="contain"
-            priority
-          />
+          <LogoText />
         </div>
         {showBackButton && (
           <Link href={`/politicians`} passHref>
@@ -70,6 +65,15 @@ export default function Nav({
         )}
         <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
         <ul className={styles.items}>
+          <Link href="/ballot" passHref>
+            <li
+              className={`${styles.navItem} ${
+                pathname.includes("/ballot") && styles.active
+              }`}
+            >
+              Ballot
+            </li>
+          </Link>
           <Link href="/politicians" passHref>
             <li
               className={`${styles.navItem} ${

@@ -1,0 +1,58 @@
+@import "styles/variables/colors.module.scss";
+@import "styles/variables/fonts.module";
+@import "styles/mixins.scss";
+
+.container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  a {
+    color: $white;
+    font-family: $font-primary;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.15s;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+
+  .textLink {
+    color: $blue-light;
+    text-transform: none;
+  }
+
+  .header {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+    @include for-tablet-portrait-up {
+      padding: 1.5rem;
+    }
+  }
+
+  main {
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+
+    :first-child {
+      h1 {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+}
