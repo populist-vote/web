@@ -1,21 +1,21 @@
-import styles from "./SignUp.module.scss";
+import styles from "../Auth.module.scss";
 import { useEffect, useState } from "react";
 import BasicLayout from "components/BasicLayout/BasicLayout";
 import { useRouter } from "next/router";
 import { EmailStep } from "./EmailStep";
 import { AddressStep } from "./AddressStep";
 
-export type SignUpStep = "email" | "address";
+export type RegisterStep = "email" | "address";
 
-export function SignUp({ step }: { step: SignUpStep }) {
+export function Register({ step }: { step: RegisterStep }) {
   const router = useRouter();
   const { step: stepParam } = router.query;
-  const [currentStep, setCurrentStep] = useState<SignUpStep>(
-    (stepParam ?? step) as SignUpStep
+  const [currentStep, setCurrentStep] = useState<RegisterStep>(
+    (stepParam ?? step) as RegisterStep
   );
 
   useEffect(() => {
-    if (stepParam) setCurrentStep(stepParam as SignUpStep);
+    if (stepParam) setCurrentStep(stepParam as RegisterStep);
   }, [stepParam]);
 
   const renderStep = () => {
@@ -27,9 +27,5 @@ export function SignUp({ step }: { step: SignUpStep }) {
     }
   };
 
-  return (
-    <BasicLayout hideFooter>
-      <div className={styles.formWrapper}>{renderStep()}</div>
-    </BasicLayout>
-  );
+  return <BasicLayout hideFooter>{renderStep()}</BasicLayout>;
 }

@@ -18,5 +18,6 @@ generates:
       fetcher:
         endpoint: ${GRAPHQL_SCHEMA_PATH}
         fetchParams:
+          credentials: include
           headers:
             { "Content-Type": "application/json", "Accept-Encoding": "gzip" }

@@ -20,6 +20,7 @@
   flex-flow: column nowrap;
   justify-content: stretch;
   width: 100%;
+  min-width: 364px;
   max-width: 496px;
 
   form {
@@ -80,7 +81,6 @@
     font-size: 19px;
     letter-spacing: 0.2px;
     padding: 15px 24px;
-    width: 75%;
     text-transform: uppercase;
     cursor: pointer;
     justify-self: center;
@@ -89,6 +89,15 @@
       background-color: $blue-dark;
       transition: 0.3s ease-in-out;
     }
+
+    @include for-tablet-portrait-up {
+      width: 75%;
+    }
+  }
+
+  .formError {
+    color: $red;
+    margin: 0.25rem;
   }
 }
 

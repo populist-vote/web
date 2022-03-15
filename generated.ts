@@ -9,7 +9,7 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
     const res = await fetch("https://api.staging.populist.us/", {
     method: "POST",
-    ...({"headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
+    ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
     });
 
@@ -1508,6 +1508,14 @@ export type BeginUserRegistrationMutationVariables = Exact<{
 
 export type BeginUserRegistrationMutation = { __typename?: 'Mutation', beginUserRegistration: { __typename?: 'LoginResult', userId: string } };
 
+export type LogInMutationVariables = Exact<{
+  emailOrUsername: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LogInMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResult', userId: string } };
+
 export type BillBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -1599,6 +1607,23 @@ export const useBeginUserRegistrationMutation = <
       options
     );
 useBeginUserRegistrationMutation.fetcher = (variables: BeginUserRegistrationMutationVariables) => fetcher<BeginUserRegistrationMutation, BeginUserRegistrationMutationVariables>(BeginUserRegistrationDocument, variables);
+export const LogInDocument = /*#__PURE__*/ `
+    mutation LogIn($emailOrUsername: String!, $password: String!) {
+  login(input: {emailOrUsername: $emailOrUsername, password: $password}) {
+    userId
+  }
+}
+    `;
+export const useLogInMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<LogInMutation, TError, LogInMutationVariables, TContext>) =>
+    useMutation<LogInMutation, TError, LogInMutationVariables, TContext>(
+      ['LogIn'],
+      (variables?: LogInMutationVariables) => fetcher<LogInMutation, LogInMutationVariables>(LogInDocument, variables)(),
+      options
+    );
+useLogInMutation.fetcher = (variables: LogInMutationVariables) => fetcher<LogInMutation, LogInMutationVariables>(LogInDocument, variables);
 export const BillBySlugDocument = /*#__PURE__*/ `
     query BillBySlug($slug: String!) {
   billBySlug(slug: $slug) {

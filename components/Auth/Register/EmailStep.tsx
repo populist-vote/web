@@ -4,8 +4,8 @@ import {
 } from "generated";
 import { useStateMachine } from "little-state-machine";
 import { useForm } from "react-hook-form";
-import { updateAction } from "pages/signup";
-import styles from "./SignUp.module.scss";
+import { updateAction } from "pages/register";
+import styles from "../Auth.module.scss";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -75,69 +75,73 @@ export function EmailStep() {
         current technologies, a ten character alphanumeric password takes around
         5 years to crack.
       </p>
-      <form onSubmit={handleSubmit(submitForm)}>
-        <div className={styles.flexBetween}>
+      <div className={styles.formWrapper}>
+        <form onSubmit={handleSubmit(submitForm)}>
+          <div className={styles.flexBetween}>
+            <div
+              className={`${styles.inputWrapper} ${
+                errors.firstName && styles.invalid
+              }`}
+            >
+              <input
+                type="text"
+                placeholder="First Name"
+                {...register("firstName", {
+                  required: "First name is required",
+                })}
+              />
+            </div>
+            <div
+              className={`${styles.inputWrapper} ${
+                errors.lastName && styles.invalid
+              }`}
+            >
+              <input
+                type="text"
+                placeholder="Last Name"
+                {...register("lastName", {
+                  required: "Last name is required",
+                })}
+              />
+            </div>
+          </div>
           <div
             className={`${styles.inputWrapper} ${
-              errors.firstName && styles.invalid
+              errors.email && styles.invalid
             }`}
           >
             <input
               type="text"
-              placeholder="First Name"
-              {...register("firstName", {
-                required: "First name is required",
+              placeholder="Email"
+              aria-invalid={errors.email ? "true" : "false"}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
               })}
+              // Need to update email synchronously so that we can revalidate it on each form submission
+              onChange={(e) => actions.updateAction({ email: e.target.value })}
             />
           </div>
           <div
             className={`${styles.inputWrapper} ${
-              errors.lastName && styles.invalid
+              errors.password && styles.invalid
             }`}
           >
             <input
-              type="text"
-              placeholder="Last Name"
-              {...register("lastName", {
-                required: "Last name is required",
-              })}
+              type="password"
+              placeholder="Password"
+              aria-invalid={errors.password ? "true" : "false"}
+              {...register("password", { required: "Password is required" })}
             />
           </div>
-        </div>
-        <div
-          className={`${styles.inputWrapper} ${errors.email && styles.invalid}`}
-        >
-          <input
-            type="text"
-            placeholder="Email"
-            aria-invalid={errors.email ? "true" : "false"}
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
-              },
-            })}
-            // Need to update email synchronously so that we can revalidate it on each form submission
-            onChange={(e) => actions.updateAction({ email: e.target.value })}
-          />
-        </div>
-        <div
-          className={`${styles.inputWrapper} ${
-            errors.password && styles.invalid
-          }`}
-        >
-          <input
-            type="password"
-            placeholder="Password"
-            aria-invalid={errors.password ? "true" : "false"}
-            {...register("password", { required: "Password is required" })}
-          />
-        </div>
-        <button disabled={isLoading}>
-          {isLoading ? "Loading..." : "Continue"}
-        </button>
-      </form>
+          <button disabled={isLoading}>
+            {isLoading ? "Loading..." : "Continue"}
+          </button>
+        </form>
+      </div>
       <Link href="/faq#no-google-fb-signin" passHref>
         <small className={styles.footnote}>
           Why can't I sign in with Facebook or Google?

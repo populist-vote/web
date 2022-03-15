@@ -21,3 +21,9 @@ mutation BeginUserRegistration(
     userId
   }
 }
+
+mutation LogIn($emailOrUsername: String!, $password: String!) {
+  login(input: { emailOrUsername: $emailOrUsername, password: $password }) {
+    userId
+  }
+}

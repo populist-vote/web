@@ -1,4 +1,4 @@
-import { SignUp, SignUpStep } from "components/SignUp/SignUp";
+import { Register, RegisterStep } from "components/Auth/Register/Register";
 import { GetServerSideProps, NextPage } from "next";
 import { StateMachineProvider, createStore } from "little-state-machine";
 import { BeginUserRegistrationInput } from "generated";
@@ -16,7 +16,7 @@ export const updateAction = (
   };
 };
 
-export const SignUpPage: NextPage<{ step: SignUpStep }> = ({ step }) => {
+export const SignUpPage: NextPage<{ step: RegisterStep }> = ({ step }) => {
   createStore({
     signupFormState: {
       email: "",
@@ -36,7 +36,7 @@ export const SignUpPage: NextPage<{ step: SignUpStep }> = ({ step }) => {
 
   return (
     <StateMachineProvider>
-      <SignUp step={step} />
+      <Register step={step} />
     </StateMachineProvider>
   );
 };
