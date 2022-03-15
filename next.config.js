@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+
+const withPWA = require("next-pwa");
+const runtimeCaching = require("next-pwa/cache");
+
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -17,6 +21,10 @@ const nextConfig = {
     // a non-locale prefixed path e.g. `/hello`
     defaultLocale: "en-US",
   },
+  pwa: {
+    dest: "public",
+    runtimeCaching,
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
