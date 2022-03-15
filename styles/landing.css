@@ -76,6 +76,26 @@ ul.nav li {
   flex-shrink: 0;
 }
 
+.populist-button-1 {
+  margin-top: 1.5rem;
+  font-family: "commuters_sans", sans-serif;
+  border: none;
+  border-radius: 100px;
+  color: #fff;
+  background-color: #006586;
+  font-size: 19px;
+  letter-spacing: 0.2px;
+  padding: 15px 24px;
+  text-transform: uppercase;
+  cursor: pointer;
+  justify-self: center;
+}
+
+.populist-button-1:hover {
+  background-color: #003c55;
+  transition: 0.3s ease-in-out;
+}
+
 input.button {
   display: inline-block;
   font-family: "commuters_sans", sans-serif !important;

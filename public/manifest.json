@@ -3,7 +3,7 @@
   "short_name": "Populist",
   "theme_color": "#006586",
   "background_color": "#006586",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",

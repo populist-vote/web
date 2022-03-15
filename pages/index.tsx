@@ -50,6 +50,15 @@ const Home: NextPage = () => {
                   Politicians, legislation, and organizations - connected and
                   networked to promote knowledge and action.
                 </p>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button className="populist-button-1">Get Started</button>
+                </div>
               </div>
             </div>
             <div id="s1bcol2">
