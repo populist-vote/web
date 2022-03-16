@@ -29,7 +29,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const district = politician.votesmartCandidateBio.office?.district;
 
   const districtDisplay =
-    !district || isNaN(+district) ? district : `DISTRICT ${district}`;
+    !district || isNaN(+district) ? district : `District ${district}`;
 
   return (
     <Link href={`/politicians/${politician.slug}`} passHref>
@@ -48,11 +48,15 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
           <p style={{ margin: 0 }}>{politician.fullName}</p>
           {isMobile ? (
             <div className={styles.flexBetween}>
-              {officeTitleDisplay && <span>{officeTitleDisplay}</span>}
-              {district && officeTitleDisplay && (
-                <Spacer size={8} delimiter="•" />
+              {officeTitleDisplay && (
+                <span className={styles.bold}>{officeTitleDisplay}</span>
               )}
-              {districtDisplay && <span>{districtDisplay}</span>}
+              {district && officeTitleDisplay && (
+                <Spacer size={8} delimiter="•" axis="horizontal" />
+              )}
+              {districtDisplay && (
+                <span className={styles.bold}>{districtDisplay}</span>
+              )}
             </div>
           ) : (
             <>

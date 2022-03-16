@@ -36,8 +36,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <meta name="mobile-web-app-capable" content="yes" />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1"
-            key="viewport"
+            content="initial-scale=1, viewport-fit=cover, width=device-width"
           />
           <meta
             name="description"

@@ -16,8 +16,6 @@ const Spacer = ({
     <span
       style={{
         display: "block",
-        width,
-        height,
         minWidth: width,
         minHeight: height,
         ...style,
