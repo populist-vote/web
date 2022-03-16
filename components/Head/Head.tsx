@@ -15,7 +15,7 @@ export function AppHead() {
       <meta name="mobile-web-app-capable" content="yes" />
       <meta
         name="viewport"
-        content="initial-scale=1, viewport-fit=cover, width=device-width"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
       />
       <meta
         name="description"
