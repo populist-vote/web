@@ -2,9 +2,7 @@
 
 ## Getting Started
 
-To get started, download the Vercel CLI tool with `npm i -g vercel`
-
-Next, you'll need a .env file which you can pull securely with `vercel env pull` This file is .gitignored
+To get started, you'll need a `.env` file. You can simply `cp .env.example .env` and reach out to somone on the team to get the more sensitive credentials if necessary. Alternatively, if you have an account setup with Vercel, you can download their CLI with `npm i -g vercel` and then pull one down securely with `vercel env pull`. This file is .gitignored
 
 Now, run the development server:
 
