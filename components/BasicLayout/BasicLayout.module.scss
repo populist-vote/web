@@ -3,8 +3,7 @@
 @import "styles/mixins.scss";
 
 .container {
-  min-height: 100vh;
-  width: 100vw;
+  height: 100vmax;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -35,7 +34,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
 
     @include for-tablet-portrait-up {
       padding: 1.5rem;

@@ -3,6 +3,7 @@
 @import "styles/variables/fonts.module";
 
 .app {
+  height: 100%;
   background: $background-primary;
   display: grid;
   grid-template-areas:
