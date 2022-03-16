@@ -20,5 +20,5 @@ This reposity leverages automatic code generation for GraphQL to make managing o
 
 ## Deployment
 
-This application is deployed via Vercel. You can see the dashboard at [https://vercel.com/populist][https://vercel.com/populist]
+This application is deployed via Vercel. You can see the dashboard at [https://vercel.com/populist](https://vercel.com/populist).
 The `main` branch is automatically deployed to production. For all other branches, Vercel automatically spins up a preview deployment for you to see how your changes will behave in a production like setting. The preview deployments point to the staging API, and the produciton deployment points to our prod API and database.
