@@ -36,6 +36,7 @@ import {
   PERSON_FALLBACK_IMAGE_URL,
 } from "util/constants";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
+import { dateString } from "util/dates";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -145,13 +146,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3 className={styles.subHeader}>Next Election</h3>
         <div className={styles.roundedCard}>
           <h2>{upcomingElection?.raceType}</h2>
-          <h1>
-            {new Date(upcomingElection?.electionDate)
-              .toDateString()
-              .split(" ")
-              .slice(1)
-              .join(" ")}
-          </h1>
+          <h1>{dateString(upcomingElection?.electionDate)}</h1>
         </div>
         <h3>Running For</h3>
         <div className={styles.roundedCard}>

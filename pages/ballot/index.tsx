@@ -1,74 +1,91 @@
-import {
-  Layout,
-  PartyAvatar,
-  Scroller,
-  Spacer,
-  VerticalDivider,
-} from "components";
+import { Layout, LoaderFlag, PartyAvatar, VerticalDivider } from "components";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import styles from "components/Layout/Layout.module.scss";
-import { PoliticalParty, RaceResult, State } from "generated";
+import {
+  PoliticalParty,
+  PoliticalScope,
+  PoliticianResult,
+  RaceResult,
+  UpcomingElectionsDocument,
+  useUpcomingElectionsQuery,
+} from "generated";
 import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
 import FlagSection from "components/FlagSection/FlagSection";
-import { useMediaQuery } from "hooks/useMediaQuery";
-import states from "util/states";
 
-const RaceSlider = ({ race }: { race: Partial<RaceResult> }) => {
-  const { title = "U.S. Seante", state = "Colorado" } = race;
+import dynamic from "next/dynamic";
+import { dateString } from "util/dates";
+
+const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
+  ssr: false,
+});
+
+const RaceSlider = ({ race }: { race: RaceResult }) => {
+  const { state, office } = race;
+
+  console.log({ race });
+
+  let incumbentPolitician = race.candidates?.find(
+    (politician) => politician.id === race.office?.incumbent?.id
+  );
+
+  let otherPoliticians = race.candidates?.filter(
+    (politician) => politician.id !== race.office?.incumbent?.id
+  );
 
   return (
     <>
-      <div className={`${styles.bold} ${styles.flexBetween} ${styles.inset}`}>
-        <h2>{title}</h2>
+      <header
+        className={`${styles.bold} ${styles.flexBetween} ${styles.inset}`}
+      >
+        <h2>
+          <span>{office?.title}</span>{" "}
+          <span>{`District ${office?.district}`}</span>
+        </h2>
         <h3>{state}</h3>
-      </div>
+      </header>
 
       <div className={`${styles.roundedCard} ${styles.flexBetween}`}>
         <Scroller>
-          <div className={`${styles.flexBetween}`}>
-            <span className={styles.sideText}>INCUMBENT</span>
-            <div className={styles.avatarContainer}>
-              <PartyAvatar
-                size={80}
-                party={"REPUBLICAN" as PoliticalParty}
-                src="https://static.wikia.nocookie.net/anchorman/images/1/10/Ron_burgundy.jpg/revision/latest?cb=20120329160125"
-                fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                alt={"Ron Burgundy"}
-              />
-              <h4>Ron Burgundy</h4>
-            </div>
+          <div>
+            {incumbentPolitician && (
+              <div className={`${styles.flexBetween}`}>
+                <span className={styles.sideText}>INCUMBENT</span>
+                <div className={styles.avatarContainer}>
+                  <PartyAvatar
+                    size={80}
+                    party={
+                      incumbentPolitician?.party ||
+                      ("Unknown" as PoliticalParty)
+                    }
+                    src={
+                      incumbentPolitician?.thumbnailImageUrl ||
+                      PERSON_FALLBACK_IMAGE_URL
+                    }
+                    fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                    alt={incumbentPolitician.fullName}
+                  />
+                  <h4>{incumbentPolitician.fullName}</h4>
+                </div>
+              </div>
+            )}
           </div>
           <VerticalDivider />
-          <div className={styles.avatarContainer}>
-            <PartyAvatar
-              size={80}
-              party={"REPUBLICAN" as PoliticalParty}
-              src="https://static.wikia.nocookie.net/anchorman/images/1/10/Ron_burgundy.jpg/revision/latest?cb=20120329160125"
-              fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-              alt={"Ron Burgundy"}
-            />
-            <h4>Ron Burgundy</h4>
-          </div>
-          <div className={styles.avatarContainer}>
-            <PartyAvatar
-              size={80}
-              party={"REPUBLICAN" as PoliticalParty}
-              src="https://static.wikia.nocookie.net/anchorman/images/1/10/Ron_burgundy.jpg/revision/latest?cb=20120329160125"
-              fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-              alt={"Ron Burgundy"}
-            />
-            <h4>Ron Burgundy</h4>
-          </div>
-          <div className={styles.avatarContainer}>
-            <PartyAvatar
-              size={80}
-              party={"REPUBLICAN" as PoliticalParty}
-              src="https://static.wikia.nocookie.net/anchorman/images/1/10/Ron_burgundy.jpg/revision/latest?cb=20120329160125"
-              fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-              alt={"Ron Burgundy"}
-            />
-            <h4>Ron Burgundy</h4>
+          <div>
+            {otherPoliticians?.map((politician: PoliticianResult) => (
+              <div className={styles.avatarContainer} key={politician.id}>
+                <PartyAvatar
+                  size={80}
+                  party={politician?.party || ("Unknown" as PoliticalParty)}
+                  src={
+                    politician?.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL
+                  }
+                  fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                  alt={politician.fullName}
+                />
+                <h4>{politician.fullName}</h4>
+              </div>
+            ))}
           </div>
         </Scroller>
       </div>
@@ -79,7 +96,13 @@ const RaceSlider = ({ race }: { race: Partial<RaceResult> }) => {
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
-  const isSmallScreen = useMediaQuery("(max-width: 768px)");
+  const { data, error, isLoading } = useUpcomingElectionsQuery();
+
+  const upcomingElection = data?.upcomingElections[0];
+
+  const federalRaces = upcomingElection?.races.filter(
+    (race) => race.office.politicalScope === PoliticalScope.Federal
+  );
 
   return (
     <>
@@ -91,37 +114,33 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
         />
       </Head>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
-        <h1 className={styles.desktopOnly}>Ballot</h1>
+        {isLoading && (
+          <div className={styles.center}>
+            {" "}
+            <LoaderFlag />
+          </div>
+        )}
+        {error && <h4>Something went wrong fetching politician records...</h4>}
 
-        <FlagSection title="Upcoming Vote">
-          <h1>June 28, 2022</h1>
-          <h2>Primary Election</h2>
-          <p>
-            Curabitur blandit tempus porttitor. Aenean eu leo quam. Pellentesque
-            ornare sem lacinia quam venenatis vestibulum. Etiam porta sem
-            malesuada magna mollis euismod. Vivamus sagittis lacus vel augue
-            laoreet rutrum faucibus dolor auctor.
-          </p>
-        </FlagSection>
-        <FlagSection title="Federal" color="green">
-          <RaceSlider
-            race={{ title: "U.S. Senate", state: states.CO as State }}
-          />
-          <RaceSlider
-            race={{ title: "U.S. House", state: states.CO as State }}
-          />
-        </FlagSection>
-        <FlagSection title="State" color="yellow">
-          <RaceSlider
-            race={{ title: "State Senate", state: states.CO as State }}
-          />
-          <RaceSlider race={{ title: "Governor", state: states.CO as State }} />
-        </FlagSection>
-        <FlagSection title="Local" color="salmon">
-          <RaceSlider
-            race={{ title: "Denver Mayor", state: states.CO as State }}
-          />
-        </FlagSection>
+        {upcomingElection && (
+          <>
+            <h1 className={styles.desktopOnly}>Ballot</h1>
+
+            <FlagSection title="Upcoming Vote">
+              <h1>{dateString(upcomingElection?.electionDate)}</h1>
+              <h2>{upcomingElection?.title}</h2>
+              <p>{upcomingElection?.description}</p>
+            </FlagSection>
+
+            {federalRaces && federalRaces.length > 0 && (
+              <FlagSection title="Federal" color="salmon">
+                {federalRaces.map((race) => (
+                  <RaceSlider key={race.id} race={race as RaceResult} />
+                ))}
+              </FlagSection>
+            )}
+          </>
+        )}
       </Layout>
     </>
   );

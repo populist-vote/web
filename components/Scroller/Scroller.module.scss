@@ -4,11 +4,14 @@
   margin: 1rem 0;
   width: 100%;
   max-height: max-content;
-  mask-image: linear-gradient(
-    to left,
-    rgba(0 0 0 / 0%) 2%,
-    rgba(0 0 0 / 100%) 12%
-  );
+
+  @include for-tablet-portrait-down {
+    mask-image: linear-gradient(
+      to left,
+      rgba(0 0 0 / 0%) 2%,
+      rgba(0 0 0 / 100%) 12%
+    );
+  }
 }
 
 .scrollPage {

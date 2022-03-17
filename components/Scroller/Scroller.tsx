@@ -34,7 +34,9 @@ function Scroller(props: {
 }) {
   return (
     <div className={styles.horizontalScrollContainer}>
-      <ScrollMenu itemClassName={props.onePageAtATime ? styles.scrollPage : ""}>{props.children}</ScrollMenu>
+      <ScrollMenu itemClassName={props.onePageAtATime ? styles.scrollPage : ""}>
+        {props.children}
+      </ScrollMenu>
     </div>
   );
 }

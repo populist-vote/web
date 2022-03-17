@@ -26,7 +26,7 @@ const PAGE_SIZE = 20;
 const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const { isMobile } = useDeviceInfo();
   const officeTitleDisplay = computeOfficeTitle(politician);
-  const district = politician.votesmartCandidateBio.office?.district;
+  const district = politician.votesmartCandidateBio?.office?.district; // TODO: Use politician.currentOffice
 
   const districtDisplay =
     !district || isNaN(+district) ? district : `District ${district}`;
@@ -39,7 +39,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
           party={politician.party || ("UNKNOWN" as PoliticalParty)}
           src={
             politician.thumbnailImageUrl ||
-            politician.votesmartCandidateBio.candidate.photo
+            (politician.votesmartCandidateBio?.candidate.photo as string)
           }
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={politician.fullName}
