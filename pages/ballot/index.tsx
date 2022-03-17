@@ -23,8 +23,6 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
 const RaceSlider = ({ race }: { race: RaceResult }) => {
   const { state, office } = race;
 
-  console.log({ race });
-
   let incumbentPolitician = race.candidates?.find(
     (politician) => politician.id === race.office?.incumbent?.id
   );
