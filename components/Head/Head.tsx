@@ -55,11 +55,7 @@ export function AppHead() {
       />
       <meta name="twitter:site" content="@populist_us" />
 
-      <link
-        rel="apple-touch-icon"
-        href="https://populist-static-assets.s3.amazonaws.com/images/LogoFlag.svg"
-      />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/icon-144x144.png" />
       <link
         rel="icon"
         type="image/png"
