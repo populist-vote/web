@@ -7,7 +7,6 @@ import {
   PoliticalScope,
   PoliticianResult,
   RaceResult,
-  UpcomingElectionsDocument,
   useUpcomingElectionsQuery,
 } from "generated";
 import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
@@ -102,6 +101,10 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     (race) => race.office.politicalScope === PoliticalScope.Federal
   );
 
+  const stateRaces = upcomingElection?.races.filter(
+    (race) => race.office.politicalScope === PoliticalScope.State
+  );
+
   return (
     <>
       <Head>
@@ -114,7 +117,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
         {isLoading && (
           <div className={styles.center}>
-            {" "}
             <LoaderFlag />
           </div>
         )}
@@ -133,6 +135,14 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             {federalRaces && federalRaces.length > 0 && (
               <FlagSection title="Federal" color="salmon">
                 {federalRaces.map((race) => (
+                  <RaceSlider key={race.id} race={race as RaceResult} />
+                ))}
+              </FlagSection>
+            )}
+
+            {stateRaces && stateRaces.length > 0 && (
+              <FlagSection title="State" color="green">
+                {stateRaces.map((race) => (
                   <RaceSlider key={race.id} race={race as RaceResult} />
                 ))}
               </FlagSection>

@@ -63,10 +63,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   };
 
   const termStart = getYear(
-    politician?.votesmartCandidateBio.office?.termStart as string
+    politician?.votesmartCandidateBio?.office?.termStart as string
   );
   const termEnd = getYear(
-    politician?.votesmartCandidateBio.office?.termEnd as string
+    politician?.votesmartCandidateBio?.office?.termEnd as string
   );
   const sponsoredBills = politician?.sponsoredBills;
   const yearsInPublicOffice = politician?.yearsInPublicOffice;
@@ -85,7 +85,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           party={politician?.party || ("UNKNOWN" as PoliticalParty)}
           src={
             (politician?.thumbnailImageUrl ||
-              politician?.votesmartCandidateBio.candidate.photo) as string
+              politician?.votesmartCandidateBio?.candidate.photo) as string
           }
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={politician?.fullName as string}
@@ -98,7 +98,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <section className={styles.center}>
         <h1 className={styles.politicianOffice}>
-          {politician?.votesmartCandidateBio.office?.name[0]}
+          {politician?.votesmartCandidateBio?.office?.name[0]}
         </h1>
         {politician?.homeState && <h2>{states[politician?.homeState]}</h2>}
         {!!termStart && (
