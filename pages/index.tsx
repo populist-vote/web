@@ -51,7 +51,7 @@ const Home: NextPage = () => {
                   Politicians, legislation, and organizations - connected and
                   networked to promote knowledge and action.
                 </p>
-                <div
+                {/* <div
                   style={{
                     width: "100%",
                     display: "flex",
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
                   <Link href="register" passHref>
                     <button className="populist-button-1">Get Started</button>
                   </Link>
-                </div>
+                </div> */}
               </div>
             </div>
             <div id="s1bcol2">

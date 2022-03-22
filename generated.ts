@@ -982,6 +982,7 @@ export type Query = {
   ballotMeasures: Array<BallotMeasureResult>;
   billBySlug?: Maybe<BillResult>;
   bills: BillResultConnection;
+  currentUser: UserResult;
   electionById: ElectionResult;
   elections: Array<ElectionResult>;
   health: Scalars['Boolean'];
@@ -1460,6 +1461,14 @@ export type UpdateRaceInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type UserResult = {
+  __typename?: 'UserResult';
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  role: Role;
+  username: Scalars['String'];
+};
+
 export type Vote = {
   __typename?: 'Vote';
   absent: Scalars['Int'];
@@ -1497,6 +1506,11 @@ export type ValidateEmailAvailableQueryVariables = Exact<{
 
 export type ValidateEmailAvailableQuery = { __typename?: 'Query', validateEmailAvailable: boolean };
 
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } };
+
 export type BeginUserRegistrationMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -1507,6 +1521,13 @@ export type BeginUserRegistrationMutationVariables = Exact<{
 
 
 export type BeginUserRegistrationMutation = { __typename?: 'Mutation', beginUserRegistration: { __typename?: 'LoginResult', userId: string } };
+
+export type ConfirmUserEmailMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type ConfirmUserEmailMutation = { __typename?: 'Mutation', confirmUserEmail: boolean };
 
 export type LogInMutationVariables = Exact<{
   emailOrUsername: Scalars['String'];
@@ -1593,6 +1614,51 @@ useInfiniteValidateEmailAvailableQuery.getKey = (variables: ValidateEmailAvailab
 ;
 
 useValidateEmailAvailableQuery.fetcher = (variables: ValidateEmailAvailableQueryVariables) => fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, variables);
+export const CurrentUserDocument = /*#__PURE__*/ `
+    query CurrentUser {
+  currentUser {
+    id
+    email
+    username
+    role
+  }
+}
+    `;
+export const useCurrentUserQuery = <
+      TData = CurrentUserQuery,
+      TError = unknown
+    >(
+      variables?: CurrentUserQueryVariables,
+      options?: UseQueryOptions<CurrentUserQuery, TError, TData>
+    ) =>
+    useQuery<CurrentUserQuery, TError, TData>(
+      variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables],
+      fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, variables),
+      options
+    );
+
+useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables];
+;
+
+export const useInfiniteCurrentUserQuery = <
+      TData = CurrentUserQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof CurrentUserQueryVariables,
+      variables?: CurrentUserQueryVariables,
+      options?: UseInfiniteQueryOptions<CurrentUserQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<CurrentUserQuery, TError, TData>(
+      variables === undefined ? ['CurrentUser.infinite'] : ['CurrentUser.infinite', variables],
+      (metaData) => fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfiniteCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => variables === undefined ? ['CurrentUser.infinite'] : ['CurrentUser.infinite', variables];
+;
+
+useCurrentUserQuery.fetcher = (variables?: CurrentUserQueryVariables) => fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, variables);
 export const BeginUserRegistrationDocument = /*#__PURE__*/ `
     mutation BeginUserRegistration($email: String!, $password: String!, $firstName: String!, $lastName: String!, $address: Address!) {
   beginUserRegistration(
@@ -1612,6 +1678,21 @@ export const useBeginUserRegistrationMutation = <
       options
     );
 useBeginUserRegistrationMutation.fetcher = (variables: BeginUserRegistrationMutationVariables) => fetcher<BeginUserRegistrationMutation, BeginUserRegistrationMutationVariables>(BeginUserRegistrationDocument, variables);
+export const ConfirmUserEmailDocument = /*#__PURE__*/ `
+    mutation ConfirmUserEmail($token: String!) {
+  confirmUserEmail(confirmationToken: $token)
+}
+    `;
+export const useConfirmUserEmailMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ConfirmUserEmailMutation, TError, ConfirmUserEmailMutationVariables, TContext>) =>
+    useMutation<ConfirmUserEmailMutation, TError, ConfirmUserEmailMutationVariables, TContext>(
+      ['ConfirmUserEmail'],
+      (variables?: ConfirmUserEmailMutationVariables) => fetcher<ConfirmUserEmailMutation, ConfirmUserEmailMutationVariables>(ConfirmUserEmailDocument, variables)(),
+      options
+    );
+useConfirmUserEmailMutation.fetcher = (variables: ConfirmUserEmailMutationVariables) => fetcher<ConfirmUserEmailMutation, ConfirmUserEmailMutationVariables>(ConfirmUserEmailDocument, variables);
 export const LogInDocument = /*#__PURE__*/ `
     mutation LogIn($emailOrUsername: String!, $password: String!) {
   login(input: {emailOrUsername: $emailOrUsername, password: $password}) {

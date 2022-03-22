@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import "styles/globals.scss";
 import "styles/landing.css";
 import { AppHead as Head } from "components/Head/Head";
+import { AuthContextProvider } from "hooks/useAuth";
 
 const queryClient = new QueryClient();
 
@@ -23,10 +24,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <Head />
-        {getLayout(<Component {...pageProps} />)}
-      </Hydrate>
+      <AuthContextProvider>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Head />
+          {getLayout(<Component {...pageProps} />)}
+        </Hydrate>
+      </AuthContextProvider>
     </QueryClientProvider>
   );
 }

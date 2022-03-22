@@ -3,7 +3,7 @@
 @import "styles/mixins.scss";
 
 .container {
-  height: 100vmax;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

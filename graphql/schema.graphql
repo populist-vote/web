@@ -722,6 +722,7 @@ type Query {
     """Search by voteStatus, title, or slug"""
     search: BillSearch! = {billNumber: null, legislationStatus: null, slug: null, title: null}
   ): BillResultConnection!
+  currentUser: UserResult!
   electionById(id: String!): ElectionResult!
   elections(
     """Search by slug or title"""
@@ -1132,6 +1133,13 @@ input UpdateRaceInput {
 }
 
 scalar Upload
+
+type UserResult {
+  email: String!
+  id: ID!
+  role: Role!
+  username: String!
+}
 
 type Vote {
   absent: Int!

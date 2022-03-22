@@ -2,6 +2,15 @@ query ValidateEmailAvailable($email: String!) {
   validateEmailAvailable(email: $email)
 }
 
+query CurrentUser {
+  currentUser {
+    id
+    email
+    username
+    role
+  }
+}
+
 mutation BeginUserRegistration(
   $email: String!
   $password: String!
@@ -22,8 +31,16 @@ mutation BeginUserRegistration(
   }
 }
 
+mutation ConfirmUserEmail($token: String!) {
+  confirmUserEmail(confirmationToken: $token)
+}
+
 mutation LogIn($emailOrUsername: String!, $password: String!) {
   login(input: { emailOrUsername: $emailOrUsername, password: $password }) {
     userId
   }
+}
+
+mutation ResetPassword($password: String!, $resetToken: String!) {
+  resetPassword(input: { password: $password, resetToken: $resetToken })
 }
