@@ -41,6 +41,6 @@ mutation LogIn($emailOrUsername: String!, $password: String!) {
   }
 }
 
-mutation ResetPassword($password: String!, $resetToken: String!) {
-  resetPassword(input: { password: $password, resetToken: $resetToken })
+mutation ResetPassword($newPassword: String!, $resetToken: String!) {
+  resetPassword(input: { newPassword: $newPassword, resetToken: $resetToken })
 }

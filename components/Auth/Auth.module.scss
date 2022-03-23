@@ -15,6 +15,43 @@
 .container {
   min-width: 324px;
   max-width: 496px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include for-tablet-portrait-up {
+    max-width: 596px;
+  }
+
+  h1 {
+    width: 100%;
+    align-self: left;
+  }
+
+  button {
+    margin-top: 1.5rem;
+    background-color: $blue;
+    font-family: $font-primary;
+    border: none;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 19px;
+    letter-spacing: 0.2px;
+    padding: 15px 24px;
+    text-transform: uppercase;
+    cursor: pointer;
+    justify-self: center;
+
+    &:hover {
+      background-color: $blue-dark;
+      transition: 0.3s ease-in-out;
+    }
+
+    @include for-tablet-portrait-up {
+      min-width: 75%;
+    }
+  }
 }
 
 .formWrapper {
@@ -69,30 +106,6 @@
       input {
         box-shadow: 0 0 0 2px $red;
       }
-    }
-  }
-
-  button {
-    margin-top: 1.5rem;
-    background-color: $blue;
-    font-family: $font-primary;
-    border: none;
-    border-radius: 100px;
-    color: #fff;
-    font-size: 19px;
-    letter-spacing: 0.2px;
-    padding: 15px 24px;
-    text-transform: uppercase;
-    cursor: pointer;
-    justify-self: center;
-
-    &:hover {
-      background-color: $blue-dark;
-      transition: 0.3s ease-in-out;
-    }
-
-    @include for-tablet-portrait-up {
-      width: 75%;
     }
   }
 

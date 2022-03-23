@@ -586,6 +586,7 @@ export type Mutation = {
   updateIssueTag: IssueTagResult;
   updateOffice: OfficeResult;
   updateOrganization: OrganizationResult;
+  updatePassword: Scalars['Boolean'];
   updatePolitician: PoliticianResult;
   updateRace: RaceResult;
   uploadPoliticianThumbnail: Scalars['Int'];
@@ -755,6 +756,11 @@ export type MutationUpdateOfficeArgs = {
 export type MutationUpdateOrganizationArgs = {
   id: Scalars['String'];
   input: UpdateOrganizationInput;
+};
+
+
+export type MutationUpdatePasswordArgs = {
+  input: UpdatePasswordInput;
 };
 
 
@@ -982,7 +988,8 @@ export type Query = {
   ballotMeasures: Array<BallotMeasureResult>;
   billBySlug?: Maybe<BillResult>;
   bills: BillResultConnection;
-  currentUser: UserResult;
+  /** Providers current user based on JWT found in client's access_token cookie */
+  currentUser?: Maybe<UserResult>;
   electionById: ElectionResult;
   elections: Array<ElectionResult>;
   health: Scalars['Boolean'];
@@ -1179,9 +1186,7 @@ export type Referral = {
 };
 
 export type ResetPasswordInput = {
-  confirmPassword: Scalars['String'];
-  email: Scalars['String'];
-  password: Scalars['String'];
+  newPassword: Scalars['String'];
   resetToken: Scalars['String'];
 };
 
@@ -1418,6 +1423,11 @@ export type UpdateOrganizationInput = {
   websiteUrl?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdatePasswordInput = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
+};
+
 export type UpdatePoliticianInput = {
   ballotName?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
@@ -1509,7 +1519,7 @@ export type ValidateEmailAvailableQuery = { __typename?: 'Query', validateEmailA
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } | null | undefined };
 
 export type BeginUserRegistrationMutationVariables = Exact<{
   email: Scalars['String'];
@@ -1536,6 +1546,14 @@ export type LogInMutationVariables = Exact<{
 
 
 export type LogInMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResult', userId: string } };
+
+export type ResetPasswordMutationVariables = Exact<{
+  newPassword: Scalars['String'];
+  resetToken: Scalars['String'];
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
 
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1710,6 +1728,21 @@ export const useLogInMutation = <
       options
     );
 useLogInMutation.fetcher = (variables: LogInMutationVariables) => fetcher<LogInMutation, LogInMutationVariables>(LogInDocument, variables);
+export const ResetPasswordDocument = /*#__PURE__*/ `
+    mutation ResetPassword($newPassword: String!, $resetToken: String!) {
+  resetPassword(input: {newPassword: $newPassword, resetToken: $resetToken})
+}
+    `;
+export const useResetPasswordMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>) =>
+    useMutation<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>(
+      ['ResetPassword'],
+      (variables?: ResetPasswordMutationVariables) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables)(),
+      options
+    );
+useResetPasswordMutation.fetcher = (variables: ResetPasswordMutationVariables) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables);
 export const UpcomingElectionsDocument = /*#__PURE__*/ `
     query UpcomingElections {
   upcomingElections {

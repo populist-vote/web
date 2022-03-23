@@ -4,11 +4,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import styles from "../Auth/Auth.module.scss";
+import { useResetPasswordMutation } from "../../generated";
 
 type PasswordFormValues = { password: string; confirmPassword: string };
 
 export function ResetPasswordForm() {
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(true);
 
   const {
     register,
@@ -29,9 +30,24 @@ export function ResetPasswordForm() {
   });
 
   const submitForm = (data: PasswordFormValues) => {
-    console.log(JSON.stringify(data));
-    mutation.mutate({ newPassword: data.password, resetToken: token });
+    mutation.mutate({
+      newPassword: data.password,
+      resetToken: token as string,
+    });
   };
+
+  if (isSuccess)
+    return (
+      <BasicLayout>
+        <div className={styles.container}>
+          <h1>Your password has been reset</h1>
+          <Link href={"/login"} passHref>
+            <button>Login</button>
+          </Link>
+        </div>
+      </BasicLayout>
+    );
+
   return (
     <BasicLayout>
       <div className={styles.container}>

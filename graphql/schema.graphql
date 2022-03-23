@@ -508,6 +508,7 @@ type Mutation {
   updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
   updateOffice(id: String!, input: UpdateOfficeInput!): OfficeResult!
   updateOrganization(id: String!, input: UpdateOrganizationInput!): OrganizationResult!
+  updatePassword(input: UpdatePasswordInput!): Boolean!
   updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
   updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
   uploadPoliticianThumbnail(file: Upload!): Int!
@@ -722,7 +723,11 @@ type Query {
     """Search by voteStatus, title, or slug"""
     search: BillSearch! = {billNumber: null, legislationStatus: null, slug: null, title: null}
   ): BillResultConnection!
-  currentUser: UserResult!
+
+  """
+  Providers current user based on JWT found in client's access_token cookie
+  """
+  currentUser: UserResult
   electionById(id: String!): ElectionResult!
   elections(
     """Search by slug or title"""
@@ -844,9 +849,7 @@ type Referral {
 }
 
 input ResetPasswordInput {
-  confirmPassword: String!
-  email: String!
-  password: String!
+  newPassword: String!
   resetToken: String!
 }
 
@@ -1087,6 +1090,11 @@ input UpdateOrganizationInput {
   twitterUrl: String
   votesmartSigId: Int
   websiteUrl: String
+}
+
+input UpdatePasswordInput {
+  newPassword: String!
+  oldPassword: String!
 }
 
 input UpdatePoliticianInput {

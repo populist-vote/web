@@ -49,22 +49,25 @@ export function EmailStep() {
 
   const submitForm = (data: any) => {
     actions.updateAction(data);
-    validateEmailAvailable().then(({ data, error }) => {
-      if (data?.validateEmailAvailable) {
-        router.push({ query: { step: "address" } });
-      } else {
-        setError(
-          "email",
-          {
-            type: "manual",
-            message: "This email is already associated with another account.",
-          },
-          {
-            shouldFocus: true,
-          }
-        );
+    validateEmailAvailable().then(
+      // Shamefully typecast to any
+      ({ data, error }: { data: any; error: any }) => {
+        if (data?.validateEmailAvailable) {
+          router.push({ query: { step: "address" } });
+        } else {
+          setError(
+            "email",
+            {
+              type: "manual",
+              message: error.message,
+            },
+            {
+              shouldFocus: true,
+            }
+          );
+        }
       }
-    });
+    );
   };
 
   return (
