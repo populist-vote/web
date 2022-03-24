@@ -1,12 +1,8 @@
-import {
-  BeginUserRegistrationInput,
-  useValidateEmailAvailableQuery,
-} from "generated";
+import { useValidateEmailAvailableQuery } from "generated";
 import { useStateMachine } from "little-state-machine";
 import { useForm } from "react-hook-form";
 import { updateAction } from "pages/register";
 import styles from "../Auth.module.scss";
-import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -33,20 +29,18 @@ export function EmailStep() {
     },
   });
 
-  const {
-    error: validateEmailError,
-    refetch: validateEmailAvailable,
-    isLoading,
-  } = useValidateEmailAvailableQuery(
-    {
-      email: signupFormState.email,
-    },
-    {
-      retry: false,
-      refetchOnWindowFocus: false,
-      enabled: false,
-    }
-  );
+  const { refetch: validateEmailAvailable, isLoading } =
+    useValidateEmailAvailableQuery(
+      {
+        email: signupFormState.email,
+      },
+      // Only want to run this on form submission
+      {
+        retry: false,
+        refetchOnWindowFocus: false,
+        enabled: false,
+      }
+    );
 
   const submitForm = (data: any) => {
     actions.updateAction(data);
@@ -72,7 +66,7 @@ export function EmailStep() {
 
         // Handle errors like network down - eventually we should useAlert here and
         // create an alertContext for more global errors
-        if (error) {
+        if (error instanceof Error) {
           setError(
             "email",
             {

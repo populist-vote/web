@@ -22,7 +22,7 @@ export function RequestResetForm() {
     onSuccess: (data: { requestPasswordReset: boolean }) => {
       if (data.requestPasswordReset) setIsSuccess(true);
     },
-    onError: (error, variables, context) => {
+    onError: (error) => {
       if (error instanceof Error)
         setError("email", {
           type: "manual",

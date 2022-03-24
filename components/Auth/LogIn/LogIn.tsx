@@ -67,9 +67,9 @@ export function LogIn() {
             </div>
             <button>{login.isLoading ? "Loading..." : "Sign In"}</button>
             <br />
-            <Link href="/auth/reset-password" passHref>
+            <Link href="/auth/reset" passHref>
               <small className={layoutStyles.textLink}>
-                I forgot my username or password.
+                Forgot your password?
               </small>
             </Link>
             <br />
