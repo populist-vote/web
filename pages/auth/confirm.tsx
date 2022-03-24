@@ -5,13 +5,12 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styles from "components/Auth/Auth.module.scss";
 import layoutStyles from "components/BasicLayout/BasicLayout.module.scss";
+import Link from "next/link";
 
 const ConfirmEmail: NextPage = () => {
   const { query } = useRouter();
   const { token } = query;
   const mutation = useConfirmUserEmailMutation();
-
-  console.log(token);
 
   useEffect(() => {
     if (typeof token == "string") mutation.mutate({ token });
@@ -20,9 +19,11 @@ const ConfirmEmail: NextPage = () => {
   if (mutation.isSuccess) {
     return (
       <BasicLayout hideFooter>
-        <h1>Congradulations, ayour account has been confirmed!</h1>
-        <p>We're excited to have you.</p>
-        <button>LOG IN NOW</button>
+        <div className={styles.container}>
+          <h1>Congradulations, your account has been confirmed!</h1>
+          <p>We're excited to have you.</p>
+          <button>LOG IN NOW</button>
+        </div>
       </BasicLayout>
     );
   } else
@@ -45,9 +46,11 @@ const ConfirmEmail: NextPage = () => {
             >
               info@populist.us
             </a>{" "}
-            for more information.
+            for help.
           </p>
-          <button>LOG IN NOW</button>
+          <Link href="/login" passHref>
+            <button>LOG IN NOW</button>
+          </Link>
         </div>
       </BasicLayout>
     );

@@ -41,6 +41,10 @@ mutation LogIn($emailOrUsername: String!, $password: String!) {
   }
 }
 
+mutation RequestPasswordReset($email: String!) {
+  requestPasswordReset(email: $email)
+}
+
 mutation ResetPassword($newPassword: String!, $resetToken: String!) {
   resetPassword(input: { newPassword: $newPassword, resetToken: $resetToken })
 }

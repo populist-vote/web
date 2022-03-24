@@ -2,14 +2,14 @@ import BasicLayout from "components/BasicLayout/BasicLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import styles from "../Auth/Auth.module.scss";
 import { useResetPasswordMutation } from "../../generated";
 
 type PasswordFormValues = { password: string; confirmPassword: string };
 
 export function ResetPasswordForm() {
-  const [isSuccess, setIsSuccess] = useState<boolean>(true);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const {
     register,

@@ -1547,6 +1547,13 @@ export type LogInMutationVariables = Exact<{
 
 export type LogInMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResult', userId: string } };
 
+export type RequestPasswordResetMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type RequestPasswordResetMutation = { __typename?: 'Mutation', requestPasswordReset: boolean };
+
 export type ResetPasswordMutationVariables = Exact<{
   newPassword: Scalars['String'];
   resetToken: Scalars['String'];
@@ -1728,6 +1735,21 @@ export const useLogInMutation = <
       options
     );
 useLogInMutation.fetcher = (variables: LogInMutationVariables) => fetcher<LogInMutation, LogInMutationVariables>(LogInDocument, variables);
+export const RequestPasswordResetDocument = /*#__PURE__*/ `
+    mutation RequestPasswordReset($email: String!) {
+  requestPasswordReset(email: $email)
+}
+    `;
+export const useRequestPasswordResetMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<RequestPasswordResetMutation, TError, RequestPasswordResetMutationVariables, TContext>) =>
+    useMutation<RequestPasswordResetMutation, TError, RequestPasswordResetMutationVariables, TContext>(
+      ['RequestPasswordReset'],
+      (variables?: RequestPasswordResetMutationVariables) => fetcher<RequestPasswordResetMutation, RequestPasswordResetMutationVariables>(RequestPasswordResetDocument, variables)(),
+      options
+    );
+useRequestPasswordResetMutation.fetcher = (variables: RequestPasswordResetMutationVariables) => fetcher<RequestPasswordResetMutation, RequestPasswordResetMutationVariables>(RequestPasswordResetDocument, variables);
 export const ResetPasswordDocument = /*#__PURE__*/ `
     mutation ResetPassword($newPassword: String!, $resetToken: String!) {
   resetPassword(input: {newPassword: $newPassword, resetToken: $resetToken})

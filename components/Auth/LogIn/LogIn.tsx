@@ -1,9 +1,11 @@
 import BasicLayout from "components/BasicLayout/BasicLayout";
 import { useLogInMutation } from "generated";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
+import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
 
 export function LogIn() {
   const router = useRouter();
@@ -64,6 +66,12 @@ export function LogIn() {
               />
             </div>
             <button>{login.isLoading ? "Loading..." : "Sign In"}</button>
+            <br />
+            <Link href="/auth/reset-password" passHref>
+              <small className={layoutStyles.textLink}>
+                I forgot my username or password.
+              </small>
+            </Link>
             <br />
             <small className={styles.formError}>{loginError}</small>
           </form>

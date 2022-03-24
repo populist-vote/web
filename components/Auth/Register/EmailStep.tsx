@@ -6,6 +6,7 @@ import { useStateMachine } from "little-state-machine";
 import { useForm } from "react-hook-form";
 import { updateAction } from "pages/register";
 import styles from "../Auth.module.scss";
+import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -20,7 +21,7 @@ export function EmailStep() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setError,
   } = useForm({
     reValidateMode: "onChange",
@@ -51,15 +52,32 @@ export function EmailStep() {
     actions.updateAction(data);
     validateEmailAvailable().then(
       // Shamefully typecast to any
-      ({ data, error }: { data: any; error: any }) => {
-        if (data?.validateEmailAvailable) {
+      ({ data: response, error }: { data: any; error: any }) => {
+        console.log({ response, error });
+        if (response?.validateEmailAvailable) {
+          console.log(data);
           router.push({ query: { step: "address" } });
         } else {
           setError(
             "email",
             {
               type: "manual",
-              message: error.message,
+              message: "Email address is already in use",
+            },
+            {
+              shouldFocus: true,
+            }
+          );
+        }
+
+        // Handle errors like network down - eventually we should useAlert here and
+        // create an alertContext for more global errors
+        if (error) {
+          setError(
+            "email",
+            {
+              type: "manual",
+              message: error?.message,
             },
             {
               shouldFocus: true,
