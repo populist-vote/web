@@ -14,6 +14,7 @@ import FlagSection from "components/FlagSection/FlagSection";
 
 import dynamic from "next/dynamic";
 import { dateString } from "util/dates";
+import { useAuth } from "hooks/useAuth";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
@@ -105,6 +106,9 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     (race) => race.office.politicalScope === PoliticalScope.State
   );
 
+  const { user } = useAuth({ redirectTo: "/login" });
+
+  if (!user) return null;
   return (
     <>
       <Head>
@@ -156,7 +160,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
 
 export default BallotPage;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       mobileNavTitle: "My Ballot",

@@ -1,5 +1,5 @@
 import BasicLayout from "components/BasicLayout/BasicLayout";
-import { useLogInMutation } from "generated";
+import { useCurrentUserQuery, useLogInMutation, UserResult } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -13,24 +13,32 @@ export function LogIn() {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm();
 
   const [loginError, setLoginError] = useState<string | null>(null);
 
+  const getCurrentUser = useCurrentUserQuery();
+
+  const { data, isLoading } = useCurrentUserQuery();
+  const user = data?.currentUser;
+  if (user) router.push("/ballot");
+
   const login = useLogInMutation({
-    onError: (error, variables, context) => {
+    onError: (error) => {
       if (error instanceof Error) setLoginError(error.message as string);
     },
-    onSuccess: (data, variables, context) => {
-      // Check cookies for token
-      router.push("/ballot");
+    onSuccess: () => {
+      getCurrentUser.refetch().then((data: any) => {
+        if (data?.currentUser) router.push("/ballot");
+      });
     },
   });
 
   const submitForm = (data: any) => {
     login.mutate(data);
   };
+
+  if (user || isLoading) return null;
 
   return (
     <BasicLayout hideFooter>

@@ -1,22 +1,14 @@
-import { useCurrentUserQuery, UserResult } from "generated";
-import { createContext, ReactNode, useContext } from "react";
+import { useCurrentUserQuery } from "generated";
+import Router from "next/router";
+import { useEffect } from "react";
 
-const AuthContext = createContext<UserResult | null>(null);
-
-export function AuthContextProvider({ children }: { children: ReactNode }) {
+export function useAuth({ redirectTo = "" }) {
   const { data } = useCurrentUserQuery();
 
-  return (
-    <AuthContext.Provider value={data?.currentUser || null}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
+  useEffect(() => {
+    if (!data) return;
+    if (redirectTo && !data?.currentUser) Router.push(redirectTo);
+  }, [data, redirectTo]);
 
-export function useAuth() {
-  const authContext = useContext(AuthContext);
-  if (!authContext) {
-    throw new Error("useAuth must be used within an AuthContextProvider");
-  }
-  return authContext;
+  return { user: data?.currentUser };
 }
