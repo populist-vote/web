@@ -82,7 +82,7 @@ const Home: NextPage = () => {
               <div className="contentwide">
                 <h1>Amplify your voice.</h1>
                 <p>
-                  Civic engagement starts with your vote. Extend it's power
+                  Civic engagement starts with your vote. Extend its power
                   beyond the ballot box by letting your representatives know
                   your position on key legislation and issues.
                 </p>

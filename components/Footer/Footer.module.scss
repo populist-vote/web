@@ -4,14 +4,21 @@
   margin-top: 3rem;
   grid-area: footer;
   text-align: center;
+  margin-bottom: 3rem;
 
   svg {
     margin: 0 1rem;
-    color: $white;
+    color: $blue;
 
     &:hover {
-      color: $blue;
+      color: $white;
       transition: ease-in-out 0.3s all;
     }
   }
+
+  p {
+    margin-bottom: 40px;
+  }
+
 }
+
