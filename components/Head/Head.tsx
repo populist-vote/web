@@ -55,6 +55,7 @@ export function AppHead() {
       />
       <meta name="twitter:site" content="@populist_us" />
 
+      <link rel="shortcut icon" href="/images/favicon.ico" />
       <link rel="apple-touch-icon" href="/icons/icon-144x144.png" />
       <link
         rel="icon"
