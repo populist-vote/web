@@ -9,7 +9,6 @@ const nextConfig = {
     domains: [
       "static.votesmart.org",
       "populist-platform.s3.us-east-2.amazonaws.com",
-      "static.wikia.nocookie.net",
     ],
     format: ["image/webp", "image/png", "image/jpeg", "image/gif"],
   },
