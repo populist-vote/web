@@ -71,7 +71,7 @@ const RaceSlider = ({ race }: { race: RaceResult }) => {
               </>
             )}
           </div>
-          <div>
+          <div className={`${styles.flexBetween}`}>
             {otherPoliticians?.map((politician: PoliticianResult) => (
               <div className={styles.avatarContainer} key={politician.id}>
                 <PartyAvatar
