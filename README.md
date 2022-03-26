@@ -16,7 +16,7 @@ Open [http://localhost:3030](http://localhost:3030) with your browser to see the
 
 ## Development
 
-This reposity leverages automatic code generation for GraphQL to make managing our types and fetchers seamless. You can run `yarn generate` to automatically generate our GraphQL types and data fetching hooks. This updates the `generated.tsx` file based on the queries and mutations defined in the `/graphql` directory. If you update these GraphQL files, or you are aware that the API has been modified, you'll need to run `yarn generate` to create the most recent type bindings and fetchers. We use `react-query` as our client side caching layer. All queries are automatically cached based on the provided query key. This dramatically improves client side user experience and minimizes unnecessary calls to the API.
+This reposity leverages automatic code generation for GraphQL to make managing our types and fetchers seamless. You can run `yarn generate` to automatically generate TypeScript type bindings, an updated GraphQL schema, and typed hooks for fetching data. This command updates the `generated.tsx` file based on the queries and mutations defined in the `/graphql` directory. If you update these GraphQL files, or you are aware that the API has been modified, you'll need to run `yarn generate` to create the most recent type bindings and fetchers. We use `react-query` as our client side caching layer. All queries are automatically cached based on the provided query key. This dramatically improves client side user experience and minimizes unnecessary calls to the API.
 
 ## Deployment
 
