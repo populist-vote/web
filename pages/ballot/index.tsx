@@ -47,28 +47,30 @@ const RaceSlider = ({ race }: { race: RaceResult }) => {
         <Scroller>
           <div>
             {incumbentPolitician && (
-              <div className={`${styles.flexBetween}`}>
-                <span className={styles.sideText}>INCUMBENT</span>
-                <div className={styles.avatarContainer}>
-                  <PartyAvatar
-                    size={80}
-                    party={
-                      incumbentPolitician?.party ||
-                      ("Unknown" as PoliticalParty)
-                    }
-                    src={
-                      incumbentPolitician?.thumbnailImageUrl ||
-                      PERSON_FALLBACK_IMAGE_URL
-                    }
-                    fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                    alt={incumbentPolitician.fullName}
-                  />
-                  <h4>{incumbentPolitician.fullName}</h4>
+              <>
+                <div className={`${styles.flexBetween}`}>
+                  <span className={styles.sideText}>INCUMBENT</span>
+                  <div className={styles.avatarContainer}>
+                    <PartyAvatar
+                      size={80}
+                      party={
+                        incumbentPolitician?.party ||
+                        ("Unknown" as PoliticalParty)
+                      }
+                      src={
+                        incumbentPolitician?.thumbnailImageUrl ||
+                        PERSON_FALLBACK_IMAGE_URL
+                      }
+                      fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                      alt={incumbentPolitician.fullName}
+                    />
+                    <h4>{incumbentPolitician.fullName}</h4>
+                  </div>
                 </div>
-              </div>
+                <VerticalDivider />
+              </>
             )}
           </div>
-          <VerticalDivider />
           <div>
             {otherPoliticians?.map((politician: PoliticianResult) => (
               <div className={styles.avatarContainer} key={politician.id}>
