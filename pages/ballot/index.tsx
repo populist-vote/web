@@ -135,7 +135,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
               <p>{upcomingElection?.description}</p>
             </FlagSection>
 
-            {Object.keys(federalRacesGroupedByOffice).length && (
+            {Object.keys(federalRacesGroupedByOffice).length > 0 && (
               <FlagSection title="Federal" color="salmon">
                 {Object.entries(federalRacesGroupedByOffice).map(
                   ([officeId, races]) => {

@@ -65,9 +65,11 @@ query PoliticianBySlug($slug: String!) {
 
     upcomingRace {
       raceType
-      officePosition
       state
       electionDate
+      office {
+        title
+      }
       candidates {
         id
         slug

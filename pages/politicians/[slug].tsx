@@ -151,7 +151,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3>Running For</h3>
         <div className={styles.roundedCard}>
           {upcomingElection?.state && <h2>{states[upcomingElection.state]}</h2>}
-          <h1>{upcomingElection?.officePosition}</h1>
+          <h1>{upcomingElection?.office.title}</h1>
         </div>
         {upcomingElection.candidates.length > 1 && (
           <>
