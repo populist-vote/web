@@ -8,6 +8,8 @@ import Scroller from "./Scroller";
 import Spacer from "./Spacer/Spacer";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { Avatar, PartyAvatar } from "./Avatar/Avatar";
+import { FieldSet } from "./FieldSet/FieldSet";
+import FlagSection from "./FlagSection/FlagSection";
 
 export {
   Avatar,
@@ -21,4 +23,6 @@ export {
   Scroller,
   Spacer,
   VerticalDivider,
+  FieldSet,
+  FlagSection,
 };

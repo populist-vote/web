@@ -1,0 +1,24 @@
+@import "styles/variables/colors.module";
+@import "styles/variables/fonts.module";
+
+.container {
+  border-radius: 20px;
+  border: 2px solid $blue;
+  padding: 1rem;
+  text-align: left;
+
+  &.red {
+    border: 2px solid $red;
+  }
+
+  &.blue {
+    border: 2px solid $blue;
+  }
+
+  legend {
+    position: relative;
+    font-family: $font-primary;
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+}

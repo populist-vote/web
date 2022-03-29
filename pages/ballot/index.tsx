@@ -10,13 +10,12 @@ import {
   useUpcomingElectionsQuery,
 } from "generated";
 import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
-import FlagSection from "components/FlagSection/FlagSection";
+import { FlagSection, FieldSet } from "components";
 
 import dynamic from "next/dynamic";
 import { dateString } from "util/dates";
 import { useAuth } from "hooks/useAuth";
 import { groupBy } from "util/groupBy";
-import { NodeNextRequest } from "next/dist/server/base-http/node";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
@@ -47,11 +46,13 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
         <Scroller>
           <div className={styles.flexBetween}>
             {races.map((race) => (
-              <fieldset
+              <FieldSet
+                heading={race.title}
+                color={
+                  race.party === PoliticalParty.Republican ? "red" : "blue"
+                }
                 key={race.id}
-                className={`${styles.flexBetween} ${styles.primaryContainer}`}
               >
-                <legend>{race.title}</legend>
                 {race.candidates?.map((politician: PoliticianResult) => (
                   <div className={styles.flexBetween} key={politician.id}>
                     {politician.id == incumbentId && (
@@ -76,7 +77,7 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
                     {politician.id == incumbentId && <VerticalDivider />}
                   </div>
                 ))}
-              </fieldset>
+              </FieldSet>
             ))}
           </div>
         </Scroller>
