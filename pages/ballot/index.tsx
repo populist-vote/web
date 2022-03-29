@@ -15,21 +15,18 @@ import FlagSection from "components/FlagSection/FlagSection";
 import dynamic from "next/dynamic";
 import { dateString } from "util/dates";
 import { useAuth } from "hooks/useAuth";
+import { groupBy } from "util/groupBy";
+import { NodeNextRequest } from "next/dist/server/base-http/node";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
 });
 
-const RaceSlider = ({ race }: { race: RaceResult }) => {
-  const { state, office } = race;
+// Races associated with a single office (to handle primaries)
+const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
+  const office = races[0].office;
 
-  let incumbentPolitician = race.candidates?.find(
-    (politician) => politician.id === race.office?.incumbent?.id
-  );
-
-  let otherPoliticians = race.candidates?.filter(
-    (politician) => politician.id !== race.office?.incumbent?.id
-  );
+  let incumbentId = office.incumbent?.id;
 
   return (
     <>
@@ -37,54 +34,49 @@ const RaceSlider = ({ race }: { race: RaceResult }) => {
         className={`${styles.bold} ${styles.flexBetween} ${styles.inset}`}
       >
         <h2>
-          <span>{office?.title}</span>{" "}
-          <span>{`District ${office?.district}`}</span>
+          <span>{office?.title} </span>
+          {/* Shame:  If the district is not a number, don't display it */}
+          {!isNaN(parseInt(office?.district as string)) && (
+            <span>{`District ${office?.district}`}</span>
+          )}
         </h2>
-        <h3>{state}</h3>
+        <h3>{office.state}</h3>
       </header>
 
-      <div className={`${styles.roundedCard} ${styles.flexBetween}`}>
+      <div className={`${styles.roundedCard}`}>
         <Scroller>
-          <div>
-            {incumbentPolitician && (
-              <>
-                <div className={`${styles.flexBetween}`}>
-                  <span className={styles.sideText}>INCUMBENT</span>
-                  <div className={styles.avatarContainer}>
-                    <PartyAvatar
-                      size={80}
-                      party={
-                        incumbentPolitician?.party ||
-                        ("Unknown" as PoliticalParty)
-                      }
-                      src={
-                        incumbentPolitician?.thumbnailImageUrl ||
-                        PERSON_FALLBACK_IMAGE_URL
-                      }
-                      fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                      alt={incumbentPolitician.fullName}
-                    />
-                    <h4>{incumbentPolitician.fullName}</h4>
+          <div className={styles.flexBetween}>
+            {races.map((race) => (
+              <fieldset
+                key={race.id}
+                className={`${styles.flexBetween} ${styles.primaryContainer}`}
+              >
+                <legend>{race.title}</legend>
+                {race.candidates?.map((politician: PoliticianResult) => (
+                  <div className={styles.flexBetween} key={politician.id}>
+                    {politician.id == incumbentId && (
+                      <span className={styles.sideText}>INCUMBENT</span>
+                    )}
+
+                    <div className={styles.avatarContainer}>
+                      <PartyAvatar
+                        size={80}
+                        party={
+                          politician?.party || ("Unknown" as PoliticalParty)
+                        }
+                        src={
+                          politician?.thumbnailImageUrl ||
+                          PERSON_FALLBACK_IMAGE_URL
+                        }
+                        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                        alt={politician.fullName}
+                      />
+                      <h4>{politician.fullName}</h4>
+                    </div>
+                    {politician.id == incumbentId && <VerticalDivider />}
                   </div>
-                </div>
-                <VerticalDivider />
-              </>
-            )}
-          </div>
-          <div className={`${styles.flexBetween}`}>
-            {otherPoliticians?.map((politician: PoliticianResult) => (
-              <div className={styles.avatarContainer} key={politician.id}>
-                <PartyAvatar
-                  size={80}
-                  party={politician?.party || ("Unknown" as PoliticalParty)}
-                  src={
-                    politician?.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL
-                  }
-                  fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                  alt={politician.fullName}
-                />
-                <h4>{politician.fullName}</h4>
-              </div>
+                ))}
+              </fieldset>
             ))}
           </div>
         </Scroller>
@@ -99,13 +91,18 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { data, error, isLoading } = useUpcomingElectionsQuery();
 
   const upcomingElection = data?.upcomingElections[0];
+  const races = upcomingElection?.races || [];
 
-  const federalRaces = upcomingElection?.races.filter(
-    (race) => race.office.politicalScope === PoliticalScope.Federal
+  const federalRacesGroupedByOffice = groupBy(
+    races.filter(
+      (race) => race.office.politicalScope === PoliticalScope.Federal
+    ),
+    (race) => race.office.id
   );
 
-  const stateRaces = upcomingElection?.races.filter(
-    (race) => race.office.politicalScope === PoliticalScope.State
+  const stateRacesGroupedByOffice = groupBy(
+    races.filter((race) => race.office.politicalScope === PoliticalScope.State),
+    (race) => race.office.id
   );
 
   const { user } = useAuth({ redirectTo: "/login" });
@@ -138,19 +135,31 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
               <p>{upcomingElection?.description}</p>
             </FlagSection>
 
-            {federalRaces && federalRaces.length > 0 && (
+            {Object.keys(federalRacesGroupedByOffice).length && (
               <FlagSection title="Federal" color="salmon">
-                {federalRaces.map((race) => (
-                  <RaceSlider key={race.id} race={race as RaceResult} />
-                ))}
+                {Object.entries(federalRacesGroupedByOffice).map(
+                  ([officeId, races]) => {
+                    return (
+                      <OfficeRacesSlider
+                        key={officeId}
+                        races={races as RaceResult[]}
+                      />
+                    );
+                  }
+                )}
               </FlagSection>
             )}
 
-            {stateRaces && stateRaces.length > 0 && (
-              <FlagSection title="State" color="green">
-                {stateRaces.map((race) => (
-                  <RaceSlider key={race.id} race={race as RaceResult} />
-                ))}
+            {Object.keys(stateRacesGroupedByOffice).length > 0 && (
+              <FlagSection title="State" color="yellow">
+                {Object.entries(stateRacesGroupedByOffice).map(
+                  ([officeId, races]) => (
+                    <OfficeRacesSlider
+                      key={officeId}
+                      races={races as RaceResult[]}
+                    />
+                  )
+                )}
               </FlagSection>
             )}
           </>

@@ -9,7 +9,6 @@ const year = day * 365;
 // https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off
 export function dateString(date: string): string {
   const dateObj = new Date(date.replace(/-/g, "/"));
-  console.log({ dateObj });
   return dateObj.toDateString().split(" ").slice(1).join(" ");
 }
 

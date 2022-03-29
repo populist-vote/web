@@ -7,7 +7,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("https://api.populist.us", {
+    const res = await fetch("https://api.staging.populist.us", {
     method: "POST",
     ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
@@ -1565,7 +1565,7 @@ export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: bo
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', title: string, description?: string | null | undefined, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, office: { __typename?: 'OfficeResult', title: string, district?: string | null | undefined, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string } | null | undefined }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined }> }> }> };
+export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', title: string, description?: string | null | undefined, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, title: string, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null | undefined, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined } | null | undefined }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined }> }> }> };
 
 export type BillBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1773,12 +1773,17 @@ export const UpcomingElectionsDocument = /*#__PURE__*/ `
     electionDate
     races {
       id
+      title
       office {
+        id
         title
         district
         politicalScope
         incumbent {
           id
+          fullName
+          party
+          thumbnailImageUrl
         }
       }
       candidates {

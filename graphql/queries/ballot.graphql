@@ -5,12 +5,17 @@ query UpcomingElections {
     electionDate
     races {
       id
+      title
       office {
+        id
         title
         district
         politicalScope
         incumbent {
           id
+          fullName
+          party
+          thumbnailImageUrl
         }
       }
       candidates {

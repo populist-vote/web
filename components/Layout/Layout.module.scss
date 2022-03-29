@@ -263,3 +263,17 @@
     }
   }
 }
+
+.primaryContainer {
+  border-radius: 20px;
+  border: 2px solid $blue;
+  padding: 1rem;
+  text-align: left;
+
+  legend {
+    position: relative;
+    font-family: $font-primary;
+    text-transform: uppercase;
+    align-self: flex-start;
+  }
+}
