@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import "styles/globals.scss";
 import "styles/landing.css";
@@ -50,6 +51,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Head />
           {getLayout(<Component {...pageProps} />)}
           <ToastContainer theme="dark" />
+          <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
         </Hydrate>
       </QueryClientProvider>
     </>
