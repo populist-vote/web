@@ -1,17 +1,6 @@
 input Address {
   city: String!
   country: String!
-  id: UUID!
-  line1: String!
-  line2: String
-  postalCode: String!
-  state: String!
-}
-
-type AddressResult {
-  city: String!
-  country: String!
-  id: ID!
   line1: String!
   line2: String
   postalCode: String!
@@ -344,6 +333,7 @@ input CreateRaceInput {
   electionDate: NaiveDate
   electionId: UUID
   officeId: UUID!
+  officePosition: String!
   officialWebsite: String
   party: PoliticalParty
   raceType: RaceType!
@@ -717,6 +707,7 @@ type Progress {
 
 type Query {
   allBallotMeasures: [BallotMeasureResult!]!
+  allElections: [ElectionResult!]!
   allIssueTags: [IssueTagResult!]!
   ballotMeasures(
     """Search by voteStatus, name, or slug"""
@@ -738,7 +729,6 @@ type Query {
   """
   currentUser: UserResult
   electionById(id: String!): ElectionResult!
-  electionBySlug(slug: String!): ElectionResult!
   elections(
     """Search by slug or title"""
     search: ElectionSearchInput!
@@ -805,6 +795,7 @@ type RaceResult {
   id: ID!
   office: OfficeResult!
   officeId: ID!
+  officePosition: String!
   officialWebsite: String
   party: PoliticalParty
   raceType: RaceType!
@@ -1140,6 +1131,7 @@ input UpdateRaceInput {
   electionDate: NaiveDate
   electionId: UUID
   officeId: UUID
+  officePosition: String
   officialWebsite: String
   party: PoliticalParty
   raceType: RaceType!
@@ -1151,7 +1143,6 @@ input UpdateRaceInput {
 scalar Upload
 
 type UserResult {
-  address: AddressResult
   email: String!
   id: ID!
   role: Role!

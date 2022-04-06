@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "styles/containers.module.scss";
-import PopulistLogo from "public/images/PopulistLogo.svg";
+import PopulistLogo from "public/images/LogoWithText.svg";
 
 export default function NotFound() {
   return (

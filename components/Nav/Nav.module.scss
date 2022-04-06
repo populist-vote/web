@@ -25,10 +25,14 @@
 
     .logoContainer {
       width: 30%;
+      max-width: 200px;
       align-self: center;
 
       @include for-tablet-landscape-up {
         width: 100%;
+        max-width: 100px;
+        max-height: 100px;
+        margin: 1.5rem;
       }
 
       &.hideLogo {

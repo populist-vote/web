@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 
-import headerLogo from "public/images/PopulistLogo.svg";
+import headerLogo from "public/images/LogoWithText.svg";
 import landing1 from "public/images/landing/politicianBrowser.webp";
 import landing1fallback from "public/images/landing/1.png";
 import landing2 from "public/images/landing/amplify.png";

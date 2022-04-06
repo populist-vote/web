@@ -8,6 +8,7 @@ import styles from "./Nav.module.scss";
 
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { LogoText } from "components/LogoText/LogoText";
+import { Logo } from "components/Logo/Logo";
 
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
@@ -51,8 +52,9 @@ export default function Nav({
             !showLogoOnMobile ? styles.hideLogo : ""
           }`}
         >
-          <LogoText />
+          {isSmallScreen ? <LogoText /> : <Logo />}
         </div>
+
         {showBackButton && (
           <Link href={`/politicians`} passHref>
             <a aria-label="Go back">
