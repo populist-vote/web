@@ -35,3 +35,7 @@ yarn-error.log*
 
 # generated 
 generated.ts
+
+# cypress 
+cypress/videos
+cypress/screenshots
