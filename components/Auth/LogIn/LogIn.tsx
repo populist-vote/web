@@ -1,5 +1,5 @@
 import BasicLayout from "components/BasicLayout/BasicLayout";
-import { useCurrentUserQuery, useLogInMutation, UserResult } from "generated";
+import { useCurrentUserQuery, useLogInMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";

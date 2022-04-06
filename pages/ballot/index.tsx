@@ -27,6 +27,10 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
 
   let incumbentId = office.incumbent?.id;
 
+  // Display race that has encumbent first
+  const raceSortFn = (a: RaceResult, b: RaceResult) =>
+    a.candidates.some((politician) => politician.id === incumbentId) ? 1 : 0;
+
   return (
     <>
       <header
@@ -34,7 +38,7 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
       >
         <h2>
           <span>{office?.title} </span>
-          {/* Shame:  If the district is not a number, don't display it */}
+          {/* If the district is not a number, don't display it */}
           {!isNaN(parseInt(office?.district as string)) && (
             <span>{`District ${office?.district}`}</span>
           )}
@@ -45,7 +49,7 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
       <div className={`${styles.roundedCard}`}>
         <Scroller>
           <div className={styles.flexBetween}>
-            {races.map((race) => (
+            {races.sort(raceSortFn).map((race) => (
               <FieldSet
                 heading={race.title}
                 color={

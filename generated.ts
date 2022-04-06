@@ -7,7 +7,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("https://api.staging.populist.us", {
+    const res = await fetch("http://localhost:1234", {
     method: "POST",
     ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
@@ -66,8 +66,20 @@ export type Scalars = {
 export type Address = {
   city: Scalars['String'];
   country: Scalars['String'];
+  id: Scalars['UUID'];
   line1: Scalars['String'];
   line2?: InputMaybe<Scalars['String']>;
+  postalCode: Scalars['String'];
+  state: Scalars['String'];
+};
+
+export type AddressResult = {
+  __typename?: 'AddressResult';
+  city: Scalars['String'];
+  country: Scalars['String'];
+  id: Scalars['ID'];
+  line1: Scalars['String'];
+  line2?: Maybe<Scalars['String']>;
   postalCode: Scalars['String'];
   state: Scalars['String'];
 };
@@ -403,7 +415,6 @@ export type CreateRaceInput = {
   electionDate?: InputMaybe<Scalars['NaiveDate']>;
   electionId?: InputMaybe<Scalars['UUID']>;
   officeId: Scalars['UUID'];
-  officePosition: Scalars['String'];
   officialWebsite?: InputMaybe<Scalars['String']>;
   party?: InputMaybe<PoliticalParty>;
   raceType: RaceType;
@@ -983,7 +994,6 @@ export type Progress = {
 export type Query = {
   __typename?: 'Query';
   allBallotMeasures: Array<BallotMeasureResult>;
-  allElections: Array<ElectionResult>;
   allIssueTags: Array<IssueTagResult>;
   ballotMeasures: Array<BallotMeasureResult>;
   billBySlug?: Maybe<BillResult>;
@@ -991,6 +1001,7 @@ export type Query = {
   /** Providers current user based on JWT found in client's access_token cookie */
   currentUser?: Maybe<UserResult>;
   electionById: ElectionResult;
+  electionBySlug: ElectionResult;
   elections: Array<ElectionResult>;
   health: Scalars['Boolean'];
   issueTagBySlug: IssueTagResult;
@@ -1033,6 +1044,11 @@ export type QueryBillsArgs = {
 
 export type QueryElectionByIdArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryElectionBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -1131,7 +1147,6 @@ export type RaceResult = {
   id: Scalars['ID'];
   office: OfficeResult;
   officeId: Scalars['ID'];
-  officePosition: Scalars['String'];
   officialWebsite?: Maybe<Scalars['String']>;
   party?: Maybe<PoliticalParty>;
   raceType: RaceType;
@@ -1462,7 +1477,6 @@ export type UpdateRaceInput = {
   electionDate?: InputMaybe<Scalars['NaiveDate']>;
   electionId?: InputMaybe<Scalars['UUID']>;
   officeId?: InputMaybe<Scalars['UUID']>;
-  officePosition?: InputMaybe<Scalars['String']>;
   officialWebsite?: InputMaybe<Scalars['String']>;
   party?: InputMaybe<PoliticalParty>;
   raceType: RaceType;
@@ -1473,6 +1487,7 @@ export type UpdateRaceInput = {
 
 export type UserResult = {
   __typename?: 'UserResult';
+  address?: Maybe<AddressResult>;
   email: Scalars['String'];
   id: Scalars['ID'];
   role: Role;
