@@ -1,10 +1,15 @@
-import { useValidateEmailAvailableQuery } from "generated";
+import {
+  useValidateEmailAvailableQuery,
+  useValidatePasswordEntropyQuery,
+} from "generated";
 import { useStateMachine } from "little-state-machine";
 import { useForm } from "react-hook-form";
 import { updateAction } from "pages/register";
 import styles from "../Auth.module.scss";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { PasswordEntropyMeter } from "./PasswordEntropyMeter/PasswordEntropyMeter";
+import useDebounce from "hooks/useDebounce";
 
 export function EmailStep() {
   const router = useRouter();
@@ -13,6 +18,8 @@ export function EmailStep() {
     actions,
     state: { signupFormState },
   } = useStateMachine({ updateAction });
+
+  const debouncedPassword = useDebounce(signupFormState.password, 500);
 
   const {
     register,
@@ -42,14 +49,37 @@ export function EmailStep() {
       }
     );
 
+  const {
+    data: passwordEntropyData = {
+      validatePasswordEntropy: {
+        valid: false,
+        score: 0,
+        message: null,
+      },
+    },
+    isLoading: isEntropyCalcLoading,
+  } = useValidatePasswordEntropyQuery(
+    {
+      password: debouncedPassword,
+    },
+    {
+      refetchOnWindowFocus: false,
+      enabled: signupFormState.password.length > 0,
+    }
+  );
+
+  const {
+    valid: isPasswordValid,
+    score,
+    message,
+  } = passwordEntropyData?.validatePasswordEntropy!;
+
   const submitForm = (data: any) => {
     actions.updateAction(data);
     validateEmailAvailable().then(
       // Shamefully typecast to any
       ({ data: response, error }: { data: any; error: any }) => {
-        console.log({ response, error });
         if (response?.validateEmailAvailable) {
-          console.log(data);
           router.push({ query: { step: "address" } });
         } else {
           setError(
@@ -107,6 +137,9 @@ export function EmailStep() {
                 {...register("firstName", {
                   required: "First name is required",
                 })}
+                onChange={(e) =>
+                  actions.updateAction({ firstName: e.target.value })
+                }
               />
             </div>
             <div
@@ -120,6 +153,9 @@ export function EmailStep() {
                 {...register("lastName", {
                   required: "Last name is required",
                 })}
+                onChange={(e) =>
+                  actions.updateAction({ lastName: e.target.value })
+                }
               />
             </div>
           </div>
@@ -152,7 +188,20 @@ export function EmailStep() {
               type="password"
               placeholder="Password"
               aria-invalid={errors.password ? "true" : "false"}
-              {...register("password", { required: "Password is required" })}
+              {...register("password", {
+                required: "Password is required",
+                validate: () => isPasswordValid,
+              })}
+              onChange={(e) =>
+                actions.updateAction({ password: e.target.value })
+              }
+            />
+            <PasswordEntropyMeter
+              valid={isPasswordValid}
+              score={score}
+              message={message}
+              length={signupFormState.password.length}
+              isLoading={isEntropyCalcLoading}
             />
           </div>
           <button disabled={isLoading}>

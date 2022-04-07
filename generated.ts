@@ -7,7 +7,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("http://localhost:1234", {
+    const res = await fetch("https://api.staging.populist.us", {
     method: "POST",
     ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
@@ -63,14 +63,13 @@ export type Scalars = {
   Upload: any;
 };
 
-export type Address = {
+export type AddressInput = {
   city: Scalars['String'];
   country: Scalars['String'];
-  id: Scalars['UUID'];
   line1: Scalars['String'];
   line2?: InputMaybe<Scalars['String']>;
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state: State;
 };
 
 export type AddressResult = {
@@ -81,7 +80,7 @@ export type AddressResult = {
   line1: Scalars['String'];
   line2?: Maybe<Scalars['String']>;
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state: State;
 };
 
 export type Amendment = {
@@ -154,7 +153,7 @@ export type BallotMeasureSearch = {
 };
 
 export type BeginUserRegistrationInput = {
-  address: Address;
+  address: AddressInput;
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
@@ -486,6 +485,8 @@ export type ElectionResult = {
   electionDate: Scalars['NaiveDate'];
   id: Scalars['ID'];
   races: Array<RaceResult>;
+  /** Show races relevant to the users state */
+  racesByUsersState: Array<RaceResult>;
   slug: Scalars['String'];
   title: Scalars['String'];
 };
@@ -882,6 +883,13 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['String']>;
 };
 
+export type PasswordEntropyResult = {
+  __typename?: 'PasswordEntropyResult';
+  message?: Maybe<Scalars['String']>;
+  score: Scalars['Int'];
+  valid: Scalars['Boolean'];
+};
+
 export enum PoliticalParty {
   Constitution = 'CONSTITUTION',
   Democratic = 'DEMOCRATIC',
@@ -1020,6 +1028,7 @@ export type Query = {
   upcomingElections: Array<ElectionResult>;
   /** Validate that a user does not already exist with this email */
   validateEmailAvailable: Scalars['Boolean'];
+  validatePasswordEntropy: PasswordEntropyResult;
 };
 
 
@@ -1133,6 +1142,11 @@ export type QueryRacesArgs = {
 
 export type QueryValidateEmailAvailableArgs = {
   email: Scalars['String'];
+};
+
+
+export type QueryValidatePasswordEntropyArgs = {
+  password: Scalars['String'];
 };
 
 export type RaceResult = {
@@ -1276,6 +1290,7 @@ export enum State {
   Ak = 'AK',
   Al = 'AL',
   Ar = 'AR',
+  As = 'AS',
   Az = 'AZ',
   Ca = 'CA',
   Co = 'CO',
@@ -1283,7 +1298,9 @@ export enum State {
   Dc = 'DC',
   De = 'DE',
   Fl = 'FL',
+  Fm = 'FM',
   Ga = 'GA',
+  Gu = 'GU',
   Hi = 'HI',
   Ia = 'IA',
   Id = 'ID',
@@ -1295,9 +1312,11 @@ export enum State {
   Ma = 'MA',
   Md = 'MD',
   Me = 'ME',
+  Mh = 'MH',
   Mi = 'MI',
   Mn = 'MN',
   Mo = 'MO',
+  Mp = 'MP',
   Ms = 'MS',
   Mt = 'MT',
   Nc = 'NC',
@@ -1312,6 +1331,8 @@ export enum State {
   Ok = 'OK',
   Or = 'OR',
   Pa = 'PA',
+  Pr = 'PR',
+  Pw = 'PW',
   Ri = 'RI',
   Sc = 'SC',
   Sd = 'SD',
@@ -1319,6 +1340,7 @@ export enum State {
   Tx = 'TX',
   Ut = 'UT',
   Va = 'VA',
+  Vi = 'VI',
   Vt = 'VT',
   Wa = 'WA',
   Wi = 'WI',
@@ -1531,6 +1553,13 @@ export type ValidateEmailAvailableQueryVariables = Exact<{
 
 export type ValidateEmailAvailableQuery = { __typename?: 'Query', validateEmailAvailable: boolean };
 
+export type ValidatePasswordEntropyQueryVariables = Exact<{
+  password: Scalars['String'];
+}>;
+
+
+export type ValidatePasswordEntropyQuery = { __typename?: 'Query', validatePasswordEntropy: { __typename?: 'PasswordEntropyResult', valid: boolean, score: number, message?: string | null | undefined } };
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1541,7 +1570,7 @@ export type BeginUserRegistrationMutationVariables = Exact<{
   password: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
-  address: Address;
+  address: AddressInput;
 }>;
 
 
@@ -1654,6 +1683,50 @@ useInfiniteValidateEmailAvailableQuery.getKey = (variables: ValidateEmailAvailab
 ;
 
 useValidateEmailAvailableQuery.fetcher = (variables: ValidateEmailAvailableQueryVariables) => fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, variables);
+export const ValidatePasswordEntropyDocument = /*#__PURE__*/ `
+    query ValidatePasswordEntropy($password: String!) {
+  validatePasswordEntropy(password: $password) {
+    valid
+    score
+    message
+  }
+}
+    `;
+export const useValidatePasswordEntropyQuery = <
+      TData = ValidatePasswordEntropyQuery,
+      TError = unknown
+    >(
+      variables: ValidatePasswordEntropyQueryVariables,
+      options?: UseQueryOptions<ValidatePasswordEntropyQuery, TError, TData>
+    ) =>
+    useQuery<ValidatePasswordEntropyQuery, TError, TData>(
+      ['ValidatePasswordEntropy', variables],
+      fetcher<ValidatePasswordEntropyQuery, ValidatePasswordEntropyQueryVariables>(ValidatePasswordEntropyDocument, variables),
+      options
+    );
+
+useValidatePasswordEntropyQuery.getKey = (variables: ValidatePasswordEntropyQueryVariables) => ['ValidatePasswordEntropy', variables];
+;
+
+export const useInfiniteValidatePasswordEntropyQuery = <
+      TData = ValidatePasswordEntropyQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof ValidatePasswordEntropyQueryVariables,
+      variables: ValidatePasswordEntropyQueryVariables,
+      options?: UseInfiniteQueryOptions<ValidatePasswordEntropyQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<ValidatePasswordEntropyQuery, TError, TData>(
+      ['ValidatePasswordEntropy.infinite', variables],
+      (metaData) => fetcher<ValidatePasswordEntropyQuery, ValidatePasswordEntropyQueryVariables>(ValidatePasswordEntropyDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfiniteValidatePasswordEntropyQuery.getKey = (variables: ValidatePasswordEntropyQueryVariables) => ['ValidatePasswordEntropy.infinite', variables];
+;
+
+useValidatePasswordEntropyQuery.fetcher = (variables: ValidatePasswordEntropyQueryVariables) => fetcher<ValidatePasswordEntropyQuery, ValidatePasswordEntropyQueryVariables>(ValidatePasswordEntropyDocument, variables);
 export const CurrentUserDocument = /*#__PURE__*/ `
     query CurrentUser {
   currentUser {
@@ -1700,7 +1773,7 @@ useInfiniteCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => 
 
 useCurrentUserQuery.fetcher = (variables?: CurrentUserQueryVariables) => fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, variables);
 export const BeginUserRegistrationDocument = /*#__PURE__*/ `
-    mutation BeginUserRegistration($email: String!, $password: String!, $firstName: String!, $lastName: String!, $address: Address!) {
+    mutation BeginUserRegistration($email: String!, $password: String!, $firstName: String!, $lastName: String!, $address: AddressInput!) {
   beginUserRegistration(
     input: {email: $email, password: $password, firstName: $firstName, lastName: $lastName, address: $address}
   ) {

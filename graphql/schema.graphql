@@ -1,11 +1,10 @@
-input Address {
+input AddressInput {
   city: String!
   country: String!
-  id: UUID!
   line1: String!
   line2: String
   postalCode: String!
-  state: String!
+  state: State!
 }
 
 type AddressResult {
@@ -15,7 +14,7 @@ type AddressResult {
   line1: String!
   line2: String
   postalCode: String!
-  state: String!
+  state: State!
 }
 
 type Amendment {
@@ -85,7 +84,7 @@ input BallotMeasureSearch {
 }
 
 input BeginUserRegistrationInput {
-  address: Address!
+  address: AddressInput!
   email: String!
   firstName: String!
   lastName: String!
@@ -411,6 +410,9 @@ type ElectionResult {
   electionDate: NaiveDate!
   id: ID!
   races: [RaceResult!]!
+
+  """Show races relevant to the users state"""
+  racesByUsersState: [RaceResult!]!
   slug: String!
   title: String!
 }
@@ -621,6 +623,12 @@ type PageInfo {
   startCursor: String
 }
 
+type PasswordEntropyResult {
+  message: String
+  score: Int!
+  valid: Boolean!
+}
+
 enum PoliticalParty {
   CONSTITUTION
   DEMOCRATIC
@@ -792,6 +800,7 @@ type Query {
 
   """Validate that a user does not already exist with this email"""
   validateEmailAvailable(email: String!): Boolean!
+  validatePasswordEntropy(password: String!): PasswordEntropyResult!
 }
 
 type RaceResult {
@@ -929,6 +938,7 @@ enum State {
   AK
   AL
   AR
+  AS
   AZ
   CA
   CO
@@ -936,7 +946,9 @@ enum State {
   DC
   DE
   FL
+  FM
   GA
+  GU
   HI
   IA
   ID
@@ -948,9 +960,11 @@ enum State {
   MA
   MD
   ME
+  MH
   MI
   MN
   MO
+  MP
   MS
   MT
   NC
@@ -965,6 +979,8 @@ enum State {
   OK
   OR
   PA
+  PR
+  PW
   RI
   SC
   SD
@@ -972,6 +988,7 @@ enum State {
   TX
   UT
   VA
+  VI
   VT
   WA
   WI

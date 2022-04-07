@@ -18,7 +18,6 @@ export function LogIn() {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const getCurrentUser = useCurrentUserQuery();
-
   const { data, isLoading } = useCurrentUserQuery();
   const user = data?.currentUser;
   if (user) router.push("/ballot");

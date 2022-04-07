@@ -2,6 +2,14 @@ query ValidateEmailAvailable($email: String!) {
   validateEmailAvailable(email: $email)
 }
 
+query ValidatePasswordEntropy($password: String!) {
+  validatePasswordEntropy(password: $password) {
+    valid
+    score
+    message
+  }
+}
+
 query CurrentUser {
   currentUser {
     id
@@ -16,7 +24,7 @@ mutation BeginUserRegistration(
   $password: String!
   $firstName: String!
   $lastName: String!
-  $address: Address!
+  $address: AddressInput!
 ) {
   beginUserRegistration(
     input: {
