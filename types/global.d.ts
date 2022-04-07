@@ -6,8 +6,6 @@ declare module "little-state-machine" {
     signupFormState: {
       email: string;
       password: string;
-      firstName: string;
-      lastName: string;
       address: Address;
     };
   }

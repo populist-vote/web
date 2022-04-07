@@ -13,16 +13,12 @@
 }
 
 .container {
-  min-width: 324px;
+  min-width: 296px;
   max-width: 496px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  @include for-tablet-portrait-up {
-    max-width: 596px;
-  }
 
   h1 {
     width: 100%;

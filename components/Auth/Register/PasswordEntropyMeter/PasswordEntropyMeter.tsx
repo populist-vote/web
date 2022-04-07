@@ -1,3 +1,4 @@
+import LoaderFlag from "components/LoaderFlag/LoaderFlag";
 import styles from "./PasswordEntropyMeter.module.scss";
 
 export function PasswordEntropyMeter({
@@ -22,7 +23,7 @@ export function PasswordEntropyMeter({
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <small>Loading...</small>
+        <LoaderFlag height={14} />
       ) : (
         <>
           <small>{valid ? "Strong" : "Too weak"}</small>

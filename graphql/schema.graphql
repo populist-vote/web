@@ -86,8 +86,6 @@ input BallotMeasureSearch {
 input BeginUserRegistrationInput {
   address: AddressInput!
   email: String!
-  firstName: String!
-  lastName: String!
   password: String!
 }
 

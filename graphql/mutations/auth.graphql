@@ -22,18 +22,10 @@ query CurrentUser {
 mutation BeginUserRegistration(
   $email: String!
   $password: String!
-  $firstName: String!
-  $lastName: String!
   $address: AddressInput!
 ) {
   beginUserRegistration(
-    input: {
-      email: $email
-      password: $password
-      firstName: $firstName
-      lastName: $lastName
-      address: $address
-    }
+    input: { email: $email, password: $password, address: $address }
   ) {
     userId
   }

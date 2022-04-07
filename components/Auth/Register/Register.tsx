@@ -1,4 +1,3 @@
-import styles from "../Auth.module.scss";
 import { useEffect, useState } from "react";
 import BasicLayout from "components/BasicLayout/BasicLayout";
 import { useRouter } from "next/router";

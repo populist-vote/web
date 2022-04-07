@@ -21,8 +21,6 @@ export const SignUpPage: NextPage<{ step: RegisterStep }> = ({ step }) => {
     signupFormState: {
       email: "",
       password: "",
-      firstName: "",
-      lastName: "",
       address: {
         line1: "",
         line2: "",
