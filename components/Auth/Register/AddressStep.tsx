@@ -62,7 +62,6 @@ export function AddressStep() {
               {...register("address.line1", {
                 required: "Address line 1 is required",
               })}
-              onChange={(e) => actions.updateAction({ email: e.target.value })}
             />
           </div>
           <div className={styles.inputWrapper}>
