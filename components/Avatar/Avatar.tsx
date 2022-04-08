@@ -7,6 +7,7 @@ import {
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
 import styled, { css } from "styled-components";
+import Link from "next/link";
 
 interface BadgeProps {
   background?: string;
@@ -30,6 +31,7 @@ export interface PartyAvatarProps extends AvatarProps {
   party: PoliticalParty;
   badgeSize?: string;
   badgeFontSize?: string;
+  href?: string;
 }
 
 interface BadgeWrapperProps {
@@ -116,6 +118,7 @@ function PartyAvatar({
     size: badgeSize,
     fontSize: badgeFontSize,
   };
+
   return <Avatar badge={badge} src={src} fallbackSrc={fallbackSrc} {...rest} />;
 }
 

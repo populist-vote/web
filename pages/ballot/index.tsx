@@ -16,6 +16,7 @@ import dynamic from "next/dynamic";
 import { dateString } from "util/dates";
 import { useAuth } from "hooks/useAuth";
 import { groupBy } from "util/groupBy";
+import Link from "next/link";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
@@ -65,22 +66,23 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
                     {politician.id == incumbentId && (
                       <span className={styles.sideText}>INCUMBENT</span>
                     )}
-
-                    <div className={styles.avatarContainer}>
-                      <PartyAvatar
-                        size={80}
-                        party={
-                          politician?.party || ("Unknown" as PoliticalParty)
-                        }
-                        src={
-                          politician?.thumbnailImageUrl ||
-                          PERSON_FALLBACK_IMAGE_URL
-                        }
-                        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                        alt={politician.fullName}
-                      />
-                      <h4>{politician.fullName}</h4>
-                    </div>
+                    <Link href={`/politicians/${politician.slug}`} passHref>
+                      <div className={styles.avatarContainer}>
+                        <PartyAvatar
+                          size={80}
+                          party={
+                            politician?.party || ("Unknown" as PoliticalParty)
+                          }
+                          src={
+                            politician?.thumbnailImageUrl ||
+                            PERSON_FALLBACK_IMAGE_URL
+                          }
+                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                          alt={politician.fullName}
+                        />
+                        <h4>{politician.fullName}</h4>
+                      </div>
+                    </Link>
                     {politician.id == incumbentId && <VerticalDivider />}
                   </div>
                 ))}

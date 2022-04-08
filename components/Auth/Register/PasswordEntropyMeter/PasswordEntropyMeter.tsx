@@ -18,7 +18,7 @@ export function PasswordEntropyMeter({
 
   const color = valid ? "var(--green)" : "var(--red)";
 
-  if (length < 4) return <div className={styles.container} />;
+  if (length < 1) return <div className={styles.container} />;
 
   return (
     <div className={styles.container}>
