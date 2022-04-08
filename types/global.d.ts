@@ -3,7 +3,7 @@ import "little-state-machine";
 
 declare module "little-state-machine" {
   interface GlobalState {
-    signupFormState: {
+    loginFormState: {
       email: string;
       password: string;
       address: AddressInput;

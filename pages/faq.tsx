@@ -8,7 +8,7 @@ export const FaqPage: NextPage = () => {
       <h1>Frequently Asked Questions</h1>
       <h2>What is this?</h2>
       <p>Something incredible. A new world of civic engagement.</p>
-      <h2 id="no-google-fb-signin">
+      <h2 id="no-google-fb-login">
         Why can't I sign in with Google or Facebook?
       </h2>
       <p>
@@ -19,7 +19,7 @@ export const FaqPage: NextPage = () => {
       </p>
       <p>
         At Populist, we will never sell your data and you can expect our
-        platform to remain ad free for the foreseaable future.
+        platform to remain ad free for the forseeable future.
       </p>
       <h2>How was Populist built?</h2>
       <p>

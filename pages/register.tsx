@@ -4,13 +4,13 @@ import { StateMachineProvider, createStore } from "little-state-machine";
 import { BeginUserRegistrationInput, State } from "generated";
 
 export const updateAction = (
-  state: { signupFormState: BeginUserRegistrationInput },
+  state: { loginFormState: BeginUserRegistrationInput },
   payload: Partial<BeginUserRegistrationInput>
 ) => {
   return {
     ...state,
-    signupFormState: {
-      ...state.signupFormState,
+    loginFormState: {
+      ...state.loginFormState,
       ...payload,
     },
   };
@@ -18,7 +18,7 @@ export const updateAction = (
 
 export const SignUpPage: NextPage<{ step: RegisterStep }> = ({ step }) => {
   createStore({
-    signupFormState: {
+    loginFormState: {
       email: "",
       password: "",
       address: {

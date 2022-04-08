@@ -17,7 +17,7 @@ export function AddressStep() {
 
   const {
     actions,
-    state: { signupFormState },
+    state: { loginFormState },
   } = useStateMachine({ updateAction });
 
   const {
@@ -26,7 +26,7 @@ export function AddressStep() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      address: signupFormState.address,
+      address: loginFormState.address,
     },
   });
 
@@ -39,7 +39,7 @@ export function AddressStep() {
     actions.updateAction({ address: data.address });
 
     handleUserRegistration.mutate({
-      ...signupFormState,
+      ...loginFormState,
       address: data.address,
     } as BeginUserRegistrationInput);
   };

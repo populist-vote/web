@@ -16,10 +16,10 @@ export function EmailStep() {
 
   const {
     actions,
-    state: { signupFormState },
+    state: { loginFormState },
   } = useStateMachine({ updateAction });
 
-  const debouncedPassword = useDebounce(signupFormState.password, 500);
+  const debouncedPassword = useDebounce(loginFormState.password, 500);
 
   const {
     register,
@@ -29,15 +29,15 @@ export function EmailStep() {
   } = useForm({
     reValidateMode: "onChange",
     defaultValues: {
-      email: signupFormState.email,
-      password: signupFormState.password,
+      email: loginFormState.email,
+      password: loginFormState.password,
     },
   });
 
   const { refetch: validateEmailAvailable, isLoading } =
     useValidateEmailAvailableQuery(
       {
-        email: signupFormState.email,
+        email: loginFormState.email,
       },
       // Only want to run this on form submission
       {
@@ -62,7 +62,7 @@ export function EmailStep() {
     },
     {
       refetchOnWindowFocus: false,
-      enabled: signupFormState.password.length > 0,
+      enabled: loginFormState.password.length > 0,
     }
   );
 
@@ -115,7 +115,7 @@ export function EmailStep() {
       <h1 className="title">Get Started</h1>
       <p>
         All we need is your email and a strong password to get started.{" "}
-        <Link href="/faq#no-google-fb-signin" passHref>
+        <Link href="/faq#no-google-fb-login" passHref>
           <small className={styles.footnote}>
             Why can't I sign in with Facebook or Google?
           </small>
@@ -165,7 +165,7 @@ export function EmailStep() {
               valid={isPasswordValid}
               score={score}
               message={message}
-              length={signupFormState.password.length}
+              length={loginFormState.password.length}
               isLoading={isEntropyCalcLoading}
             />
           </div>
