@@ -48,7 +48,8 @@
     width: 100%;
     margin-bottom: 0.5rem;
 
-    input {
+    input,
+    select {
       border-radius: 6px;
       display: flex;
       flex-flow: row nowrap;
@@ -62,6 +63,10 @@
       line-height: 24px;
       padding: 15px 24px;
       width: 100%;
+
+      &:invalid {
+        color: gray;
+      }
 
       &:focus {
         outline: none;

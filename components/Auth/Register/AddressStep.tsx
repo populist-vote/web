@@ -24,7 +24,6 @@ export function AddressStep() {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm({
     defaultValues: {
       address: signupFormState.address,
@@ -55,7 +54,11 @@ export function AddressStep() {
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)}>
-          <div className={styles.inputWrapper}>
+          <div
+            className={`${styles.inputWrapper} ${
+              errors?.address?.line1 && styles.invalid
+            }`}
+          >
             <input
               type="text"
               placeholder="Street Address"
@@ -64,14 +67,22 @@ export function AddressStep() {
               })}
             />
           </div>
-          <div className={styles.inputWrapper}>
+          <div
+            className={`${styles.inputWrapper} ${
+              errors?.address?.line2 && styles.invalid
+            }`}
+          >
             <input
               type="text"
               placeholder="Apartment, unit, suite, floor #, etc."
               {...register("address.line2")}
             />
           </div>
-          <div className={styles.inputWrapper}>
+          <div
+            className={`${styles.inputWrapper} ${
+              errors?.address?.city && styles.invalid
+            }`}
+          >
             <input
               type="text"
               placeholder="City"
@@ -81,22 +92,32 @@ export function AddressStep() {
             />
           </div>
           <div className={styles.flexBetween}>
-            <div className={styles.inputWrapper}>
-              <input
-                type="text"
-                placeholder="State"
-                list="states"
+            <div
+              className={`${styles.inputWrapper} ${
+                errors?.address?.state && styles.invalid
+              }`}
+            >
+              <select
+                id="states"
+                defaultValue=""
+                required
                 {...register("address.state", {
                   required: "State is required",
                 })}
-              />
-              <datalist id="states">
+              >
+                <option disabled value="">
+                  State
+                </option>
                 {Object.entries(states).map(([key, value]) => (
                   <option key={key} value={key} label={value} />
                 ))}
-              </datalist>
+              </select>
             </div>
-            <div className={styles.inputWrapper}>
+            <div
+              className={`${styles.inputWrapper} ${
+                errors?.address?.postalCode && styles.invalid
+              }`}
+            >
               <input
                 type="text"
                 placeholder="Postal Code"
@@ -106,19 +127,9 @@ export function AddressStep() {
               />
             </div>
           </div>
-          <div className={styles.inputWrapper}>
-            <input
-              type="text"
-              placeholder="Country"
-              {...register("address.country", {
-                required: "Country is required",
-              })}
-            />
-          </div>
           <button>Show Me My Ballot</button>
           <br />
           <Link href="/register?step=email">Back</Link>
-          <small className={styles.formError}>{errors?.address}</small>
         </form>
       </div>
     </div>

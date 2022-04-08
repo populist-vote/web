@@ -27,7 +27,7 @@ export const SignUpPage: NextPage<{ step: RegisterStep }> = ({ step }) => {
         city: "",
         state: "" as State,
         postalCode: "",
-        country: "",
+        country: "USA",
       },
     },
   });
