@@ -20,7 +20,7 @@ const ConfirmEmail: NextPage = () => {
     return (
       <BasicLayout hideFooter>
         <div className={styles.container}>
-          <h1>Congradulations, your account has been confirmed!</h1>
+          <h1>Congratulations, your account has been confirmed!</h1>
           <p>We're excited to have you.</p>
           <Link href="/login" passHref>
             <button>LOG IN NOW</button>
