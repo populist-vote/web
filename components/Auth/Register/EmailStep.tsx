@@ -129,7 +129,7 @@ export function EmailStep() {
             }`}
           >
             <input
-              type="text"
+              type="email"
               placeholder="Email"
               aria-invalid={errors.email ? "true" : "false"}
               {...register("email", {
