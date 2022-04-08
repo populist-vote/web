@@ -22,7 +22,9 @@ const ConfirmEmail: NextPage = () => {
         <div className={styles.container}>
           <h1>Congradulations, your account has been confirmed!</h1>
           <p>We're excited to have you.</p>
-          <button>LOG IN NOW</button>
+          <Link href="/login" passHref>
+            <button>LOG IN NOW</button>
+          </Link>
         </div>
       </BasicLayout>
     );
