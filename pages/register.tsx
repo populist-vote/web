@@ -1,7 +1,7 @@
 import { Register, RegisterStep } from "components/Auth/Register/Register";
 import { GetServerSideProps, NextPage } from "next";
 import { StateMachineProvider, createStore } from "little-state-machine";
-import { BeginUserRegistrationInput } from "generated";
+import { BeginUserRegistrationInput, State } from "generated";
 
 export const updateAction = (
   state: { signupFormState: BeginUserRegistrationInput },
@@ -25,7 +25,7 @@ export const SignUpPage: NextPage<{ step: RegisterStep }> = ({ step }) => {
         line1: "",
         line2: "",
         city: "",
-        state: "",
+        state: "" as State,
         postalCode: "",
         country: "",
       },

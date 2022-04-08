@@ -72,7 +72,7 @@ export function EmailStep() {
     message,
   } = passwordEntropyData?.validatePasswordEntropy!;
 
-  const submitForm = (data: any) => {
+  const submitForm = (data: { email: string; password: string }) => {
     actions.updateAction(data);
     validateEmailAvailable().then(
       // Shamefully typecast to any
@@ -156,6 +156,7 @@ export function EmailStep() {
                 required: "Password is required",
                 validate: () => isPasswordValid,
               })}
+              // Need to update password synchronously to validate entropy via API call
               onChange={(e) =>
                 actions.updateAction({ password: e.target.value })
               }
@@ -173,6 +174,9 @@ export function EmailStep() {
           </button>
           <br />
           <small className={styles.formError}>{errors?.email?.message}</small>
+          <small className={styles.formError}>
+            {errors?.password?.message}
+          </small>
         </form>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import {
+  AddressInput,
   BeginUserRegistrationInput,
   useBeginUserRegistrationMutation,
 } from "generated";
@@ -8,6 +9,8 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import { updateAction } from "pages/register";
+import states from "util/states";
+import { useEffect } from "react";
 
 export function AddressStep() {
   const router = useRouter();
@@ -29,17 +32,17 @@ export function AddressStep() {
   });
 
   const handleUserRegistration = useBeginUserRegistrationMutation({
-    // onSuccess: ({ beginUserRegistration }) => {
-    //   let token = beginUserRegistration.accessToken;
-    // },
+    onError: (error: Error) => alert(error.message),
+    onSuccess: () => router.push("/ballot"),
   });
 
-  const submitForm = (data: any) => {
-    actions.updateAction(data);
-    handleUserRegistration.mutate(
-      signupFormState as BeginUserRegistrationInput
-    );
-    router.push("/ballot");
+  const submitForm = (data: { address: AddressInput }) => {
+    actions.updateAction({ address: data.address });
+
+    handleUserRegistration.mutate({
+      ...signupFormState,
+      address: data.address,
+    } as BeginUserRegistrationInput);
   };
 
   return (
@@ -59,6 +62,7 @@ export function AddressStep() {
               {...register("address.line1", {
                 required: "Address line 1 is required",
               })}
+              onChange={(e) => actions.updateAction({ email: e.target.value })}
             />
           </div>
           <div className={styles.inputWrapper}>
@@ -82,10 +86,16 @@ export function AddressStep() {
               <input
                 type="text"
                 placeholder="State"
+                list="states"
                 {...register("address.state", {
                   required: "State is required",
                 })}
               />
+              <datalist id="states">
+                {Object.entries(states).map(([key, value]) => (
+                  <option key={key} value={key} label={value} />
+                ))}
+              </datalist>
             </div>
             <div className={styles.inputWrapper}>
               <input
@@ -109,6 +119,7 @@ export function AddressStep() {
           <button>Show Me My Ballot</button>
           <br />
           <Link href="/register?step=email">Back</Link>
+          <small className={styles.formError}>{errors?.address}</small>
         </form>
       </div>
     </div>

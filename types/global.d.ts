@@ -1,4 +1,4 @@
-import { Address } from "generated";
+import { Address, AddressInput } from "generated";
 import "little-state-machine";
 
 declare module "little-state-machine" {
@@ -6,7 +6,9 @@ declare module "little-state-machine" {
     signupFormState: {
       email: string;
       password: string;
-      address: Address;
+      address: AddressInput;
     };
   }
 }
+
+type Nullable<T> = { [K in keyof T]: T[K] | null };
