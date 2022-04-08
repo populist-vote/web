@@ -63,15 +63,21 @@
       line-height: 24px;
       padding: 15px 24px;
       width: 100%;
+      -webkit-appearance: none;
 
-      &:invalid {
-        color: gray;
+      .selectWrapper {
+        position: relative;
+        display: inline-block;
       }
 
       &:focus {
         outline: none;
         box-shadow: 0 0 0 3px $blue;
       }
+    }
+
+    select:invalid {
+      color: #8e8e8e;
     }
 
     .inputError {
