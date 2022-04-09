@@ -64,6 +64,7 @@ query PoliticianBySlug($slug: String!) {
     age
 
     upcomingRace {
+      title
       raceType
       state
       electionDate

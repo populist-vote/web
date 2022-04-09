@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -27,6 +26,7 @@ import {
 } from "../../generated";
 
 import styles from "styles/politicianPage.module.scss";
+import layoutStyles from "../../components/Layout/Layout.module.scss";
 
 import states from "util/states";
 
@@ -74,6 +74,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const endorsements = politician?.endorsements;
   const upcomingRace = politician?.upcomingRace;
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
+  const opponents =
+    upcomingRace?.candidates.filter(
+      (candidate) => candidate.id != politician.id
+    ) || [];
 
   function HeaderSection() {
     return (
@@ -139,13 +143,15 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  console.log(upcomingRace);
+
   function ElectionInfoSection() {
     if (!upcomingRace) return null;
     return (
       <section className={styles.center}>
         <h3 className={styles.subHeader}>Next Election</h3>
         <div className={styles.roundedCard}>
-          <h2>{upcomingRace?.raceType}</h2>
+          <h2>{upcomingRace?.title}</h2>
           <h1>{dateString(upcomingRace?.electionDate)}</h1>
         </div>
         <h3>Running For</h3>
@@ -153,30 +159,33 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           {upcomingRace?.state && <h2>{states[upcomingRace.state]}</h2>}
           <h1>{upcomingRace?.office.title}</h1>
         </div>
-        {upcomingRace.candidates.length > 1 && (
+        {opponents.length > 0 && (
           <>
-            <h3>Opponent</h3>
-            <div className={styles.roundedCard}>
+            <h3>Opponent{opponents.length > 1 && "s"}</h3>
+            <div className={`${styles.roundedCard} ${styles.flexEvenly}`}>
               {upcomingRace.candidates
-                .slice(0, 1)
                 .filter((candidate) => candidate.id != politician.id)
-                .map((candidate: Partial<PoliticianResult>) => {
-                  if (candidate.thumbnailImageUrl)
-                    return (
-                      <div key={candidate.id}>
-                        <PartyAvatar
-                          size={60}
-                          party={
-                            candidate.party || ("UNKNOWN" as PoliticalParty)
-                          }
-                          src={candidate.thumbnailImageUrl}
-                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                          alt={politician.fullName}
-                        />
-                        <h1>{candidate.fullName}</h1>
-                      </div>
-                    );
-                })}
+                .map((candidate: Partial<PoliticianResult>) => (
+                  <Link
+                    href={`/politicians/${candidate.slug}`}
+                    key={candidate.id}
+                    passHref
+                  >
+                    <div className={layoutStyles.avatarContainer}>
+                      <PartyAvatar
+                        size={60}
+                        party={candidate.party || ("UNKNOWN" as PoliticalParty)}
+                        src={
+                          candidate.thumbnailImageUrl ||
+                          PERSON_FALLBACK_IMAGE_URL
+                        }
+                        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                        alt={politician.fullName}
+                      />
+                      <h4>{candidate.fullName}</h4>
+                    </div>
+                  </Link>
+                ))}
             </div>
           </>
         )}
