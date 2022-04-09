@@ -28,7 +28,7 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
 
   let incumbentId = office.incumbent?.id;
 
-  // Display race that has encumbent first
+  // Display race that has incumbent first
   const raceSortFn = (a: RaceResult, b: RaceResult) =>
     a.candidates.some((politician) => politician.id === incumbentId) &&
     !b.candidates.some((politician) => politician.id === incumbentId)

@@ -210,6 +210,8 @@
   align-items: center;
   margin: 0 1rem;
   cursor: pointer;
+  min-width: 5rem;
+  min-height: 5rem;
 
   h4 {
     font-size: $text-sm;
