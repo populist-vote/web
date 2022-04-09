@@ -509,6 +509,7 @@ type Mutation {
   deleteRace(id: String!): DeleteRaceResult!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   login(input: LoginInput!): LoginResult!
+  logout: Boolean!
   requestPasswordReset(email: String!): Boolean!
   resetPassword(input: ResetPasswordInput!): Boolean!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!

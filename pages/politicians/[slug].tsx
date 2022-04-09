@@ -72,7 +72,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const yearsInPublicOffice = politician?.yearsInPublicOffice;
   const age = politician?.age;
   const endorsements = politician?.endorsements;
-  const upcomingElection = politician?.upcomingRace;
+  const upcomingRace = politician?.upcomingRace;
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
 
   function HeaderSection() {
@@ -140,24 +140,24 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function ElectionInfoSection() {
-    if (!upcomingElection) return null;
+    if (!upcomingRace) return null;
     return (
       <section className={styles.center}>
         <h3 className={styles.subHeader}>Next Election</h3>
         <div className={styles.roundedCard}>
-          <h2>{upcomingElection?.raceType}</h2>
-          <h1>{dateString(upcomingElection?.electionDate)}</h1>
+          <h2>{upcomingRace?.raceType}</h2>
+          <h1>{dateString(upcomingRace?.electionDate)}</h1>
         </div>
         <h3>Running For</h3>
         <div className={styles.roundedCard}>
-          {upcomingElection?.state && <h2>{states[upcomingElection.state]}</h2>}
-          <h1>{upcomingElection?.office.title}</h1>
+          {upcomingRace?.state && <h2>{states[upcomingRace.state]}</h2>}
+          <h1>{upcomingRace?.office.title}</h1>
         </div>
-        {upcomingElection.candidates.length > 1 && (
+        {upcomingRace.candidates.length > 1 && (
           <>
             <h3>Opponent</h3>
             <div className={styles.roundedCard}>
-              {upcomingElection.candidates
+              {upcomingRace.candidates
                 .slice(0, 1)
                 .filter((candidate) => candidate.id != politician.id)
                 .map((candidate: Partial<PoliticianResult>) => {
@@ -207,6 +207,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   function CommitteesSection() {
     const politicalExperience =
       politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
+
+    console.log(politicalExperience);
 
     // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
     const tags =

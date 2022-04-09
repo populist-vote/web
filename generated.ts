@@ -7,7 +7,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("https://api.staging.populist.us", {
+    const res = await fetch("https://api.populist.us", {
     method: "POST",
     ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
@@ -587,6 +587,7 @@ export type Mutation = {
   deleteRace: DeleteRaceResult;
   downvoteArgument: Scalars['Boolean'];
   login: LoginResult;
+  logout: Scalars['Boolean'];
   requestPasswordReset: Scalars['Boolean'];
   resetPassword: Scalars['Boolean'];
   updateArgument: ArgumentResult;
