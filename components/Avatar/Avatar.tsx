@@ -1,7 +1,7 @@
 import { ImageWithFallback } from "components";
 import React, { useMemo } from "react";
 import {
-  ORAGANIZATION_FALLBACK_IMAGE_URL,
+  ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
 } from "util/constants";
 import { PoliticalParty } from "../../generated";
@@ -124,7 +124,7 @@ function PartyAvatar({
 
 function OrganizationAvatar({
   src,
-  fallbackSrc = ORAGANIZATION_FALLBACK_IMAGE_URL,
+  fallbackSrc = ORGANIZATION_FALLBACK_IMAGE_URL,
   ...rest
 }: AvatarProps) {
   return <Avatar src={src} fallbackSrc={fallbackSrc} {...rest} />;

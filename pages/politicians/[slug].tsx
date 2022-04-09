@@ -32,7 +32,7 @@ import states from "util/states";
 
 import { computeShortOfficeTitle } from "util/politician";
 import {
-  ORAGANIZATION_FALLBACK_IMAGE_URL,
+  ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
 } from "util/constants";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
@@ -212,7 +212,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     const tags =
       politicalExperience?.constructor === Array
         ? politicalExperience.map((committee: any) =>
-            committee.organization.replace("Subcommittee on", "")
+            committee?.organization?.replace("Subcommittee on", "")
           )
         : [];
 
@@ -280,7 +280,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <div className={styles.organizationContainer}>
           <OrganizationAvatar
             src={organization.thumbnailImageUrl as string}
-            fallbackSrc={ORAGANIZATION_FALLBACK_IMAGE_URL}
+            fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
             alt={organization.name as string}
             size={80}
           />
@@ -371,7 +371,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <div className={styles.circlesContainer}>
           <OrganizationAvatar
             src={rating?.organization?.thumbnailImageUrl as string}
-            fallbackSrc={ORAGANIZATION_FALLBACK_IMAGE_URL}
+            fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
             alt={rating?.organization?.name as string}
             size={50}
           />
