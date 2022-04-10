@@ -25,6 +25,9 @@ const nextConfig = {
     disable: process.env.NODE_ENV === "development",
     runtimeCaching,
   },
+  env: {
+    GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
+  },
 };
 
 module.exports = withPWA(nextConfig);
