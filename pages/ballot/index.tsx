@@ -67,7 +67,11 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
                 {race.candidates
                   .sort(candidateSortFn)
                   ?.map((politician: PoliticianResult) => (
-                    <div className={styles.flexBetween} key={politician.id}>
+                    <div
+                      className={styles.flexBetween}
+                      key={politician.id}
+                      style={{ height: "9rem" }}
+                    >
                       {politician.id == incumbentId && (
                         <span className={styles.sideText}>INCUMBENT</span>
                       )}
@@ -88,7 +92,8 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
                           <h4>{politician.fullName}</h4>
                         </div>
                       </Link>
-                      {politician.id == incumbentId && <VerticalDivider />}
+                      {politician.id == incumbentId &&
+                        race.candidates.length > 1 && <VerticalDivider />}
                     </div>
                   ))}
               </FieldSet>

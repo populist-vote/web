@@ -20,5 +20,7 @@
     font-family: $font-primary;
     text-transform: uppercase;
     align-self: flex-start;
+    display: inline-block;
+    white-space: nowrap;
   }
 }

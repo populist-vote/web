@@ -68,7 +68,6 @@ export function LogIn() {
                 placeholder="Password"
                 {...register("password", {
                   required: "Password is required",
-                  minLength: 10,
                 })}
               />
             </div>

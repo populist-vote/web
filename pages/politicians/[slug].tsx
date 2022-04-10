@@ -163,29 +163,33 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <>
             <h3>Opponent{opponents.length > 1 && "s"}</h3>
             <div className={`${styles.roundedCard} ${styles.flexEvenly}`}>
-              {upcomingRace.candidates
-                .filter((candidate) => candidate.id != politician.id)
-                .map((candidate: Partial<PoliticianResult>) => (
-                  <Link
-                    href={`/politicians/${candidate.slug}`}
-                    key={candidate.id}
-                    passHref
-                  >
-                    <div className={layoutStyles.avatarContainer}>
-                      <PartyAvatar
-                        size={60}
-                        party={candidate.party || ("UNKNOWN" as PoliticalParty)}
-                        src={
-                          candidate.thumbnailImageUrl ||
-                          PERSON_FALLBACK_IMAGE_URL
-                        }
-                        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                        alt={politician.fullName}
-                      />
-                      <h4>{candidate.fullName}</h4>
-                    </div>
-                  </Link>
-                ))}
+              <Scroller>
+                {upcomingRace.candidates
+                  .filter((candidate) => candidate.id != politician.id)
+                  .map((candidate: Partial<PoliticianResult>) => (
+                    <Link
+                      href={`/politicians/${candidate.slug}`}
+                      key={candidate.id}
+                      passHref
+                    >
+                      <div className={layoutStyles.avatarContainer}>
+                        <PartyAvatar
+                          size={60}
+                          party={
+                            candidate.party || ("UNKNOWN" as PoliticalParty)
+                          }
+                          src={
+                            candidate.thumbnailImageUrl ||
+                            PERSON_FALLBACK_IMAGE_URL
+                          }
+                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                          alt={politician.fullName}
+                        />
+                        <h4>{candidate.fullName}</h4>
+                      </div>
+                    </Link>
+                  ))}
+              </Scroller>
             </div>
           </>
         )}
