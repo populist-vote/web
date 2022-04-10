@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import "styles/globals.scss";
 import "styles/landing.css";
 import { AppHead as Head } from "components/Head/Head";
+import Script from "next/script";
 
 const queryClient = new QueryClient();
 
@@ -22,12 +23,31 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <Head />
-        {getLayout(<Component {...pageProps} />)}
-      </Hydrate>
-    </QueryClientProvider>
+    <>
+      {process.env.NODE_ENV === "production" && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', ${process.env.GOOGLE_ANALYTICS_ID});
+        `}
+          </Script>
+        </>
+      )}
+
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Head />
+          {getLayout(<Component {...pageProps} />)}
+        </Hydrate>
+      </QueryClientProvider>
+    </>
   );
 }
 
