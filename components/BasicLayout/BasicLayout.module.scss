@@ -46,12 +46,6 @@
     }
   }
 
-  .textLink {
-    color: $blue-light;
-    text-transform: none;
-    cursor: pointer;
-  }
-
   .header {
     height: auto;
     width: 100%;
@@ -78,4 +72,10 @@
       }
     }
   }
+}
+
+.textLink {
+  color: $blue-light;
+  text-transform: none;
+  cursor: pointer;
 }

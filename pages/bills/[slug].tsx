@@ -9,6 +9,7 @@ import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "react-query";
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
 import styles from "styles/politicianPage.module.scss";
+import layoutStyles from "../../components/BasicLayout/BasicLayout.module.scss";
 import Link from "next/link";
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
@@ -32,6 +33,8 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   let bill = data?.billBySlug;
 
+  console.log(bill);
+
   return (
     <Layout
       mobileNavTitle={mobileNavTitle}
@@ -46,9 +49,13 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
           <h2>Summary</h2>
           <p>{bill?.description}</p>
           {bill?.fullTextUrl && (
-            <Link href={bill?.fullTextUrl} passHref>
+            <a
+              href={bill?.fullTextUrl}
+              className={layoutStyles.textLink}
+              style={{ textTransform: "uppercase" }}
+            >
               View full text
-            </Link>
+            </a>
           )}
         </section>
       </div>

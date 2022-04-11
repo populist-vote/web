@@ -3,8 +3,9 @@
 @import "styles/variables/colors.module.scss";
 
 .billCard {
-  background: $white;
-  color: black;
+  border: 1px solid $blue;
+  background: $blue-dark;
+  color: $white;
   display: flex;
   border-radius: 15px;
   flex-direction: column;
@@ -35,11 +36,11 @@
       font-size: $text-sm;
       text-decoration: 1px dotted underline;
       text-transform: none;
-      color: black;
+      color: $white;
     }
 
     .statusPill {
-      background: #eee;
+      background: $blue;
       border-radius: 40px;
       padding: 10px;
       text-transform: capitalize;
