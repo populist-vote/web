@@ -143,8 +143,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  console.log(upcomingRace);
-
   function ElectionInfoSection() {
     if (!upcomingRace) return null;
     return (
@@ -220,8 +218,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   function CommitteesSection() {
     const politicalExperience =
       politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
-
-    console.log(politicalExperience);
 
     // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
     const tags =
@@ -470,13 +466,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   );
   let state = dehydrate(queryClient);
 
-  let data = state.queries[0].state.data as PoliticianBySlugQuery;
+  let data = state.queries[0]?.state.data as PoliticianBySlugQuery;
 
   return {
-    notFound: state.queries.length === 0,
+    notFound: !data,
     props: {
       dehydratedState: state,
-      mobileNavTitle: data.politicianBySlug.fullName,
+      mobileNavTitle: data?.politicianBySlug.fullName,
     },
   };
 };
