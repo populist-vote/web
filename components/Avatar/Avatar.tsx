@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
-} from "util/constants";
+} from "utils/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
 import styled, { css } from "styled-components";

@@ -28,15 +28,15 @@ import {
 import styles from "styles/politicianPage.module.scss";
 import layoutStyles from "../../components/Layout/Layout.module.scss";
 
-import states from "util/states";
+import states from "utils/states";
 
-import { computeShortOfficeTitle } from "util/politician";
+import { computeShortOfficeTitle } from "utils/politician";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
-} from "util/constants";
+} from "utils/constants";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
-import { dateString } from "util/dates";
+import { dateString } from "utils/dates";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,

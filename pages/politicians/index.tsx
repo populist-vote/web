@@ -18,8 +18,8 @@ import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
 import { NextPageWithLayout } from "../_app";
-import { computeOfficeTitle } from "util/politician";
-import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
+import { computeOfficeTitle } from "utils/politician";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 
 const PAGE_SIZE = 20;
 

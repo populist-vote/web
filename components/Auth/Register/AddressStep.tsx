@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import { updateAction } from "pages/register";
-import states from "util/states";
+import states from "utils/states";
 import { useEffect } from "react";
 
 export function AddressStep() {

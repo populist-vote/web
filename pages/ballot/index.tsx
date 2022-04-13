@@ -9,13 +9,13 @@ import {
   RaceResult,
   useUpcomingElectionsQuery,
 } from "generated";
-import { PERSON_FALLBACK_IMAGE_URL } from "util/constants";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { FlagSection, FieldSet } from "components";
 
 import dynamic from "next/dynamic";
-import { dateString } from "util/dates";
+import { dateString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
-import { groupBy } from "util/groupBy";
+import { groupBy } from "utils/groupBy";
 import Link from "next/link";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
