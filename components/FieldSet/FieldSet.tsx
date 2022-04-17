@@ -10,7 +10,7 @@ interface FieldSetProps {
 
 export function FieldSet({ heading, color, children }: FieldSetProps) {
   return (
-    <fieldset className={`${styles.container} ${color && styles[color]}`}>
+    <fieldset className={`${color && styles[color]} ${styles.container} `}>
       <legend>{heading}</legend>
       <div className={layoutStyles.flexBetween}>{children}</div>
     </fieldset>

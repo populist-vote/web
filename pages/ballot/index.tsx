@@ -64,6 +64,11 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
                 }
                 key={race.id}
               >
+                {race.candidates.length < 1 && (
+                  <h3 style={{ color: "var(--blue-light)" }}>
+                    No official candidates
+                  </h3>
+                )}
                 {race.candidates
                   .sort(candidateSortFn)
                   ?.map((politician: PoliticianResult) => (
