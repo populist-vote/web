@@ -3,7 +3,7 @@ query UpcomingElections {
     title
     description
     electionDate
-    races {
+    racesByUserDistricts {
       id
       title
       office {

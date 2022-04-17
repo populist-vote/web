@@ -111,7 +111,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { data, error, isLoading } = useUpcomingElectionsQuery();
 
   const upcomingElection = data?.upcomingElections[0];
-  const races = upcomingElection?.races || [];
+  const races = upcomingElection?.racesByUserDistricts || [];
 
   const federalRacesGroupedByOffice = groupBy(
     races.filter(

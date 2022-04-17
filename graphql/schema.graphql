@@ -1,10 +1,14 @@
 input AddressInput {
   city: String!
+  congressionalDistrict: Int
+  coordinates: Coordinates
   country: String!
   line1: String!
   line2: String
   postalCode: String!
   state: State!
+  stateHouseDistrict: Int
+  stateSenateDistrict: Int
 }
 
 type AddressResult {
@@ -211,6 +215,11 @@ enum Chambers {
   SENATE
 }
 
+input Coordinates {
+  latitude: Float!
+  longitude: Float!
+}
+
 input CreateArgumentInput {
   authorId: String!
   body: String
@@ -338,7 +347,6 @@ input CreateRaceInput {
   ballotpediaLink: String
   description: String
   earlyVotingBeginsDate: NaiveDate
-  electionDate: NaiveDate
   electionId: UUID
   officeId: UUID!
   officialWebsite: String
@@ -347,6 +355,7 @@ input CreateRaceInput {
   slug: String
   state: State
   title: String!
+  winnerId: UUID
 }
 
 input CreateUserInput {
@@ -409,8 +418,8 @@ type ElectionResult {
   id: ID!
   races: [RaceResult!]!
 
-  """Show races relevant to the users state"""
-  racesByUsersState: [RaceResult!]!
+  """Show races relevant to the user based on their address"""
+  racesByUserDistricts: [RaceResult!]!
   slug: String!
   title: String!
 }
@@ -569,6 +578,7 @@ type OfficeResult {
 }
 
 input OfficeSearch {
+  politicalScope: PoliticalScope
   query: String
   state: State
 }
@@ -820,6 +830,7 @@ type RaceResult {
   state: State
   title: String!
   updatedAt: DateTime!
+  winnerId: ID
 }
 
 input RaceSearch {
@@ -1153,15 +1164,15 @@ input UpdateRaceInput {
   ballotpediaLink: String
   description: String
   earlyVotingBeginsDate: NaiveDate
-  electionDate: NaiveDate
   electionId: UUID
   officeId: UUID
   officialWebsite: String
   party: PoliticalParty
-  raceType: RaceType!
+  raceType: RaceType
   slug: String
   state: State
   title: String
+  winnerId: UUID
 }
 
 scalar Upload
