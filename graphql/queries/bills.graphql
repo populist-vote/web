@@ -5,6 +5,7 @@ query BillBySlug($slug: String!) {
     billNumber
     legislationStatus
     officialSummary
+    populistSummary
     fullTextUrl
   }
 }

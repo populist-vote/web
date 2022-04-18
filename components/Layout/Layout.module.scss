@@ -12,8 +12,10 @@
     "footer";
   grid-template-rows: auto 10fr auto;
 
-  main {
-    padding: 0.35rem;
+  @include for-tablet-landscape-up {
+    main {
+      padding: 0.35rem;
+    }
   }
 
   h3 {

@@ -25,7 +25,7 @@ import {
   usePoliticianBySlugQuery,
 } from "../../generated";
 
-import styles from "styles/politicianPage.module.scss";
+import styles from "styles/page.module.scss";
 import layoutStyles from "../../components/Layout/Layout.module.scss";
 
 import states from "utils/states";

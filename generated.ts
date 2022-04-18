@@ -1624,7 +1624,7 @@ export type BillBySlugQueryVariables = Exact<{
 }>;
 
 
-export type BillBySlugQuery = { __typename?: 'Query', billBySlug?: { __typename?: 'BillResult', title: string, description?: string | null, billNumber: string, legislationStatus: LegislationStatus, officialSummary?: string | null, fullTextUrl?: string | null } | null };
+export type BillBySlugQuery = { __typename?: 'Query', billBySlug?: { __typename?: 'BillResult', title: string, description?: string | null, billNumber: string, legislationStatus: LegislationStatus, officialSummary?: string | null, populistSummary?: string | null, fullTextUrl?: string | null } | null };
 
 export type OrganizationBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1937,6 +1937,7 @@ export const BillBySlugDocument = /*#__PURE__*/ `
     billNumber
     legislationStatus
     officialSummary
+    populistSummary
     fullTextUrl
   }
 }

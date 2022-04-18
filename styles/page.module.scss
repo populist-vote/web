@@ -12,7 +12,11 @@
   h1 {
     font-size: $text-xxl;
     font-weight: 600;
-    margin: 0.25rem;
+    margin: 0.5rem;
+
+    @include for-tablet-portrait-down {
+      text-align: center;
+    }
   }
 
   h2 {
@@ -99,6 +103,13 @@
       color: $blue-light;
     }
   }
+}
+
+.statusPill {
+  background: $blue;
+  border-radius: 40px;
+  padding: 10px;
+  text-transform: capitalize;
 }
 
 .roundedCard {

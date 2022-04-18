@@ -1,16 +1,11 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
-
 import { Layout, LoaderFlag } from "components";
-
-import { NextPageWithLayout } from "../_app";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "react-query";
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
-import styles from "styles/politicianPage.module.scss";
+import styles from "styles/page.module.scss";
 import layoutStyles from "../../components/BasicLayout/BasicLayout.module.scss";
-import Link from "next/link";
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -32,9 +27,9 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   if (error) return <p>Error: {error}</p>;
 
   let bill = data?.billBySlug;
+  let summary = bill?.populistSummary || bill?.description;
 
-  console.log(bill);
-
+  if (!bill) return null;
   return (
     <Layout
       mobileNavTitle={mobileNavTitle}
@@ -44,10 +39,17 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
       <div className={styles.container}>
         <section className={styles.center}>
           <h1>{bill?.title}</h1>
+          <span className={styles.statusPill}>
+            {bill.legislationStatus?.replace("_", " ")}
+          </span>
         </section>
+        {summary && (
+          <section className={styles.center}>
+            <h2>Summary</h2>
+            <p>{summary}</p>
+          </section>
+        )}
         <section className={styles.center}>
-          <h2>Summary</h2>
-          <p>{bill?.description}</p>
           {bill?.fullTextUrl && (
             <a
               href={bill?.fullTextUrl}
