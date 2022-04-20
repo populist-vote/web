@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   );
   let state = dehydrate(queryClient);
 
-  let data = state.queries[0].state.data as BillBySlugQuery;
+  let data = state.queries[0]?.state.data as BillBySlugQuery;
 
   return {
     notFound: state.queries.length === 0,

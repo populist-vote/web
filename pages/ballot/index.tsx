@@ -24,9 +24,9 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
 
 // Races associated with a single office (to handle primaries)
 const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
-  const office = races[0].office;
+  const office = races[0]?.office;
 
-  let incumbentId = office.incumbent?.id;
+  let incumbentId = office?.incumbent?.id;
 
   // Display race that has incumbent first
   const raceSortFn = (a: RaceResult, b: RaceResult) =>
@@ -50,7 +50,7 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
             <span>{`District ${office?.district}`}</span>
           )}
         </h2>
-        <h3>{office.state}</h3>
+        <h3>{office?.state}</h3>
       </header>
 
       <div className={`${styles.roundedCard}`}>

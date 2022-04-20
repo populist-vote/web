@@ -75,7 +75,7 @@
 }
 
 .textLink {
-  color: $blue-light;
-  text-transform: none;
+  color: $blue-light !important;
+  text-transform: none !important;
   cursor: pointer;
 }

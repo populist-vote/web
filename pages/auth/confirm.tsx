@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import styles from "components/Auth/Auth.module.scss";
 import layoutStyles from "components/BasicLayout/BasicLayout.module.scss";
 import Link from "next/link";
+import { LoaderFlag } from "components";
 
 const ConfirmEmail: NextPage = () => {
   const { query } = useRouter();
@@ -13,22 +14,17 @@ const ConfirmEmail: NextPage = () => {
   const mutation = useConfirmUserEmailMutation();
 
   useEffect(() => {
-    if (typeof token == "string") mutation.mutate({ token });
+    mutation.mutate({ token: token as string });
   }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (mutation.isSuccess) {
+  if (mutation.isLoading)
     return (
       <BasicLayout hideFooter>
-        <div className={styles.container}>
-          <h1>Congratulations, your account has been confirmed!</h1>
-          <p>We're excited to have you.</p>
-          <Link href="/login" passHref>
-            <button>LOG IN NOW</button>
-          </Link>
-        </div>
+        <LoaderFlag />
       </BasicLayout>
     );
-  } else
+
+  if (!mutation.isSuccess)
     return (
       <BasicLayout>
         <h1>Whoops!</h1>
@@ -56,6 +52,18 @@ const ConfirmEmail: NextPage = () => {
         </div>
       </BasicLayout>
     );
+
+  return (
+    <BasicLayout hideFooter>
+      <div className={styles.container}>
+        <h1>Congratulations, your account has been confirmed!</h1>
+        <p>We're excited to have you.</p>
+        <Link href="/login" passHref>
+          <button>LOG IN NOW</button>
+        </Link>
+      </div>
+    </BasicLayout>
+  );
 };
 
 export default ConfirmEmail;

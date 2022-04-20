@@ -10,12 +10,6 @@
     "prebuild": "dotenv -c production -- graphql-codegen"
   },
   "dependencies": {
-    "@graphql-codegen/add": "^3.1.1",
-    "@graphql-codegen/cli": "^2.3.1",
-    "@graphql-codegen/typescript": "^2.4.2",
-    "@graphql-codegen/typescript-operations": "^2.2.2",
-    "@graphql-codegen/typescript-react-query": "^3.4.0",
-    "@types/styled-components": "^5.1.20",
     "little-state-machine": "^4.2.3",
     "next": "12.1.0",
     "next-pwa": "^5.4.6",
@@ -29,6 +23,12 @@
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^3.1.1",
+    "@graphql-codegen/cli": "^2.3.1",
+    "@graphql-codegen/typescript": "^2.4.2",
+    "@graphql-codegen/typescript-operations": "^2.2.2",
+    "@graphql-codegen/typescript-react-query": "^3.4.0",
+    "@types/styled-components": "^5.1.20",
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
     "cypress": "^9.5.3",
