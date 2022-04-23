@@ -148,7 +148,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             <LoaderFlag />
           </div>
         )}
-        {error && <h4>Something went wrong fetching politician records...</h4>}
+        {error && <h4>Something went wrong fetching your ballot data...</h4>}
 
         {upcomingElection && (
           <>
