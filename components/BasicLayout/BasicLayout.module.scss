@@ -53,6 +53,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1.5rem;
 
     @include for-tablet-portrait-up {
       padding: 1.5rem;
