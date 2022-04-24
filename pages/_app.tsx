@@ -8,6 +8,9 @@ import "styles/globals.scss";
 import "styles/landing.css";
 import { AppHead as Head } from "components/Head/Head";
 import Script from "next/script";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "styles/toast.css";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +48,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Hydrate state={pageProps.dehydratedState}>
           <Head />
           {getLayout(<Component {...pageProps} />)}
+          <ToastContainer theme="dark" />
         </Hydrate>
       </QueryClientProvider>
     </>

@@ -19,6 +19,7 @@
     "react-horizontal-scrolling-menu": "^2.7.0",
     "react-icons": "^4.3.1",
     "react-query": "^3.34.8",
+    "react-toastify": "^8.2.0",
     "sass": "^1.48.0",
     "styled-components": "^5.3.3"
   },
@@ -28,9 +29,9 @@
     "@graphql-codegen/typescript": "^2.4.2",
     "@graphql-codegen/typescript-operations": "^2.2.2",
     "@graphql-codegen/typescript-react-query": "^3.4.0",
-    "@types/styled-components": "^5.1.20",
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
+    "@types/styled-components": "^5.1.20",
     "cypress": "^9.5.3",
     "dotenv-cli": "^4.1.1",
     "eslint": "8.6.0",

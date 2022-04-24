@@ -17,6 +17,9 @@ import { dateString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
 import { groupBy } from "utils/groupBy";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
@@ -133,6 +136,8 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { user } = useAuth({ redirectTo: "/login" });
 
   if (!user) return null;
+  if (error) toast("Something went wrong.", { type: "error" });
+
   return (
     <>
       <Head>
