@@ -136,7 +136,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { user } = useAuth({ redirectTo: "/login" });
 
   if (!user) return null;
-  if (error) toast("Something went wrong.", { type: "error" });
+  if (error) toast(`Something went wrong: ${error}`, { type: "error" });
 
   return (
     <>
