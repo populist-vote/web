@@ -3,6 +3,7 @@ input AddressInput {
   congressionalDistrict: Int
   coordinates: Coordinates
   country: String!
+  county: String
   line1: String!
   line2: String
   postalCode: String!
@@ -209,6 +210,11 @@ type Candidate {
   suffix: String!
 }
 
+enum Chamber {
+  HOUSE
+  SENATE
+}
+
 enum Chambers {
   ALL
   HOUSE
@@ -273,7 +279,10 @@ input CreateIssueTagInput {
 }
 
 input CreateOfficeInput {
+  chamber: Chamber
   district: String
+  districtType: District
+  electionScope: ElectionScope!
   incumbentId: UUID
   municipality: String
   officeType: String
@@ -412,6 +421,13 @@ type DeleteRaceResult {
   id: String!
 }
 
+enum District {
+  SCHOOL
+  STATE_HOUSE
+  STATE_SENATE
+  US_CONGRESSIONAL
+}
+
 type ElectionResult {
   description: String
   electionDate: NaiveDate!
@@ -422,6 +438,14 @@ type ElectionResult {
   racesByUserDistricts: [RaceResult!]!
   slug: String!
   title: String!
+}
+
+enum ElectionScope {
+  CITY
+  COUNTY
+  DISTRICT
+  NATIONAL
+  STATE
 }
 
 input ElectionSearchInput {
@@ -1099,7 +1123,10 @@ input UpdateIssueTagInput {
 }
 
 input UpdateOfficeInput {
+  chamber: Chamber
   district: String
+  districtType: District
+  electionScope: ElectionScope
   incumbentId: UUID
   municipality: String
   name: String

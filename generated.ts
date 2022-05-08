@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions, QueryFunctionContext } from 'react-query';
+import { useQuery, UseQueryOptions, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, UseMutationOptions, QueryFunctionContext } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,7 +7,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("https://api.populist.us", {
+    const res = await fetch("https://api.staging.populist.us/", {
     method: "POST",
     ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
@@ -68,6 +68,7 @@ export type AddressInput = {
   congressionalDistrict?: InputMaybe<Scalars['Int']>;
   coordinates?: InputMaybe<Coordinates>;
   country: Scalars['String'];
+  county?: InputMaybe<Scalars['String']>;
   line1: Scalars['String'];
   line2?: InputMaybe<Scalars['String']>;
   postalCode: Scalars['String'];
@@ -281,6 +282,11 @@ export type Candidate = {
   suffix: Scalars['String'];
 };
 
+export enum Chamber {
+  House = 'HOUSE',
+  Senate = 'SENATE'
+}
+
 export enum Chambers {
   All = 'ALL',
   House = 'HOUSE',
@@ -344,7 +350,10 @@ export type CreateIssueTagInput = {
 };
 
 export type CreateOfficeInput = {
+  chamber?: InputMaybe<Chamber>;
   district?: InputMaybe<Scalars['String']>;
+  districtType?: InputMaybe<District>;
+  electionScope: ElectionScope;
   incumbentId?: InputMaybe<Scalars['UUID']>;
   municipality?: InputMaybe<Scalars['String']>;
   officeType?: InputMaybe<Scalars['String']>;
@@ -486,6 +495,13 @@ export type DeleteRaceResult = {
   id: Scalars['String'];
 };
 
+export enum District {
+  School = 'SCHOOL',
+  StateHouse = 'STATE_HOUSE',
+  StateSenate = 'STATE_SENATE',
+  UsCongressional = 'US_CONGRESSIONAL'
+}
+
 export type ElectionResult = {
   __typename?: 'ElectionResult';
   description?: Maybe<Scalars['String']>;
@@ -497,6 +513,14 @@ export type ElectionResult = {
   slug: Scalars['String'];
   title: Scalars['String'];
 };
+
+export enum ElectionScope {
+  City = 'CITY',
+  County = 'COUNTY',
+  District = 'DISTRICT',
+  National = 'NATIONAL',
+  State = 'STATE'
+}
 
 export type ElectionSearchInput = {
   slug?: InputMaybe<Scalars['String']>;
@@ -1441,7 +1465,10 @@ export type UpdateIssueTagInput = {
 };
 
 export type UpdateOfficeInput = {
+  chamber?: InputMaybe<Chamber>;
   district?: InputMaybe<Scalars['String']>;
+  districtType?: InputMaybe<District>;
+  electionScope?: InputMaybe<ElectionScope>;
   incumbentId?: InputMaybe<Scalars['UUID']>;
   municipality?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -1568,12 +1595,12 @@ export type ValidatePasswordEntropyQueryVariables = Exact<{
 }>;
 
 
-export type ValidatePasswordEntropyQuery = { __typename?: 'Query', validatePasswordEntropy: { __typename?: 'PasswordEntropyResult', valid: boolean, score: number, message?: string | null } };
+export type ValidatePasswordEntropyQuery = { __typename?: 'Query', validatePasswordEntropy: { __typename?: 'PasswordEntropyResult', valid: boolean, score: number, message?: string | null | undefined } };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } | null };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } | null | undefined };
 
 export type BeginUserRegistrationMutationVariables = Exact<{
   email: Scalars['String'];
@@ -1617,21 +1644,21 @@ export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: bo
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }> };
+export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', title: string, description?: string | null | undefined, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null | undefined, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null | undefined, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined } | null | undefined }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined }> }> }> };
 
 export type BillBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type BillBySlugQuery = { __typename?: 'Query', billBySlug?: { __typename?: 'BillResult', title: string, description?: string | null, billNumber: string, legislationStatus: LegislationStatus, officialSummary?: string | null, populistSummary?: string | null, fullTextUrl?: string | null } | null };
+export type BillBySlugQuery = { __typename?: 'Query', billBySlug?: { __typename?: 'BillResult', title: string, description?: string | null | undefined, billNumber: string, legislationStatus: LegislationStatus, officialSummary?: string | null | undefined, populistSummary?: string | null | undefined, fullTextUrl?: string | null | undefined } | null | undefined };
 
 export type OrganizationBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type OrganizationBySlugQuery = { __typename?: 'Query', organizationBySlug: { __typename?: 'OrganizationResult', id: string, name: string, thumbnailImageUrl?: string | null } };
+export type OrganizationBySlugQuery = { __typename?: 'Query', organizationBySlug: { __typename?: 'OrganizationResult', id: string, name: string, thumbnailImageUrl?: string | null | undefined } };
 
 export type PoliticianIndexQueryVariables = Exact<{
   pageSize?: InputMaybe<Scalars['Int']>;
@@ -1641,14 +1668,14 @@ export type PoliticianIndexQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null, district?: string | null, state?: State | null, officeType?: string | null } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null, candidate: { __typename?: 'Candidate', photo: string } } | null } } | null> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } };
+export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } | null | undefined } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null | undefined } } };
 
 export type PoliticianBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, nickname?: string | null, preferredName?: string | null, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, websiteUrl?: string | null, twitterUrl?: string | null, facebookUrl?: string | null, instagramUrl?: string | null, yearsInPublicOffice?: number | null, age?: number | null, upcomingRace?: { __typename?: 'RaceResult', title: string, raceType: RaceType, state?: State | null, electionDate?: any | null, office: { __typename?: 'OfficeResult', title: string }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null, party?: PoliticalParty | null }> } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } } | null, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null> | null }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null, district?: string | null, state?: State | null, officeType?: string | null } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null, candidate: { __typename?: 'Candidate', photo: string } } | null }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null } | null } } | null> | null } } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, yearsInPublicOffice?: number | null | undefined, age?: number | null | undefined, upcomingRace?: { __typename?: 'RaceResult', title: string, raceType: RaceType, state?: State | null | undefined, electionDate?: any | null | undefined, office: { __typename?: 'OfficeResult', title: string }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null | undefined, party?: PoliticalParty | null | undefined }> } | null | undefined, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } } | null | undefined, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null | undefined> | null | undefined }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } | null | undefined }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined } | null | undefined } } | null | undefined> | null | undefined } } };
 
 
 export const ValidateEmailAvailableDocument = /*#__PURE__*/ `
