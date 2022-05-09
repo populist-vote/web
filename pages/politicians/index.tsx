@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, MouseEvent, ChangeEvent, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FaChevronDown, FaSearch } from "react-icons/fa";
@@ -73,7 +73,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   );
 };
 
-const PoliticianIndex: NextPageWithLayout = (props) => {
+const PoliticianIndex: NextPageWithLayout = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string | null>(
     router.query.search as string
@@ -125,8 +125,7 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
         return {
           cursor: lastPage.politicians.pageInfo.endCursor,
         };
-      },
-      initialData: props.dehydratedState
+      }
     }
   );
 
@@ -154,12 +153,12 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
     };
   }, [loadMoreRef.current, hasNextPage, isFetchingNextPage]);
 
-  const handleScopeClick = e => {
-    if (politicalScope === e.target.value) setPoliticalScope(null)
+  const handleScopeClick = (e: MouseEvent) => {
+    if (politicalScope === (e.target as HTMLInputElement).value) setPoliticalScope(null)
   }
 
-  const handleScopeChange = e => {
-    setPoliticalScope(e.target.value as PoliticalScope)
+  const handleScopeChange = (e: ChangeEvent) => {
+    setPoliticalScope((e.target as HTMLInputElement).value as PoliticalScope)
   }
 
   return (
@@ -180,7 +179,7 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
               <input
                 placeholder="Search"
                 onChange={(e) => setSearchQuery(e.target.value)}
-                value={searchQuery}
+                value={searchQuery || ""}
               ></input>
               <FaSearch color="var(--blue)" />
             </div>
@@ -217,7 +216,7 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
                   const newFilter = e.target.value === Chambers.All ? null : e.target.value
                   setChamberFilter(newFilter as Chambers)
                 }}
-                value={chamberFilter}
+                value={chamberFilter || Chambers.All}
               >
                 <option value={Chambers.All}>All Chambers</option>
                 <option value={Chambers.House}>House</option>
@@ -272,17 +271,5 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
 PoliticianIndex.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-
-export async function getServerSideProps(context) {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchInfiniteQuery(
-    `politicianIndex-${context.query.search || null}-${context.query.scope || null}-${context.query.chamber || null}`,
-    usePoliticianIndexQuery.fetcher({ search: { name: context.query.search || null }, pageSize: PAGE_SIZE, filter: { chambers: context.query.chamber || null, politicalScope: context.query.scope || null }})
-  );
-  let state = dehydrate(queryClient);
-  let data = state.queries[0].state.data as PoliticianIndexQuery
-  return { props: { dehydratedState: JSON.parse(JSON.stringify(data)) }};
-}
-
 
 export default PoliticianIndex;
