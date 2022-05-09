@@ -70,12 +70,13 @@ export function EmailStep() {
     valid: isPasswordValid,
     score,
     message,
-  } = passwordEntropyData?.validatePasswordEntropy!;
+  } = passwordEntropyData?.validatePasswordEntropy ?? {};
 
   const submitForm = (data: { email: string; password: string }) => {
     actions.updateAction(data);
     validateEmailAvailable().then(
       // Shamefully typecast to any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ({ data: response, error }: { data: any; error: any }) => {
         if (response?.validateEmailAvailable) {
           router.push({ query: { step: "address" } });

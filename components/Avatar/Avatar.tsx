@@ -7,7 +7,6 @@ import {
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
 import styled, { css } from "styled-components";
-import Link from "next/link";
 
 interface BadgeProps {
   background?: string;
@@ -41,7 +40,7 @@ interface BadgeWrapperProps {
 }
 
 const BadgeWrapper = styled.span<BadgeWrapperProps>(
-  ({ theme: { color, font }, background, size, fontSize }) => {
+  ({ theme: background, size, fontSize }) => {
     return css`
       position: absolute;
       bottom: 3px;
@@ -61,14 +60,12 @@ const BadgeWrapper = styled.span<BadgeWrapperProps>(
   }
 );
 
-const BadgeText = styled.span(({ theme: { font } }) => {
-  return css`
-    align-self: center;
-    margin: auto;
-    justify-content: center;
-    text-align: center;
-  `;
-});
+const BadgeText = styled.span`
+  align-self: center;
+  margin: auto;
+  justify-content: center;
+  text-align: center;
+`;
 
 function Badge(props: BadgeProps): JSX.Element {
   const { text, background, size, fontSize } = props;
@@ -84,7 +81,7 @@ const Wrapper = styled.div`
 `;
 
 function Avatar(props: AvatarProps): JSX.Element {
-  const { badge, name = "", round = true, ...rest } = props;
+  const { badge } = props;
 
   return (
     <Wrapper>

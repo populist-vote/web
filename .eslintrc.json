@@ -1,6 +1,14 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "rules": {
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "semi": "error"
+  },
+  "globals": {
+    "JSX": "readonly"
   }
 }

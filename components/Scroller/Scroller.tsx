@@ -1,7 +1,13 @@
-import dynamic from "next/dynamic";
-import { ReactElement, ReactNode, useContext, useRef, useState } from "react";
+import {
+  ReactElement,
+  ReactNode,
+  useContext,
+  useRef,
+  useState,
+  ContextType,
+} from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { ScrollMenu, slidingWindow, VisibilityContext } from "react-horizontal-scrolling-menu";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
 import styles from "./Scroller.module.scss";
 
@@ -13,24 +19,30 @@ function Scroller(props: {
   children: ScrollerItem | ScrollerItem[];
   onePageAtATime?: boolean;
 }) {
-  const [hasScroll, setHasScroll] = useState(false)
+  const [hasScroll, setHasScroll] = useState(false);
 
-  type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
+  type scrollVisibilityApiType = ContextType<typeof VisibilityContext>;
 
-  const apiRef = useRef({} as scrollVisibilityApiType)
+  const apiRef = useRef({} as scrollVisibilityApiType);
 
   const handleUpdate = (data: {
     initComplete: boolean;
     isFirstItemVisible: boolean;
     isLastItemVisible: boolean;
   }) => {
-    const { initComplete, isFirstItemVisible, isLastItemVisible } = data
-    setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible))
-  }
+    const { initComplete, isFirstItemVisible, isLastItemVisible } = data;
+    setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
+  };
 
   return (
     <div className={styles.horizontalScrollContainer}>
-      <ScrollMenu apiRef={apiRef} onUpdate={handleUpdate} LeftArrow={LeftArrow} RightArrow={RightArrow} itemClassName={props.onePageAtATime ? styles.scrollPage : ""}>
+      <ScrollMenu
+        apiRef={apiRef}
+        onUpdate={handleUpdate}
+        LeftArrow={LeftArrow}
+        RightArrow={RightArrow}
+        itemClassName={props.onePageAtATime ? styles.scrollPage : ""}
+      >
         {props.children}
       </ScrollMenu>
       {hasScroll && <div className={styles.swipe}>SWIPE</div>}
@@ -43,15 +55,13 @@ function LeftArrow() {
     useContext(VisibilityContext);
   // NOTE initComplete is a hack for  prevent blinking on init
   // Can get visibility of item only after it's rendered
-  if (!initComplete || (isFirstItemVisible && isLastItemVisible)) return null
+  if (!initComplete || (isFirstItemVisible && isLastItemVisible)) return null;
   return (
     <Arrow
       disabled={!initComplete || (initComplete && isFirstItemVisible)}
       onClick={() => scrollPrev()}
     >
-      <FaChevronLeft
-        color="var(--blue)"
-      />
+      <FaChevronLeft color="var(--blue)" />
     </Arrow>
   );
 }
@@ -59,15 +69,13 @@ function LeftArrow() {
 function RightArrow() {
   const { initComplete, isFirstItemVisible, isLastItemVisible, scrollNext } =
     useContext(VisibilityContext);
-  if (initComplete && isFirstItemVisible && isLastItemVisible) return null
+  if (initComplete && isFirstItemVisible && isLastItemVisible) return null;
   return (
     <Arrow
       disabled={initComplete && isLastItemVisible}
       onClick={() => scrollNext()}
     >
-      <FaChevronRight
-        color="var(--blue)"
-      />
+      <FaChevronRight color="var(--blue)" />
     </Arrow>
   );
 }
@@ -79,7 +87,7 @@ function Arrow({
 }: {
   children: ReactNode;
   disabled: boolean;
-  onClick: VoidFunction;
+  onClick: () => void;
 }) {
   return (
     <button
@@ -88,14 +96,14 @@ function Arrow({
       style={{
         background: "none",
         border: "0",
-        cursor: 'pointer',
-        display: 'flex',
-        flexDirection: 'column',
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "column",
         height: "1rem",
-        justifyContent: 'center',
+        justifyContent: "center",
         margin: "1rem 1rem 0",
-        right: '1%',
-        userSelect: 'none',
+        right: "1%",
+        userSelect: "none",
       }}
     >
       {children}

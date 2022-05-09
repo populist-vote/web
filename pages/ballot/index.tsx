@@ -17,9 +17,9 @@ import { dateString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
 import { groupBy } from "utils/groupBy";
 import Link from "next/link";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useEffect } from "react";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+import { dehydrate, QueryClient } from "react-query";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
@@ -29,7 +29,7 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
 const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
   const office = races[0]?.office;
 
-  let incumbentId = office?.incumbent?.id;
+  const incumbentId = office?.incumbent?.id;
 
   // Display race that has incumbent first
   const raceSortFn = (a: RaceResult, b: RaceResult) =>
@@ -136,7 +136,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { user } = useAuth({ redirectTo: "/login" });
 
   if (!user) return null;
-  if (error) toast(`Something went wrong: ${error}`, { type: "error" });
 
   return (
     <>
@@ -148,52 +147,54 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
         />
       </Head>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
-        {isLoading && (
-          <div className={styles.center}>
-            <LoaderFlag />
-          </div>
-        )}
-        {error && <h4>Something went wrong fetching your ballot data...</h4>}
+        <>
+          {isLoading && (
+            <div className={styles.center}>
+              <LoaderFlag />
+            </div>
+          )}
+          {error && <h4>Something went wrong fetching your ballot data...</h4>}
 
-        {upcomingElection && (
-          <>
-            <h1 className={styles.desktopOnly}>Ballot</h1>
+          {upcomingElection && (
+            <>
+              <h1 className={styles.desktopOnly}>Ballot</h1>
 
-            <FlagSection title="Upcoming Vote">
-              <h1>{dateString(upcomingElection?.electionDate)}</h1>
-              <h2>{upcomingElection?.title}</h2>
-              <p>{upcomingElection?.description}</p>
-            </FlagSection>
+              <FlagSection title="Upcoming Vote">
+                <h1>{dateString(upcomingElection?.electionDate)}</h1>
+                <h2>{upcomingElection?.title}</h2>
+                <p>{upcomingElection?.description}</p>
+              </FlagSection>
 
-            {Object.keys(federalRacesGroupedByOffice).length > 0 && (
-              <FlagSection title="Federal" color="salmon">
-                {Object.entries(federalRacesGroupedByOffice).map(
-                  ([officeId, races]) => {
-                    return (
+              {Object.keys(federalRacesGroupedByOffice).length > 0 && (
+                <FlagSection title="Federal" color="salmon">
+                  {Object.entries(federalRacesGroupedByOffice).map(
+                    ([officeId, races]) => {
+                      return (
+                        <OfficeRacesSlider
+                          key={officeId}
+                          races={races as RaceResult[]}
+                        />
+                      );
+                    }
+                  )}
+                </FlagSection>
+              )}
+
+              {Object.keys(stateRacesGroupedByOffice).length > 0 && (
+                <FlagSection title="State" color="yellow">
+                  {Object.entries(stateRacesGroupedByOffice).map(
+                    ([officeId, races]) => (
                       <OfficeRacesSlider
                         key={officeId}
                         races={races as RaceResult[]}
                       />
-                    );
-                  }
-                )}
-              </FlagSection>
-            )}
-
-            {Object.keys(stateRacesGroupedByOffice).length > 0 && (
-              <FlagSection title="State" color="yellow">
-                {Object.entries(stateRacesGroupedByOffice).map(
-                  ([officeId, races]) => (
-                    <OfficeRacesSlider
-                      key={officeId}
-                      races={races as RaceResult[]}
-                    />
-                  )
-                )}
-              </FlagSection>
-            )}
-          </>
-        )}
+                    )
+                  )}
+                </FlagSection>
+              )}
+            </>
+          )}
+        </>
       </Layout>
     </>
   );
@@ -202,8 +203,18 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
 export default BallotPage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    useUpcomingElectionsQuery.getKey(),
+    useUpcomingElectionsQuery.fetcher()
+  );
+
+  const state = dehydrate(queryClient);
+
   return {
     props: {
+      dehydratedState: state,
       mobileNavTitle: "My Ballot",
     },
   };

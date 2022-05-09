@@ -60,7 +60,7 @@ export function ResetPasswordForm() {
     valid: isPasswordValid,
     score,
     message,
-  } = passwordEntropyData?.validatePasswordEntropy!;
+  } = passwordEntropyData?.validatePasswordEntropy ?? {};
 
   const submitForm = (data: PasswordFormValues) => {
     mutation.mutate({

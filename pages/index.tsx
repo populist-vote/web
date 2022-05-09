@@ -1,17 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { NextPage } from "next";
-import Head from "next/head";
 import Image from "next/image";
-
 import headerLogo from "public/images/LogoWithText.svg";
 import landing1 from "public/images/landing/politicianBrowser.webp";
 import landing1fallback from "public/images/landing/1.png";
 import landing2 from "public/images/landing/amplify.png";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
-
 import { Footer, ImageWithFallback } from "components";
-import Link from "next/link";
 
 const Home: NextPage = () => {
   return (

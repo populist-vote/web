@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import { updateAction } from "pages/register";
 import states from "utils/states";
-import { useEffect } from "react";
 
 export function AddressStep() {
   const router = useRouter();

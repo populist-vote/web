@@ -5,7 +5,6 @@ export function PasswordEntropyMeter({
   length,
   valid,
   score,
-  message,
   isLoading,
 }: {
   length: number;

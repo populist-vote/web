@@ -15,7 +15,7 @@ import "components/Scroller/Scroller.css";
 
 const queryClient = new QueryClient();
 
-export type NextPageWithLayout<P = {}> = NextPage & {
+export type NextPageWithLayout<> = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

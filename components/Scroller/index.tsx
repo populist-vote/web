@@ -1,3 +1,3 @@
-import Scroller from "./Scroller"
+import Scroller from "./Scroller";
 
-export default Scroller
+export default Scroller;

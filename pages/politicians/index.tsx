@@ -210,7 +210,7 @@ const PoliticianIndex: NextPageWithLayout = () => {
             <h4>Something went wrong fetching politician records...</h4>
           )}
           <div>
-            {data?.pages.map((page, i) =>
+            {data?.pages.map((page) =>
               page.politicians.edges
                 ?.map((edge) => edge?.node as PoliticianResult)
                 .map((politician: PoliticianResult) => (
