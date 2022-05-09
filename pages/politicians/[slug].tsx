@@ -68,7 +68,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const termEnd = getYear(
     politician?.votesmartCandidateBio?.office?.termEnd as string
   );
-  const sponsoredBills = politician?.sponsoredBills;
+  const sponsoredBills = politician?.sponsoredBills || { edges: [] };
   const yearsInPublicOffice = politician?.yearsInPublicOffice;
   const age = politician?.age;
   const endorsements = politician?.endorsements;
@@ -143,6 +143,38 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function Candidate({
+    candidate,
+    itemId
+  }: {
+    candidate: Partial<PoliticianResult>,
+    itemId: string
+  }) {
+    return (
+      <Link
+        href={`/politicians/${candidate.slug}`}
+        key={candidate.id}
+        passHref
+      >
+        <div className={layoutStyles.avatarContainer}>
+          <PartyAvatar
+            size={60}
+            party={
+              candidate.party || ("UNKNOWN" as PoliticalParty)
+            }
+            src={
+              candidate.thumbnailImageUrl ||
+              PERSON_FALLBACK_IMAGE_URL
+            }
+            fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+            alt={politician?.fullName || ""}
+          />
+          <h4>{candidate.fullName}</h4>
+        </div>
+      </Link>
+    )
+  }
+
   function ElectionInfoSection() {
     if (!upcomingRace) return null;
     return (
@@ -164,30 +196,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               <Scroller>
                 {upcomingRace.candidates
                   .filter((candidate) => candidate.id != politician.id)
-                  .map((candidate: Partial<PoliticianResult>) => (
-                    <Link
-                      href={`/politicians/${candidate.slug}`}
-                      key={candidate.id}
-                      itemId={candidate.id}
-                      passHref
-                    >
-                      <div className={layoutStyles.avatarContainer}>
-                        <PartyAvatar
-                          size={60}
-                          party={
-                            candidate.party || ("UNKNOWN" as PoliticalParty)
-                          }
-                          src={
-                            candidate.thumbnailImageUrl ||
-                            PERSON_FALLBACK_IMAGE_URL
-                          }
-                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                          alt={politician.fullName}
-                        />
-                        <h4>{candidate.fullName}</h4>
-                      </div>
-                    </Link>
-                  ))}
+                  .map((candidate: Partial<PoliticianResult> & { id: string }) => {
+                    return <Candidate candidate={candidate} itemId={candidate.id} key={candidate.id}/>
+                  })
+                }
               </Scroller>
             </div>
           </>
@@ -256,22 +268,21 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     if (
       sponsoredBills &&
       sponsoredBills.edges &&
-      sponsoredBills.edges.length > 1
+      sponsoredBills.edges.length > 0
     ) {
+      const edges = sponsoredBills.edges as Array<{ node: Partial<BillResult> }> || []
       return (
         <section className={styles.center}>
           <h3 className={styles.subHeader}>Sponsored Bills</h3>
-          {sponsoredBills.edges && (
-            <Scroller onePageAtATime>
-              {sponsoredBills?.edges?.map((edge) => (
-                <BillCard
-                  bill={edge?.node as Partial<BillResult>}
-                  key={edge?.node.slug}
-                  itemId={edge?.node.slug}
-                />
-              ))}
-            </Scroller>
-          )}
+          <Scroller onePageAtATime>
+            {edges.map((edge) => {
+              return <BillCard
+                bill={edge.node}
+                key={edge.node.slug}
+                itemId={edge.node.slug!}
+              />
+            }).filter(x => x)}
+          </Scroller>
         </section>
       );
     } else {
@@ -281,8 +292,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   function OrganizationEndorsement({
     organization,
+    itemId
   }: {
     organization: Partial<OrganizationResult>;
+    itemId: string
   }) {
     return (
       <Link
@@ -306,8 +319,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   function PoliticianEndorsement({
     politician,
+    itemId
   }: {
     politician: Partial<PoliticianResult>;
+    itemId: string
   }) {
     const officeTitle = useMemo(
       () => computeShortOfficeTitle(politician),
@@ -378,7 +393,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function RatingsItem({ rating }: { rating: RatingResult }) {
+  function RatingsItem({ rating, itemId }: { rating: RatingResult, itemId: string }) {
     let ratingPercent = parseInt(rating.vsRating.rating);
 
     return (

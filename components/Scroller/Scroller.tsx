@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { ReactElement, useContext, useRef, useState } from "react";
+import { ReactElement, ReactNode, useContext, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { ScrollMenu, slidingWindow, VisibilityContext } from "react-horizontal-scrolling-menu";
 
@@ -15,10 +15,16 @@ function Scroller(props: {
 }) {
   const [hasScroll, setHasScroll] = useState(false)
 
-  const apiRef = useRef()
+  type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-  const handleUpdate = (data) => {
-    const { initComplete, isFirstItemVisible, isLastItemVisible, items, visibleItems } = data
+  const apiRef = useRef({} as scrollVisibilityApiType)
+
+  const handleUpdate = (data: {
+    initComplete: boolean;
+    isFirstItemVisible: boolean;
+    isLastItemVisible: boolean;
+  }) => {
+    const { initComplete, isFirstItemVisible, isLastItemVisible } = data
     setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible))
   }
 
