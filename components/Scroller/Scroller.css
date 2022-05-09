@@ -1,0 +1,25 @@
+.react-horizontal-scrolling-menu--wrapper {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.react-horizontal-scrolling-menu--scroll-container {
+  flex-basis: 100%;
+  flex-shrink: 0;
+  mask-image: linear-gradient(
+    to left,
+    rgba(0 0 0 / 0%) 2%,
+    rgba(0 0 0 / 100%) 10%
+  );
+}
+
+/* Change position of container so arrows will be at top/bottom */
+.react-horizontal-scrolling-menu--scroll-container {
+  order: -1;
+  scrollbar-width: none; /* Firefox */
+}
+
+.react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar { /* WebKit */
+  width: 0;
+  height: 0;
+}

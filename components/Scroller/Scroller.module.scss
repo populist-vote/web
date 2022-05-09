@@ -1,18 +1,22 @@
 @import "styles/mixins";
+@import "styles/variables/colors.module.scss";
 
 .horizontalScrollContainer {
   margin: 1rem 0;
   width: 100%;
   max-height: max-content;
-  mask-image: linear-gradient(
-    to left,
-    rgba(0 0 0 / 0%) 2%,
-    rgba(0 0 0 / 100%) 10%
-  );
 }
 
 .scrollPage {
   @include for-tablet-portrait-down {
     min-width: 100%;
   }
+}
+
+.swipe {
+  color: $blue;
+  display: flex;
+  justify-content: center;
+  margin-top: -1rem;
+  line-height: 1rem;
 }
