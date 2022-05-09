@@ -2,10 +2,17 @@
 @import "styles/variables/fonts.module.scss";
 @import "styles/variables/colors.module.scss";
 
+.billPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 1rem;
+}
+
 .billCard {
   border: 1px solid $blue;
-  background: $blue-dark;
-  color: $white;
+  background: $white;
+  color: $grey-darkest;
   display: flex;
   border-radius: 15px;
   flex-direction: column;
@@ -30,17 +37,19 @@
       font-size: $text-lg;
       font-weight: $weight-normal;
       text-decoration: 1px dotted underline;
+      text-underline-offset: 0.3em;
     }
 
     h2.billTitle {
       font-size: $text-sm;
       text-decoration: 1px dotted underline;
+      text-underline-offset: 0.3em;
       text-transform: none;
-      color: $white;
+      color: $grey-darkest;
     }
 
     .statusPill {
-      background: $blue;
+      background: $grey-lightest;
       border-radius: 40px;
       padding: 10px;
       text-transform: capitalize;

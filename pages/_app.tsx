@@ -11,6 +11,7 @@ import Script from "next/script";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/toast.css";
+import "components/Scroller/Scroller.css";
 
 const queryClient = new QueryClient();
 

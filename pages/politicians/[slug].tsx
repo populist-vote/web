@@ -168,6 +168,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                     <Link
                       href={`/politicians/${candidate.slug}`}
                       key={candidate.id}
+                      itemId={candidate.id}
                       passHref
                     >
                       <div className={layoutStyles.avatarContainer}>
@@ -261,11 +262,12 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <section className={styles.center}>
           <h3 className={styles.subHeader}>Sponsored Bills</h3>
           {sponsoredBills.edges && (
-            <Scroller>
+            <Scroller onePageAtATime>
               {sponsoredBills?.edges?.map((edge) => (
                 <BillCard
                   bill={edge?.node as Partial<BillResult>}
                   key={edge?.node.slug}
+                  itemId={edge?.node.slug}
                 />
               ))}
             </Scroller>
@@ -346,12 +348,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         {endorsements.organizations.length > 0 && (
           <>
-            <h3 className={styles.subHeader}>Organizations</h3>
+            <h3 className={`${styles.subHeader} ${styles.aqua}`}>Organizations</h3>
             <Scroller>
               {endorsements.organizations.map((organization) => (
                 <OrganizationEndorsement
                   organization={organization}
                   key={organization.slug}
+                  itemId={organization.slug}
                 />
               ))}
             </Scroller>
@@ -359,12 +362,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         )}
         {endorsements.politicians.length > 0 && (
           <>
-            <h3 className={styles.subHeader}>Individuals</h3>
+            <h3 className={`${styles.subHeader} ${styles.aqua}`}>Individuals</h3>
             <Scroller>
               {endorsements.politicians.map((politician) => (
                 <PoliticianEndorsement
                   politician={politician as Partial<PoliticianResult>}
                   key={politician.slug}
+                  itemId={politician.slug}
                 />
               ))}
             </Scroller>
@@ -412,6 +416,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               <RatingsItem
                 rating={edge.node}
                 key={`${edge.node.vsRating.ratingId}-${i}`}
+                itemId={`${edge.node.vsRating.ratingId}-${i}`}
               />
             ))}
           </Scroller>
