@@ -1,3 +1,3 @@
-import BillCard from "./BillCard"
+import BillCard from "./BillCard";
 
-export default BillCard
+export default BillCard;

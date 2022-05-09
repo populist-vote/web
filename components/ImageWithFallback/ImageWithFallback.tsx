@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 const ImageWithFallback = (props: {
-  [x: string]: any;
+  [x: string]: unknown;
   src: string | StaticImageData;
   fallbackSrc: string | StaticImageData;
 }) => {

@@ -26,8 +26,8 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   if (isLoading) return <LoaderFlag />;
   if (error) return <p>Error: {error}</p>;
 
-  let bill = data?.billBySlug;
-  let summary = bill?.populistSummary || bill?.description;
+  const bill = data?.billBySlug;
+  const summary = bill?.populistSummary || bill?.description;
 
   if (!bill) return null;
   return (
@@ -80,9 +80,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     useBillBySlugQuery.getKey({ slug }),
     useBillBySlugQuery.fetcher({ slug })
   );
-  let state = dehydrate(queryClient);
+  const state = dehydrate(queryClient);
 
-  let data = state.queries[0]?.state.data as BillBySlugQuery;
+  const data = state.queries[0]?.state.data as BillBySlugQuery;
 
   return {
     notFound: state.queries.length === 0,

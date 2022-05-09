@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 export default function BasicLayout({
   children,
   hideFooter = false,
-}: PropsWithChildren<{ hideFooter?: Boolean }>) {
+}: PropsWithChildren<{ hideFooter?: boolean }>) {
   const { pathname } = useRouter();
 
   return (

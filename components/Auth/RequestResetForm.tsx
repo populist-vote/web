@@ -13,7 +13,6 @@ export function RequestResetForm() {
   const {
     register,
     handleSubmit,
-    getValues,
     setError,
     formState: { errors },
   } = useForm<ResetFormValues>();

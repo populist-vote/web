@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { dehydrate, QueryClient } from "react-query";
-
 import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
 
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
@@ -54,7 +53,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
 
   if (isLoading) return <LoaderFlag />;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <>Error: {error}</>;
   const politician = data?.politicianBySlug;
   if (!politician) return <p>No politician found</p>;
 
@@ -119,7 +118,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{termEnd}</span>
           </p>
         )}
-        {/* Dont have this datapoint yet */}
+        {/* Dont have this data yet */}
         {/* <p className={styles.flexBetween}>
           <span>Elections Won / Lost</span>
           <span className={styles.dots} />
@@ -145,34 +144,24 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   function Candidate({
     candidate,
-    itemId
   }: {
-    candidate: Partial<PoliticianResult>,
-    itemId: string
+    candidate: Partial<PoliticianResult>;
+    itemId: string;
   }) {
     return (
-      <Link
-        href={`/politicians/${candidate.slug}`}
-        key={candidate.id}
-        passHref
-      >
+      <Link href={`/politicians/${candidate.slug}`} key={candidate.id} passHref>
         <div className={layoutStyles.avatarContainer}>
           <PartyAvatar
             size={60}
-            party={
-              candidate.party || ("UNKNOWN" as PoliticalParty)
-            }
-            src={
-              candidate.thumbnailImageUrl ||
-              PERSON_FALLBACK_IMAGE_URL
-            }
+            party={candidate.party || ("UNKNOWN" as PoliticalParty)}
+            src={candidate.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL}
             fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
             alt={politician?.fullName || ""}
           />
           <h4>{candidate.fullName}</h4>
         </div>
       </Link>
-    )
+    );
   }
 
   function ElectionInfoSection() {
@@ -196,10 +185,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               <Scroller>
                 {upcomingRace.candidates
                   .filter((candidate) => candidate.id != politician.id)
-                  .map((candidate: Partial<PoliticianResult> & { id: string }) => {
-                    return <Candidate candidate={candidate} itemId={candidate.id} key={candidate.id}/>
-                  })
-                }
+                  .map(
+                    (candidate: Partial<PoliticianResult> & { id: string }) => {
+                      return (
+                        <Candidate
+                          candidate={candidate}
+                          itemId={candidate.id}
+                          key={candidate.id}
+                        />
+                      );
+                    }
+                  )}
               </Scroller>
             </div>
           </>
@@ -208,13 +204,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function CommitteeTagPage({
-    tags,
-    itemId,
-  }: {
-    tags: string[];
-    itemId: string;
-  }) {
+  function CommitteeTagPage({ tags }: { tags: string[]; itemId: string }) {
     return (
       <div className={styles.tagPage}>
         {tags.map((tag, index) => (
@@ -235,7 +225,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
     const tags =
       politicalExperience?.constructor === Array
-        ? politicalExperience.map((committee: any) =>
+        ? politicalExperience.map((committee: { organization: string }) =>
             committee?.organization?.replace("Subcommittee on", "")
           )
         : [];
@@ -270,18 +260,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       sponsoredBills.edges &&
       sponsoredBills.edges.length > 0
     ) {
-      const edges = sponsoredBills.edges as Array<{ node: Partial<BillResult> }> || []
+      const edges =
+        (sponsoredBills.edges as Array<{ node: Partial<BillResult> }>) || [];
       return (
         <section className={styles.center}>
           <h3 className={styles.subHeader}>Sponsored Bills</h3>
           <Scroller onePageAtATime>
-            {edges.map((edge) => {
-              return <BillCard
-                bill={edge.node}
-                key={edge.node.slug}
-                itemId={edge.node.slug!}
-              />
-            }).filter(x => x)}
+            {edges
+              .map((edge) => {
+                return <BillCard bill={edge.node} key={edge.node.slug} />;
+              })
+              .filter((x) => x)}
           </Scroller>
         </section>
       );
@@ -292,10 +281,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   function OrganizationEndorsement({
     organization,
-    itemId
   }: {
     organization: Partial<OrganizationResult>;
-    itemId: string
+    itemId: string;
   }) {
     return (
       <Link
@@ -319,10 +307,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   function PoliticianEndorsement({
     politician,
-    itemId
   }: {
     politician: Partial<PoliticianResult>;
-    itemId: string
+    itemId: string;
   }) {
     const officeTitle = useMemo(
       () => computeShortOfficeTitle(politician),
@@ -355,7 +342,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   function EndorsementsSection() {
     if (
-      [...endorsements?.organizations, ...endorsements?.politicians].length < 1
+      [
+        ...(endorsements?.organizations ?? []),
+        ...(endorsements?.politicians ?? []),
+      ].length < 1
     )
       return null;
     return (
@@ -363,7 +353,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         {endorsements.organizations.length > 0 && (
           <>
-            <h3 className={`${styles.subHeader} ${styles.aqua}`}>Organizations</h3>
+            <h3 className={`${styles.subHeader} ${styles.aqua}`}>
+              Organizations
+            </h3>
             <Scroller>
               {endorsements.organizations.map((organization) => (
                 <OrganizationEndorsement
@@ -377,7 +369,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         )}
         {endorsements.politicians.length > 0 && (
           <>
-            <h3 className={`${styles.subHeader} ${styles.aqua}`}>Individuals</h3>
+            <h3 className={`${styles.subHeader} ${styles.aqua}`}>
+              Individuals
+            </h3>
             <Scroller>
               {endorsements.politicians.map((politician) => (
                 <PoliticianEndorsement
@@ -393,8 +387,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function RatingsItem({ rating, itemId }: { rating: RatingResult, itemId: string }) {
-    let ratingPercent = parseInt(rating.vsRating.rating);
+  function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
+    const ratingPercent = parseInt(rating.vsRating.rating);
 
     return (
       <div className={styles.ratingContainer} key={rating?.vsRating.ratingId}>
@@ -440,14 +434,14 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return null;
   }
 
-  function BioSection() {
-    return (
-      <section className={styles.center}>
-        <h3 className={styles.gradientHeader}>Bio</h3>
-        <p>This is a cool politician dude.</p>
-      </section>
-    );
-  }
+  // function BioSection() {
+  //   return (
+  //     <section className={styles.center}>
+  //       <h3 className={styles.gradientHeader}>Bio</h3>
+  //       <p>This is a cool politician dude.</p>
+  //     </section>
+  //   );
+  // }
 
   return (
     <Layout
@@ -484,9 +478,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     usePoliticianBySlugQuery.getKey({ slug }),
     usePoliticianBySlugQuery.fetcher({ slug })
   );
-  let state = dehydrate(queryClient);
+  const state = dehydrate(queryClient);
 
-  let data = state.queries[0]?.state.data as PoliticianBySlugQuery;
+  const data = state.queries[0]?.state.data as PoliticianBySlugQuery;
 
   return {
     notFound: !data,

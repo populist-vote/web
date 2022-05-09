@@ -27,12 +27,13 @@ export function LogIn() {
       if (error instanceof Error) setLoginError(error.message as string);
     },
     onSuccess: () => {
-      getCurrentUser.refetch().then((data: any) => {
-        if (data?.currentUser) router.push("/ballot");
+      getCurrentUser.refetch().then((result) => {
+        if (result.data?.currentUser) router.push("/ballot");
       });
     },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitForm = (data: any) => {
     login.mutate(data);
   };
