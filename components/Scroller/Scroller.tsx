@@ -30,8 +30,8 @@ function Scroller(props: {
     isFirstItemVisible: boolean;
     isLastItemVisible: boolean;
   }) => {
-    const { initComplete, isFirstItemVisible, isLastItemVisible } = data;
-    setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
+    const { initComplete, isFirstItemVisible, isLastItemVisible, items, visibleItems } = data;
+    if (!hasScroll) setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
   };
 
   return (
@@ -39,8 +39,8 @@ function Scroller(props: {
       <ScrollMenu
         apiRef={apiRef}
         onUpdate={handleUpdate}
-        LeftArrow={LeftArrow}
-        RightArrow={RightArrow}
+        LeftArrow={hasScroll ? LeftArrow : undefined}
+        RightArrow={hasScroll ? RightArrow: undefined}
         itemClassName={props.onePageAtATime ? styles.scrollPage : ""}
       >
         {props.children}
@@ -51,14 +51,12 @@ function Scroller(props: {
 }
 
 function LeftArrow() {
-  const { initComplete, isFirstItemVisible, isLastItemVisible, scrollPrev } =
+  const { isFirstItemVisible, scrollPrev } =
     useContext(VisibilityContext);
-  // NOTE initComplete is a hack for  prevent blinking on init
-  // Can get visibility of item only after it's rendered
-  if (!initComplete || (isFirstItemVisible && isLastItemVisible)) return null;
+
   return (
     <Arrow
-      disabled={!initComplete || (initComplete && isFirstItemVisible)}
+      disabled={isFirstItemVisible}
       onClick={() => scrollPrev()}
     >
       <FaChevronLeft color="var(--blue)" />
@@ -67,12 +65,11 @@ function LeftArrow() {
 }
 
 function RightArrow() {
-  const { initComplete, isFirstItemVisible, isLastItemVisible, scrollNext } =
+  const { isLastItemVisible, scrollNext } =
     useContext(VisibilityContext);
-  if (initComplete && isFirstItemVisible && isLastItemVisible) return null;
   return (
     <Arrow
-      disabled={initComplete && isLastItemVisible}
+      disabled={isLastItemVisible}
       onClick={() => scrollNext()}
     >
       <FaChevronRight color="var(--blue)" />

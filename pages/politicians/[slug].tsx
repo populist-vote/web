@@ -268,7 +268,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <Scroller onePageAtATime>
             {edges
               .map((edge) => {
-                return <BillCard bill={edge.node} key={edge.node.slug} />;
+                return <BillCard bill={edge.node} key={edge.node.slug} itemId={edge.node.slug} />;
               })
               .filter((x) => x)}
           </Scroller>
