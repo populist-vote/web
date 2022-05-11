@@ -73,18 +73,17 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   );
 };
 
-const PoliticianIndex: NextPageWithLayout = () => {
+const PoliticianIndex: NextPageWithLayout = (props) => {
   const router = useRouter();
-  const queryParameters = new URLSearchParams(router.asPath.split("?")[1] || "")
   const [searchQuery, setSearchQuery] = useState<string | null>(
-    queryParameters.get("search") as string
+    props.search as string
   );
   const debouncedSearchQuery = useDebounce<string | null>(searchQuery, 500);
   const [politicalScope, setPoliticalScope] = useState<PoliticalScope | null>(
-    (queryParameters.get("scope") as PoliticalScope) || null
+    (props.scope as PoliticalScope) || null
   );
   const [chamberFilter, setChamberFilter] = useState<Chambers | null>(
-    (queryParameters.get("chamber") as Chambers) || null
+    (props.chamber as Chambers) || null
   );
 
   useEffect(() => {
@@ -268,6 +267,13 @@ const PoliticianIndex: NextPageWithLayout = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const queryClient = new QueryClient()
+  const { chamber = null, scope = null, search = null } = context.query
+  return { props: { chamber, scope, search } }
+}
+
 
 PoliticianIndex.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;

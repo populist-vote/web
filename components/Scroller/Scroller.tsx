@@ -30,7 +30,7 @@ function Scroller(props: {
     isFirstItemVisible: boolean;
     isLastItemVisible: boolean;
   }) => {
-    const { initComplete, isFirstItemVisible, isLastItemVisible, items, visibleItems } = data;
+    const { initComplete, isFirstItemVisible, isLastItemVisible } = data;
     if (!hasScroll) setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
   };
 

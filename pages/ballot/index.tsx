@@ -25,6 +25,59 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
 });
 
+const Race = ({ race, itemId, incumbentId } : { race: RaceResult, itemId: string, incumbentId: string | undefined }) => {
+
+  const candidateSortFn = (a: PoliticianResult, b: PoliticianResult) =>
+    a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
+
+  return (
+    <FieldSet
+      heading={race.title}
+      color={
+        race.party === PoliticalParty.Republican ? "red" : "blue"
+      }
+    >
+      {race.candidates.length < 1 && (
+        <h3 style={{ color: "var(--blue-light)" }}>
+          No official candidates
+        </h3>
+      )}
+      {race.candidates
+        .sort(candidateSortFn)
+        ?.map((politician: PoliticianResult) => (
+          <div
+            className={styles.flexBetween}
+            key={politician.id}
+            style={{ height: "9rem" }}
+          >
+            {politician.id == incumbentId && (
+              <span className={styles.sideText}>INCUMBENT</span>
+            )}
+            <Link href={`/politicians/${politician.slug}`} passHref>
+              <div className={styles.avatarContainer}>
+                <PartyAvatar
+                  size={80}
+                  party={
+                    politician?.party || ("Unknown" as PoliticalParty)
+                  }
+                  src={
+                    politician?.thumbnailImageUrl ||
+                    PERSON_FALLBACK_IMAGE_URL
+                  }
+                  fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                  alt={politician.fullName}
+                />
+                <h4>{politician.fullName}</h4>
+              </div>
+            </Link>
+            {politician.id == incumbentId &&
+              race.candidates.length > 1 && <VerticalDivider />}
+          </div>
+        ))}
+    </FieldSet>
+  )
+}
+
 // Races associated with a single office (to handle primaries)
 const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
   const office = races[0]?.office;
@@ -37,9 +90,6 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
     !b.candidates.some((politician) => politician.id === incumbentId)
       ? -1
       : 1;
-
-  const candidateSortFn = (a: PoliticianResult, b: PoliticianResult) =>
-    a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
 
   return (
     <>
@@ -59,52 +109,7 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
       <div className={`${styles.roundedCard}`}>
         <Scroller>
           {races.sort(raceSortFn).map((race) => (
-            <FieldSet
-              heading={race.title}
-              color={
-                race.party === PoliticalParty.Republican ? "red" : "blue"
-              }
-              key={race.id}
-              itemId={race.id}
-            >
-              {race.candidates.length < 1 && (
-                <h3 style={{ color: "var(--blue-light)" }}>
-                  No official candidates
-                </h3>
-              )}
-              {race.candidates
-                .sort(candidateSortFn)
-                ?.map((politician: PoliticianResult) => (
-                  <div
-                    className={styles.flexBetween}
-                    key={politician.id}
-                    style={{ height: "9rem" }}
-                  >
-                    {politician.id == incumbentId && (
-                      <span className={styles.sideText}>INCUMBENT</span>
-                    )}
-                    <Link href={`/politicians/${politician.slug}`} passHref>
-                      <div className={styles.avatarContainer}>
-                        <PartyAvatar
-                          size={80}
-                          party={
-                            politician?.party || ("Unknown" as PoliticalParty)
-                          }
-                          src={
-                            politician?.thumbnailImageUrl ||
-                            PERSON_FALLBACK_IMAGE_URL
-                          }
-                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                          alt={politician.fullName}
-                        />
-                        <h4>{politician.fullName}</h4>
-                      </div>
-                    </Link>
-                    {politician.id == incumbentId &&
-                      race.candidates.length > 1 && <VerticalDivider />}
-                  </div>
-                ))}
-            </FieldSet>
+            <Race race={race} key={race.id} itemId={race.id} incumbentId={incumbentId} />
           ))}
         </Scroller>
       </div>
