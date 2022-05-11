@@ -75,15 +75,16 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
 
 const PoliticianIndex: NextPageWithLayout = () => {
   const router = useRouter();
+  const queryParameters = new URLSearchParams(router.asPath.split("?")[1] || "")
   const [searchQuery, setSearchQuery] = useState<string | null>(
-    router.query.search as string
+    queryParameters.get("search") as string
   );
   const debouncedSearchQuery = useDebounce<string | null>(searchQuery, 500);
   const [politicalScope, setPoliticalScope] = useState<PoliticalScope | null>(
-    (router.query.scope as PoliticalScope) || null
+    (queryParameters.get("scope") as PoliticalScope) || null
   );
   const [chamberFilter, setChamberFilter] = useState<Chambers | null>(
-    (router.query.chamber as Chambers) || null
+    (queryParameters.get("chamber") as Chambers) || null
   );
 
   useEffect(() => {
