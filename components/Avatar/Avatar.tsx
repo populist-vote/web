@@ -40,7 +40,7 @@ interface BadgeWrapperProps {
 }
 
 const BadgeWrapper = styled.span<BadgeWrapperProps>(
-  ({ theme: background, size, fontSize }) => {
+  ({ background, size, fontSize }) => {
     return css`
       position: absolute;
       bottom: 3px;

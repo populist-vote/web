@@ -17,9 +17,10 @@
   border-radius: 15px;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  padding: 1rem;
   width: calc(100vw - 2rem);
   margin: 0 1rem;
+  height: 14rem;
 
   @include for-tablet-landscape-up {
     max-width: calc(100vw / 3 - 7rem);
@@ -27,11 +28,13 @@
   }
 
   .cardContent {
-    padding: 1rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
 
     h1.billNumber {
       font-size: $text-lg;
@@ -46,6 +49,11 @@
       text-underline-offset: 0.3em;
       text-transform: none;
       color: $grey-darkest;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5em;
     }
 
     .statusPill {
@@ -53,6 +61,8 @@
       border-radius: 40px;
       padding: 10px;
       text-transform: capitalize;
+      width: 100%;
+      margin-bottom: 0.5rem;
     }
   }
 }

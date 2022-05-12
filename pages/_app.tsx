@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import "styles/globals.scss";
 import "styles/landing.css";
@@ -15,7 +16,8 @@ import "components/Scroller/Scroller.css";
 
 const queryClient = new QueryClient();
 
-export type NextPageWithLayout<> = NextPage & {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
@@ -50,6 +52,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           <Head />
           {getLayout(<Component {...pageProps} />)}
           <ToastContainer theme="dark" />
+          <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
         </Hydrate>
       </QueryClientProvider>
     </>
