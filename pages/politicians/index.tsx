@@ -1,5 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ReactElement, MouseEvent, ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  ReactElement,
+  MouseEvent,
+  ChangeEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FaChevronDown, FaSearch } from "react-icons/fa";
@@ -13,7 +20,6 @@ import {
   PoliticalParty,
   PoliticalScope,
   useInfinitePoliticianIndexQuery,
-  usePoliticianIndexQuery,
 } from "../../generated";
 import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
@@ -21,8 +27,7 @@ import useDebounce from "hooks/useDebounce";
 import { NextPageWithLayout } from "../_app";
 import { computeOfficeTitle } from "utils/politician";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-
-import { dehydrate, QueryClient } from "react-query";
+import { GetServerSideProps } from "next";
 
 const PAGE_SIZE = 20;
 
@@ -73,7 +78,15 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   );
 };
 
-const PoliticianIndex: NextPageWithLayout = (props) => {
+type PoliticianIndexProps = {
+  search: string;
+  scope: PoliticalScope;
+  chamber: Chambers;
+};
+
+const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
+  props: PoliticianIndexProps
+) => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string | null>(
     props.search as string
@@ -88,16 +101,16 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
 
   useEffect(() => {
     type RouteQuery = {
-      search: string | null,
-      scope: PoliticalScope | null,
-      chamber: Chambers | null 
-    }
-    let query: Partial<RouteQuery> = {}
-    if (!!debouncedSearchQuery) query.search = debouncedSearchQuery
-    if (!!politicalScope) query.scope = politicalScope
-    if (!!chamberFilter) query.chamber = chamberFilter
-    router.push({ query })
-  }, [debouncedSearchQuery, politicalScope, chamberFilter])
+      search: string | null;
+      scope: PoliticalScope | null;
+      chamber: Chambers | null;
+    };
+    const query: Partial<RouteQuery> = {};
+    if (!!debouncedSearchQuery) query.search = debouncedSearchQuery;
+    if (!!politicalScope) query.scope = politicalScope;
+    if (!!chamberFilter) query.chamber = chamberFilter;
+    router.push({ query });
+  }, [debouncedSearchQuery, politicalScope, chamberFilter]);
 
   const {
     data,
@@ -125,7 +138,7 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
         return {
           cursor: lastPage.politicians.pageInfo.endCursor,
         };
-      }
+      },
     }
   );
 
@@ -154,12 +167,13 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
   }, [loadMoreRef.current, hasNextPage, isFetchingNextPage]);
 
   const handleScopeClick = (e: MouseEvent) => {
-    if (politicalScope === (e.target as HTMLInputElement).value) setPoliticalScope(null)
-  }
+    if (politicalScope === (e.target as HTMLInputElement).value)
+      setPoliticalScope(null);
+  };
 
   const handleScopeChange = (e: ChangeEvent) => {
-    setPoliticalScope((e.target as HTMLInputElement).value as PoliticalScope)
-  }
+    setPoliticalScope((e.target as HTMLInputElement).value as PoliticalScope);
+  };
 
   return (
     <>
@@ -213,8 +227,9 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
                 className={styles.pillSelect}
                 name="chambers"
                 onChange={(e) => {
-                  const newFilter = e.target.value === Chambers.All ? null : e.target.value
-                  setChamberFilter(newFilter as Chambers)
+                  const newFilter =
+                    e.target.value === Chambers.All ? null : e.target.value;
+                  setChamberFilter(newFilter as Chambers);
                 }}
                 value={chamberFilter || Chambers.All}
               >
@@ -268,12 +283,10 @@ const PoliticianIndex: NextPageWithLayout = (props) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const queryClient = new QueryClient()
-  const { chamber = null, scope = null, search = null } = context.query
-  return { props: { chamber, scope, search } }
-}
-
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { chamber = null, scope = null, search = null } = ctx.query;
+  return { props: { chamber, scope, search } };
+};
 
 PoliticianIndex.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;

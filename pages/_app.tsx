@@ -16,7 +16,8 @@ import "components/Scroller/Scroller.css";
 
 const queryClient = new QueryClient();
 
-export type NextPageWithLayout<> = NextPage & {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
