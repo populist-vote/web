@@ -31,7 +31,8 @@ function Scroller(props: {
     isLastItemVisible: boolean;
   }) => {
     const { initComplete, isFirstItemVisible, isLastItemVisible } = data;
-    if (!hasScroll) setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
+    if (!hasScroll)
+      setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
   };
 
   return (
@@ -40,7 +41,7 @@ function Scroller(props: {
         apiRef={apiRef}
         onUpdate={handleUpdate}
         LeftArrow={hasScroll ? LeftArrow : undefined}
-        RightArrow={hasScroll ? RightArrow: undefined}
+        RightArrow={hasScroll ? RightArrow : undefined}
         itemClassName={props.onePageAtATime ? styles.scrollPage : ""}
       >
         {props.children}
@@ -51,27 +52,19 @@ function Scroller(props: {
 }
 
 function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } =
-    useContext(VisibilityContext);
+  const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
 
   return (
-    <Arrow
-      disabled={isFirstItemVisible}
-      onClick={() => scrollPrev()}
-    >
+    <Arrow disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
       <FaChevronLeft color="var(--blue)" />
     </Arrow>
   );
 }
 
 function RightArrow() {
-  const { isLastItemVisible, scrollNext } =
-    useContext(VisibilityContext);
+  const { isLastItemVisible, scrollNext } = useContext(VisibilityContext);
   return (
-    <Arrow
-      disabled={isLastItemVisible}
-      onClick={() => scrollNext()}
-    >
+    <Arrow disabled={isLastItemVisible} onClick={() => scrollNext()}>
       <FaChevronRight color="var(--blue)" />
     </Arrow>
   );
