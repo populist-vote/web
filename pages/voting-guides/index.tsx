@@ -1,4 +1,3 @@
-// import { ReactElement } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { Layout, Avatar, FlagSection } from "components";
