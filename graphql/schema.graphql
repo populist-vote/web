@@ -327,8 +327,10 @@ input CreateOrganizationInput {
 
 input CreatePoliticianInput {
   ballotName: String
+  crpCandidateId: String
   description: String
   facebookUrl: String
+  fecCandidateId: String
   firstName: String!
   homeState: State
   instagramUrl: String
@@ -418,6 +420,10 @@ type DeletePoliticianResult {
 }
 
 type DeleteRaceResult {
+  id: String!
+}
+
+type DeleteVotingGuideResult {
   id: String!
 }
 
@@ -540,6 +546,7 @@ type Mutation {
   deleteOrganization(id: String!): DeleteOrganizationResult!
   deletePolitician(id: String!): DeletePoliticianResult!
   deleteRace(id: String!): DeleteRaceResult!
+  deleteVotingGuide(id: String!): DeleteVotingGuideResult!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
@@ -556,6 +563,8 @@ type Mutation {
   updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
   updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
   uploadPoliticianThumbnail(file: Upload!): Int!
+  upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
+  upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
   upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
 }
 
@@ -834,6 +843,14 @@ type Query {
   """Validate that a user does not already exist with this email"""
   validateEmailAvailable(email: String!): Boolean!
   validatePasswordEntropy(password: String!): PasswordEntropyResult!
+  votingGuideById(
+    """Voting guide id"""
+    id: String!
+  ): VotingGuideResult!
+  votingGuidesByUserId(
+    """User id"""
+    userId: String!
+  ): [VotingGuideResult!]!
 }
 
 type RaceResult {
@@ -1162,8 +1179,10 @@ input UpdatePasswordInput {
 
 input UpdatePoliticianInput {
   ballotName: String
+  crpCandidateId: String
   description: String
   facebookUrl: String
+  fecCandidateId: String
   firstName: String
   homeState: State
   instagramUrl: String
@@ -1204,6 +1223,19 @@ input UpdateRaceInput {
 
 scalar Upload
 
+input UpsertVotingGuideCandidateInput {
+  candidateId: ID!
+  isEndorsement: Boolean
+  note: String
+  votingGuideId: ID!
+}
+
+input UpsertVotingGuideInput {
+  description: String
+  id: ID
+  title: String
+}
+
 type UserResult {
   address: AddressResult
   email: String!
@@ -1231,6 +1263,21 @@ type Vote {
   total: Int!
   url: String!
   yea: Int!
+}
+
+type VotingGuideCandidateResult {
+  candidateId: ID!
+  isEndorsement: Boolean!
+  note: String
+  politician: PoliticianResult!
+}
+
+type VotingGuideResult {
+  candidates: [VotingGuideCandidateResult!]!
+  description: String
+  id: ID!
+  title: String
+  userId: ID!
 }
 
 type VsRating {
