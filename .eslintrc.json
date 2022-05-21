@@ -5,6 +5,10 @@
     "prettier"
   ],
   "rules": {
+    "no-warning-comments": [
+      "warn",
+      { "terms": ["todo"], "location": "anywhere" }
+    ],
     "react/no-unescaped-entities": "off",
     "semi": "error"
   },

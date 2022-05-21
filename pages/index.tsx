@@ -9,6 +9,7 @@ import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
 import { Footer, ImageWithFallback } from "components";
 
+// XXX: VERY SCARY THING THAT WE NEED TO FIX
 const Home: NextPage = () => {
   return (
     <>
