@@ -5,7 +5,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { dehydrate, QueryClient } from "react-query";
-import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
+import { BillCard, Button, Layout, LoaderFlag, PartyAvatar } from "components";
+import { HeaderSection } from "components/Politician"
 
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
 // uses useLayoutEffect which is not supported by the server.
@@ -78,32 +79,20 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       (candidate) => candidate.id != politician.id
     ) || [];
 
-  function HeaderSection() {
-    return (
-      <section className={styles.center}>
-        <PartyAvatar
-          badgeSize={"2.5rem"}
-          badgeFontSize={"1.5rem"}
-          size={160}
-          party={politician?.party || ("UNKNOWN" as PoliticalParty)}
-          src={
-            (politician?.thumbnailImageUrl ||
-              politician?.votesmartCandidateBio?.candidate.photo) as string
-          }
-          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-          alt={politician?.fullName as string}
-        />
-      </section>
-    );
-  }
-
-  function BasicInfoSection() {
+  function OfficeSection() {
     return (
       <section className={styles.center}>
         <h1 className={styles.politicianOffice}>
           {politician?.votesmartCandidateBio?.office?.name[0]}
         </h1>
         {politician?.homeState && <h2>{states[politician?.homeState]}</h2>}
+      </section>
+    )
+  }
+
+  function BasicInfoSection() {
+    return (
+      <section className={styles.center}>
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
@@ -456,9 +445,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       showNavLogoOnMobile={false}
     >
       <div className={styles.container}>
-        <HeaderSection />
-        <BasicInfoSection />
+        <HeaderSection politician={politician} />
+        <OfficeSection />
         <ElectionInfoSection />
+        <BasicInfoSection />
         <CommitteesSection />
         <SponsoredBillsSection />
         <EndorsementsSection />

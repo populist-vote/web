@@ -43,9 +43,9 @@ const BadgeWrapper = styled.span<BadgeWrapperProps>(
   ({ background, size, fontSize }) => {
     return css`
       position: absolute;
-      bottom: 3px;
+      bottom: 0;
       right: 0;
-      border-radius: 50px;
+      border-radius: ${size};
       width: ${size};
       height: ${size};
       font-size: ${fontSize};
@@ -63,8 +63,10 @@ const BadgeWrapper = styled.span<BadgeWrapperProps>(
 const BadgeText = styled.span`
   align-self: center;
   margin: auto;
+  font-weight: 600;
   justify-content: center;
   text-align: center;
+  font-size: 2rem;
 `;
 
 function Badge(props: BadgeProps): JSX.Element {

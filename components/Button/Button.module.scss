@@ -1,0 +1,83 @@
+@import "styles/variables/colors.module.scss";
+
+.common {
+  font-weight: 400;
+  border-radius: 1.825rem;
+  border: solid 2px transparent;
+  box-sizing: border-box;
+}
+
+.disabled {
+  color: $blue;
+  border-color: $blue-dark;
+  background: $blue-darkest;
+  cursor: not-allowed;
+}
+
+$large-size: 3.125rem;
+$medium-size: 2.5rem;
+$small-size: 1.825rem;
+
+.primary {
+  color: $white;
+  background: $blue;
+
+  &:hover {
+    background: $blue-light;
+  }
+
+  &:focus {
+    box-shadow: 0px 0px 0px 2px $blue-lighter, 0px 0px 8px 2px rgba($blue-lighter, 0.5);
+  }
+
+  &:active {
+    background: $blue-dark;
+    border-color: $blue;
+  }
+}
+
+.large {
+  min-height: $large-size;
+  padding: 0.75rem 1.825rem;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+}
+
+.medium {
+  font-size: 1rem;
+  line-height: 1.25rem;
+  min-height: $medium-size;
+  padding: 0.625rem 1.825rem;
+}
+
+.small {
+  font-size: 0.8125rem;
+  line-height: 1rem;
+  min-height: $small-size;
+  padding: 0.75rem 1.825rem;
+}
+
+.icon {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon.large {
+  width: $large-size;
+  height: $large-size;
+  border-radius: $large-size;
+}
+
+.icon.medium {
+  width: $medium-size;
+  height: $medium-size;
+  border-radius: $medium-size;
+}
+
+.icon.small {
+  width: $small-size;
+  height: $small-size;
+  border-radius: $small-size;
+}
