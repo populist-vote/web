@@ -37,8 +37,9 @@
     font-size: $text-sm;
     font-weight: 400;
     color: $white;
-    margin: 0;
+    margin: 0 0 1rem 0;
     text-transform: uppercase;
+    font-family: $font-primary;
   }
 
   h3.aqua {
@@ -52,6 +53,7 @@
 
     @include for-tablet-landscape-up {
       padding: 2rem 0;
+      border-top: solid 4px var(--color-accent);
     }
 
     &.center {
@@ -64,18 +66,22 @@
 }
 
 .gradientHeader {
-  width: 100%;
-  margin: -2rem 0 1rem !important;
-  padding: 1rem;
-  font-size: 20px;
   background: linear-gradient(180deg, #003c55 0%, #002e45 100%);
-  text-align: center;
-  text-transform: none;
   font-family: $font-primary;
+  font-size: $text-md !important;
+  font-weight: 600;
+  margin: -1.5rem 0 1rem !important;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
 
-  h3 {
-    font-size: $text-md !important;
-    font-weight: 600;
+
+  @include for-tablet-landscape-up {
+    margin: 2rem 0 0.5rem !important;
+    background: none;
+    font-size: $text-xxl !important;
+    padding: 0;
+    text-transform: capitalize !important;
   }
 }
 
@@ -123,7 +129,6 @@
   width: 90%;
   text-align: center;
   padding: 1.5rem;
-  margin: 1rem;
 
   h1 {
     font-weight: 400;
@@ -147,9 +152,23 @@
   font-weight: 400;
   width: fit-content;
   max-width: calc(100vw - 2rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin: 0 0.25rem 0 0;
+    flex-shrink: 0;
+  }
+
+  .subCommittee path {
+    stroke: $blue;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .organizationContainer {
@@ -158,7 +177,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 1rem;
-  width: calc(33vw - 2rem);
+  width: 7rem;
 
   h4 {
     font-size: $text-sm;
@@ -178,8 +197,7 @@
 }
 
 .ratingContainer {
-  min-width: 6rem;
-  gap: -3rem;
+  width: calc(10rem - 1.25rem);
   margin: 0 1rem;
   display: flex;
   flex-direction: column;
@@ -196,14 +214,17 @@
 }
 
 .ratingCircle {
-  width: 50px;
-  height: 50px;
+  width: 5rem;
+  height: 5rem;
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
+  font-family: $font-primary;
+  font-weight: 600;
+  color: $blue-darkest;
 }
 
 .circlesContainer {
