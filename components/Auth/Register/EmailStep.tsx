@@ -123,7 +123,7 @@ export function EmailStep() {
         </Link>
       </p>
       <div className={styles.formWrapper}>
-        <form onSubmit={handleSubmit(submitForm)}>
+        <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
           <div
             className={`${styles.inputWrapper} ${
               errors.email && styles.invalid

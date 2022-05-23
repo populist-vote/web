@@ -45,7 +45,7 @@ export function LogIn() {
       <div className={styles.container}>
         <h1>Log In</h1>
         <div className={styles.formWrapper}>
-          <form onSubmit={handleSubmit(submitForm)}>
+          <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
             <div
               className={`${styles.inputWrapper} ${
                 errors.emailOrUsername && styles.invalid

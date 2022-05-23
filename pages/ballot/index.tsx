@@ -168,7 +168,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
           {error && <h4>Something went wrong fetching your ballot data...</h4>}
 
           {upcomingElection && (
-            <>
+            <div data-testid="ballot-page">
               <h1 className={styles.desktopOnly}>Ballot</h1>
 
               <FlagSection title="Upcoming Vote">
@@ -204,7 +204,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
                   )}
                 </FlagSection>
               )}
-            </>
+            </div>
           )}
         </>
       </Layout>
