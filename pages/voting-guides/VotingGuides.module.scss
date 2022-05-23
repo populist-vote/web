@@ -11,33 +11,6 @@
   }
 }
 
-.button {
-  border-radius: 25px;
-  padding: 0.5rem 4rem;
-  margin: 0.5rem;
-  font-family: $font-secondary;
-  font-size: $text-xs;
-  cursor: pointer;
-
-
-  border: 1px solid $blue;
-  background: transparent;
-  color: $white;
-}
-
-.buttonPrimary {
-  border-radius: 25px;
-  padding: 0.5rem 4rem;
-  margin: 0.5rem;
-  font-family: $font-secondary;
-  font-size: $text-xs;
-  cursor: pointer;  
-
-  border: 1px solid $yellow;
-  background: $yellow;
-  color: $grey-darker;
-}
-
 .buttonWrapper {
   display: flex;
   flex-direction: row;

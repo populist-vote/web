@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { Layout, Avatar, FlagSection } from "components";
+import { Layout, Avatar, FlagSection, Button } from "components";
 import styles from "./VotingGuides.module.scss";
 
 const VotingGuides: NextPage<{}> = () => {
@@ -24,8 +24,8 @@ const VotingGuides: NextPage<{}> = () => {
               <h4>Henry Lai</h4>
             </div>
             <div className={styles.buttonWrapper}>
-              <button className={styles.button}>Edit</button>
-              <button className={styles.buttonPrimary}>Share</button>
+              <Button large primary theme="blue" label="Edit">Edit</Button>
+              <Button large primary theme="yellow" label="Share">Share</Button>
             </div>
           </div>
         </div>
