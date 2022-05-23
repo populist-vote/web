@@ -2,13 +2,6 @@
 @import "styles/variables/fonts.module.scss";
 @import "styles/variables/colors.module.scss";
 
-.billPage {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 0 1rem;
-}
-
 .billCard {
   border: 1px solid $blue;
   background: $white;
@@ -23,8 +16,7 @@
   height: 14rem;
 
   @include for-tablet-landscape-up {
-    max-width: calc(100vw / 3 - 7rem);
-    margin: 0 1rem;
+    max-width: 20rem;
   }
 
   .cardContent {

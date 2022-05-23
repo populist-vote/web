@@ -8,6 +8,7 @@ import {
 } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import useDeviceInfo from "hooks/useDeviceInfo";
 
 import styles from "./Scroller.module.scss";
 
@@ -20,6 +21,8 @@ function Scroller(props: {
   onePageAtATime?: boolean;
 }) {
   const [hasScroll, setHasScroll] = useState(false);
+
+  const { isMobile } = useDeviceInfo();
 
   type scrollVisibilityApiType = ContextType<typeof VisibilityContext>;
 
@@ -46,7 +49,7 @@ function Scroller(props: {
       >
         {props.children}
       </ScrollMenu>
-      {hasScroll && <div className={styles.swipe}>SWIPE</div>}
+      {hasScroll && isMobile && <div className={styles.swipe}>SWIPE</div>}
     </div>
   );
 }

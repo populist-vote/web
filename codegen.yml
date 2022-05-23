@@ -1,4 +1,7 @@
-schema: ${GRAPHQL_SCHEMA_PATH}
+schema:
+  - ${GRAPHQL_SCHEMA_PATH}:
+      headers:
+        authorization: "Bearer ${POPULIST_API_KEY}"
 
 documents: "./graphql/**/*.graphql"
 generates:

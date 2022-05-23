@@ -3,6 +3,32 @@
   overflow: hidden;
 }
 
+.badgeText {
+  align-self: center;
+  margin: auto;
+  font-weight: 600;
+  justify-content: center;
+  text-align: center;
+}
+
+.badgeWrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: var(--avatar-size);
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  font-size: var(--avatar-font-size);;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--gray);
+  background: var(--avatar-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .container {
   position: relative;
   padding: 0;

@@ -52,7 +52,7 @@ export function AddressStep() {
         worry, this will not be shared with anyone.
       </p>
       <div className={styles.formWrapper}>
-        <form onSubmit={handleSubmit(submitForm)}>
+        <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-2">
           <div
             className={`${styles.inputWrapper} ${
               errors?.address?.line1 && styles.invalid

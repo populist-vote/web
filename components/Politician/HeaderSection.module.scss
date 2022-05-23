@@ -1,0 +1,48 @@
+@import "styles/variables/colors.module.scss";
+@import "styles/variables/fonts.module.scss";
+@import "styles/mixins.scss";
+
+.headerSection {
+  .fullName {
+    margin: 0;
+    font-weight: 600;
+    font-size: 3.5rem;
+    margin: 2rem 0 0.5rem;
+  }
+
+  .note {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: solid 1px $blue-dark;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    width: 100%;
+    .header {
+      color: $white;
+      font-size: 1rem;
+      font-family: $font-primary;
+      font-weight: 400;
+    }
+    div.noteText {
+      color: $blue-lighter;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      font-style: italic;
+      font-family: $font-secondary;
+      font-weight: 300;
+      max-width: 50rem;
+      padding: 0.75rem 2rem 0;
+    }
+  }
+
+  button {
+    margin: 2rem 0 0.5rem;
+    width: 19rem;
+    max-width: 100vw;
+
+    @include for-tablet-portrait-down {
+      width: 12.5rem;
+    }
+  }
+}

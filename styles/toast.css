@@ -41,7 +41,7 @@
   /* Used when no type is provided */
   --toastify-color-progress-dark: linear-gradient(
     to right,
-    var(--blue-light),
+    var(--blue-lighter),
     var(--aqua),
     var(--violet)
   );

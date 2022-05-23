@@ -34,7 +34,7 @@ const PAGE_SIZE = 20;
 const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const { isMobile } = useDeviceInfo();
   const officeTitleDisplay = computeOfficeTitle(politician);
-  const district = politician.votesmartCandidateBio?.office?.district; // TODO: Use politician.currentOffice
+  const district = politician.currentOffice?.district;
 
   const districtDisplay =
     !district || isNaN(+district) ? district : `District ${district}`;

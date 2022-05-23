@@ -1,0 +1,37 @@
+mutation UpsertVotingGuide($id: ID, $title: String, $description: String) {
+  upsertVotingGuide(
+    input: { id: $id, title: $title, description: $description }
+  ) {
+    id
+    title
+    description
+  }
+}
+
+mutation UpsertVotingGuideCandidate(
+  $votingGuideId: ID!
+  $candidateId: ID!
+  $isEndorsement: Boolean
+  $note: String
+) {
+  upsertVotingGuideCandidate(
+    input: {
+      votingGuideId: $votingGuideId
+      candidateId: $candidateId
+      isEndorsement: $isEndorsement
+      note: $note
+    }
+  ) {
+    note
+    politician {
+      fullName
+      party
+      upcomingRace {
+        title
+        candidates {
+          fullName
+        }
+      }
+    }
+  }
+}

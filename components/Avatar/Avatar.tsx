@@ -1,12 +1,11 @@
 import { ImageWithFallback } from "components";
-import React, { useMemo } from "react";
+import React, { useMemo, CSSProperties } from "react";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
 } from "utils/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
-import styled, { css } from "styled-components";
 
 interface BadgeProps {
   background?: string;
@@ -33,69 +32,40 @@ export interface PartyAvatarProps extends AvatarProps {
   href?: string;
 }
 
-interface BadgeWrapperProps {
-  background: BadgeProps["background"];
-  size: string;
-  fontSize: string;
-}
-
-const BadgeWrapper = styled.span<BadgeWrapperProps>(
-  ({ background, size, fontSize }) => {
-    return css`
-      position: absolute;
-      bottom: 3px;
-      right: 0;
-      border-radius: 50px;
-      width: ${size};
-      height: ${size};
-      font-size: ${fontSize};
-      text-transform: uppercase;
-      color: var(--white);
-      background: ${background || "var(--gray)"};
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    `;
-  }
-);
-
-const BadgeText = styled.span`
-  align-self: center;
-  margin: auto;
-  justify-content: center;
-  text-align: center;
-`;
-
 function Badge(props: BadgeProps): JSX.Element {
   const { text, background, size, fontSize } = props;
+
+  const styleVars: CSSProperties & {
+    "--avatar-size": string,
+    "--avatar-font-size": string,
+    "--avatar-background": string | undefined,
+  } = {
+    [`--avatar-size`]: size,
+    [`--avatar-font-size`]: fontSize,
+    [`--avatar-background`]: background
+  };
+
   return (
-    <BadgeWrapper size={size} fontSize={fontSize} background={background}>
-      <BadgeText>{text}</BadgeText>
-    </BadgeWrapper>
+    <div className={styles.badgeWrapper} style={styleVars}>
+      <span className={styles.badgeText}>{text}</span>
+    </div>
   );
 }
-
-const Wrapper = styled.div`
-  display: inline;
-`;
 
 function Avatar(props: AvatarProps): JSX.Element {
   const { badge } = props;
 
   return (
-    <Wrapper>
-      <div className={styles.container}>
-        <ImageWithFallback
-          src={props.src || props.fallbackSrc}
-          fallbackSrc={props.fallbackSrc as string}
-          width={props.size}
-          height={props.size}
-          className={styles.imageContainer}
-        />
-        {badge && <Badge {...badge} />}
-      </div>
-    </Wrapper>
+    <div className={styles.container}>
+      <ImageWithFallback
+        src={props.src || props.fallbackSrc}
+        fallbackSrc={props.fallbackSrc as string}
+        width={props.size}
+        height={props.size}
+        className={styles.imageContainer}
+      />
+      {badge && <Badge {...badge} />}
+    </div>
   );
 }
 
