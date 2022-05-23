@@ -44,7 +44,7 @@ const Race = ({
         color={race.party === PoliticalParty.Republican ? "red" : "blue"}
       >
         {race.candidates.length < 1 && (
-          <h3 style={{ color: "var(--blue-light)" }}>No official candidates</h3>
+          <h3 style={{ color: "var(--blue-lighter)" }}>No official candidates</h3>
         )}
         {race.candidates
           .sort(candidateSortFn)

@@ -1,0 +1,32 @@
+@import "styles/mixins.scss";
+
+@include for-tablet-landscape-up {
+  section.wrapper {
+    flex-direction: row !important;
+    gap: 2.5rem;
+
+    .box {
+      height: 12rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 1rem 0;
+
+      h3 {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+section.wrapper {
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @include for-tablet-portrait-down {
+      width: calc(100% - 2.5rem);
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import BillCard from "./BillCard";
+import Button from "./Button";
 import Footer from "./Footer/Footer";
 import ImageWithFallback from "./ImageWithFallback/ImageWithFallback";
 import Layout from "./Layout/Layout";
@@ -14,6 +15,7 @@ import FlagSection from "./FlagSection/FlagSection";
 export {
   Avatar,
   BillCard,
+  Button,
   Footer,
   ImageWithFallback,
   Layout,

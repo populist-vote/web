@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "classnames": "^2.3.1",
     "little-state-machine": "^4.2.3",
     "next": "12.1.6",
     "next-pwa": "^5.4.6",
@@ -21,8 +22,7 @@
     "react-icons": "^4.3.1",
     "react-query": "^3.34.8",
     "react-toastify": "^8.2.0",
-    "sass": "^1.48.0",
-    "styled-components": "^5.3.3"
+    "sass": "^1.48.0"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^3.1.1",
