@@ -56,7 +56,7 @@ export default function Nav({
 
         {showBackButton && (
           <Link href={`/politicians`} passHref>
-            <a aria-label="Go back">
+            <a href={`/politicians`} aria-label="Go back">
               <FaChevronLeft
                 className={styles.backButton}
                 color="var(--white)"

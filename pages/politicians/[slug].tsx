@@ -71,7 +71,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const yearsInPublicOffice = politician?.yearsInPublicOffice;
   const age = politician?.age;
   const endorsements = politician?.endorsements;
-  const upcomingRace = politician?.upcomingRace;
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
 
   function OfficeSection() {
