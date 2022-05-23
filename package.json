@@ -22,8 +22,7 @@
     "react-icons": "^4.3.1",
     "react-query": "^3.34.8",
     "react-toastify": "^8.2.0",
-    "sass": "^1.48.0",
-    "styled-components": "^5.3.3"
+    "sass": "^1.48.0"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^3.1.1",
