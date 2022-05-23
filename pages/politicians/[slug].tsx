@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { dehydrate, QueryClient } from "react-query";
 import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
-import { HeaderSection } from "components/Politician";
+import { HeaderSection, ElectionInfoSection } from "components/Politician";
 
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
 // uses useLayoutEffect which is not supported by the server.
@@ -26,7 +26,7 @@ import {
 } from "../../generated";
 
 import styles from "styles/page.module.scss";
-import layoutStyles from "../../components/Layout/Layout.module.scss";
+import politicianStyles from "./PoliticianPage.module.scss";
 
 import states from "utils/states";
 
@@ -36,7 +36,6 @@ import {
   PERSON_FALLBACK_IMAGE_URL,
 } from "utils/constants";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
-import { dateString } from "utils/dates";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -74,10 +73,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const endorsements = politician?.endorsements;
   const upcomingRace = politician?.upcomingRace;
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
-  const opponents =
-    upcomingRace?.candidates.filter(
-      (candidate) => candidate.id != politician.id
-    ) || [];
 
   function OfficeSection() {
     return (
@@ -93,6 +88,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   function BasicInfoSection() {
     return (
       <section className={styles.center}>
+        <h3 className={styles.subHeader}>Basic Info</h3>
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
@@ -126,68 +122,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span className={styles.dots} />
             <span>{age}</span>
           </p>
-        )}
-      </section>
-    );
-  }
-
-  function Candidate({
-    candidate,
-  }: {
-    candidate: Partial<PoliticianResult>;
-    itemId: string;
-  }) {
-    return (
-      <Link href={`/politicians/${candidate.slug}`} key={candidate.id} passHref>
-        <div className={layoutStyles.avatarContainer}>
-          <PartyAvatar
-            size={60}
-            party={candidate.party || ("UNKNOWN" as PoliticalParty)}
-            src={candidate.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL}
-            fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-            alt={politician?.fullName || ""}
-          />
-          <h4>{candidate.fullName}</h4>
-        </div>
-      </Link>
-    );
-  }
-
-  function ElectionInfoSection() {
-    if (!upcomingRace) return null;
-    return (
-      <section className={styles.center}>
-        <h3 className={styles.subHeader}>Next Election</h3>
-        <div className={styles.roundedCard}>
-          <h2>{upcomingRace?.title}</h2>
-          <h1>{dateString(upcomingRace?.electionDate)}</h1>
-        </div>
-        <h3>Running For</h3>
-        <div className={styles.roundedCard}>
-          {upcomingRace?.state && <h2>{states[upcomingRace.state]}</h2>}
-          <h1>{upcomingRace?.office.title}</h1>
-        </div>
-        {opponents.length > 0 && (
-          <>
-            <h3>Opponent{opponents.length > 1 && "s"}</h3>
-            <div className={`${styles.roundedCard} ${styles.flexEvenly}`}>
-              <Scroller>
-                {upcomingRace.candidates
-                  .filter((candidate) => candidate.id != politician.id)
-                  .map(
-                    (candidate: Partial<PoliticianResult> & { id: string }) => {
-                      return (
-                        <Candidate
-                          candidate={candidate}
-                          itemId={candidate.id}
-                          key={candidate.id}
-                        />
-                      );
-                    }
-                  )}
-              </Scroller>
-            </div>
-          </>
         )}
       </section>
     );
@@ -447,9 +381,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       <div className={styles.container}>
         <HeaderSection politician={politician as PoliticianResult} />
         <OfficeSection />
-        <ElectionInfoSection />
-        <BasicInfoSection />
-        <CommitteesSection />
+        <ElectionInfoSection politician={politician as PoliticianResult} />
+        <div className={politicianStyles.infoCommitteeWrapper}>
+          <BasicInfoSection />
+          <CommitteesSection />
+        </div>
         <SponsoredBillsSection />
         <EndorsementsSection />
         <RatingsSection />

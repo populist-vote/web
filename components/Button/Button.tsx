@@ -5,8 +5,9 @@ import type { PropsWithChildren } from "react";
 import { default as classNames } from "classnames";
 
 function Button({
-  label, onClick, primary, secondary, textOnly, disabled, small, medium, large, icon, children, theme
+  id, label, onClick, primary, secondary, textOnly, disabled, small, medium, large, icon, children, theme = "blue"
 }: PropsWithChildren<{
+  id?: string;
   disabled?: boolean;
   icon?: boolean;
   label: string,
@@ -31,7 +32,7 @@ function Button({
     [styles[theme] as string]: true
   });
   return (
-    <button disabled={disabled} aria-label={label} onClick={onClick} className={cx}>{children}</button>
+    <button id={id} disabled={disabled} aria-label={label} onClick={onClick} className={cx}>{children}</button>
   );
 }
 
