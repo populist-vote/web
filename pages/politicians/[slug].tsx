@@ -5,8 +5,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { dehydrate, QueryClient } from "react-query";
-import { BillCard, Button, Layout, LoaderFlag, PartyAvatar } from "components";
-import { HeaderSection } from "components/Politician"
+import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
+import { HeaderSection } from "components/Politician";
 
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
 // uses useLayoutEffect which is not supported by the server.
@@ -87,7 +87,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         </h1>
         {politician?.homeState && <h2>{states[politician?.homeState]}</h2>}
       </section>
-    )
+    );
   }
 
   function BasicInfoSection() {
@@ -445,7 +445,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       showNavLogoOnMobile={false}
     >
       <div className={styles.container}>
-        <HeaderSection politician={politician} />
+        <HeaderSection politician={politician as PoliticianResult} />
         <OfficeSection />
         <ElectionInfoSection />
         <BasicInfoSection />

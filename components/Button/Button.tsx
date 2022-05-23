@@ -2,38 +2,37 @@ import styles from "./Button.module.scss";
 
 import type { PropsWithChildren } from "react";
 
-import { default as classNames } from "classnames"
+import { default as classNames } from "classnames";
 
 function Button({
   label, onClick, primary, secondary, textOnly, disabled, small, medium, large, icon, children, theme
 }: PropsWithChildren<{
+  disabled?: boolean;
+  icon?: boolean;
   label: string,
-  onClick: () => void,
-  primary: boolean;
-  secondary: boolean;
-  textOnly: boolean;
-  disabled: boolean;
-  small: boolean;
-  icon: string;
-  medium: boolean;
-  large: boolean;
-  theme: string;
+  large?: boolean;
+  medium?: boolean;
+  onClick?: () => void | undefined,
+  primary?: boolean;
+  secondary?: boolean;
+  small?: boolean;
+  textOnly?: boolean;
+  theme: "blue" | "yellow";
 }>) {
 
   const cx = classNames(styles.common, {
-    [styles.primary]: primary,
-    [styles.secondary]: secondary,
-    [styles.textOnly]: textOnly,
-    [styles.disabled]: disabled,
-    [styles.large]: large,
-    [styles.medium]: medium,
-    [styles.small]: small,
-    [styles.icon]: !!icon,
-    [styles[theme] || styles.blue]: true
-  })
+    [styles.icon as string]: icon,
+    [styles.large as string]: large,
+    [styles.medium as string]: medium,
+    [styles.primary as string]: primary,
+    [styles.secondary as string]: secondary,
+    [styles.small as string]: small,
+    [styles.textOnly as string]: textOnly,
+    [styles[theme] as string]: true
+  });
   return (
-    <button aria-label={label} onClick={onClick} className={cx}>{children}</button>
-  )
+    <button disabled={disabled} aria-label={label} onClick={onClick} className={cx}>{children}</button>
+  );
 }
 
-export { Button }
+export { Button };

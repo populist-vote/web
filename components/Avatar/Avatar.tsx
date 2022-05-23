@@ -1,5 +1,5 @@
 import { ImageWithFallback } from "components";
-import React, { useMemo } from "react";
+import React, { useMemo, CSSProperties } from "react";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
@@ -35,11 +35,15 @@ export interface PartyAvatarProps extends AvatarProps {
 function Badge(props: BadgeProps): JSX.Element {
   const { text, background, size, fontSize } = props;
 
-  const styleVars = {
+  const styleVars: CSSProperties & {
+    "--avatar-size": string,
+    "--avatar-font-size": string,
+    "--avatar-background": string | undefined,
+  } = {
     [`--avatar-size`]: size,
     [`--avatar-font-size`]: fontSize,
     [`--avatar-background`]: background
-  }
+  };
 
   return (
     <div className={styles.badgeWrapper} style={styleVars}>

@@ -22,7 +22,7 @@ function Scroller(props: {
 }) {
   const [hasScroll, setHasScroll] = useState(false);
 
-  const { isMobile } = useDeviceInfo()
+  const { isMobile } = useDeviceInfo();
 
   type scrollVisibilityApiType = ContextType<typeof VisibilityContext>;
 

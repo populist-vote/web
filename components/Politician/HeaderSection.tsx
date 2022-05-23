@@ -2,11 +2,12 @@ import { Button, PartyAvatar } from "components";
 
 import styles from "styles/page.module.scss";
 
-import headerStyles from "./HeaderSection.module.scss"
+import headerStyles from "./HeaderSection.module.scss";
 
-import { default as classNames } from "classnames"
+import { default as classNames } from "classnames";
 
 import {
+  PoliticalParty,
   PoliticianResult,
 } from "../../generated";
 
@@ -20,7 +21,7 @@ function HeaderSection({
   politician: Partial<PoliticianResult>
 }) {
 
-  const sectionCx = classNames(styles.center, headerStyles.headerSection)
+  const sectionCx = classNames(styles.center, headerStyles.headerSection);
   return (
     <section className={sectionCx}>
       <PartyAvatar
@@ -35,11 +36,11 @@ function HeaderSection({
         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
         alt={politician?.fullName as string}
       />
-      <Button label="Add note" onClick={() => {}} secondary large theme="blue">
+      <Button label="Add note" secondary large theme="blue">
         Add note
       </Button>
     </section>
   );
 }
 
-export default HeaderSection
+export default HeaderSection;
