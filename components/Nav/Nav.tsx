@@ -102,6 +102,15 @@ export default function Nav({
               Organizations
             </li>
           </Link>
+          <Link href="/voting-guides" passHref>
+            <li
+              className={`${styles.navItem} ${
+                pathname.includes("/voting-guides") && styles.active
+              }`}
+            >
+              Voting Guides
+            </li>
+          </Link>
         </ul>
       </div>
     </nav>
