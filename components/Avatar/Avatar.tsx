@@ -6,7 +6,6 @@ import {
 } from "utils/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
-import styled, { css } from "styled-components";
 
 interface BadgeProps {
   background?: string;
@@ -33,71 +32,36 @@ export interface PartyAvatarProps extends AvatarProps {
   href?: string;
 }
 
-interface BadgeWrapperProps {
-  background: BadgeProps["background"];
-  size: string;
-  fontSize: string;
-}
-
-const BadgeWrapper = styled.span<BadgeWrapperProps>(
-  ({ background, size, fontSize }) => {
-    return css`
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      border-radius: ${size};
-      width: ${size};
-      height: ${size};
-      font-size: ${fontSize};
-      text-transform: uppercase;
-      color: var(--white);
-      background: ${background || "var(--gray)"};
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    `;
-  }
-);
-
-const BadgeText = styled.span`
-  align-self: center;
-  margin: auto;
-  font-weight: 600;
-  justify-content: center;
-  text-align: center;
-  font-size: 2rem;
-`;
-
 function Badge(props: BadgeProps): JSX.Element {
   const { text, background, size, fontSize } = props;
+
+  const styleVars = {
+    [`--avatar-size`]: size,
+    [`--avatar-font-size`]: fontSize,
+    [`--avatar-background`]: background
+  }
+
   return (
-    <BadgeWrapper size={size} fontSize={fontSize} background={background}>
-      <BadgeText>{text}</BadgeText>
-    </BadgeWrapper>
+    <div className={styles.badgeWrapper} style={styleVars}>
+      <span className={styles.badgeText}>{text}</span>
+    </div>
   );
 }
-
-const Wrapper = styled.div`
-  display: inline;
-`;
 
 function Avatar(props: AvatarProps): JSX.Element {
   const { badge } = props;
 
   return (
-    <Wrapper>
-      <div className={styles.container}>
-        <ImageWithFallback
-          src={props.src || props.fallbackSrc}
-          fallbackSrc={props.fallbackSrc as string}
-          width={props.size}
-          height={props.size}
-          className={styles.imageContainer}
-        />
-        {badge && <Badge {...badge} />}
-      </div>
-    </Wrapper>
+    <div className={styles.container}>
+      <ImageWithFallback
+        src={props.src || props.fallbackSrc}
+        fallbackSrc={props.fallbackSrc as string}
+        width={props.size}
+        height={props.size}
+        className={styles.imageContainer}
+      />
+      {badge && <Badge {...badge} />}
+    </div>
   );
 }
 

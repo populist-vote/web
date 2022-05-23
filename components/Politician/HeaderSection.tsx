@@ -25,7 +25,7 @@ function HeaderSection({
     <section className={sectionCx}>
       <PartyAvatar
         badgeSize={"3.125rem"}
-        badgeFontSize={"1.5rem"}
+        badgeFontSize={"2rem"}
         size={200}
         party={politician?.party || ("UNKNOWN" as PoliticalParty)}
         src={
@@ -35,7 +35,7 @@ function HeaderSection({
         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
         alt={politician?.fullName as string}
       />
-      <Button label="Add note" onClick={() => {}} primary large>
+      <Button label="Add note" onClick={() => {}} secondary large theme="blue">
         Add note
       </Button>
     </section>
