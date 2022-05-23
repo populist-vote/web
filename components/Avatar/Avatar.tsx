@@ -56,15 +56,17 @@ function Avatar(props: AvatarProps): JSX.Element {
   const { badge } = props;
 
   return (
-    <div className={styles.container}>
-      <ImageWithFallback
-        src={props.src || props.fallbackSrc}
-        fallbackSrc={props.fallbackSrc as string}
-        width={props.size}
-        height={props.size}
-        className={styles.imageContainer}
-      />
-      {badge && <Badge {...badge} />}
+    <div style={{ display: "inline" }}>
+      <div className={styles.container}>
+        <ImageWithFallback
+          src={props.src || props.fallbackSrc}
+          fallbackSrc={props.fallbackSrc as string}
+          width={props.size}
+          height={props.size}
+          className={styles.imageContainer}
+        />
+        {badge && <Badge {...badge} />}
+      </div>
     </div>
   );
 }
