@@ -3,10 +3,13 @@ import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useMemo, CSSProperties, PropsWithChildren } from "react";
 import { dehydrate, QueryClient } from "react-query";
 import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
 import { HeaderSection, ElectionInfoSection } from "components/Politician";
+
+import { GrTree } from "react-icons/gr";
+import { FaChair } from "react-icons/fa";
 
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
 // uses useLayoutEffect which is not supported by the server.
@@ -126,7 +129,14 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function CommitteeTagPage({ tags }: { tags: string[]; itemId: string }) {
+  type TagType = {
+    text: string,
+    fullText: string,
+    isChair: boolean,
+    isSubCommittee: boolean
+  }
+
+  function CommitteeTagPage({ tags }: { tags: Array<TagType>; itemId: string }) {
     return (
       <div className={styles.tagPage}>
         {tags.map((tag, index) => (
@@ -136,8 +146,12 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function CommitteeTag({ tag }: { tag: string }) {
-    return <div className={styles.tag}>{tag}</div>;
+  function CommitteeTag({ tag }: { tag: TagType }) {
+    return <div className={styles.tag} title={tag.fullText}>
+      {tag.isChair && <FaChair color="var(--blue)" />}
+      {tag.isSubCommittee && <GrTree className={styles.subCommittee} color="var(--blue)" />}
+      <span>{tag.text}</span>
+    </div>;
   }
 
   function CommitteesSection() {
@@ -147,13 +161,18 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
     const tags =
       politicalExperience?.constructor === Array
-        ? politicalExperience.map((committee: { organization: string }) =>
-            committee?.organization?.replace("Subcommittee on", "")
+        ? politicalExperience.map((committee: { organization: string, title?: string, fullText: string }) =>
+            ({
+              text: committee?.organization?.replace("Subcommittee on", "").replace(", United States Senate", ""),
+              fullText: committee?.fullText,
+              isChair: committee?.title?.toUpperCase().indexOf("CHAIR") !== -1,
+              isSubCommittee: committee?.organization?.toUpperCase().indexOf("SUBCOMMITTEE") !== -1,
+            })
           )
         : [];
 
     const tagPageSize = 4;
-    const tagPages: string[][] = Array(Math.ceil(tags.length / tagPageSize))
+    const tagPages: Array<Array<TagType>> = Array(Math.ceil(tags.length / tagPageSize))
       .fill("")
       .map((_, index) => index * tagPageSize)
       .map((begin) => tags.slice(begin, begin + tagPageSize));
@@ -268,6 +287,23 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function ColoredSection(props: PropsWithChildren<{
+    color: string
+  }>) {
+
+    const styleVars: CSSProperties & {
+      "--color-accent": string
+    } = {
+      "--color-accent": props.color
+    };
+
+    return (
+      <section className={styles.center} style={styleVars}>
+        {props.children}
+      </section>
+    );
+  }
+
   function EndorsementsSection() {
     if (
       [
@@ -277,14 +313,14 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     )
       return null;
     return (
-      <section className={styles.center}>
+      <ColoredSection color="var(--aqua)">
         <h3 className={styles.gradientHeader}>Endorsements</h3>
         {endorsements.organizations.length > 0 && (
-          <>
+          <div className={politicianStyles.endorsementSection}>
             <h3 className={`${styles.subHeader} ${styles.aqua}`}>
               Organizations
             </h3>
-            <Scroller>
+            <Scroller showTextButtons>
               {endorsements.organizations.map((organization) => (
                 <OrganizationEndorsement
                   organization={organization}
@@ -293,14 +329,14 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                 />
               ))}
             </Scroller>
-          </>
+          </div>
         )}
         {endorsements.politicians.length > 0 && (
-          <>
+          <div className={politicianStyles.endorsementSection}>
             <h3 className={`${styles.subHeader} ${styles.aqua}`}>
               Individuals
             </h3>
-            <Scroller>
+            <Scroller showTextButtons>
               {endorsements.politicians.map((politician) => (
                 <PoliticianEndorsement
                   politician={politician as Partial<PoliticianResult>}
@@ -309,9 +345,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                 />
               ))}
             </Scroller>
-          </>
+          </div>
         )}
-      </section>
+      </ColoredSection>
     );
   }
 
@@ -325,20 +361,20 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             src={rating?.organization?.thumbnailImageUrl as string}
             fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
             alt={rating?.organization?.name as string}
-            size={50}
+            size={80}
           />
           <div
             className={styles.ratingCircle}
             style={{
               background: `${
-                ratingPercent > 50 ? "var(--green)" : "var(--red)"
+                ratingPercent > 80 ? "var(--green)" : ratingPercent > 50 ? "var(--yellow)" : "var(--red)"
               }`,
             }}
           >
             <span>{ratingPercent}</span>
           </div>
         </div>
-        <h5>{rating.organization?.name}</h5>
+        {rating.organization?.name && <h5>{rating.organization?.name}</h5>}
       </div>
     );
   }
@@ -346,7 +382,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   function RatingsSection() {
     if (ratings.length > 1)
       return (
-        <section className={styles.center}>
+        <ColoredSection color="var(--yellow)">
           <h3 className={styles.gradientHeader}>Ratings</h3>
           <Scroller>
             {ratings.map((edge: RatingResultEdge, i) => (
@@ -357,7 +393,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               />
             ))}
           </Scroller>
-        </section>
+        </ColoredSection>
       );
     return null;
   }
