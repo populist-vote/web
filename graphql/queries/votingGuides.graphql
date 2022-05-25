@@ -3,9 +3,9 @@ query votingGuidesByUserIdQuery($userId: String!) {
     id
     title
     description
-    # election {
-    #   id
-    #   electionDate
-    # }
+    election {
+      id
+      electionDate
+    }
   }
 }

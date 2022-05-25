@@ -328,6 +328,7 @@ input CreateOrganizationInput {
 input CreatePoliticianInput {
   ballotName: String
   crpCandidateId: String
+  dateOfBirth: NaiveDate
   description: String
   facebookUrl: String
   fecCandidateId: String
@@ -696,6 +697,7 @@ type PoliticianResult {
   ballotName: String
   createdAt: DateTime!
   currentOffice: OfficeResult
+  dateOfBirth: NaiveDate
   description: String
   endorsements: Endorsements!
   facebookUrl: String
@@ -1180,6 +1182,7 @@ input UpdatePasswordInput {
 input UpdatePoliticianInput {
   ballotName: String
   crpCandidateId: String
+  dateOfBirth: NaiveDate
   description: String
   facebookUrl: String
   fecCandidateId: String
@@ -1232,6 +1235,7 @@ input UpsertVotingGuideCandidateInput {
 
 input UpsertVotingGuideInput {
   description: String
+  electionId: ID!
   id: ID
   title: String
 }
@@ -1275,6 +1279,8 @@ type VotingGuideCandidateResult {
 type VotingGuideResult {
   candidates: [VotingGuideCandidateResult!]!
   description: String
+  election: ElectionResult!
+  electionId: ID!
   id: ID!
   title: String
   userId: ID!
