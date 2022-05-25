@@ -5,7 +5,7 @@ import type { PropsWithChildren } from "react";
 import { default as classNames } from "classnames";
 
 function Button({
-  id, label, onClick, primary, secondary, textOnly, disabled, small, medium, large, icon, children, theme = "blue"
+  id, label, onClick, primary, secondary, text, disabled, small, medium, large, icon, children, theme = "blue"
 }: PropsWithChildren<{
   id?: string;
   disabled?: boolean;
@@ -16,8 +16,8 @@ function Button({
   onClick?: () => void | undefined,
   primary?: boolean;
   secondary?: boolean;
+  text?: boolean;
   small?: boolean;
-  textOnly?: boolean;
   theme: "blue" | "yellow";
 }>) {
 
@@ -28,7 +28,7 @@ function Button({
     [styles.primary as string]: primary,
     [styles.secondary as string]: secondary,
     [styles.small as string]: small,
-    [styles.textOnly as string]: textOnly,
+    [styles.text as string]: text,
     [styles[theme] as string]: true
   });
   return (

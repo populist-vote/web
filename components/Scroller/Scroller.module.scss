@@ -1,10 +1,16 @@
 @import "styles/mixins";
 @import "styles/variables/colors.module.scss";
+@import "styles/variables/fonts.module.scss";
 
 .horizontalScrollContainer {
-  margin: 1rem 0;
   width: 100%;
   max-height: max-content;
+  position: relative;
+  text-align: center;
+
+  button {
+    span { padding: 0 0.5rem }
+  }
 }
 
 .scrollPage {
@@ -17,6 +23,16 @@
   color: $blue;
   display: flex;
   justify-content: center;
-  margin-top: -1rem;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
   line-height: 1rem;
+  font-family: $font-primary;
+}
+
+.hideArrowText {
+  button {
+    span { display: none }
+  }
 }

@@ -2,8 +2,10 @@
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "prettier",
+    "plugin:jsx-a11y/recommended"
   ],
+  "plugins": ["jsx-a11y"],
   "rules": {
     "no-warning-comments": [
       "warn",

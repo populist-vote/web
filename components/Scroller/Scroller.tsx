@@ -1,4 +1,5 @@
 import {
+  PropsWithChildren,
   ReactElement,
   ReactNode,
   useContext,
@@ -6,11 +7,14 @@ import {
   useState,
   ContextType,
 } from "react";
+import { Button } from "components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 import useDeviceInfo from "hooks/useDeviceInfo";
 
 import styles from "./Scroller.module.scss";
+
+import { default as classNames } from "classnames";
 
 type ScrollerItem = ReactElement<{
   itemId: string; // Required. id for every item, should be unique
@@ -19,6 +23,7 @@ type ScrollerItem = ReactElement<{
 function Scroller(props: {
   children: ScrollerItem | ScrollerItem[];
   onePageAtATime?: boolean;
+  showTextButtons?: boolean;
 }) {
   const [hasScroll, setHasScroll] = useState(false);
 
@@ -28,18 +33,19 @@ function Scroller(props: {
 
   const apiRef = useRef({} as scrollVisibilityApiType);
 
+  const scrollerClasses = classNames(styles.horizontalScrollContainer, { [`mobile-scroller`]: isMobile, [styles.hideArrowText as string]: !props.showTextButtons, [`no-scroll`]: !hasScroll });
+
   const handleUpdate = (data: {
     initComplete: boolean;
     isFirstItemVisible: boolean;
     isLastItemVisible: boolean;
   }) => {
     const { initComplete, isFirstItemVisible, isLastItemVisible } = data;
-    if (!hasScroll)
-      setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
+    if (!hasScroll) setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
   };
 
   return (
-    <div className={styles.horizontalScrollContainer}>
+    <div className={scrollerClasses}>
       <ScrollMenu
         apiRef={apiRef}
         onUpdate={handleUpdate}
@@ -55,20 +61,36 @@ function Scroller(props: {
 }
 
 function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
+  const { isFirstItemVisible, scrollPrev } =
+    useContext(VisibilityContext);
+  const { isMobile } = useDeviceInfo();
+  const iconColor = isMobile || isFirstItemVisible ? "var(--blue)" : "var(--white)";
 
   return (
-    <Arrow disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
-      <FaChevronLeft color="var(--blue)" />
+    <Arrow
+      disabled={isFirstItemVisible}
+      onClick={() => scrollPrev()}
+      label={"Previous"}
+    >
+      <FaChevronLeft color={iconColor} />
+      {!isMobile && (<span>Prev</span>)}
     </Arrow>
   );
 }
 
 function RightArrow() {
-  const { isLastItemVisible, scrollNext } = useContext(VisibilityContext);
+  const { isLastItemVisible, scrollNext } =
+    useContext(VisibilityContext);
+  const { isMobile } = useDeviceInfo();
+  const iconColor = isMobile || isLastItemVisible ? "var(--blue)" : "var(--white)";
   return (
-    <Arrow disabled={isLastItemVisible} onClick={() => scrollNext()}>
-      <FaChevronRight color="var(--blue)" />
+    <Arrow
+      disabled={isLastItemVisible}
+      onClick={() => scrollNext()}
+      label={"Next"}
+    >
+      {!isMobile && (<span>Next</span>)}
+      <FaChevronRight color={iconColor} />
     </Arrow>
   );
 }
@@ -77,15 +99,23 @@ function Arrow({
   children,
   disabled,
   onClick,
-}: {
-  children: ReactNode;
+  label
+}: PropsWithChildren<{
   disabled: boolean;
   onClick: () => void;
-}) {
+  label: string;
+}>) {
+  const { isMobile } = useDeviceInfo();
+  return (
+    <Button text small={isMobile} large={!isMobile} theme="blue" label={label} onClick={onClick} disabled={disabled}>
+      {children}
+    </Button>
+  );
   return (
     <button
       disabled={disabled}
       onClick={onClick}
+      aria-label={label}
       style={{
         background: "none",
         border: "0",

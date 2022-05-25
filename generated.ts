@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, UseMutationOptions, QueryFunctionContext } from 'react-query';
+import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions, QueryFunctionContext } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -398,8 +398,10 @@ export type CreateOrganizationInput = {
 
 export type CreatePoliticianInput = {
   ballotName?: InputMaybe<Scalars['String']>;
+  crpCandidateId?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   facebookUrl?: InputMaybe<Scalars['String']>;
+  fecCandidateId?: InputMaybe<Scalars['String']>;
   firstName: Scalars['String'];
   homeState?: InputMaybe<State>;
   instagramUrl?: InputMaybe<Scalars['String']>;
@@ -492,6 +494,11 @@ export type DeletePoliticianResult = {
 
 export type DeleteRaceResult = {
   __typename?: 'DeleteRaceResult';
+  id: Scalars['String'];
+};
+
+export type DeleteVotingGuideResult = {
+  __typename?: 'DeleteVotingGuideResult';
   id: Scalars['String'];
 };
 
@@ -618,6 +625,7 @@ export type Mutation = {
   deleteOrganization: DeleteOrganizationResult;
   deletePolitician: DeletePoliticianResult;
   deleteRace: DeleteRaceResult;
+  deleteVotingGuide: DeleteVotingGuideResult;
   downvoteArgument: Scalars['Boolean'];
   login: LoginResult;
   logout: Scalars['Boolean'];
@@ -634,6 +642,8 @@ export type Mutation = {
   updatePolitician: PoliticianResult;
   updateRace: RaceResult;
   uploadPoliticianThumbnail: Scalars['Int'];
+  upsertVotingGuide: VotingGuideResult;
+  upsertVotingGuideCandidate: VotingGuideCandidateResult;
   upvoteArgument: Scalars['Boolean'];
 };
 
@@ -739,6 +749,11 @@ export type MutationDeleteRaceArgs = {
 };
 
 
+export type MutationDeleteVotingGuideArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationDownvoteArgumentArgs = {
   argumentId: Scalars['ID'];
   populistUserId: Scalars['ID'];
@@ -822,6 +837,16 @@ export type MutationUpdateRaceArgs = {
 
 export type MutationUploadPoliticianThumbnailArgs = {
   file: Scalars['Upload'];
+};
+
+
+export type MutationUpsertVotingGuideArgs = {
+  input: UpsertVotingGuideInput;
+};
+
+
+export type MutationUpsertVotingGuideCandidateArgs = {
+  input: UpsertVotingGuideCandidateInput;
 };
 
 
@@ -1062,6 +1087,8 @@ export type Query = {
   /** Validate that a user does not already exist with this email */
   validateEmailAvailable: Scalars['Boolean'];
   validatePasswordEntropy: PasswordEntropyResult;
+  votingGuideById: VotingGuideResult;
+  votingGuidesByUserId: Array<VotingGuideResult>;
 };
 
 
@@ -1180,6 +1207,16 @@ export type QueryValidateEmailAvailableArgs = {
 
 export type QueryValidatePasswordEntropyArgs = {
   password: Scalars['String'];
+};
+
+
+export type QueryVotingGuideByIdArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryVotingGuidesByUserIdArgs = {
+  userId: Scalars['String'];
 };
 
 export type RaceResult = {
@@ -1504,8 +1541,10 @@ export type UpdatePasswordInput = {
 
 export type UpdatePoliticianInput = {
   ballotName?: InputMaybe<Scalars['String']>;
+  crpCandidateId?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   facebookUrl?: InputMaybe<Scalars['String']>;
+  fecCandidateId?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   homeState?: InputMaybe<State>;
   instagramUrl?: InputMaybe<Scalars['String']>;
@@ -1544,6 +1583,19 @@ export type UpdateRaceInput = {
   winnerId?: InputMaybe<Scalars['UUID']>;
 };
 
+export type UpsertVotingGuideCandidateInput = {
+  candidateId: Scalars['ID'];
+  isEndorsement?: InputMaybe<Scalars['Boolean']>;
+  note?: InputMaybe<Scalars['String']>;
+  votingGuideId: Scalars['ID'];
+};
+
+export type UpsertVotingGuideInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type UserResult = {
   __typename?: 'UserResult';
   address?: Maybe<AddressResult>;
@@ -1572,6 +1624,23 @@ export type Vote = {
   yea: Scalars['Int'];
 };
 
+export type VotingGuideCandidateResult = {
+  __typename?: 'VotingGuideCandidateResult';
+  candidateId: Scalars['ID'];
+  isEndorsement: Scalars['Boolean'];
+  note?: Maybe<Scalars['String']>;
+  politician: PoliticianResult;
+};
+
+export type VotingGuideResult = {
+  __typename?: 'VotingGuideResult';
+  candidates: Array<VotingGuideCandidateResult>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+  userId: Scalars['ID'];
+};
+
 export type VsRating = {
   __typename?: 'VsRating';
   categories: Scalars['JSON'];
@@ -1595,12 +1664,12 @@ export type ValidatePasswordEntropyQueryVariables = Exact<{
 }>;
 
 
-export type ValidatePasswordEntropyQuery = { __typename?: 'Query', validatePasswordEntropy: { __typename?: 'PasswordEntropyResult', valid: boolean, score: number, message?: string | null | undefined } };
+export type ValidatePasswordEntropyQuery = { __typename?: 'Query', validatePasswordEntropy: { __typename?: 'PasswordEntropyResult', valid: boolean, score: number, message?: string | null } };
 
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } | null | undefined };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } | null };
 
 export type BeginUserRegistrationMutationVariables = Exact<{
   email: Scalars['String'];
@@ -1641,24 +1710,43 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
 
+export type UpsertVotingGuideMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpsertVotingGuideMutation = { __typename?: 'Mutation', upsertVotingGuide: { __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null } };
+
+export type UpsertVotingGuideCandidateMutationVariables = Exact<{
+  votingGuideId: Scalars['ID'];
+  candidateId: Scalars['ID'];
+  isEndorsement?: InputMaybe<Scalars['Boolean']>;
+  note?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UpsertVotingGuideCandidateMutation = { __typename?: 'Mutation', upsertVotingGuideCandidate: { __typename?: 'VotingGuideCandidateResult', note?: string | null, politician: { __typename?: 'PoliticianResult', fullName: string, party?: PoliticalParty | null, upcomingRace?: { __typename?: 'RaceResult', title: string, candidates: Array<{ __typename?: 'PoliticianResult', fullName: string }> } | null } } };
+
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', title: string, description?: string | null | undefined, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null | undefined, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null | undefined, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined } | null | undefined }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined }> }> }> };
+export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }> };
 
 export type BillBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type BillBySlugQuery = { __typename?: 'Query', billBySlug?: { __typename?: 'BillResult', title: string, description?: string | null | undefined, billNumber: string, legislationStatus: LegislationStatus, officialSummary?: string | null | undefined, populistSummary?: string | null | undefined, fullTextUrl?: string | null | undefined } | null | undefined };
+export type BillBySlugQuery = { __typename?: 'Query', billBySlug?: { __typename?: 'BillResult', title: string, description?: string | null, billNumber: string, legislationStatus: LegislationStatus, officialSummary?: string | null, populistSummary?: string | null, fullTextUrl?: string | null } | null };
 
 export type OrganizationBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type OrganizationBySlugQuery = { __typename?: 'Query', organizationBySlug: { __typename?: 'OrganizationResult', id: string, name: string, thumbnailImageUrl?: string | null | undefined } };
+export type OrganizationBySlugQuery = { __typename?: 'Query', organizationBySlug: { __typename?: 'OrganizationResult', id: string, name: string, thumbnailImageUrl?: string | null } };
 
 export type PoliticianIndexQueryVariables = Exact<{
   pageSize?: InputMaybe<Scalars['Int']>;
@@ -1668,14 +1756,21 @@ export type PoliticianIndexQueryVariables = Exact<{
 }>;
 
 
-export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } | null | undefined } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null | undefined } } };
+export type PoliticianIndexQuery = { __typename?: 'Query', politicians: { __typename?: 'PoliticianResultConnection', totalCount: number, edges?: Array<{ __typename?: 'PoliticianResultEdge', node: { __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null, district?: string | null, state?: State | null, officeType?: string | null } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', title: string, district: string, typeField: string } | null, candidate: { __typename?: 'Candidate', photo: string } } | null } } | null> | null, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: string | null } } };
 
 export type PoliticianBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, nickname?: string | null | undefined, preferredName?: string | null | undefined, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, websiteUrl?: string | null | undefined, twitterUrl?: string | null | undefined, facebookUrl?: string | null | undefined, instagramUrl?: string | null | undefined, yearsInPublicOffice?: number | null | undefined, age?: number | null | undefined, upcomingRace?: { __typename?: 'RaceResult', title: string, raceType: RaceType, state?: State | null | undefined, electionDate?: any | null | undefined, office: { __typename?: 'OfficeResult', title: string }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null | undefined, party?: PoliticalParty | null | undefined }> } | null | undefined, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } } | null | undefined, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null | undefined> | null | undefined }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null | undefined }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null | undefined, party?: PoliticalParty | null | undefined, thumbnailImageUrl?: string | null | undefined, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null | undefined, district?: string | null | undefined, state?: State | null | undefined, officeType?: string | null | undefined } | null | undefined, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null | undefined, candidate: { __typename?: 'Candidate', photo: string } } | null | undefined }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null | undefined } | null | undefined } } | null | undefined> | null | undefined } } };
+export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, nickname?: string | null, preferredName?: string | null, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, websiteUrl?: string | null, twitterUrl?: string | null, facebookUrl?: string | null, instagramUrl?: string | null, yearsInPublicOffice?: number | null, age?: number | null, upcomingRace?: { __typename?: 'RaceResult', title: string, raceType: RaceType, state?: State | null, electionDate?: any | null, office: { __typename?: 'OfficeResult', title: string }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null, party?: PoliticalParty | null }> } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } } | null, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null> | null }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null, district?: string | null, state?: State | null, officeType?: string | null } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null, candidate: { __typename?: 'Candidate', photo: string } } | null }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null } | null } } | null> | null } } };
+
+export type VotingGuidesByUserIdQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type VotingGuidesByUserIdQuery = { __typename?: 'Query', votingGuidesByUserId: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, candidates: Array<{ __typename?: 'VotingGuideCandidateResult', politician: { __typename?: 'PoliticianResult', upcomingRace?: { __typename?: 'RaceResult', electionDate?: any | null } | null } }> }> };
 
 
 export const ValidateEmailAvailableDocument = /*#__PURE__*/ `
@@ -1888,6 +1983,54 @@ export const useResetPasswordMutation = <
       options
     );
 useResetPasswordMutation.fetcher = (variables: ResetPasswordMutationVariables) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables);
+export const UpsertVotingGuideDocument = /*#__PURE__*/ `
+    mutation UpsertVotingGuide($id: ID, $title: String, $description: String) {
+  upsertVotingGuide(input: {id: $id, title: $title, description: $description}) {
+    id
+    title
+    description
+  }
+}
+    `;
+export const useUpsertVotingGuideMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpsertVotingGuideMutation, TError, UpsertVotingGuideMutationVariables, TContext>) =>
+    useMutation<UpsertVotingGuideMutation, TError, UpsertVotingGuideMutationVariables, TContext>(
+      ['UpsertVotingGuide'],
+      (variables?: UpsertVotingGuideMutationVariables) => fetcher<UpsertVotingGuideMutation, UpsertVotingGuideMutationVariables>(UpsertVotingGuideDocument, variables)(),
+      options
+    );
+useUpsertVotingGuideMutation.fetcher = (variables?: UpsertVotingGuideMutationVariables) => fetcher<UpsertVotingGuideMutation, UpsertVotingGuideMutationVariables>(UpsertVotingGuideDocument, variables);
+export const UpsertVotingGuideCandidateDocument = /*#__PURE__*/ `
+    mutation UpsertVotingGuideCandidate($votingGuideId: ID!, $candidateId: ID!, $isEndorsement: Boolean, $note: String) {
+  upsertVotingGuideCandidate(
+    input: {votingGuideId: $votingGuideId, candidateId: $candidateId, isEndorsement: $isEndorsement, note: $note}
+  ) {
+    note
+    politician {
+      fullName
+      party
+      upcomingRace {
+        title
+        candidates {
+          fullName
+        }
+      }
+    }
+  }
+}
+    `;
+export const useUpsertVotingGuideCandidateMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpsertVotingGuideCandidateMutation, TError, UpsertVotingGuideCandidateMutationVariables, TContext>) =>
+    useMutation<UpsertVotingGuideCandidateMutation, TError, UpsertVotingGuideCandidateMutationVariables, TContext>(
+      ['UpsertVotingGuideCandidate'],
+      (variables?: UpsertVotingGuideCandidateMutationVariables) => fetcher<UpsertVotingGuideCandidateMutation, UpsertVotingGuideCandidateMutationVariables>(UpsertVotingGuideCandidateDocument, variables)(),
+      options
+    );
+useUpsertVotingGuideCandidateMutation.fetcher = (variables: UpsertVotingGuideCandidateMutationVariables) => fetcher<UpsertVotingGuideCandidateMutation, UpsertVotingGuideCandidateMutationVariables>(UpsertVotingGuideCandidateDocument, variables);
 export const UpcomingElectionsDocument = /*#__PURE__*/ `
     query UpcomingElections {
   upcomingElections {
@@ -2263,3 +2406,54 @@ useInfinitePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVaria
 ;
 
 usePoliticianBySlugQuery.fetcher = (variables: PoliticianBySlugQueryVariables) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, variables);
+export const VotingGuidesByUserIdDocument = /*#__PURE__*/ `
+    query votingGuidesByUserId($userId: String!) {
+  votingGuidesByUserId(userId: $userId) {
+    id
+    title
+    description
+    candidates {
+      politician {
+        upcomingRace {
+          electionDate
+        }
+      }
+    }
+  }
+}
+    `;
+export const useVotingGuidesByUserIdQuery = <
+      TData = VotingGuidesByUserIdQuery,
+      TError = unknown
+    >(
+      variables: VotingGuidesByUserIdQueryVariables,
+      options?: UseQueryOptions<VotingGuidesByUserIdQuery, TError, TData>
+    ) =>
+    useQuery<VotingGuidesByUserIdQuery, TError, TData>(
+      ['votingGuidesByUserId', variables],
+      fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, variables),
+      options
+    );
+
+useVotingGuidesByUserIdQuery.getKey = (variables: VotingGuidesByUserIdQueryVariables) => ['votingGuidesByUserId', variables];
+;
+
+export const useInfiniteVotingGuidesByUserIdQuery = <
+      TData = VotingGuidesByUserIdQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof VotingGuidesByUserIdQueryVariables,
+      variables: VotingGuidesByUserIdQueryVariables,
+      options?: UseInfiniteQueryOptions<VotingGuidesByUserIdQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<VotingGuidesByUserIdQuery, TError, TData>(
+      ['votingGuidesByUserId.infinite', variables],
+      (metaData) => fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfiniteVotingGuidesByUserIdQuery.getKey = (variables: VotingGuidesByUserIdQueryVariables) => ['votingGuidesByUserId.infinite', variables];
+;
+
+useVotingGuidesByUserIdQuery.fetcher = (variables: VotingGuidesByUserIdQueryVariables) => fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, variables);
