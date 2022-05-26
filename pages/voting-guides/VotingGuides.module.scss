@@ -13,6 +13,10 @@
   margin-top: 1rem;
 }
 
+.votingCardContainer {
+  margin-bottom: 1rem;
+}
+
 .description {
   color: $blue-text;
   size: $text-xs;
@@ -54,4 +58,8 @@
 
     @include clamp-ellipsis;
   }
+}
+
+.shareButton {
+  margin-left: .5rem;
 }

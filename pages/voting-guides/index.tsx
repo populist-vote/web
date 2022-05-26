@@ -16,7 +16,7 @@ const VotingGuideCard = ({ guide }:{ guide: VotingGuideResult }) => {
   const {firstName, lastName, avatarUrl, username} = user;
   const name = firstName ? `${firstName} ${!!lastName ? lastName:''}`: username;
   return(
-  <div className={styles.roundedCard}>
+  <div className={`${styles.roundedCard} ${styles.votingCardContainer}`}>
   <div className={styles.guideContainer}>
     <div className={styles.avatarContainer}>
       <Avatar src={avatarUrl || ""} size={80} fallbackSrc="https://www.gravatar.com/avatar/" alt={name} />
@@ -24,7 +24,9 @@ const VotingGuideCard = ({ guide }:{ guide: VotingGuideResult }) => {
     </div>
     <div className={styles.buttonWrapper}>
       <Button large primary theme="blue" label="Edit">Edit</Button>
-      <Button large primary theme="yellow" label="Share">Share</Button>
+      <span className={styles.shareButton}>
+        <Button large primary theme="yellow" label="Share">Share</Button>
+      </span>
     </div>
   </div>
 </div>);
