@@ -1,5 +1,23 @@
 @import "styles/page.module";
 
+.guideInput {
+  margin-bottom: .5rem;
+}
+
+.votingHeader {
+  width: 100%;
+  border-bottom: 1px solid $blue;
+}
+
+.votingContainer {
+  margin-top: 1rem;
+}
+
+.description {
+  color: $blue-text;
+  size: $text-xs;
+}
+
 .guideContainer {
   display: flex;
   justify-content: space-between;
