@@ -1,11 +1,14 @@
-query votingGuidesByUserIdQuery($userId: String!) {
+query votingGuidesByUserId($userId: String!) {
   votingGuidesByUserId(userId: $userId) {
     id
     title
     description
+    electionId
     election {
-      id
+      slug
       electionDate
+      title
+      description
     }
   }
 }

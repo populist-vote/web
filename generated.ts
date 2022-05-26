@@ -1772,12 +1772,12 @@ export type PoliticianBySlugQueryVariables = Exact<{
 
 export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, nickname?: string | null, preferredName?: string | null, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, websiteUrl?: string | null, twitterUrl?: string | null, facebookUrl?: string | null, instagramUrl?: string | null, yearsInPublicOffice?: number | null, age?: number | null, upcomingRace?: { __typename?: 'RaceResult', title: string, raceType: RaceType, state?: State | null, electionDate?: any | null, office: { __typename?: 'OfficeResult', title: string }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null, party?: PoliticalParty | null }> } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } } | null, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null> | null }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null, district?: string | null, state?: State | null, officeType?: string | null } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null, candidate: { __typename?: 'Candidate', photo: string } } | null }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null } | null } } | null> | null } } };
 
-export type VotingGuidesByUserIdQueryQueryVariables = Exact<{
+export type VotingGuidesByUserIdQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
 
-export type VotingGuidesByUserIdQueryQuery = { __typename?: 'Query', votingGuidesByUserId: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, election: { __typename?: 'ElectionResult', id: string, electionDate: any } }> };
+export type VotingGuidesByUserIdQuery = { __typename?: 'Query', votingGuidesByUserId: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, election: { __typename?: 'ElectionResult', slug: string, electionDate: any, title: string, description?: string | null } }> };
 
 
 export const ValidateEmailAvailableDocument = /*#__PURE__*/ `
@@ -2416,51 +2416,54 @@ useInfinitePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVaria
 ;
 
 usePoliticianBySlugQuery.fetcher = (variables: PoliticianBySlugQueryVariables) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, variables);
-export const VotingGuidesByUserIdQueryDocument = /*#__PURE__*/ `
-    query votingGuidesByUserIdQuery($userId: String!) {
+export const VotingGuidesByUserIdDocument = /*#__PURE__*/ `
+    query votingGuidesByUserId($userId: String!) {
   votingGuidesByUserId(userId: $userId) {
     id
     title
     description
+    electionId
     election {
-      id
+      slug
       electionDate
+      title
+      description
     }
   }
 }
     `;
-export const useVotingGuidesByUserIdQueryQuery = <
-      TData = VotingGuidesByUserIdQueryQuery,
+export const useVotingGuidesByUserIdQuery = <
+      TData = VotingGuidesByUserIdQuery,
       TError = unknown
     >(
-      variables: VotingGuidesByUserIdQueryQueryVariables,
-      options?: UseQueryOptions<VotingGuidesByUserIdQueryQuery, TError, TData>
+      variables: VotingGuidesByUserIdQueryVariables,
+      options?: UseQueryOptions<VotingGuidesByUserIdQuery, TError, TData>
     ) =>
-    useQuery<VotingGuidesByUserIdQueryQuery, TError, TData>(
-      ['votingGuidesByUserIdQuery', variables],
-      fetcher<VotingGuidesByUserIdQueryQuery, VotingGuidesByUserIdQueryQueryVariables>(VotingGuidesByUserIdQueryDocument, variables),
+    useQuery<VotingGuidesByUserIdQuery, TError, TData>(
+      ['votingGuidesByUserId', variables],
+      fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, variables),
       options
     );
 
-useVotingGuidesByUserIdQueryQuery.getKey = (variables: VotingGuidesByUserIdQueryQueryVariables) => ['votingGuidesByUserIdQuery', variables];
+useVotingGuidesByUserIdQuery.getKey = (variables: VotingGuidesByUserIdQueryVariables) => ['votingGuidesByUserId', variables];
 ;
 
-export const useInfiniteVotingGuidesByUserIdQueryQuery = <
-      TData = VotingGuidesByUserIdQueryQuery,
+export const useInfiniteVotingGuidesByUserIdQuery = <
+      TData = VotingGuidesByUserIdQuery,
       TError = unknown
     >(
-      pageParamKey: keyof VotingGuidesByUserIdQueryQueryVariables,
-      variables: VotingGuidesByUserIdQueryQueryVariables,
-      options?: UseInfiniteQueryOptions<VotingGuidesByUserIdQueryQuery, TError, TData>
+      pageParamKey: keyof VotingGuidesByUserIdQueryVariables,
+      variables: VotingGuidesByUserIdQueryVariables,
+      options?: UseInfiniteQueryOptions<VotingGuidesByUserIdQuery, TError, TData>
     ) =>
-    useInfiniteQuery<VotingGuidesByUserIdQueryQuery, TError, TData>(
-      ['votingGuidesByUserIdQuery.infinite', variables],
-      (metaData) => fetcher<VotingGuidesByUserIdQueryQuery, VotingGuidesByUserIdQueryQueryVariables>(VotingGuidesByUserIdQueryDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+    useInfiniteQuery<VotingGuidesByUserIdQuery, TError, TData>(
+      ['votingGuidesByUserId.infinite', variables],
+      (metaData) => fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
-useInfiniteVotingGuidesByUserIdQueryQuery.getKey = (variables: VotingGuidesByUserIdQueryQueryVariables) => ['votingGuidesByUserIdQuery.infinite', variables];
+useInfiniteVotingGuidesByUserIdQuery.getKey = (variables: VotingGuidesByUserIdQueryVariables) => ['votingGuidesByUserId.infinite', variables];
 ;
 
-useVotingGuidesByUserIdQueryQuery.fetcher = (variables: VotingGuidesByUserIdQueryQueryVariables) => fetcher<VotingGuidesByUserIdQueryQuery, VotingGuidesByUserIdQueryQueryVariables>(VotingGuidesByUserIdQueryDocument, variables);
+useVotingGuidesByUserIdQuery.fetcher = (variables: VotingGuidesByUserIdQueryVariables) => fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, variables);
