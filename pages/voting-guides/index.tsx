@@ -11,13 +11,16 @@ import { useAuth } from "hooks/useAuth";
 import styles from "./VotingGuides.module.scss";
 
 
-const VotingGuideCard = (/*{ guide }:{ guide: VotingGuideResult }*/) => {
+const VotingGuideCard = ({ guide }:{ guide: VotingGuideResult }) => {
+  const {user} = guide;
+  const {firstName, lastName, avatarUrl, username} = user;
+  const name = firstName ? `${firstName} ${!!lastName ? lastName:''}`: username;
   return(
   <div className={styles.roundedCard}>
   <div className={styles.guideContainer}>
     <div className={styles.avatarContainer}>
-      <Avatar src="https://www.gravatar.com/avatar/" size={80} fallbackSrc="https://www.gravatar.com/avatar/" alt="[user name here]" />
-      <h4>[User name here]</h4>
+      <Avatar src={avatarUrl || ""} size={80} fallbackSrc="https://www.gravatar.com/avatar/" alt={name} />
+      <h4>{name}</h4>
     </div>
     <div className={styles.buttonWrapper}>
       <Button large primary theme="blue" label="Edit">Edit</Button>
@@ -106,7 +109,7 @@ const VotingGuides: NextPage<{ mobileNavTitle?: string }> = ({mobileNavTitle}) =
                   <h2>{election.title}</h2>
                   <p className={styles.description}>{election.description}</p>
                     {
-                      election.guides?.map(guide=><VotingGuideCard key={guide.id} />)
+                      election.guides?.map(guide=><VotingGuideCard guide={guide} key={guide.id} />)
                     }
                 </div>
               ))
