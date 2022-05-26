@@ -4,6 +4,13 @@ query votingGuidesByUserId($userId: String!) {
     title
     description
     electionId
+    user {
+      id
+      username
+      lastName
+      firstName
+      avatarUrl
+    }
     election {
       slug
       electionDate

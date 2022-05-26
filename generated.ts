@@ -123,6 +123,14 @@ export type ArgumentResult = {
   votes: Scalars['Int'];
 };
 
+export type AuthTokenResult = {
+  __typename?: 'AuthTokenResult';
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  role: Role;
+  username: Scalars['String'];
+};
+
 export type AuthorResult = OrganizationResult | PoliticianResult;
 
 export enum AuthorType {
@@ -1066,8 +1074,8 @@ export type Query = {
   ballotMeasures: Array<BallotMeasureResult>;
   billBySlug?: Maybe<BillResult>;
   bills: BillResultConnection;
-  /** Providers current user based on JWT found in client's access_token cookie */
-  currentUser?: Maybe<UserResult>;
+  /** Provides current user based on JWT found in client's access_token cookie */
+  currentUser?: Maybe<AuthTokenResult>;
   electionById: ElectionResult;
   electionBySlug: ElectionResult;
   elections: Array<ElectionResult>;
@@ -1603,9 +1611,11 @@ export type UpsertVotingGuideInput = {
 export type UserResult = {
   __typename?: 'UserResult';
   address?: Maybe<AddressResult>;
+  avatarUrl?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  role: Role;
+  lastName?: Maybe<Scalars['String']>;
   username: Scalars['String'];
 };
 
@@ -1644,6 +1654,7 @@ export type VotingGuideResult = {
   electionId: Scalars['ID'];
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
+  user: UserResult;
   userId: Scalars['ID'];
 };
 
@@ -1675,7 +1686,7 @@ export type ValidatePasswordEntropyQuery = { __typename?: 'Query', validatePassw
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'UserResult', id: string, email: string, username: string, role: Role } | null };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'AuthTokenResult', id: string, email: string, username: string, role: Role } | null };
 
 export type BeginUserRegistrationMutationVariables = Exact<{
   email: Scalars['String'];
@@ -1777,7 +1788,7 @@ export type VotingGuidesByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type VotingGuidesByUserIdQuery = { __typename?: 'Query', votingGuidesByUserId: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, election: { __typename?: 'ElectionResult', slug: string, electionDate: any, title: string, description?: string | null } }> };
+export type VotingGuidesByUserIdQuery = { __typename?: 'Query', votingGuidesByUserId: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null, avatarUrl?: string | null }, election: { __typename?: 'ElectionResult', slug: string, electionDate: any, title: string, description?: string | null } }> };
 
 
 export const ValidateEmailAvailableDocument = /*#__PURE__*/ `
@@ -2423,6 +2434,13 @@ export const VotingGuidesByUserIdDocument = /*#__PURE__*/ `
     title
     description
     electionId
+    user {
+      id
+      username
+      lastName
+      firstName
+      avatarUrl
+    }
     election {
       slug
       electionDate
