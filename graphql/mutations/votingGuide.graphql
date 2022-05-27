@@ -1,6 +1,16 @@
-mutation UpsertVotingGuide($id: ID, $title: String, $description: String) {
+mutation UpsertVotingGuide(
+  $id: ID
+  $electionId: ID!
+  $title: String
+  $description: String
+) {
   upsertVotingGuide(
-    input: { id: $id, title: $title, description: $description }
+    input: {
+      id: $id
+      electionId: $electionId
+      title: $title
+      description: $description
+    }
   ) {
     id
     title
