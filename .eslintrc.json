@@ -1,13 +1,16 @@
 {
   "extends": [
+    "prettier",
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
     "plugin:jsx-a11y/recommended"
   ],
   "plugins": ["jsx-a11y"],
   "rules": {
     "object-curly-spacing": ["error", "always"],
+    "key-spacing": ["error", { "beforeColon": false }],
+    "space-infix-ops": ["error", { "int32Hint": false }],
+    "@typescript-eslint/no-floating-promises": ["error"],
     "no-warning-comments": [
       "warn",
       { "terms": ["todo"], "location": "anywhere" }
