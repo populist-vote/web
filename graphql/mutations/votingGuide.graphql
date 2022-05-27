@@ -1,6 +1,22 @@
+<<<<<<< HEAD
 mutation UpsertVotingGuide($id: ID, $electionId: ID!, $title: String, $description: String) {
   upsertVotingGuide(
     input: {  id: $id, electionId: $electionId, title: $title, description: $description }
+=======
+mutation UpsertVotingGuide(
+  $id: ID
+  $electionId: ID!
+  $title: String
+  $description: String
+) {
+  upsertVotingGuide(
+    input: {
+      id: $id
+      electionId: $electionId
+      title: $title
+      description: $description
+    }
+>>>>>>> 05f8ed7 (Update voting guide query)
   ) {
     id
     electionId
