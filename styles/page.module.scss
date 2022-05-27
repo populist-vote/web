@@ -37,7 +37,7 @@
     font-size: $text-sm;
     font-weight: 400;
     color: $white;
-    margin: 0 0 1rem 0;
+    margin: 0 0 1.25rem 0;
     text-transform: uppercase;
     font-family: $font-primary;
   }
@@ -126,9 +126,10 @@
   border-radius: 25px;
   border: 1px solid $blue-dark;
   background: $blue-darker;
-  width: 90%;
+  width: 100%;
   text-align: center;
   padding: 1.5rem;
+  min-width: 10rem;
 
   h1 {
     font-weight: 400;
