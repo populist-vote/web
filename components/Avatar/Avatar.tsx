@@ -36,13 +36,13 @@ function Badge(props: BadgeProps): JSX.Element {
   const { text, background, size, fontSize } = props;
 
   const styleVars: CSSProperties & {
-    "--avatar-size": string,
-    "--avatar-font-size": string,
-    "--avatar-background": string | undefined,
+    "--avatar-size": string;
+    "--avatar-font-size": string;
+    "--avatar-background": string | undefined;
   } = {
     [`--avatar-size`]: size,
     [`--avatar-font-size`]: fontSize,
-    [`--avatar-background`]: background
+    [`--avatar-background`]: background,
   };
 
   return (
