@@ -79,6 +79,7 @@ const VotingGuides: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
   const user = useAuth({ redirectTo: "/login" }).user; //user will not be null under this line, due to the conditional redirect
+
   const votingGuidesByUserId = useVotingGuidesByUserIdQuery({
     userId: user?.id || "",
   });
