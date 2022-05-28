@@ -107,9 +107,9 @@
     max-width: 100vw;
 
     @include for-tablet-landscape-up {
+      margin: 0 auto;
       max-width: calc(100vw - 12rem);
-      padding-left: 6.25rem;
-      width: 70rem;
+      width: 82.5rem;
     }
   }
 
