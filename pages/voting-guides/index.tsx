@@ -109,7 +109,12 @@ const VotingGuides: NextPage<{ mobileNavTitle?: string }> = ({
     }
   }, []);
 
-  const upsertVotingGuide = useUpsertVotingGuideMutation();
+  const upsertVotingGuide = useUpsertVotingGuideMutation({
+    onSuccess: (res) => {
+      votingGuidesByUserId.refetch();
+      console.log("Voting Guide Upserted: ", res.upsertVotingGuide);
+    },
+  });
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
