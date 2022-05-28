@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import {
-  Scalars,
   useUpsertVotingGuideMutation,
   useVotingGuidesByUserIdQuery,
   VotingGuideResult,
 } from "generated";
-import { Layout, Avatar, FlagSection, Button } from "components";
-import { useAuth } from "hooks/useAuth";
+import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
 import styles from "./VotingGuides.module.scss";
+import { useQueryClient } from "react-query";
+import { useAuth } from "hooks/useAuth";
 
-const VotingGuideCard = ({ guide }: { guide: VotingGuideResult }) => {
+const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
   const { user } = guide;
-  const { firstName, lastName, avatarUrl, username } = user;
+  const { firstName, lastName, avatarUrl, username } = user || {};
   const name = firstName
     ? `${firstName} ${!!lastName ? lastName : ""}`
     : username;
@@ -25,7 +25,7 @@ const VotingGuideCard = ({ guide }: { guide: VotingGuideResult }) => {
             src={avatarUrl || ""}
             size={80}
             fallbackSrc="https://www.gravatar.com/avatar/"
-            alt={name}
+            alt={name as string}
           />
           <h4>{name}</h4>
         </div>
@@ -44,77 +44,27 @@ const VotingGuideCard = ({ guide }: { guide: VotingGuideResult }) => {
   );
 };
 
-interface VotingGuideElection {
-  date: string;
-  description?: string;
-  guides: VotingGuideResult[];
-  id: Scalars["ID"];
-  title: string;
-}
+const VotingGuides: NextPage<{
+  mobileNavTitle?: string;
+}> = ({ mobileNavTitle }) => {
+  const queryClient = useQueryClient();
 
-const getElectionsFromGuides = (
-  guides: VotingGuideResult[]
-): VotingGuideElection[] => {
-  if (guides) {
-    return guides.reduce<VotingGuideElection[]>((result, value) => {
-      const i = result.findIndex((v) => v.id === value.electionId);
-      if (i < 0) {
-        const electionInfo = {
-          id: value.electionId,
-          title: value.election.title,
-          description: value.election.description,
-          date: value.election.electionDate,
-          guides: [value],
-        } as VotingGuideElection;
-        result.push(electionInfo);
-      } else {
-        result[i]?.guides.push(value);
-      }
-      return result;
-    }, [] as VotingGuideElection[]);
-  } else return [] as VotingGuideElection[];
-};
+  const user = useAuth({ redirectTo: "/login?next=voting-guides" });
 
-const VotingGuides: NextPage<{ mobileNavTitle?: string }> = ({
-  mobileNavTitle,
-}) => {
-  const user = useAuth({ redirectTo: "/login" }).user; //user will not be null under this line, due to the conditional redirect
-
-  const votingGuidesByUserId = useVotingGuidesByUserIdQuery({
+  const { data, isLoading, error } = useVotingGuidesByUserIdQuery({
     userId: user?.id || "",
   });
-  const [elections, setElections] = useState<VotingGuideElection[]>([]);
 
-  useEffect(() => {
-    const { data, isError, error } = votingGuidesByUserId;
-    if (isError) {
-      alert("Error getting Voting Guides");
-      console.error("Error getting Voting Guides", error);
-    } else {
-      if (data && data.votingGuidesByUserId.length) {
-        const newVotingGuides =
-          data.votingGuidesByUserId as VotingGuideResult[];
-        const elections = getElectionsFromGuides(newVotingGuides);
-        console.log("yes data", elections);
-        setElections(elections);
-      } else {
-        votingGuidesByUserId.refetch().then((res) => {
-          const elections = getElectionsFromGuides(
-            res.data?.votingGuidesByUserId as VotingGuideResult[]
-          );
-          console.log("no data", elections);
-          setElections(elections);
-        });
-      }
-    }
-  }, []);
+  const invalidateVotingGuideQuery = () =>
+    queryClient.invalidateQueries(
+      useVotingGuidesByUserIdQuery.getKey({ userId: user?.id as string })
+    );
 
   const upsertVotingGuide = useUpsertVotingGuideMutation({
-    onSuccess: (res) => {
-      votingGuidesByUserId.refetch();
-      console.log("Voting Guide Upserted: ", res.upsertVotingGuide);
-    },
+    onSuccess: () => invalidateVotingGuideQuery(),
   });
+
+  const election = data?.votingGuidesByUserId[0]?.election;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -132,15 +82,17 @@ const VotingGuides: NextPage<{ mobileNavTitle?: string }> = ({
       >
         <div className={styles.votingContainer}>
           <FlagSection title="Voting Guides">
-            {elections.map((election) => (
-              <div key={election.id}>
-                <h1 className={styles.votingHeader}>{election.date}</h1>
-                <h2>{election.title}</h2>
-                <p className={styles.description}>{election.description}</p>
-                {election.guides?.map((guide) => (
-                  <VotingGuideCard guide={guide} key={guide.id} />
-                ))}
-              </div>
+            <div>
+              <h1>{election?.title}</h1>
+              <p>{election?.description}</p>
+            </div>
+            {isLoading && <LoaderFlag />}
+            {error && <small>Something went wrong...</small>}
+            {data?.votingGuidesByUserId.map((guide) => (
+              <VotingGuideCard
+                guide={guide as Partial<VotingGuideResult>}
+                key={guide.id}
+              />
             ))}
           </FlagSection>
         </div>
@@ -175,7 +127,6 @@ const VotingGuides: NextPage<{ mobileNavTitle?: string }> = ({
                   description,
                 },
                 {
-                  onSuccess: () => alert("Your guide was added"),
                   onError: (err) => {
                     alert("Your guide was not added");
                     console.error("guide not added", err);
