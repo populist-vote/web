@@ -14,12 +14,21 @@ interface BadgeProps {
   fontSize: string;
 }
 
+interface IconProps {
+  type: "plus" | "note" | "star";
+  background?: string;
+  onClick?: () => void;
+  size?: string;
+  fontSize?: string;
+}
+
 export interface AvatarProps {
   src: string;
   fallbackSrc: string;
   alt: string;
   size: number;
   badge?: BadgeProps;
+  icon?: IconProps;
   name?: string;
   round?: boolean;
   onClick?: () => void;
@@ -36,13 +45,13 @@ function Badge(props: BadgeProps): JSX.Element {
   const { text, background, size, fontSize } = props;
 
   const styleVars: CSSProperties & {
-    "--avatar-size": string,
-    "--avatar-font-size": string,
-    "--avatar-background": string | undefined,
+    "--avatar-size": string;
+    "--avatar-font-size": string;
+    "--avatar-background": string | undefined;
   } = {
     [`--avatar-size`]: size,
     [`--avatar-font-size`]: fontSize,
-    [`--avatar-background`]: background
+    [`--avatar-background`]: background,
   };
 
   return (
