@@ -74,41 +74,54 @@ export function EmailStep() {
 
   const submitForm = (data: { email: string; password: string }) => {
     actions.updateAction(data);
-    validateEmailAvailable().then(
-      // Shamefully typecast to any
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ({ data: response, error }: { data: any; error: any }) => {
-        if (response?.validateEmailAvailable) {
-          router.push({ query: { step: "address" } });
-        } else {
-          setError(
-            "email",
-            {
-              type: "manual",
-              message: "Email address is already in use",
-            },
-            {
-              shouldFocus: true,
-            }
-          );
-        }
+    validateEmailAvailable()
+      .then(
+        // Shamefully typecast to any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ({ data: response, error }: { data: any; error: any }) => {
+          if (response?.validateEmailAvailable) {
+            void router.push({ query: { step: "address" } });
+          } else {
+            setError(
+              "email",
+              {
+                type: "manual",
+                message: "Email address is already in use",
+              },
+              {
+                shouldFocus: true,
+              }
+            );
+          }
 
-        // Handle errors like network down - eventually we should useAlert here and
-        // create an alertContext for more global errors
-        if (error instanceof Error) {
-          setError(
-            "email",
-            {
-              type: "manual",
-              message: error?.message,
-            },
-            {
-              shouldFocus: true,
-            }
-          );
+          // Handle errors like network down - eventually we should useAlert here and
+          // create an alertContext for more global errors
+          if (error instanceof Error) {
+            setError(
+              "email",
+              {
+                type: "manual",
+                message: error?.message,
+              },
+              {
+                shouldFocus: true,
+              }
+            );
+          }
         }
-      }
-    );
+      )
+      .catch((error) => {
+        setError(
+          "email",
+          {
+            type: "manual",
+            message: error?.message,
+          },
+          {
+            shouldFocus: true,
+          }
+        );
+      });
   };
 
   return (

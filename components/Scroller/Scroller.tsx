@@ -32,7 +32,11 @@ function Scroller(props: {
 
   const apiRef = useRef({} as scrollVisibilityApiType);
 
-  const scrollerClasses = classNames(styles.horizontalScrollContainer, { [`mobile-scroller`]: isMobile, [styles.hideArrowText as string]: !props.showTextButtons, [`no-scroll`]: !hasScroll });
+  const scrollerClasses = classNames(styles.horizontalScrollContainer, {
+    [`mobile-scroller`]: isMobile,
+    [styles.hideArrowText as string]: !props.showTextButtons,
+    [`no-scroll`]: !hasScroll,
+  });
 
   const handleUpdate = (data: {
     initComplete: boolean;
@@ -40,7 +44,8 @@ function Scroller(props: {
     isLastItemVisible: boolean;
   }) => {
     const { initComplete, isFirstItemVisible, isLastItemVisible } = data;
-    if (!hasScroll) setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
+    if (!hasScroll)
+      setHasScroll(initComplete && (!isFirstItemVisible || !isLastItemVisible));
   };
 
   return (
@@ -60,10 +65,10 @@ function Scroller(props: {
 }
 
 function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } =
-    useContext(VisibilityContext);
+  const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
   const { isMobile } = useDeviceInfo();
-  const iconColor = isMobile || isFirstItemVisible ? "var(--blue)" : "var(--white)";
+  const iconColor =
+    isMobile || isFirstItemVisible ? "var(--blue)" : "var(--white)";
 
   return (
     <Arrow
@@ -72,23 +77,23 @@ function LeftArrow() {
       label={"Previous"}
     >
       <FaChevronLeft color={iconColor} />
-      {!isMobile && (<span>Prev</span>)}
+      {!isMobile && <span>Prev</span>}
     </Arrow>
   );
 }
 
 function RightArrow() {
-  const { isLastItemVisible, scrollNext } =
-    useContext(VisibilityContext);
+  const { isLastItemVisible, scrollNext } = useContext(VisibilityContext);
   const { isMobile } = useDeviceInfo();
-  const iconColor = isMobile || isLastItemVisible ? "var(--blue)" : "var(--white)";
+  const iconColor =
+    isMobile || isLastItemVisible ? "var(--blue)" : "var(--white)";
   return (
     <Arrow
       disabled={isLastItemVisible}
       onClick={() => scrollNext()}
       label={"Next"}
     >
-      {!isMobile && (<span>Next</span>)}
+      {!isMobile && <span>Next</span>}
       <FaChevronRight color={iconColor} />
     </Arrow>
   );
@@ -98,7 +103,7 @@ function Arrow({
   children,
   disabled,
   onClick,
-  label
+  label,
 }: PropsWithChildren<{
   disabled: boolean;
   onClick: () => void;
@@ -106,7 +111,15 @@ function Arrow({
 }>) {
   const { isMobile } = useDeviceInfo();
   return (
-    <Button text small={isMobile} large={!isMobile} theme="blue" label={label} onClick={onClick} disabled={disabled}>
+    <Button
+      text
+      small={isMobile}
+      large={!isMobile}
+      theme="blue"
+      label={label}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </Button>
   );

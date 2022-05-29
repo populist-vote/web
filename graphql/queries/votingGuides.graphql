@@ -1,0 +1,21 @@
+query votingGuidesByUserId($userId: String!) {
+  votingGuidesByUserId(userId: $userId) {
+    id
+    title
+    description
+    electionId
+    user {
+      id
+      username
+      lastName
+      firstName
+      avatarUrl
+    }
+    election {
+      slug
+      electionDate
+      title
+      description
+    }
+  }
+}

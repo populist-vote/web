@@ -160,13 +160,18 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   type TagType = {
-    text: string,
-    fullText: string,
-    isChair: boolean,
-    isSubCommittee: boolean
-  }
+    text: string;
+    fullText: string;
+    isChair: boolean;
+    isSubCommittee: boolean;
+  };
 
-  function CommitteeTagPage({ tags }: { tags: Array<TagType>; itemId: string }) {
+  function CommitteeTagPage({
+    tags,
+  }: {
+    tags: Array<TagType>;
+    itemId: string;
+  }) {
     return (
       <div className={styles.tagPage}>
         {tags.map((tag, index) => (
@@ -177,16 +182,46 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function CommitteeTag({ tag }: { tag: TagType }) {
-    return <div className={styles.tag} title={tag.fullText}>
-      {tag.isChair && <FaChair color="var(--blue)" />}
-      {tag.isSubCommittee && <GrTree className={styles.subCommittee} color="var(--blue)" />}
-      <span>{tag.text}</span>
-    </div>;
+    return (
+      <div className={styles.tag} title={tag.fullText}>
+        {tag.isChair && <FaChair color="var(--blue)" />}
+        {tag.isSubCommittee && (
+          <GrTree className={styles.subCommittee} color="var(--blue)" />
+        )}
+        <span>{tag.text}</span>
+      </div>
+    );
   }
 
   function CommitteesSection() {
+    const politicalExperience =
+      politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
+
+    // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
+    const tags =
+      politicalExperience?.constructor === Array
+        ? politicalExperience.map(
+            (committee: {
+              organization: string;
+              title?: string;
+              fullText: string;
+            }) => ({
+              text: committee?.organization
+                ?.replace("Subcommittee on", "")
+                .replace(", United States Senate", ""),
+              fullText: committee?.fullText,
+              isChair: committee?.title?.toUpperCase().indexOf("CHAIR") !== -1,
+              isSubCommittee:
+                committee?.organization
+                  ?.toUpperCase()
+                  .indexOf("SUBCOMMITTEE") !== -1,
+            })
+          )
+        : [];
     const tagPageSize = 4;
-    const tagPages: Array<Array<TagType>> = Array(Math.ceil(tags.length / tagPageSize))
+    const tagPages: Array<Array<TagType>> = Array(
+      Math.ceil(tags.length / tagPageSize)
+    )
       .fill("")
       .map((_, index) => index * tagPageSize)
       .map((begin) => tags.slice(begin, begin + tagPageSize));
@@ -305,14 +340,15 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function ColoredSection(props: PropsWithChildren<{
-    color: string
-  }>) {
-
+  function ColoredSection(
+    props: PropsWithChildren<{
+      color: string;
+    }>
+  ) {
     const styleVars: CSSProperties & {
-      "--color-accent": string
+      "--color-accent": string;
     } = {
-      "--color-accent": props.color
+      "--color-accent": props.color,
     };
 
     return (
@@ -389,7 +425,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             className={styles.ratingCircle}
             style={{
               background: `${
-                ratingPercent > 80 ? "var(--green)" : ratingPercent > 50 ? "var(--yellow)" : "var(--red)"
+                ratingPercent > 80
+                  ? "var(--green)"
+                  : ratingPercent > 50
+                  ? "var(--yellow)"
+                  : "var(--red)"
               }`,
             }}
           >

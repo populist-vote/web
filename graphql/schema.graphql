@@ -55,6 +55,13 @@ type ArgumentResult {
   votes: Int!
 }
 
+type AuthTokenResult {
+  email: String!
+  id: ID!
+  role: Role!
+  username: String!
+}
+
 union AuthorResult = OrganizationResult | PoliticianResult
 
 enum AuthorType {
@@ -328,6 +335,7 @@ input CreateOrganizationInput {
 input CreatePoliticianInput {
   ballotName: String
   crpCandidateId: String
+  dateOfBirth: NaiveDate
   description: String
   facebookUrl: String
   fecCandidateId: String
@@ -696,6 +704,7 @@ type PoliticianResult {
   ballotName: String
   createdAt: DateTime!
   currentOffice: OfficeResult
+  dateOfBirth: NaiveDate
   description: String
   endorsements: Endorsements!
   facebookUrl: String
@@ -784,9 +793,9 @@ type Query {
   ): BillResultConnection!
 
   """
-  Providers current user based on JWT found in client's access_token cookie
+  Provides current user based on JWT found in client's access_token cookie
   """
-  currentUser: UserResult
+  currentUser: AuthTokenResult
   electionById(id: String!): ElectionResult!
   electionBySlug(slug: String!): ElectionResult!
   elections(
@@ -1180,6 +1189,7 @@ input UpdatePasswordInput {
 input UpdatePoliticianInput {
   ballotName: String
   crpCandidateId: String
+  dateOfBirth: NaiveDate
   description: String
   facebookUrl: String
   fecCandidateId: String
@@ -1232,15 +1242,18 @@ input UpsertVotingGuideCandidateInput {
 
 input UpsertVotingGuideInput {
   description: String
+  electionId: ID!
   id: ID
   title: String
 }
 
 type UserResult {
   address: AddressResult
+  avatarUrl: String
   email: String!
+  firstName: String
   id: ID!
-  role: Role!
+  lastName: String
   username: String!
 }
 
@@ -1275,8 +1288,11 @@ type VotingGuideCandidateResult {
 type VotingGuideResult {
   candidates: [VotingGuideCandidateResult!]!
   description: String
+  election: ElectionResult!
+  electionId: ID!
   id: ID!
   title: String
+  user: UserResult!
   userId: ID!
 }
 

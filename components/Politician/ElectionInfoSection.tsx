@@ -10,15 +10,9 @@ import Link from "next/link";
 
 import states from "utils/states";
 
-import {
-  PERSON_FALLBACK_IMAGE_URL
-} from "utils/constants";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 
-
-import {
-  PoliticalParty,
-  PoliticianResult
-} from "../../generated";
+import { PoliticalParty, PoliticianResult } from "../../generated";
 
 import { dateString } from "utils/dates";
 
@@ -44,11 +38,10 @@ function Candidate({
   );
 }
 
-
 function ElectionInfoSection({
-  politician
+  politician,
 }: {
-  politician: Partial<PoliticianResult>
+  politician: Partial<PoliticianResult>;
 }) {
   const { upcomingRace } = politician;
   const opponents =
@@ -74,23 +67,25 @@ function ElectionInfoSection({
         </div>
       </div>
       <div>
-        <h3 className={styles.subHeader}>Opponent{opponents.length > 1 && "s"}</h3>
-        <div className={`${styles.roundedCard} ${electionStyles.box}`}> 
-          {opponents.length == 0 ? "N/A" : (
+        <h3 className={styles.subHeader}>
+          Opponent{opponents.length > 1 && "s"}
+        </h3>
+        <div className={`${styles.roundedCard} ${electionStyles.box}`}>
+          {opponents.length == 0 ? (
+            "N/A"
+          ) : (
             <Scroller>
-              {opponents
-                .map(
-                  (candidate: Partial<PoliticianResult> & { id: string }) => {
-                    return (
-                      <Candidate
-                        candidate={candidate}
-                        itemId={candidate.id}
-                        key={candidate.id}
-                      />
-                    );
-                  }
-                )
-              }
+              {opponents.map(
+                (candidate: Partial<PoliticianResult> & { id: string }) => {
+                  return (
+                    <Candidate
+                      candidate={candidate}
+                      itemId={candidate.id}
+                      key={candidate.id}
+                    />
+                  );
+                }
+              )}
             </Scroller>
           )}
         </div>

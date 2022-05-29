@@ -13,6 +13,7 @@ mutation UpsertVotingGuide(
     }
   ) {
     id
+    electionId
     title
     description
   }

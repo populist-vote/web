@@ -39,3 +39,6 @@ generated.ts
 # cypress 
 cypress/videos
 cypress/screenshots
+
+# local only
+*.code-workspace
