@@ -20,7 +20,16 @@
       { "terms": ["todo"], "location": "anywhere" }
     ],
     "react/no-unescaped-entities": "off",
-    "semi": "error"
+    "semi": "error",
+    // Ignore no-unused-vars if prefixed with underscore
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
   },
   "globals": {
     "JSX": "readonly"

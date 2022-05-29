@@ -3,12 +3,10 @@ import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import styles from "components/Layout/Layout.module.scss";
 import {
-  AuthTokenResult,
   PoliticalParty,
   PoliticalScope,
   PoliticianResult,
   RaceResult,
-  useCurrentUserQuery,
   useUpcomingElectionsQuery,
 } from "generated";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
