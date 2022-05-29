@@ -7,7 +7,16 @@
 .votingHeader {
   padding: 0.5rem;
   width: 100%;
-  border-bottom: 1px solid $blue;
+
+  h1 {
+    margin-top: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $blue;
+  }
+
+  h2 {
+    text-transform: uppercase;
+  }
 }
 
 .votingContainer {
