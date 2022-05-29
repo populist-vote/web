@@ -90,6 +90,42 @@
   align-items: center;
 }
 
+.tagPage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 1rem;
+}
+
+.tag {
+  background: $blue-dark;
+  color: $white;
+  border-radius: 40px;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+  font-size: $text-sm;
+  font-weight: 400;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin: 0 0.25rem 0 0;
+    flex-shrink: 0;
+  }
+
+  .subCommittee path {
+    stroke: $blue;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .flexBetween {
   display: inline-flex;
   justify-content: space-between;
@@ -132,42 +168,6 @@
 
   h1 {
     font-weight: 400;
-  }
-}
-
-.tagPage {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 0 1rem;
-}
-
-.tag {
-  background: $blue-dark;
-  color: $white;
-  border-radius: 40px;
-  padding: 0.5rem 1rem;
-  margin: 0.25rem;
-  font-size: $text-sm;
-  font-weight: 400;
-  width: fit-content;
-  max-width: calc(100vw - 2rem);
-  display: flex;
-  align-items: center;
-
-  svg {
-    margin: 0 0.25rem 0 0;
-    flex-shrink: 0;
-  }
-
-  .subCommittee path {
-    stroke: $blue;
-  }
-
-  span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 }
 
