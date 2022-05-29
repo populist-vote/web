@@ -1,5 +1,6 @@
-import { ImageWithFallback } from "components";
+import { ImageWithFallback, Add, Note } from "components";
 import React, { useMemo, CSSProperties } from "react";
+import { /*FaPlus, FaPlusCircle,*/ FaStar } from "react-icons/fa";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
@@ -18,8 +19,8 @@ interface IconProps {
   type: "plus" | "note" | "star";
   background?: string;
   onClick?: () => void;
-  size?: string;
-  fontSize?: string;
+  size: string;
+  fontSize: string;
 }
 
 export interface AvatarProps {
@@ -61,8 +62,41 @@ function Badge(props: BadgeProps): JSX.Element {
   );
 }
 
+function Icon(props: IconProps): JSX.Element {
+  const { background, size, fontSize, type } = props;
+
+  const $icon = () => {
+    switch (type) {
+      case "note":
+        return <Note />;
+      case "plus":
+        return <Add />;
+      case "star":
+        return <FaStar />;
+      default:
+        return <div></div>;
+    }
+  };
+
+  const styleVars: CSSProperties & {
+    "--avatar-size": string;
+    "--avatar-font-size": string;
+    "--avatar-background": string | undefined;
+  } = {
+    [`--avatar-size`]: size,
+    [`--avatar-font-size`]: fontSize,
+    [`--avatar-background`]: background,
+  };
+
+  return (
+    <div className={styles.iconWrapper} style={styleVars}>
+      <span className={styles.iconInner}>{$icon}</span>
+    </div>
+  );
+}
+
 function Avatar(props: AvatarProps): JSX.Element {
-  const { badge } = props;
+  const { badge, icon } = props;
 
   return (
     <div style={{ display: "inline" }}>
@@ -74,6 +108,7 @@ function Avatar(props: AvatarProps): JSX.Element {
           height={props.size}
           className={styles.imageContainer}
         />
+        {icon && <Icon {...icon} />}
         {badge && <Badge {...badge} />}
       </div>
     </div>
