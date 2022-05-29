@@ -12,11 +12,13 @@
     rgba(0 0 0 / 100%) 10%
   );
   margin-bottom: 0.5rem;
-}
-
-.react-horizontal-scrolling-menu--scroll-container {
+  scroll-snap-type: x mandatory;
   order: 1;
   scrollbar-width: none; /* Firefox */
+}
+
+.react-horizontal-scrolling-menu--item  {
+  scroll-snap-align: center;
 }
 
 /* This is to center when less than one page of content exists */

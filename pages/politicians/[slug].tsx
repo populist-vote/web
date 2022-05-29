@@ -9,7 +9,8 @@ import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
 import { HeaderSection, ElectionInfoSection } from "components/Politician";
 
 import { GrTree } from "react-icons/gr";
-import { FaChair } from "react-icons/fa";
+import { FaChair , FaInstagram, FaTwitter, FaFacebook, FaGlobe } from "react-icons/fa";
+import { default as classNames } from "classnames";
 
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
 // uses useLayoutEffect which is not supported by the server.
@@ -75,7 +76,19 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const age = politician?.age;
   const endorsements = politician?.endorsements;
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
+  const politicalExperience = politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
 
+  // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
+  const tags = politicalExperience?.constructor === Array
+    ? politicalExperience.map((committee: { organization: string, title?: string, fullText: string }) =>
+      ({
+        text: committee?.organization?.replace("Subcommittee on", "").replace(", United States Senate", ""),
+        fullText: committee?.fullText,
+        isChair: committee?.title?.toUpperCase().indexOf("CHAIR") !== -1,
+        isSubCommittee: committee?.organization?.toUpperCase().indexOf("SUBCOMMITTEE") !== -1,
+      })
+    ) : [];
+    
   function OfficeSection() {
     return (
       <section className={styles.center}>
@@ -88,8 +101,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BasicInfoSection() {
+    const cx = classNames(styles.center, { 
+      [politicianStyles.wide as string]: tags.length === 0
+    });
     return (
-      <section className={styles.center}>
+      <section className={cx}>
         <h3 className={styles.subHeader}>Basic Info</h3>
         {!!termStart && (
           <p className={styles.flexBetween}>
@@ -125,6 +141,20 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{age}</span>
           </p>
         )}
+        <div className={politicianStyles.links}>
+          {politician?.websiteUrl && <a aria-label={"Website"} href={politician.websiteUrl?.startsWith("http") ? politician.websiteUrl : `//${politician.websiteUrl}` } target="_blank" rel="noopener noreferrer">
+            <FaGlobe />
+          </a>}
+          {politician?.twitterUrl && <a aria-label={"Twitter"} href={politician.twitterUrl?.startsWith("http") ? politician.twitterUrl : `//${politician.twitterUrl}` } target="_blank" rel="noopener noreferrer">
+            <FaTwitter />
+          </a>}
+          {politician?.facebookUrl && <a aria-label={"Facebook"} href={politician.facebookUrl?.startsWith("http") ? politician.facebookUrl :  `//${politician.facebookUrl}` } target="_blank" rel="noopener noreferrer">
+            <FaFacebook />
+          </a>}
+          {politician?.instagramUrl && <a aria-label={"Instagram"} href={politician.instagramUrl?.startsWith("http") ? politician.instagramUrl : `//${politician.instagramUrl}` } target="_blank" rel="noopener noreferrer">
+            <FaInstagram />
+          </a>}
+        </div>
       </section>
     );
   }
@@ -188,7 +218,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             })
           )
         : [];
-
     const tagPageSize = 4;
     const tagPages: Array<Array<TagType>> = Array(
       Math.ceil(tags.length / tagPageSize)
@@ -198,19 +227,21 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       .map((begin) => tags.slice(begin, begin + tagPageSize));
 
     if (tags.length === 0) return null;
-
+    const cx = classNames(styles.center, politicianStyles.committees);
     return (
-      <section className={styles.center}>
+      <section className={cx}>
         <h3 className={styles.subHeader}>Committees</h3>
-        <Scroller onePageAtATime>
-          {tagPages.map((tagPage, index) => (
-            <CommitteeTagPage
-              tags={tagPage}
-              key={`tagPage-${index}`}
-              itemId={`tagPage-${index}`}
-            />
-          ))}
-        </Scroller>
+        <div className={politicianStyles.sectionContent}>
+          <Scroller onePageAtATime>
+            {tagPages.map((tagPage, index) => (
+              <CommitteeTagPage
+                tags={tagPage}
+                key={`tagPage-${index}`}
+                itemId={`tagPage-${index}`}
+              />
+            ))}
+          </Scroller>
+        </div>
       </section>
     );
   }
@@ -226,19 +257,21 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       return (
         <section className={styles.center}>
           <h3 className={styles.subHeader}>Sponsored Bills</h3>
-          <Scroller onePageAtATime>
-            {edges
-              .map((edge) => {
-                return (
-                  <BillCard
-                    bill={edge.node}
-                    key={edge.node.slug}
-                    itemId={edge.node.slug as string}
-                  />
-                );
-              })
-              .filter((x) => x)}
-          </Scroller>
+          <div className={politicianStyles.sectionContent}>
+            <Scroller>
+              {edges
+                .map((edge) => {
+                  return (
+                    <BillCard
+                      bill={edge.node}
+                      key={edge.node.slug}
+                      itemId={edge.node.slug as string}
+                    />
+                  );
+                })
+                .filter((x) => x)}
+            </Scroller>
+          </div>
         </section>
       );
     } else {
@@ -341,15 +374,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <h3 className={`${styles.subHeader} ${styles.aqua}`}>
               Organizations
             </h3>
-            <Scroller showTextButtons>
-              {endorsements.organizations.map((organization) => (
-                <OrganizationEndorsement
-                  organization={organization}
-                  key={organization.slug}
-                  itemId={organization.slug}
-                />
-              ))}
-            </Scroller>
+            <div className={politicianStyles.sectionContent}>
+              <Scroller showTextButtons>
+                {endorsements.organizations.map((organization) => (
+                  <OrganizationEndorsement
+                    organization={organization}
+                    key={organization.slug}
+                    itemId={organization.slug}
+                  />
+                ))}
+              </Scroller>
+            </div>
           </div>
         )}
         {endorsements.politicians.length > 0 && (
@@ -357,15 +392,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <h3 className={`${styles.subHeader} ${styles.aqua}`}>
               Individuals
             </h3>
-            <Scroller showTextButtons>
-              {endorsements.politicians.map((politician) => (
-                <PoliticianEndorsement
-                  politician={politician as Partial<PoliticianResult>}
-                  key={politician.slug}
-                  itemId={politician.slug}
-                />
-              ))}
-            </Scroller>
+            <div className={politicianStyles.sectionContent}>
+              <Scroller showTextButtons>
+                {endorsements.politicians.map((politician) => (
+                  <PoliticianEndorsement
+                    politician={politician as Partial<PoliticianResult>}
+                    key={politician.slug}
+                    itemId={politician.slug}
+                  />
+                ))}
+              </Scroller>
+            </div>
           </div>
         )}
       </ColoredSection>

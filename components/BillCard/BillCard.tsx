@@ -17,7 +17,7 @@ const BillCard = ({
             <h1 className={styles.billNumber}>{bill.billNumber}</h1>
             <h2 className={styles.billTitle}>{bill.title}</h2>
             <span className={styles.statusPill}>
-              {bill.legislationStatus?.replace("_", " ")}
+              {bill.legislationStatus?.replace("_", " ").toLowerCase()}
             </span>
           </div>
         </div>
