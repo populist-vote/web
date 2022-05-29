@@ -20,5 +20,8 @@
   },
   "globals": {
     "JSX": "readonly"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
   }
 }
