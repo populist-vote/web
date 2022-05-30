@@ -20,17 +20,16 @@ export function LogIn() {
   const getCurrentUser = useCurrentUserQuery();
   const { data, isLoading } = useCurrentUserQuery();
   const user = data?.currentUser;
-  if (user) router.push("/ballot");
+  if (user) void router.push(`/${router.query.next || "/"}`);
 
   const login = useLogInMutation({
     onError: (error) => {
       if (error instanceof Error) setLoginError(error.message as string);
     },
-    onSuccess: () => {
+    onSuccess: () =>
       getCurrentUser.refetch().then((result) => {
-        if (result.data?.currentUser) router.push("/ballot");
-      });
-    },
+        if (result.data?.currentUser) void router.push("/ballot");
+      }),
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

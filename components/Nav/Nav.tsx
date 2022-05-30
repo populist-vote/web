@@ -84,22 +84,13 @@ export default function Nav({
               Politicians
             </li>
           </Link>
-          <Link href="/bills" passHref>
+          <Link href="/voting-guides" passHref>
             <li
               className={`${styles.navItem} ${
-                pathname.includes("/bills") && styles.active
+                pathname.includes("/voting-guides") && styles.active
               }`}
             >
-              Bills
-            </li>
-          </Link>
-          <Link href="/organizations" passHref>
-            <li
-              className={`${styles.navItem} ${
-                pathname.includes("/organizations") && styles.active
-              }`}
-            >
-              Organizations
+              Voting Guides
             </li>
           </Link>
         </ul>

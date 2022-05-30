@@ -14,12 +14,12 @@ import { FlagSection, FieldSet } from "components";
 
 import dynamic from "next/dynamic";
 import { dateString } from "utils/dates";
-import { useAuth } from "hooks/useAuth";
 import { groupBy } from "utils/groupBy";
 import Link from "next/link";
 // import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import { dehydrate, QueryClient } from "react-query";
+import { useAuth } from "hooks/useAuth";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
@@ -44,7 +44,9 @@ const Race = ({
         color={race.party === PoliticalParty.Republican ? "red" : "blue"}
       >
         {race.candidates.length < 1 && (
-          <h3 style={{ color: "var(--blue-lighter)" }}>No official candidates</h3>
+          <h3 style={{ color: "var(--blue-lighter)" }}>
+            No official candidates
+          </h3>
         )}
         {race.candidates
           .sort(candidateSortFn)
@@ -128,6 +130,7 @@ const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
+  useAuth({ redirectTo: "/login?next=ballot" });
   const { data, error, isLoading } = useUpcomingElectionsQuery();
 
   const upcomingElection = data?.upcomingElections[0];
@@ -144,10 +147,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     races.filter((race) => race.office.politicalScope === PoliticalScope.State),
     (race) => race.office.id
   );
-
-  const { user } = useAuth({ redirectTo: "/login" });
-
-  if (!user) return null;
 
   return (
     <>

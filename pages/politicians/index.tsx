@@ -109,7 +109,7 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
     if (!!debouncedSearchQuery) query.search = debouncedSearchQuery;
     if (!!politicalScope) query.scope = politicalScope;
     if (!!chamberFilter) query.chamber = chamberFilter;
-    router.push({ query });
+    void router.push({ query });
   }, [debouncedSearchQuery, politicalScope, chamberFilter]);
 
   const {
@@ -152,7 +152,7 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
     const observer = new IntersectionObserver((entries) =>
       entries.forEach((entry) => {
         if (entry.isIntersecting && !isFetchingNextPage) {
-          fetchNextPage();
+          void fetchNextPage();
         }
       })
     );

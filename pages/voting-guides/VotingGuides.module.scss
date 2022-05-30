@@ -1,0 +1,76 @@
+@import "styles/page.module";
+
+.guideInput {
+  margin-bottom: 0.5rem;
+}
+
+.votingHeader {
+  padding: 0.5rem;
+  width: 100%;
+
+  h1 {
+    margin-top: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $blue;
+  }
+
+  h2 {
+    text-transform: uppercase;
+  }
+}
+
+.votingContainer {
+  margin-top: 1rem;
+}
+
+.votingCardContainer {
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: $blue-text;
+  size: $text-xs;
+}
+
+.guideContainer {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  border-top: 1px solid $blue-dark;
+
+  @include for-tablet-portrait-up {
+    background: $blue-darker;
+    border: 1px solid $blue-dark;
+    border-radius: 30px;
+    margin: 1.25rem 0;
+  }
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @include for-tablet-portrait-down {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.avatarContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  h4 {
+    font-size: $text-sm;
+    font-weight: 300;
+    text-align: center;
+    margin: 1rem;
+
+    @include clamp-ellipsis;
+  }
+}

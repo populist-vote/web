@@ -1,10 +1,6 @@
 @import "styles/variables/colors.module.scss";
 @import "styles/mixins.scss";
 
-.container {
-  padding: 0.5rem;
-}
-
 .sectionTitle {
   display: none;
 }
@@ -62,7 +58,7 @@
     }
 
     .content {
-      padding: 1rem 0 0 1.5rem;
+      padding: 2rem;
     }
   }
 }

@@ -9,7 +9,13 @@ import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
 import { HeaderSection, ElectionInfoSection } from "components/Politician";
 
 import { GrTree } from "react-icons/gr";
-import { FaChair , FaInstagram, FaTwitter, FaFacebook, FaGlobe } from "react-icons/fa";
+import {
+  FaChair,
+  FaInstagram,
+  FaTwitter,
+  FaFacebook,
+  FaGlobe,
+} from "react-icons/fa";
 import { default as classNames } from "classnames";
 
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
@@ -76,19 +82,30 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const age = politician?.age;
   const endorsements = politician?.endorsements;
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
-  const politicalExperience = politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
+  const politicalExperience =
+    politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
 
   // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
-  const tags = politicalExperience?.constructor === Array
-    ? politicalExperience.map((committee: { organization: string, title?: string, fullText: string }) =>
-      ({
-        text: committee?.organization?.replace("Subcommittee on", "").replace(", United States Senate", ""),
-        fullText: committee?.fullText,
-        isChair: committee?.title?.toUpperCase().indexOf("CHAIR") !== -1,
-        isSubCommittee: committee?.organization?.toUpperCase().indexOf("SUBCOMMITTEE") !== -1,
-      })
-    ) : [];
-    
+  const tags =
+    politicalExperience?.constructor === Array
+      ? politicalExperience.map(
+          (committee: {
+            organization: string;
+            title?: string;
+            fullText: string;
+          }) => ({
+            text: committee?.organization
+              ?.replace("Subcommittee on", "")
+              .replace(", United States Senate", ""),
+            fullText: committee?.fullText,
+            isChair: committee?.title?.toUpperCase().indexOf("CHAIR") !== -1,
+            isSubCommittee:
+              committee?.organization?.toUpperCase().indexOf("SUBCOMMITTEE") !==
+              -1,
+          })
+        )
+      : [];
+
   function OfficeSection() {
     return (
       <section className={styles.center}>
@@ -101,8 +118,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BasicInfoSection() {
-    const cx = classNames(styles.center, { 
-      [politicianStyles.wide as string]: tags.length === 0
+    const cx = classNames(styles.center, {
+      [politicianStyles.wide as string]: tags.length === 0,
     });
     return (
       <section className={cx}>
@@ -142,31 +159,80 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           </p>
         )}
         <div className={politicianStyles.links}>
-          {politician?.websiteUrl && <a aria-label={"Website"} href={politician.websiteUrl?.startsWith("http") ? politician.websiteUrl : `//${politician.websiteUrl}` } target="_blank" rel="noopener noreferrer">
-            <FaGlobe />
-          </a>}
-          {politician?.twitterUrl && <a aria-label={"Twitter"} href={politician.twitterUrl?.startsWith("http") ? politician.twitterUrl : `//${politician.twitterUrl}` } target="_blank" rel="noopener noreferrer">
-            <FaTwitter />
-          </a>}
-          {politician?.facebookUrl && <a aria-label={"Facebook"} href={politician.facebookUrl?.startsWith("http") ? politician.facebookUrl :  `//${politician.facebookUrl}` } target="_blank" rel="noopener noreferrer">
-            <FaFacebook />
-          </a>}
-          {politician?.instagramUrl && <a aria-label={"Instagram"} href={politician.instagramUrl?.startsWith("http") ? politician.instagramUrl : `//${politician.instagramUrl}` } target="_blank" rel="noopener noreferrer">
-            <FaInstagram />
-          </a>}
+          {politician?.websiteUrl && (
+            <a
+              aria-label={"Website"}
+              href={
+                politician.websiteUrl?.startsWith("http")
+                  ? politician.websiteUrl
+                  : `//${politician.websiteUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGlobe />
+            </a>
+          )}
+          {politician?.twitterUrl && (
+            <a
+              aria-label={"Twitter"}
+              href={
+                politician.twitterUrl?.startsWith("http")
+                  ? politician.twitterUrl
+                  : `//${politician.twitterUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaTwitter />
+            </a>
+          )}
+          {politician?.facebookUrl && (
+            <a
+              aria-label={"Facebook"}
+              href={
+                politician.facebookUrl?.startsWith("http")
+                  ? politician.facebookUrl
+                  : `//${politician.facebookUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebook />
+            </a>
+          )}
+          {politician?.instagramUrl && (
+            <a
+              aria-label={"Instagram"}
+              href={
+                politician.instagramUrl?.startsWith("http")
+                  ? politician.instagramUrl
+                  : `//${politician.instagramUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram />
+            </a>
+          )}
         </div>
       </section>
     );
   }
 
   type TagType = {
-    text: string,
-    fullText: string,
-    isChair: boolean,
-    isSubCommittee: boolean
-  }
+    text: string;
+    fullText: string;
+    isChair: boolean;
+    isSubCommittee: boolean;
+  };
 
-  function CommitteeTagPage({ tags }: { tags: Array<TagType>; itemId: string }) {
+  function CommitteeTagPage({
+    tags,
+  }: {
+    tags: Array<TagType>;
+    itemId: string;
+  }) {
     return (
       <div className={styles.tagPage}>
         {tags.map((tag, index) => (
@@ -177,16 +243,46 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function CommitteeTag({ tag }: { tag: TagType }) {
-    return <div className={styles.tag} title={tag.fullText}>
-      {tag.isChair && <FaChair color="var(--blue)" />}
-      {tag.isSubCommittee && <GrTree className={styles.subCommittee} color="var(--blue)" />}
-      <span>{tag.text}</span>
-    </div>;
+    return (
+      <div className={styles.tag} title={tag.fullText}>
+        {tag.isChair && <FaChair color="var(--blue)" />}
+        {tag.isSubCommittee && (
+          <GrTree className={styles.subCommittee} color="var(--blue)" />
+        )}
+        <span>{tag.text}</span>
+      </div>
+    );
   }
 
   function CommitteesSection() {
+    const politicalExperience =
+      politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
+
+    // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
+    const tags =
+      politicalExperience?.constructor === Array
+        ? politicalExperience.map(
+            (committee: {
+              organization: string;
+              title?: string;
+              fullText: string;
+            }) => ({
+              text: committee?.organization
+                ?.replace("Subcommittee on", "")
+                .replace(", United States Senate", ""),
+              fullText: committee?.fullText,
+              isChair: committee?.title?.toUpperCase().indexOf("CHAIR") !== -1,
+              isSubCommittee:
+                committee?.organization
+                  ?.toUpperCase()
+                  .indexOf("SUBCOMMITTEE") !== -1,
+            })
+          )
+        : [];
     const tagPageSize = 4;
-    const tagPages: Array<Array<TagType>> = Array(Math.ceil(tags.length / tagPageSize))
+    const tagPages: Array<Array<TagType>> = Array(
+      Math.ceil(tags.length / tagPageSize)
+    )
       .fill("")
       .map((_, index) => index * tagPageSize)
       .map((begin) => tags.slice(begin, begin + tagPageSize));
@@ -305,14 +401,15 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  function ColoredSection(props: PropsWithChildren<{
-    color: string
-  }>) {
-
+  function ColoredSection(
+    props: PropsWithChildren<{
+      color: string;
+    }>
+  ) {
     const styleVars: CSSProperties & {
-      "--color-accent": string
+      "--color-accent": string;
     } = {
-      "--color-accent": props.color
+      "--color-accent": props.color,
     };
 
     return (
@@ -389,7 +486,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             className={styles.ratingCircle}
             style={{
               background: `${
-                ratingPercent > 80 ? "var(--green)" : ratingPercent > 50 ? "var(--yellow)" : "var(--red)"
+                ratingPercent > 80
+                  ? "var(--green)"
+                  : ratingPercent > 50
+                  ? "var(--yellow)"
+                  : "var(--red)"
               }`,
             }}
           >
@@ -436,9 +537,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       showNavLogoOnMobile={false}
     >
       <div className={styles.container}>
-        <HeaderSection politician={politician as PoliticianResult} />
+        <HeaderSection politician={politician as Partial<PoliticianResult>} />
         <OfficeSection />
-        <ElectionInfoSection politician={politician as PoliticianResult} />
+        <ElectionInfoSection
+          politician={politician as Partial<PoliticianResult>}
+        />
         <div className={politicianStyles.infoCommitteeWrapper}>
           <BasicInfoSection />
           <CommitteesSection />

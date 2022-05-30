@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/toast.css";
 import "components/Scroller/Scroller.css";
+import { AuthProvider } from "hooks/useAuth";
 
 const queryClient = new QueryClient();
 
@@ -48,12 +49,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       )}
 
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <Head />
-          {getLayout(<Component {...pageProps} />)}
-          <ToastContainer theme="dark" />
-          <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
-        </Hydrate>
+        <AuthProvider>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Head />
+            {getLayout(<Component {...pageProps} />)}
+            <ToastContainer theme="dark" />
+            <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
+          </Hydrate>
+        </AuthProvider>
       </QueryClientProvider>
     </>
   );
