@@ -1,0 +1,17 @@
+.profile {
+  section {
+    border-bottom: 1px solid var(--blue-darker);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .avatarSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+  }
+}
