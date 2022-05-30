@@ -72,7 +72,7 @@ function Avatar(props: AvatarProps): JSX.Element {
 }
 
 function PartyAvatar({
-  party,
+  party = "UNKNOWN" as PoliticalParty,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   src,

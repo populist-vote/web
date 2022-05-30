@@ -1,15 +1,9 @@
 import { Button, PartyAvatar } from "components";
-
 import styles from "styles/page.module.scss";
-
 import headerStyles from "./HeaderSection.module.scss";
-
 import { default as classNames } from "classnames";
-
 import useDeviceInfo from "hooks/useDeviceInfo";
-
 import { PoliticalParty, PoliticianResult } from "../../generated";
-
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 
 function HeaderSection({
@@ -27,7 +21,7 @@ function HeaderSection({
         badgeSize={"3.125rem"}
         badgeFontSize={"2rem"}
         size={200}
-        party={politician?.party || ("UNKNOWN" as PoliticalParty)}
+        party={politician?.party as PoliticalParty}
         src={
           (politician?.thumbnailImageUrl ||
             politician?.votesmartCandidateBio?.candidate.photo) as string
