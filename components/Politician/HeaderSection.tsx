@@ -23,6 +23,7 @@ function HeaderSection({
   return (
     <section className={sectionCx}>
       <PartyAvatar
+        key={politician?.id}
         badgeSize={"3.125rem"}
         badgeFontSize={"2rem"}
         size={200}
