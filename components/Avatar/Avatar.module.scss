@@ -1,6 +1,14 @@
+@import "styles/page.module";
+
 .imageContainer {
   border-radius: 250px;
   overflow: hidden;
+}
+
+.border {
+  border-width: 3px;
+  border-style: solid;
+  border-color: var(--bcol);
 }
 
 .badgeText {
