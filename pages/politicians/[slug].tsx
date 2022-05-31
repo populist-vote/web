@@ -429,15 +429,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               </h3>
               <div className={politicianStyles.sectionContent}>
                 <Scroller showTextButtons>
-                  <>
-                    {endorsements?.organizations?.map((organization) => (
-                      <OrganizationEndorsement
-                        organization={organization}
-                        key={organization.slug}
-                        itemId={organization.slug}
-                      />
-                    ))}
-                  </>
+                  {endorsements?.organizations?.map((organization) => (
+                    <OrganizationEndorsement
+                      organization={organization}
+                      key={organization.slug}
+                      itemId={organization.slug}
+                    />
+                  ))}
                 </Scroller>
               </div>
             </div>
@@ -449,15 +447,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             </h3>
             <div className={politicianStyles.sectionContent}>
               <Scroller showTextButtons>
-                <>
-                  {endorsements?.politicians?.map((politician) => (
-                    <PoliticianEndorsement
-                      politician={politician as Partial<PoliticianResult>}
-                      key={politician.slug}
-                      itemId={politician.slug}
-                    />
-                  ))}
-                </>
+                {endorsements?.politicians?.map((politician) => (
+                  <PoliticianEndorsement
+                    politician={politician as Partial<PoliticianResult>}
+                    key={politician.slug}
+                    itemId={politician.slug}
+                  />
+                ))}
               </Scroller>
             </div>
           </div>
