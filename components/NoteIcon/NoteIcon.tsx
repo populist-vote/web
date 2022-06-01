@@ -1,11 +1,11 @@
 import Image from "next/image";
-import AddIcon from "public/images/icons/Add.svg";
+import NoteIconSVG from "public/images/NoteIcon.svg";
 
-export default function Add({ ...rest }) {
+export default function NoteIcon({ ...rest }) {
   return (
     <Image
-      src={AddIcon}
-      alt="Add"
+      src={NoteIconSVG}
+      alt="Note"
       layout="responsive"
       objectFit="contain"
       priority
