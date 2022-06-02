@@ -88,18 +88,13 @@ export function VotingGuideNote({
               label="Delete note"
               theme="red"
               onClick={deleteNote}
+              type="button"
             >
               Delete note
             </Button>
           </div>
         ) : (
-          <Button
-            type="button"
-            primary
-            large
-            label="Add note"
-            disabled={!isValid}
-          >
+          <Button primary large label="Add note" disabled={!isValid}>
             Add note
           </Button>
         )}
