@@ -1071,7 +1071,7 @@ export type Query = {
   electionById: ElectionResult;
   electionBySlug: ElectionResult;
   /** Returns a single voting guide for the given election and user */
-  electionVotingGuideByUserId: VotingGuideResult;
+  electionVotingGuideByUserId?: Maybe<VotingGuideResult>;
   elections: Array<ElectionResult>;
   health: Scalars["Boolean"];
   issueTagBySlug: IssueTagResult;
@@ -2066,7 +2066,7 @@ export type ElectionVotingGuideByUserIdQueryVariables = Exact<{
 
 export type ElectionVotingGuideByUserIdQuery = {
   __typename?: "Query";
-  electionVotingGuideByUserId: {
+  electionVotingGuideByUserId?: {
     __typename?: "VotingGuideResult";
     id: string;
     candidates: Array<{
@@ -2075,7 +2075,7 @@ export type ElectionVotingGuideByUserIdQuery = {
       note?: string | null;
       politician: { __typename?: "PoliticianResult"; id: string };
     }>;
-  };
+  } | null;
 };
 
 export const ValidateEmailAvailableDocument = /*#__PURE__*/ `

@@ -820,7 +820,7 @@ type Query {
 
     """User ID"""
     userId: ID!
-  ): VotingGuideResult!
+  ): VotingGuideResult
   elections(
     """Search by slug or title"""
     search: ElectionSearchInput!
