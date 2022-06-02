@@ -16,6 +16,7 @@ function Button({
   icon,
   children,
   theme = "blue",
+  type,
 }: PropsWithChildren<{
   id?: string;
   disabled?: boolean;
@@ -29,6 +30,7 @@ function Button({
   text?: boolean;
   small?: boolean;
   theme?: "blue" | "yellow" | "red";
+  type?: "submit" | "button";
 }>) {
   const cx = classNames(styles.common, {
     [styles.icon as string]: icon,
@@ -47,6 +49,7 @@ function Button({
       aria-label={label}
       onClick={onClick}
       className={cx}
+      type={type}
     >
       {children}
     </button>

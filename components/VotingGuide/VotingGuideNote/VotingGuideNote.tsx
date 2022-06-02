@@ -93,7 +93,13 @@ export function VotingGuideNote({
             </Button>
           </div>
         ) : (
-          <Button primary large label="Add note" disabled={!isValid}>
+          <Button
+            type="button"
+            primary
+            large
+            label="Add note"
+            disabled={!isValid}
+          >
             Add note
           </Button>
         )}
