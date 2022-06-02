@@ -101,7 +101,7 @@ function Icon(props: IconProps): JSX.Element {
     "--icon-size": string;
     "--icon-color": string;
   } = {
-    [`--icon-wrapper-size`]: type === "note" ? `calc(${size} * 1.25)` : size,
+    [`--icon-wrapper-size`]: size,
     [`--icon-background`]: type === "note" ? "none" : background,
     [`--icon-size`]: iconSize(type),
     [`--icon-color`]: color,
@@ -109,11 +109,11 @@ function Icon(props: IconProps): JSX.Element {
   console.log(color, styleVars);
   return (
     <div className={styles.iconOuter} style={styleVars}>
-      <span className={styles.iconInner}>
-        <span className={styles.iconWrapper}>
+      <div className={styles.iconInner}>
+        <div className={styles.iconWrapper}>
           <IconImage type={type} />
-        </span>
-      </span>
+        </div>
+      </div>
     </div>
   );
 }
