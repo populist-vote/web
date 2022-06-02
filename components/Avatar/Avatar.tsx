@@ -1,7 +1,6 @@
 import { ImageWithFallback, NoteIcon } from "components";
 import React, { useMemo, CSSProperties } from "react";
 import { FaPlus, FaStar } from "react-icons/fa";
-// import { default as classNames } from "classnames";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
@@ -106,7 +105,7 @@ function Icon(props: IconProps): JSX.Element {
     [`--icon-size`]: iconSize(type),
     [`--icon-color`]: color,
   };
-  console.log(color, styleVars);
+
   return (
     <div className={styles.iconOuter} style={styleVars}>
       <div className={styles.iconInner}>
@@ -129,13 +128,6 @@ export function Avatar(props: AvatarProps): JSX.Element {
     [`--border-color`]: borderColor || "transparent",
     [`--border-width`]: borderColor ? "2px" : "0",
     [`--border-style`]: borderColor ? "solid" : "none",
-    // [`--border`]: borderColor ? `3px solid ${borderColor}` : "none",
-  };
-
-  const borderVars: CSSProperties = {
-    borderColor,
-    borderWidth: borderColor ? "2px" : "0",
-    borderStyle: borderColor ? "solid" : "none",
   };
 
   return (
@@ -146,13 +138,7 @@ export function Avatar(props: AvatarProps): JSX.Element {
           fallbackSrc={props.fallbackSrc as string}
           width={props.size}
           height={props.size}
-          style={borderVars}
-          className={
-            styles.imageContainer
-            /*classNames(styles.imageContainer, {
-            [styles.border as string]: !!borderColor,
-          })*/
-          }
+          className={styles.imageContainer}
         />
         {icon && <Icon {...icon} />}
         {badge && <Badge {...badge} />}
