@@ -56,6 +56,8 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     createVotingGuide.mutate({ electionId: upcomingElection?.id as string });
   };
 
+  if (!user) return null;
+
   return (
     <>
       <Head>

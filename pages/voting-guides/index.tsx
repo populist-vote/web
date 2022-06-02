@@ -45,6 +45,8 @@ const VotingGuides: NextPage<{
 
   const election = data?.votingGuidesByUserId[0]?.election;
 
+  if (!user) return null;
+
   return (
     <>
       <Head>
