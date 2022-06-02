@@ -3,6 +3,8 @@
 .imageContainer {
   border-radius: 250px;
   overflow: hidden;
+
+  // These need !important to override NextImage
   border-width: var(--border-width) !important;
   border-color: var(--border-color) !important;
   border-style: var(--border-style) !important;

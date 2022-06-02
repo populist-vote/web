@@ -45,8 +45,8 @@ export interface PartyAvatarProps extends AvatarProps {
   href?: string;
   isEndorsed?: boolean;
   iconSize?: string;
-  iconFontSize?: string;
   iconType?: IconTypes;
+  onIconClick?: () => void;
 }
 
 function Badge(props: BadgeProps): JSX.Element {
@@ -153,6 +153,7 @@ export function PartyAvatar({
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",
   iconType = "plus",
+  onIconClick,
   src,
   fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
   isEndorsed = false,
@@ -176,6 +177,7 @@ export function PartyAvatar({
         : "var(--grey-darker)",
     type: iconType,
     size: iconSize,
+    onClick: onIconClick,
   };
 
   return (
