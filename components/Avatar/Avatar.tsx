@@ -16,7 +16,7 @@ interface BadgeProps {
 
 export interface AvatarProps {
   src: string;
-  fallbackSrc: string;
+  fallbackSrc?: string;
   alt: string;
   size: number;
   badge?: BadgeProps;
@@ -53,14 +53,14 @@ function Badge(props: BadgeProps): JSX.Element {
 }
 
 function Avatar(props: AvatarProps): JSX.Element {
-  const { badge } = props;
+  const { badge, fallbackSrc = PERSON_FALLBACK_IMAGE_URL } = props;
 
   return (
     <div style={{ display: "inline" }}>
       <div className={styles.container}>
         <ImageWithFallback
-          src={props.src || props.fallbackSrc}
-          fallbackSrc={props.fallbackSrc as string}
+          src={props.src || fallbackSrc}
+          fallbackSrc={fallbackSrc}
           width={props.size}
           height={props.size}
           className={styles.imageContainer}
