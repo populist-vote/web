@@ -1,7 +1,5 @@
 import styles from "./Button.module.scss";
-
 import type { PropsWithChildren } from "react";
-
 import { default as classNames } from "classnames";
 
 function Button({
@@ -30,7 +28,7 @@ function Button({
   secondary?: boolean;
   text?: boolean;
   small?: boolean;
-  theme: "blue" | "yellow";
+  theme?: "blue" | "yellow" | "red";
 }>) {
   const cx = classNames(styles.common, {
     [styles.icon as string]: icon,

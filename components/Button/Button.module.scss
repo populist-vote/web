@@ -17,7 +17,14 @@ $large-size: 3.125rem;
 $medium-size: 2.5rem;
 $small-size: 1.825rem;
 
-@mixin primary($color, $colorDark, $colorDarker, $colorLight, $colorLighter, $textColor: $white) {
+@mixin primary(
+  $color,
+  $colorDark,
+  $colorDarker,
+  $colorLight,
+  $colorLighter,
+  $textColor: $white
+) {
   background: $color;
   color: $textColor;
 
@@ -26,7 +33,8 @@ $small-size: 1.825rem;
   }
 
   &:focus {
-    box-shadow: 0px 0px 0px 2px $colorLighter, 0px 0px 8px 2px rgba($colorLighter, 0.5);
+    box-shadow: 0px 0px 0px 2px $colorLighter,
+      0px 0px 8px 2px rgba($colorLighter, 0.5);
   }
 
   &:active {
@@ -34,7 +42,7 @@ $small-size: 1.825rem;
     border-color: $color;
   }
 
-  &[disabled] {
+  &:disabled {
     background: $colorDarker;
     border-color: $colorDark;
     color: $color;
@@ -42,7 +50,15 @@ $small-size: 1.825rem;
   }
 }
 
-@mixin secondary($color, $colorDark, $colorDarker, $colorDarkest, $colorLight, $colorLighter, $textColor: $white) {
+@mixin secondary(
+  $color,
+  $colorDark,
+  $colorDarker,
+  $colorDarkest,
+  $colorLight,
+  $colorLighter,
+  $textColor: $white
+) {
   border-color: $color;
   background-color: $colorDarkest;
   color: $textColor;
@@ -52,14 +68,15 @@ $small-size: 1.825rem;
   }
 
   &:focus {
-    box-shadow: 0px 0px 0px 2px $colorLighter, 0px 0px 8px 2px rgba($colorLighter, 0.5);
+    box-shadow: 0px 0px 0px 2px $colorLighter,
+      0px 0px 8px 2px rgba($colorLighter, 0.5);
   }
 
   &:active {
     background-color: $color;
   }
 
-  &[disabled] {
+  &:disabled {
     background: $colorDarkest;
     border-color: $colorDark;
     color: $color;
@@ -82,7 +99,8 @@ $small-size: 1.825rem;
   }
 
   &:focus {
-    box-shadow: 0px 0px 0px 2px $colorLighter, 0px 0px 8px 2px rgba($colorLighter, 0.5);
+    box-shadow: 0px 0px 0px 2px $colorLighter,
+      0px 0px 8px 2px rgba($colorLighter, 0.5);
   }
 
   &:active {
@@ -90,18 +108,31 @@ $small-size: 1.825rem;
     color: $colorLighter;
   }
 
-  &[disabled] {
+  &:disabled {
     text-decoration-color: $color;
     color: $colorDark;
   }
 }
 
 .blue.primary {
-  @include primary($blue, $blue-dark, $blue-darkest, $blue-light, $blue-lighter);
+  @include primary(
+    $blue,
+    $blue-dark,
+    $blue-darkest,
+    $blue-light,
+    $blue-lighter
+  );
 }
 
 .blue.secondary {
-  @include secondary($blue, $blue-dark, $blue-darker, $blue-darkest, $blue-light, $blue-lighter);
+  @include secondary(
+    $blue,
+    $blue-dark,
+    $blue-darker,
+    $blue-darkest,
+    $blue-light,
+    $blue-lighter
+  );
 }
 
 .blue.text {
@@ -112,18 +143,28 @@ $small-size: 1.825rem;
   @include primary($yellow, $yellow, $yellow, $yellow, $yellow, $dark-brown);
 }
 
+.red.primary {
+  @include primary($red, $red, $red, $red, $red, $white);
+}
+
+.red.secondary {
+  @include secondary($red, $red, $red, transparent, $red, $white);
+}
+
 @mixin iconButton($size) {
   border-radius: $size;
   height: $size;
   width: $size;
 }
- 
+
 .large {
   font-size: 1.125rem;
   line-height: 1.375rem;
   min-height: $large-size;
   padding: 0.75rem 1.825rem;
-  &.icon { @include iconButton($large-size) }
+  &.icon {
+    @include iconButton($large-size);
+  }
 }
 
 .medium {
@@ -131,7 +172,9 @@ $small-size: 1.825rem;
   line-height: 1.25rem;
   min-height: $medium-size;
   padding: 0.625rem 1.825rem;
-  &.icon { @include iconButton($medium-size) }
+  &.icon {
+    @include iconButton($medium-size);
+  }
 }
 
 .small {
@@ -139,7 +182,9 @@ $small-size: 1.825rem;
   line-height: 1rem;
   min-height: $small-size;
   padding: 0.75rem 1.825rem;
-  &.icon { @include iconButton($small-size) }
+  &.icon {
+    @include iconButton($small-size);
+  }
 }
 
 .icon {
