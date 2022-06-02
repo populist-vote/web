@@ -404,7 +404,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     };
 
     return (
-      <section className={styles.center} style={styleVars}>
+      <section
+        className={classNames(styles.center, styles.borderBottom)}
+        style={styleVars}
+      >
         {props.children}
       </section>
     );

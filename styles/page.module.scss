@@ -11,7 +11,6 @@
 
   h1 {
     font-size: $text-xxl;
-    font-weight: 600;
     margin: 0;
 
     @include for-tablet-portrait-down {
@@ -49,11 +48,14 @@
   section {
     width: 100%;
     padding: 1.5rem 0;
-    border-bottom: 1px solid $blue-dark;
 
     @include for-tablet-landscape-up {
       padding: 2rem 0;
       border-top: solid 4px var(--color-accent);
+    }
+
+    &.borderBottom {
+      border-bottom: 1px solid $blue-dark;
     }
 
     &.center {
