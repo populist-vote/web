@@ -132,15 +132,21 @@ export function Avatar(props: AvatarProps): JSX.Element {
     // [`--border`]: borderColor ? `3px solid ${borderColor}` : "none",
   };
 
+  const borderVars: CSSProperties = {
+    borderColor,
+    borderWidth: borderColor ? "2px" : "0",
+    borderStyle: borderColor ? "solid" : "none",
+  };
+
   return (
     <div style={{ display: "inline", ...styleVars }}>
       <div className={styles.container}>
         <ImageWithFallback
           src={props.src || props.fallbackSrc}
-          style={{ border: `3px solid ${borderColor}` }}
           fallbackSrc={props.fallbackSrc as string}
           width={props.size}
           height={props.size}
+          style={borderVars}
           className={
             styles.imageContainer
             /*classNames(styles.imageContainer, {
