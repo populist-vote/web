@@ -1,7 +1,7 @@
-import { ImageWithFallback, Add, Note } from "components";
+import { ImageWithFallback, NoteIcon } from "components";
 import React, { useMemo, CSSProperties } from "react";
-import { /*FaPlus, FaPlusCircle,*/ FaStar } from "react-icons/fa";
-import { default as classNames } from "classnames";
+import { FaPlus, FaStar } from "react-icons/fa";
+// import { default as classNames } from "classnames";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
@@ -23,7 +23,7 @@ interface IconProps {
   background?: string;
   onClick?: () => void;
   size: string;
-  fontSize: string;
+  color: string;
 }
 
 export interface AvatarProps {
@@ -70,63 +70,83 @@ function Badge(props: BadgeProps): JSX.Element {
   );
 }
 
-function Icon(props: IconProps): JSX.Element {
-  const { background, size, fontSize, type } = props;
+const IconImage = ({ type }: { type: IconTypes }) => {
+  switch (type) {
+    case "note":
+      return <NoteIcon />;
+    case "plus":
+      return <FaPlus />;
+    case "star":
+      return <FaStar />;
+  }
+};
 
-  const $icon = () => {
-    switch (type) {
-      case "note":
-        return <Note />;
-      case "plus":
-        return <Add />;
-      case "star":
-        return <FaStar />;
-      default:
-        return <div></div>;
-    }
-  };
+const iconSize = (type: IconTypes) => {
+  switch (type) {
+    case "note":
+      return "100%";
+    case "plus":
+      return "55%";
+    case "star":
+      return "80%";
+  }
+};
+
+function Icon(props: IconProps): JSX.Element {
+  const { background, size, type, color } = props;
 
   const styleVars: CSSProperties & {
-    "--avatar-size": string;
-    "--avatar-font-size": string;
-    "--avatar-background": string | undefined;
+    "--icon-wrapper-size": string;
+    "--icon-background": string | undefined;
+    "--icon-size": string;
+    "--icon-color": string;
   } = {
-    [`--avatar-size`]: size,
-    [`--avatar-font-size`]: fontSize,
-    [`--avatar-background`]: background,
+    [`--icon-wrapper-size`]: type === "note" ? `calc(${size} * 1.25)` : size,
+    [`--icon-background`]: type === "note" ? "none" : background,
+    [`--icon-size`]: iconSize(type),
+    [`--icon-color`]: color,
   };
-
+  console.log(color, styleVars);
   return (
-    <div className={styles.iconWrapper} style={styleVars}>
+    <div className={styles.iconOuter} style={styleVars}>
       <span className={styles.iconInner}>
-        <$icon />
+        <span className={styles.iconWrapper}>
+          <IconImage type={type} />
+        </span>
       </span>
     </div>
   );
 }
 
-function Avatar(props: AvatarProps): JSX.Element {
+export function Avatar(props: AvatarProps): JSX.Element {
   const { badge, icon, borderColor } = props;
 
-  const styleVars: CSSProperties & { "--bcol": string } = {
-    [`--bcol`]: borderColor || "",
-    borderColor,
-    borderWidth: borderColor ?? "2px",
-    borderStyle: borderColor ? "solid" : "none",
+  const styleVars: CSSProperties & {
+    "--border-color": string;
+    "--border-width": string;
+    "--border-style": string;
+  } = {
+    [`--border-color`]: borderColor || "transparent",
+    [`--border-width`]: borderColor ? "2px" : "0",
+    [`--border-style`]: borderColor ? "solid" : "none",
+    // [`--border`]: borderColor ? `3px solid ${borderColor}` : "none",
   };
 
   return (
-    <div style={{ display: "inline" }}>
+    <div style={{ display: "inline", ...styleVars }}>
       <div className={styles.container}>
         <ImageWithFallback
           src={props.src || props.fallbackSrc}
+          style={{ border: `3px solid ${borderColor}` }}
           fallbackSrc={props.fallbackSrc as string}
           width={props.size}
           height={props.size}
-          style={styleVars}
-          className={classNames(styles.imageContainer, {
+          className={
+            styles.imageContainer
+            /*classNames(styles.imageContainer, {
             [styles.border as string]: !!borderColor,
-          })}
+          })*/
+          }
         />
         {icon && <Icon {...icon} />}
         {badge && <Badge {...badge} />}
@@ -135,12 +155,11 @@ function Avatar(props: AvatarProps): JSX.Element {
   );
 }
 
-function PartyAvatar({
+export function PartyAvatar({
   party,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",
-  iconFontSize = "0.75rem",
   iconType = "plus",
   src,
   fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
@@ -157,10 +176,14 @@ function PartyAvatar({
   };
 
   const icon = {
-    background: isEndorsed ? "var(--yellow)" : "var(--grey)",
+    background:
+      isEndorsed && iconType === "star" ? "var(--yellow)" : "var(--grey)",
+    color:
+      isEndorsed && iconType === "star"
+        ? "var(--yellow-dark)"
+        : "var(--grey-darker)",
     type: iconType,
     size: iconSize,
-    fontSize: iconFontSize,
   };
 
   return (
@@ -175,7 +198,7 @@ function PartyAvatar({
   );
 }
 
-function OrganizationAvatar({
+export function OrganizationAvatar({
   src,
   fallbackSrc = ORGANIZATION_FALLBACK_IMAGE_URL,
   ...rest
@@ -183,7 +206,9 @@ function OrganizationAvatar({
   return <Avatar src={src} fallbackSrc={fallbackSrc} {...rest} />;
 }
 
-function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
+export function getPartyColor(
+  party: PoliticalParty = PoliticalParty.Unknown
+): string {
   switch (party) {
     case PoliticalParty.Democratic:
       return "var(--blue)";
@@ -195,5 +220,3 @@ function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
       return "magenta";
   }
 }
-
-export { Avatar, getPartyColor, PartyAvatar, OrganizationAvatar };

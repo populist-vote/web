@@ -3,6 +3,9 @@
 .imageContainer {
   border-radius: 250px;
   overflow: hidden;
+  border-width: var(--border-width);
+  border-color: var(--border-color);
+  border-style: var(--border-style);
 }
 
 .border {
@@ -24,12 +27,12 @@
   bottom: 0;
   right: 0;
   border-radius: var(--avatar-size);
+
   width: var(--avatar-size);
   height: var(--avatar-size);
   font-size: var(--avatar-font-size);
   text-transform: uppercase;
   color: var(--white);
-  background: var(--gray);
   background: var(--avatar-background);
   display: flex;
   justify-content: center;
@@ -37,18 +40,17 @@
   text-align: center;
 }
 
-.iconWrapper {
+.iconOuter {
   position: absolute;
   top: 0;
   right: 0;
-  border-radius: var(--avatar-size);
-  width: var(--avatar-size);
-  height: var(--avatar-size);
-  font-size: var(--avatar-font-size);
-  text-transform: uppercase;
-  color: var(--white);
-  background: var(--gray);
-  background: var(--avatar-background);
+  border-radius: var(--icon-wrapper-size);
+
+  width: var(--icon-wrapper-size);
+  height: var(--icon-wrapper-size);
+  background: var(--icon-background);
+  color: var(--icon-color);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,11 +58,23 @@
 }
 
 .iconInner {
+  display: flex;
   align-self: center;
   margin: auto;
   font-weight: 600;
   justify-content: center;
+  align-items: center;
   text-align: center;
+  height: 100%;
+  width: 100%;
+}
+
+.iconWrapper {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
