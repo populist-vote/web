@@ -1,4 +1,4 @@
-query votingGuidesByUserId($userId: String!) {
+query votingGuidesByUserId($userId: ID!) {
   votingGuidesByUserId(userId: $userId) {
     id
     title
@@ -16,6 +16,19 @@ query votingGuidesByUserId($userId: String!) {
       electionDate
       title
       description
+    }
+  }
+}
+
+query ElectionVotingGuideByUserId($electionId: ID!, $userId: ID!) {
+  electionVotingGuideByUserId(electionId: $electionId, userId: $userId) {
+    id
+    candidates {
+      politician {
+        id
+      }
+      isEndorsement
+      note
     }
   }
 }

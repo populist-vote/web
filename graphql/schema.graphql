@@ -334,9 +334,12 @@ input CreateOrganizationInput {
 
 input CreatePoliticianInput {
   ballotName: String
+  biography: String
+  biographySource: String
+  campaignWebsiteUrl: String
   crpCandidateId: String
   dateOfBirth: NaiveDate
-  description: String
+  email: String
   facebookUrl: String
   fecCandidateId: String
   firstName: String!
@@ -345,6 +348,7 @@ input CreatePoliticianInput {
   issueTags: CreateOrConnectIssueTagInput
   lastName: String!
   legiscanPeopleId: Int
+  linkedinUrl: String
   middleName: String
   nickname: String
   officeId: UUID
@@ -353,13 +357,16 @@ input CreatePoliticianInput {
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
   slug: String!
+  suffix: String
   thumbnailImageUrl: String
+  tiktokUrl: String
   twitterUrl: String
   upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   votesmartCandidateRatings: JSON
   websiteUrl: String
+  youtubeUrl: String
 }
 
 input CreateRaceInput {
@@ -702,10 +709,13 @@ input PoliticianFilter {
 type PoliticianResult {
   age: Int
   ballotName: String
+  biography: String
+  biographySource: String
+  campaignWebsiteUrl: String
   createdAt: DateTime!
   currentOffice: OfficeResult
   dateOfBirth: NaiveDate
-  description: String
+  email: String
   endorsements: Endorsements!
   facebookUrl: String
   firstName: String!
@@ -715,6 +725,7 @@ type PoliticianResult {
   instagramUrl: String
   issueTags: [IssueTagResult!]!
   lastName: String!
+  linkedinUrl: String
   middleName: String
   nickname: String
   officeId: ID
@@ -725,7 +736,9 @@ type PoliticianResult {
   ratings(after: String, before: String, first: Int, last: Int): RatingResultConnection!
   slug: String!
   sponsoredBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
+  suffix: String
   thumbnailImageUrl: String
+  tiktokUrl: String
   twitterUrl: String
   upcomingRace: RaceResult
   upcomingRaceId: ID
@@ -741,6 +754,7 @@ type PoliticianResult {
   objects where the politician is considered a 'candidate'
   """
   yearsInPublicOffice: Int
+  youtubeUrl: String
 }
 
 type PoliticianResultConnection {
@@ -798,6 +812,15 @@ type Query {
   currentUser: AuthTokenResult
   electionById(id: String!): ElectionResult!
   electionBySlug(slug: String!): ElectionResult!
+
+  """Returns a single voting guide for the given election and user"""
+  electionVotingGuideByUserId(
+    """Election ID"""
+    electionId: ID!
+
+    """User ID"""
+    userId: ID!
+  ): VotingGuideResult!
   elections(
     """Search by slug or title"""
     search: ElectionSearchInput!
@@ -854,11 +877,11 @@ type Query {
   validatePasswordEntropy(password: String!): PasswordEntropyResult!
   votingGuideById(
     """Voting guide id"""
-    id: String!
+    id: ID!
   ): VotingGuideResult!
   votingGuidesByUserId(
     """User id"""
-    userId: String!
+    userId: ID!
   ): [VotingGuideResult!]!
 }
 
@@ -1188,9 +1211,12 @@ input UpdatePasswordInput {
 
 input UpdatePoliticianInput {
   ballotName: String
+  biography: String
+  biographySource: String
+  campaignWebsiteUrl: String
   crpCandidateId: String
   dateOfBirth: NaiveDate
-  description: String
+  email: String
   facebookUrl: String
   fecCandidateId: String
   firstName: String
@@ -1199,6 +1225,7 @@ input UpdatePoliticianInput {
   issueTags: CreateOrConnectIssueTagInput
   lastName: String
   legiscanPeopleId: Int
+  linkedinUrl: String
   middleName: String
   nickname: String
   officeId: UUID
@@ -1206,14 +1233,16 @@ input UpdatePoliticianInput {
   party: PoliticalParty
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
-  slug: String
+  suffix: String
   thumbnailImageUrl: String
+  tiktokUrl: String
   twitterUrl: String
   upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   votesmartCandidateRatings: JSON
   websiteUrl: String
+  youtubeUrl: String
 }
 
 input UpdateRaceInput {
