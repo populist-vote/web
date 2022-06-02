@@ -1,9 +1,11 @@
 import {
   Exact,
   useElectionVotingGuideByUserIdQuery,
+  useUpsertVotingGuideMutation,
   VotingGuideResult,
 } from "generated";
 import { createContext, ReactNode, useContext } from "react";
+import { useQueryClient } from "react-query";
 
 type VotingGuideQueryContext = {
   data: VotingGuideResult;
@@ -32,6 +34,15 @@ export function VotingGuideProvider({
     electionId,
     userId,
   });
+
+  const queryClient = useQueryClient();
+
+  const createVotingGuide = useUpsertVotingGuideMutation({
+    onSuccess: () => queryClient.invalidateQueries(queryKey),
+  });
+
+  if (!data?.electionVotingGuideByUserId)
+    createVotingGuide.mutate({ electionId: electionId as string });
 
   if (isLoading || error) return null;
 
