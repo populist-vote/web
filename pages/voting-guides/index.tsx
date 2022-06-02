@@ -43,6 +43,8 @@ const VotingGuides: NextPage<{
     userId: user?.id || "",
   });
 
+  const votingGuides = data?.votingGuidesByUserId;
+
   const election = data?.votingGuidesByUserId[0]?.election;
 
   if (!user) return null;
@@ -67,7 +69,10 @@ const VotingGuides: NextPage<{
             </div>
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
-            {data?.votingGuidesByUserId.map((guide) => (
+            {votingGuides && votingGuides.length < 1 && (
+              <small>No voting guides</small>
+            )}
+            {votingGuides?.map((guide) => (
               <VotingGuideCard
                 guide={guide as Partial<VotingGuideResult>}
                 key={guide.id}
