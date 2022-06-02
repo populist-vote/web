@@ -86,9 +86,9 @@ const iconSize = (type: IconTypes) => {
     case "note":
       return "100%";
     case "plus":
-      return "55%";
+      return "65%";
     case "star":
-      return "80%";
+      return "75%";
   }
 };
 
