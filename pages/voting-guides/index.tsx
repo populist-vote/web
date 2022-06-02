@@ -1,13 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import {
-  useUpsertVotingGuideMutation,
-  useVotingGuidesByUserIdQuery,
-  VotingGuideResult,
-} from "generated";
+import { useVotingGuidesByUserIdQuery, VotingGuideResult } from "generated";
 import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
 import styles from "./VotingGuides.module.scss";
-import { useQueryClient } from "react-query";
 import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
 
@@ -40,21 +35,12 @@ const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
 const VotingGuides: NextPage<{
   mobileNavTitle?: string;
 }> = ({ mobileNavTitle }) => {
-  const queryClient = useQueryClient();
-
   const user = useAuth({ redirectTo: "/login?next=voting-guides" });
 
+  // TODO: This query will change to one that includes other users voting guides.
+  // Not yet implemented on the server.
   const { data, isLoading, error } = useVotingGuidesByUserIdQuery({
     userId: user?.id || "",
-  });
-
-  const invalidateVotingGuideQuery = () =>
-    queryClient.invalidateQueries(
-      useVotingGuidesByUserIdQuery.getKey({ userId: user?.id as string })
-    );
-
-  const _upsertVotingGuide = useUpsertVotingGuideMutation({
-    onSuccess: () => invalidateVotingGuideQuery(),
   });
 
   const election = data?.votingGuidesByUserId[0]?.election;
