@@ -15,7 +15,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth({ redirectTo = "/login" }) {
+export function useAuth({ redirectTo = "/login" }: { redirectTo?: string }) {
   const user = useContext(AuthContext);
 
   useEffect(() => {
