@@ -15,6 +15,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { PoliticalParty, PoliticianResult } from "../../generated";
 
 import { dateString } from "utils/dates";
+import classNames from "classnames";
 
 function Candidate({
   candidate,
@@ -50,8 +51,14 @@ function ElectionInfoSection({
     ) || [];
   if (!upcomingRace) return null;
 
+  const sectionCx = classNames(
+    styles.center,
+    styles.borderBottom,
+    electionStyles.wrapper
+  );
+
   return (
-    <section className={`${styles.center} ${electionStyles.wrapper}`}>
+    <section className={sectionCx}>
       <div>
         <h3 className={styles.subHeader}>Next Election</h3>
         <div className={`${styles.roundedCard} ${electionStyles.box}`}>
