@@ -1,7 +1,6 @@
 @import "styles/mixins.scss";
 @import "styles/variables/colors.module.scss";
 
-
 .sectionContent {
   padding: 0 1.125rem;
   width: 100%;
@@ -14,7 +13,6 @@
   border-bottom: solid 1px $blue-darker;
 
   @include for-desktop-up {
-
     padding: 2.5rem 0;
 
     section {
@@ -22,11 +20,13 @@
       width: calc(50% - 1rem);
       box-sizing: border-box;
       border-bottom: none;
+
       &.committees {
         border-left: solid 1px $blue-darker;
         margin-left: 1rem;
         padding-left: 1rem;
       }
+
       &.wide {
         margin: 0 auto;
         width: 50rem;
@@ -49,7 +49,6 @@
 
 .endorsementSection {
   padding: 1rem 0 0;
-
   width: 100%;
   display: flex;
   justify-content: center;

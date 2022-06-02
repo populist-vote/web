@@ -46,6 +46,7 @@ import {
   PERSON_FALLBACK_IMAGE_URL,
 } from "utils/constants";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
+import { getYear } from "utils/dates";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -64,12 +65,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <>Error: {error}</>;
-  const politician = data?.politicianBySlug;
-  if (!politician) return <p>No politician found</p>;
 
-  const getYear = (date: string) => {
-    return new Date(date).getFullYear();
-  };
+  const politician = data?.politicianBySlug;
 
   const termStart = getYear(
     politician?.votesmartCandidateBio?.office?.termStart as string
@@ -138,12 +135,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{termEnd}</span>
           </p>
         )}
-        {/* Dont have this data yet */}
-        {/* <p className={styles.flexBetween}>
-          <span>Elections Won / Lost</span>
-          <span className={styles.dots} />
-          <span>-</span>
-        </p> */}
         {!!yearsInPublicOffice && (
           <p className={styles.flexBetween}>
             <span>Years in Public Office</span>
@@ -430,32 +421,33 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <ColoredSection color="var(--aqua)">
         <h3 className={styles.gradientHeader}>Endorsements</h3>
-        {endorsements.organizations.length > 0 && (
-          <div className={politicianStyles.endorsementSection}>
-            <h3 className={`${styles.subHeader} ${styles.aqua}`}>
-              Organizations
-            </h3>
-            <div className={politicianStyles.sectionContent}>
-              <Scroller showTextButtons>
-                {endorsements.organizations.map((organization) => (
-                  <OrganizationEndorsement
-                    organization={organization}
-                    key={organization.slug}
-                    itemId={organization.slug}
-                  />
-                ))}
-              </Scroller>
+        {endorsements?.organizations &&
+          endorsements?.organizations?.length > 0 && (
+            <div className={politicianStyles.endorsementSection}>
+              <h3 className={`${styles.subHeader} ${styles.aqua}`}>
+                Organizations
+              </h3>
+              <div className={politicianStyles.sectionContent}>
+                <Scroller showTextButtons>
+                  {endorsements?.organizations?.map((organization) => (
+                    <OrganizationEndorsement
+                      organization={organization}
+                      key={organization.slug}
+                      itemId={organization.slug}
+                    />
+                  ))}
+                </Scroller>
+              </div>
             </div>
-          </div>
-        )}
-        {endorsements.politicians.length > 0 && (
+          )}
+        {endorsements?.politicians && endorsements?.politicians?.length > 0 && (
           <div className={politicianStyles.endorsementSection}>
             <h3 className={`${styles.subHeader} ${styles.aqua}`}>
               Individuals
             </h3>
             <div className={politicianStyles.sectionContent}>
               <Scroller showTextButtons>
-                {endorsements.politicians.map((politician) => (
+                {endorsements?.politicians?.map((politician) => (
                   <PoliticianEndorsement
                     politician={politician as Partial<PoliticianResult>}
                     key={politician.slug}

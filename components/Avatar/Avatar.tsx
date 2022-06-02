@@ -148,7 +148,7 @@ export function Avatar(props: AvatarProps): JSX.Element {
 }
 
 export function PartyAvatar({
-  party,
+  party = "UNKNOWN" as PoliticalParty,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",

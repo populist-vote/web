@@ -49,3 +49,8 @@ export function getRelativeTimeString(
 
   return rtf.format(Math.floor(delta / divider), timeType);
 }
+
+// Get the year from a date string
+export function getYear(date: string) {
+  return new Date(date).getFullYear();
+}
