@@ -21,11 +21,6 @@
   scroll-snap-align: center;
 }
 
-/* This is to center when less than one page of content exists */
-.no-scroll .react-horizontal-scrolling-menu--scroll-container {
-  justify-content: center;
-}
-
 /* Change position of container so arrows will be at top/bottom */
 .mobile-scroller .react-horizontal-scrolling-menu--scroll-container {
   order: -1;
