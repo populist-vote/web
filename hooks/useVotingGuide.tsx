@@ -4,7 +4,8 @@ import {
   useUpsertVotingGuideMutation,
   VotingGuideResult,
 } from "generated";
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, useContext } from "react";
+import type { PropsWithChildren } from "react";
 import { useQueryClient } from "react-query";
 
 type VotingGuideQueryContext = {
@@ -20,11 +21,10 @@ export function VotingGuideProvider({
   electionId,
   userId,
   children,
-}: {
+}: PropsWithChildren<{
   electionId: string;
   userId: string;
-  children: ReactNode;
-}) {
+}>) {
   const { data, isLoading, error } = useElectionVotingGuideByUserIdQuery({
     electionId,
     userId,
