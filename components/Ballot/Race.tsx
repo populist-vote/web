@@ -23,7 +23,7 @@ export default function Race({
 }: {
   race: RaceResult;
   itemId: string;
-  incumbentId: string | undefined;
+  incumbentId?: string;
 }) {
   const candidateSortFn = (a: PoliticianResult, b: PoliticianResult) =>
     a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
