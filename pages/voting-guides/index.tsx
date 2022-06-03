@@ -39,9 +39,14 @@ const VotingGuides: NextPage<{
 
   // TODO: This query will change to one that includes other users voting guides.
   // Not yet implemented on the server.
-  const { data, isLoading, error } = useVotingGuidesByUserIdQuery({
-    userId: user?.id || "",
-  });
+  const { data, isLoading, error } = useVotingGuidesByUserIdQuery(
+    {
+      userId: user?.id,
+    },
+    {
+      enabled: !!user,
+    }
+  );
 
   const votingGuides = data?.votingGuidesByUserId;
 

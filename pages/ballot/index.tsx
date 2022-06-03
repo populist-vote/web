@@ -6,7 +6,6 @@ import {
   PoliticalScope,
   RaceResult,
   useUpcomingElectionsQuery,
-  useUpsertVotingGuideMutation,
 } from "generated";
 import { FlagSection } from "components";
 import { dateString } from "utils/dates";
@@ -48,12 +47,9 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     localStorage.getItem("voting-guide-welcome-visible") !== "false"
   );
 
-  const createVotingGuide = useUpsertVotingGuideMutation();
-
   const handleWelcomeDismissal = () => {
     setIsWelcomeVisible(false);
     localStorage.setItem("voting-guide-welcome-visible", "false");
-    createVotingGuide.mutate({ electionId: upcomingElection?.id as string });
   };
 
   if (!user) return null;
