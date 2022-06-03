@@ -64,6 +64,7 @@ function Avatar(props: AvatarProps): JSX.Element {
           width={props.size}
           height={props.size}
           className={styles.imageContainer}
+          alt={props.alt}
         />
         {badge && <Badge {...badge} />}
       </div>
