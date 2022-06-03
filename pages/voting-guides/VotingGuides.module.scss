@@ -51,12 +51,7 @@
 .buttonWrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-
-  @include for-tablet-portrait-down {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  gap: 1rem;
 }
 
 .avatarContainer {

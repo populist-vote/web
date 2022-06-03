@@ -5,6 +5,7 @@ import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
 import styles from "./VotingGuides.module.scss";
 import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
+import Link from "next/link";
 
 const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
   const { user } = guide;
@@ -24,6 +25,11 @@ const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
         <h4>{name}</h4>
       </div>
       <div className={styles.buttonWrapper}>
+        <Link href="/ballot" passHref>
+          <Button large secondary theme="blue" label="Edit">
+            Edit
+          </Button>
+        </Link>
         <Button large primary theme="yellow" label="Share">
           Share
         </Button>
