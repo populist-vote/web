@@ -92,7 +92,7 @@ const iconSize = (type: IconTypes) => {
 };
 
 function Icon(props: IconProps): JSX.Element {
-  const { background, size, type, color } = props;
+  const { background, size, type, color, onClick } = props;
 
   const styleVars: CSSProperties & {
     "--icon-wrapper-size": string;
@@ -109,9 +109,13 @@ function Icon(props: IconProps): JSX.Element {
   return (
     <div className={styles.iconOuter} style={styleVars}>
       <div className={styles.iconInner}>
-        <div className={styles.iconWrapper}>
+        <button
+          className={styles.iconWrapper}
+          onClick={onClick}
+          onKeyUp={(e) => e.key === "Enter" && onClick && onClick()}
+        >
           <IconImage type={type} />
-        </div>
+        </button>
       </div>
     </div>
   );
