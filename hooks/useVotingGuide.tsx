@@ -25,10 +25,18 @@ export function VotingGuideProvider({
   electionId: string;
   userId: string;
 }>) {
-  const { data, isLoading, error } = useElectionVotingGuideByUserIdQuery({
-    electionId,
-    userId,
-  });
+  const { data, isLoading, error } = useElectionVotingGuideByUserIdQuery(
+    {
+      electionId,
+      userId,
+    },
+    {
+      onSuccess: (data) => {
+        if (!data?.electionVotingGuideByUserId)
+          createVotingGuide.mutate({ electionId: electionId as string });
+      },
+    }
+  );
 
   const queryKey = useElectionVotingGuideByUserIdQuery.getKey({
     electionId,
@@ -40,9 +48,6 @@ export function VotingGuideProvider({
   const createVotingGuide = useUpsertVotingGuideMutation({
     onSuccess: () => queryClient.invalidateQueries(queryKey),
   });
-
-  if (!data?.electionVotingGuideByUserId)
-    createVotingGuide.mutate({ electionId: electionId as string });
 
   if (isLoading || error) return null;
 
