@@ -24,9 +24,7 @@ const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
         <h4>{name}</h4>
       </div>
       <div className={styles.buttonWrapper}>
-        <Button large primary theme="yellow" label="Share">
-          Share
-        </Button>
+        <Button size="large" variant="primary" theme="yellow" label="Share" />
       </div>
     </div>
   );

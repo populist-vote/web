@@ -1,5 +1,4 @@
 import {
-  PropsWithChildren,
   ReactElement,
   useContext,
   useRef,
@@ -67,82 +66,41 @@ function Scroller(props: {
 function LeftArrow() {
   const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
   const { isMobile } = useDeviceInfo();
-  const iconColor =
-    isMobile || isFirstItemVisible ? "var(--blue)" : "var(--white)";
 
   return (
-    <Arrow
+    <Button
       disabled={isFirstItemVisible}
+      theme="blue"
+      size={isMobile ? "small" : "large"}
+      variant="text"
       onClick={() => scrollPrev()}
-      label={"Previous"}
+      label="Previous"
+      hideLabel
+      icon={<FaChevronLeft />}
+      iconPosition="before"
     >
-      <FaChevronLeft color={iconColor} />
       {!isMobile && <span>Prev</span>}
-    </Arrow>
+    </Button>
   );
 }
 
 function RightArrow() {
   const { isLastItemVisible, scrollNext } = useContext(VisibilityContext);
   const { isMobile } = useDeviceInfo();
-  const iconColor =
-    isMobile || isLastItemVisible ? "var(--blue)" : "var(--white)";
-  return (
-    <Arrow
-      disabled={isLastItemVisible}
-      onClick={() => scrollNext()}
-      label={"Next"}
-    >
-      {!isMobile && <span>Next</span>}
-      <FaChevronRight color={iconColor} />
-    </Arrow>
-  );
-}
-
-function Arrow({
-  children,
-  disabled,
-  onClick,
-  label,
-}: PropsWithChildren<{
-  disabled: boolean;
-  onClick: () => void;
-  label: string;
-}>) {
-  const { isMobile } = useDeviceInfo();
   return (
     <Button
-      text
-      small={isMobile}
-      large={!isMobile}
+      disabled={isLastItemVisible}
       theme="blue"
-      label={label}
-      onClick={onClick}
-      disabled={disabled}
+      size={isMobile ? "small" : "large"}
+      variant="text"
+      onClick={() => scrollNext()}
+      label="Next"
+      hideLabel
+      icon={<FaChevronRight />}
+      iconPosition="after"
     >
-      {children}
+      {!isMobile && <span>Next</span>}
     </Button>
-  );
-  return (
-    <button
-      disabled={disabled}
-      onClick={onClick}
-      aria-label={label}
-      style={{
-        background: "none",
-        border: "0",
-        cursor: "pointer",
-        display: "flex",
-        flexDirection: "column",
-        height: "1rem",
-        justifyContent: "center",
-        margin: "1rem 1rem 0",
-        right: "1%",
-        userSelect: "none",
-      }}
-    >
-      {children}
-    </button>
   );
 }
 
