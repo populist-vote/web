@@ -6,7 +6,6 @@ export default function NoteIcon({ ...rest }) {
     <Image
       src={NoteIconSVG}
       alt="Note"
-      layout="responsive"
       objectFit="contain"
       priority
       {...rest}

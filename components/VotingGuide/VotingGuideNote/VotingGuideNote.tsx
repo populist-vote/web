@@ -6,26 +6,38 @@ import { PartyAvatar } from "components/Avatar/Avatar";
 import {
   PoliticalParty,
   PoliticianResult,
-  useUpsertVotingGuideCandidateMutation,
+  useDeleteVotingGuideCandidateNoteMutation,
 } from "generated";
 import usePortal from "hooks/usePortal";
 import { useForm } from "react-hook-form";
 import { useVotingGuide } from "hooks/useVotingGuide";
+import { AtLeast } from "types/global";
+import type { EditVotingGuideCandidate } from "components/Ballot/Race";
+import { useQueryClient } from "react-query";
 
 export function VotingGuideNote({
   politician,
   isOpen,
   handleClose,
+  editVotingGuideCandidate,
 }: {
-  politician: Partial<PoliticianResult>;
+  politician: AtLeast<PoliticianResult, "id">;
   isOpen: boolean;
   handleClose: () => void;
+  editVotingGuideCandidate: ({
+    candidateId,
+    isEndorsement,
+    note,
+  }: EditVotingGuideCandidate) => void;
 }) {
-  const { data: votingGuide } = useVotingGuide();
+  const { data: votingGuide, queryKey } = useVotingGuide();
   const existingNote = votingGuide.candidates.find(
     (c) => c.politician.id === politician.id
   )?.note;
-  const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation();
+
+  const queryClient = useQueryClient();
+  const invalidateVotingGuideQuery = () =>
+    queryClient.invalidateQueries(queryKey);
 
   const {
     register,
@@ -39,10 +51,11 @@ export function VotingGuideNote({
     },
   });
 
+  const deleteNoteMutation = useDeleteVotingGuideCandidateNoteMutation();
+
   const saveNote = ({ note }: { note: string }) => {
-    upsertVotingGuideCandidate.mutate({
-      votingGuideId: votingGuide.id,
-      candidateId: politician.id as string,
+    editVotingGuideCandidate({
+      candidateId: politician.id,
       note,
     });
 
@@ -50,11 +63,13 @@ export function VotingGuideNote({
   };
 
   const deleteNote = () => {
-    upsertVotingGuideCandidate.mutate({
-      votingGuideId: votingGuide.id,
-      candidateId: politician.id as string,
-      note: null,
-    });
+    deleteNoteMutation.mutate(
+      {
+        votingGuideId: votingGuide.id,
+        candidateId: politician.id,
+      },
+      { onSuccess: () => invalidateVotingGuideQuery() }
+    );
     setValue("note", "");
     handleClose();
   };

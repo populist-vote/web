@@ -10,11 +10,15 @@ import { useVotingGuide } from "hooks/useVotingGuide";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
 import styles from "components/Layout/Layout.module.scss";
-import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
-import "@szhsin/react-menu/dist/index.css";
-import "@szhsin/react-menu/dist/transitions/slide.css";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import { VerticalDivider } from "components/VerticalDivider/VerticalDivider";
+import { AtLeast } from "types/global";
+
+export interface EditVotingGuideCandidate {
+  candidateId: string;
+  isEndorsement?: boolean;
+  note?: string | null;
+}
 
 export default function Race({
   race,
@@ -34,14 +38,16 @@ export default function Race({
   const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation();
 
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogCandidate, setDialogCandidate] =
-    useState<Partial<PoliticianResult> | null>(null);
+  const [dialogCandidate, setDialogCandidate] = useState<AtLeast<
+    PoliticianResult,
+    "id"
+  > | null>(null);
 
-  const editVotingGuideCandidate = (
-    candidateId: string,
-    isEndorsement: boolean,
-    note?: string
-  ) => {
+  const editVotingGuideCandidate = ({
+    candidateId,
+    isEndorsement,
+    note,
+  }: EditVotingGuideCandidate) => {
     upsertVotingGuideCandidate.mutate(
       {
         votingGuideId: votingGuide.id,
@@ -56,12 +62,12 @@ export default function Race({
   };
 
   const endorseCandidate = (candidateId: string) =>
-    editVotingGuideCandidate(candidateId, true);
+    editVotingGuideCandidate({ candidateId, isEndorsement: true });
 
   const unendorseCandidate = (candidateId: string) =>
-    editVotingGuideCandidate(candidateId, false);
+    editVotingGuideCandidate({ candidateId, isEndorsement: false });
 
-  const handleAddNoteClick = (politician: Partial<PoliticianResult>) => {
+  const handleAddNoteClick = (politician: AtLeast<PoliticianResult, "id">) => {
     setDialogCandidate(politician);
     setDialogOpen(true);
   };
@@ -81,6 +87,7 @@ export default function Race({
           <VotingGuideNote
             key={dialogCandidate?.id}
             politician={dialogCandidate}
+            editVotingGuideCandidate={editVotingGuideCandidate}
             isOpen={dialogOpen}
             handleClose={() => setDialogOpen(false)}
           />
@@ -90,6 +97,11 @@ export default function Race({
           ?.map((politician: PoliticianResult) => {
             const isEndorsing = votingGuide.candidates
               .filter((c) => c.isEndorsement)
+              .map((c) => c.politician.id)
+              .includes(politician.id);
+
+            const hasNote = votingGuide.candidates
+              .filter((c) => c.note?.length)
               .map((c) => c.politician.id)
               .includes(politician.id);
 
@@ -104,31 +116,20 @@ export default function Race({
                 )}
                 {/* <Link href={`/politicians/${politician.slug}`} passHref> */}
                 <div className={styles.avatarContainer}>
-                  <Menu
-                    menuButton={<MenuButton>Star/Note button</MenuButton>}
-                    transition
-                  >
-                    {isEndorsing ? (
-                      <MenuItem
-                        onClick={() => unendorseCandidate(politician.id)}
-                      >
-                        Unendorse
-                      </MenuItem>
-                    ) : (
-                      <MenuItem onClick={() => endorseCandidate(politician.id)}>
-                        Endorse
-                      </MenuItem>
-                    )}
-
-                    <MenuItem onClick={() => handleAddNoteClick(politician)}>
-                      Add Note
-                    </MenuItem>
-                  </Menu>
-
-                  {isEndorsing && <strong>LOVE HIM!</strong>}
                   <PartyAvatar
                     size={80}
-                    party={politician?.party || ("Unknown" as PoliticalParty)}
+                    hasIconMenu
+                    isEndorsement={isEndorsing}
+                    hasNote={hasNote}
+                    iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
+                    handleEndorseCandidate={() =>
+                      endorseCandidate(politician.id)
+                    }
+                    handleUnendorseCandidate={() =>
+                      unendorseCandidate(politician.id)
+                    }
+                    handleAddNote={() => handleAddNoteClick(politician)}
+                    party={politician?.party as PoliticalParty}
                     src={politician?.thumbnailImageUrl as string}
                     alt={politician.fullName}
                   />

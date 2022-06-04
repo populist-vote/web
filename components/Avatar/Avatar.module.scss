@@ -2,7 +2,7 @@
 
 .imageContainer {
   border-radius: 250px;
-  overflow: hidden;
+  // overflow: hidden;
 
   // These need !important to override NextImage
   border-width: var(--border-width) !important;
@@ -37,20 +37,19 @@
 }
 
 .iconOuter {
+  width: var(--icon-wrapper-size);
+  height: var(--icon-wrapper-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   right: 0;
   border-radius: var(--icon-wrapper-size);
-
-  width: var(--icon-wrapper-size);
-  height: var(--icon-wrapper-size);
+  border: none;
   background: var(--icon-background);
   color: var(--icon-color);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  cursor: pointer;
 }
 
 .iconInner {
@@ -83,6 +82,7 @@
   padding: 0;
   margin: auto;
   display: inline-flex;
+  overflow-x: visible;
 
   img {
     object-fit: cover;

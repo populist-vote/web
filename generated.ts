@@ -534,7 +534,7 @@ export type DeleteRaceResult = {
 
 export type DeleteVotingGuideResult = {
   __typename?: "DeleteVotingGuideResult";
-  id: Scalars["String"];
+  id: Scalars["ID"];
 };
 
 export enum District {
@@ -661,6 +661,7 @@ export type Mutation = {
   deletePolitician: DeletePoliticianResult;
   deleteRace: DeleteRaceResult;
   deleteVotingGuide: DeleteVotingGuideResult;
+  deleteVotingGuideCandidateNote: VotingGuideCandidateResult;
   downvoteArgument: Scalars["Boolean"];
   login: LoginResult;
   logout: Scalars["Boolean"];
@@ -764,7 +765,12 @@ export type MutationDeleteRaceArgs = {
 };
 
 export type MutationDeleteVotingGuideArgs = {
-  id: Scalars["String"];
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteVotingGuideCandidateNoteArgs = {
+  candidateId: Scalars["ID"];
+  votingGuideId: Scalars["ID"];
 };
 
 export type MutationDownvoteArgumentArgs = {
@@ -1782,6 +1788,20 @@ export type UpsertVotingGuideCandidateMutation = {
   };
 };
 
+export type DeleteVotingGuideCandidateNoteMutationVariables = Exact<{
+  votingGuideId: Scalars["ID"];
+  candidateId: Scalars["ID"];
+}>;
+
+export type DeleteVotingGuideCandidateNoteMutation = {
+  __typename?: "Mutation";
+  deleteVotingGuideCandidateNote: {
+    __typename?: "VotingGuideCandidateResult";
+    isEndorsement: boolean;
+    note?: string | null;
+  };
+};
+
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UpcomingElectionsQuery = {
@@ -2522,6 +2542,49 @@ useUpsertVotingGuideCandidateMutation.fetcher = (
     UpsertVotingGuideCandidateMutation,
     UpsertVotingGuideCandidateMutationVariables
   >(UpsertVotingGuideCandidateDocument, variables);
+export const DeleteVotingGuideCandidateNoteDocument = /*#__PURE__*/ `
+    mutation DeleteVotingGuideCandidateNote($votingGuideId: ID!, $candidateId: ID!) {
+  deleteVotingGuideCandidateNote(
+    votingGuideId: $votingGuideId
+    candidateId: $candidateId
+  ) {
+    isEndorsement
+    note
+  }
+}
+    `;
+export const useDeleteVotingGuideCandidateNoteMutation = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: UseMutationOptions<
+    DeleteVotingGuideCandidateNoteMutation,
+    TError,
+    DeleteVotingGuideCandidateNoteMutationVariables,
+    TContext
+  >
+) =>
+  useMutation<
+    DeleteVotingGuideCandidateNoteMutation,
+    TError,
+    DeleteVotingGuideCandidateNoteMutationVariables,
+    TContext
+  >(
+    ["DeleteVotingGuideCandidateNote"],
+    (variables?: DeleteVotingGuideCandidateNoteMutationVariables) =>
+      fetcher<
+        DeleteVotingGuideCandidateNoteMutation,
+        DeleteVotingGuideCandidateNoteMutationVariables
+      >(DeleteVotingGuideCandidateNoteDocument, variables)(),
+    options
+  );
+useDeleteVotingGuideCandidateNoteMutation.fetcher = (
+  variables: DeleteVotingGuideCandidateNoteMutationVariables
+) =>
+  fetcher<
+    DeleteVotingGuideCandidateNoteMutation,
+    DeleteVotingGuideCandidateNoteMutationVariables
+  >(DeleteVotingGuideCandidateNoteDocument, variables);
 export const UpcomingElectionsDocument = /*#__PURE__*/ `
     query UpcomingElections {
   upcomingElections {

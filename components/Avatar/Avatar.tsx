@@ -1,5 +1,5 @@
 import { ImageWithFallback, NoteIcon } from "components";
-import React, { useMemo, CSSProperties } from "react";
+import React, { useMemo, CSSProperties, EventHandler } from "react";
 import { FaPlus, FaStar } from "react-icons/fa";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
@@ -7,6 +7,9 @@ import {
 } from "utils/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
+import { Menu, MenuItem, MenuButton, ClickEvent } from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
+import "@szhsin/react-menu/dist/transitions/slide.css";
 
 interface BadgeProps {
   background?: string;
@@ -15,14 +18,25 @@ interface BadgeProps {
   fontSize: string;
 }
 
-type IconTypes = "plus" | "note" | "star";
+export type IconType = "plus" | "note" | "star";
 
 interface IconProps {
-  type: IconTypes;
+  type: IconType;
   background?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
   size: string;
   color: string;
+  ref?: React.Ref<HTMLButtonElement>;
+}
+
+interface IconMenuProps {
+  isEndorsement: boolean;
+  hasNote: boolean;
+  handleEndorseCandidate?: EventHandler<ClickEvent | any>;
+  handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
+  handleAddNote?: EventHandler<ClickEvent | any>;
+  icon: IconProps;
 }
 
 export interface AvatarProps {
@@ -32,21 +46,25 @@ export interface AvatarProps {
   size: number;
   badge?: BadgeProps;
   borderColor?: string;
-  icon?: IconProps;
+  hasIconMenu?: boolean;
+  iconMenuProps?: IconMenuProps;
   name?: string;
   round?: boolean;
   onClick?: () => void;
 }
 
 export interface PartyAvatarProps extends AvatarProps {
-  party: PoliticalParty;
+  party?: PoliticalParty;
   badgeSize?: string;
   badgeFontSize?: string;
   href?: string;
-  isEndorsed?: boolean;
+  hasNote?: boolean;
+  isEndorsement?: boolean;
   iconSize?: string;
-  iconType?: IconTypes;
-  onIconClick?: () => void;
+  iconType?: IconType;
+  handleEndorseCandidate?: EventHandler<ClickEvent | any>;
+  handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
+  handleAddNote?: EventHandler<ClickEvent | any>;
 }
 
 function Badge(props: BadgeProps): JSX.Element {
@@ -69,7 +87,7 @@ function Badge(props: BadgeProps): JSX.Element {
   );
 }
 
-const IconImage = ({ type }: { type: IconTypes }) => {
+const IconImage = ({ type }: { type: IconType }) => {
   switch (type) {
     case "note":
       return <NoteIcon />;
@@ -80,19 +98,27 @@ const IconImage = ({ type }: { type: IconTypes }) => {
   }
 };
 
-const iconSize = (type: IconTypes) => {
+const iconSize = (type: IconType) => {
   switch (type) {
     case "note":
       return "100%";
     case "plus":
-      return "65%";
+      return "100%";
     case "star":
-      return "75%";
+      return "150%";
   }
 };
 
-function Icon(props: IconProps): JSX.Element {
-  const { background, size, type, color, onClick } = props;
+function IconMenu(props: IconMenuProps): JSX.Element {
+  const { background, size, type, color } = props.icon;
+
+  const {
+    isEndorsement = false,
+    hasNote = false,
+    handleEndorseCandidate,
+    handleUnendorseCandidate,
+    handleAddNote,
+  } = props;
 
   const styleVars: CSSProperties & {
     "--icon-wrapper-size": string;
@@ -100,33 +126,46 @@ function Icon(props: IconProps): JSX.Element {
     "--icon-size": string;
     "--icon-color": string;
   } = {
-    [`--icon-wrapper-size`]: size,
+    [`--icon-wrapper-size`]: type === "note" ? "auto" : size,
     [`--icon-background`]: type === "note" ? "none" : background,
     [`--icon-size`]: iconSize(type),
     [`--icon-color`]: color,
   };
 
   return (
-    <div className={styles.iconOuter} style={styleVars}>
-      <div className={styles.iconInner}>
-        <button
-          className={styles.iconWrapper}
-          onClick={onClick}
-          onKeyUp={(e) => e.key === "Enter" && onClick && onClick()}
-        >
-          <IconImage type={type} />
-        </button>
-      </div>
-    </div>
+    <Menu
+      menuStyle={{ position: "absolute", top: "0", right: "0" }}
+      menuButton={
+        <MenuButton className={styles.iconOuter} style={styleVars}>
+          <div className={styles.iconInner}>
+            <div className={styles.iconWrapper}>
+              <IconImage type={type} />
+            </div>
+          </div>
+        </MenuButton>
+      }
+      transition
+    >
+      {isEndorsement ? (
+        <MenuItem onClick={handleUnendorseCandidate}>Unendorse</MenuItem>
+      ) : (
+        <MenuItem onClick={handleEndorseCandidate}>Endorse</MenuItem>
+      )}
+
+      <MenuItem onClick={handleAddNote}>
+        {hasNote ? "Edit Note" : "Add Note"}
+      </MenuItem>
+    </Menu>
   );
 }
 
 function Avatar(props: AvatarProps): JSX.Element {
   const {
     badge,
-    icon,
     borderColor,
     fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
+    hasIconMenu,
+    iconMenuProps,
   } = props;
 
   const styleVars: CSSProperties & {
@@ -150,7 +189,7 @@ function Avatar(props: AvatarProps): JSX.Element {
           className={styles.imageContainer}
           alt={props.alt}
         />
-        {icon && <Icon {...icon} />}
+        {hasIconMenu && iconMenuProps && <IconMenu {...iconMenuProps} />}
         {badge && <Badge {...badge} />}
       </div>
     </div>
@@ -158,19 +197,22 @@ function Avatar(props: AvatarProps): JSX.Element {
 }
 
 function PartyAvatar({
-  party = "UNKNOWN" as PoliticalParty,
+  party = PoliticalParty.Unknown,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",
   iconType = "plus",
-  onIconClick,
   src,
   fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
-  isEndorsed = false,
+  hasIconMenu = false,
+  isEndorsement = false,
+  hasNote = false,
+  handleEndorseCandidate,
+  handleUnendorseCandidate,
+  handleAddNote,
   ...rest
 }: PartyAvatarProps): JSX.Element {
   const partyColor = useMemo(() => getPartyColor(party), [party]);
-
   const badge = {
     background: partyColor,
     text: party.slice(0, 1).toUpperCase(),
@@ -180,21 +222,30 @@ function PartyAvatar({
 
   const icon = {
     background:
-      isEndorsed && iconType === "star" ? "var(--yellow)" : "var(--grey)",
+      isEndorsement && iconType === "star" ? "var(--yellow)" : "var(--grey)",
     color:
-      isEndorsed && iconType === "star"
+      isEndorsement && iconType === "note"
         ? "var(--yellow-dark)"
         : "var(--grey-darker)",
     type: iconType,
     size: iconSize,
-    onClick: onIconClick,
+  };
+
+  const iconMenuProps = {
+    icon: icon,
+    isEndorsement,
+    hasNote,
+    handleUnendorseCandidate,
+    handleEndorseCandidate,
+    handleAddNote,
   };
 
   return (
     <Avatar
-      borderColor={isEndorsed ? "var(--yellow)" : undefined}
+      borderColor={isEndorsement ? "var(--yellow)" : undefined}
       badge={badge}
-      icon={icon}
+      hasIconMenu={hasIconMenu}
+      iconMenuProps={iconMenuProps}
       src={src}
       fallbackSrc={fallbackSrc}
       {...rest}
