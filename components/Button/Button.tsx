@@ -36,7 +36,7 @@ function Button({
   /** Can be used in conjunction with hideLabel to show/hide button text */
   label: string;
   /** Function to handle click events */
-  onClick?: () => void | undefined;
+  onClick?: () => unknown | undefined;
   size: ButtonSize;
   theme?: ButtonTheme;
   variant: ButtonVariant;
