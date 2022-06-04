@@ -20,21 +20,17 @@ export const ProfilePage: NextPage = () => {
               <Button
                 id="upload-photo-btn"
                 label={"Upload Photo"}
-                secondary
-                large
+                variant="secondary"
+                size="large"
                 theme="blue"
-              >
-                Upload Photo
-              </Button>
+              />
               <Button
                 id="edit-thumbnail-btn"
                 label={"Edit Thumbnail"}
-                secondary
-                large
+                variant="secondary"
+                size="large"
                 theme="blue"
-              >
-                Edit Thumbnail
-              </Button>
+              />
             </div>
           </section>
           <section>
