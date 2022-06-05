@@ -46,7 +46,7 @@ function ElectionInfoSection({
 }) {
   const { upcomingRace } = politician;
   const opponents =
-    upcomingRace?.candidates.filter(
+    upcomingRace?.candidates?.filter(
       (candidate) => candidate.id != politician.id
     ) || [];
   if (!upcomingRace) return null;

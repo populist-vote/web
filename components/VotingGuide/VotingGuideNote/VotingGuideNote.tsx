@@ -31,7 +31,7 @@ export function VotingGuideNote({
   }: EditVotingGuideCandidate) => void;
 }) {
   const { data: votingGuide, queryKey } = useVotingGuide();
-  const existingNote = votingGuide.candidates.find(
+  const existingNote = votingGuide?.candidates?.find(
     (c) => c.politician.id === politician.id
   )?.note;
 

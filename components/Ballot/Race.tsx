@@ -93,15 +93,15 @@ export default function Race({
           />
         )}
         {race.candidates
-          .sort(candidateSortFn)
+          ?.sort(candidateSortFn)
           ?.map((politician: PoliticianResult) => {
-            const isEndorsing = votingGuide.candidates
-              .filter((c) => c.isEndorsement)
+            const isEndorsing = votingGuide?.candidates
+              ?.filter((c) => c.isEndorsement)
               .map((c) => c.politician.id)
               .includes(politician.id);
 
-            const hasNote = votingGuide.candidates
-              .filter((c) => c.note?.length)
+            const hasNote = votingGuide?.candidates
+              ?.filter((c) => c.note?.length)
               .map((c) => c.politician.id)
               .includes(politician.id);
 
@@ -136,9 +136,8 @@ export default function Race({
                   <h4>{politician.fullName}</h4>
                 </div>
                 {/* </Link> */}
-                {politician.id == incumbentId && race.candidates.length > 1 && (
-                  <VerticalDivider />
-                )}
+                {politician.id == incumbentId &&
+                  race.candidates?.length > 1 && <VerticalDivider />}
               </div>
             );
           })}
