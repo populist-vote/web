@@ -1,7 +1,5 @@
 import styles from "./Button.module.scss";
-
 import type { PropsWithChildren } from "react";
-
 import { default as classNames } from "classnames";
 
 function Button({
@@ -18,6 +16,7 @@ function Button({
   icon,
   children,
   theme = "blue",
+  type,
 }: PropsWithChildren<{
   id?: string;
   disabled?: boolean;
@@ -30,7 +29,8 @@ function Button({
   secondary?: boolean;
   text?: boolean;
   small?: boolean;
-  theme: "blue" | "yellow";
+  theme?: "blue" | "yellow" | "red";
+  type?: "submit" | "button";
 }>) {
   const cx = classNames(styles.common, {
     [styles.icon as string]: icon,
@@ -49,6 +49,7 @@ function Button({
       aria-label={label}
       onClick={onClick}
       className={cx}
+      type={type}
     >
       {children}
     </button>

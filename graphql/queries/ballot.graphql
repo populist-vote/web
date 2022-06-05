@@ -1,5 +1,6 @@
 query UpcomingElections {
   upcomingElections {
+    id
     title
     description
     electionDate
@@ -29,3 +30,10 @@ query UpcomingElections {
     }
   }
 }
+
+# query VotingGuideByUserId($userId: ID!) {
+#   votingGuideByUserId(userId: $userId) {
+#     candidates {
+#       id
+#     }
+# }

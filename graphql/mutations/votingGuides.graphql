@@ -46,3 +46,16 @@ mutation UpsertVotingGuideCandidate(
     }
   }
 }
+
+mutation DeleteVotingGuideCandidateNote(
+  $votingGuideId: ID!
+  $candidateId: ID!
+) {
+  deleteVotingGuideCandidateNote(
+    votingGuideId: $votingGuideId
+    candidateId: $candidateId
+  ) {
+    isEndorsement
+    note
+  }
+}

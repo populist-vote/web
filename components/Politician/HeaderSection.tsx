@@ -11,7 +11,11 @@ function HeaderSection({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const sectionCx = classNames(styles.center, headerStyles.headerSection);
+  const sectionCx = classNames(
+    styles.center,
+    styles.borderBottom,
+    headerStyles.headerSection
+  );
 
   const { isMobile } = useDeviceInfo();
   return (

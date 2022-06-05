@@ -1,6 +1,13 @@
+@import "styles/page.module";
+
 .imageContainer {
   border-radius: 250px;
-  overflow: hidden;
+  // overflow: hidden;
+
+  // These need !important to override NextImage
+  border-width: var(--border-width) !important;
+  border-color: var(--border-color) !important;
+  border-style: var(--border-style) !important;
 }
 
 .badgeText {
@@ -16,12 +23,12 @@
   bottom: 0;
   right: 0;
   border-radius: var(--avatar-size);
+
   width: var(--avatar-size);
   height: var(--avatar-size);
-  font-size: var(--avatar-font-size);;
+  font-size: var(--avatar-font-size);
   text-transform: uppercase;
   color: var(--white);
-  background: var(--gray);
   background: var(--avatar-background);
   display: flex;
   justify-content: center;
@@ -29,11 +36,53 @@
   text-align: center;
 }
 
+.iconOuter {
+  width: var(--icon-wrapper-size);
+  height: var(--icon-wrapper-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: var(--icon-wrapper-size);
+  border: none;
+  background: var(--icon-background);
+  color: var(--icon-color);
+  cursor: pointer;
+}
+
+.iconInner {
+  display: flex;
+  align-self: center;
+  margin: auto;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+
+.iconWrapper {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .container {
   position: relative;
   padding: 0;
   margin: auto;
   display: inline-flex;
+  overflow-x: visible;
 
   img {
     object-fit: cover;

@@ -1,137 +1,32 @@
-import { Layout, LoaderFlag, PartyAvatar, VerticalDivider } from "components";
+import { Layout, LoaderFlag } from "components";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import styles from "components/Layout/Layout.module.scss";
 import {
-  PoliticalParty,
   PoliticalScope,
-  PoliticianResult,
   RaceResult,
   useUpcomingElectionsQuery,
 } from "generated";
-import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { FlagSection, FieldSet } from "components";
-
-import dynamic from "next/dynamic";
+import { FlagSection } from "components";
 import { dateString } from "utils/dates";
 import { groupBy } from "utils/groupBy";
-import Link from "next/link";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { dehydrate, QueryClient } from "react-query";
 import { useAuth } from "hooks/useAuth";
-
-const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-  ssr: false,
-});
-
-const Race = ({
-  race,
-  itemId,
-  incumbentId,
-}: {
-  race: RaceResult;
-  itemId: string;
-  incumbentId: string | undefined;
-}) => {
-  const candidateSortFn = (a: PoliticianResult, b: PoliticianResult) =>
-    a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
-
-  return (
-    <div itemID={itemId}>
-      <FieldSet
-        heading={race.title}
-        color={race.party === PoliticalParty.Republican ? "red" : "blue"}
-      >
-        {race.candidates.length < 1 && (
-          <h3 style={{ color: "var(--blue-lighter)" }}>
-            No official candidates
-          </h3>
-        )}
-        {race.candidates
-          .sort(candidateSortFn)
-          ?.map((politician: PoliticianResult) => (
-            <div
-              className={styles.flexBetween}
-              key={politician.id}
-              style={{ height: "9rem" }}
-            >
-              {politician.id == incumbentId && (
-                <span className={styles.sideText}>INCUMBENT</span>
-              )}
-              <Link href={`/politicians/${politician.slug}`} passHref>
-                <div className={styles.avatarContainer}>
-                  <PartyAvatar
-                    size={80}
-                    party={politician?.party || ("Unknown" as PoliticalParty)}
-                    src={
-                      politician?.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL
-                    }
-                    fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                    alt={politician.fullName}
-                  />
-                  <h4>{politician.fullName}</h4>
-                </div>
-              </Link>
-              {politician.id == incumbentId && race.candidates.length > 1 && (
-                <VerticalDivider />
-              )}
-            </div>
-          ))}
-      </FieldSet>
-    </div>
-  );
-};
-
-// Races associated with a single office (to handle primaries)
-const OfficeRacesSlider = ({ races }: { races: RaceResult[] }) => {
-  const office = races[0]?.office;
-
-  const incumbentId = office?.incumbent?.id;
-
-  // Display race that has incumbent first
-  const raceSortFn = (a: RaceResult, b: RaceResult) =>
-    a.candidates.some((politician) => politician.id === incumbentId) &&
-    !b.candidates.some((politician) => politician.id === incumbentId)
-      ? -1
-      : 1;
-
-  return (
-    <>
-      <header
-        className={`${styles.bold} ${styles.flexBetween} ${styles.inset}`}
-      >
-        <h2>
-          <span>{office?.title} </span>
-          {/* If the district is not a number, don't display it */}
-          {!isNaN(parseInt(office?.district as string)) && (
-            <span>{`District ${office?.district}`}</span>
-          )}
-        </h2>
-        <h3>{office?.state}</h3>
-      </header>
-
-      <div className={`${styles.roundedCard}`}>
-        <Scroller>
-          {races.sort(raceSortFn).map((race) => (
-            <Race
-              race={race}
-              key={race.id}
-              itemId={race.id}
-              incumbentId={incumbentId}
-            />
-          ))}
-        </Scroller>
-      </div>
-    </>
-  );
-};
+import { VotingGuideWelcome } from "components/VotingGuide/VotingGuideWelcome";
+import { useState } from "react";
+import { VotingGuideProvider } from "hooks/useVotingGuide";
+import { OfficeRaces } from "components/Ballot/OfficeRaces";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
-  useAuth({ redirectTo: "/login?next=ballot" });
-  const { data, error, isLoading } = useUpcomingElectionsQuery();
+  const user = useAuth({ redirectTo: "/login?next=ballot" });
+  const { data, error, isLoading } = useUpcomingElectionsQuery(
+    {},
+    {
+      enabled: !!user?.id,
+    }
+  );
 
   const upcomingElection = data?.upcomingElections[0];
   const races = upcomingElection?.racesByUserDistricts || [];
@@ -148,6 +43,17 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     (race) => race.office.id
   );
 
+  const [isWelcomeVisible, setIsWelcomeVisible] = useState(
+    localStorage.getItem("voting-guide-welcome-visible") !== "false"
+  );
+
+  const handleWelcomeDismissal = () => {
+    setIsWelcomeVisible(false);
+    localStorage.setItem("voting-guide-welcome-visible", "false");
+  };
+
+  if (!user) return null;
+
   return (
     <>
       <Head>
@@ -157,56 +63,66 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
           content="Find information on your government representatives like voting histories, endorsements, and financial data."
         />
       </Head>
-      <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
-        <>
-          {isLoading && (
+
+      {isWelcomeVisible ? (
+        <VotingGuideWelcome onClose={handleWelcomeDismissal} />
+      ) : (
+        <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
+          {isLoading ? (
             <div className={styles.center}>
               <LoaderFlag />
             </div>
-          )}
-          {error && <h4>Something went wrong fetching your ballot data...</h4>}
-
-          {upcomingElection && (
-            <div data-testid="ballot-page">
-              <h1 className={styles.desktopOnly}>Ballot</h1>
-
-              <FlagSection title="Upcoming Vote">
-                <h1>{dateString(upcomingElection?.electionDate)}</h1>
-                <h2>{upcomingElection?.title}</h2>
-                <p>{upcomingElection?.description}</p>
-              </FlagSection>
-
-              {Object.keys(federalRacesGroupedByOffice).length > 0 && (
-                <FlagSection title="Federal" color="salmon">
-                  {Object.entries(federalRacesGroupedByOffice).map(
-                    ([officeId, races]) => {
-                      return (
-                        <OfficeRacesSlider
-                          key={officeId}
-                          races={races as RaceResult[]}
-                        />
-                      );
-                    }
-                  )}
-                </FlagSection>
+          ) : (
+            <VotingGuideProvider
+              electionId={upcomingElection?.id as string}
+              userId={user.id}
+            >
+              {error && (
+                <h4>Something went wrong fetching your ballot data...</h4>
               )}
+              {upcomingElection && (
+                <div data-testid="ballot-page">
+                  <h1 className={styles.desktopOnly}>Ballot</h1>
 
-              {Object.keys(stateRacesGroupedByOffice).length > 0 && (
-                <FlagSection title="State" color="yellow">
-                  {Object.entries(stateRacesGroupedByOffice).map(
-                    ([officeId, races]) => (
-                      <OfficeRacesSlider
-                        key={officeId}
-                        races={races as RaceResult[]}
-                      />
-                    )
+                  <FlagSection title="Upcoming Vote">
+                    <h1>{dateString(upcomingElection?.electionDate)}</h1>
+                    <h2>{upcomingElection?.title}</h2>
+                    <p>{upcomingElection?.description}</p>
+                  </FlagSection>
+
+                  {Object.keys(federalRacesGroupedByOffice).length > 0 && (
+                    <FlagSection title="Federal" color="salmon">
+                      {Object.entries(federalRacesGroupedByOffice).map(
+                        ([officeId, races]) => {
+                          return (
+                            <OfficeRaces
+                              key={officeId}
+                              races={races as RaceResult[]}
+                            />
+                          );
+                        }
+                      )}
+                    </FlagSection>
                   )}
-                </FlagSection>
+
+                  {Object.keys(stateRacesGroupedByOffice).length > 0 && (
+                    <FlagSection title="State" color="yellow">
+                      {Object.entries(stateRacesGroupedByOffice).map(
+                        ([officeId, races]) => (
+                          <OfficeRaces
+                            key={officeId}
+                            races={races as RaceResult[]}
+                          />
+                        )
+                      )}
+                    </FlagSection>
+                  )}
+                </div>
               )}
-            </div>
+            </VotingGuideProvider>
           )}
-        </>
-      </Layout>
+        </Layout>
+      )}
     </>
   );
 };

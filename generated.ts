@@ -5,7 +5,6 @@ import {
   UseQueryOptions,
   UseInfiniteQueryOptions,
   UseMutationOptions,
-  QueryFunctionContext,
 } from "react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -21,7 +20,7 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
 
 function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
-    const res = await fetch("https://api.staging.populist.us/", {
+    const res = await fetch("https://api.staging.populist.us", {
       method: "POST",
       ...{
         credentials: "include",
@@ -426,9 +425,12 @@ export type CreateOrganizationInput = {
 
 export type CreatePoliticianInput = {
   ballotName?: InputMaybe<Scalars["String"]>;
+  biography?: InputMaybe<Scalars["String"]>;
+  biographySource?: InputMaybe<Scalars["String"]>;
+  campaignWebsiteUrl?: InputMaybe<Scalars["String"]>;
   crpCandidateId?: InputMaybe<Scalars["String"]>;
   dateOfBirth?: InputMaybe<Scalars["NaiveDate"]>;
-  description?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
   facebookUrl?: InputMaybe<Scalars["String"]>;
   fecCandidateId?: InputMaybe<Scalars["String"]>;
   firstName: Scalars["String"];
@@ -437,6 +439,7 @@ export type CreatePoliticianInput = {
   issueTags?: InputMaybe<CreateOrConnectIssueTagInput>;
   lastName: Scalars["String"];
   legiscanPeopleId?: InputMaybe<Scalars["Int"]>;
+  linkedinUrl?: InputMaybe<Scalars["String"]>;
   middleName?: InputMaybe<Scalars["String"]>;
   nickname?: InputMaybe<Scalars["String"]>;
   officeId?: InputMaybe<Scalars["UUID"]>;
@@ -445,13 +448,16 @@ export type CreatePoliticianInput = {
   politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
   preferredName?: InputMaybe<Scalars["String"]>;
   slug: Scalars["String"];
+  suffix?: InputMaybe<Scalars["String"]>;
   thumbnailImageUrl?: InputMaybe<Scalars["String"]>;
+  tiktokUrl?: InputMaybe<Scalars["String"]>;
   twitterUrl?: InputMaybe<Scalars["String"]>;
   upcomingRaceId?: InputMaybe<Scalars["UUID"]>;
   votesmartCandidateBio?: InputMaybe<Scalars["JSON"]>;
   votesmartCandidateId?: InputMaybe<Scalars["Int"]>;
   votesmartCandidateRatings?: InputMaybe<Scalars["JSON"]>;
   websiteUrl?: InputMaybe<Scalars["String"]>;
+  youtubeUrl?: InputMaybe<Scalars["String"]>;
 };
 
 export type CreateRaceInput = {
@@ -528,7 +534,7 @@ export type DeleteRaceResult = {
 
 export type DeleteVotingGuideResult = {
   __typename?: "DeleteVotingGuideResult";
-  id: Scalars["String"];
+  id: Scalars["ID"];
 };
 
 export enum District {
@@ -655,6 +661,7 @@ export type Mutation = {
   deletePolitician: DeletePoliticianResult;
   deleteRace: DeleteRaceResult;
   deleteVotingGuide: DeleteVotingGuideResult;
+  deleteVotingGuideCandidateNote: VotingGuideCandidateResult;
   downvoteArgument: Scalars["Boolean"];
   login: LoginResult;
   logout: Scalars["Boolean"];
@@ -758,7 +765,12 @@ export type MutationDeleteRaceArgs = {
 };
 
 export type MutationDeleteVotingGuideArgs = {
-  id: Scalars["String"];
+  id: Scalars["ID"];
+};
+
+export type MutationDeleteVotingGuideCandidateNoteArgs = {
+  candidateId: Scalars["ID"];
+  votingGuideId: Scalars["ID"];
 };
 
 export type MutationDownvoteArgumentArgs = {
@@ -962,10 +974,13 @@ export type PoliticianResult = {
   __typename?: "PoliticianResult";
   age?: Maybe<Scalars["Int"]>;
   ballotName?: Maybe<Scalars["String"]>;
+  biography?: Maybe<Scalars["String"]>;
+  biographySource?: Maybe<Scalars["String"]>;
+  campaignWebsiteUrl?: Maybe<Scalars["String"]>;
   createdAt: Scalars["DateTime"];
   currentOffice?: Maybe<OfficeResult>;
   dateOfBirth?: Maybe<Scalars["NaiveDate"]>;
-  description?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
   endorsements: Endorsements;
   facebookUrl?: Maybe<Scalars["String"]>;
   firstName: Scalars["String"];
@@ -975,6 +990,7 @@ export type PoliticianResult = {
   instagramUrl?: Maybe<Scalars["String"]>;
   issueTags: Array<IssueTagResult>;
   lastName: Scalars["String"];
+  linkedinUrl?: Maybe<Scalars["String"]>;
   middleName?: Maybe<Scalars["String"]>;
   nickname?: Maybe<Scalars["String"]>;
   officeId?: Maybe<Scalars["ID"]>;
@@ -984,7 +1000,9 @@ export type PoliticianResult = {
   ratings: RatingResultConnection;
   slug: Scalars["String"];
   sponsoredBills: BillResultConnection;
+  suffix?: Maybe<Scalars["String"]>;
   thumbnailImageUrl?: Maybe<Scalars["String"]>;
+  tiktokUrl?: Maybe<Scalars["String"]>;
   twitterUrl?: Maybe<Scalars["String"]>;
   upcomingRace?: Maybe<RaceResult>;
   upcomingRaceId?: Maybe<Scalars["ID"]>;
@@ -999,6 +1017,7 @@ export type PoliticianResult = {
    * objects where the politician is considered a 'candidate'
    */
   yearsInPublicOffice?: Maybe<Scalars["Int"]>;
+  youtubeUrl?: Maybe<Scalars["String"]>;
 };
 
 export type PoliticianResultRatingsArgs = {
@@ -1057,6 +1076,8 @@ export type Query = {
   currentUser?: Maybe<AuthTokenResult>;
   electionById: ElectionResult;
   electionBySlug: ElectionResult;
+  /** Returns a single voting guide for the given election and user */
+  electionVotingGuideByUserId?: Maybe<VotingGuideResult>;
   elections: Array<ElectionResult>;
   health: Scalars["Boolean"];
   issueTagBySlug: IssueTagResult;
@@ -1102,6 +1123,11 @@ export type QueryElectionByIdArgs = {
 
 export type QueryElectionBySlugArgs = {
   slug: Scalars["String"];
+};
+
+export type QueryElectionVotingGuideByUserIdArgs = {
+  electionId: Scalars["ID"];
+  userId: Scalars["ID"];
 };
 
 export type QueryElectionsArgs = {
@@ -1178,11 +1204,11 @@ export type QueryValidatePasswordEntropyArgs = {
 };
 
 export type QueryVotingGuideByIdArgs = {
-  id: Scalars["String"];
+  id: Scalars["ID"];
 };
 
 export type QueryVotingGuidesByUserIdArgs = {
-  userId: Scalars["String"];
+  userId: Scalars["ID"];
 };
 
 export type RaceResult = {
@@ -1507,9 +1533,12 @@ export type UpdatePasswordInput = {
 
 export type UpdatePoliticianInput = {
   ballotName?: InputMaybe<Scalars["String"]>;
+  biography?: InputMaybe<Scalars["String"]>;
+  biographySource?: InputMaybe<Scalars["String"]>;
+  campaignWebsiteUrl?: InputMaybe<Scalars["String"]>;
   crpCandidateId?: InputMaybe<Scalars["String"]>;
   dateOfBirth?: InputMaybe<Scalars["NaiveDate"]>;
-  description?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
   facebookUrl?: InputMaybe<Scalars["String"]>;
   fecCandidateId?: InputMaybe<Scalars["String"]>;
   firstName?: InputMaybe<Scalars["String"]>;
@@ -1518,6 +1547,7 @@ export type UpdatePoliticianInput = {
   issueTags?: InputMaybe<CreateOrConnectIssueTagInput>;
   lastName?: InputMaybe<Scalars["String"]>;
   legiscanPeopleId?: InputMaybe<Scalars["Int"]>;
+  linkedinUrl?: InputMaybe<Scalars["String"]>;
   middleName?: InputMaybe<Scalars["String"]>;
   nickname?: InputMaybe<Scalars["String"]>;
   officeId?: InputMaybe<Scalars["UUID"]>;
@@ -1525,14 +1555,16 @@ export type UpdatePoliticianInput = {
   party?: InputMaybe<PoliticalParty>;
   politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
   preferredName?: InputMaybe<Scalars["String"]>;
-  slug?: InputMaybe<Scalars["String"]>;
+  suffix?: InputMaybe<Scalars["String"]>;
   thumbnailImageUrl?: InputMaybe<Scalars["String"]>;
+  tiktokUrl?: InputMaybe<Scalars["String"]>;
   twitterUrl?: InputMaybe<Scalars["String"]>;
   upcomingRaceId?: InputMaybe<Scalars["UUID"]>;
   votesmartCandidateBio?: InputMaybe<Scalars["JSON"]>;
   votesmartCandidateId?: InputMaybe<Scalars["Int"]>;
   votesmartCandidateRatings?: InputMaybe<Scalars["JSON"]>;
   websiteUrl?: InputMaybe<Scalars["String"]>;
+  youtubeUrl?: InputMaybe<Scalars["String"]>;
 };
 
 export type UpdateRaceInput = {
@@ -1756,12 +1788,27 @@ export type UpsertVotingGuideCandidateMutation = {
   };
 };
 
+export type DeleteVotingGuideCandidateNoteMutationVariables = Exact<{
+  votingGuideId: Scalars["ID"];
+  candidateId: Scalars["ID"];
+}>;
+
+export type DeleteVotingGuideCandidateNoteMutation = {
+  __typename?: "Mutation";
+  deleteVotingGuideCandidateNote: {
+    __typename?: "VotingGuideCandidateResult";
+    isEndorsement: boolean;
+    note?: string | null;
+  };
+};
+
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UpcomingElectionsQuery = {
   __typename?: "Query";
   upcomingElections: Array<{
     __typename?: "ElectionResult";
+    id: string;
     title: string;
     description?: string | null;
     electionDate: any;
@@ -2003,7 +2050,7 @@ export type PoliticianBySlugQuery = {
 };
 
 export type VotingGuidesByUserIdQueryVariables = Exact<{
-  userId: Scalars["String"];
+  userId: Scalars["ID"];
 }>;
 
 export type VotingGuidesByUserIdQuery = {
@@ -2032,6 +2079,25 @@ export type VotingGuidesByUserIdQuery = {
   }>;
 };
 
+export type ElectionVotingGuideByUserIdQueryVariables = Exact<{
+  electionId: Scalars["ID"];
+  userId: Scalars["ID"];
+}>;
+
+export type ElectionVotingGuideByUserIdQuery = {
+  __typename?: "Query";
+  electionVotingGuideByUserId?: {
+    __typename?: "VotingGuideResult";
+    id: string;
+    candidates: Array<{
+      __typename?: "VotingGuideCandidateResult";
+      isEndorsement: boolean;
+      note?: string | null;
+      politician: { __typename?: "PoliticianResult"; id: string };
+    }>;
+  } | null;
+};
+
 export const ValidateEmailAvailableDocument = /*#__PURE__*/ `
     query ValidateEmailAvailable($email: String!) {
   validateEmailAvailable(email: $email)
@@ -2056,6 +2122,7 @@ export const useValidateEmailAvailableQuery = <
 useValidateEmailAvailableQuery.getKey = (
   variables: ValidateEmailAvailableQueryVariables
 ) => ["ValidateEmailAvailable", variables];
+
 export const useInfiniteValidateEmailAvailableQuery = <
   TData = ValidateEmailAvailableQuery,
   TError = unknown
@@ -2080,6 +2147,7 @@ export const useInfiniteValidateEmailAvailableQuery = <
 useInfiniteValidateEmailAvailableQuery.getKey = (
   variables: ValidateEmailAvailableQueryVariables
 ) => ["ValidateEmailAvailable.infinite", variables];
+
 useValidateEmailAvailableQuery.fetcher = (
   variables: ValidateEmailAvailableQueryVariables
 ) =>
@@ -2115,6 +2183,7 @@ export const useValidatePasswordEntropyQuery = <
 useValidatePasswordEntropyQuery.getKey = (
   variables: ValidatePasswordEntropyQueryVariables
 ) => ["ValidatePasswordEntropy", variables];
+
 export const useInfiniteValidatePasswordEntropyQuery = <
   TData = ValidatePasswordEntropyQuery,
   TError = unknown
@@ -2139,6 +2208,7 @@ export const useInfiniteValidatePasswordEntropyQuery = <
 useInfiniteValidatePasswordEntropyQuery.getKey = (
   variables: ValidatePasswordEntropyQueryVariables
 ) => ["ValidatePasswordEntropy.infinite", variables];
+
 useValidatePasswordEntropyQuery.fetcher = (
   variables: ValidatePasswordEntropyQueryVariables
 ) =>
@@ -2171,6 +2241,7 @@ export const useCurrentUserQuery = <TData = CurrentUserQuery, TError = unknown>(
 
 useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) =>
   variables === undefined ? ["CurrentUser"] : ["CurrentUser", variables];
+
 export const useInfiniteCurrentUserQuery = <
   TData = CurrentUserQuery,
   TError = unknown
@@ -2195,6 +2266,7 @@ useInfiniteCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) =>
   variables === undefined
     ? ["CurrentUser.infinite"]
     : ["CurrentUser.infinite", variables];
+
 useCurrentUserQuery.fetcher = (variables?: CurrentUserQueryVariables) =>
   fetcher<CurrentUserQuery, CurrentUserQueryVariables>(
     CurrentUserDocument,
@@ -2470,9 +2542,53 @@ useUpsertVotingGuideCandidateMutation.fetcher = (
     UpsertVotingGuideCandidateMutation,
     UpsertVotingGuideCandidateMutationVariables
   >(UpsertVotingGuideCandidateDocument, variables);
+export const DeleteVotingGuideCandidateNoteDocument = /*#__PURE__*/ `
+    mutation DeleteVotingGuideCandidateNote($votingGuideId: ID!, $candidateId: ID!) {
+  deleteVotingGuideCandidateNote(
+    votingGuideId: $votingGuideId
+    candidateId: $candidateId
+  ) {
+    isEndorsement
+    note
+  }
+}
+    `;
+export const useDeleteVotingGuideCandidateNoteMutation = <
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: UseMutationOptions<
+    DeleteVotingGuideCandidateNoteMutation,
+    TError,
+    DeleteVotingGuideCandidateNoteMutationVariables,
+    TContext
+  >
+) =>
+  useMutation<
+    DeleteVotingGuideCandidateNoteMutation,
+    TError,
+    DeleteVotingGuideCandidateNoteMutationVariables,
+    TContext
+  >(
+    ["DeleteVotingGuideCandidateNote"],
+    (variables?: DeleteVotingGuideCandidateNoteMutationVariables) =>
+      fetcher<
+        DeleteVotingGuideCandidateNoteMutation,
+        DeleteVotingGuideCandidateNoteMutationVariables
+      >(DeleteVotingGuideCandidateNoteDocument, variables)(),
+    options
+  );
+useDeleteVotingGuideCandidateNoteMutation.fetcher = (
+  variables: DeleteVotingGuideCandidateNoteMutationVariables
+) =>
+  fetcher<
+    DeleteVotingGuideCandidateNoteMutation,
+    DeleteVotingGuideCandidateNoteMutationVariables
+  >(DeleteVotingGuideCandidateNoteDocument, variables);
 export const UpcomingElectionsDocument = /*#__PURE__*/ `
     query UpcomingElections {
   upcomingElections {
+    id
     title
     description
     electionDate
@@ -2527,6 +2643,7 @@ useUpcomingElectionsQuery.getKey = (
   variables === undefined
     ? ["UpcomingElections"]
     : ["UpcomingElections", variables];
+
 export const useInfiniteUpcomingElectionsQuery = <
   TData = UpcomingElectionsQuery,
   TError = unknown
@@ -2553,6 +2670,7 @@ useInfiniteUpcomingElectionsQuery.getKey = (
   variables === undefined
     ? ["UpcomingElections.infinite"]
     : ["UpcomingElections.infinite", variables];
+
 useUpcomingElectionsQuery.fetcher = (
   variables?: UpcomingElectionsQueryVariables
 ) =>
@@ -2590,6 +2708,7 @@ useBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => [
   "BillBySlug",
   variables,
 ];
+
 export const useInfiniteBillBySlugQuery = <
   TData = BillBySlugQuery,
   TError = unknown
@@ -2612,6 +2731,7 @@ useInfiniteBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => [
   "BillBySlug.infinite",
   variables,
 ];
+
 useBillBySlugQuery.fetcher = (variables: BillBySlugQueryVariables) =>
   fetcher<BillBySlugQuery, BillBySlugQueryVariables>(
     BillBySlugDocument,
@@ -2645,6 +2765,7 @@ export const useOrganizationBySlugQuery = <
 useOrganizationBySlugQuery.getKey = (
   variables: OrganizationBySlugQueryVariables
 ) => ["OrganizationBySlug", variables];
+
 export const useInfiniteOrganizationBySlugQuery = <
   TData = OrganizationBySlugQuery,
   TError = unknown
@@ -2666,6 +2787,7 @@ export const useInfiniteOrganizationBySlugQuery = <
 useInfiniteOrganizationBySlugQuery.getKey = (
   variables: OrganizationBySlugQueryVariables
 ) => ["OrganizationBySlug.infinite", variables];
+
 useOrganizationBySlugQuery.fetcher = (
   variables: OrganizationBySlugQueryVariables
 ) =>
@@ -2735,6 +2857,7 @@ usePoliticianIndexQuery.getKey = (variables?: PoliticianIndexQueryVariables) =>
   variables === undefined
     ? ["PoliticianIndex"]
     : ["PoliticianIndex", variables];
+
 export const useInfinitePoliticianIndexQuery = <
   TData = PoliticianIndexQuery,
   TError = unknown
@@ -2761,6 +2884,7 @@ useInfinitePoliticianIndexQuery.getKey = (
   variables === undefined
     ? ["PoliticianIndex.infinite"]
     : ["PoliticianIndex.infinite", variables];
+
 usePoliticianIndexQuery.fetcher = (variables?: PoliticianIndexQueryVariables) =>
   fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(
     PoliticianIndexDocument,
@@ -2890,6 +3014,7 @@ export const usePoliticianBySlugQuery = <
 usePoliticianBySlugQuery.getKey = (
   variables: PoliticianBySlugQueryVariables
 ) => ["PoliticianBySlug", variables];
+
 export const useInfinitePoliticianBySlugQuery = <
   TData = PoliticianBySlugQuery,
   TError = unknown
@@ -2911,6 +3036,7 @@ export const useInfinitePoliticianBySlugQuery = <
 useInfinitePoliticianBySlugQuery.getKey = (
   variables: PoliticianBySlugQueryVariables
 ) => ["PoliticianBySlug.infinite", variables];
+
 usePoliticianBySlugQuery.fetcher = (
   variables: PoliticianBySlugQueryVariables
 ) =>
@@ -2919,7 +3045,7 @@ usePoliticianBySlugQuery.fetcher = (
     variables
   );
 export const VotingGuidesByUserIdDocument = /*#__PURE__*/ `
-    query votingGuidesByUserId($userId: String!) {
+    query votingGuidesByUserId($userId: ID!) {
   votingGuidesByUserId(userId: $userId) {
     id
     title
@@ -2960,6 +3086,7 @@ export const useVotingGuidesByUserIdQuery = <
 useVotingGuidesByUserIdQuery.getKey = (
   variables: VotingGuidesByUserIdQueryVariables
 ) => ["votingGuidesByUserId", variables];
+
 export const useInfiniteVotingGuidesByUserIdQuery = <
   TData = VotingGuidesByUserIdQuery,
   TError = unknown
@@ -2981,6 +3108,7 @@ export const useInfiniteVotingGuidesByUserIdQuery = <
 useInfiniteVotingGuidesByUserIdQuery.getKey = (
   variables: VotingGuidesByUserIdQueryVariables
 ) => ["votingGuidesByUserId.infinite", variables];
+
 useVotingGuidesByUserIdQuery.fetcher = (
   variables: VotingGuidesByUserIdQueryVariables
 ) =>
@@ -2988,3 +3116,73 @@ useVotingGuidesByUserIdQuery.fetcher = (
     VotingGuidesByUserIdDocument,
     variables
   );
+export const ElectionVotingGuideByUserIdDocument = /*#__PURE__*/ `
+    query ElectionVotingGuideByUserId($electionId: ID!, $userId: ID!) {
+  electionVotingGuideByUserId(electionId: $electionId, userId: $userId) {
+    id
+    candidates {
+      politician {
+        id
+      }
+      isEndorsement
+      note
+    }
+  }
+}
+    `;
+export const useElectionVotingGuideByUserIdQuery = <
+  TData = ElectionVotingGuideByUserIdQuery,
+  TError = unknown
+>(
+  variables: ElectionVotingGuideByUserIdQueryVariables,
+  options?: UseQueryOptions<ElectionVotingGuideByUserIdQuery, TError, TData>
+) =>
+  useQuery<ElectionVotingGuideByUserIdQuery, TError, TData>(
+    ["ElectionVotingGuideByUserId", variables],
+    fetcher<
+      ElectionVotingGuideByUserIdQuery,
+      ElectionVotingGuideByUserIdQueryVariables
+    >(ElectionVotingGuideByUserIdDocument, variables),
+    options
+  );
+
+useElectionVotingGuideByUserIdQuery.getKey = (
+  variables: ElectionVotingGuideByUserIdQueryVariables
+) => ["ElectionVotingGuideByUserId", variables];
+
+export const useInfiniteElectionVotingGuideByUserIdQuery = <
+  TData = ElectionVotingGuideByUserIdQuery,
+  TError = unknown
+>(
+  pageParamKey: keyof ElectionVotingGuideByUserIdQueryVariables,
+  variables: ElectionVotingGuideByUserIdQueryVariables,
+  options?: UseInfiniteQueryOptions<
+    ElectionVotingGuideByUserIdQuery,
+    TError,
+    TData
+  >
+) =>
+  useInfiniteQuery<ElectionVotingGuideByUserIdQuery, TError, TData>(
+    ["ElectionVotingGuideByUserId.infinite", variables],
+    (metaData) =>
+      fetcher<
+        ElectionVotingGuideByUserIdQuery,
+        ElectionVotingGuideByUserIdQueryVariables
+      >(ElectionVotingGuideByUserIdDocument, {
+        ...variables,
+        ...(metaData.pageParam ?? {}),
+      })(),
+    options
+  );
+
+useInfiniteElectionVotingGuideByUserIdQuery.getKey = (
+  variables: ElectionVotingGuideByUserIdQueryVariables
+) => ["ElectionVotingGuideByUserId.infinite", variables];
+
+useElectionVotingGuideByUserIdQuery.fetcher = (
+  variables: ElectionVotingGuideByUserIdQueryVariables
+) =>
+  fetcher<
+    ElectionVotingGuideByUserIdQuery,
+    ElectionVotingGuideByUserIdQueryVariables
+  >(ElectionVotingGuideByUserIdDocument, variables);

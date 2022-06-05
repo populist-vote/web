@@ -1,15 +1,11 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import {
-  useUpsertVotingGuideMutation,
-  useVotingGuidesByUserIdQuery,
-  VotingGuideResult,
-} from "generated";
+import { useVotingGuidesByUserIdQuery, VotingGuideResult } from "generated";
 import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
 import styles from "./VotingGuides.module.scss";
-import { useQueryClient } from "react-query";
 import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
+import Link from "next/link";
 
 const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
   const { user } = guide;
@@ -29,6 +25,11 @@ const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
         <h4>{name}</h4>
       </div>
       <div className={styles.buttonWrapper}>
+        <Link href="/ballot" passHref>
+          <Button large secondary theme="blue" label="Edit">
+            Edit
+          </Button>
+        </Link>
         <Button large primary theme="yellow" label="Share">
           Share
         </Button>
@@ -40,24 +41,24 @@ const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
 const VotingGuides: NextPage<{
   mobileNavTitle?: string;
 }> = ({ mobileNavTitle }) => {
-  const queryClient = useQueryClient();
-
   const user = useAuth({ redirectTo: "/login?next=voting-guides" });
 
-  const { data, isLoading, error } = useVotingGuidesByUserIdQuery({
-    userId: user?.id || "",
-  });
+  // TODO: This query will change to one that includes other users voting guides.
+  // Not yet implemented on the server.
+  const { data, isLoading, error } = useVotingGuidesByUserIdQuery(
+    {
+      userId: user?.id,
+    },
+    {
+      enabled: !!user,
+    }
+  );
 
-  const invalidateVotingGuideQuery = () =>
-    queryClient.invalidateQueries(
-      useVotingGuidesByUserIdQuery.getKey({ userId: user?.id as string })
-    );
-
-  const _upsertVotingGuide = useUpsertVotingGuideMutation({
-    onSuccess: () => invalidateVotingGuideQuery(),
-  });
+  const votingGuides = data?.votingGuidesByUserId;
 
   const election = data?.votingGuidesByUserId[0]?.election;
+
+  if (!user) return null;
 
   return (
     <>
@@ -79,7 +80,10 @@ const VotingGuides: NextPage<{
             </div>
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
-            {data?.votingGuidesByUserId.map((guide) => (
+            {votingGuides && votingGuides.length < 1 && (
+              <small>No voting guides</small>
+            )}
+            {votingGuides?.map((guide) => (
               <VotingGuideCard
                 guide={guide as Partial<VotingGuideResult>}
                 key={guide.id}

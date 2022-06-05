@@ -5,6 +5,7 @@ import ImageWithFallback from "./ImageWithFallback/ImageWithFallback";
 import Layout from "./Layout/Layout";
 import LoaderFlag from "./LoaderFlag/LoaderFlag";
 import Nav from "./Nav/Nav";
+import NoteIcon from "./NoteIcon/NoteIcon";
 import Scroller from "./Scroller";
 import Spacer from "./Spacer/Spacer";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
@@ -21,6 +22,7 @@ export {
   Layout,
   LoaderFlag,
   Nav,
+  NoteIcon,
   PartyAvatar,
   Scroller,
   Spacer,
