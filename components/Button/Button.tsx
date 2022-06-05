@@ -4,7 +4,7 @@ import { default as classNames } from "classnames";
 
 type ButtonVariant = "primary" | "secondary" | "text";
 
-type ButtonTheme = "blue" | "yellow";
+type ButtonTheme = "blue" | "yellow" | "red";
 
 type ButtonSize = "small" | "medium" | "large";
 
@@ -22,6 +22,7 @@ function Button({
   size = "large",
   theme = "blue",
   variant = "primary",
+  type = "submit",
 }: PropsWithChildren<{
   /** Sets the disabled state of a button */
   disabled?: boolean;
@@ -37,8 +38,9 @@ function Button({
   /** Function to handle click events */
   onClick?: () => void | undefined;
   size: ButtonSize;
-  theme: ButtonTheme;
+  theme?: ButtonTheme;
   variant: ButtonVariant;
+  type?: "submit" | "button";
 }>) {
   const cx = classNames(
     styles.common,
@@ -54,7 +56,13 @@ function Button({
     [styles.sr as string]: hideLabel,
   });
   return (
-    <button id={id} disabled={disabled} onClick={onClick} className={cx}>
+    <button
+      id={id}
+      disabled={disabled}
+      onClick={onClick}
+      className={cx}
+      type={type}
+    >
       {iconPosition === "before" && icon}
       <span className={labelCx}>{label}</span>
       {children}
