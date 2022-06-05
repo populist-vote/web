@@ -72,5 +72,8 @@
     "*.js": "eslint --cache --fix",
     "*.css": "stylelint --fix",
     "*.{js,css,md}": "prettier --write"
+  },
+  "optionalDependencies": {
+    "@next/swc-linux-x64-gnu": "12.1.6"
   }
 }
