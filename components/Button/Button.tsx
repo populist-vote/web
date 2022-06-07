@@ -1,57 +1,72 @@
 import styles from "./Button.module.scss";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import { default as classNames } from "classnames";
 
+type ButtonVariant = "primary" | "secondary" | "text";
+
+type ButtonTheme = "blue" | "yellow" | "red";
+
+type ButtonSize = "small" | "medium" | "large";
+
+type IconPosition = "before" | "after";
+
 function Button({
+  children,
+  disabled,
+  hideLabel,
   id,
+  icon,
+  iconPosition = "before",
   label,
   onClick,
-  primary,
-  secondary,
-  text,
-  disabled,
-  small,
-  medium,
-  large,
-  icon,
-  children,
+  size = "large",
   theme = "blue",
-  type,
+  variant = "primary",
+  type = "submit",
 }: PropsWithChildren<{
-  id?: string;
+  /** Sets the disabled state of a button */
   disabled?: boolean;
-  icon?: boolean;
+  /** Set to true to hide labels for icon only buttons or if label should or if label is different from button text */
+  hideLabel?: boolean;
+  id?: string;
+  /** Accepts an svg element representing an icon */
+  icon?: ReactNode;
+  /** Renders icon before or after label */
+  iconPosition?: IconPosition;
+  /** Can be used in conjunction with hideLabel to show/hide button text */
   label: string;
-  large?: boolean;
-  medium?: boolean;
-  onClick?: () => void | undefined;
-  primary?: boolean;
-  secondary?: boolean;
-  text?: boolean;
-  small?: boolean;
-  theme?: "blue" | "yellow" | "red";
+  /** Function to handle click events */
+  onClick?: () => unknown | undefined;
+  size: ButtonSize;
+  theme?: ButtonTheme;
+  variant: ButtonVariant;
   type?: "submit" | "button";
 }>) {
-  const cx = classNames(styles.common, {
-    [styles.icon as string]: icon,
-    [styles.large as string]: large,
-    [styles.medium as string]: medium,
-    [styles.primary as string]: primary,
-    [styles.secondary as string]: secondary,
-    [styles.small as string]: small,
-    [styles.text as string]: text,
-    [styles[theme] as string]: true,
+  const cx = classNames(
+    styles.common,
+    styles[variant as string],
+    styles[size as string],
+    styles[theme as string],
+    {
+      [styles.iconOnlyButton as string]:
+        !children && (!label || hideLabel) && !!icon,
+    }
+  );
+  const labelCx = classNames(styles.buttonLabel, {
+    [styles.sr as string]: hideLabel,
   });
   return (
     <button
       id={id}
       disabled={disabled}
-      aria-label={label}
       onClick={onClick}
       className={cx}
       type={type}
     >
+      {iconPosition === "before" && icon}
+      <span className={labelCx}>{label}</span>
       {children}
+      {iconPosition === "after" && icon}
     </button>
   );
 }

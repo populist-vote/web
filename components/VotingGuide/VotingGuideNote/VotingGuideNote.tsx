@@ -94,12 +94,17 @@ export function VotingGuideNote({
         />
         {existingNote ? (
           <div className={commonStyles.flexBetween}>
-            <Button primary large label="Save note" disabled={!isValid}>
+            <Button
+              variant="primary"
+              size="large"
+              label="Save note"
+              disabled={!isValid}
+            >
               Add note
             </Button>
             <Button
-              secondary
-              large
+              variant="secondary"
+              size="large"
               label="Delete note"
               theme="red"
               onClick={deleteNote}
@@ -109,12 +114,23 @@ export function VotingGuideNote({
             </Button>
           </div>
         ) : (
-          <Button primary large label="Add note" disabled={!isValid}>
+          <Button
+            variant="primary"
+            size="large"
+            label="Add note"
+            disabled={!isValid}
+          >
             Add note
           </Button>
         )}
       </form>
-      <Button secondary large label="Cancel" theme="blue" onClick={handleClose}>
+      <Button
+        variant="secondary"
+        size="large"
+        label="Cancel"
+        theme="blue"
+        onClick={handleClose}
+      >
         Close
       </Button>
     </div>,

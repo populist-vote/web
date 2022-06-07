@@ -16,7 +16,8 @@ export function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
             id="voting-guide-welcome-close-btn"
             label="close"
             theme="blue"
-            primary
+            variant="primary"
+            size="large"
             onClick={onClose}
           >
             Close
