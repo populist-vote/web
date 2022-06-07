@@ -98,7 +98,7 @@ export default function Nav({
             </Link>
           </ul>
           {user && (
-            <Link href="/settings/profile">
+            <Link href="/settings/profile" passHref>
               <div className={styles.avatar}>
                 <Avatar
                   src={PERSON_FALLBACK_IMAGE_URL}

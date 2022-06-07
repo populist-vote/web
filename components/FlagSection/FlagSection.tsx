@@ -11,8 +11,9 @@ interface FlagSectionProps {
 
 export default function FlagSection(props: FlagSectionProps): JSX.Element {
   const { title, children, color, hideFlagForMobile = false } = props;
-  const styleClasses = classNames(styles.container, styles[color], {
-    [styles.hideFlagForMobile as string]: hideFlagForMobile
+  const styleClasses = classNames(styles.container, {
+    [styles.hideFlagForMobile as string]: hideFlagForMobile,
+    ...!!color ? { [styles[color] as string]: true } : {},
   });
   return (
     <section className={styleClasses}>

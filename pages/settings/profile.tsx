@@ -7,7 +7,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 export const ProfilePage: NextPageWithLayout = () => {
   const user = useAuth({ redirectTo: "/login?next=settings/profile" });
   if (!user) return null;
-  const [firstName, lastName = ""] = user.username.split(" ");
+  const [firstName = "", lastName = ""] = user.username.split(" ");
   return (
     <FlagSection hideFlagForMobile title="My Profile">
       <div className={profileStyles.profile}>
