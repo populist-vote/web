@@ -9,7 +9,6 @@ query votingGuidesByUserId($userId: ID!) {
       username
       lastName
       firstName
-      avatarUrl
     }
     election {
       slug

@@ -100,7 +100,6 @@ export type AddressResult = {
   __typename?: "AddressResult";
   city: Scalars["String"];
   country: Scalars["String"];
-  id: Scalars["ID"];
   line1: Scalars["String"];
   line2?: Maybe<Scalars["String"]>;
   postalCode: Scalars["String"];
@@ -667,16 +666,20 @@ export type Mutation = {
   logout: Scalars["Boolean"];
   requestPasswordReset: Scalars["Boolean"];
   resetPassword: Scalars["Boolean"];
+  updateAddress: AddressResult;
   updateArgument: ArgumentResult;
   updateBallotMeasure: BallotMeasureResult;
   updateBill: BillResult;
   updateElection: ElectionResult;
+  updateEmail: UpdateEmailResult;
+  updateFirstAndLastName: UpdateNameResult;
   updateIssueTag: IssueTagResult;
   updateOffice: OfficeResult;
   updateOrganization: OrganizationResult;
   updatePassword: Scalars["Boolean"];
   updatePolitician: PoliticianResult;
   updateRace: RaceResult;
+  updateUsername: UpdateUsernameResult;
   uploadPoliticianThumbnail: Scalars["Int"];
   upsertVotingGuide: VotingGuideResult;
   upsertVotingGuideCandidate: VotingGuideCandidateResult;
@@ -790,6 +793,10 @@ export type MutationResetPasswordArgs = {
   input: ResetPasswordInput;
 };
 
+export type MutationUpdateAddressArgs = {
+  address: AddressInput;
+};
+
 export type MutationUpdateArgumentArgs = {
   id: Scalars["ID"];
   input: UpdateArgumentInput;
@@ -809,6 +816,15 @@ export type MutationUpdateBillArgs = {
 export type MutationUpdateElectionArgs = {
   id: Scalars["String"];
   input: UpdateElectionInput;
+};
+
+export type MutationUpdateEmailArgs = {
+  email: Scalars["String"];
+};
+
+export type MutationUpdateFirstAndLastNameArgs = {
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
 };
 
 export type MutationUpdateIssueTagArgs = {
@@ -838,6 +854,10 @@ export type MutationUpdatePoliticianArgs = {
 export type MutationUpdateRaceArgs = {
   id: Scalars["String"];
   input: UpdateRaceInput;
+};
+
+export type MutationUpdateUsernameArgs = {
+  username: Scalars["String"];
 };
 
 export type MutationUploadPoliticianThumbnailArgs = {
@@ -1094,6 +1114,7 @@ export type Query = {
   raceBySlug: RaceResult;
   races: Array<RaceResult>;
   upcomingElections: Array<ElectionResult>;
+  userProfile: UserResult;
   /** Validate that a user does not already exist with this email */
   validateEmailAvailable: Scalars["Boolean"];
   validatePasswordEntropy: PasswordEntropyResult;
@@ -1193,6 +1214,10 @@ export type QueryRaceBySlugArgs = {
 
 export type QueryRacesArgs = {
   search?: InputMaybe<RaceSearch>;
+};
+
+export type QueryUserProfileArgs = {
+  userId: Scalars["ID"];
 };
 
 export type QueryValidateEmailAvailableArgs = {
@@ -1486,11 +1511,22 @@ export type UpdateElectionInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type UpdateEmailResult = {
+  __typename?: "UpdateEmailResult";
+  email: Scalars["String"];
+};
+
 export type UpdateIssueTagInput = {
   category?: InputMaybe<Scalars["String"]>;
   description?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   slug?: InputMaybe<Scalars["String"]>;
+};
+
+export type UpdateNameResult = {
+  __typename?: "UpdateNameResult";
+  firstName?: Maybe<Scalars["String"]>;
+  lastName?: Maybe<Scalars["String"]>;
 };
 
 export type UpdateOfficeInput = {
@@ -1582,6 +1618,11 @@ export type UpdateRaceInput = {
   winnerId?: InputMaybe<Scalars["UUID"]>;
 };
 
+export type UpdateUsernameResult = {
+  __typename?: "UpdateUsernameResult";
+  username: Scalars["String"];
+};
+
 export type UpsertVotingGuideCandidateInput = {
   candidateId: Scalars["ID"];
   isEndorsement?: InputMaybe<Scalars["Boolean"]>;
@@ -1599,7 +1640,6 @@ export type UpsertVotingGuideInput = {
 export type UserResult = {
   __typename?: "UserResult";
   address?: Maybe<AddressResult>;
-  avatarUrl?: Maybe<Scalars["String"]>;
   email: Scalars["String"];
   firstName?: Maybe<Scalars["String"]>;
   id: Scalars["ID"];
@@ -2067,7 +2107,6 @@ export type VotingGuidesByUserIdQuery = {
       username: string;
       lastName?: string | null;
       firstName?: string | null;
-      avatarUrl?: string | null;
     };
     election: {
       __typename?: "ElectionResult";
@@ -3056,7 +3095,6 @@ export const VotingGuidesByUserIdDocument = /*#__PURE__*/ `
       username
       lastName
       firstName
-      avatarUrl
     }
     election {
       slug

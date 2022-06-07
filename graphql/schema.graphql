@@ -15,7 +15,6 @@ input AddressInput {
 type AddressResult {
   city: String!
   country: String!
-  id: ID!
   line1: String!
   line2: String
   postalCode: String!
@@ -568,16 +567,20 @@ type Mutation {
   logout: Boolean!
   requestPasswordReset(email: String!): Boolean!
   resetPassword(input: ResetPasswordInput!): Boolean!
+  updateAddress(address: AddressInput!): AddressResult!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
   updateBallotMeasure(id: String!, input: UpdateBallotMeasureInput!): BallotMeasureResult!
   updateBill(id: String, input: UpdateBillInput!, legiscanBillId: Int): BillResult!
   updateElection(id: String!, input: UpdateElectionInput!): ElectionResult!
+  updateEmail(email: String!): UpdateEmailResult!
+  updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
   updateOffice(id: String!, input: UpdateOfficeInput!): OfficeResult!
   updateOrganization(id: String!, input: UpdateOrganizationInput!): OrganizationResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
   updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
+  updateUsername(username: String!): UpdateUsernameResult!
   uploadPoliticianThumbnail(file: Upload!): Int!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
@@ -872,6 +875,7 @@ type Query {
     search: RaceSearch
   ): [RaceResult!]!
   upcomingElections: [ElectionResult!]!
+  userProfile(userId: ID!): UserResult!
 
   """Validate that a user does not already exist with this email"""
   validateEmailAvailable(email: String!): Boolean!
@@ -1165,11 +1169,20 @@ input UpdateElectionInput {
   title: String
 }
 
+type UpdateEmailResult {
+  email: String!
+}
+
 input UpdateIssueTagInput {
   category: String
   description: String
   name: String
   slug: String
+}
+
+type UpdateNameResult {
+  firstName: String
+  lastName: String
 }
 
 input UpdateOfficeInput {
@@ -1261,6 +1274,10 @@ input UpdateRaceInput {
   winnerId: UUID
 }
 
+type UpdateUsernameResult {
+  username: String!
+}
+
 scalar Upload
 
 input UpsertVotingGuideCandidateInput {
@@ -1279,7 +1296,6 @@ input UpsertVotingGuideInput {
 
 type UserResult {
   address: AddressResult
-  avatarUrl: String
   email: String!
   firstName: String
   id: ID!
