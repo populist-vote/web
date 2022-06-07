@@ -7,7 +7,7 @@ function TextInput({
   id?: string,
   label: string,
   hideLabel?: boolean,
-  value: string,
+  value?: string,
   onChange?: () => void,
   placeholder?: string
 }) {
@@ -20,7 +20,7 @@ function TextInput({
       <label htmlFor={inputId}>
         {label}
       </label>
-      <input value={value} id={inputId} onChange={onChange} placeholder={placeholder || ""} />
+      <input value={value || ""} id={inputId} onChange={onChange} placeholder={placeholder || ""} />
     </div>
   );
 }
