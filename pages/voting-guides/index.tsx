@@ -6,10 +6,11 @@ import styles from "./VotingGuides.module.scss";
 import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
 import Link from "next/link";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 
 const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
   const { user } = guide;
-  const { firstName, lastName, avatarUrl, username } = user || {};
+  const { firstName, lastName, username } = user || {};
   const name = firstName
     ? `${firstName} ${!!lastName ? lastName : ""}`
     : username;
@@ -17,7 +18,7 @@ const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
     <div className={styles.guideContainer}>
       <div className={styles.avatarContainer}>
         <Avatar
-          src={avatarUrl || ""}
+          src={PERSON_FALLBACK_IMAGE_URL}
           size={80}
           fallbackSrc="https://www.gravatar.com/avatar/"
           alt={name as string}
