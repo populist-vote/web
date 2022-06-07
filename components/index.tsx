@@ -12,6 +12,8 @@ import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { Avatar, PartyAvatar } from "./Avatar/Avatar";
 import { FieldSet } from "./FieldSet/FieldSet";
 import FlagSection from "./FlagSection/FlagSection";
+import { LogoText } from "./LogoText/LogoText";
+import { Logo } from "./Logo/Logo";
 
 export {
   Avatar,
@@ -21,6 +23,8 @@ export {
   ImageWithFallback,
   Layout,
   LoaderFlag,
+  Logo,
+  LogoText,
   Nav,
   NoteIcon,
   PartyAvatar,
