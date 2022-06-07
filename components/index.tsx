@@ -14,6 +14,7 @@ import { FieldSet } from "./FieldSet/FieldSet";
 import FlagSection from "./FlagSection/FlagSection";
 import { LogoText } from "./LogoText/LogoText";
 import { Logo } from "./Logo/Logo";
+import TextInput from "./TextInput/TextInput";
 
 export {
   Avatar,
@@ -30,6 +31,7 @@ export {
   PartyAvatar,
   Scroller,
   Spacer,
+  TextInput,
   VerticalDivider,
   FieldSet,
   FlagSection,
