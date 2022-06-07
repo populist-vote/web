@@ -19,9 +19,7 @@ export function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
             variant="primary"
             size="large"
             onClick={onClose}
-          >
-            Close
-          </Button>
+          />
         </section>
       </div>
     </BasicLayout>
