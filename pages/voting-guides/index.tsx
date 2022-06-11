@@ -1,13 +1,24 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { useVotingGuidesByUserIdQuery, VotingGuideResult } from "generated";
+import {
+  useVotingGuidesByUserIdQuery,
+  VotingGuideResult,
+  useVotingGuidesByIdsQuery,
+} from "generated";
 import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
 import styles from "./VotingGuides.module.scss";
 import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import { useSharedGuideIds } from "hooks/useSharedGuideIds";
 
-const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
+const VotingGuideCard = ({
+  guide,
+  showEdit = false,
+}: {
+  guide: Partial<VotingGuideResult>;
+  showEdit?: boolean;
+}) => {
   const { user } = guide;
   const { firstName, lastName, username } = user || {};
   const name = firstName
@@ -19,12 +30,13 @@ const VotingGuideCard = ({ guide }: { guide: Partial<VotingGuideResult> }) => {
         <Avatar
           src={PERSON_FALLBACK_IMAGE_URL}
           size={80}
-          fallbackSrc="https://www.gravatar.com/avatar/"
+          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={name as string}
         />
         <h4>{name}</h4>
       </div>
       <div className={styles.buttonWrapper}>
+        {showEdit && <Button size="large" variant="secondary" label="Edit" />}
         <Button size="large" variant="primary" theme="yellow" label="Share" />
       </div>
     </div>
@@ -51,6 +63,10 @@ const VotingGuides: NextPage<{
 
   const election = data?.votingGuidesByUserId[0]?.election;
 
+  const { sharedGuideIds } = useSharedGuideIds();
+
+  const sharedGuides = useVotingGuidesByIdsQuery({ ids: sharedGuideIds });
+
   if (!user) return null;
 
   return (
@@ -65,7 +81,7 @@ const VotingGuides: NextPage<{
         showNavLogoOnMobile={false}
       >
         <div className={styles.votingContainer}>
-          <FlagSection title="Voting Guides">
+          <FlagSection title="My Voting Guide">
             <div className={styles.votingHeader}>
               <h1>{dateString(election?.electionDate)}</h1>
               <h2>{election?.title}</h2>
@@ -76,14 +92,40 @@ const VotingGuides: NextPage<{
             {votingGuides && votingGuides.length < 1 && (
               <small>No voting guides</small>
             )}
+
             {votingGuides?.map((guide) => (
               <VotingGuideCard
                 guide={guide as Partial<VotingGuideResult>}
                 key={guide.id}
+                showEdit={user.id === guide.user.id}
               />
             ))}
           </FlagSection>
         </div>
+        {sharedGuides.data?.votingGuidesByIds?.length && (
+          <div className={styles.votingContainer}>
+            <FlagSection title="Other Guides">
+              {/* This section uses {election} since we only have one right now.
+                As the app gets more dynamic this must be changed. */}
+              <div className={styles.votingHeader}>
+                <h1>{dateString(election?.electionDate)}</h1>
+                <h2>{election?.title}</h2>
+                <p>{election?.description}</p>
+              </div>
+
+              {sharedGuides.isLoading && <LoaderFlag />}
+              {sharedGuides.error && <small>Something went wrong...</small>}
+
+              {sharedGuides.data?.votingGuidesByIds?.map((guide) => (
+                <VotingGuideCard
+                  guide={guide as Partial<VotingGuideResult>}
+                  key={guide.id}
+                  showEdit={user.id === guide.user.id}
+                />
+              ))}
+            </FlagSection>
+          </div>
+        )}
       </Layout>
     </>
   );
