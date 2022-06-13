@@ -526,9 +526,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h3 className={styles.gradientHeader}>Bio</h3>
         <p>{politician?.biography}</p>
         {politician?.biographySource && (
-          <Link href={politician?.biographySource as string} passHref>
+          <a
+            href={politician?.biographySource as string}
+            target="_blank"
+            rel="noreferrer"
+          >
             <Button variant="secondary" size="medium" label="Source"></Button>
-          </Link>
+          </a>
         )}
       </section>
     );
