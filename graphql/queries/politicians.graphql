@@ -51,7 +51,6 @@ query PoliticianBySlug($slug: String!) {
   politicianBySlug(slug: $slug) {
     id
     fullName
-    nickname
     preferredName
     homeState
     party
@@ -62,6 +61,8 @@ query PoliticianBySlug($slug: String!) {
     instagramUrl
     yearsInPublicOffice
     age
+    biography
+    biographySource
 
     upcomingRace {
       title

@@ -58,6 +58,7 @@ type AuthTokenResult {
   email: String!
   id: ID!
   role: Role!
+  userProfile: UserResult!
   username: String!
 }
 
@@ -332,7 +333,6 @@ input CreateOrganizationInput {
 }
 
 input CreatePoliticianInput {
-  ballotName: String
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
@@ -349,12 +349,13 @@ input CreatePoliticianInput {
   legiscanPeopleId: Int
   linkedinUrl: String
   middleName: String
-  nickname: String
   officeId: UUID
   organizationEndorsements: CreateOrConnectOrganizationInput
   party: PoliticalParty
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
+  raceLosses: Int
+  raceWins: Int
   slug: String!
   suffix: String
   thumbnailImageUrl: String
@@ -712,7 +713,6 @@ input PoliticianFilter {
 
 type PoliticianResult {
   age: Int
-  ballotName: String
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
@@ -731,7 +731,6 @@ type PoliticianResult {
   lastName: String!
   linkedinUrl: String
   middleName: String
-  nickname: String
   officeId: ID
   party: PoliticalParty
   preferredName: String
@@ -884,6 +883,7 @@ type Query {
     """Voting guide id"""
     id: ID!
   ): VotingGuideResult!
+  votingGuidesByIds(ids: [ID!]!): [VotingGuideResult!]!
   votingGuidesByUserId(
     """User id"""
     userId: ID!
@@ -1224,7 +1224,6 @@ input UpdatePasswordInput {
 }
 
 input UpdatePoliticianInput {
-  ballotName: String
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
@@ -1241,12 +1240,13 @@ input UpdatePoliticianInput {
   legiscanPeopleId: Int
   linkedinUrl: String
   middleName: String
-  nickname: String
   officeId: UUID
   organizationEndorsements: CreateOrConnectOrganizationInput
   party: PoliticalParty
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
+  raceLosses: Int
+  raceWins: Int
   suffix: String
   thumbnailImageUrl: String
   tiktokUrl: String

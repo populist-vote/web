@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useMemo, CSSProperties, PropsWithChildren } from "react";
 import { dehydrate, QueryClient } from "react-query";
-import { BillCard, Layout, LoaderFlag, PartyAvatar } from "components";
+import { BillCard, Button, Layout, LoaderFlag, PartyAvatar } from "components";
 import { HeaderSection, ElectionInfoSection } from "components/Politician";
 
 import { GrTree } from "react-icons/gr";
@@ -516,14 +516,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return null;
   }
 
-  // function BioSection() {
-  //   return (
-  //     <section className={styles.center}>
-  //       <h3 className={styles.gradientHeader}>Bio</h3>
-  //       <p>This is a cool politician dude.</p>
-  //     </section>
-  //   );
-  // }
+  function BioSection() {
+    return (
+      <section className={styles.center}>
+        <h3 className={styles.gradientHeader}>Bio</h3>
+        <p>{politician?.biography}</p>
+        <Link href={politician?.biographySource} passHref>
+          <Button variant="secondary" size="medium" label="Source"></Button>
+        </Link>
+      </section>
+    );
+  }
 
   return (
     <Layout
@@ -544,7 +547,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <SponsoredBillsSection />
         <EndorsementsSection />
         <RatingsSection />
-        {/* <BioSection /> */}
+        <BioSection />
       </div>
     </Layout>
   );

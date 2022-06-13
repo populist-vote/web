@@ -1,0 +1,19 @@
+@import "../../styles/variables/colors.module.scss";
+
+.menu {
+  background: $blue-darkest;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: $white;
+}
+
+.menuItem {
+  background: $blue-darkest;
+  color: $white;
+}
+
+.menuItemHover {
+  background: $blue-dark;
+  color: $white;
+}

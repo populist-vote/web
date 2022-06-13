@@ -13,6 +13,7 @@ import styles from "components/Layout/Layout.module.scss";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import { VerticalDivider } from "components/VerticalDivider/VerticalDivider";
 import { AtLeast } from "types/global";
+import Link from "next/link";
 
 export interface EditVotingGuideCandidate {
   candidateId: string;
@@ -114,7 +115,7 @@ export default function Race({
                 {politician.id == incumbentId && (
                   <span className={styles.sideText}>INCUMBENT</span>
                 )}
-                {/* <Link href={`/politicians/${politician.slug}`} passHref> */}
+
                 <div className={styles.avatarContainer}>
                   <PartyAvatar
                     size={80}
@@ -133,9 +134,11 @@ export default function Race({
                     src={politician?.thumbnailImageUrl as string}
                     alt={politician.fullName}
                   />
-                  <h4>{politician.fullName}</h4>
+                  <Link href={`/politicians/${encodeURIComponent(politician?.slug)}`} passHref>
+                    <h4>{politician.fullName}</h4>
+                  </Link>
                 </div>
-                {/* </Link> */}
+
                 {politician.id == incumbentId &&
                   race.candidates?.length > 1 && <VerticalDivider />}
               </div>
