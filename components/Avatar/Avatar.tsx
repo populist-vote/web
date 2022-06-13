@@ -7,9 +7,10 @@ import {
 } from "utils/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
-import { Menu, MenuItem, MenuButton, ClickEvent } from "@szhsin/react-menu";
+import { Menu, MenuItem, MenuButton, ClickEvent, MenuItemTypeProp } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
+import menuStyles from "./IconMenu.module.scss";
 
 interface BadgeProps {
   background?: string;
@@ -109,6 +110,8 @@ const iconSize = (type: IconType) => {
   }
 };
 
+const menuItemClassName: unknown = ({ hover }: {hover: boolean}) => (hover ? menuStyles.menuItemHover : menuStyles.menuItem);
+
 function IconMenu(props: IconMenuProps): JSX.Element {
   const { background, size, type, color } = props.icon;
 
@@ -134,7 +137,7 @@ function IconMenu(props: IconMenuProps): JSX.Element {
 
   return (
     <Menu
-      menuStyle={{ position: "absolute", top: "0", right: "0" }}
+      menuClassName={menuStyles.menu}
       menuButton={
         <MenuButton className={styles.iconOuter} style={styleVars}>
           <div className={styles.iconInner}>
@@ -147,12 +150,12 @@ function IconMenu(props: IconMenuProps): JSX.Element {
       transition
     >
       {isEndorsement ? (
-        <MenuItem onClick={handleUnendorseCandidate}>Unendorse</MenuItem>
+        <MenuItem onClick={handleUnendorseCandidate} className={menuItemClassName as MenuItemTypeProp}>Unendorse</MenuItem>
       ) : (
-        <MenuItem onClick={handleEndorseCandidate}>Endorse</MenuItem>
+        <MenuItem onClick={handleEndorseCandidate} className={menuItemClassName as MenuItemTypeProp}>Endorse</MenuItem>
       )}
 
-      <MenuItem onClick={handleAddNote}>
+      <MenuItem onClick={handleAddNote} className={menuItemClassName as MenuItemTypeProp}>
         {hasNote ? "Edit Note" : "Add Note"}
       </MenuItem>
     </Menu>
