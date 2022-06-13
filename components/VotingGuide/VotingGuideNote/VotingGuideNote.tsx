@@ -80,7 +80,7 @@ export function VotingGuideNote({
   return createPortal(
     <div className={styles.container} id="modal" key={politician.id}>
       <PartyAvatar
-        party={(politician.party as PoliticalParty) || "UNKNOWN"}
+        party={politician.party as PoliticalParty}
         src={politician?.thumbnailImageUrl as string}
         alt={politician?.fullName as string}
         size={80}

@@ -44,7 +44,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
       <li className={styles.rowItem}>
         <PartyAvatar
           size={60}
-          party={politician.party || ("UNKNOWN" as PoliticalParty)}
+          party={politician.party as PoliticalParty}
           src={
             politician.thumbnailImageUrl ||
             (politician.votesmartCandidateBio?.candidate.photo as string)

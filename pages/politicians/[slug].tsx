@@ -270,13 +270,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             })
           )
         : [];
-    const tagPageSize = 4;
+    const TAG_PAGE_SIZE = 4;
     const tagPages: Array<Array<TagType>> = Array(
-      Math.ceil(tags.length / tagPageSize)
+      Math.ceil(tags.length / TAG_PAGE_SIZE)
     )
       .fill("")
-      .map((_, index) => index * tagPageSize)
-      .map((begin) => tags?.slice(begin, begin + tagPageSize));
+      .map((_, index) => index * TAG_PAGE_SIZE)
+      .map((begin) => tags?.slice(begin, begin + TAG_PAGE_SIZE));
 
     if (tags.length === 0) return null;
     const cx = classNames(styles.center, politicianStyles.committees);
@@ -375,7 +375,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       >
         <div className={styles.organizationContainer}>
           <PartyAvatar
-            party={(politician.party as PoliticalParty) || "DEMOCRATIC"}
+            party={politician?.party as PoliticalParty}
             src={politician?.thumbnailImageUrl as string}
             fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
             alt={politician?.fullName as string}

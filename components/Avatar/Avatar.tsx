@@ -7,7 +7,13 @@ import {
 } from "utils/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
-import { Menu, MenuItem, MenuButton, ClickEvent, MenuItemTypeProp } from "@szhsin/react-menu";
+import {
+  Menu,
+  MenuItem,
+  MenuButton,
+  ClickEvent,
+  MenuItemTypeProp,
+} from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import menuStyles from "./IconMenu.module.scss";
@@ -110,7 +116,8 @@ const iconSize = (type: IconType) => {
   }
 };
 
-const menuItemClassName: unknown = ({ hover }: {hover: boolean}) => (hover ? menuStyles.menuItemHover : menuStyles.menuItem);
+const menuItemClassName: unknown = ({ hover }: { hover: boolean }) =>
+  hover ? menuStyles.menuItemHover : menuStyles.menuItem;
 
 function IconMenu(props: IconMenuProps): JSX.Element {
   const { background, size, type, color } = props.icon;
@@ -150,12 +157,25 @@ function IconMenu(props: IconMenuProps): JSX.Element {
       transition
     >
       {isEndorsement ? (
-        <MenuItem onClick={handleUnendorseCandidate} className={menuItemClassName as MenuItemTypeProp}>Unendorse</MenuItem>
+        <MenuItem
+          onClick={handleUnendorseCandidate}
+          className={menuItemClassName as MenuItemTypeProp}
+        >
+          Unendorse
+        </MenuItem>
       ) : (
-        <MenuItem onClick={handleEndorseCandidate} className={menuItemClassName as MenuItemTypeProp}>Endorse</MenuItem>
+        <MenuItem
+          onClick={handleEndorseCandidate}
+          className={menuItemClassName as MenuItemTypeProp}
+        >
+          Endorse
+        </MenuItem>
       )}
 
-      <MenuItem onClick={handleAddNote} className={menuItemClassName as MenuItemTypeProp}>
+      <MenuItem
+        onClick={handleAddNote}
+        className={menuItemClassName as MenuItemTypeProp}
+      >
         {hasNote ? "Edit Note" : "Add Note"}
       </MenuItem>
     </Menu>
@@ -215,10 +235,11 @@ function PartyAvatar({
   handleAddNote,
   ...rest
 }: PartyAvatarProps): JSX.Element {
+  console.log(party);
   const partyColor = useMemo(() => getPartyColor(party), [party]);
   const badge = {
     background: partyColor,
-    text: party.slice(0, 1).toUpperCase(),
+    text: (party || "UNKOWN").slice(0, 1).toUpperCase(),
     size: badgeSize,
     fontSize: badgeFontSize,
   };

@@ -28,7 +28,7 @@ function Candidate({
       <div className={layoutStyles.avatarContainer}>
         <PartyAvatar
           size={60}
-          party={candidate.party || ("UNKNOWN" as PoliticalParty)}
+          party={candidate.party as PoliticalParty}
           src={candidate.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL}
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={candidate?.fullName || ""}
