@@ -276,7 +276,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     )
       .fill("")
       .map((_, index) => index * tagPageSize)
-      .map((begin) => tags.slice(begin, begin + tagPageSize));
+      .map((begin) => tags?.slice(begin, begin + tagPageSize));
 
     if (tags.length === 0) return null;
     const cx = classNames(styles.center, politicianStyles.committees);
