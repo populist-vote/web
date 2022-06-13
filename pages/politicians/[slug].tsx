@@ -118,6 +118,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     const cx = classNames(styles.center, {
       [politicianStyles.wide as string]: tags.length === 0,
     });
+
+    if (!termStart && !termEnd && !yearsInPublicOffice && !age) return null;
+
     return (
       <section className={cx}>
         <h3 className={styles.subHeader}>Basic Info</h3>
@@ -517,6 +520,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BioSection() {
+    if (!politician?.biography) return null;
     return (
       <section className={styles.center}>
         <h3 className={styles.gradientHeader}>Bio</h3>

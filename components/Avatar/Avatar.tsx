@@ -235,7 +235,6 @@ function PartyAvatar({
   handleAddNote,
   ...rest
 }: PartyAvatarProps): JSX.Element {
-  console.log(party);
   const partyColor = useMemo(() => getPartyColor(party), [party]);
   const badge = {
     background: partyColor,
