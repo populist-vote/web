@@ -102,7 +102,7 @@ const VotingGuides: NextPage<{
             ))}
           </FlagSection>
         </div>
-        {savedGuides.data?.votingGuidesByIds?.length && (
+        {!!savedGuides?.data?.votingGuidesByIds?.length && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">
               {/* This section uses {election} since we only have one right now.
