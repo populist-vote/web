@@ -2907,10 +2907,37 @@ useDeleteVotingGuideCandidateNoteMutation.fetcher = (
 export const UpcomingElectionsDocument = /*#__PURE__*/ `
     query UpcomingElections {
   upcomingElections {
-    ...electionFields
+    id
+    title
+    description
+    electionDate
+    racesByUserDistricts {
+      id
+      title
+      party
+      office {
+        id
+        title
+        district
+        politicalScope
+        incumbent {
+          id
+          fullName
+          party
+          thumbnailImageUrl
+        }
+      }
+      candidates {
+        id
+        slug
+        fullName
+        party
+        thumbnailImageUrl
+      }
+    }
   }
 }
-    ${ElectionFieldsFragmentDoc}`;
+    `;
 export const useUpcomingElectionsQuery = <
   TData = UpcomingElectionsQuery,
   TError = unknown
@@ -3391,12 +3418,27 @@ usePoliticianBySlugQuery.fetcher = (
     variables
   );
 export const VotingGuidesByUserIdDocument = /*#__PURE__*/ `
-    query VotingGuidesByUserId($userId: ID!) {
+    query votingGuidesByUserId($userId: ID!) {
   votingGuidesByUserId(userId: $userId) {
-    ...guideFields
+    id
+    title
+    description
+    electionId
+    user {
+      id
+      username
+      lastName
+      firstName
+    }
+    election {
+      slug
+      electionDate
+      title
+      description
+    }
   }
 }
-    ${GuideFieldsFragmentDoc}`;
+    `;
 export const useVotingGuidesByUserIdQuery = <
   TData = VotingGuidesByUserIdQuery,
   TError = unknown
