@@ -424,7 +424,6 @@ export type CreateOrganizationInput = {
 };
 
 export type CreatePoliticianInput = {
-  ballotName?: InputMaybe<Scalars["String"]>;
   biography?: InputMaybe<Scalars["String"]>;
   biographySource?: InputMaybe<Scalars["String"]>;
   campaignWebsiteUrl?: InputMaybe<Scalars["String"]>;
@@ -441,12 +440,13 @@ export type CreatePoliticianInput = {
   legiscanPeopleId?: InputMaybe<Scalars["Int"]>;
   linkedinUrl?: InputMaybe<Scalars["String"]>;
   middleName?: InputMaybe<Scalars["String"]>;
-  nickname?: InputMaybe<Scalars["String"]>;
   officeId?: InputMaybe<Scalars["UUID"]>;
   organizationEndorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   party?: InputMaybe<PoliticalParty>;
   politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
   preferredName?: InputMaybe<Scalars["String"]>;
+  raceLosses?: InputMaybe<Scalars["Int"]>;
+  raceWins?: InputMaybe<Scalars["Int"]>;
   slug: Scalars["String"];
   suffix?: InputMaybe<Scalars["String"]>;
   thumbnailImageUrl?: InputMaybe<Scalars["String"]>;
@@ -994,7 +994,6 @@ export type PoliticianFilter = {
 export type PoliticianResult = {
   __typename?: "PoliticianResult";
   age?: Maybe<Scalars["Int"]>;
-  ballotName?: Maybe<Scalars["String"]>;
   biography?: Maybe<Scalars["String"]>;
   biographySource?: Maybe<Scalars["String"]>;
   campaignWebsiteUrl?: Maybe<Scalars["String"]>;
@@ -1013,7 +1012,6 @@ export type PoliticianResult = {
   lastName: Scalars["String"];
   linkedinUrl?: Maybe<Scalars["String"]>;
   middleName?: Maybe<Scalars["String"]>;
-  nickname?: Maybe<Scalars["String"]>;
   officeId?: Maybe<Scalars["ID"]>;
   party?: Maybe<PoliticalParty>;
   preferredName?: Maybe<Scalars["String"]>;
@@ -1574,7 +1572,6 @@ export type UpdatePasswordInput = {
 };
 
 export type UpdatePoliticianInput = {
-  ballotName?: InputMaybe<Scalars["String"]>;
   biography?: InputMaybe<Scalars["String"]>;
   biographySource?: InputMaybe<Scalars["String"]>;
   campaignWebsiteUrl?: InputMaybe<Scalars["String"]>;
@@ -1591,12 +1588,13 @@ export type UpdatePoliticianInput = {
   legiscanPeopleId?: InputMaybe<Scalars["Int"]>;
   linkedinUrl?: InputMaybe<Scalars["String"]>;
   middleName?: InputMaybe<Scalars["String"]>;
-  nickname?: InputMaybe<Scalars["String"]>;
   officeId?: InputMaybe<Scalars["UUID"]>;
   organizationEndorsements?: InputMaybe<CreateOrConnectOrganizationInput>;
   party?: InputMaybe<PoliticalParty>;
   politicianEndorsements?: InputMaybe<CreateOrConnectPoliticianInput>;
   preferredName?: InputMaybe<Scalars["String"]>;
+  raceLosses?: InputMaybe<Scalars["Int"]>;
+  raceWins?: InputMaybe<Scalars["Int"]>;
   suffix?: InputMaybe<Scalars["String"]>;
   thumbnailImageUrl?: InputMaybe<Scalars["String"]>;
   tiktokUrl?: InputMaybe<Scalars["String"]>;
@@ -1848,6 +1846,42 @@ export type DeleteVotingGuideCandidateNoteMutation = {
   };
 };
 
+export type ElectionFieldsFragment = {
+  __typename?: "ElectionResult";
+  id: string;
+  title: string;
+  description?: string | null;
+  electionDate: any;
+  racesByUserDistricts: Array<{
+    __typename?: "RaceResult";
+    id: string;
+    title: string;
+    party?: PoliticalParty | null;
+    office: {
+      __typename?: "OfficeResult";
+      id: string;
+      title: string;
+      district?: string | null;
+      politicalScope: PoliticalScope;
+      incumbent?: {
+        __typename?: "PoliticianResult";
+        id: string;
+        fullName: string;
+        party?: PoliticalParty | null;
+        thumbnailImageUrl?: string | null;
+      } | null;
+    };
+    candidates: Array<{
+      __typename?: "PoliticianResult";
+      id: string;
+      slug: string;
+      fullName: string;
+      party?: PoliticalParty | null;
+      thumbnailImageUrl?: string | null;
+    }>;
+  }>;
+};
+
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UpcomingElectionsQuery = {
@@ -1887,6 +1921,63 @@ export type UpcomingElectionsQuery = {
       }>;
     }>;
   }>;
+};
+
+export type VotingGuideByIdQueryVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type VotingGuideByIdQuery = {
+  __typename?: "Query";
+  votingGuideById: {
+    __typename?: "VotingGuideResult";
+    id: string;
+    title?: string | null;
+    description?: string | null;
+    electionId: string;
+    user: {
+      __typename?: "UserResult";
+      id: string;
+      username: string;
+      lastName?: string | null;
+      firstName?: string | null;
+    };
+    election: {
+      __typename?: "ElectionResult";
+      id: string;
+      title: string;
+      description?: string | null;
+      electionDate: any;
+      racesByUserDistricts: Array<{
+        __typename?: "RaceResult";
+        id: string;
+        title: string;
+        party?: PoliticalParty | null;
+        office: {
+          __typename?: "OfficeResult";
+          id: string;
+          title: string;
+          district?: string | null;
+          politicalScope: PoliticalScope;
+          incumbent?: {
+            __typename?: "PoliticianResult";
+            id: string;
+            fullName: string;
+            party?: PoliticalParty | null;
+            thumbnailImageUrl?: string | null;
+          } | null;
+        };
+        candidates: Array<{
+          __typename?: "PoliticianResult";
+          id: string;
+          slug: string;
+          fullName: string;
+          party?: PoliticalParty | null;
+          thumbnailImageUrl?: string | null;
+        }>;
+      }>;
+    };
+  };
 };
 
 export type BillBySlugQueryVariables = Exact<{
@@ -1983,7 +2074,6 @@ export type PoliticianBySlugQuery = {
     __typename?: "PoliticianResult";
     id: string;
     fullName: string;
-    nickname?: string | null;
     preferredName?: string | null;
     homeState?: State | null;
     party?: PoliticalParty | null;
@@ -2110,10 +2200,38 @@ export type GuideFieldsFragment = {
   };
   election: {
     __typename?: "ElectionResult";
-    slug: string;
-    electionDate: any;
+    id: string;
     title: string;
     description?: string | null;
+    electionDate: any;
+    racesByUserDistricts: Array<{
+      __typename?: "RaceResult";
+      id: string;
+      title: string;
+      party?: PoliticalParty | null;
+      office: {
+        __typename?: "OfficeResult";
+        id: string;
+        title: string;
+        district?: string | null;
+        politicalScope: PoliticalScope;
+        incumbent?: {
+          __typename?: "PoliticianResult";
+          id: string;
+          fullName: string;
+          party?: PoliticalParty | null;
+          thumbnailImageUrl?: string | null;
+        } | null;
+      };
+      candidates: Array<{
+        __typename?: "PoliticianResult";
+        id: string;
+        slug: string;
+        fullName: string;
+        party?: PoliticalParty | null;
+        thumbnailImageUrl?: string | null;
+      }>;
+    }>;
   };
 };
 
@@ -2138,10 +2256,38 @@ export type VotingGuidesByUserIdQuery = {
     };
     election: {
       __typename?: "ElectionResult";
-      slug: string;
-      electionDate: any;
+      id: string;
       title: string;
       description?: string | null;
+      electionDate: any;
+      racesByUserDistricts: Array<{
+        __typename?: "RaceResult";
+        id: string;
+        title: string;
+        party?: PoliticalParty | null;
+        office: {
+          __typename?: "OfficeResult";
+          id: string;
+          title: string;
+          district?: string | null;
+          politicalScope: PoliticalScope;
+          incumbent?: {
+            __typename?: "PoliticianResult";
+            id: string;
+            fullName: string;
+            party?: PoliticalParty | null;
+            thumbnailImageUrl?: string | null;
+          } | null;
+        };
+        candidates: Array<{
+          __typename?: "PoliticianResult";
+          id: string;
+          slug: string;
+          fullName: string;
+          party?: PoliticalParty | null;
+          thumbnailImageUrl?: string | null;
+        }>;
+      }>;
     };
   }>;
 };
@@ -2165,35 +2311,6 @@ export type ElectionVotingGuideByUserIdQuery = {
   } | null;
 };
 
-export type VotingGuideByIdQueryVariables = Exact<{
-  id: Scalars["ID"];
-}>;
-
-export type VotingGuideByIdQuery = {
-  __typename?: "Query";
-  votingGuideById: {
-    __typename?: "VotingGuideResult";
-    id: string;
-    title?: string | null;
-    description?: string | null;
-    electionId: string;
-    user: {
-      __typename?: "UserResult";
-      id: string;
-      username: string;
-      lastName?: string | null;
-      firstName?: string | null;
-    };
-    election: {
-      __typename?: "ElectionResult";
-      slug: string;
-      electionDate: any;
-      title: string;
-      description?: string | null;
-    };
-  };
-};
-
 export type VotingGuidesByIdsQueryVariables = Exact<{
   ids: Array<Scalars["ID"]> | Scalars["ID"];
 }>;
@@ -2215,14 +2332,74 @@ export type VotingGuidesByIdsQuery = {
     };
     election: {
       __typename?: "ElectionResult";
-      slug: string;
-      electionDate: any;
+      id: string;
       title: string;
       description?: string | null;
+      electionDate: any;
+      racesByUserDistricts: Array<{
+        __typename?: "RaceResult";
+        id: string;
+        title: string;
+        party?: PoliticalParty | null;
+        office: {
+          __typename?: "OfficeResult";
+          id: string;
+          title: string;
+          district?: string | null;
+          politicalScope: PoliticalScope;
+          incumbent?: {
+            __typename?: "PoliticianResult";
+            id: string;
+            fullName: string;
+            party?: PoliticalParty | null;
+            thumbnailImageUrl?: string | null;
+          } | null;
+        };
+        candidates: Array<{
+          __typename?: "PoliticianResult";
+          id: string;
+          slug: string;
+          fullName: string;
+          party?: PoliticalParty | null;
+          thumbnailImageUrl?: string | null;
+        }>;
+      }>;
     };
   }>;
 };
 
+export const ElectionFieldsFragmentDoc = /*#__PURE__*/ `
+    fragment electionFields on ElectionResult {
+  id
+  title
+  description
+  electionDate
+  racesByUserDistricts {
+    id
+    title
+    party
+    office {
+      id
+      title
+      district
+      politicalScope
+      incumbent {
+        id
+        fullName
+        party
+        thumbnailImageUrl
+      }
+    }
+    candidates {
+      id
+      slug
+      fullName
+      party
+      thumbnailImageUrl
+    }
+  }
+}
+    `;
 export const GuideFieldsFragmentDoc = /*#__PURE__*/ `
     fragment guideFields on VotingGuideResult {
   id
@@ -2236,13 +2413,10 @@ export const GuideFieldsFragmentDoc = /*#__PURE__*/ `
     firstName
   }
   election {
-    slug
-    electionDate
-    title
-    description
+    ...electionFields
   }
 }
-    `;
+    ${ElectionFieldsFragmentDoc}`;
 export const ValidateEmailAvailableDocument = /*#__PURE__*/ `
     query ValidateEmailAvailable($email: String!) {
   validateEmailAvailable(email: $email)
@@ -2267,6 +2441,7 @@ export const useValidateEmailAvailableQuery = <
 useValidateEmailAvailableQuery.getKey = (
   variables: ValidateEmailAvailableQueryVariables
 ) => ["ValidateEmailAvailable", variables];
+
 export const useInfiniteValidateEmailAvailableQuery = <
   TData = ValidateEmailAvailableQuery,
   TError = unknown
@@ -2291,6 +2466,7 @@ export const useInfiniteValidateEmailAvailableQuery = <
 useInfiniteValidateEmailAvailableQuery.getKey = (
   variables: ValidateEmailAvailableQueryVariables
 ) => ["ValidateEmailAvailable.infinite", variables];
+
 useValidateEmailAvailableQuery.fetcher = (
   variables: ValidateEmailAvailableQueryVariables
 ) =>
@@ -2326,6 +2502,7 @@ export const useValidatePasswordEntropyQuery = <
 useValidatePasswordEntropyQuery.getKey = (
   variables: ValidatePasswordEntropyQueryVariables
 ) => ["ValidatePasswordEntropy", variables];
+
 export const useInfiniteValidatePasswordEntropyQuery = <
   TData = ValidatePasswordEntropyQuery,
   TError = unknown
@@ -2350,6 +2527,7 @@ export const useInfiniteValidatePasswordEntropyQuery = <
 useInfiniteValidatePasswordEntropyQuery.getKey = (
   variables: ValidatePasswordEntropyQueryVariables
 ) => ["ValidatePasswordEntropy.infinite", variables];
+
 useValidatePasswordEntropyQuery.fetcher = (
   variables: ValidatePasswordEntropyQueryVariables
 ) =>
@@ -2382,6 +2560,7 @@ export const useCurrentUserQuery = <TData = CurrentUserQuery, TError = unknown>(
 
 useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) =>
   variables === undefined ? ["CurrentUser"] : ["CurrentUser", variables];
+
 export const useInfiniteCurrentUserQuery = <
   TData = CurrentUserQuery,
   TError = unknown
@@ -2406,6 +2585,7 @@ useInfiniteCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) =>
   variables === undefined
     ? ["CurrentUser.infinite"]
     : ["CurrentUser.infinite", variables];
+
 useCurrentUserQuery.fetcher = (variables?: CurrentUserQueryVariables) =>
   fetcher<CurrentUserQuery, CurrentUserQueryVariables>(
     CurrentUserDocument,
@@ -2727,37 +2907,10 @@ useDeleteVotingGuideCandidateNoteMutation.fetcher = (
 export const UpcomingElectionsDocument = /*#__PURE__*/ `
     query UpcomingElections {
   upcomingElections {
-    id
-    title
-    description
-    electionDate
-    racesByUserDistricts {
-      id
-      title
-      party
-      office {
-        id
-        title
-        district
-        politicalScope
-        incumbent {
-          id
-          fullName
-          party
-          thumbnailImageUrl
-        }
-      }
-      candidates {
-        id
-        slug
-        fullName
-        party
-        thumbnailImageUrl
-      }
-    }
+    ...electionFields
   }
 }
-    `;
+    ${ElectionFieldsFragmentDoc}`;
 export const useUpcomingElectionsQuery = <
   TData = UpcomingElectionsQuery,
   TError = unknown
@@ -2782,6 +2935,7 @@ useUpcomingElectionsQuery.getKey = (
   variables === undefined
     ? ["UpcomingElections"]
     : ["UpcomingElections", variables];
+
 export const useInfiniteUpcomingElectionsQuery = <
   TData = UpcomingElectionsQuery,
   TError = unknown
@@ -2808,11 +2962,67 @@ useInfiniteUpcomingElectionsQuery.getKey = (
   variables === undefined
     ? ["UpcomingElections.infinite"]
     : ["UpcomingElections.infinite", variables];
+
 useUpcomingElectionsQuery.fetcher = (
   variables?: UpcomingElectionsQueryVariables
 ) =>
   fetcher<UpcomingElectionsQuery, UpcomingElectionsQueryVariables>(
     UpcomingElectionsDocument,
+    variables
+  );
+export const VotingGuideByIdDocument = /*#__PURE__*/ `
+    query VotingGuideById($id: ID!) {
+  votingGuideById(id: $id) {
+    ...guideFields
+  }
+}
+    ${GuideFieldsFragmentDoc}`;
+export const useVotingGuideByIdQuery = <
+  TData = VotingGuideByIdQuery,
+  TError = unknown
+>(
+  variables: VotingGuideByIdQueryVariables,
+  options?: UseQueryOptions<VotingGuideByIdQuery, TError, TData>
+) =>
+  useQuery<VotingGuideByIdQuery, TError, TData>(
+    ["VotingGuideById", variables],
+    fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
+      VotingGuideByIdDocument,
+      variables
+    ),
+    options
+  );
+
+useVotingGuideByIdQuery.getKey = (variables: VotingGuideByIdQueryVariables) => [
+  "VotingGuideById",
+  variables,
+];
+
+export const useInfiniteVotingGuideByIdQuery = <
+  TData = VotingGuideByIdQuery,
+  TError = unknown
+>(
+  pageParamKey: keyof VotingGuideByIdQueryVariables,
+  variables: VotingGuideByIdQueryVariables,
+  options?: UseInfiniteQueryOptions<VotingGuideByIdQuery, TError, TData>
+) =>
+  useInfiniteQuery<VotingGuideByIdQuery, TError, TData>(
+    ["VotingGuideById.infinite", variables],
+    (metaData) =>
+      fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
+        VotingGuideByIdDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) }
+      )(),
+    options
+  );
+
+useInfiniteVotingGuideByIdQuery.getKey = (
+  variables: VotingGuideByIdQueryVariables
+) => ["VotingGuideById.infinite", variables];
+
+useVotingGuideByIdQuery.fetcher = (variables: VotingGuideByIdQueryVariables) =>
+  fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
+    VotingGuideByIdDocument,
     variables
   );
 export const BillBySlugDocument = /*#__PURE__*/ `
@@ -2845,6 +3055,7 @@ useBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => [
   "BillBySlug",
   variables,
 ];
+
 export const useInfiniteBillBySlugQuery = <
   TData = BillBySlugQuery,
   TError = unknown
@@ -2867,6 +3078,7 @@ useInfiniteBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => [
   "BillBySlug.infinite",
   variables,
 ];
+
 useBillBySlugQuery.fetcher = (variables: BillBySlugQueryVariables) =>
   fetcher<BillBySlugQuery, BillBySlugQueryVariables>(
     BillBySlugDocument,
@@ -2900,6 +3112,7 @@ export const useOrganizationBySlugQuery = <
 useOrganizationBySlugQuery.getKey = (
   variables: OrganizationBySlugQueryVariables
 ) => ["OrganizationBySlug", variables];
+
 export const useInfiniteOrganizationBySlugQuery = <
   TData = OrganizationBySlugQuery,
   TError = unknown
@@ -2921,6 +3134,7 @@ export const useInfiniteOrganizationBySlugQuery = <
 useInfiniteOrganizationBySlugQuery.getKey = (
   variables: OrganizationBySlugQueryVariables
 ) => ["OrganizationBySlug.infinite", variables];
+
 useOrganizationBySlugQuery.fetcher = (
   variables: OrganizationBySlugQueryVariables
 ) =>
@@ -2990,6 +3204,7 @@ usePoliticianIndexQuery.getKey = (variables?: PoliticianIndexQueryVariables) =>
   variables === undefined
     ? ["PoliticianIndex"]
     : ["PoliticianIndex", variables];
+
 export const useInfinitePoliticianIndexQuery = <
   TData = PoliticianIndexQuery,
   TError = unknown
@@ -3016,6 +3231,7 @@ useInfinitePoliticianIndexQuery.getKey = (
   variables === undefined
     ? ["PoliticianIndex.infinite"]
     : ["PoliticianIndex.infinite", variables];
+
 usePoliticianIndexQuery.fetcher = (variables?: PoliticianIndexQueryVariables) =>
   fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(
     PoliticianIndexDocument,
@@ -3026,7 +3242,6 @@ export const PoliticianBySlugDocument = /*#__PURE__*/ `
   politicianBySlug(slug: $slug) {
     id
     fullName
-    nickname
     preferredName
     homeState
     party
@@ -3145,6 +3360,7 @@ export const usePoliticianBySlugQuery = <
 usePoliticianBySlugQuery.getKey = (
   variables: PoliticianBySlugQueryVariables
 ) => ["PoliticianBySlug", variables];
+
 export const useInfinitePoliticianBySlugQuery = <
   TData = PoliticianBySlugQuery,
   TError = unknown
@@ -3166,6 +3382,7 @@ export const useInfinitePoliticianBySlugQuery = <
 useInfinitePoliticianBySlugQuery.getKey = (
   variables: PoliticianBySlugQueryVariables
 ) => ["PoliticianBySlug.infinite", variables];
+
 usePoliticianBySlugQuery.fetcher = (
   variables: PoliticianBySlugQueryVariables
 ) =>
@@ -3199,6 +3416,7 @@ export const useVotingGuidesByUserIdQuery = <
 useVotingGuidesByUserIdQuery.getKey = (
   variables: VotingGuidesByUserIdQueryVariables
 ) => ["VotingGuidesByUserId", variables];
+
 export const useInfiniteVotingGuidesByUserIdQuery = <
   TData = VotingGuidesByUserIdQuery,
   TError = unknown
@@ -3220,6 +3438,7 @@ export const useInfiniteVotingGuidesByUserIdQuery = <
 useInfiniteVotingGuidesByUserIdQuery.getKey = (
   variables: VotingGuidesByUserIdQueryVariables
 ) => ["VotingGuidesByUserId.infinite", variables];
+
 useVotingGuidesByUserIdQuery.fetcher = (
   variables: VotingGuidesByUserIdQueryVariables
 ) =>
@@ -3260,6 +3479,7 @@ export const useElectionVotingGuideByUserIdQuery = <
 useElectionVotingGuideByUserIdQuery.getKey = (
   variables: ElectionVotingGuideByUserIdQueryVariables
 ) => ["ElectionVotingGuideByUserId", variables];
+
 export const useInfiniteElectionVotingGuideByUserIdQuery = <
   TData = ElectionVotingGuideByUserIdQuery,
   TError = unknown
@@ -3288,6 +3508,7 @@ export const useInfiniteElectionVotingGuideByUserIdQuery = <
 useInfiniteElectionVotingGuideByUserIdQuery.getKey = (
   variables: ElectionVotingGuideByUserIdQueryVariables
 ) => ["ElectionVotingGuideByUserId.infinite", variables];
+
 useElectionVotingGuideByUserIdQuery.fetcher = (
   variables: ElectionVotingGuideByUserIdQueryVariables
 ) =>
@@ -3295,59 +3516,6 @@ useElectionVotingGuideByUserIdQuery.fetcher = (
     ElectionVotingGuideByUserIdQuery,
     ElectionVotingGuideByUserIdQueryVariables
   >(ElectionVotingGuideByUserIdDocument, variables);
-export const VotingGuideByIdDocument = /*#__PURE__*/ `
-    query VotingGuideById($id: ID!) {
-  votingGuideById(id: $id) {
-    ...guideFields
-  }
-}
-    ${GuideFieldsFragmentDoc}`;
-export const useVotingGuideByIdQuery = <
-  TData = VotingGuideByIdQuery,
-  TError = unknown
->(
-  variables: VotingGuideByIdQueryVariables,
-  options?: UseQueryOptions<VotingGuideByIdQuery, TError, TData>
-) =>
-  useQuery<VotingGuideByIdQuery, TError, TData>(
-    ["VotingGuideById", variables],
-    fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
-      VotingGuideByIdDocument,
-      variables
-    ),
-    options
-  );
-
-useVotingGuideByIdQuery.getKey = (variables: VotingGuideByIdQueryVariables) => [
-  "VotingGuideById",
-  variables,
-];
-export const useInfiniteVotingGuideByIdQuery = <
-  TData = VotingGuideByIdQuery,
-  TError = unknown
->(
-  pageParamKey: keyof VotingGuideByIdQueryVariables,
-  variables: VotingGuideByIdQueryVariables,
-  options?: UseInfiniteQueryOptions<VotingGuideByIdQuery, TError, TData>
-) =>
-  useInfiniteQuery<VotingGuideByIdQuery, TError, TData>(
-    ["VotingGuideById.infinite", variables],
-    (metaData) =>
-      fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
-        VotingGuideByIdDocument,
-        { ...variables, ...(metaData.pageParam ?? {}) }
-      )(),
-    options
-  );
-
-useInfiniteVotingGuideByIdQuery.getKey = (
-  variables: VotingGuideByIdQueryVariables
-) => ["VotingGuideById.infinite", variables];
-useVotingGuideByIdQuery.fetcher = (variables: VotingGuideByIdQueryVariables) =>
-  fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
-    VotingGuideByIdDocument,
-    variables
-  );
 export const VotingGuidesByIdsDocument = /*#__PURE__*/ `
     query VotingGuidesByIds($ids: [ID!]!) {
   votingGuidesByIds(ids: $ids) {
@@ -3374,6 +3542,7 @@ export const useVotingGuidesByIdsQuery = <
 useVotingGuidesByIdsQuery.getKey = (
   variables: VotingGuidesByIdsQueryVariables
 ) => ["VotingGuidesByIds", variables];
+
 export const useInfiniteVotingGuidesByIdsQuery = <
   TData = VotingGuidesByIdsQuery,
   TError = unknown
@@ -3395,6 +3564,7 @@ export const useInfiniteVotingGuidesByIdsQuery = <
 useInfiniteVotingGuidesByIdsQuery.getKey = (
   variables: VotingGuidesByIdsQueryVariables
 ) => ["VotingGuidesByIds.infinite", variables];
+
 useVotingGuidesByIdsQuery.fetcher = (
   variables: VotingGuidesByIdsQueryVariables
 ) =>
