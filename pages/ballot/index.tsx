@@ -1,34 +1,69 @@
-import { Layout, LoaderFlag } from "components";
+import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import styles from "components/Layout/Layout.module.scss";
+import { useRouter } from "next/router";
+import { dehydrate, QueryClient } from "react-query";
+
+import {
+  Layout,
+  LoaderFlag,
+  FlagSection,
+  VotingGuideWelcome,
+  OfficeRaces,
+} from "components";
+
 import {
   PoliticalScope,
   RaceResult,
   useUpcomingElectionsQuery,
+  useVotingGuideByIdQuery,
 } from "generated";
-import { FlagSection } from "components";
+
 import { dateString } from "utils/dates";
 import { groupBy } from "utils/groupBy";
-import { dehydrate, QueryClient } from "react-query";
+
 import { useAuth } from "hooks/useAuth";
-import { VotingGuideWelcome } from "components/VotingGuide/VotingGuideWelcome";
-import { useState } from "react";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { OfficeRaces } from "components/Ballot/OfficeRaces";
+import { useSharedGuideIds } from "hooks/useSharedGuideIds";
+
+import styles from "components/Layout/Layout.module.scss";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
   const user = useAuth({ redirectTo: "/login?next=ballot" });
-  const { data, error, isLoading } = useUpcomingElectionsQuery(
+
+  const upcomingElectionsQuery = useUpcomingElectionsQuery(
     {},
     {
       enabled: !!user?.id,
     }
   );
 
-  const upcomingElection = data?.upcomingElections[0];
+  const router = useRouter();
+  const votingGuideId = router.query[`voting-guide`] as string;
+  const isSharedGuide = !!votingGuideId;
+
+  const votingGuideQuery = useVotingGuideByIdQuery(
+    { id: votingGuideId },
+    {
+      enabled: isSharedGuide,
+    }
+  );
+
+  const { addSharedGuideId } = useSharedGuideIds();
+
+  if (isSharedGuide && votingGuideQuery.isSuccess)
+    addSharedGuideId(votingGuideId);
+
+  const query = isSharedGuide ? votingGuideQuery : upcomingElectionsQuery;
+
+  const { error, isLoading } = query;
+
+  const upcomingElection = isSharedGuide
+    ? votingGuideQuery.data?.votingGuideById.election
+    : upcomingElectionsQuery.data?.upcomingElections[0];
+
   const races = upcomingElection?.racesByUserDistricts || [];
 
   const federalRacesGroupedByOffice = groupBy(
