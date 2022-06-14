@@ -13,6 +13,9 @@ generates:
       - typescript
       - typescript-operations
       - typescript-react-query
+      - add:
+          content: "/* eslint-disable @typescript-eslint/no-explicit-any */"
+
     config:
       addInfiniteQuery: true
       pureMagicComment: true

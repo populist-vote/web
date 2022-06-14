@@ -33,12 +33,12 @@ yarn-error.log*
 # env
 .env
 
-# generated 
-generated.ts
-
 # cypress 
 cypress/videos
 cypress/screenshots
 
 # local only
 *.code-workspace
+
+# generated 
+generated.ts
