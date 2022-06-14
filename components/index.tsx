@@ -12,6 +12,8 @@ import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { Avatar, PartyAvatar } from "./Avatar/Avatar";
 import { FieldSet } from "./FieldSet/FieldSet";
 import FlagSection from "./FlagSection/FlagSection";
+import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
+import { OfficeRaces } from "./Ballot/OfficeRaces";
 
 export {
   Avatar,
@@ -29,4 +31,6 @@ export {
   VerticalDivider,
   FieldSet,
   FlagSection,
+  VotingGuideWelcome,
+  OfficeRaces,
 };
