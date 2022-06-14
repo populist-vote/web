@@ -26,6 +26,8 @@ import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 
+import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
+
 import styles from "components/Layout/Layout.module.scss";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
@@ -79,12 +81,12 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
 
   const [isWelcomeVisible, setIsWelcomeVisible] = useState(
-    localStorage.getItem("voting-guide-welcome-visible") !== "false"
+    localStorage.getItem(VOTING_GUIDE_WELCOME_VISIBLE) !== "false"
   );
 
   const handleWelcomeDismissal = () => {
     setIsWelcomeVisible(false);
-    localStorage.setItem("voting-guide-welcome-visible", "false");
+    localStorage.setItem(VOTING_GUIDE_WELCOME_VISIBLE, "false");
   };
 
   if (votingGuideQuery.isError) {
