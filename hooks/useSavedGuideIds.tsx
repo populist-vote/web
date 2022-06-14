@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { SHARED_GUIDES_LOCAL_STORAGE } from "utils/constants";
+import { SAVED_GUIDES_LOCAL_STORAGE } from "utils/constants";
 
 function getGuideIds() {
-  const rawSavedGuideIds = localStorage.getItem(SHARED_GUIDES_LOCAL_STORAGE);
+  const rawSavedGuideIds = localStorage.getItem(SAVED_GUIDES_LOCAL_STORAGE);
 
   const savedGuideIds: string[] = (() => {
     try {
@@ -31,7 +31,7 @@ export function useSavedGuideIds() {
   useEffect(() => {
     if (savedGuideIds.length > 0) {
       const joinedIds = JSON.stringify(savedGuideIds);
-      localStorage.setItem(SHARED_GUIDES_LOCAL_STORAGE, joinedIds);
+      localStorage.setItem(SAVED_GUIDES_LOCAL_STORAGE, joinedIds);
     }
   }, [savedGuideIds, setSavedGuideIds]);
 
