@@ -87,6 +87,12 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     localStorage.setItem("voting-guide-welcome-visible", "false");
   };
 
+  if (votingGuideQuery.isError) {
+    router
+      .push({ pathname: "/404" })
+      .catch((err) => console.error("Problem redirecting to 404", err));
+  }
+
   if (!user) return null;
 
   return (
