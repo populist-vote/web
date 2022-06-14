@@ -10,7 +10,7 @@ import styles from "./VotingGuides.module.scss";
 import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { useSharedGuideIds } from "hooks/useSharedGuideIds";
+import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 
 const VotingGuideCard = ({
   guide,
@@ -63,9 +63,9 @@ const VotingGuides: NextPage<{
 
   const election = data?.votingGuidesByUserId[0]?.election;
 
-  const { sharedGuideIds } = useSharedGuideIds();
+  const { savedGuideIds } = useSavedGuideIds();
 
-  const sharedGuides = useVotingGuidesByIdsQuery({ ids: sharedGuideIds });
+  const savedGuides = useVotingGuidesByIdsQuery({ ids: savedGuideIds });
 
   if (!user) return null;
 
@@ -102,7 +102,7 @@ const VotingGuides: NextPage<{
             ))}
           </FlagSection>
         </div>
-        {sharedGuides.data?.votingGuidesByIds?.length && (
+        {savedGuides.data?.votingGuidesByIds?.length && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">
               {/* This section uses {election} since we only have one right now.
@@ -113,10 +113,10 @@ const VotingGuides: NextPage<{
                 <p>{election?.description}</p>
               </div>
 
-              {sharedGuides.isLoading && <LoaderFlag />}
-              {sharedGuides.error && <small>Something went wrong...</small>}
+              {savedGuides.isLoading && <LoaderFlag />}
+              {savedGuides.error && <small>Something went wrong...</small>}
 
-              {sharedGuides.data?.votingGuidesByIds?.map((guide) => (
+              {savedGuides.data?.votingGuidesByIds?.map((guide) => (
                 <VotingGuideCard
                   guide={guide as Partial<VotingGuideResult>}
                   key={guide.id}

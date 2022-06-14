@@ -24,7 +24,7 @@ import { groupBy } from "utils/groupBy";
 
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { useSharedGuideIds } from "hooks/useSharedGuideIds";
+import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 
 import styles from "components/Layout/Layout.module.scss";
 
@@ -42,25 +42,25 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   const router = useRouter();
   const votingGuideId = router.query[`voting-guide`] as string;
-  const isSharedGuide = !!votingGuideId;
+  const isSavedGuide = !!votingGuideId;
 
   const votingGuideQuery = useVotingGuideByIdQuery(
     { id: votingGuideId },
     {
-      enabled: isSharedGuide,
+      enabled: isSavedGuide,
     }
   );
 
-  const { addSharedGuideId } = useSharedGuideIds();
+  const { addSavedGuideId } = useSavedGuideIds();
 
-  if (isSharedGuide && votingGuideQuery.isSuccess)
-    addSharedGuideId(votingGuideId);
+  if (isSavedGuide && votingGuideQuery.isSuccess)
+    addSavedGuideId(votingGuideId);
 
-  const query = isSharedGuide ? votingGuideQuery : upcomingElectionsQuery;
+  const query = isSavedGuide ? votingGuideQuery : upcomingElectionsQuery;
 
   const { error, isLoading } = query;
 
-  const upcomingElection = isSharedGuide
+  const upcomingElection = isSavedGuide
     ? votingGuideQuery.data?.votingGuideById.election
     : upcomingElectionsQuery.data?.upcomingElections[0];
 

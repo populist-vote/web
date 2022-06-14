@@ -14,7 +14,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "styles/toast.css";
 import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
-import { SharedGuidesProvider } from "hooks/useSharedGuideIds";
 
 const queryClient = new QueryClient();
 
@@ -51,14 +50,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <SharedGuidesProvider>
-            <Hydrate state={pageProps.dehydratedState}>
-              <Head />
-              {getLayout(<Component {...pageProps} />)}
-              <ToastContainer theme="dark" />
-              <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
-            </Hydrate>
-          </SharedGuidesProvider>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Head />
+            {getLayout(<Component {...pageProps} />)}
+            <ToastContainer theme="dark" />
+            <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
+          </Hydrate>
         </AuthProvider>
       </QueryClientProvider>
     </>
