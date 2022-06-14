@@ -238,7 +238,7 @@ function PartyAvatar({
   const partyColor = useMemo(() => getPartyColor(party), [party]);
   const badge = {
     background: partyColor,
-    text: (party || "UNKOWN").slice(0, 1).toUpperCase(),
+    text: (party || "UNKNOWN").slice(0, 1).toUpperCase(),
     size: badgeSize,
     fontSize: badgeFontSize,
   };
