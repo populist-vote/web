@@ -14,6 +14,7 @@ const SHARED_GUIDES_INITIAL_STATE = [""];
 interface SharedGuideIdsContextResult {
   sharedGuideIds: string[];
   setSharedGuideIds: Dispatch<SetStateAction<string[]>>;
+  addSharedGuideId: (newID: string) => void;
 }
 
 const SharedGuideIdsContext = createContext<SharedGuideIdsContextResult>(
@@ -34,6 +35,12 @@ export function SharedGuidesProvider({ children }: { children: ReactNode }) {
 
   const [sharedGuideIds, setSharedGuideIds] = useState(currentSharedGuideIds);
 
+  const addSharedGuideId = (newId: string) => {
+    if (sharedGuideIds.indexOf(newId) !== -1) {
+      setSharedGuideIds([...sharedGuideIds, newId]);
+    }
+  };
+
   useEffect(() => {
     if (sharedGuideIds !== SHARED_GUIDES_INITIAL_STATE) {
       const joinedIds = sharedGuideIds.join("|");
@@ -44,7 +51,7 @@ export function SharedGuidesProvider({ children }: { children: ReactNode }) {
 
   return (
     <SharedGuideIdsContext.Provider
-      value={{ sharedGuideIds, setSharedGuideIds }}
+      value={{ sharedGuideIds, setSharedGuideIds, addSharedGuideId }}
     >
       {children}
     </SharedGuideIdsContext.Provider>
