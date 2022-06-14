@@ -107,7 +107,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     return (
       <section className={styles.center}>
         <h1 className={styles.politicianOffice}>
-          {politician?.votesmartCandidateBio?.office?.name[0]}
+          {politician?.currentOffice?.title ||
+            politician?.votesmartCandidateBio?.office?.name[0]}
         </h1>
         {politician?.homeState && <h2>{states[politician?.homeState]}</h2>}
       </section>

@@ -63,6 +63,10 @@ query PoliticianBySlug($slug: String!) {
     age
     biography
     biographySource
+    officeId
+    currentOffice {
+      title
+    }
 
     upcomingRace {
       title
