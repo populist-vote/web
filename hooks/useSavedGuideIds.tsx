@@ -21,7 +21,6 @@ function getGuideIds() {
 
 export function useSavedGuideIds() {
   const [savedGuideIds, setSavedGuideIds] = useState<string[]>(getGuideIds());
-  // const currentSavedGuideIds = getGuideIds(setSavedGuideIds);
 
   const addSavedGuideId = (newId: string) => {
     if (savedGuideIds.indexOf(newId) !== -1) {
