@@ -8,7 +8,8 @@ import { useRouter } from "next/router";
 export default function BasicLayout({
   children,
   hideFooter = false,
-}: PropsWithChildren<{ hideFooter?: boolean }>) {
+  hideHeaderActions = false,
+}: PropsWithChildren<{ hideFooter?: boolean; hideHeaderActions?: boolean }>) {
   const { pathname } = useRouter();
 
   return (
@@ -19,7 +20,9 @@ export default function BasicLayout({
             <LogoText />
           </div>
         </Link>
-        {pathname == "/register" ? (
+        {hideHeaderActions ? (
+          <></>
+        ) : pathname == "/register" ? (
           <Link href="/login">Log In</Link>
         ) : (
           <Link href="/register">Sign Up</Link>

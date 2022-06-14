@@ -4,7 +4,7 @@ import styles from "styles/page.module.scss";
 
 export function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
   return (
-    <BasicLayout>
+    <BasicLayout hideHeaderActions>
       <div className={styles.container}>
         <section className={styles.center}>
           <h1>Create A Voting Guide</h1>
