@@ -10,10 +10,7 @@ fragment guideFields on VotingGuideResult {
     firstName
   }
   election {
-    slug
-    electionDate
-    title
-    description
+    ...electionFields
   }
 }
 
@@ -33,12 +30,6 @@ query ElectionVotingGuideByUserId($electionId: ID!, $userId: ID!) {
       isEndorsement
       note
     }
-  }
-}
-
-query VotingGuideById($id: ID!) {
-  votingGuideById(id: $id) {
-    ...guideFields
   }
 }
 
