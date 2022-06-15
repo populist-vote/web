@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -44,25 +44,39 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   const router = useRouter();
   const votingGuideId = router.query[`voting-guide`] as string;
-  const isSavedGuide = !!votingGuideId;
+  const isQueriedGuide = !!votingGuideId;
 
   const votingGuideQuery = useVotingGuideByIdQuery(
     { id: votingGuideId },
     {
-      enabled: isSavedGuide,
+      enabled: isQueriedGuide,
     }
   );
 
   const { addSavedGuideId } = useSavedGuideIds();
 
-  if (isSavedGuide && votingGuideQuery.isSuccess)
-    addSavedGuideId(votingGuideId);
+  const isOwner = isQueriedGuide
+    ? votingGuideQuery.data?.votingGuideById.user.id === user.id
+    : true;
 
-  const query = isSavedGuide ? votingGuideQuery : upcomingElectionsQuery;
+  useEffect(() => {
+    if (isQueriedGuide && votingGuideQuery.isSuccess && !isOwner) {
+      addSavedGuideId(votingGuideId);
+    }
+  }, [
+    votingGuideQuery.isSuccess,
+    isQueriedGuide,
+    addSavedGuideId,
+    votingGuideId,
+    isOwner,
+    user.id,
+  ]);
+
+  const query = isQueriedGuide ? votingGuideQuery : upcomingElectionsQuery;
 
   const { error, isLoading } = query;
 
-  const upcomingElection = isSavedGuide
+  const upcomingElection = isQueriedGuide
     ? votingGuideQuery.data?.votingGuideById.election
     : upcomingElectionsQuery.data?.upcomingElections[0];
 
