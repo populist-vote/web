@@ -28,7 +28,10 @@ function getGuideIds() {
   return savedGuideIds;
 }
 
-export function useSavedGuideIds() {
+export function useSavedGuideIds(): {
+  savedGuideIds: string[];
+  addSavedGuideId: (id: string) => void;
+} {
   const [savedGuideIds, setSavedGuideIds] = useState<string[]>(getGuideIds());
 
   const addSavedGuideId = (newId: string) => {
