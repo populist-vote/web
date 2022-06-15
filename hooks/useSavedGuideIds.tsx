@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { SAVED_GUIDES_LOCAL_STORAGE } from "utils/constants";
 
 function getGuideIds() {
-  const rawSavedGuideIds = localStorage.getItem(SAVED_GUIDES_LOCAL_STORAGE);
+  const rawSavedGuideIds = (() => {
+    try {
+      return localStorage.getItem(SAVED_GUIDES_LOCAL_STORAGE);
+    } catch (err) {
+      console.error("Problem reading localStorage", err);
+      return undefined;
+    }
+  })();
 
   const savedGuideIds: string[] = (() => {
     if (!rawSavedGuideIds) return [];
