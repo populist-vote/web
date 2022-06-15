@@ -42,7 +42,7 @@ export function useSavedGuideIds() {
       const joinedIds = JSON.stringify(savedGuideIds);
       localStorage.setItem(SAVED_GUIDES_LOCAL_STORAGE, joinedIds);
     }
-  }, [savedGuideIds, setSavedGuideIds]);
+  }, [savedGuideIds]);
 
   return { savedGuideIds, addSavedGuideId };
 }
