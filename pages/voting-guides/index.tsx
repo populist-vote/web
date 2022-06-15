@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import Router from "next/router";
 import {
   useVotingGuidesByUserIdQuery,
   VotingGuideResult,
@@ -11,6 +12,19 @@ import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
+
+const getGuideUrl = (guideId: string) =>
+  `${window.location.origin}/ballot?voting-guide-id=${guideId}`;
+
+const copyGuideUrl = (guideId?: string) => {
+  if (!guideId) return;
+
+  const url = getGuideUrl(guideId);
+  navigator.clipboard
+    .writeText(url)
+    .then(() => alert(`Link copied to clipboard: ${url}`))
+    .catch((err) => console.error("Problem copying to clipboard", err));
+};
 
 const VotingGuideCard = ({
   guide,
@@ -36,8 +50,28 @@ const VotingGuideCard = ({
         <h4>{name}</h4>
       </div>
       <div className={styles.buttonWrapper}>
-        {showEdit && <Button size="large" variant="secondary" label="Edit" />}
-        <Button size="large" variant="primary" theme="yellow" label="Share" />
+        {showEdit ? (
+          <Button
+            size="large"
+            variant="secondary"
+            label="Edit"
+            onClick={() => Router.push(`/ballot`)}
+          />
+        ) : (
+          <Button
+            size="large"
+            variant="secondary"
+            label="View"
+            onClick={() => Router.push(`/ballot?voting-guide-id=${guide.id}`)}
+          />
+        )}
+        <Button
+          size="large"
+          variant="primary"
+          theme="yellow"
+          label="Share"
+          onClick={() => copyGuideUrl(guide?.id)}
+        />
       </div>
     </div>
   );
@@ -102,7 +136,7 @@ const VotingGuides: NextPage<{
             ))}
           </FlagSection>
         </div>
-        {!!savedGuides?.data?.votingGuidesByIds?.length && (
+        {!!savedGuides.data?.votingGuidesByIds?.length && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">
               {/* This section uses {election} since we only have one right now.
