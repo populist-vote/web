@@ -5,6 +5,7 @@ import {
   useVotingGuidesByUserIdQuery,
   VotingGuideResult,
   useVotingGuidesByIdsQuery,
+  ElectionResult,
 } from "generated";
 import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
 import styles from "./VotingGuides.module.scss";
@@ -77,6 +78,16 @@ const VotingGuideCard = ({
   );
 };
 
+const ElectionHeader = ({ election }: { election: ElectionResult }) => {
+  return (
+    <div className={styles.votingHeader}>
+      {election.electionDate && <h1>{dateString(election.electionDate)}</h1>}
+      {election.title && <h2>{election.title}</h2>}
+      {election.description && <p>{election.description}</p>}
+    </div>
+  );
+};
+
 const VotingGuides: NextPage<{
   mobileNavTitle?: string;
 }> = ({ mobileNavTitle }) => {
@@ -116,11 +127,9 @@ const VotingGuides: NextPage<{
       >
         <div className={styles.votingContainer}>
           <FlagSection title="My Voting Guide">
-            <div className={styles.votingHeader}>
-              <h1>{dateString(election?.electionDate)}</h1>
-              <h2>{election?.title}</h2>
-              <p>{election?.description}</p>
-            </div>
+            {election && (
+              <ElectionHeader election={election as ElectionResult} />
+            )}
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
             {votingGuides && votingGuides.length < 1 && (
@@ -141,11 +150,9 @@ const VotingGuides: NextPage<{
             <FlagSection title="Other Guides">
               {/* This section uses {election} since we only have one right now.
                 As the app gets more dynamic this must be changed. */}
-              <div className={styles.votingHeader}>
-                <h1>{dateString(election?.electionDate)}</h1>
-                <h2>{election?.title}</h2>
-                <p>{election?.description}</p>
-              </div>
+              {election && (
+                <ElectionHeader election={election as ElectionResult} />
+              )}
 
               {savedGuides.isLoading && <LoaderFlag />}
               {savedGuides.error && <small>Something went wrong...</small>}
