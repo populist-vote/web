@@ -1,7 +1,6 @@
 import styles from "./VotingGuideNote.module.scss";
-import Button from "components/Button";
 import { createPortal } from "react-dom";
-import { PartyAvatar } from "components/Avatar/Avatar";
+import { PartyAvatar, Button } from "components";
 import {
   PoliticalParty,
   PoliticianResult,

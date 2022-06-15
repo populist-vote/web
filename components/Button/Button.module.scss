@@ -192,7 +192,14 @@ $small-size: 1.825rem;
 }
 
 .yellow.primary {
-  @include primary($yellow, $yellow, $yellow, $yellow, $yellow, $dark-brown);
+  @include primary(
+    $yellow,
+    $yellow-dark,
+    $yellow-dark,
+    $grey-light,
+    $white,
+    $dark-brown
+  );
 }
 
 .red.primary {

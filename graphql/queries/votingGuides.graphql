@@ -1,21 +1,22 @@
-query votingGuidesByUserId($userId: ID!) {
-  votingGuidesByUserId(userId: $userId) {
+fragment guideFields on VotingGuideResult {
+  id
+  title
+  description
+  electionId
+  user {
     id
-    title
-    description
-    electionId
-    user {
-      id
-      username
-      lastName
-      firstName
-    }
-    election {
-      slug
-      electionDate
-      title
-      description
-    }
+    username
+    lastName
+    firstName
+  }
+  election {
+    ...electionFields
+  }
+}
+
+query VotingGuidesByUserId($userId: ID!) {
+  votingGuidesByUserId(userId: $userId) {
+    ...guideFields
   }
 }
 
@@ -29,5 +30,11 @@ query ElectionVotingGuideByUserId($electionId: ID!, $userId: ID!) {
       isEndorsement
       note
     }
+  }
+}
+
+query VotingGuidesByIds($ids: [ID!]!) {
+  votingGuidesByIds(ids: $ids) {
+    ...guideFields
   }
 }

@@ -1,34 +1,85 @@
-import { Layout, LoaderFlag } from "components";
+import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import styles from "components/Layout/Layout.module.scss";
+import { useRouter } from "next/router";
+import { dehydrate, QueryClient } from "react-query";
+
+import {
+  Layout,
+  LoaderFlag,
+  FlagSection,
+  VotingGuideWelcome,
+  OfficeRaces,
+} from "components";
+
 import {
   PoliticalScope,
   RaceResult,
   useUpcomingElectionsQuery,
+  useVotingGuideByIdQuery,
 } from "generated";
-import { FlagSection } from "components";
+
 import { dateString } from "utils/dates";
 import { groupBy } from "utils/groupBy";
-import { dehydrate, QueryClient } from "react-query";
+
 import { useAuth } from "hooks/useAuth";
-import { VotingGuideWelcome } from "components/VotingGuide/VotingGuideWelcome";
-import { useState } from "react";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { OfficeRaces } from "components/Ballot/OfficeRaces";
+import { useSavedGuideIds } from "hooks/useSavedGuideIds";
+
+import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
+
+import styles from "components/Layout/Layout.module.scss";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
   const user = useAuth({ redirectTo: "/login?next=ballot" });
-  const { data, error, isLoading } = useUpcomingElectionsQuery(
+
+  const upcomingElectionsQuery = useUpcomingElectionsQuery(
     {},
     {
       enabled: !!user?.id,
     }
   );
 
-  const upcomingElection = data?.upcomingElections[0];
+  const router = useRouter();
+  const votingGuideId = router.query[`voting-guide`] as string;
+  const isQueriedGuide = !!votingGuideId;
+
+  const votingGuideQuery = useVotingGuideByIdQuery(
+    { id: votingGuideId },
+    {
+      enabled: isQueriedGuide,
+    }
+  );
+
+  const { addSavedGuideId } = useSavedGuideIds(user.id);
+
+  const isOwner = isQueriedGuide
+    ? votingGuideQuery.data?.votingGuideById.user.id === user.id
+    : true;
+
+  useEffect(() => {
+    if (isQueriedGuide && votingGuideQuery.isSuccess && !isOwner) {
+      addSavedGuideId(votingGuideId);
+    }
+  }, [
+    votingGuideQuery.isSuccess,
+    isQueriedGuide,
+    addSavedGuideId,
+    votingGuideId,
+    isOwner,
+    user.id,
+  ]);
+
+  const query = isQueriedGuide ? votingGuideQuery : upcomingElectionsQuery;
+
+  const { error, isLoading } = query;
+
+  const upcomingElection = isQueriedGuide
+    ? votingGuideQuery.data?.votingGuideById.election
+    : upcomingElectionsQuery.data?.upcomingElections[0];
+
   const races = upcomingElection?.racesByUserDistricts || [];
 
   const federalRacesGroupedByOffice = groupBy(
@@ -44,13 +95,19 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
 
   const [isWelcomeVisible, setIsWelcomeVisible] = useState(
-    localStorage.getItem("voting-guide-welcome-visible") !== "false"
+    localStorage.getItem(VOTING_GUIDE_WELCOME_VISIBLE) !== "false"
   );
 
   const handleWelcomeDismissal = () => {
     setIsWelcomeVisible(false);
-    localStorage.setItem("voting-guide-welcome-visible", "false");
+    localStorage.setItem(VOTING_GUIDE_WELCOME_VISIBLE, "false");
   };
+
+  if (votingGuideQuery.isError) {
+    router
+      .push({ pathname: "/404" })
+      .catch((err) => console.error("Problem redirecting to 404", err));
+  }
 
   if (!user) return null;
 
