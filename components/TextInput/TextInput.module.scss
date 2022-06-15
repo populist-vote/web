@@ -1,4 +1,5 @@
 @import "styles/variables/fonts.module";
+@import "styles/variables/colors.module";
 
 .inputContainer {
   display: flex;
@@ -32,5 +33,11 @@
         clip: rect(0, 0, 0, 0);
         border: 0;
     }
+  }
+
+  span.errorMessage {
+    font-size: $text-sm;
+    color: $red;
+    padding: 0.5em 0.25em;
   }
 }

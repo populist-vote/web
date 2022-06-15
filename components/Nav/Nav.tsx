@@ -20,9 +20,8 @@ export default function Nav({
   showLogoOnMobile: boolean;
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
-  const user = useAuth();
-
-  const { pathname } = useRouter();
+  const user = useAuth({ redirectTo: "" });
+  const { asPath, pathname } = useRouter();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   useScrollPosition(
@@ -97,7 +96,7 @@ export default function Nav({
               </li>
             </Link>
           </ul>
-          {user && (
+          {user ? (
             <Link href="/settings/profile" passHref>
               <div className={styles.avatar}>
                 <Avatar
@@ -105,6 +104,12 @@ export default function Nav({
                   alt="profile picture"
                   size={80}
                 />
+              </div>
+            </Link>
+          ) : (
+            <Link href={`/login?next=${asPath}`} passHref>
+              <div className={styles.avatar}>
+                Login
               </div>
             </Link>
           )}

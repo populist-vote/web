@@ -1,0 +1,54 @@
+mutation UpdateFirstAndLastName(
+  $firstName: String!
+  $lastName: String!
+) {
+  updateFirstAndLastName(
+    firstName: $firstName
+    lastName: $lastName
+  ) {
+    firstName
+    lastName
+  }
+}
+
+mutation UpdateAddress(
+  $address: AddressInput!
+) {
+  updateAddress(
+    address: $address
+  ) {
+    city
+    country
+    state
+    line1
+    line2
+    postalCode
+  }
+}
+
+
+mutation UpdateEmail(
+  $email: String!
+) {
+  updateEmail(
+    email: $email
+  ) {
+    email
+  }
+}
+
+mutation UpdatePassword(
+  $oldPassword: String!
+  $newPassword: String!
+) {
+  updatePassword(
+    input: {
+      oldPassword: $oldPassword
+      newPassword: $newPassword
+    }
+  )
+}
+
+mutation Logout {
+  logout
+}
