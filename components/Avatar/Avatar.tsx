@@ -294,8 +294,10 @@ export function getPartyColor(
       return "var(--red)";
     case PoliticalParty.Green:
       return "var(--green)";
+    case PoliticalParty.Libertarian:
+      return "var(--aqua)";
     default:
-      return "magenta";
+      return "var(--purple)";
   }
 }
 

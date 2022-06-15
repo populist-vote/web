@@ -33,7 +33,7 @@ function Candidate({
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={candidate?.fullName || ""}
         />
-        <h4>{candidate.fullName}</h4>
+        <h4 className={layoutStyles.link}>{candidate.fullName}</h4>
       </div>
     </Link>
   );
