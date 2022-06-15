@@ -5,13 +5,15 @@ function getGuideIds() {
   const rawSavedGuideIds = localStorage.getItem(SAVED_GUIDES_LOCAL_STORAGE);
 
   const savedGuideIds: string[] = (() => {
+    if (!rawSavedGuideIds) return [];
     try {
       return JSON.parse(rawSavedGuideIds || "[]") || [];
     } catch (err) {
       console.error(
-        "Problem parsing shared guides, returning empty array...",
+        "Problem parsing shared guides, resetting saved guides in local storage...",
         err
       );
+      localStorage.removeItem(SAVED_GUIDES_LOCAL_STORAGE);
       return [];
     }
   })();
@@ -23,7 +25,7 @@ export function useSavedGuideIds() {
   const [savedGuideIds, setSavedGuideIds] = useState<string[]>(getGuideIds());
 
   const addSavedGuideId = (newId: string) => {
-    if (savedGuideIds.indexOf(newId) !== -1) {
+    if (savedGuideIds.indexOf(newId) === -1) {
       setSavedGuideIds([...savedGuideIds, newId]);
     }
   };
