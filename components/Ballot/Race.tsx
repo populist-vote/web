@@ -134,8 +134,13 @@ export default function Race({
                     src={politician?.thumbnailImageUrl as string}
                     alt={politician.fullName}
                   />
-                  <Link href={`/politicians/${encodeURIComponent(politician?.slug)}`} passHref>
-                    <h4>{politician.fullName}</h4>
+                  <Link
+                    href={`/politicians/${encodeURIComponent(
+                      politician?.slug
+                    )}`}
+                    passHref
+                  >
+                    <h4 className={styles.link}>{politician.fullName}</h4>
                   </Link>
                 </div>
 

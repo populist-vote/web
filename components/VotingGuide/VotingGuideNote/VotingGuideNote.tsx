@@ -1,6 +1,5 @@
 import styles from "./VotingGuideNote.module.scss";
-import commonStyles from "styles/page.module.scss";
-
+import Button from "components/Button";
 import { createPortal } from "react-dom";
 import { PartyAvatar, Button } from "components";
 import {
@@ -93,15 +92,13 @@ export function VotingGuideNote({
           })}
         />
         {existingNote ? (
-          <div className={commonStyles.flexBetween}>
+          <>
             <Button
               variant="primary"
               size="large"
               label="Save note"
               disabled={!isValid}
-            >
-              Add note
-            </Button>
+            />
             <Button
               variant="secondary"
               size="large"
@@ -109,30 +106,24 @@ export function VotingGuideNote({
               theme="red"
               onClick={deleteNote}
               type="button"
-            >
-              Delete note
-            </Button>
-          </div>
+            />
+          </>
         ) : (
           <Button
             variant="primary"
             size="large"
             label="Add note"
             disabled={!isValid}
-          >
-            Add note
-          </Button>
+          />
         )}
+        <Button
+          variant="secondary"
+          size="large"
+          label="Close"
+          theme="blue"
+          onClick={handleClose}
+        />
       </form>
-      <Button
-        variant="secondary"
-        size="large"
-        label="Cancel"
-        theme="blue"
-        onClick={handleClose}
-      >
-        Close
-      </Button>
     </div>,
     portal
   );

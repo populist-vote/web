@@ -270,3 +270,10 @@
     }
   }
 }
+
+.link {
+  &:hover {
+    color: $blue-text;
+    text-decoration: dotted underline;
+  }
+}
