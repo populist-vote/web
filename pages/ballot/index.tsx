@@ -53,7 +53,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     }
   );
 
-  const { addSavedGuideId } = useSavedGuideIds();
+  const { addSavedGuideId } = useSavedGuideIds(user.id);
 
   const isOwner = isQueriedGuide
     ? votingGuideQuery.data?.votingGuideById.user.id === user.id

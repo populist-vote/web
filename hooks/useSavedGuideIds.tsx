@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { SAVED_GUIDES_LOCAL_STORAGE } from "utils/constants";
 
-function getGuideIds() {
+export const getGuideStorageKey = (userId: string) =>
+  `${SAVED_GUIDES_LOCAL_STORAGE}-${userId}`;
+
+function getGuideIds(userId: string) {
   const rawSavedGuideIds = (() => {
     try {
-      return localStorage.getItem(SAVED_GUIDES_LOCAL_STORAGE);
+      return localStorage.getItem(getGuideStorageKey(userId));
     } catch (err) {
       console.error("Problem reading localStorage", err);
       return undefined;
@@ -18,9 +21,10 @@ function getGuideIds() {
     } catch (err) {
       console.error(
         "Problem parsing shared guides, resetting saved guides in local storage...",
+        { rawSavedGuideIds },
         err
       );
-      localStorage.removeItem(SAVED_GUIDES_LOCAL_STORAGE);
+      localStorage.removeItem(getGuideStorageKey(userId));
       return [];
     }
   })();
@@ -28,11 +32,13 @@ function getGuideIds() {
   return savedGuideIds;
 }
 
-export function useSavedGuideIds(): {
+export function useSavedGuideIds(userId: string): {
   savedGuideIds: string[];
   addSavedGuideId: (id: string) => void;
 } {
-  const [savedGuideIds, setSavedGuideIds] = useState<string[]>(getGuideIds());
+  const [savedGuideIds, setSavedGuideIds] = useState<string[]>(
+    getGuideIds(userId)
+  );
 
   const addSavedGuideId = (newId: string) => {
     if (savedGuideIds.indexOf(newId) === -1) {
@@ -43,9 +49,9 @@ export function useSavedGuideIds(): {
   useEffect(() => {
     if (savedGuideIds.length > 0) {
       const joinedIds = JSON.stringify(savedGuideIds);
-      localStorage.setItem(SAVED_GUIDES_LOCAL_STORAGE, joinedIds);
+      localStorage.setItem(getGuideStorageKey(userId), joinedIds);
     }
-  }, [savedGuideIds]);
+  }, [savedGuideIds, userId]);
 
   return { savedGuideIds, addSavedGuideId };
 }
