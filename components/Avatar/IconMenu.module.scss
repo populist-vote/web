@@ -1,7 +1,7 @@
 @import "../../styles/variables/colors.module.scss";
 
 .menu {
-  background: $blue-darkest;
+  background: $grey-lighter;
   position: absolute;
   top: 0;
   right: 0;
@@ -10,11 +10,11 @@
 }
 
 .menuItem {
-  background: $blue-darkest;
-  color: $white;
+  background: $grey-lighter;
+  color: $grey-darkest;
 }
 
 .menuItemHover {
-  background: $blue-dark;
-  color: $white;
+  background: $grey-light;
+  color: $grey-darkest;
 }

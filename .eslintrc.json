@@ -34,7 +34,6 @@
   "globals": {
     "JSX": "readonly"
   },
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  }
+  "ignorePatterns": ["generated.ts"]
+
 }
