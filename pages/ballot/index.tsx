@@ -53,10 +53,10 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     }
   );
 
-  const { addSavedGuideId } = useSavedGuideIds(user.id);
+  const { addSavedGuideId } = useSavedGuideIds(user?.id);
 
   const isOwner = isQueriedGuide
-    ? votingGuideQuery.data?.votingGuideById.user.id === user.id
+    ? votingGuideQuery.data?.votingGuideById.user.id === user?.id
     : true;
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     addSavedGuideId,
     votingGuideId,
     isOwner,
-    user.id,
+    user?.id,
   ]);
 
   const query = isQueriedGuide ? votingGuideQuery : upcomingElectionsQuery;
