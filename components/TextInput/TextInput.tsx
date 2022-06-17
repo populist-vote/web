@@ -62,7 +62,9 @@ function TextInput<TFormValues extends Record<string, unknown>>({
         {...rest}
         {...(register && register(name, rules))}
       />
-      {hasErrors && <span className={styles.errorMessage}>{errorMessage}</span>}
+      {hasErrors && errorMessage && (
+        <span className={styles.errorMessage}>{errorMessage()}</span>
+      )}
     </div>
   );
 }
