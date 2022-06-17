@@ -1,10 +1,8 @@
 @import "styles/variables/colors.module.scss";
 
 .footer {
-  margin-top: 3rem;
   grid-area: footer;
   text-align: center;
-  margin-bottom: 3rem;
 
   svg {
     margin: 0 1rem;
@@ -15,10 +13,4 @@
       transition: ease-in-out 0.3s all;
     }
   }
-
-  p {
-    margin-bottom: 40px;
-  }
-
 }
-

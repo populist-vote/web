@@ -4,6 +4,7 @@
 
 .container {
   min-height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -62,16 +63,11 @@
 
   main {
     max-width: 48rem;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: left;
-
-    :first-child {
-      // h1 {
-      //   margin: 0 0 1rem;
-      // }
-    }
+    align-items: center;
   }
 }
 
@@ -79,4 +75,8 @@
   color: $blue-lighter !important;
   text-transform: none !important;
   cursor: pointer;
+}
+
+.alignLeft {
+  text-align: left;
 }

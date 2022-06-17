@@ -1,39 +1,42 @@
-query UpcomingElections {
-  upcomingElections {
+fragment electionFields on ElectionResult {
+  id
+  title
+  description
+  electionDate
+  racesByUserDistricts {
     id
     title
-    description
-    electionDate
-    racesByUserDistricts {
+    party
+    office {
       id
       title
-      party
-      office {
+      district
+      politicalScope
+      incumbent {
         id
-        title
-        district
-        politicalScope
-        incumbent {
-          id
-          fullName
-          party
-          thumbnailImageUrl
-        }
-      }
-      candidates {
-        id
-        slug
         fullName
         party
         thumbnailImageUrl
       }
     }
+    candidates {
+      id
+      slug
+      fullName
+      party
+      thumbnailImageUrl
+    }
   }
 }
 
-# query VotingGuideByUserId($userId: ID!) {
-#   votingGuideByUserId(userId: $userId) {
-#     candidates {
-#       id
-#     }
-# }
+query UpcomingElections {
+  upcomingElections {
+    ...electionFields
+  }
+}
+
+query VotingGuideById($id: ID!) {
+  votingGuideById(id: $id) {
+    ...guideFields
+  }
+}

@@ -15,6 +15,8 @@ import FlagSection from "./FlagSection/FlagSection";
 import { LogoText } from "./LogoText/LogoText";
 import { Logo } from "./Logo/Logo";
 import TextInput from "./TextInput/TextInput";
+import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
+import { OfficeRaces } from "./Ballot/OfficeRaces";
 
 export {
   Avatar,
@@ -35,4 +37,6 @@ export {
   VerticalDivider,
   FieldSet,
   FlagSection,
+  VotingGuideWelcome,
+  OfficeRaces,
 };

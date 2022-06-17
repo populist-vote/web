@@ -1,0 +1,45 @@
+@import "../../styles/variables/fonts.module.scss";
+@import "../../styles/variables/colors.module.scss";
+
+.container {
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem 0;
+  font-size: $text-lg;
+  font-family: $font-primary;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.15);
+    transform: scale(1.02);
+    transition: ease-in-out 0.3s;
+  }
+
+  &.myBallot {
+    background-image: url("../../public/images/BallotFlag.jpg");
+    background-position: center;
+    background-size: cover;
+    height: 150px;
+  }
+
+  &.myLegislators {
+    background-image: url("../../public/images/LegislatorsBuilding.jpg");
+    background-color: $aqua-dark;
+    background-size: cover;
+    background-position: center;
+    height: 100px;
+  }
+
+  &.votingGuides {
+    background: url("../../public/images/VotingGuidesHands.jpg");
+    background-color: $violet-dark;
+    background-size: cover;
+    background-position: center;
+    height: 100px;
+  }
+}
