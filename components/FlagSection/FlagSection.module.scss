@@ -2,7 +2,6 @@
 @import "styles/mixins.scss";
 
 .container {
-  margin-top: 1.5rem;
   position: relative;
 
   @include for-tablet-portrait-up {
@@ -67,5 +66,12 @@
     @include for-tablet-portrait-up {
       padding: 2rem;
     }
+  }
+}
+
+.hideFlagForMobile {
+  @include for-tablet-portrait-down {
+    header { display: none; }
+    .content { padding: 0 }
   }
 }

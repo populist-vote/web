@@ -552,6 +552,7 @@ type Mutation {
   createPolitician(input: CreatePoliticianInput!): PoliticianResult!
   createRace(input: CreateRaceInput!): RaceResult!
   createUser(input: CreateUserInput!): CreateUserResult!
+  deleteAccount: ID!
   deleteArgument(id: String!): DeleteArgumentResult!
   deleteBallotMeasure(id: String!): DeleteBallotMeasureResult!
   deleteBill(id: String!): DeleteBillResult!

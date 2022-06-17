@@ -78,11 +78,24 @@
   }
 
   .items {
-    padding: 0;
-    margin: 2.5rem -1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding-bottom: 5rem;
+    ul {
+      padding: 0;
+      margin: 2.5rem -1rem;
+    }
 
     @include for-tablet-portrait-down {
       display: none;
+    }
+
+    .avatar {
+      cursor: pointer;
+      font-family: $font-primary;
+      font-size: 1.25rem;
     }
   }
 

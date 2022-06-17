@@ -1,0 +1,43 @@
+@import "styles/variables/fonts.module";
+@import "styles/variables/colors.module";
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  input {
+    background: #fff;
+    box-shadow: inset 0px 0px 6px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    height: 50px;
+    font-weight: 400;
+    font-size: $text-md;
+    padding: 0.75rem 1rem;
+    font-family: $font-secondary;
+    color: #222;
+
+    &:placeholder {
+      color: #666;
+    }
+  }
+
+  &.hideLabel {
+    label {
+      position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+  }
+
+  span.errorMessage {
+    font-size: $text-sm;
+    color: $red;
+    padding: 0.5em 0.25em;
+  }
+}

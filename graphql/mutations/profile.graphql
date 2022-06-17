@@ -1,0 +1,82 @@
+query UserProfile($userId: ID!) {
+  userProfile(userId: $userId) {
+    id
+    email
+    username
+    firstName
+    lastName
+    address {
+      city
+        country
+        line1
+        line2
+        postalCode
+        state
+    }
+  }
+}
+
+mutation UpdateFirstAndLastName(
+  $firstName: String!
+  $lastName: String!
+) {
+  updateFirstAndLastName(
+    firstName: $firstName
+    lastName: $lastName
+  ) {
+    firstName
+    lastName
+  }
+}
+
+mutation UpdateUsername($username: String!) {
+  updateUsername(username: $username) {
+    username
+  }
+}
+
+mutation UpdateAddress(
+  $address: AddressInput!
+) {
+  updateAddress(
+    address: $address
+  ) {
+    city
+    country
+    state
+    line1
+    line2
+    postalCode
+  }
+}
+
+
+mutation UpdateEmail(
+  $email: String!
+) {
+  updateEmail(
+    email: $email
+  ) {
+    email
+  }
+}
+
+mutation UpdatePassword(
+  $oldPassword: String!
+  $newPassword: String!
+) {
+  updatePassword(
+    input: {
+      oldPassword: $oldPassword
+      newPassword: $newPassword
+    }
+  )
+}
+
+mutation Logout {
+  logout
+}
+
+mutation DeleteAccount {
+  deleteAccount
+}

@@ -1,4 +1,4 @@
-import { AuthTokenResult, useCurrentUserQuery } from "generated";
+import { AuthTokenResult, useCurrentUserQuery } from "../generated";
 import Router from "next/router";
 import { createContext, ReactNode, useContext, useEffect } from "react";
 
@@ -7,7 +7,7 @@ const AuthContext = createContext<AuthTokenResult>({} as AuthTokenResult);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { data, isLoading, error } = useCurrentUserQuery();
   if (isLoading || error) return null;
-
+  
   return (
     <AuthContext.Provider value={data?.currentUser as AuthTokenResult}>
       {children}
@@ -15,7 +15,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth({ redirectTo = "/login" }: { redirectTo?: string }) {
+export function useAuth({ redirectTo = "/login" }: { redirectTo?: string } = {}) {
   const user = useContext(AuthContext);
 
   useEffect(() => {
