@@ -8,15 +8,17 @@ import landing2 from "public/images/landing/amplify.png";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
 import { Footer, ImageWithFallback } from "components";
+import styles from "styles/landing.module.scss";
+import classNames from "classnames";
 
 // XXX: VERY SCARY THING THAT WE NEED TO FIX
 const Home: NextPage = () => {
   return (
     <>
-      <main>
-        <div id="container1">
-          <div id="section1">
-            <div className="content">
+      <main className={styles.container}>
+        <div id={styles["container1"]}>
+          <div id={styles["section1"]}>
+            <div className={styles.content}>
               <Image
                 id="logo"
                 src={headerLogo}
@@ -40,9 +42,9 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div id="section1b">
-            <div id="s1bcol1">
-              <div className="contentwide">
+          <div id={styles["section1b"]}>
+            <div id={styles["s1bcol1"]}>
+              <div className={styles.contentwide}>
                 <h1>Easy access to your government.</h1>
                 <p>
                   Politicians, legislation, and organizations - connected and
@@ -61,7 +63,7 @@ const Home: NextPage = () => {
                 </div> */}
               </div>
             </div>
-            <div id="s1bcol2">
+            <div id={styles["s1bcol2"]}>
               <ImageWithFallback
                 src={landing1}
                 fallbackSrc={landing1fallback}
@@ -71,12 +73,12 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div id="section2">
-            <div id="s2col1">
+          <div id={styles["section2"]}>
+            <div id={styles["s2col1"]}>
               <Image src={landing2} alt="desktop browser" />
             </div>
-            <div id="s2col2">
-              <div className="contentwide">
+            <div id={styles["s2col2"]}>
+              <div className={styles.contentwide}>
                 <h1>Amplify your voice.</h1>
                 <p>
                   Civic engagement starts with your vote. Extend its power
@@ -87,9 +89,9 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div id="section3">
-            <div id="s3col1">
-              <div className="contentwide">
+          <div id={styles["section3"]}>
+            <div id={styles["s3col1"]}>
+              <div className={styles.contentwide}>
                 <h1>Transparent, modern, and ethical.</h1>
                 <p>
                   Moving fast and breaking things is no longer compatible with
@@ -98,22 +100,22 @@ const Home: NextPage = () => {
                 </p>
               </div>
             </div>
-            <div id="s3col2">
+            <div id={styles["s3col2"]}>
               <Image src={landing3} alt="transparency into our algorithms" />
             </div>
           </div>
 
-          <div id="section4">
-            <div id="s4row1">
-              <div className="contentwide2">
+          <div id={styles["section4"]}>
+            <div id={styles["s4row1"]}>
+              <div className={styles.contentwide2}>
                 <Image
                   src={landing4}
                   alt="people becoming involved in government"
                 />
                 <h1>
-                  Populist is for <span className="emphasized">voters</span>,{" "}
-                  <span className="emphasized">organizations</span>, and{" "}
-                  <span className="emphasized">politicians</span>.
+                  Populist is for <span className={styles.emphasized}>voters</span>,{" "}
+                  <span className={styles.emphasized}>organizations</span>, and{" "}
+                  <span className={styles.emphasized}>politicians</span>.
                 </h1>
                 <p>
                   By creating and surfacing connections between these key
@@ -122,26 +124,26 @@ const Home: NextPage = () => {
                 </p>
               </div>
             </div>
-            <div id="s4row2">
-              <div className="contentwide last">
-                <h1 className="botspace">Interested? Sign up to learn more.</h1>
+            <div id={styles["s4row2"]}>
+              <div className={classNames(styles.contentwide, styles.last)}>
+                <h1 className={styles.botspace}>Interested? Sign up to learn more.</h1>
 
-                <div id="mc_embed_signup">
+                <div id={styles["mc_embed_signup"]}>
                   <form
                     action="https://populist.us2.list-manage.com/subscribe/post?u=f24fbd8a9a3cd91b78cb4a457&amp;id=361b16ea14"
                     method="post"
-                    id="mc-embedded-subscribe-form"
+                    id={styles["mc-embedded-subscribe-form"]}
                     name="mc-embedded-subscribe-form"
-                    className="validate"
+                    className={styles.validate}
                     target="_blank"
                     noValidate
                   >
-                    <div id="mc_embed_signup_scroll">
+                    <div id={styles["mc_embed_signup_scroll"]}>
                       <input
                         type="email"
                         name="EMAIL"
-                        className="email"
-                        id="mce-EMAIL"
+                        className={styles.email}
+                        id={styles["mce-EMAIL"]}
                         placeholder="Email address"
                         required
                       />
@@ -155,13 +157,13 @@ const Home: NextPage = () => {
                           tabIndex={-1}
                         />
                       </div>
-                      <div className="clear">
+                      <div className={styles.clear}>
                         <input
                           type="submit"
                           value="SUBMIT"
                           name="subscribe"
-                          id="mc-embedded-subscribe"
-                          className="button"
+                          id={styles["mc-embedded-subscribe"]}
+                          className={styles.button}
                         />
                       </div>
                     </div>

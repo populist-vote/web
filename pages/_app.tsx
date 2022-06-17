@@ -6,7 +6,6 @@ import { NextPage } from "next";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import "styles/globals.scss";
-import "styles/landing.css";
 import { AppHead as Head } from "components/Head/Head";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";

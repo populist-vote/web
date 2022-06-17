@@ -104,8 +104,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       : [];
 
   function OfficeSection() {
+    const cx = classNames(
+      styles.center,
+      styles.borderBottom,
+      styles.politicianOffice
+    );
     return (
-      <section className={styles.center}>
+      <section className={cx}>
         <h1 className={styles.politicianOffice}>
           {politician?.currentOffice?.title ||
             politician?.votesmartCandidateBio?.office?.name[0]}
