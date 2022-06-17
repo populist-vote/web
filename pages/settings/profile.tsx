@@ -1,7 +1,14 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Avatar, Button, FlagSection, Layout, TextInput } from "components";
+import { ChangeEvent, useState } from "react";
+import {
+  Avatar,
+  Button,
+  FlagSection,
+  Layout,
+  LoaderFlag,
+  TextInput,
+} from "components";
 import profileStyles from "pages/settings/Profile.module.scss";
 import { NextPageWithLayout } from "../_app";
 import { useAuth } from "hooks/useAuth";
@@ -14,87 +21,155 @@ import {
   useUpdateEmailMutation,
   useLogoutMutation,
   useValidatePasswordEntropyQuery,
+  useUserProfileQuery,
+  useUpdateUsernameMutation,
 } from "generated";
 import { PasswordEntropyMeter } from "components/Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
 import states from "utils/states";
 
-const NameSection = ({ firstName, lastName }: { firstName: string, lastName: string }) => {
-  const { control, handleSubmit, formState, reset } = useForm<{ firstName: string, lastName: string }>({
-    mode: "onChange",
-    defaultValues: {
-      firstName, lastName
-    }
-  });
+type NameSectionProps = {
+  firstName: string;
+  lastName: string;
+};
+
+const NameSection = ({ firstName, lastName }: NameSectionProps) => {
+  const { register, handleSubmit, formState, reset } =
+    useForm<NameSectionProps>({
+      mode: "onChange",
+      defaultValues: {
+        firstName,
+        lastName,
+      },
+    });
   const updateNameMutation = useUpdateFirstAndLastNameMutation({
     onSuccess: ({ updateFirstAndLastName }) => {
-      reset(updateFirstAndLastName);
-    }
+      reset(updateFirstAndLastName as NameSectionProps);
+    },
   });
   const { isValid, isDirty } = formState;
   const onSubmit = ({
     firstName,
-    lastName
+    lastName,
   }: {
-    firstName: string,
-    lastName: string
+    firstName: string;
+    lastName: string;
   }) => {
     updateNameMutation.mutate({
-      firstName, lastName
+      firstName,
+      lastName,
     });
   };
-   
+
   return (
     <section>
       <h2>Name</h2>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={profileStyles.nameSection}>
-            <Controller
+            <TextInput
               name="firstName"
-              control={control}
-              render={({ field: { ref, ...other } }) => {
-                return (
-                  <TextInput ref={ref} id="first-name" label="First Name" placeholder={"First name"} hideLabel {...other} />
-                );
-              }}
+              id="first-name"
+              label="First Name"
+              placeholder={"First name"}
+              hideLabel
+              register={register}
             />
-            <Controller
+
+            <TextInput
               name="lastName"
-              control={control}
-              render={({ field: { ref, ...other } }) => {
-                return (
-                  <TextInput ref={ref} id="last-name" label="Last Name" placeholder={"Last name"} hideLabel {...other} />
-                );
-              }}
+              id="last-name"
+              label="Last Name"
+              placeholder={"Last name"}
+              hideLabel
+              register={register}
             />
           </div>
-          <Button disabled={!isDirty || !isValid} variant="secondary" size="large" theme="blue" label="Save" type="submit" />
+          <Button
+            disabled={!isDirty || !isValid}
+            variant="secondary"
+            size="large"
+            theme="blue"
+            label="Save"
+            type="submit"
+          />
         </form>
       </div>
     </section>
   );
 };
 
-const EmailSection = ({ email }: { email: string }) => {
-  const { control, handleSubmit, formState, reset } = useForm<{ email: string }>({
+const UsernameSection = ({ username }: { username: string }) => {
+  const { register, handleSubmit, formState, reset } = useForm<{
+    username: string;
+  }>({
     mode: "onChange",
     defaultValues: {
-      email
-    }
+      username,
+    },
   });
-  const updateEmailMutation = useUpdateEmailMutation({
-    onSuccess: ({ updateEmail }) => {
-      reset(updateEmail);
-    }
+  const updateUsernameMutation = useUpdateUsernameMutation({
+    onSuccess: ({ updateUsername }) => {
+      reset(updateUsername);
+    },
   });
   const { errors, isValid, isDirty } = formState;
-  const onSubmit = ({
-    email
-  }: {
-    email: string
-  }) => {
+  const onSubmit = ({ username }: { username: string }) => {
+    updateUsernameMutation.mutate({
+      username,
+    });
+  };
+
+  // Need to handle username already taken here
+
+  return (
+    <section>
+      <h2>Username</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <TextInput
+            id="username"
+            name="username"
+            label="Username"
+            placeholder={"Username"}
+            hideLabel
+            errors={errors.username?.message}
+            register={register}
+            rules={{
+              required: "Username is required",
+            }}
+          />
+          <Button
+            disabled={!isDirty || !isValid}
+            variant="secondary"
+            size="large"
+            theme="blue"
+            label="Save"
+            type="submit"
+          />
+        </div>
+      </form>
+    </section>
+  );
+};
+
+const EmailSection = ({ email }: { email: string }) => {
+  const { register, handleSubmit, formState, reset } = useForm<{
+    email: string;
+  }>({
+    mode: "onChange",
+    defaultValues: {
+      email,
+    },
+  });
+  const updateEmailMutation = useUpdateEmailMutation({
+    onSuccess: ({ updateEmail }: { updateEmail: { email: string } }) => {
+      reset(updateEmail);
+    },
+  });
+  const { errors, isValid, isDirty } = formState;
+  const onSubmit = ({ email }: { email: string }) => {
     updateEmailMutation.mutate({
-      email
+      email,
     });
   };
   return (
@@ -102,16 +177,30 @@ const EmailSection = ({ email }: { email: string }) => {
       <h2>Email</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <Controller
+          <TextInput
+            id="email"
             name="email"
-            control={control}
-            render={({ field: { ref, ...other } }) => {
-              return (
-                <TextInput ref={ref} errors={errors.email?.message} id="email" label="Email" placeholder={"Email"} hideLabel {...other} />
-              );
+            label="Email"
+            placeholder={"Email"}
+            hideLabel
+            errors={errors.email?.message}
+            register={register}
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Invalid email address",
+              },
             }}
           />
-          <Button disabled={!isDirty || !isValid} variant="secondary" size="large" theme="blue" label="Save" type="submit" />
+          <Button
+            disabled={!isDirty || !isValid}
+            variant="secondary"
+            size="large"
+            theme="blue"
+            label="Save"
+            type="submit"
+          />
         </div>
       </form>
     </section>
@@ -119,22 +208,22 @@ const EmailSection = ({ email }: { email: string }) => {
 };
 
 const AddressSection = ({ address }: { address: AddressResult }) => {
-  const { register, control, handleSubmit, formState, reset } = useForm<AddressResult>({
+  const { register, handleSubmit, formState, reset } = useForm<AddressResult>({
     mode: "onChange",
-    defaultValues: address
+    defaultValues: address,
   });
   const updateAddressMutation = useUpdateAddressMutation({
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
-    }
+    },
   });
   const { errors, isValid, isDirty } = formState;
   const onSubmit = (address: AddressResult) => {
     updateAddressMutation.mutate({
       address: {
         ...address,
-        country: "USA"
-      }
+        country: "USA",
+      },
     });
   };
 
@@ -144,39 +233,43 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={profileStyles.addressSection}>
           <span>
-            Enter the address where you’re registered to vote - that’s the only thing we save, so we can serve you relevant local government information.
+            Enter the address where you’re registered to vote - that’s the only
+            thing we save, so we can serve you relevant local government
+            information.
           </span>
-          <Controller
+
+          <TextInput
             name="line1"
-            control={control}
+            errors={errors.line1?.message}
+            id="address-street"
+            label="Street Address"
+            placeholder={"Street address"}
+            hideLabel
+            register={register}
             rules={{ required: "Address line 1 is required" }}
-            render={({ field: { ref, ...other } }) => {
-              return (
-                <TextInput ref={ref} errors={errors.line1?.message} id="address-street" label="Street Address" placeholder={"Street address"} hideLabel {...other} />
-              );
-            }}
           />
-          <Controller
+
+          <TextInput
             name="line2"
-            control={control}
-            render={({ field: { ref, ...other } }) => {
-              return (
-                <TextInput ref={ref} errors={errors.line2?.message} id="address-line-2" label="Apartment, unit, suite, floor #, etc." placeholder={"Apartment, unit, suite, floor #, etc."} hideLabel {...other} />
-              );
-            }}
+            errors={errors.line2?.message}
+            id="address-line-2"
+            label="Apartment, unit, suite, floor #, etc."
+            placeholder={"Apartment, unit, suite, floor #, etc."}
+            hideLabel
+            register={register}
           />
           <div className={profileStyles.location}>
-            <Controller
+            <TextInput
               name="city"
-              control={control}
+              errors={errors.city?.message}
+              id="address-city"
+              label="City"
+              placeholder={"City"}
+              hideLabel
+              register={register}
               rules={{ required: "City is required" }}
-              render={({ field: { ref, ...other } }) => {
-                return (
-                  <TextInput ref={ref} errors={errors.city?.message} id="address-city" label="City" placeholder={"City"} {...other} hideLabel />
-                );
-              }}
             />
-            
+
             <div>
               <select
                 id="states"
@@ -185,30 +278,42 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
                   required: "State is required",
                 })}
               >
-                <option value="">
-                  State
-                </option>
+                <option value="">State</option>
                 {Object.entries(states).map(([key, value]) => (
                   <option key={key} value={key} label={value}>
                     {value}
                   </option>
                 ))}
               </select>
-              {errors.state?.message && <span className={profileStyles.errorMessage}>{errors.state.message}</span>}
+              {errors.state?.message && (
+                <span className={profileStyles.errorMessage}>
+                  {errors.state.message}
+                </span>
+              )}
             </div>
 
-            <Controller
+            <TextInput
               name="postalCode"
-              rules={{ required: "Zip code is required", pattern: /^[0-9]{5}$/ }}
-              control={control}
-              render={({ field: { ref, ...other } }) => {
-                return (
-                  <TextInput ref={ref} errors={errors.postalCode?.message} id="address-zip" label="Zip code" placeholder={"Zip code"} hideLabel {...other} />
-                );
+              errors={errors.postalCode?.message}
+              id="address-zip"
+              label="Zip code"
+              placeholder={"Zip code"}
+              hideLabel
+              register={register}
+              rules={{
+                required: "Zip code is required",
+                pattern: /^[0-9]{5}$/,
               }}
             />
           </div>
-          <Button disabled={!isDirty || !isValid} variant="secondary" size="large" theme="blue" label="Save" type="submit" />
+          <Button
+            disabled={!isDirty || !isValid}
+            variant="secondary"
+            size="large"
+            theme="blue"
+            label="Save"
+            type="submit"
+          />
         </div>
       </form>
     </section>
@@ -218,25 +323,32 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
 const SignOutSection = () => {
   const router = useRouter();
   const logOutMutation = useLogoutMutation({
-    onSuccess: () => router.push("/login")
+    onSuccess: () => router.push("/login"),
   });
   const handleSignOut = () => {
-    logOutMutation.mutate();
+    logOutMutation.mutate({});
   };
   return (
     <section>
       <h2>Sign out</h2>
       <div className={profileStyles.signOutSection}>
-        <Button variant="secondary" size="large" theme="blue" label="Sign out" onClick={handleSignOut} />
+        <Button
+          variant="secondary"
+          size="large"
+          theme="blue"
+          label="Sign out"
+          onClick={handleSignOut}
+        />
       </div>
     </section>
   );
 };
 
 const DeleteAccountSection = () => {
-  const [deleteConfirmationChecked, setDeleteConfirmationChecked] = useState<boolean>(false);
+  const [deleteConfirmationChecked, setDeleteConfirmationChecked] =
+    useState<boolean>(false);
 
-  const handleDeleteConfirmation = (e) => {
+  const handleDeleteConfirmation = (e: ChangeEvent<HTMLInputElement>) => {
     setDeleteConfirmationChecked(e.target.checked);
   };
 
@@ -247,25 +359,44 @@ const DeleteAccountSection = () => {
     <section>
       <h2>Delete account</h2>
       <div className={profileStyles.deleteSection}>
-        <span>All of your data will be deleted and can never be recovered.</span>
+        <span>
+          All of your data will be deleted and can never be recovered.
+        </span>
         <div className={profileStyles.deleteConfirmation}>
-          <input type="checkbox" id="delete-confirmation" onChange={handleDeleteConfirmation} />
-          <label htmlFor="delete-confirmation">Are you sure you want to completely delete your account?</label>
+          <input
+            type="checkbox"
+            id="delete-confirmation"
+            onChange={handleDeleteConfirmation}
+          />
+          <label htmlFor="delete-confirmation">
+            Are you sure you want to completely delete your account?
+          </label>
         </div>
-        <Button variant="secondary" size="large" theme="blue" label="Delete" disabled={!deleteConfirmationChecked} onClick={handleDeleteAccount} />
+        <Button
+          variant="secondary"
+          size="large"
+          theme="blue"
+          label="Delete"
+          disabled={!deleteConfirmationChecked}
+          onClick={handleDeleteAccount}
+        />
       </div>
     </section>
   );
 };
 
 const PasswordSection = () => {
-  const { control, handleSubmit, formState, getValues, reset } = useForm<{ oldPassword: string, newPassword: string, newPasswordConfirmation: string }>({
+  const { register, handleSubmit, formState, getValues, reset } = useForm<{
+    oldPassword: string;
+    newPassword: string;
+    newPasswordConfirmation: string;
+  }>({
     mode: "onChange",
     defaultValues: {
       oldPassword: "",
       newPassword: "",
-      newPasswordConfirmation: ""
-    }
+      newPasswordConfirmation: "",
+    },
   });
   const {
     data: passwordEntropyData = {
@@ -297,22 +428,22 @@ const PasswordSection = () => {
       reset({
         oldPassword: "",
         newPassword: "",
-        newPasswordConfirmation: ""
+        newPasswordConfirmation: "",
       });
-    }
+    },
   });
   const { errors, isValid, isDirty } = formState;
   const onSubmit = ({
     oldPassword,
-    newPassword
+    newPassword,
   }: {
-    oldPassword: string,
-    newPassword: string,
-    newPasswordConfirmation: string
+    oldPassword: string;
+    newPassword: string;
+    newPasswordConfirmation: string;
   }) => {
     updatePasswordMutation.mutate({
       oldPassword,
-      newPassword
+      newPassword,
     });
   };
   return (
@@ -320,43 +451,48 @@ const PasswordSection = () => {
       <h2>Password</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={profileStyles.passwordSection}>
-          <Controller
+          <TextInput
             name="oldPassword"
-            control={control}
+            errors={errors.oldPassword?.message}
+            type="password"
+            id="current-password"
+            label="Old password"
+            placeholder={"Old password"}
+            hideLabel
+            register={register}
             rules={{
               validate: (value: string) =>
-                getValues("newPassword").length === 0 || value.length > 0 || "Current password is required",
-            }}
-            render={({ field: { ref, ...other } }) => {
-              return (
-                <TextInput ref={ref} errors={errors.oldPassword?.message} type="password" id="current-password" label="Old password" placeholder={"Old password"} hideLabel {...other} />
-              );
+                getValues("newPassword").length === 0 ||
+                value.length > 0 ||
+                "Current password is required",
             }}
           />
-          <Controller
+          <TextInput
             name="newPassword"
-            control={control}
+            errors={errors.newPassword?.message}
+            type="password"
+            id="new-password"
+            label="New password"
+            placeholder={"New password"}
+            hideLabel
+            register={register}
             rules={{
-              validate: () => isPasswordValid
-            }}
-            render={({ field: { ref, ...other } }) => {
-              return (
-                <TextInput ref={ref} errors={errors.newPassword?.message} type="password" id="new-password" label="New password" placeholder={"New password"} hideLabel {...other} />
-              );
+              validate: () => isPasswordValid,
             }}
           />
-          <Controller
+          <TextInput
             name="newPasswordConfirmation"
-            control={control}
+            errors={errors.newPasswordConfirmation?.message}
+            type="password"
+            id="confirm-password"
+            label="Confirm password"
+            placeholder={"Confirm password"}
+            hideLabel
+            register={register}
             rules={{
               required: "Password confirmation is required",
               validate: (value: string) =>
                 value === getValues("newPassword") || "Passwords do not match",
-            }}
-            render={({ field: { ref, ...other } }) => {
-              return (
-                <TextInput ref={ref} errors={errors.newPasswordConfirmation?.message} type="password" id="confirm-password" label="Confirm password" placeholder={"Confirm password"} hideLabel {...other} />
-              );
             }}
           />
           {getValues("newPassword").length > 0 && (
@@ -368,7 +504,14 @@ const PasswordSection = () => {
               isLoading={isEntropyCalcLoading}
             />
           )}
-          <Button disabled={!isDirty || !isValid} variant="secondary" size="large" theme="blue" label="Save" type="submit" />
+          <Button
+            disabled={!isDirty || !isValid}
+            variant="secondary"
+            size="large"
+            theme="blue"
+            label="Save"
+            type="submit"
+          />
         </div>
       </form>
     </section>
@@ -407,20 +550,29 @@ const ProfilePhotoSection = () => {
 
 export const ProfilePage: NextPageWithLayout = () => {
   const user = useAuth({ redirectTo: "/login?next=settings/profile" });
-  if (!user) return null;
-  const { userProfile = {}, email } = user || {};
+  const { data: { userProfile } = {}, isLoading } = useUserProfileQuery({
+    userId: user.id,
+  });
+  if (isLoading) return <LoaderFlag />;
+  if (!userProfile) return null;
   const {
     address = {},
     firstName = "",
-    lastName = ""
+    lastName = "",
+    email,
+    username,
   } = userProfile;
 
   return (
     <FlagSection hideFlagForMobile title="My Profile">
       <div className={profileStyles.profile}>
         {false && <ProfilePhotoSection />}
-        <NameSection firstName={firstName} lastName={lastName} />
-        <AddressSection address={address} />
+        <NameSection
+          firstName={firstName as string}
+          lastName={lastName as string}
+        />
+        <UsernameSection username={username as string} />
+        <AddressSection address={address as AddressResult} />
         <EmailSection email={email} />
         <PasswordSection />
         <SignOutSection />
