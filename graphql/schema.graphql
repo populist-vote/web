@@ -874,6 +874,8 @@ type Query {
     search: RaceSearch
   ): [RaceResult!]!
   upcomingElections: [ElectionResult!]!
+
+  """Publicly accessible user information"""
   userProfile(userId: ID!): UserResult!
 
   """Validate that a user does not already exist with this email"""

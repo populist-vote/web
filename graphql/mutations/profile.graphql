@@ -1,3 +1,21 @@
+query UserProfile($userId: ID!) {
+  userProfile(userId: $userId) {
+    id
+    email
+    username
+    firstName
+    lastName
+    address {
+      city
+        country
+        line1
+        line2
+        postalCode
+        state
+    }
+  }
+}
+
 mutation UpdateFirstAndLastName(
   $firstName: String!
   $lastName: String!
@@ -8,6 +26,12 @@ mutation UpdateFirstAndLastName(
   ) {
     firstName
     lastName
+  }
+}
+
+mutation UpdateUsername($username: String!) {
+  updateUsername(username: $username) {
+    username
   }
 }
 
