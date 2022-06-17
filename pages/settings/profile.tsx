@@ -386,18 +386,19 @@ const DeleteAccountSection = () => {
 };
 
 const PasswordSection = () => {
-  const { register, handleSubmit, formState, getValues, reset } = useForm<{
-    oldPassword: string;
-    newPassword: string;
-    newPasswordConfirmation: string;
-  }>({
-    mode: "onChange",
-    defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-      newPasswordConfirmation: "",
-    },
-  });
+  const { register, handleSubmit, formState, getValues, reset, setError } =
+    useForm<{
+      oldPassword: string;
+      newPassword: string;
+      newPasswordConfirmation: string;
+    }>({
+      mode: "onChange",
+      defaultValues: {
+        oldPassword: "",
+        newPassword: "",
+        newPasswordConfirmation: "",
+      },
+    });
   const {
     data: passwordEntropyData = {
       validatePasswordEntropy: {
@@ -430,6 +431,10 @@ const PasswordSection = () => {
         newPassword: "",
         newPasswordConfirmation: "",
       });
+    },
+    onError: (error) => {
+      if (error instanceof Error)
+        setError("oldPassword", { message: error.message });
     },
   });
   const { errors, isValid, isDirty } = formState;
