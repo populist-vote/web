@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import {
   Avatar,
@@ -23,6 +23,7 @@ import {
   useValidatePasswordEntropyQuery,
   useUserProfileQuery,
   useUpdateUsernameMutation,
+  useDeleteAccountMutation,
 } from "generated";
 import { PasswordEntropyMeter } from "components/Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
 import states from "utils/states";
@@ -348,13 +349,18 @@ const DeleteAccountSection = () => {
   const [deleteConfirmationChecked, setDeleteConfirmationChecked] =
     useState<boolean>(false);
 
+  const deleteAccountMutation = useDeleteAccountMutation({
+    onSuccess: () => Router.push("/register"),
+  });
+
   const handleDeleteConfirmation = (e: ChangeEvent<HTMLInputElement>) => {
     setDeleteConfirmationChecked(e.target.checked);
   };
 
   const handleDeleteAccount = () => {
-    return;
+    deleteAccountMutation.mutate({});
   };
+
   return (
     <section>
       <h2>Delete account</h2>

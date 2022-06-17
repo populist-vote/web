@@ -76,3 +76,7 @@ mutation UpdatePassword(
 mutation Logout {
   logout
 }
+
+mutation DeleteAccount {
+  deleteAccount
+}
