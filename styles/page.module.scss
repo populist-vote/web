@@ -10,7 +10,7 @@
   overflow-x: hidden;
 
   h1 {
-    font-size: $text-xxl;
+    // font-size: $text-xxl;
     margin: 0;
 
     @include for-tablet-portrait-down {
@@ -19,8 +19,7 @@
   }
 
   h2 {
-    font-size: $text-md;
-    font-weight: 400;
+    font-weight: 300;
     text-transform: uppercase;
     color: $blue-text;
     margin: 0;
@@ -30,6 +29,7 @@
     margin: 0 0 0.75rem;
     text-align: center;
     max-width: 80%;
+    font-weight: 500;
   }
 
   h3.subHeader {
@@ -68,6 +68,10 @@
       display: flex;
       flex-direction: column;
     }
+  }
+
+  section.politicianOffice {
+    padding: 2.5rem 0;
   }
 }
 
