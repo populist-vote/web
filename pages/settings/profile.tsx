@@ -561,9 +561,14 @@ const ProfilePhotoSection = () => {
 
 export const ProfilePage: NextPageWithLayout = () => {
   const user = useAuth({ redirectTo: "/login?next=settings/profile" });
-  const { data: { userProfile } = {}, isLoading } = useUserProfileQuery({
-    userId: user.id,
-  });
+  const { data: { userProfile } = {}, isLoading } = useUserProfileQuery(
+    {
+      userId: user?.id,
+    },
+    {
+      enabled: !!user?.id,
+    }
+  );
   if (isLoading) return <LoaderFlag />;
   if (!userProfile) return null;
   const {

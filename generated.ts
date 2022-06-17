@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions } from 'react-query';
+import { useQuery, useInfiniteQuery, useMutation, UseQueryOptions, UseInfiniteQueryOptions, UseMutationOptions, QueryFunctionContext } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -10,7 +10,7 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
     const res = await fetch("https://api.staging.populist.us", {
     method: "POST",
-    ...({ "credentials": "include","headers": { "Content-Type": "application/json","Accept-Encoding": "gzip" } }),
+    ...({"credentials":"include","headers":{"Content-Type":"application/json","Accept-Encoding":"gzip"}}),
       body: JSON.stringify({ query, variables }),
     });
 
@@ -23,7 +23,7 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
     }
 
     return json.data;
-  };
+  }
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -633,6 +633,7 @@ export type Mutation = {
   createPolitician: PoliticianResult;
   createRace: RaceResult;
   createUser: CreateUserResult;
+  deleteAccount: Scalars['ID'];
   deleteArgument: DeleteArgumentResult;
   deleteBallotMeasure: DeleteBallotMeasureResult;
   deleteBill: DeleteBillResult;
@@ -1773,7 +1774,7 @@ export type ValidatePasswordEntropyQuery = { __typename?: 'Query', validatePassw
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'AuthTokenResult', id: string, email: string, username: string, role: Role } | null };
+export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'AuthTokenResult', id: string, email: string, username: string, role: Role, userProfile: { __typename?: 'UserResult', firstName?: string | null, lastName?: string | null, address?: { __typename?: 'AddressResult', city: string, country: string, line1: string, line2?: string | null, postalCode: string, state: State } | null } } | null };
 
 export type BeginUserRegistrationMutationVariables = Exact<{
   email: Scalars['String'];
@@ -1813,6 +1814,60 @@ export type ResetPasswordMutationVariables = Exact<{
 
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
+
+export type UserProfileQueryVariables = Exact<{
+  userId: Scalars['ID'];
+}>;
+
+
+export type UserProfileQuery = { __typename?: 'Query', userProfile: { __typename?: 'UserResult', id: string, email: string, username: string, firstName?: string | null, lastName?: string | null, address?: { __typename?: 'AddressResult', city: string, country: string, line1: string, line2?: string | null, postalCode: string, state: State } | null } };
+
+export type UpdateFirstAndLastNameMutationVariables = Exact<{
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+}>;
+
+
+export type UpdateFirstAndLastNameMutation = { __typename?: 'Mutation', updateFirstAndLastName: { __typename?: 'UpdateNameResult', firstName?: string | null, lastName?: string | null } };
+
+export type UpdateUsernameMutationVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type UpdateUsernameMutation = { __typename?: 'Mutation', updateUsername: { __typename?: 'UpdateUsernameResult', username: string } };
+
+export type UpdateAddressMutationVariables = Exact<{
+  address: AddressInput;
+}>;
+
+
+export type UpdateAddressMutation = { __typename?: 'Mutation', updateAddress: { __typename?: 'AddressResult', city: string, country: string, state: State, line1: string, line2?: string | null, postalCode: string } };
+
+export type UpdateEmailMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'UpdateEmailResult', email: string } };
+
+export type UpdatePasswordMutationVariables = Exact<{
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+}>;
+
+
+export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword: boolean };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+
+export type DeleteAccountMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount: string };
 
 export type UpsertVotingGuideMutationVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -1979,7 +2034,7 @@ export const useValidateEmailAvailableQuery = <
     );
 
 useValidateEmailAvailableQuery.getKey = (variables: ValidateEmailAvailableQueryVariables) => ['ValidateEmailAvailable', variables];
-
+;
 
 export const useInfiniteValidateEmailAvailableQuery = <
       TData = ValidateEmailAvailableQuery,
@@ -1991,13 +2046,13 @@ export const useInfiniteValidateEmailAvailableQuery = <
     ) =>
     useInfiniteQuery<ValidateEmailAvailableQuery, TError, TData>(
       ['ValidateEmailAvailable.infinite', variables],
-      (metaData) => fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteValidateEmailAvailableQuery.getKey = (variables: ValidateEmailAvailableQueryVariables) => ['ValidateEmailAvailable.infinite', variables];
-
+;
 
 useValidateEmailAvailableQuery.fetcher = (variables: ValidateEmailAvailableQueryVariables) => fetcher<ValidateEmailAvailableQuery, ValidateEmailAvailableQueryVariables>(ValidateEmailAvailableDocument, variables);
 export const ValidatePasswordEntropyDocument = /*#__PURE__*/ `
@@ -2023,7 +2078,7 @@ export const useValidatePasswordEntropyQuery = <
     );
 
 useValidatePasswordEntropyQuery.getKey = (variables: ValidatePasswordEntropyQueryVariables) => ['ValidatePasswordEntropy', variables];
-
+;
 
 export const useInfiniteValidatePasswordEntropyQuery = <
       TData = ValidatePasswordEntropyQuery,
@@ -2035,13 +2090,13 @@ export const useInfiniteValidatePasswordEntropyQuery = <
     ) =>
     useInfiniteQuery<ValidatePasswordEntropyQuery, TError, TData>(
       ['ValidatePasswordEntropy.infinite', variables],
-      (metaData) => fetcher<ValidatePasswordEntropyQuery, ValidatePasswordEntropyQueryVariables>(ValidatePasswordEntropyDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<ValidatePasswordEntropyQuery, ValidatePasswordEntropyQueryVariables>(ValidatePasswordEntropyDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteValidatePasswordEntropyQuery.getKey = (variables: ValidatePasswordEntropyQueryVariables) => ['ValidatePasswordEntropy.infinite', variables];
-
+;
 
 useValidatePasswordEntropyQuery.fetcher = (variables: ValidatePasswordEntropyQueryVariables) => fetcher<ValidatePasswordEntropyQuery, ValidatePasswordEntropyQueryVariables>(ValidatePasswordEntropyDocument, variables);
 export const CurrentUserDocument = /*#__PURE__*/ `
@@ -2050,6 +2105,18 @@ export const CurrentUserDocument = /*#__PURE__*/ `
     id
     email
     username
+    userProfile {
+      firstName
+      lastName
+      address {
+        city
+        country
+        line1
+        line2
+        postalCode
+        state
+      }
+    }
     role
   }
 }
@@ -2068,7 +2135,7 @@ export const useCurrentUserQuery = <
     );
 
 useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => variables === undefined ? ['CurrentUser'] : ['CurrentUser', variables];
-
+;
 
 export const useInfiniteCurrentUserQuery = <
       TData = CurrentUserQuery,
@@ -2080,13 +2147,13 @@ export const useInfiniteCurrentUserQuery = <
     ) =>
     useInfiniteQuery<CurrentUserQuery, TError, TData>(
       variables === undefined ? ['CurrentUser.infinite'] : ['CurrentUser.infinite', variables],
-      (metaData) => fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) => variables === undefined ? ['CurrentUser.infinite'] : ['CurrentUser.infinite', variables];
-
+;
 
 useCurrentUserQuery.fetcher = (variables?: CurrentUserQueryVariables) => fetcher<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, variables);
 export const BeginUserRegistrationDocument = /*#__PURE__*/ `
@@ -2170,6 +2237,179 @@ export const useResetPasswordMutation = <
       options
     );
 useResetPasswordMutation.fetcher = (variables: ResetPasswordMutationVariables) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables);
+export const UserProfileDocument = /*#__PURE__*/ `
+    query UserProfile($userId: ID!) {
+  userProfile(userId: $userId) {
+    id
+    email
+    username
+    firstName
+    lastName
+    address {
+      city
+      country
+      line1
+      line2
+      postalCode
+      state
+    }
+  }
+}
+    `;
+export const useUserProfileQuery = <
+      TData = UserProfileQuery,
+      TError = unknown
+    >(
+      variables: UserProfileQueryVariables,
+      options?: UseQueryOptions<UserProfileQuery, TError, TData>
+    ) =>
+    useQuery<UserProfileQuery, TError, TData>(
+      ['UserProfile', variables],
+      fetcher<UserProfileQuery, UserProfileQueryVariables>(UserProfileDocument, variables),
+      options
+    );
+
+useUserProfileQuery.getKey = (variables: UserProfileQueryVariables) => ['UserProfile', variables];
+;
+
+export const useInfiniteUserProfileQuery = <
+      TData = UserProfileQuery,
+      TError = unknown
+    >(
+      pageParamKey: keyof UserProfileQueryVariables,
+      variables: UserProfileQueryVariables,
+      options?: UseInfiniteQueryOptions<UserProfileQuery, TError, TData>
+    ) =>
+    useInfiniteQuery<UserProfileQuery, TError, TData>(
+      ['UserProfile.infinite', variables],
+      (metaData) => fetcher<UserProfileQuery, UserProfileQueryVariables>(UserProfileDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      options
+    );
+
+
+useInfiniteUserProfileQuery.getKey = (variables: UserProfileQueryVariables) => ['UserProfile.infinite', variables];
+;
+
+useUserProfileQuery.fetcher = (variables: UserProfileQueryVariables) => fetcher<UserProfileQuery, UserProfileQueryVariables>(UserProfileDocument, variables);
+export const UpdateFirstAndLastNameDocument = /*#__PURE__*/ `
+    mutation UpdateFirstAndLastName($firstName: String!, $lastName: String!) {
+  updateFirstAndLastName(firstName: $firstName, lastName: $lastName) {
+    firstName
+    lastName
+  }
+}
+    `;
+export const useUpdateFirstAndLastNameMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateFirstAndLastNameMutation, TError, UpdateFirstAndLastNameMutationVariables, TContext>) =>
+    useMutation<UpdateFirstAndLastNameMutation, TError, UpdateFirstAndLastNameMutationVariables, TContext>(
+      ['UpdateFirstAndLastName'],
+      (variables?: UpdateFirstAndLastNameMutationVariables) => fetcher<UpdateFirstAndLastNameMutation, UpdateFirstAndLastNameMutationVariables>(UpdateFirstAndLastNameDocument, variables)(),
+      options
+    );
+useUpdateFirstAndLastNameMutation.fetcher = (variables: UpdateFirstAndLastNameMutationVariables) => fetcher<UpdateFirstAndLastNameMutation, UpdateFirstAndLastNameMutationVariables>(UpdateFirstAndLastNameDocument, variables);
+export const UpdateUsernameDocument = /*#__PURE__*/ `
+    mutation UpdateUsername($username: String!) {
+  updateUsername(username: $username) {
+    username
+  }
+}
+    `;
+export const useUpdateUsernameMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateUsernameMutation, TError, UpdateUsernameMutationVariables, TContext>) =>
+    useMutation<UpdateUsernameMutation, TError, UpdateUsernameMutationVariables, TContext>(
+      ['UpdateUsername'],
+      (variables?: UpdateUsernameMutationVariables) => fetcher<UpdateUsernameMutation, UpdateUsernameMutationVariables>(UpdateUsernameDocument, variables)(),
+      options
+    );
+useUpdateUsernameMutation.fetcher = (variables: UpdateUsernameMutationVariables) => fetcher<UpdateUsernameMutation, UpdateUsernameMutationVariables>(UpdateUsernameDocument, variables);
+export const UpdateAddressDocument = /*#__PURE__*/ `
+    mutation UpdateAddress($address: AddressInput!) {
+  updateAddress(address: $address) {
+    city
+    country
+    state
+    line1
+    line2
+    postalCode
+  }
+}
+    `;
+export const useUpdateAddressMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateAddressMutation, TError, UpdateAddressMutationVariables, TContext>) =>
+    useMutation<UpdateAddressMutation, TError, UpdateAddressMutationVariables, TContext>(
+      ['UpdateAddress'],
+      (variables?: UpdateAddressMutationVariables) => fetcher<UpdateAddressMutation, UpdateAddressMutationVariables>(UpdateAddressDocument, variables)(),
+      options
+    );
+useUpdateAddressMutation.fetcher = (variables: UpdateAddressMutationVariables) => fetcher<UpdateAddressMutation, UpdateAddressMutationVariables>(UpdateAddressDocument, variables);
+export const UpdateEmailDocument = /*#__PURE__*/ `
+    mutation UpdateEmail($email: String!) {
+  updateEmail(email: $email) {
+    email
+  }
+}
+    `;
+export const useUpdateEmailMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateEmailMutation, TError, UpdateEmailMutationVariables, TContext>) =>
+    useMutation<UpdateEmailMutation, TError, UpdateEmailMutationVariables, TContext>(
+      ['UpdateEmail'],
+      (variables?: UpdateEmailMutationVariables) => fetcher<UpdateEmailMutation, UpdateEmailMutationVariables>(UpdateEmailDocument, variables)(),
+      options
+    );
+useUpdateEmailMutation.fetcher = (variables: UpdateEmailMutationVariables) => fetcher<UpdateEmailMutation, UpdateEmailMutationVariables>(UpdateEmailDocument, variables);
+export const UpdatePasswordDocument = /*#__PURE__*/ `
+    mutation UpdatePassword($oldPassword: String!, $newPassword: String!) {
+  updatePassword(input: {oldPassword: $oldPassword, newPassword: $newPassword})
+}
+    `;
+export const useUpdatePasswordMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdatePasswordMutation, TError, UpdatePasswordMutationVariables, TContext>) =>
+    useMutation<UpdatePasswordMutation, TError, UpdatePasswordMutationVariables, TContext>(
+      ['UpdatePassword'],
+      (variables?: UpdatePasswordMutationVariables) => fetcher<UpdatePasswordMutation, UpdatePasswordMutationVariables>(UpdatePasswordDocument, variables)(),
+      options
+    );
+useUpdatePasswordMutation.fetcher = (variables: UpdatePasswordMutationVariables) => fetcher<UpdatePasswordMutation, UpdatePasswordMutationVariables>(UpdatePasswordDocument, variables);
+export const LogoutDocument = /*#__PURE__*/ `
+    mutation Logout {
+  logout
+}
+    `;
+export const useLogoutMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<LogoutMutation, TError, LogoutMutationVariables, TContext>) =>
+    useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
+      ['Logout'],
+      (variables?: LogoutMutationVariables) => fetcher<LogoutMutation, LogoutMutationVariables>(LogoutDocument, variables)(),
+      options
+    );
+useLogoutMutation.fetcher = (variables?: LogoutMutationVariables) => fetcher<LogoutMutation, LogoutMutationVariables>(LogoutDocument, variables);
+export const DeleteAccountDocument = /*#__PURE__*/ `
+    mutation DeleteAccount {
+  deleteAccount
+}
+    `;
+export const useDeleteAccountMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<DeleteAccountMutation, TError, DeleteAccountMutationVariables, TContext>) =>
+    useMutation<DeleteAccountMutation, TError, DeleteAccountMutationVariables, TContext>(
+      ['DeleteAccount'],
+      (variables?: DeleteAccountMutationVariables) => fetcher<DeleteAccountMutation, DeleteAccountMutationVariables>(DeleteAccountDocument, variables)(),
+      options
+    );
+useDeleteAccountMutation.fetcher = (variables?: DeleteAccountMutationVariables) => fetcher<DeleteAccountMutation, DeleteAccountMutationVariables>(DeleteAccountDocument, variables);
 export const UpsertVotingGuideDocument = /*#__PURE__*/ `
     mutation UpsertVotingGuide($id: ID, $electionId: ID!, $title: String, $description: String) {
   upsertVotingGuide(
@@ -2263,7 +2503,7 @@ export const useUpcomingElectionsQuery = <
     );
 
 useUpcomingElectionsQuery.getKey = (variables?: UpcomingElectionsQueryVariables) => variables === undefined ? ['UpcomingElections'] : ['UpcomingElections', variables];
-
+;
 
 export const useInfiniteUpcomingElectionsQuery = <
       TData = UpcomingElectionsQuery,
@@ -2275,13 +2515,13 @@ export const useInfiniteUpcomingElectionsQuery = <
     ) =>
     useInfiniteQuery<UpcomingElectionsQuery, TError, TData>(
       variables === undefined ? ['UpcomingElections.infinite'] : ['UpcomingElections.infinite', variables],
-      (metaData) => fetcher<UpcomingElectionsQuery, UpcomingElectionsQueryVariables>(UpcomingElectionsDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<UpcomingElectionsQuery, UpcomingElectionsQueryVariables>(UpcomingElectionsDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteUpcomingElectionsQuery.getKey = (variables?: UpcomingElectionsQueryVariables) => variables === undefined ? ['UpcomingElections.infinite'] : ['UpcomingElections.infinite', variables];
-
+;
 
 useUpcomingElectionsQuery.fetcher = (variables?: UpcomingElectionsQueryVariables) => fetcher<UpcomingElectionsQuery, UpcomingElectionsQueryVariables>(UpcomingElectionsDocument, variables);
 export const VotingGuideByIdDocument = /*#__PURE__*/ `
@@ -2305,7 +2545,7 @@ export const useVotingGuideByIdQuery = <
     );
 
 useVotingGuideByIdQuery.getKey = (variables: VotingGuideByIdQueryVariables) => ['VotingGuideById', variables];
-
+;
 
 export const useInfiniteVotingGuideByIdQuery = <
       TData = VotingGuideByIdQuery,
@@ -2317,13 +2557,13 @@ export const useInfiniteVotingGuideByIdQuery = <
     ) =>
     useInfiniteQuery<VotingGuideByIdQuery, TError, TData>(
       ['VotingGuideById.infinite', variables],
-      (metaData) => fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(VotingGuideByIdDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(VotingGuideByIdDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteVotingGuideByIdQuery.getKey = (variables: VotingGuideByIdQueryVariables) => ['VotingGuideById.infinite', variables];
-
+;
 
 useVotingGuideByIdQuery.fetcher = (variables: VotingGuideByIdQueryVariables) => fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(VotingGuideByIdDocument, variables);
 export const BillBySlugDocument = /*#__PURE__*/ `
@@ -2353,7 +2593,7 @@ export const useBillBySlugQuery = <
     );
 
 useBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => ['BillBySlug', variables];
-
+;
 
 export const useInfiniteBillBySlugQuery = <
       TData = BillBySlugQuery,
@@ -2365,13 +2605,13 @@ export const useInfiniteBillBySlugQuery = <
     ) =>
     useInfiniteQuery<BillBySlugQuery, TError, TData>(
       ['BillBySlug.infinite', variables],
-      (metaData) => fetcher<BillBySlugQuery, BillBySlugQueryVariables>(BillBySlugDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<BillBySlugQuery, BillBySlugQueryVariables>(BillBySlugDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => ['BillBySlug.infinite', variables];
-
+;
 
 useBillBySlugQuery.fetcher = (variables: BillBySlugQueryVariables) => fetcher<BillBySlugQuery, BillBySlugQueryVariables>(BillBySlugDocument, variables);
 export const OrganizationBySlugDocument = /*#__PURE__*/ `
@@ -2397,7 +2637,7 @@ export const useOrganizationBySlugQuery = <
     );
 
 useOrganizationBySlugQuery.getKey = (variables: OrganizationBySlugQueryVariables) => ['OrganizationBySlug', variables];
-
+;
 
 export const useInfiniteOrganizationBySlugQuery = <
       TData = OrganizationBySlugQuery,
@@ -2409,13 +2649,13 @@ export const useInfiniteOrganizationBySlugQuery = <
     ) =>
     useInfiniteQuery<OrganizationBySlugQuery, TError, TData>(
       ['OrganizationBySlug.infinite', variables],
-      (metaData) => fetcher<OrganizationBySlugQuery, OrganizationBySlugQueryVariables>(OrganizationBySlugDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<OrganizationBySlugQuery, OrganizationBySlugQueryVariables>(OrganizationBySlugDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteOrganizationBySlugQuery.getKey = (variables: OrganizationBySlugQueryVariables) => ['OrganizationBySlug.infinite', variables];
-
+;
 
 useOrganizationBySlugQuery.fetcher = (variables: OrganizationBySlugQueryVariables) => fetcher<OrganizationBySlugQuery, OrganizationBySlugQueryVariables>(OrganizationBySlugDocument, variables);
 export const PoliticianIndexDocument = /*#__PURE__*/ `
@@ -2472,7 +2712,7 @@ export const usePoliticianIndexQuery = <
     );
 
 usePoliticianIndexQuery.getKey = (variables?: PoliticianIndexQueryVariables) => variables === undefined ? ['PoliticianIndex'] : ['PoliticianIndex', variables];
-
+;
 
 export const useInfinitePoliticianIndexQuery = <
       TData = PoliticianIndexQuery,
@@ -2484,13 +2724,13 @@ export const useInfinitePoliticianIndexQuery = <
     ) =>
     useInfiniteQuery<PoliticianIndexQuery, TError, TData>(
       variables === undefined ? ['PoliticianIndex.infinite'] : ['PoliticianIndex.infinite', variables],
-      (metaData) => fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(PoliticianIndexDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(PoliticianIndexDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfinitePoliticianIndexQuery.getKey = (variables?: PoliticianIndexQueryVariables) => variables === undefined ? ['PoliticianIndex.infinite'] : ['PoliticianIndex.infinite', variables];
-
+;
 
 usePoliticianIndexQuery.fetcher = (variables?: PoliticianIndexQueryVariables) => fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(PoliticianIndexDocument, variables);
 export const PoliticianBySlugDocument = /*#__PURE__*/ `
@@ -2617,7 +2857,7 @@ export const usePoliticianBySlugQuery = <
     );
 
 usePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVariables) => ['PoliticianBySlug', variables];
-
+;
 
 export const useInfinitePoliticianBySlugQuery = <
       TData = PoliticianBySlugQuery,
@@ -2629,13 +2869,13 @@ export const useInfinitePoliticianBySlugQuery = <
     ) =>
     useInfiniteQuery<PoliticianBySlugQuery, TError, TData>(
       ['PoliticianBySlug.infinite', variables],
-      (metaData) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfinitePoliticianBySlugQuery.getKey = (variables: PoliticianBySlugQueryVariables) => ['PoliticianBySlug.infinite', variables];
-
+;
 
 usePoliticianBySlugQuery.fetcher = (variables: PoliticianBySlugQueryVariables) => fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(PoliticianBySlugDocument, variables);
 export const VotingGuidesByUserIdDocument = /*#__PURE__*/ `
@@ -2659,7 +2899,7 @@ export const useVotingGuidesByUserIdQuery = <
     );
 
 useVotingGuidesByUserIdQuery.getKey = (variables: VotingGuidesByUserIdQueryVariables) => ['VotingGuidesByUserId', variables];
-
+;
 
 export const useInfiniteVotingGuidesByUserIdQuery = <
       TData = VotingGuidesByUserIdQuery,
@@ -2671,13 +2911,13 @@ export const useInfiniteVotingGuidesByUserIdQuery = <
     ) =>
     useInfiniteQuery<VotingGuidesByUserIdQuery, TError, TData>(
       ['VotingGuidesByUserId.infinite', variables],
-      (metaData) => fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteVotingGuidesByUserIdQuery.getKey = (variables: VotingGuidesByUserIdQueryVariables) => ['VotingGuidesByUserId.infinite', variables];
-
+;
 
 useVotingGuidesByUserIdQuery.fetcher = (variables: VotingGuidesByUserIdQueryVariables) => fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(VotingGuidesByUserIdDocument, variables);
 export const ElectionVotingGuideByUserIdDocument = /*#__PURE__*/ `
@@ -2708,7 +2948,7 @@ export const useElectionVotingGuideByUserIdQuery = <
     );
 
 useElectionVotingGuideByUserIdQuery.getKey = (variables: ElectionVotingGuideByUserIdQueryVariables) => ['ElectionVotingGuideByUserId', variables];
-
+;
 
 export const useInfiniteElectionVotingGuideByUserIdQuery = <
       TData = ElectionVotingGuideByUserIdQuery,
@@ -2720,13 +2960,13 @@ export const useInfiniteElectionVotingGuideByUserIdQuery = <
     ) =>
     useInfiniteQuery<ElectionVotingGuideByUserIdQuery, TError, TData>(
       ['ElectionVotingGuideByUserId.infinite', variables],
-      (metaData) => fetcher<ElectionVotingGuideByUserIdQuery, ElectionVotingGuideByUserIdQueryVariables>(ElectionVotingGuideByUserIdDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<ElectionVotingGuideByUserIdQuery, ElectionVotingGuideByUserIdQueryVariables>(ElectionVotingGuideByUserIdDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteElectionVotingGuideByUserIdQuery.getKey = (variables: ElectionVotingGuideByUserIdQueryVariables) => ['ElectionVotingGuideByUserId.infinite', variables];
-
+;
 
 useElectionVotingGuideByUserIdQuery.fetcher = (variables: ElectionVotingGuideByUserIdQueryVariables) => fetcher<ElectionVotingGuideByUserIdQuery, ElectionVotingGuideByUserIdQueryVariables>(ElectionVotingGuideByUserIdDocument, variables);
 export const VotingGuidesByIdsDocument = /*#__PURE__*/ `
@@ -2750,7 +2990,7 @@ export const useVotingGuidesByIdsQuery = <
     );
 
 useVotingGuidesByIdsQuery.getKey = (variables: VotingGuidesByIdsQueryVariables) => ['VotingGuidesByIds', variables];
-
+;
 
 export const useInfiniteVotingGuidesByIdsQuery = <
       TData = VotingGuidesByIdsQuery,
@@ -2762,12 +3002,12 @@ export const useInfiniteVotingGuidesByIdsQuery = <
     ) =>
     useInfiniteQuery<VotingGuidesByIdsQuery, TError, TData>(
       ['VotingGuidesByIds.infinite', variables],
-      (metaData) => fetcher<VotingGuidesByIdsQuery, VotingGuidesByIdsQueryVariables>(VotingGuidesByIdsDocument, { ...variables, ...(metaData.pageParam ?? {}) })(),
+      (metaData) => fetcher<VotingGuidesByIdsQuery, VotingGuidesByIdsQueryVariables>(VotingGuidesByIdsDocument, {...variables, ...(metaData.pageParam ?? {})})(),
       options
     );
 
 
 useInfiniteVotingGuidesByIdsQuery.getKey = (variables: VotingGuidesByIdsQueryVariables) => ['VotingGuidesByIds.infinite', variables];
-
+;
 
 useVotingGuidesByIdsQuery.fetcher = (variables: VotingGuidesByIdsQueryVariables) => fetcher<VotingGuidesByIdsQuery, VotingGuidesByIdsQueryVariables>(VotingGuidesByIdsDocument, variables);
