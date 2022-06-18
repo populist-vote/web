@@ -17,6 +17,7 @@ import {
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import menuStyles from "./IconMenu.module.scss";
+import Link from "next/link";
 
 interface BadgeProps {
   background?: string;
@@ -58,6 +59,7 @@ export interface AvatarProps {
   iconMenuProps?: IconMenuProps;
   name?: string;
   round?: boolean;
+  href?: string;
   onClick?: () => void;
 }
 
@@ -198,6 +200,7 @@ function Avatar(props: AvatarProps): JSX.Element {
     fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
     hasIconMenu,
     iconMenuProps,
+    href,
   } = props;
 
   const styleVars: CSSProperties & {
@@ -213,14 +216,27 @@ function Avatar(props: AvatarProps): JSX.Element {
   return (
     <div style={{ display: "inline", ...styleVars }}>
       <div className={styles.container}>
-        <ImageWithFallback
-          src={props.src || fallbackSrc}
-          fallbackSrc={fallbackSrc}
-          width={props.size}
-          height={props.size}
-          className={styles.imageContainer}
-          alt={props.alt}
-        />
+        {href ? (
+          <Link href={href} passHref>
+            <ImageWithFallback
+              src={props.src || fallbackSrc}
+              fallbackSrc={fallbackSrc}
+              width={props.size}
+              height={props.size}
+              className={styles.imageContainer}
+              alt={props.alt}
+            />
+          </Link>
+        ) : (
+          <ImageWithFallback
+            src={props.src || fallbackSrc}
+            fallbackSrc={fallbackSrc}
+            width={props.size}
+            height={props.size}
+            className={styles.imageContainer}
+            alt={props.alt}
+          />
+        )}
         {hasIconMenu && iconMenuProps && <IconMenu {...iconMenuProps} />}
         {badge && <Badge {...badge} />}
       </div>

@@ -134,6 +134,9 @@ export default function Race({
                     src={politician?.thumbnailImageUrl as string}
                     alt={politician.fullName}
                     readOnly={!isGuideOwner}
+                    href={`/politicians/${encodeURIComponent(
+                      politician?.slug
+                    )}`}
                   />
                   <Link
                     href={`/politicians/${encodeURIComponent(

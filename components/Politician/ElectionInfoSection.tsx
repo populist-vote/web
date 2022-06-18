@@ -1,19 +1,10 @@
 import styles from "styles/page.module.scss";
-
 import electionStyles from "./ElectionInfo.module.scss";
-
 import { PartyAvatar, Scroller } from "components";
-
 import layoutStyles from "../../components/Layout/Layout.module.scss";
-
-import Link from "next/link";
-
 import states from "utils/states";
-
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-
 import { PoliticalParty, PoliticianResult } from "../../generated";
-
 import { dateString } from "utils/dates";
 import classNames from "classnames";
 
@@ -24,18 +15,17 @@ function Candidate({
   itemId: string;
 }) {
   return (
-    <Link href={`/politicians/${candidate.slug}`} key={candidate.id} passHref>
-      <div className={layoutStyles.avatarContainer}>
-        <PartyAvatar
-          size={60}
-          party={candidate.party as PoliticalParty}
-          src={candidate.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL}
-          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-          alt={candidate?.fullName || ""}
-        />
-        <h4 className={layoutStyles.link}>{candidate.fullName}</h4>
-      </div>
-    </Link>
+    <div className={layoutStyles.avatarContainer} key={candidate.id}>
+      <PartyAvatar
+        size={60}
+        party={candidate.party as PoliticalParty}
+        src={candidate.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL}
+        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+        alt={candidate?.fullName || ""}
+        href={`/politicians/${candidate.slug}`}
+      />
+      <h4 className={layoutStyles.link}>{candidate.fullName}</h4>
+    </div>
   );
 }
 
