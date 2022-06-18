@@ -12,6 +12,13 @@ fragment guideFields on VotingGuideResult {
   election {
     ...electionFields
   }
+  candidates {
+    politician {
+      id
+    }
+    isEndorsement
+    note
+  }
 }
 
 query VotingGuidesByUserId($userId: ID!) {
@@ -23,13 +30,7 @@ query VotingGuidesByUserId($userId: ID!) {
 query ElectionVotingGuideByUserId($electionId: ID!, $userId: ID!) {
   electionVotingGuideByUserId(electionId: $electionId, userId: $userId) {
     id
-    candidates {
-      politician {
-        id
-      }
-      isEndorsement
-      note
-    }
+    
   }
 }
 

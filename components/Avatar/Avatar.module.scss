@@ -50,6 +50,10 @@
   background: var(--icon-background);
   color: var(--icon-color);
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .iconInner {

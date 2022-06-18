@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { dehydrate, QueryClient } from "react-query";
+import { dehydrate, QueryClient, useQueryClient } from "react-query";
 
 import {
   Layout,
@@ -15,7 +15,9 @@ import {
 import {
   PoliticalScope,
   RaceResult,
+  useElectionVotingGuideByUserIdQuery,
   useUpcomingElectionsQuery,
+  useUpsertVotingGuideMutation,
   useVotingGuideByIdQuery,
 } from "generated";
 
@@ -34,7 +36,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
   const user = useAuth({ redirectTo: "/login?next=ballot" });
-
   const upcomingElectionsQuery = useUpcomingElectionsQuery(
     {},
     {
@@ -42,55 +43,86 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     }
   );
 
-  const router = useRouter();
-  const votingGuideId = router.query[`voting-guide`] as string;
-  const isQueriedGuide = !!votingGuideId;
+  const electionId = upcomingElectionsQuery?.data?.upcomingElections[0]
+    ?.id as string;
 
-  const votingGuideQuery = useVotingGuideByIdQuery(
-    { id: votingGuideId },
+  const queryClient = useQueryClient();
+
+  const createVotingGuide = useUpsertVotingGuideMutation({
+    onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
+  });
+
+  const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
-      enabled: isQueriedGuide,
+      userId: user?.id,
+      electionId,
+    },
+    {
+      enabled: !!user?.id && !!electionId,
+      onSuccess: (data) => {
+        if (!data?.electionVotingGuideByUserId)
+          createVotingGuide.mutate({ electionId: electionId as string });
+      },
     }
   );
 
+  const userVotingGuideQueryKey = useElectionVotingGuideByUserIdQuery.getKey({
+    userId: user?.id,
+    electionId,
+  });
+
+  const router = useRouter();
   const { addSavedGuideId } = useSavedGuideIds(user?.id);
 
-  const isOwner = isQueriedGuide
-    ? votingGuideQuery.data?.votingGuideById.user.id === user?.id
-    : true;
+  // Use either the voting guide ID from query params OR the users voting guide ID
+  // to instantiate the VotingGuideContext
+  const queriedGuideId = router.query.votingGuideId;
+  const votingGuideId = (queriedGuideId ||
+    userVotingGuideQuery.data?.electionVotingGuideByUserId?.id) as string;
 
+  const isGuideOwner =
+    queriedGuideId ===
+    userVotingGuideQuery.data?.electionVotingGuideByUserId?.id;
   useEffect(() => {
-    if (isQueriedGuide && votingGuideQuery.isSuccess && !isOwner) {
-      addSavedGuideId(votingGuideId);
+    if (!!queriedGuideId && !isGuideOwner) {
+      addSavedGuideId(queriedGuideId as string);
     }
-  }, [
-    votingGuideQuery.isSuccess,
-    isQueriedGuide,
-    addSavedGuideId,
-    votingGuideId,
-    isOwner,
-    user?.id,
-  ]);
+  }, [queriedGuideId, isGuideOwner, addSavedGuideId]);
 
-  const query = isQueriedGuide ? votingGuideQuery : upcomingElectionsQuery;
+  const otherVotingGuideQuery = useVotingGuideByIdQuery(
+    { id: queriedGuideId as string },
+    { enabled: !!queriedGuideId }
+  );
 
-  const { error, isLoading } = query;
+  const upcomingElection = upcomingElectionsQuery.data?.upcomingElections[0];
+  const otherGuideCandidateIds =
+    otherVotingGuideQuery.data?.votingGuideById.candidates.map(
+      (candidate) => candidate.politician.id
+    );
 
-  const upcomingElection = isQueriedGuide
-    ? votingGuideQuery.data?.votingGuideById.election
-    : upcomingElectionsQuery.data?.upcomingElections[0];
-
-  const races = upcomingElection?.racesByUserDistricts || [];
+  // This is not optimal.  Pulling all races into memory and filtering them to display only races with candidates referenced in voting guide.
+  // Need to update API to accept arguments for the `upcomingRaces` query... allRaces vs racesByUserDistrict vs votingGuideRaces?
+  const races =
+    queriedGuideId && otherVotingGuideQuery.isSuccess
+      ? upcomingElection?.races.filter((race) => {
+          const raceCandidateIds = race.candidates.map((c) => c.id);
+          const racesInGuide = otherGuideCandidateIds?.filter((id) =>
+            raceCandidateIds?.includes(id)
+          );
+          return racesInGuide?.length || 0 > 0;
+        }) || []
+      : upcomingElection?.racesByUserDistricts || [];
 
   const federalRacesGroupedByOffice = groupBy(
-    races.filter(
+    races?.filter(
       (race) => race.office.politicalScope === PoliticalScope.Federal
     ),
     (race) => race.office.id
   );
-
   const stateRacesGroupedByOffice = groupBy(
-    races.filter((race) => race.office.politicalScope === PoliticalScope.State),
+    races?.filter(
+      (race) => race.office.politicalScope === PoliticalScope.State
+    ),
     (race) => race.office.id
   );
 
@@ -103,14 +135,15 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     localStorage.setItem(VOTING_GUIDE_WELCOME_VISIBLE, "false");
   };
 
-  if (votingGuideQuery.isError) {
+  if (upcomingElectionsQuery.isError) {
     router
       .push({ pathname: "/404" })
       .catch((err) => console.error("Problem redirecting to 404", err));
   }
 
+  const isLoading = upcomingElectionsQuery.isLoading;
+  const error = upcomingElectionsQuery.error;
   if (!user) return null;
-
   return (
     <>
       <Head>
@@ -125,59 +158,55 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
         <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
-          {isLoading ? (
-            <div className={styles.center}>
-              <LoaderFlag />
-            </div>
-          ) : (
-            <VotingGuideProvider
-              electionId={upcomingElection?.id as string}
-              userId={user.id}
-            >
-              {error && (
-                <h4>Something went wrong fetching your ballot data...</h4>
-              )}
-              {upcomingElection && (
-                <div data-testid="ballot-page">
-                  <h1 className={styles.desktopOnly}>Ballot</h1>
+          <VotingGuideProvider votingGuideId={votingGuideId}>
+            {isLoading && (
+              <div className={styles.center}>
+                <LoaderFlag />
+              </div>
+            )}
+            {error && (
+              <h4>Something went wrong fetching your ballot data...</h4>
+            )}
+            {upcomingElection && (
+              <div data-testid="ballot-page">
+                <h1 className={styles.desktopOnly}>Ballot</h1>
 
-                  <FlagSection title="Upcoming Vote">
-                    <h1>{dateString(upcomingElection?.electionDate)}</h1>
-                    <h2>{upcomingElection?.title}</h2>
-                    <p>{upcomingElection?.description}</p>
-                  </FlagSection>
+                <FlagSection title="Upcoming Vote">
+                  <h1>{dateString(upcomingElection?.electionDate)}</h1>
+                  <h2>{upcomingElection?.title}</h2>
+                  <p>{upcomingElection?.description}</p>
+                </FlagSection>
 
-                  {Object.keys(federalRacesGroupedByOffice).length > 0 && (
-                    <FlagSection title="Federal" color="salmon">
-                      {Object.entries(federalRacesGroupedByOffice).map(
-                        ([officeId, races]) => {
-                          return (
-                            <OfficeRaces
-                              key={officeId}
-                              races={races as RaceResult[]}
-                            />
-                          );
-                        }
-                      )}
-                    </FlagSection>
-                  )}
-
-                  {Object.keys(stateRacesGroupedByOffice).length > 0 && (
-                    <FlagSection title="State" color="yellow">
-                      {Object.entries(stateRacesGroupedByOffice).map(
-                        ([officeId, races]) => (
+                {Object.keys(federalRacesGroupedByOffice).length > 0 && (
+                  <FlagSection title="Federal" color="salmon">
+                    {Object.entries(federalRacesGroupedByOffice).map(
+                      ([officeId, races]) => {
+                        return (
                           <OfficeRaces
                             key={officeId}
                             races={races as RaceResult[]}
                           />
-                        )
-                      )}
-                    </FlagSection>
-                  )}
-                </div>
-              )}
-            </VotingGuideProvider>
-          )}
+                        );
+                      }
+                    )}
+                  </FlagSection>
+                )}
+
+                {Object.keys(stateRacesGroupedByOffice).length > 0 && (
+                  <FlagSection title="State" color="yellow">
+                    {Object.entries(stateRacesGroupedByOffice).map(
+                      ([officeId, races]) => (
+                        <OfficeRaces
+                          key={officeId}
+                          races={races as RaceResult[]}
+                        />
+                      )
+                    )}
+                  </FlagSection>
+                )}
+              </div>
+            )}
+          </VotingGuideProvider>
         </Layout>
       )}
     </>

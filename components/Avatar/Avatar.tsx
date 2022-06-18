@@ -44,6 +44,7 @@ interface IconMenuProps {
   handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
   handleAddNote?: EventHandler<ClickEvent | any>;
   icon: IconProps;
+  readOnly: boolean;
 }
 
 export interface AvatarProps {
@@ -72,6 +73,7 @@ export interface PartyAvatarProps extends AvatarProps {
   handleEndorseCandidate?: EventHandler<ClickEvent | any>;
   handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
   handleAddNote?: EventHandler<ClickEvent | any>;
+  readOnly?: boolean;
 }
 
 function Badge(props: BadgeProps): JSX.Element {
@@ -128,6 +130,7 @@ function IconMenu(props: IconMenuProps): JSX.Element {
     handleEndorseCandidate,
     handleUnendorseCandidate,
     handleAddNote,
+    readOnly = true,
   } = props;
 
   const styleVars: CSSProperties & {
@@ -142,11 +145,17 @@ function IconMenu(props: IconMenuProps): JSX.Element {
     [`--icon-color`]: color,
   };
 
+  if (readOnly && type === "plus") return <></>;
+
   return (
     <Menu
       menuClassName={menuStyles.menu}
       menuButton={
-        <MenuButton className={styles.iconOuter} style={styleVars}>
+        <MenuButton
+          className={styles.iconOuter}
+          style={styleVars}
+          disabled={readOnly}
+        >
           <div className={styles.iconInner}>
             <div className={styles.iconWrapper}>
               <IconImage type={type} />
@@ -233,6 +242,7 @@ function PartyAvatar({
   handleEndorseCandidate,
   handleUnendorseCandidate,
   handleAddNote,
+  readOnly = true,
   ...rest
 }: PartyAvatarProps): JSX.Element {
   const partyColor = useMemo(() => getPartyColor(party), [party]);
@@ -261,6 +271,7 @@ function PartyAvatar({
     handleUnendorseCandidate,
     handleEndorseCandidate,
     handleAddNote,
+    readOnly,
   };
 
   return (

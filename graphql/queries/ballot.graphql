@@ -1,31 +1,38 @@
+fragment raceFields on RaceResult {
+  id
+  title
+  party
+  office {
+    id
+    title
+    district
+    politicalScope
+    incumbent {
+      id
+      fullName
+      party
+      thumbnailImageUrl
+    }
+  }
+  candidates {
+    id
+    slug
+    fullName
+    party
+    thumbnailImageUrl
+  }
+}
+
 fragment electionFields on ElectionResult {
   id
   title
   description
   electionDate
+  races {
+    ...raceFields
+  }
   racesByUserDistricts {
-    id
-    title
-    party
-    office {
-      id
-      title
-      district
-      politicalScope
-      incumbent {
-        id
-        fullName
-        party
-        thumbnailImageUrl
-      }
-    }
-    candidates {
-      id
-      slug
-      fullName
-      party
-      thumbnailImageUrl
-    }
+    ...raceFields
   }
 }
 

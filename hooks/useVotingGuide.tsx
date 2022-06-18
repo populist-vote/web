@@ -1,16 +1,16 @@
 import {
   Exact,
-  useElectionVotingGuideByUserIdQuery,
-  useUpsertVotingGuideMutation,
+  useCurrentUserQuery,
+  useVotingGuideByIdQuery,
   VotingGuideResult,
 } from "generated";
 import { createContext, useContext } from "react";
 import type { PropsWithChildren } from "react";
-import { useQueryClient } from "react-query";
 
 type VotingGuideQueryContext = {
   data: VotingGuideResult;
-  queryKey: (string | Exact<{ electionId: string; userId: string }>)[];
+  isGuideOwner: boolean;
+  queryKey: (string | Exact<{ id: string }>)[];
 };
 
 const VotingGuideContext = createContext<VotingGuideQueryContext>(
@@ -18,43 +18,27 @@ const VotingGuideContext = createContext<VotingGuideQueryContext>(
 );
 
 export function VotingGuideProvider({
-  electionId,
-  userId,
+  votingGuideId,
   children,
 }: PropsWithChildren<{
-  electionId: string;
-  userId: string;
+  votingGuideId: string;
 }>) {
-  const { data, isLoading, error } = useElectionVotingGuideByUserIdQuery(
+  const { data: { currentUser } = {} } = useCurrentUserQuery();
+  const { data } = useVotingGuideByIdQuery(
+    { id: votingGuideId },
     {
-      electionId,
-      userId,
-    },
-    {
-      onSuccess: (data) => {
-        if (!data?.electionVotingGuideByUserId)
-          createVotingGuide.mutate({ electionId: electionId as string });
-      },
+      enabled: !!votingGuideId,
     }
   );
 
-  const queryKey = useElectionVotingGuideByUserIdQuery.getKey({
-    electionId,
-    userId,
-  });
-
-  const queryClient = useQueryClient();
-
-  const createVotingGuide = useUpsertVotingGuideMutation({
-    onSuccess: () => queryClient.invalidateQueries(queryKey),
-  });
-
-  if (isLoading || error) return null;
+  const queryKey = useVotingGuideByIdQuery.getKey({ id: votingGuideId });
+  const isGuideOwner = currentUser?.id === data?.votingGuideById.user.id;
 
   return (
     <VotingGuideContext.Provider
       value={{
-        data: data?.electionVotingGuideByUserId as VotingGuideResult,
+        data: data?.votingGuideById as VotingGuideResult,
+        isGuideOwner,
         queryKey,
       }}
     >

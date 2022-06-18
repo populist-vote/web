@@ -32,7 +32,7 @@ export default function Race({
 }) {
   const candidateSortFn = (a: PoliticianResult, b: PoliticianResult) =>
     a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
-  const { data: votingGuide, queryKey } = useVotingGuide();
+  const { data: votingGuide, isGuideOwner, queryKey } = useVotingGuide();
   const queryClient = useQueryClient();
   const invalidateVotingGuideQuery = () =>
     queryClient.invalidateQueries(queryKey);
@@ -133,6 +133,7 @@ export default function Race({
                     party={politician?.party as PoliticalParty}
                     src={politician?.thumbnailImageUrl as string}
                     alt={politician.fullName}
+                    readOnly={!isGuideOwner}
                   />
                   <Link
                     href={`/politicians/${encodeURIComponent(

@@ -1897,19 +1897,21 @@ export type DeleteVotingGuideCandidateNoteMutationVariables = Exact<{
 
 export type DeleteVotingGuideCandidateNoteMutation = { __typename?: 'Mutation', deleteVotingGuideCandidateNote: { __typename?: 'VotingGuideCandidateResult', isEndorsement: boolean, note?: string | null } };
 
-export type ElectionFieldsFragment = { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> };
+export type RaceFieldsFragment = { __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> };
+
+export type ElectionFieldsFragment = { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }>, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> };
 
 export type UpcomingElectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }> };
+export type UpcomingElectionsQuery = { __typename?: 'Query', upcomingElections: Array<{ __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }>, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }> };
 
 export type VotingGuideByIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type VotingGuideByIdQuery = { __typename?: 'Query', votingGuideById: { __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> } } };
+export type VotingGuideByIdQuery = { __typename?: 'Query', votingGuideById: { __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }>, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }, candidates: Array<{ __typename?: 'VotingGuideCandidateResult', isEndorsement: boolean, note?: string | null, politician: { __typename?: 'PoliticianResult', id: string } }> } };
 
 export type BillBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1942,14 +1944,14 @@ export type PoliticianBySlugQueryVariables = Exact<{
 
 export type PoliticianBySlugQuery = { __typename?: 'Query', politicianBySlug: { __typename?: 'PoliticianResult', id: string, fullName: string, preferredName?: string | null, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, websiteUrl?: string | null, twitterUrl?: string | null, facebookUrl?: string | null, instagramUrl?: string | null, yearsInPublicOffice?: number | null, age?: number | null, biography?: string | null, biographySource?: string | null, officeId?: string | null, currentOffice?: { __typename?: 'OfficeResult', title: string } | null, upcomingRace?: { __typename?: 'RaceResult', title: string, raceType: RaceType, state?: State | null, electionDate?: any | null, office: { __typename?: 'OfficeResult', title: string }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, thumbnailImageUrl?: string | null, party?: PoliticalParty | null }> } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, termStart: string, termEnd: string } | null, candidate: { __typename?: 'Candidate', photo: string, congMembership: any } } | null, sponsoredBills: { __typename?: 'BillResultConnection', edges?: Array<{ __typename?: 'BillResultEdge', node: { __typename?: 'BillResult', slug: string, billNumber: string, title: string, legislationStatus: LegislationStatus } } | null> | null }, endorsements: { __typename?: 'Endorsements', organizations: Array<{ __typename?: 'OrganizationResult', id: string, slug: string, name: string, thumbnailImageUrl?: string | null }>, politicians: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, homeState?: State | null, party?: PoliticalParty | null, thumbnailImageUrl?: string | null, currentOffice?: { __typename?: 'OfficeResult', id: string, slug: string, title: string, municipality?: string | null, district?: string | null, state?: State | null, officeType?: string | null } | null, votesmartCandidateBio?: { __typename?: 'GetCandidateBioResponse', office?: { __typename?: 'Office', name: Array<string>, district: string, typeField: string } | null, candidate: { __typename?: 'Candidate', photo: string } } | null }> }, ratings: { __typename?: 'RatingResultConnection', edges?: Array<{ __typename?: 'RatingResultEdge', node: { __typename?: 'RatingResult', vsRating: { __typename?: 'VsRating', rating: any }, organization?: { __typename?: 'OrganizationResult', slug: string, name: string, thumbnailImageUrl?: string | null } | null } } | null> | null } } };
 
-export type GuideFieldsFragment = { __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> } };
+export type GuideFieldsFragment = { __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }>, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }, candidates: Array<{ __typename?: 'VotingGuideCandidateResult', isEndorsement: boolean, note?: string | null, politician: { __typename?: 'PoliticianResult', id: string } }> };
 
 export type VotingGuidesByUserIdQueryVariables = Exact<{
   userId: Scalars['ID'];
 }>;
 
 
-export type VotingGuidesByUserIdQuery = { __typename?: 'Query', votingGuidesByUserId: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> } }> };
+export type VotingGuidesByUserIdQuery = { __typename?: 'Query', votingGuidesByUserId: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }>, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }, candidates: Array<{ __typename?: 'VotingGuideCandidateResult', isEndorsement: boolean, note?: string | null, politician: { __typename?: 'PoliticianResult', id: string } }> }> };
 
 export type ElectionVotingGuideByUserIdQueryVariables = Exact<{
   electionId: Scalars['ID'];
@@ -1957,47 +1959,55 @@ export type ElectionVotingGuideByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type ElectionVotingGuideByUserIdQuery = { __typename?: 'Query', electionVotingGuideByUserId?: { __typename?: 'VotingGuideResult', id: string, candidates: Array<{ __typename?: 'VotingGuideCandidateResult', isEndorsement: boolean, note?: string | null, politician: { __typename?: 'PoliticianResult', id: string } }> } | null };
+export type ElectionVotingGuideByUserIdQuery = { __typename?: 'Query', electionVotingGuideByUserId?: { __typename?: 'VotingGuideResult', id: string } | null };
 
 export type VotingGuidesByIdsQueryVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type VotingGuidesByIdsQuery = { __typename?: 'Query', votingGuidesByIds: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> } }> };
+export type VotingGuidesByIdsQuery = { __typename?: 'Query', votingGuidesByIds: Array<{ __typename?: 'VotingGuideResult', id: string, title?: string | null, description?: string | null, electionId: string, user: { __typename?: 'UserResult', id: string, username: string, lastName?: string | null, firstName?: string | null }, election: { __typename?: 'ElectionResult', id: string, title: string, description?: string | null, electionDate: any, races: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }>, racesByUserDistricts: Array<{ __typename?: 'RaceResult', id: string, title: string, party?: PoliticalParty | null, office: { __typename?: 'OfficeResult', id: string, title: string, district?: string | null, politicalScope: PoliticalScope, incumbent?: { __typename?: 'PoliticianResult', id: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null } | null }, candidates: Array<{ __typename?: 'PoliticianResult', id: string, slug: string, fullName: string, party?: PoliticalParty | null, thumbnailImageUrl?: string | null }> }> }, candidates: Array<{ __typename?: 'VotingGuideCandidateResult', isEndorsement: boolean, note?: string | null, politician: { __typename?: 'PoliticianResult', id: string } }> }> };
 
+export const RaceFieldsFragmentDoc = /*#__PURE__*/ `
+    fragment raceFields on RaceResult {
+  id
+  title
+  party
+  office {
+    id
+    title
+    district
+    politicalScope
+    incumbent {
+      id
+      fullName
+      party
+      thumbnailImageUrl
+    }
+  }
+  candidates {
+    id
+    slug
+    fullName
+    party
+    thumbnailImageUrl
+  }
+}
+    `;
 export const ElectionFieldsFragmentDoc = /*#__PURE__*/ `
     fragment electionFields on ElectionResult {
   id
   title
   description
   electionDate
+  races {
+    ...raceFields
+  }
   racesByUserDistricts {
-    id
-    title
-    party
-    office {
-      id
-      title
-      district
-      politicalScope
-      incumbent {
-        id
-        fullName
-        party
-        thumbnailImageUrl
-      }
-    }
-    candidates {
-      id
-      slug
-      fullName
-      party
-      thumbnailImageUrl
-    }
+    ...raceFields
   }
 }
-    `;
+    ${RaceFieldsFragmentDoc}`;
 export const GuideFieldsFragmentDoc = /*#__PURE__*/ `
     fragment guideFields on VotingGuideResult {
   id
@@ -2012,6 +2022,13 @@ export const GuideFieldsFragmentDoc = /*#__PURE__*/ `
   }
   election {
     ...electionFields
+  }
+  candidates {
+    politician {
+      id
+    }
+    isEndorsement
+    note
   }
 }
     ${ElectionFieldsFragmentDoc}`;
@@ -2924,13 +2941,6 @@ export const ElectionVotingGuideByUserIdDocument = /*#__PURE__*/ `
     query ElectionVotingGuideByUserId($electionId: ID!, $userId: ID!) {
   electionVotingGuideByUserId(electionId: $electionId, userId: $userId) {
     id
-    candidates {
-      politician {
-        id
-      }
-      isEndorsement
-      note
-    }
   }
 }
     `;

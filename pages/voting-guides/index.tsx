@@ -15,7 +15,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 
 const getGuideUrl = (guideId: string) =>
-  `${window.location.origin}/ballot?voting-guide-id=${guideId}`;
+  `${window.location.origin}/ballot?votingGuideId=${guideId}`;
 
 const copyGuideUrl = (guideId?: string) => {
   if (!guideId) return;
@@ -63,7 +63,7 @@ const VotingGuideCard = ({
             size="large"
             variant="secondary"
             label="View"
-            onClick={() => Router.push(`/ballot?voting-guide-id=${guide.id}`)}
+            onClick={() => Router.push(`/ballot?votingGuideId=${guide.id}`)}
           />
         )}
         <Button
@@ -93,8 +93,6 @@ const VotingGuides: NextPage<{
 }> = ({ mobileNavTitle }) => {
   const user = useAuth({ redirectTo: "/login?next=voting-guides" });
 
-  // TODO: This query will change to one that includes other users voting guides.
-  // Not yet implemented on the server.
   const { data, isLoading, error } = useVotingGuidesByUserIdQuery(
     {
       userId: user?.id,
@@ -103,14 +101,12 @@ const VotingGuides: NextPage<{
       enabled: !!user,
     }
   );
-
-  const votingGuides = data?.votingGuidesByUserId;
-
+  const userVotingGuides = data?.votingGuidesByUserId;
   const election = data?.votingGuidesByUserId[0]?.election;
-
   const { savedGuideIds } = useSavedGuideIds(user.id);
-
-  const savedGuides = useVotingGuidesByIdsQuery({ ids: savedGuideIds });
+  const savedGuidesQuery = useVotingGuidesByIdsQuery({
+    ids: savedGuideIds,
+  });
 
   if (!user) return null;
 
@@ -132,11 +128,11 @@ const VotingGuides: NextPage<{
             )}
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
-            {votingGuides && votingGuides.length < 1 && (
+            {userVotingGuides && userVotingGuides.length < 1 && (
               <small>No voting guides</small>
             )}
 
-            {votingGuides?.map((guide) => (
+            {userVotingGuides?.map((guide) => (
               <VotingGuideCard
                 guide={guide as Partial<VotingGuideResult>}
                 key={guide.id}
@@ -145,7 +141,7 @@ const VotingGuides: NextPage<{
             ))}
           </FlagSection>
         </div>
-        {!!savedGuides.data?.votingGuidesByIds?.length && (
+        {!!savedGuidesQuery.data?.votingGuidesByIds?.length && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">
               {/* This section uses {election} since we only have one right now.
@@ -154,10 +150,10 @@ const VotingGuides: NextPage<{
                 <ElectionHeader election={election as ElectionResult} />
               )}
 
-              {savedGuides.isLoading && <LoaderFlag />}
-              {savedGuides.error && <small>Something went wrong...</small>}
+              {savedGuidesQuery.isLoading && <LoaderFlag />}
+              {savedGuidesQuery.error && <small>Something went wrong...</small>}
 
-              {savedGuides.data?.votingGuidesByIds?.map((guide) => (
+              {savedGuidesQuery.data?.votingGuidesByIds?.map((guide) => (
                 <VotingGuideCard
                   guide={guide as Partial<VotingGuideResult>}
                   key={guide.id}

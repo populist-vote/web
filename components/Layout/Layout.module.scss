@@ -213,7 +213,6 @@
   justify-content: center;
   align-items: center;
   margin: 0 1rem;
-  cursor: pointer;
   min-width: 5rem;
   min-height: 5rem;
 
@@ -272,6 +271,8 @@
 }
 
 .link {
+  cursor: pointer;
+
   &:hover {
     color: $blue-text;
     text-decoration: dotted underline;
