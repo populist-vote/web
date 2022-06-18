@@ -21,7 +21,7 @@ export default function Nav({
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
   const user = useAuth({ redirectTo: "" });
-  const { asPath, pathname } = useRouter();
+  const { asPath, pathname, query } = useRouter();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   useScrollPosition(
@@ -71,7 +71,9 @@ export default function Nav({
             <Link href="/ballot" passHref>
               <li
                 className={`${styles.navItem} ${
-                  pathname.includes("/ballot") && styles.active
+                  pathname.includes("/ballot") &&
+                  !query.votingGuideId &&
+                  styles.active
                 }`}
               >
                 Ballot
@@ -89,7 +91,9 @@ export default function Nav({
             <Link href="/voting-guides" passHref>
               <li
                 className={`${styles.navItem} ${
-                  pathname.includes("/voting-guides") && styles.active
+                  (pathname.includes("/voting-guides") ||
+                    query.votingGuideId) &&
+                  styles.active
                 }`}
               >
                 Voting Guides
@@ -108,9 +112,7 @@ export default function Nav({
             </Link>
           ) : (
             <Link href={`/login?next=${asPath}`} passHref>
-              <div className={styles.avatar}>
-                Login
-              </div>
+              <div className={styles.avatar}>Login</div>
             </Link>
           )}
         </div>

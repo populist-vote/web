@@ -148,8 +148,10 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
       }'s Voting Guide`
     : "Upcoming Vote";
 
-  const isLoading = upcomingElectionsQuery.isLoading;
+  const isLoading =
+    upcomingElectionsQuery.isLoading || otherVotingGuideQuery.isLoading;
   const error = upcomingElectionsQuery.error;
+
   if (!user) return null;
   return (
     <>
