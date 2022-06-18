@@ -6,15 +6,29 @@
     gap: 2.5rem;
 
     .box {
-      height: 12rem;
+      height: 11rem;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      padding: 1.5rem 3rem 2rem 3rem;
+
+      h2 {
+        margin-bottom: .8rem;
+      }
 
       h3 {
         margin-bottom: 1rem;
       }
+    }
+
+    .boxOpponent {
+      height: 11rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 0rem 3rem;
     }
   }
 }
@@ -25,6 +39,7 @@ section.wrapper {
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
+    flex-grow: 1;
     @include for-tablet-portrait-down {
       width: calc(100% - 2.5rem);
     }

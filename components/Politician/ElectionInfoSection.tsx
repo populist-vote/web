@@ -67,9 +67,9 @@ function ElectionInfoSection({
         <h3 className={styles.subHeader}>
           Opponent{opponents.length > 1 && "s"}
         </h3>
-        <div className={`${styles.roundedCard} ${electionStyles.box}`}>
+        <div className={`${styles.roundedCard} ${electionStyles.boxOpponent}`}>
           {opponents.length == 0 ? (
-            "N/A"
+            <h2>None</h2>
           ) : (
             <Scroller>
               {opponents.map(
