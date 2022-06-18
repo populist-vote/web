@@ -2,8 +2,6 @@
 
 .imageContainer {
   border-radius: 250px;
-  // overflow: hidden;
-
   // These need !important to override NextImage
   border-width: var(--border-width) !important;
   border-color: var(--border-color) !important;
@@ -23,7 +21,6 @@
   bottom: 0;
   right: 0;
   border-radius: var(--avatar-size);
-
   width: var(--avatar-size);
   height: var(--avatar-size);
   font-size: var(--avatar-font-size);

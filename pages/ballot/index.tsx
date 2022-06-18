@@ -95,10 +95,11 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
 
   const upcomingElection = upcomingElectionsQuery.data?.upcomingElections[0];
-  const otherGuideCandidateIds =
-    otherVotingGuideQuery.data?.votingGuideById.candidates.map(
-      (candidate) => candidate.politician.id
-    );
+
+  const otherGuideData = otherVotingGuideQuery?.data?.votingGuideById;
+  const otherGuideCandidateIds = otherGuideData?.candidates.map(
+    (candidate) => candidate.politician.id
+  );
 
   // This is not optimal.  Pulling all races into memory and filtering them to display only races with candidates referenced in voting guide.
   // Need to update API to accept arguments for the `upcomingRaces` query... allRaces vs racesByUserDistrict vs votingGuideRaces?
@@ -141,6 +142,12 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
       .catch((err) => console.error("Problem redirecting to 404", err));
   }
 
+  const flagSectionTitle = otherGuideData
+    ? `${
+        otherGuideData.user.firstName || otherGuideData.user.username
+      }'s Voting Guide`
+    : "Upcoming Vote";
+
   const isLoading = upcomingElectionsQuery.isLoading;
   const error = upcomingElectionsQuery.error;
   if (!user) return null;
@@ -171,7 +178,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
               <div data-testid="ballot-page">
                 <h1 className={styles.desktopOnly}>Ballot</h1>
 
-                <FlagSection title="Upcoming Vote">
+                <FlagSection title={flagSectionTitle}>
                   <h1>{dateString(upcomingElection?.electionDate)}</h1>
                   <h2>{upcomingElection?.title}</h2>
                   <p>{upcomingElection?.description}</p>
