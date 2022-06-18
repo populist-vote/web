@@ -104,6 +104,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       : [];
 
   function OfficeSection() {
+    // if (politician.currentOffice) return null;
+
     const cx = classNames(
       styles.center,
       styles.borderBottom,
@@ -121,7 +123,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BasicInfoSection() {
-    const cx = classNames(styles.center, {
+    const cx = classNames(styles.center, politicianStyles.basicInfo, {
       [politicianStyles.wide as string]: tags.length === 0,
     });
 
@@ -133,28 +135,28 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
-            <span className={styles.dots} />
+            <div className={styles.dots} />
             <span>{termStart}</span>
           </p>
         )}
         {!!termEnd && (
           <p className={styles.flexBetween}>
             <span>Term Ends</span>
-            <span className={styles.dots} />
+            <div className={styles.dots} />
             <span>{termEnd}</span>
           </p>
         )}
         {!!yearsInPublicOffice && (
           <p className={styles.flexBetween}>
             <span>Years in Public Office</span>
-            <span className={styles.dots} />
+            <div className={styles.dots} />
             <span>{yearsInPublicOffice}</span>
           </p>
         )}
         {!!age && (
           <p className={styles.flexBetween}>
             <span>Age</span>
-            <span className={styles.dots} />
+            <div className={styles.dots} />
             <span>{age}</span>
           </p>
         )}
@@ -552,7 +554,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     >
       <div className={styles.container}>
         <HeaderSection politician={politician as Partial<PoliticianResult>} />
-        <OfficeSection />
+  
+        {politician?.currentOffice && <OfficeSection />}
+
         <ElectionInfoSection
           politician={politician as Partial<PoliticianResult>}
         />
