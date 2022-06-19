@@ -22,23 +22,16 @@ const months = [
 
 // Returns date string with format Jun 28 2022
 // https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off
-export function dateString(date: string): string {
+export function dateString(date: string, showComma?: boolean): string {
   if (!date) {
     return "-";
   }
   const dateObj = new Date(date.replace(/-/g, "/"));
-  return dateObj.toDateString().split(" ").slice(1).join(" ");
-}
-
-// Returns date string with format Jun 28, 2022
-export function dateStringWithComma(date: string): string {
-  if (!date) {
-    return "-";
-  }
-  const dateObj = new Date(date.replace(/-/g, "/"));
-  return `${
-    months[dateObj.getMonth()]
-  } ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
+  return showComma // Returns date string with format Jun 28, 2022
+    ? `${
+        months[dateObj.getMonth()]
+      } ${dateObj.getDate()}, ${dateObj.getFullYear()}`
+    : dateObj.toDateString().split(" ").slice(1).join(" ");
 }
 
 // Convert a date to a relative time string, such as
