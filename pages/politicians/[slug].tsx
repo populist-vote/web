@@ -84,9 +84,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
   const politicalExperience =
     politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
-  
-  // const raceWins = politician?.race_wins;
-  // const raceLosses = politician?.race_losses;
 
   // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
   const tags =
@@ -110,7 +107,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       : [];
 
   function OfficeSection() {
-    // if (politician.currentOffice) return null;
 
     const cx = classNames(
       styles.center,
@@ -132,8 +128,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     const cx = classNames(styles.center, politicianStyles.basicInfo, {
       [politicianStyles.wide as string]: tags.length === 0,
     });
-
-    // if (!termStart && !termEnd && !yearsInPublicOffice && !age) return null;
 
     return (
       <section className={cx}>
