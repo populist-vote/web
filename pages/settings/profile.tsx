@@ -107,7 +107,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
 
 const UsernameSection = ({ username }: { username: string }) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, formState, reset } = useForm<{
+  const { register, handleSubmit, formState, reset, setError } = useForm<{
     username: string;
   }>({
     mode: "onChange",
@@ -119,6 +119,10 @@ const UsernameSection = ({ username }: { username: string }) => {
     onSuccess: ({ updateUsername }) => {
       reset(updateUsername);
       void queryClient.invalidateQueries(useCurrentUserQuery.getKey());
+    },
+    onError: (error) => {
+      if (error instanceof Error)
+        setError("username", { message: error.message });
     },
   });
   const { errors, isValid, isDirty } = formState;
