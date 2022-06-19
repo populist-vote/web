@@ -29,12 +29,8 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
           <span>{office?.title}</span>
           {/* If the district is not a number, don't display it */}
           {!isNaN(parseInt(office?.district as string)) && (
-            <span className={`${styles.raceSubheader}`}>{`District ${office?.district}`}</span>
+            <span className={styles.raceSubheader}>{`District ${office?.district}`}</span>
           )}
-        </h3>
-        <h3>
-          {/* {office?.state} */}
-        
         </h3>
       </header>
 
