@@ -5,14 +5,33 @@ const week = day * 7;
 const month = day * 30;
 const year = day * 365;
 
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 // Returns date string with format Jun 28 2022
 // https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off
-export function dateString(date: string): string {
+export function dateString(date: string, showComma?: boolean): string {
   if (!date) {
     return "-";
   }
   const dateObj = new Date(date.replace(/-/g, "/"));
-  return dateObj.toDateString().split(" ").slice(1).join(" ");
+  return showComma // Returns date string with format Jun 28, 2022
+    ? `${
+        months[dateObj.getMonth()]
+      } ${dateObj.getDate()}, ${dateObj.getFullYear()}`
+    : dateObj.toDateString().split(" ").slice(1).join(" ");
 }
 
 // Convert a date to a relative time string, such as
