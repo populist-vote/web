@@ -196,14 +196,28 @@ p {
 h1 {
   font-family: "commuters_sans", sans-serif;
   font-weight: 300;
-  font-size: 36px;
+  font-size: 55px;
 }
 
 h2 {
   font-family: "commuters_sans", sans-serif;
   font-weight: 300;
+  font-size: 36px;
+}
+
+h3 {
+  font-family: "commuters_sans", sans-serif;
+  font-weight: 300;
   font-size: 22px;
   line-height: 1.4em;
+}
+
+h4 {
+  font-family: "commuters_sans", sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  // color: #fff;
+  text-transform: uppercase;
 }
 
 #copyright {

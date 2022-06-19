@@ -23,16 +23,19 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
   return (
     <>
       <header
-        className={`${styles.bold} ${styles.flexBetween} ${styles.inset}`}
+        className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${styles.raceHeader}`}
       >
-        <h2>
-          <span>{office?.title} </span>
+        <h3>
+          <span>{office?.title}</span>
           {/* If the district is not a number, don't display it */}
           {!isNaN(parseInt(office?.district as string)) && (
-            <span>{`District ${office?.district}`}</span>
+            <span className={`${styles.raceSubheader}`}>{`District ${office?.district}`}</span>
           )}
-        </h2>
-        <h3>{office?.state}</h3>
+        </h3>
+        <h3>
+          {/* {office?.state} */}
+        
+        </h3>
       </header>
 
       <div className={`${styles.roundedCard}`}>

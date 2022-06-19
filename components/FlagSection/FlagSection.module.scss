@@ -5,15 +5,15 @@
   position: relative;
 
   @include for-tablet-portrait-up {
-    border-left: 1px solid $blue; // Default color
-    margin-bottom: 5rem;
+    border-left: 1px solid $blue-dark; // Default color
+    margin-bottom: 4rem;
   }
 
   .sectionTitle {
     display: flex;
     width: max-content;
     font-family: "Commuters Sans", sans-serif;
-    background: $blue; // Default color
+    background: $blue-dark; // Default color
     color: $white;
     font-weight: normal;
     font-size: 16px;
@@ -52,6 +52,17 @@
 
     .sectionTitle {
       background: $salmon;
+      color: $background-primary;
+    }
+  }
+
+  &.aqua {
+    @include for-tablet-portrait-up {
+      border-left: 1px solid $aqua;
+    }
+
+    .sectionTitle {
+      background: $aqua;
       color: $background-primary;
     }
   }

@@ -63,8 +63,8 @@
   flex-direction: column;
 
   &:not(:last-child) {
-    border-bottom: solid 1px $blue-darker;
+    border-bottom: solid 1px $blue-dark;
     margin-bottom: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 2.5rem;
   }
 }

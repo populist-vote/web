@@ -15,6 +15,8 @@ import { VerticalDivider } from "components/VerticalDivider/VerticalDivider";
 import { AtLeast } from "types/global";
 import Link from "next/link";
 
+import { default as classNames } from "classnames";
+
 export interface EditVotingGuideCandidate {
   candidateId: string;
   isEndorsement?: boolean;
@@ -80,9 +82,7 @@ export default function Race({
         color={race.party === PoliticalParty.Republican ? "red" : "blue"}
       >
         {race.candidates.length < 1 && (
-          <h3 style={{ color: "var(--blue-lighter)" }}>
-            No official candidates
-          </h3>
+          <h4 className={styles.noCandidates}>No candidates</h4>
         )}
         {dialogCandidate && (
           <VotingGuideNote
@@ -118,7 +118,7 @@ export default function Race({
               <div
                 className={styles.flexBetween}
                 key={politician.id}
-                style={{ height: "9rem" }}
+                style={{ height: "8rem" }}
               >
                 {politician.id == incumbentId && (
                   <span className={styles.sideText}>INCUMBENT</span>
@@ -145,7 +145,11 @@ export default function Race({
                     href={politicianLink}
                   />
                   <Link href={politicianLink} passHref>
-                    <h4 className={styles.link}>{politician.fullName}</h4>
+                    <span
+                      className={classNames(styles.link, styles.avatarName)}
+                    >
+                      {politician.fullName}
+                    </span>
                   </Link>
                 </div>
 

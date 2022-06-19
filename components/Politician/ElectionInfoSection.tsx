@@ -24,7 +24,7 @@ function Candidate({
         alt={candidate?.fullName || ""}
         href={`/politicians/${candidate.slug}`}
       />
-      <h4 className={layoutStyles.link}>{candidate.fullName}</h4>
+      <span className={classNames(layoutStyles.link,styles.avatarName)}>{candidate.fullName}</span>
     </div>
   );
 }
@@ -50,26 +50,26 @@ function ElectionInfoSection({
   return (
     <section className={sectionCx}>
       <div>
-        <h3 className={styles.subHeader}>Next Election</h3>
+        <h4 className={styles.subHeader}>Next Election</h4>
         <div className={`${styles.roundedCard} ${electionStyles.box}`}>
-          <h2>{upcomingRace?.title}</h2>
-          <h1>{dateString(upcomingRace?.electionDate)}</h1>
+          <h3>{upcomingRace?.title}</h3>
+          <h2>{dateString(upcomingRace?.electionDate, true)}</h2>
         </div>
       </div>
       <div>
-        <h3 className={styles.subHeader}>Running For</h3>
+        <h4 className={styles.subHeader}>Running For</h4>
         <div className={`${styles.roundedCard} ${electionStyles.box}`}>
-          {upcomingRace?.state && <h2>{states[upcomingRace.state]}</h2>}
-          <h1>{upcomingRace?.office.title}</h1>
+          {upcomingRace?.state && <h3>{states[upcomingRace.state]}</h3>}
+          <h2>{upcomingRace?.office.title}</h2>
         </div>
       </div>
       <div>
-        <h3 className={styles.subHeader}>
+        <h4 className={styles.subHeader}>
           Opponent{opponents.length > 1 && "s"}
-        </h3>
+        </h4>
         <div className={`${styles.roundedCard} ${electionStyles.boxOpponent}`}>
           {opponents.length == 0 ? (
-            <h2>None</h2>
+            <h3>None</h3>
           ) : (
             <Scroller>
               {opponents.map(

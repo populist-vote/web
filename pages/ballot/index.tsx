@@ -145,7 +145,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     ? `${
         otherGuideData.user.firstName || otherGuideData.user.username
       }'s Voting Guide`
-    : "Upcoming Vote";
+    : "My Ballot";
 
   const isLoading =
     upcomingElectionsQuery.isLoading || otherVotingGuideQuery.isLoading;
@@ -177,16 +177,16 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             )}
             {upcomingElection && (
               <div data-testid="ballot-page">
-                <h1 className={styles.desktopOnly}>Ballot</h1>
-
                 <FlagSection title={flagSectionTitle}>
-                  <h1>{dateString(upcomingElection?.electionDate)}</h1>
-                  <h2>{upcomingElection?.title}</h2>
-                  <p>{upcomingElection?.description}</p>
+                  <div className={styles.electionHeader}>
+                    {upcomingElection.electionDate && <h1>{dateString(upcomingElection.electionDate, true)}</h1>}
+                    {upcomingElection.title && <h4>{upcomingElection.title}</h4>}
+                    {upcomingElection.description && <p>{upcomingElection.description}</p>}
+                  </div>
                 </FlagSection>
 
                 {Object.keys(federalRacesGroupedByOffice).length > 0 && (
-                  <FlagSection title="Federal" color="salmon">
+                  <FlagSection title="Federal" color="aqua">
                     {Object.entries(federalRacesGroupedByOffice).map(
                       ([officeId, races]) => {
                         return (

@@ -84,6 +84,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
   const politicalExperience =
     politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
+  
+  // const raceWins = politician?.race_wins;
+  // const raceLosses = politician?.race_losses;
 
   // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
   const tags =
@@ -116,11 +119,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
     return (
       <section className={cx}>
-        <h1 className={styles.politicianOffice}>
+        <h2 className={styles.politicianOffice}>
           {politician?.currentOffice?.title ||
             politician?.votesmartCandidateBio?.office?.name[0]}
-        </h1>
-        {politician?.homeState && <h2>{states[politician?.homeState]}</h2>}
+        </h2>
+        {politician?.homeState && <h3>{states[politician?.homeState]}</h3>}
       </section>
     );
   }
@@ -130,11 +133,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       [politicianStyles.wide as string]: tags.length === 0,
     });
 
-    if (!termStart && !termEnd && !yearsInPublicOffice && !age) return null;
+    // if (!termStart && !termEnd && !yearsInPublicOffice && !age) return null;
 
     return (
       <section className={cx}>
-        <h3 className={styles.subHeader}>Basic Info</h3>
+        <h4 className={styles.subHeader}>Basic Info</h4>
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
@@ -296,7 +299,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     const cx = classNames(styles.center, politicianStyles.committees);
     return (
       <section className={cx}>
-        <h3 className={styles.subHeader}>Committees</h3>
+        <h4 className={styles.subHeader}>Committees</h4>
         <div className={politicianStyles.sectionContent}>
           <Scroller onePageAtATime>
             {tagPages.map((tagPage, index) => (
@@ -322,7 +325,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         (sponsoredBills.edges as Array<{ node: Partial<BillResult> }>) || [];
       return (
         <section className={styles.center}>
-          <h3 className={styles.subHeader}>Sponsored Bills</h3>
+          <h4 className={styles.subHeader}>Sponsored Bills</h4>
           <div className={politicianStyles.sectionContent}>
             <Scroller>
               {edges
@@ -365,7 +368,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             size={80}
           />
 
-          <h4>{organization.name}</h4>
+          <span className={styles.avatarName}>{organization.name}</span>
         </div>
       </Link>
     );
@@ -395,7 +398,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             alt={politician?.fullName as string}
             size={80}
           />
-          <h4>{politician.fullName}</h4>
+          <span className={styles.avatarName}>{politician.fullName}</span>
           {officeTitle && (
             <span className={styles.politicianEndorsementOffice}>
               {officeTitle}
@@ -437,13 +440,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       return null;
     return (
       <ColoredSection color="var(--aqua)">
-        <h3 className={styles.gradientHeader}>Endorsements</h3>
+        <h2 className={styles.gradientHeader}>Endorsements</h2>
         {endorsements?.organizations &&
           endorsements?.organizations?.length > 0 && (
             <div className={politicianStyles.endorsementSection}>
-              <h3 className={`${styles.subHeader} ${styles.aqua}`}>
+              <h4 className={`${styles.subHeader} ${styles.aqua}`}>
                 Organizations
-              </h3>
+              </h4>
               <div className={politicianStyles.sectionContent}>
                 <Scroller showTextButtons>
                   {endorsements?.organizations?.map((organization) => (
@@ -459,9 +462,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           )}
         {endorsements?.politicians && endorsements?.politicians?.length > 0 && (
           <div className={politicianStyles.endorsementSection}>
-            <h3 className={`${styles.subHeader} ${styles.aqua}`}>
+            <h4 className={`${styles.subHeader} ${styles.aqua}`}>
               Individuals
-            </h3>
+            </h4>
             <div className={politicianStyles.sectionContent}>
               <Scroller showTextButtons>
                 {endorsements?.politicians?.map((politician) => (
@@ -506,7 +509,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{ratingPercent}</span>
           </div>
         </div>
-        {rating.organization?.name && <h5>{rating.organization?.name}</h5>}
+        {rating.organization?.name && <span className={styles.avatarName}>{rating.organization?.name}</span>}
       </div>
     );
   }
@@ -515,7 +518,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     if (ratings.length > 1)
       return (
         <ColoredSection color="var(--yellow)">
-          <h3 className={styles.gradientHeader}>Ratings</h3>
+          <h2 className={styles.gradientHeader}>Ratings</h2>
           <Scroller>
             {ratings.map((edge: RatingResultEdge, i) => (
               <RatingsItem
@@ -533,8 +536,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   function BioSection() {
     if (!politician?.biography) return null;
     return (
-      <section className={styles.center}>
-        <h3 className={styles.gradientHeader}>Bio</h3>
+      // <section className={styles.center}>
+      <ColoredSection color="var(--blue-dark)">
+        <h4 className={styles.subHeader}>Biography</h4>
         <p>{politician?.biography}</p>
         {politician?.biographySource && (
           <a
@@ -545,7 +549,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <Button variant="secondary" size="medium" label="Source"></Button>
           </a>
         )}
-      </section>
+      </ColoredSection>
     );
   }
 
