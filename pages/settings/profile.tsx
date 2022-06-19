@@ -24,9 +24,11 @@ import {
   useUserProfileQuery,
   useUpdateUsernameMutation,
   useDeleteAccountMutation,
+  useCurrentUserQuery,
 } from "generated";
 import { PasswordEntropyMeter } from "components/Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
 import states from "utils/states";
+import { useQueryClient } from "react-query";
 
 type NameSectionProps = {
   firstName: string;
@@ -34,6 +36,7 @@ type NameSectionProps = {
 };
 
 const NameSection = ({ firstName, lastName }: NameSectionProps) => {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, formState, reset } =
     useForm<NameSectionProps>({
       mode: "onChange",
@@ -45,6 +48,9 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
   const updateNameMutation = useUpdateFirstAndLastNameMutation({
     onSuccess: ({ updateFirstAndLastName }) => {
       reset(updateFirstAndLastName as NameSectionProps);
+      queryClient
+        .invalidateQueries(useCurrentUserQuery.getKey())
+        .catch((err) => console.error(err));
     },
   });
   const { isValid, isDirty } = formState;
@@ -100,6 +106,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
 };
 
 const UsernameSection = ({ username }: { username: string }) => {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, formState, reset } = useForm<{
     username: string;
   }>({
@@ -111,6 +118,7 @@ const UsernameSection = ({ username }: { username: string }) => {
   const updateUsernameMutation = useUpdateUsernameMutation({
     onSuccess: ({ updateUsername }) => {
       reset(updateUsername);
+      void queryClient.invalidateQueries(useCurrentUserQuery.getKey());
     },
   });
   const { errors, isValid, isDirty } = formState;
@@ -137,6 +145,9 @@ const UsernameSection = ({ username }: { username: string }) => {
             register={register}
             rules={{
               required: "Username is required",
+              pattern:
+                // 8-12 characters, no spaces, no special characters besides _ and ., no _ or . at the end
+                /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
             }}
           />
           <Button
@@ -281,9 +292,7 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
               >
                 <option value="">State</option>
                 {Object.entries(states).map(([key, value]) => (
-                  <option key={key} value={key} label={value}>
-                    {value}
-                  </option>
+                  <option key={key} value={key} label={value} />
                 ))}
               </select>
               {errors.state?.message && (

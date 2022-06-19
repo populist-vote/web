@@ -108,7 +108,7 @@
 
     @include for-tablet-landscape-up {
       margin: 0 auto;
-      max-width: calc(100vw - 12rem);
+      max-width: calc(100vw - 10rem);
       width: 82.5rem;
     }
   }

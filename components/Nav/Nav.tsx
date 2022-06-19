@@ -108,6 +108,7 @@ export default function Nav({
                   alt="profile picture"
                   size={80}
                 />
+                <small>{user.username}</small>
               </div>
             </Link>
           ) : (

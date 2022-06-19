@@ -49,6 +49,8 @@
   color: var(--icon-color);
   cursor: pointer;
 
+  @include dropshadow;
+
   &:disabled {
     cursor: default;
   }

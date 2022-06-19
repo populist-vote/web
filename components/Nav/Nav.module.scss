@@ -96,6 +96,8 @@
       cursor: pointer;
       font-family: $font-primary;
       font-size: 1.25rem;
+      display: flex;
+      flex-direction: column;
     }
   }
 
