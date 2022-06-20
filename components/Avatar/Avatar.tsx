@@ -229,29 +229,28 @@ function Avatar(props: AvatarProps): JSX.Element {
     [`--border-style`]: borderColor ? "solid" : "none",
   };
 
+  const $avatarImage = (
+    <ImageWithFallback
+      src={props.src || fallbackSrc}
+      fallbackSrc={fallbackSrc}
+      width={props.size}
+      height={props.size}
+      className={styles.imageContainer}
+      alt={props.alt}
+    />
+  );
+
   return (
     <div style={{ display: "inline", ...styleVars }}>
       <div className={styles.container}>
         {href ? (
-          <Link href={href} passHref>
-            <ImageWithFallback
-              src={props.src || fallbackSrc}
-              fallbackSrc={fallbackSrc}
-              width={props.size}
-              height={props.size}
-              className={styles.imageContainer}
-              alt={props.alt}
-            />
-          </Link>
+          <div className={styles.avatarLink}>
+            <Link href={href} passHref>
+              {$avatarImage}
+            </Link>
+          </div>
         ) : (
-          <ImageWithFallback
-            src={props.src || fallbackSrc}
-            fallbackSrc={fallbackSrc}
-            width={props.size}
-            height={props.size}
-            className={styles.imageContainer}
-            alt={props.alt}
-          />
+          $avatarImage
         )}
         {hasIconMenu && iconMenuProps && (
           <IconMenu {...iconMenuProps} handleIconClick={handleIconClick} />
