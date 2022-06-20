@@ -166,7 +166,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
-        <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
+        <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
           <VotingGuideProvider votingGuideId={votingGuideId}>
             {isLoading && (
               <div className={styles.center}>

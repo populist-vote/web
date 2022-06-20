@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaHome } from "react-icons/fa";
 import { useState } from "react";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useAuth } from "hooks/useAuth";
@@ -12,13 +12,14 @@ import { Avatar, Logo, LogoText } from "components";
 
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
-  showBackButton,
+  showBackButton = true,
   showLogoOnMobile,
 }: {
   mobileNavTitle?: string;
   showBackButton: boolean;
   showLogoOnMobile: boolean;
 }) {
+  const router = useRouter();
   const [sticky, setSticky] = useState<boolean>(true);
   const user = useAuth({ redirectTo: "" });
   const { asPath, pathname, query } = useRouter();
@@ -47,25 +48,40 @@ export default function Nav({
   return (
     <nav className={`${styles.nav} ${sticky ? styles.sticky : ""}`}>
       <div className={styles.navContent}>
-        <div
-          className={`${styles.logoContainer} ${
-            !showLogoOnMobile ? styles.hideLogo : ""
-          }`}
-        >
-          {isSmallScreen ? <LogoText /> : <Logo />}
+        <div className={styles.navHeader}>
+          {showBackButton ? (
+            <FaChevronLeft
+              className={styles.backButton}
+              color="var(--white)"
+              aria-label="Go back"
+              onClick={() => router.back()}
+            />
+          ) : (
+            <Link href="/home" passHref>
+              <FaHome size={"1.5rem"} className={styles.homeButton} />
+            </Link>
+          )}
+
+          <div
+            className={`${styles.logoContainer} ${
+              !showLogoOnMobile ? styles.hideLogo : ""
+            }`}
+          >
+            {isSmallScreen ? <LogoText /> : <Logo />}
+            <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
+          </div>
+
+          {isSmallScreen && (
+            <Link href="/settings/profile" passHref>
+              <Avatar
+                src={PERSON_FALLBACK_IMAGE_URL}
+                alt="profile picture"
+                size={50}
+              />
+            </Link>
+          )}
         </div>
 
-        {showBackButton && (
-          <Link href={`/politicians`} passHref>
-            <a href={`/politicians`} aria-label="Go back">
-              <FaChevronLeft
-                className={styles.backButton}
-                color="var(--white)"
-              />
-            </a>
-          </Link>
-        )}
-        <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
         <div className={styles.items}>
           <ul>
             <Link href="/ballot" passHref>

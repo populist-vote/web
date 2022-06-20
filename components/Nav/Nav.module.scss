@@ -16,6 +16,15 @@
     transform: translateY(0%);
   }
 
+  .navHeader {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+
+    @include for-tablet-landscape-up {
+      display: flex;
+    }
+  }
+
   .navContent {
     display: flex;
     flex-direction: column;
@@ -24,7 +33,6 @@
     height: auto;
 
     .logoContainer {
-      width: 30%;
       max-width: 200px;
       align-self: center;
 
@@ -42,14 +50,16 @@
       }
     }
 
+    .homeButton {
+      // position: absolute;
+
+      @include for-tablet-landscape-up {
+        display: none;
+      }
+    }
+
     .backButton {
       background: transparent;
-      position: absolute;
-      left: 1.25rem;
-      height: 1.25rem;
-      border: none;
-      padding: 0;
-      margin: 0.25rem 0;
 
       @include for-tablet-landscape-up {
         display: none;

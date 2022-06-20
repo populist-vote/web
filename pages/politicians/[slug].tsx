@@ -554,7 +554,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     >
       <div className={styles.container}>
         <HeaderSection politician={politician as Partial<PoliticianResult>} />
-  
+
         {politician?.currentOffice && <OfficeSection />}
 
         <ElectionInfoSection
