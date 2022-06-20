@@ -11,6 +11,7 @@ type VotingGuideQueryContext = {
   data: VotingGuideResult;
   isGuideOwner: boolean;
   queryKey: (string | Exact<{ id: string }>)[];
+  enabled: boolean;
 };
 
 const VotingGuideContext = createContext<VotingGuideQueryContext>(
@@ -40,6 +41,7 @@ export function VotingGuideProvider({
         data: data?.votingGuideById as VotingGuideResult,
         isGuideOwner,
         queryKey,
+        enabled: !!votingGuideId,
       }}
     >
       {children}
