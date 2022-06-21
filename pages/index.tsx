@@ -2,14 +2,18 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import headerLogo from "public/images/LogoWithText.svg";
-import landing1 from "public/images/landing/politicianBrowser.webp";
-import landing1fallback from "public/images/landing/1.png";
-import landing2 from "public/images/landing/amplify.png";
+import landing0 from "public/images/landing/politicianBrowser-new.webp";
+import landing0fallback from "public/images/landing/politicianBrowser-fallback.jpg";
+import landing1 from "public/images/landing/ballot.jpg";
+import landing2 from "public/images/landing/action.jpg";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
 import { Footer, ImageWithFallback } from "components";
 import styles from "styles/landing.module.scss";
 import classNames from "classnames";
+import { Button } from "components";
+import Router from "next/router";
+
 
 // XXX: VERY SCARY THING THAT WE NEED TO FIX
 const Home: NextPage = () => {
@@ -17,58 +21,85 @@ const Home: NextPage = () => {
     <>
       <main className={styles.container}>
         <div id={styles["container1"]}>
+
+          <div id={styles["menu"]}>
+            <ul className={styles["nav"]}>
+              <li>
+                <Button
+                  size="large"
+                  variant="primary"
+                  theme="blue"
+                  label="Sign in"
+                  onClick={() => Router.push(`/login`)}
+                />
+              </li>
+              <li>
+                <Button
+                  size="large"
+                  variant="secondary"
+                  theme="blue"
+                  label="Register"
+                  onClick={() => Router.push(`/register`)}
+                />  
+              </li>
+            </ul>
+          </div>
+
           <div id={styles["section1"]}>
-            <div className={styles.content}>
-              <Image
-                id="logo"
-                src={headerLogo}
-                width="555px"
-                height="83px"
-                alt="🇺🇸Populist"
+            <Image
+              id="logo"
+              src={headerLogo}
+              width="555px"
+              height="83px"
+              alt="🇺🇸Populist"
+            />
+          </div>
+
+          <div id={styles["section1c"]}>
+            <div id={styles["s1ccol1"]}>
+              <ImageWithFallback
+                src={landing0}
+                fallbackSrc={landing0fallback}
+                height="540px"
+                alt="Politician browser on mobile"
+                priority
               />
-              <h1>Non-partisan politics for the people.</h1>
-              <p>We believe in people.</p>
-              <p>
-                In transparent, non-partisan, accessible information. In a
-                well-informed and critical public. In a more equitable democracy
-                for all.
-              </p>
-              <p>
-                People are hungry for a new way of engaging with politics, and
-                we believe local is the place to start. Partisanship matters
-                less when it's your backyard.
-              </p>
-              <p>Join us in making technology work for the people again.</p>
+            </div>
+            <div id={styles["s1ccol2"]}>
+              <h2>Transparent government access.</h2>
+              <p>We believe that with better access to transparent, non-partisan information, we can create a well-informed and critical public - the foundation of a more equitable democracy for all.</p>
+              <p>It's time to change the way we engage with our government. From federal to local, ballots to bills, we’re bringing power back to the people.</p>
+              <Button
+                  size="large"
+                  variant="primary"
+                  theme="yellow"
+                  label="Explore the app"
+                  onClick={() => Router.push(`/home`)}
+                />  
             </div>
           </div>
+            
 
           <div id={styles["section1b"]}>
             <div id={styles["s1bcol1"]}>
               <div className={styles.contentwide}>
-                <h1>Easy access to your government.</h1>
+                <h2>It begins at the ballot.</h2>
                 <p>
-                  Politicians, legislation, and organizations - connected and
-                  networked to promote knowledge and action.
+                  Easily research your ballot, create a personalized voting guide, and share it with your friends.
                 </p>
-                {/* <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Link href="register" passHref>
-                    <button className="populist-button-1">Get Started</button>
-                  </Link>
-                </div> */}
+                <Button
+                  size="large"
+                  variant="primary"
+                  theme="aqua"
+                  label="View your ballot"
+                  onClick={() => Router.push(`/ballot`)}
+                />
               </div>
             </div>
             <div id={styles["s1bcol2"]}>
-              <ImageWithFallback
+              <Image
                 src={landing1}
-                fallbackSrc={landing1fallback}
-                alt="Politician browser on mobile"
-                priority
+                alt="My ballot on mobile"
               />
             </div>
           </div>
@@ -79,11 +110,9 @@ const Home: NextPage = () => {
             </div>
             <div id={styles["s2col2"]}>
               <div className={styles.contentwide}>
-                <h1>Amplify your voice.</h1>
+                <h2>New avenues of action.</h2>
                 <p>
-                  Civic engagement starts with your vote. Extend its power
-                  beyond the ballot box by letting your representatives know
-                  your position on key legislation and issues.
+                Extend the power of your vote beyond the ballot box by letting your representatives know your position on key legislation and issues.
                 </p>
               </div>
             </div>
@@ -92,7 +121,7 @@ const Home: NextPage = () => {
           <div id={styles["section3"]}>
             <div id={styles["s3col1"]}>
               <div className={styles.contentwide}>
-                <h1>Transparent, modern, and ethical.</h1>
+                <h2>Transparent, modern, and ethical.</h2>
                 <p>
                   Moving fast and breaking things is no longer compatible with
                   our modern society. We lead with thoughtful design that is
@@ -112,11 +141,11 @@ const Home: NextPage = () => {
                   src={landing4}
                   alt="people becoming involved in government"
                 />
-                <h1>
+                <h2>
                   Populist is for <span className={styles.emphasized}>voters</span>,{" "}
                   <span className={styles.emphasized}>organizations</span>, and{" "}
                   <span className={styles.emphasized}>politicians</span>.
-                </h1>
+                </h2>
                 <p>
                   By creating and surfacing connections between these key
                   stakeholders, we can make meaningful action more accessible
@@ -126,7 +155,7 @@ const Home: NextPage = () => {
             </div>
             <div id={styles["s4row2"]}>
               <div className={classNames(styles.contentwide, styles.last)}>
-                <h1 className={styles.botspace}>Interested? Sign up to learn more.</h1>
+                <h2 className={styles.botspace}>Interested? Sign up to learn more.</h2>
 
                 <div id={styles["mc_embed_signup"]}>
                   <form
@@ -160,7 +189,7 @@ const Home: NextPage = () => {
                       <div className={styles.clear}>
                         <input
                           type="submit"
-                          value="SUBMIT"
+                          value="Submit"
                           name="subscribe"
                           id={styles["mc-embedded-subscribe"]}
                           className={styles.button}

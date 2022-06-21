@@ -46,12 +46,12 @@ $medium-size: 2.5rem;
 $small-size: 1.825rem;
 
 @mixin primary(
-  $color,
-  $colorDark,
-  $colorDarker,
-  $colorLight,
-  $colorLighter,
-  $textColor: $white
+  $color,                        //background color + active border color
+  $colorDark,                    //active background color + disabled border
+  $colorDarker,                  //disabled background color
+  $colorLight,                   //hover background color
+  $colorLighter: $blue-lighter,  //focus color
+  $textColor: $white             //text color
 ) {
   background: $color;
   color: $textColor;
@@ -193,7 +193,7 @@ $small-size: 1.825rem;
     $yellow,
     $yellow-dark,
     $yellow-dark,
-    $grey-light,
+    #FFD70F,
     $white,
     $dark-brown
   );
@@ -207,6 +207,17 @@ $small-size: 1.825rem;
   @include secondary($red, $red, $red, transparent, $red, $white);
 }
 
+.aqua.primary {
+  @include primary(
+    $aqua,                     //background color + active border color
+    #2C6E6A,                  //active background color + disabled border
+    $blue-darkest,              //disabled background color
+    #9AEACF,                  //hover background color
+    $blue-lighter,              //focus color
+    #103E49                   //text color
+  );
+}
+
 @mixin iconButton($size) {
   border-radius: $size;
   height: $size;
@@ -217,7 +228,7 @@ $small-size: 1.825rem;
   font-size: 1.125rem;
   line-height: 1.375rem;
   min-height: $large-size;
-  padding: 0 1rem;
+  padding: 0 2rem;
 
   &.iconOnlyButton {
     @include iconButton($large-size);
