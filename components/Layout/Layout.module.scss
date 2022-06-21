@@ -31,8 +31,6 @@
       "nav     content"
       "nav     content"
       "nav     footer";
-    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-    grid-template-rows: auto 10fr auto;
     margin: 0 auto;
 
     @include for-tablet-landscape-up {

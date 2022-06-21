@@ -117,10 +117,7 @@ const VotingGuides: NextPage<{
         <meta name="description" content="View Voting Guides." />
       </Head>
 
-      <Layout
-        mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}
-        showNavLogoOnMobile={false}
-      >
+      <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
           <FlagSection title="My Voting Guide">
             {election && (

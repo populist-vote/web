@@ -47,30 +47,32 @@ export default function Nav({
 
   return (
     <nav className={`${styles.nav} ${sticky ? styles.sticky : ""}`}>
-      <div className={styles.navContent}>
-        <div className={styles.navHeader}>
-          {showBackButton ? (
-            <FaChevronLeft
-              className={styles.backButton}
-              color="var(--white)"
-              aria-label="Go back"
-              onClick={() => router.back()}
-            />
-          ) : (
+      <div className={styles.mobileNav}>
+        {showBackButton ? (
+          <FaChevronLeft
+            className={styles.backButton}
+            color="var(--white)"
+            aria-label="Go back"
+            onClick={() => router.back()}
+          />
+        ) : (
+          <div className={styles.homeButton}>
             <Link href="/home" passHref>
-              <FaHome size={"1.5rem"} className={styles.homeButton} />
+              <FaHome size={"1.5rem"} color="var(--blue-text)" />
             </Link>
-          )}
-
-          <div
-            className={`${styles.logoContainer} ${
-              !showLogoOnMobile ? styles.hideLogo : ""
-            }`}
-          >
-            {isSmallScreen ? <LogoText /> : <Logo />}
-            <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
           </div>
+        )}
 
+        <div
+          className={`${styles.logoContainer} ${
+            !showLogoOnMobile ? styles.hideLogo : ""
+          }`}
+        >
+          <LogoText height={100} />
+          <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
+        </div>
+
+        <div className={styles.avatar}>
           {isSmallScreen && (
             <Link href="/settings/profile" passHref>
               <Avatar
@@ -81,7 +83,11 @@ export default function Nav({
             </Link>
           )}
         </div>
-
+      </div>
+      <div className={styles.navContent}>
+        <div className={styles.logoContainer}>
+          <Logo />
+        </div>
         <div className={styles.items}>
           <ul>
             <Link href="/ballot" passHref>
