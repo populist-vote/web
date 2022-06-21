@@ -103,7 +103,7 @@ const VotingGuides: NextPage<{
   );
   const userVotingGuides = data?.votingGuidesByUserId;
   const election = data?.votingGuidesByUserId[0]?.election;
-  const { savedGuideIds } = useSavedGuideIds(user.id);
+  const { savedGuideIds } = useSavedGuideIds(user?.id);
   const savedGuidesQuery = useVotingGuidesByIdsQuery({
     ids: savedGuideIds,
   });
