@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
 import { PartyAvatar, Button } from "components";
@@ -54,14 +54,18 @@ function HeaderSection({
   const [noteState, setNoteState] = useState(NoteState.View);
   const [note, setNote] = useState<string>();
 
+  const getInitialNote = useCallback(
+    () =>
+      guideData?.candidates?.find((c) => c.politician.id === politician.id)
+        ?.note,
+    [guideData?.candidates, politician.id]
+  );
+
   useEffect(() => {
     if (note === undefined) {
-      const initialNote = guideData?.candidates?.filter(
-        (c) => c.politician.id === politician.id
-      )[0]?.note;
-      setNote(initialNote || undefined);
+      setNote(getInitialNote() || undefined);
     }
-  }, [guideData?.candidates, politician.id, setNote, note]);
+  }, [setNote, note, getInitialNote]);
 
   const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation();
 
@@ -128,49 +132,59 @@ function HeaderSection({
 
       <div className={headerStyles.note}>
         <span className={headerStyles.header}>Voting Guide Note</span>
-        {noteState === NoteState.View && (
+        {guideEnabled && noteState === NoteState.View && (
           <>
             <div className={headerStyles.noteText}>{note}</div>
             {isGuideOwner && (
-              <Button
-                label={note ? "Edit note" : "Add note"}
-                onClick={() => setNoteState(NoteState.Edit)}
-                variant="secondary"
-                size="medium"
-              />
+              <div>
+                <div className={headerStyles.buttonArea}>
+                  <Button
+                    label={note ? "Edit note" : "Add note"}
+                    onClick={() => setNoteState(NoteState.Edit)}
+                    variant="secondary"
+                    size="medium"
+                  />
+                  {note && (
+                    <Button
+                      variant="secondary"
+                      size="medium"
+                      label="Delete Note"
+                      onClick={() => {
+                        setNote("");
+                        addNote();
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
             )}
           </>
         )}
         {noteState === NoteState.Edit && (
-          <>
-            <div>
-              <textarea
-                value={note || ""}
-                onChange={(e) => setNote(e.target.value)}
-              />
+          <div>
+            <textarea
+              value={note || ""}
+              onChange={(e) => setNote(e.target.value)}
+            />
 
-              <div className={headerStyles.buttonArea}>
-                <Button
-                  label="Save note"
-                  onClick={() => addNote()}
-                  variant="secondary"
-                  size="medium"
-                />
-                <Button
-                  label="Cancel"
-                  onClick={() => {
-                    const initialNote = guideData?.candidates?.filter(
-                      (c) => c.politician.id === politician.id
-                    )[0]?.note;
-                    setNote(initialNote || "");
-                    setNoteState(NoteState.View);
-                  }}
-                  variant="secondary"
-                  size="medium"
-                />
-              </div>
+            <div className={headerStyles.buttonArea}>
+              <Button
+                label="Save note"
+                onClick={() => addNote()}
+                variant="secondary"
+                size="medium"
+              />
+              <Button
+                label="Cancel"
+                onClick={() => {
+                  setNote(getInitialNote() || "");
+                  setNoteState(NoteState.View);
+                }}
+                variant="secondary"
+                size="medium"
+              />
             </div>
-          </>
+          </div>
         )}
       </div>
     </section>
