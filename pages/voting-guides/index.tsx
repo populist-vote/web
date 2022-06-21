@@ -129,7 +129,9 @@ const VotingGuides: NextPage<{
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
             {userVotingGuides && userVotingGuides.length < 1 && (
-              <small>No voting guides</small>
+              <>
+                <small>No voting guides</small>
+              </>
             )}
 
             {userVotingGuides?.map((guide) => (

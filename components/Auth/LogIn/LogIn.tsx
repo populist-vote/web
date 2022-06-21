@@ -28,7 +28,7 @@ export function LogIn() {
     },
     onSuccess: () =>
       getCurrentUser.refetch().then((result) => {
-        if (result.data?.currentUser) void router.push("/ballot");
+        if (result.data?.currentUser) void router.push("/home");
       }),
   });
 
