@@ -132,45 +132,58 @@ function HeaderSection({
           <>
             <div className={headerStyles.noteText}>{note}</div>
             {isGuideOwner && (
-              <Button
-                label={note ? "Edit note" : "Add note"}
-                onClick={() => setNoteState(NoteState.Edit)}
-                variant="secondary"
-                size="medium"
-              />
+              <div>
+                <div className={headerStyles.buttonArea}>
+                  <Button
+                    label={note ? "Edit note" : "Add note"}
+                    onClick={() => setNoteState(NoteState.Edit)}
+                    variant="secondary"
+                    size="medium"
+                  />
+                  {note && (
+                    <Button
+                      variant="secondary"
+                      size="medium"
+                      label="Delete Note"
+                      onClick={() => {
+                        setNote("");
+                        addNote();
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
             )}
           </>
         )}
         {noteState === NoteState.Edit && (
-          <>
-            <div>
-              <textarea
-                value={note || ""}
-                onChange={(e) => setNote(e.target.value)}
-              />
+          <div>
+            <textarea
+              value={note || ""}
+              onChange={(e) => setNote(e.target.value)}
+            />
 
-              <div className={headerStyles.buttonArea}>
-                <Button
-                  label="Save note"
-                  onClick={() => addNote()}
-                  variant="secondary"
-                  size="medium"
-                />
-                <Button
-                  label="Cancel"
-                  onClick={() => {
-                    const initialNote = guideData?.candidates?.filter(
-                      (c) => c.politician.id === politician.id
-                    )[0]?.note;
-                    setNote(initialNote || "");
-                    setNoteState(NoteState.View);
-                  }}
-                  variant="secondary"
-                  size="medium"
-                />
-              </div>
+            <div className={headerStyles.buttonArea}>
+              <Button
+                label="Save note"
+                onClick={() => addNote()}
+                variant="secondary"
+                size="medium"
+              />
+              <Button
+                label="Cancel"
+                onClick={() => {
+                  const initialNote = guideData?.candidates?.filter(
+                    (c) => c.politician.id === politician.id
+                  )[0]?.note;
+                  setNote(initialNote || "");
+                  setNoteState(NoteState.View);
+                }}
+                variant="secondary"
+                size="medium"
+              />
             </div>
-          </>
+          </div>
         )}
       </div>
     </section>
