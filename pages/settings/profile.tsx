@@ -224,13 +224,17 @@ const EmailSection = ({ email }: { email: string }) => {
 };
 
 const AddressSection = ({ address }: { address: AddressResult }) => {
-  const { register, handleSubmit, formState, reset } = useForm<AddressResult>({
-    mode: "onChange",
-    defaultValues: address,
-  });
+  const { register, handleSubmit, formState, reset, setError } =
+    useForm<AddressResult>({
+      mode: "onChange",
+      defaultValues: address,
+    });
   const updateAddressMutation = useUpdateAddressMutation({
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
+    },
+    onError: (error) => {
+      if (error instanceof Error) setError("line1", { message: error.message });
     },
   });
   const { errors, isValid, isDirty } = formState;
