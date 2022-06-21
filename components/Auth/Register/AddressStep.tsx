@@ -31,7 +31,7 @@ export function AddressStep() {
 
   const handleUserRegistration = useBeginUserRegistrationMutation({
     onError: (error: Error) => alert(error.message),
-    onSuccess: () => router.push("/ballot"),
+    onSuccess: () => router.push("/home"),
   });
 
   const submitForm = (data: { address: AddressInput }) => {

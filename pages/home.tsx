@@ -15,12 +15,12 @@ function HomePage() {
       <BasicLayout>
         <HomePageButton href="/ballot" className="myBallot" label="My Ballot" />
         <HomePageButton
-          href="/ballot"
+          href="/voting-guides"
           className="votingGuides"
           label="Voting Guides"
         />
         <HomePageButton
-          href="/ballot"
+          href="/politicians"
           className="myLegislators"
           label="Colorado Legislators"
         />

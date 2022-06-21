@@ -4,6 +4,7 @@ import styles from "./BasicLayout.module.scss";
 import { LogoText } from "components/LogoText/LogoText";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useCurrentUserQuery } from "generated";
 
 export default function BasicLayout({
   children,
@@ -11,6 +12,7 @@ export default function BasicLayout({
   hideHeaderActions = false,
 }: PropsWithChildren<{ hideFooter?: boolean; hideHeaderActions?: boolean }>) {
   const { pathname } = useRouter();
+  const user = useCurrentUserQuery();
 
   return (
     <div className={styles.container}>
@@ -20,7 +22,7 @@ export default function BasicLayout({
             <LogoText />
           </div>
         </Link>
-        {hideHeaderActions ? (
+        {hideHeaderActions || user ? (
           <></>
         ) : pathname == "/register" ? (
           <Link href="/login">Log In</Link>

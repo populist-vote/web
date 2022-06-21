@@ -103,7 +103,7 @@ const VotingGuides: NextPage<{
   );
   const userVotingGuides = data?.votingGuidesByUserId;
   const election = data?.votingGuidesByUserId[0]?.election;
-  const { savedGuideIds } = useSavedGuideIds(user.id);
+  const { savedGuideIds } = useSavedGuideIds(user?.id);
   const savedGuidesQuery = useVotingGuidesByIdsQuery({
     ids: savedGuideIds,
   });
@@ -129,7 +129,9 @@ const VotingGuides: NextPage<{
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
             {userVotingGuides && userVotingGuides.length < 1 && (
-              <small>No voting guides</small>
+              <>
+                <small>No voting guides</small>
+              </>
             )}
 
             {userVotingGuides?.map((guide) => (
