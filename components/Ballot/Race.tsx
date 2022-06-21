@@ -106,6 +106,14 @@ export default function Race({
               .map((c) => c.politician.id)
               .includes(politician.id);
 
+            const appendString = votingGuide?.id
+              ? `?voting-guide=${votingGuide.id}`
+              : "";
+
+            const politicianLink = `/politicians/${encodeURIComponent(
+              politician?.slug
+            )}${appendString}`;
+
             return (
               <div
                 className={styles.flexBetween}
@@ -134,16 +142,9 @@ export default function Race({
                     src={politician?.thumbnailImageUrl as string}
                     alt={politician.fullName}
                     readOnly={!isGuideOwner}
-                    href={`/politicians/${encodeURIComponent(
-                      politician?.slug
-                    )}`}
+                    href={politicianLink}
                   />
-                  <Link
-                    href={`/politicians/${encodeURIComponent(
-                      politician?.slug
-                    )}`}
-                    passHref
-                  >
+                  <Link href={politicianLink} passHref>
                     <h4 className={styles.link}>{politician.fullName}</h4>
                   </Link>
                 </div>
