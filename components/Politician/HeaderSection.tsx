@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
 import { PartyAvatar, Button } from "components";
@@ -54,14 +54,18 @@ function HeaderSection({
   const [noteState, setNoteState] = useState(NoteState.View);
   const [note, setNote] = useState<string>();
 
+  const getInitialNote = useCallback(
+    () =>
+      guideData?.candidates?.find((c) => c.politician.id === politician.id)
+        ?.note,
+    [guideData?.candidates, politician.id]
+  );
+
   useEffect(() => {
     if (note === undefined) {
-      const initialNote = guideData?.candidates?.filter(
-        (c) => c.politician.id === politician.id
-      )[0]?.note;
-      setNote(initialNote || undefined);
+      setNote(getInitialNote() || undefined);
     }
-  }, [guideData?.candidates, politician.id, setNote, note]);
+  }, [setNote, note, getInitialNote]);
 
   const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation();
 
@@ -173,10 +177,7 @@ function HeaderSection({
               <Button
                 label="Cancel"
                 onClick={() => {
-                  const initialNote = guideData?.candidates?.filter(
-                    (c) => c.politician.id === politician.id
-                  )[0]?.note;
-                  setNote(initialNote || "");
+                  setNote(getInitialNote() || "");
                   setNoteState(NoteState.View);
                 }}
                 variant="secondary"
