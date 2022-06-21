@@ -128,7 +128,7 @@ function HeaderSection({
 
       <div className={headerStyles.note}>
         <span className={headerStyles.header}>Voting Guide Note</span>
-        {noteState === NoteState.View && (
+        {guideEnabled && noteState === NoteState.View && (
           <>
             <div className={headerStyles.noteText}>{note}</div>
             {isGuideOwner && (
