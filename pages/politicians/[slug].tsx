@@ -1,12 +1,13 @@
+import { useMemo, CSSProperties, PropsWithChildren } from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useMemo, CSSProperties, PropsWithChildren } from "react";
 import { dehydrate, QueryClient } from "react-query";
 import { BillCard, Button, Layout, LoaderFlag, PartyAvatar } from "components";
 import { HeaderSection, ElectionInfoSection } from "components/Politician";
+import { VotingGuideProvider } from "hooks/useVotingGuide";
 
 import { GrTree } from "react-icons/gr";
 import {
@@ -55,6 +56,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 }) => {
   const { query } = useRouter();
   const slug = query.slug as string;
+  const votingGuideId = (query[`voting-guide`] as string) || null;
+
   const { data, isLoading, error } = usePoliticianBySlugQuery(
     { slug },
     {
@@ -552,23 +555,25 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       showNavBackButton
       showNavLogoOnMobile={false}
     >
-      <div className={styles.container}>
-        <HeaderSection politician={politician as Partial<PoliticianResult>} />
+      <VotingGuideProvider votingGuideId={votingGuideId || ""}>
+        <div className={styles.container}>
+          <HeaderSection politician={politician as Partial<PoliticianResult>} />
 
-        {politician?.currentOffice && <OfficeSection />}
+          {politician?.currentOffice && <OfficeSection />}
 
-        <ElectionInfoSection
-          politician={politician as Partial<PoliticianResult>}
-        />
-        <div className={politicianStyles.infoCommitteeWrapper}>
-          <BasicInfoSection />
-          <CommitteesSection />
+          <ElectionInfoSection
+            politician={politician as Partial<PoliticianResult>}
+          />
+          <div className={politicianStyles.infoCommitteeWrapper}>
+            <BasicInfoSection />
+            <CommitteesSection />
+          </div>
+          <SponsoredBillsSection />
+          <EndorsementsSection />
+          <RatingsSection />
+          <BioSection />
         </div>
-        <SponsoredBillsSection />
-        <EndorsementsSection />
-        <RatingsSection />
-        <BioSection />
-      </div>
+      </VotingGuideProvider>
     </Layout>
   );
 };

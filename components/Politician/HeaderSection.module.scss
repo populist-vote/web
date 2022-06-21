@@ -23,6 +23,7 @@
       font-size: 1rem;
       font-family: $font-primary;
       font-weight: 400;
+      text-transform: uppercase;
     }
     div.noteText {
       color: $blue-lighter;
@@ -33,10 +34,11 @@
       font-weight: 300;
       max-width: 50rem;
       padding: 0.75rem 2rem 0;
+      margin-bottom: 1rem;
     }
   }
 
-  button {
+  button.menu {
     margin: 2rem 0 0.5rem;
     width: 19rem;
     max-width: 100vw;
@@ -45,4 +47,28 @@
       width: 12.5rem;
     }
   }
+
+  button.iconOnly {
+    margin: 0;
+  }
+
+  textarea {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    border: 1px $blue-dark;
+    border-radius: 10px;
+    font-size: 1.25rem;
+    font-family: $text-primary;
+    font-weight: 400;
+    resize: none;
+    outline: none;
+  }
+}
+
+.buttonArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }

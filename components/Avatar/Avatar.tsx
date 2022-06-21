@@ -44,6 +44,7 @@ interface IconMenuProps {
   handleEndorseCandidate?: EventHandler<ClickEvent | any>;
   handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
   handleAddNote?: EventHandler<ClickEvent | any>;
+  handleIconClick?: EventHandler<ClickEvent | any>;
   icon: IconProps;
   readOnly: boolean;
 }
@@ -56,6 +57,7 @@ export interface AvatarProps {
   badge?: BadgeProps;
   borderColor?: string;
   hasIconMenu?: boolean;
+  handleIconClick?: EventHandler<ClickEvent | any>;
   iconMenuProps?: IconMenuProps;
   name?: string;
   round?: boolean;
@@ -132,6 +134,7 @@ function IconMenu(props: IconMenuProps): JSX.Element {
     handleEndorseCandidate,
     handleUnendorseCandidate,
     handleAddNote,
+    handleIconClick,
     readOnly = true,
   } = props;
 
@@ -149,20 +152,32 @@ function IconMenu(props: IconMenuProps): JSX.Element {
 
   if (readOnly && type === "plus") return <></>;
 
-  return (
+  const $icon = (
+    <div className={styles.iconInner}>
+      <div className={styles.iconWrapper}>
+        <IconImage type={type} />
+      </div>
+    </div>
+  );
+
+  return !!handleIconClick ? (
+    <button
+      className={`${styles.iconOuter} iconOnly`}
+      style={styleVars}
+      onClick={handleIconClick}
+    >
+      {$icon}
+    </button>
+  ) : (
     <Menu
       menuClassName={menuStyles.menu}
       menuButton={
         <MenuButton
-          className={styles.iconOuter}
+          className={`${styles.iconOuter} menu`}
           style={styleVars}
           disabled={readOnly}
         >
-          <div className={styles.iconInner}>
-            <div className={styles.iconWrapper}>
-              <IconImage type={type} />
-            </div>
-          </div>
+          {$icon}
         </MenuButton>
       }
       transition
@@ -201,6 +216,7 @@ function Avatar(props: AvatarProps): JSX.Element {
     hasIconMenu,
     iconMenuProps,
     href,
+    handleIconClick,
   } = props;
 
   const styleVars: CSSProperties & {
@@ -213,31 +229,32 @@ function Avatar(props: AvatarProps): JSX.Element {
     [`--border-style`]: borderColor ? "solid" : "none",
   };
 
+  const $avatarImage = (
+    <ImageWithFallback
+      src={props.src || fallbackSrc}
+      fallbackSrc={fallbackSrc}
+      width={props.size}
+      height={props.size}
+      className={styles.imageContainer}
+      alt={props.alt}
+    />
+  );
+
   return (
     <div style={{ display: "inline", ...styleVars }}>
       <div className={styles.container}>
         {href ? (
-          <Link href={href} passHref>
-            <ImageWithFallback
-              src={props.src || fallbackSrc}
-              fallbackSrc={fallbackSrc}
-              width={props.size}
-              height={props.size}
-              className={styles.imageContainer}
-              alt={props.alt}
-            />
-          </Link>
+          <div className={styles.avatarLink}>
+            <Link href={href} passHref>
+              {$avatarImage}
+            </Link>
+          </div>
         ) : (
-          <ImageWithFallback
-            src={props.src || fallbackSrc}
-            fallbackSrc={fallbackSrc}
-            width={props.size}
-            height={props.size}
-            className={styles.imageContainer}
-            alt={props.alt}
-          />
+          $avatarImage
         )}
-        {hasIconMenu && iconMenuProps && <IconMenu {...iconMenuProps} />}
+        {hasIconMenu && iconMenuProps && (
+          <IconMenu {...iconMenuProps} handleIconClick={handleIconClick} />
+        )}
         {badge && <Badge {...badge} />}
       </div>
     </div>
