@@ -6,27 +6,27 @@
   grid-area: nav;
   position: sticky;
   top: 0;
-  z-index: 0;
+  z-index: 15;
   transform: translateY(-100%);
   transition: transform 400ms ease-in;
   background-color: $background-secondary;
   box-shadow: 0 7px 9px 0 $background-primary;
-  padding: 3rem 1rem 0.5rem;
-
-  @include for-tablet-landscape-up {
-    padding: 1rem;
-  }
 
   &.sticky {
     transform: translateY(0%);
+  }
+
+  @include for-tablet-landscape-up {
+    position: fixed;
+    width: 12rem;
+    height: 100vh;
   }
 
   .logoContainer {
     display: block;
 
     @include for-tablet-landscape-up {
-      max-width: 150px;
-      margin: 1.5rem;
+      margin: 2rem;
     }
 
     &.hideLogo {
@@ -62,19 +62,6 @@
       }
     }
 
-    .avatar {
-      cursor: pointer;
-      font-family: $font-primary;
-      font-size: 1.25rem;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      @include for-tablet-landscape-up {
-        flex-direction: column;
-      }
-    }
-
     @include for-tablet-landscape-up {
       display: flex;
       position: sticky;
@@ -86,12 +73,25 @@
     }
   }
 
+  .avatar {
+    cursor: pointer;
+    font-family: $font-primary;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    align-items: center;
+
+    @include for-tablet-landscape-up {
+      flex-direction: column;
+    }
+  }
+
   .navContent {
     display: flex;
     flex-direction: column;
     text-align: center;
-    justify-content: space-between;
-    height: 95vh;
+    height: 100%;
 
     .backButton {
       background: transparent;
@@ -99,8 +99,7 @@
 
     @include for-tablet-landscape-up {
       display: flex;
-      position: sticky;
-      top: 0;
+      position: fixed;
     }
 
     @include for-tablet-portrait-down {
@@ -108,19 +107,17 @@
     }
   }
 
-  @include for-tablet-portrait-up {
-    height: 100%;
-  }
-
   .items {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
+    height: 100%;
+    width: 12rem;
+    padding-bottom: 5rem;
 
     ul {
       padding: 0;
-      margin: 2.5rem -1rem;
     }
 
     @include for-tablet-portrait-down {

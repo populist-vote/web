@@ -73,20 +73,18 @@ export default function Nav({
         </div>
 
         <div className={styles.avatar}>
-          {isSmallScreen && (
-            <Link href="/settings/profile" passHref>
-              <Avatar
-                src={PERSON_FALLBACK_IMAGE_URL}
-                alt="profile picture"
-                size={50}
-              />
-            </Link>
-          )}
+          <Link href="/settings/profile" passHref>
+            <Avatar
+              src={PERSON_FALLBACK_IMAGE_URL}
+              alt="profile picture"
+              size={50}
+            />
+          </Link>
         </div>
       </div>
       <div className={styles.navContent}>
         <div className={styles.logoContainer}>
-          <Logo />
+          <Logo height={100} />
         </div>
         <div className={styles.items}>
           <ul>

@@ -12,12 +12,6 @@
     "footer";
   grid-template-rows: auto 10fr auto;
 
-  @include for-tablet-landscape-up {
-    main {
-      padding: 0.35rem;
-    }
-  }
-
   h3 {
     font-size: $text-sm;
     font-weight: 400;
@@ -101,13 +95,13 @@
   }
 
   .content {
+    grid-area: content;
     max-height: 100%;
     max-width: 100vw;
 
     @include for-tablet-landscape-up {
       margin: 0 auto;
-      max-width: calc(100vw - 10rem);
-      width: 82.5rem;
+      width: calc(100vw - 24rem);
     }
   }
 
