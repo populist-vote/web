@@ -133,7 +133,7 @@ function HeaderSection({
             <div className={headerStyles.noteText}>{note}</div>
             {isGuideOwner && (
               <Button
-                label="Edit note"
+                label={note ? "Edit note" : "Add note"}
                 onClick={() => setNoteState(NoteState.Edit)}
                 variant="secondary"
                 size="medium"
