@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
 import { PartyAvatar, Button } from "components";
+import { EditVotingGuideCandidate } from "components/Ballot/Race";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { PoliticalParty, PoliticianResult } from "../../generated";
+import {
+  PoliticalParty,
+  PoliticianResult,
+  useUpsertVotingGuideCandidateMutation,
+} from "generated";
 import styles from "styles/page.module.scss";
 import headerStyles from "./HeaderSection.module.scss";
 
@@ -29,23 +35,72 @@ function HeaderSection({
   const {
     data: guideData,
     isGuideOwner,
-    // queryKey,
+    queryKey,
     enabled: guideEnabled,
   } = useVotingGuide();
 
-  const isEndorsing = guideEnabled
+  const queryClient = useQueryClient();
+
+  const invalidateVotingGuideQuery = () =>
+    queryClient.invalidateQueries(queryKey);
+
+  const isEndorsed = guideEnabled
     ? guideData?.candidates
         ?.filter((c) => c.isEndorsement)
         .map((c) => c.politician.id)
         .includes(politician.id as string)
     : false;
 
-  const initialNote = guideData?.candidates?.filter(
-    (c) => c.politician.id === politician.id
-  )[0]?.note;
-
   const [noteState, setNoteState] = useState(NoteState.View);
-  const [note, setNote] = useState(initialNote);
+  const [note, setNote] = useState<string>();
+
+  useEffect(() => {
+    if (note === undefined) {
+      const initialNote = guideData?.candidates?.filter(
+        (c) => c.politician.id === politician.id
+      )[0]?.note;
+      setNote(initialNote || undefined);
+    }
+  }, [guideData?.candidates, politician.id, setNote, note]);
+
+  const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation();
+
+  interface EditVotingGuidePolitician
+    extends Partial<EditVotingGuideCandidate> {
+    onSuccess?: () => void;
+  }
+
+  const editVotingGuideCandidate = ({
+    isEndorsement,
+    note,
+    onSuccess,
+  }: EditVotingGuidePolitician) => {
+    upsertVotingGuideCandidate.mutate(
+      {
+        votingGuideId: guideData.id,
+        candidateId: politician.id || "",
+        isEndorsement,
+        note,
+      },
+      {
+        onSuccess: () => {
+          invalidateVotingGuideQuery().catch((err) =>
+            console.error("Problem invalidating query", err)
+          );
+          if (onSuccess) onSuccess();
+        },
+      }
+    );
+  };
+
+  const toggleEndorsement = () =>
+    editVotingGuideCandidate({ isEndorsement: !isEndorsed });
+
+  const addNote = () =>
+    editVotingGuideCandidate({
+      note,
+      onSuccess: () => setNoteState(NoteState.View),
+    });
 
   return (
     <section className={sectionCx}>
@@ -63,8 +118,8 @@ function HeaderSection({
         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
         alt={politician?.fullName as string}
         iconType="star"
-        isEndorsement={isEndorsing}
-        handleIconClick={() => alert("click")}
+        isEndorsement={isEndorsed}
+        handleIconClick={() => toggleEndorsement()}
         hasIconMenu={true}
       />
       {!isMobile && (
@@ -97,14 +152,17 @@ function HeaderSection({
               <div className={headerStyles.buttonArea}>
                 <Button
                   label="Save note"
-                  onClick={() => alert("save note")}
+                  onClick={() => addNote()}
                   variant="secondary"
                   size="medium"
                 />
                 <Button
                   label="Cancel"
                   onClick={() => {
-                    setNote(initialNote);
+                    const initialNote = guideData?.candidates?.filter(
+                      (c) => c.politician.id === politician.id
+                    )[0]?.note;
+                    setNote(initialNote || "");
                     setNoteState(NoteState.View);
                   }}
                   variant="secondary"
