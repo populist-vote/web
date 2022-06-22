@@ -84,8 +84,8 @@ const Home: NextPage = () => {
               <h2>Transparent government access.</h2>
               <p>
                 We believe that with better access to transparent, non-partisan
-                information, we can create a well-informed and critical public -
-                the foundation of a more equitable democracy for all.
+                information, we can create a well-informed and critical
+                public—the foundation of a more equitable democracy for all.
               </p>
               <p>
                 It's time to change the way we engage with our government. From
