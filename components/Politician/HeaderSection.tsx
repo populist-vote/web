@@ -26,7 +26,7 @@ function HeaderSection({
 }) {
   const sectionCx = classNames(
     styles.center,
-    styles.borderBottom,
+    styles.borderTop,
     headerStyles.headerSection
   );
 
@@ -130,8 +130,9 @@ function HeaderSection({
         <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
       )}
       {guideData && (
+        
         <div className={headerStyles.note}>
-          <span className={headerStyles.header}>Voting Guide Note</span>
+          <h4 className={headerStyles.header}>Voting Guide Note</h4>
           {guideEnabled && noteState === NoteState.View && (
             <>
               <div className={headerStyles.noteText}>{note}</div>
@@ -141,14 +142,14 @@ function HeaderSection({
                     <Button
                       label={note ? "Edit note" : "Add note"}
                       onClick={() => setNoteState(NoteState.Edit)}
-                      variant="secondary"
-                      size="medium"
+                      variant="primary"
+                      size="large"
                     />
                     {note && (
                       <Button
                         variant="secondary"
-                        size="medium"
-                        label="Delete Note"
+                        size="large"
+                        label="Delete note"
                         onClick={() => {
                           setNote("");
                           addNote();
@@ -161,7 +162,7 @@ function HeaderSection({
             </>
           )}
           {noteState === NoteState.Edit && (
-            <div>
+            <div className={headerStyles.editContainer}>
               <textarea
                 value={note || ""}
                 onChange={(e) => setNote(e.target.value)}
@@ -171,8 +172,8 @@ function HeaderSection({
                 <Button
                   label="Save note"
                   onClick={() => addNote()}
-                  variant="secondary"
-                  size="medium"
+                  variant="primary"
+                  size="large"
                 />
                 <Button
                   label="Cancel"
@@ -181,7 +182,7 @@ function HeaderSection({
                     setNoteState(NoteState.View);
                   }}
                   variant="secondary"
-                  size="medium"
+                  size="large"
                 />
               </div>
             </div>

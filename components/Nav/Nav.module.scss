@@ -24,6 +24,7 @@
 
   .logoContainer {
     display: block;
+    cursor: pointer;
 
     @include for-tablet-landscape-up {
       margin: 2rem;

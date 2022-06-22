@@ -83,9 +83,11 @@ export default function Nav({
         </div>
       </div>
       <div className={styles.navContent}>
+        <Link href="/home" passHref>
         <div className={styles.logoContainer}>
           <Logo height={100} />
         </div>
+        </Link>
         <div className={styles.items}>
           <ul>
             <Link href="/ballot" passHref>

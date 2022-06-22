@@ -16,15 +16,13 @@
     align-items: center;
     border-top: solid 1px $blue-dark;
     margin-top: 2rem;
-    padding-top: 2rem;
+    padding-top: 2.5rem;
     width: 100%;
-    .header {
-      color: $white;
-      font-size: 1rem;
-      font-family: $font-primary;
-      font-weight: 400;
-      text-transform: uppercase;
+    
+    h4 {
+      margin-top:0;
     }
+
     div.noteText {
       color: $blue-lighter;
       font-size: 1.25rem;
@@ -33,7 +31,7 @@
       font-family: $font-secondary;
       font-weight: 300;
       max-width: 50rem;
-      padding: 0.75rem 2rem 0;
+      padding: 0.5rem 2rem 1rem;
       margin-bottom: 1rem;
     }
   }
@@ -71,4 +69,20 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  gap: 1rem;
+}
+
+.editContainer {
+  width: 100%;
+  max-width: 800px;
+  margin-top:1rem;
+
+  .buttonArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top:2rem;
+    gap: 1rem;
+  }
 }

@@ -34,6 +34,8 @@ import {
   RatingResult,
   RatingResultEdge,
   usePoliticianBySlugQuery,
+  District,
+  ElectionScope,
 } from "../../generated";
 
 import styles from "styles/page.module.scss";
@@ -112,16 +114,100 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   function OfficeSection() {
     const cx = classNames(
       styles.center,
-      styles.borderBottom,
+      styles.borderTop,
       styles.politicianOffice
     );
+
+    let officeTitle = "";
+
+    switch (politician?.currentOffice?.title) {
+      case "State House":
+        officeTitle = "State Representative";
+        break;
+      case "State Senate":
+        officeTitle = "State Senator";
+        break;
+      case "U.S. House":
+        officeTitle = "U.S. Representative";
+        break;
+      case "U.S. Senate":
+        officeTitle = "U.S. Senator";
+        break;
+      case "City Council":
+        officeTitle = "City Council Member";
+        break;
+      default:
+        if (politician?.currentOffice?.title) {
+          officeTitle = politician.currentOffice.title;
+        }
+    }
+
+    let officeSubtitle = "";
+    let stateLong = "";
+    let muni = "";
+
+    if (politician?.currentOffice?.state) {
+      stateLong = states[politician.currentOffice.state];
+    }
+    if (politician?.currentOffice?.municipality) {
+      muni = politician.currentOffice.municipality;
+    }
+
+    switch (politician?.currentOffice?.electionScope) {
+      case ElectionScope.National:
+        break;
+      case ElectionScope.State:
+        if (politician.currentOffice.state) {
+          officeSubtitle = stateLong;
+        }
+        break;
+      case ElectionScope.District:
+        switch (politician?.currentOffice.districtType) {
+          case District.UsCongressional:
+            officeSubtitle =
+              stateLong + " District " + politician.currentOffice.district;
+            break;
+          case District.StateSenate:
+            officeSubtitle =
+              stateLong +
+              " Senate District " +
+              politician.currentOffice.district;
+            break;
+          case District.StateHouse:
+            officeSubtitle =
+              stateLong +
+              " House District " +
+              politician.currentOffice.district;
+            break;
+          case District.County:
+            officeSubtitle =
+              muni +
+              " County " +
+              " District " +
+              politician.currentOffice.district;
+            break;
+          case District.City:
+            officeSubtitle =
+              muni + " District " + politician.currentOffice.district;
+            break;
+          case District.School:
+            officeSubtitle =
+              muni + " District " + politician.currentOffice.district;
+        }
+        break;
+      case ElectionScope.County:
+        if (muni != "") {
+          officeSubtitle = muni + " County";
+        }
+        break;
+      case ElectionScope.City:
+        officeSubtitle = muni;
+    }
+
     return (
       <section className={cx}>
-        <h2 className={styles.politicianOffice}>
-          {politician?.currentOffice?.title ||
-            politician?.votesmartCandidateBio?.office?.name[0]}
-        </h2>
-        {politician?.homeState && <h3>{states[politician?.homeState]}</h3>}
+        <h2 className={styles.politicianOffice}>{officeTitle}</h2>
+        <h3>{officeSubtitle}</h3>
       </section>
     );
   }
@@ -343,7 +429,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       const edges =
         (sponsoredBills.edges as Array<{ node: Partial<BillResult> }>) || [];
       return (
-        <section className={styles.center}>
+        <section className={classNames(styles.center, styles.borderTop)}>
           <h4 className={styles.subHeader}>Sponsored Bills</h4>
           <div className={politicianStyles.sectionContent}>
             <Scroller>
@@ -441,7 +527,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
     return (
       <section
-        className={classNames(styles.center, styles.borderBottom)}
+        className={classNames(styles.center, styles.coloredSection)}
         style={styleVars}
       >
         {props.children}
@@ -557,10 +643,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   function BioSection() {
     if (!politician?.biography) return null;
     return (
-      // <section className={styles.center}>
       <ColoredSection color="var(--blue-dark)">
         <h4 className={styles.subHeader}>Biography</h4>
-        <div style={{ textAlign: "left" }}>
+        <div className={styles.bioContent}>
           <ReactMarkdown>{politician?.biography}</ReactMarkdown>
         </div>
         {politician?.biographySource && (
