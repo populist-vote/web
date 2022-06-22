@@ -9,8 +9,9 @@ export function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
         <section className={styles.center}>
           <h1>Create A Voting Guide</h1>
           <p>
-            Adding a note or endorsing a candidate saves them to a personalized
-            voting guide that can be easily shared with your friends.
+            Endorse and commment on candidates running for local offices to
+            create a personalized voting guide that you can share with your
+            community.
           </p>
           <Button
             id="voting-guide-welcome-close-btn"
