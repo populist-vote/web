@@ -16,7 +16,7 @@ import {
   PoliticalScope,
   RaceResult,
   useElectionVotingGuideByUserIdQuery,
-  useUpcomingElectionsQuery,
+  useNextElectionQuery,
   useUpsertVotingGuideMutation,
   useVotingGuideByIdQuery,
 } from "generated";
@@ -36,15 +36,14 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
   const user = useAuth({ redirectTo: "/login?next=ballot" });
-  const upcomingElectionsQuery = useUpcomingElectionsQuery(
+  const upcomingElectionsQuery = useNextElectionQuery(
     {},
     {
       enabled: !!user?.id,
     }
   );
 
-  const electionId = upcomingElectionsQuery?.data?.upcomingElections[0]
-    ?.id as string;
+  const electionId = upcomingElectionsQuery?.data?.nextElection?.id as string;
 
   const queryClient = useQueryClient();
 
@@ -94,7 +93,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     { enabled: !!queriedGuideId }
   );
 
-  const upcomingElection = upcomingElectionsQuery.data?.upcomingElections[0];
+  const upcomingElection = upcomingElectionsQuery.data?.nextElection;
 
   const otherGuideData = otherVotingGuideQuery?.data?.votingGuideById;
   const otherGuideCandidateIds = otherGuideData?.candidates.map(
@@ -228,8 +227,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(
-    useUpcomingElectionsQuery.getKey(),
-    useUpcomingElectionsQuery.fetcher()
+    useNextElectionQuery.getKey(),
+    useNextElectionQuery.fetcher()
   );
 
   const state = dehydrate(queryClient);

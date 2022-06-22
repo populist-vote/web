@@ -38,8 +38,8 @@ fragment electionFields on ElectionResult {
   }
 }
 
-query UpcomingElections {
-  upcomingElections {
+query NextElection {
+  nextElection {
     ...electionFields
   }
 }
