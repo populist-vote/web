@@ -123,7 +123,9 @@ function HeaderSection({
         key={politician?.id}
         badgeSize={"3.125rem"}
         badgeFontSize={"2rem"}
+        borderWidth="6px"
         iconSize={guideEnabled ? "3.125rem" : undefined}
+        iconInnerSize="2.25rem"
         size={200}
         party={politician?.party as PoliticalParty}
         src={

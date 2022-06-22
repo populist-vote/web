@@ -43,7 +43,7 @@
   justify-content: center;
   position: absolute;
   top: 0;
-  right: 0;
+  right: var(--icon-right-position);
   border-radius: var(--icon-wrapper-size);
   border: none;
   background: var(--icon-background);
@@ -76,9 +76,9 @@
   align-items: center;
   justify-content: center;
 
-  span {
-    width: 100%;
-    height: 100%;
+  svg {
+    width: var(--icon-inner-size);
+    height: var(--icon-inner-size);
   }
 }
 
