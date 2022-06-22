@@ -50,11 +50,16 @@ function ElectionInfoSection({
 
   const sectionCx = classNames(
     styles.center,
-    styles.borderBottom,
+    styles.borderTop,
     electionStyles.wrapper
   );
 
   let officeSubheader = "";
+  let stateLong = "";
+
+  if (upcomingRace?.office.state) {
+    stateLong = states[upcomingRace.office.state];
+  }
 
   console.log(upcomingRace);
 
@@ -62,35 +67,27 @@ function ElectionInfoSection({
     case ElectionScope.National:
       break;
     case ElectionScope.State:
-      if (upcomingRace?.office.state) {
-        officeSubheader = states[upcomingRace.office.state];
-      } else {
-        officeSubheader = "ddd";
-      }
+        officeSubheader = stateLong;
       break;
     case ElectionScope.District:
       switch (upcomingRace?.office.districtType) {
         case District.UsCongressional:
-          if (upcomingRace.office.state) {
-            officeSubheader =
-              states[upcomingRace.office.state] +
-              " District " +
-              upcomingRace?.office.district;
-          }
+          officeSubheader =
+            upcomingRace.office.state +
+            " District " +
+            upcomingRace?.office.district;
           break;
         case District.StateSenate:
           officeSubheader =
-            upcomingRace.office.state +
-            " Senate District " +
+            stateLong +
+            " SD " +
             upcomingRace?.office.district;
           break;
         case District.StateHouse:
           officeSubheader =
-            upcomingRace.office.state +
-            " House District " +
+            stateLong +
+            " HD " +
             upcomingRace?.office.district;
-        default:
-          officeSubheader = "default";
       }
   }
 

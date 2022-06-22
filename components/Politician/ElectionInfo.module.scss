@@ -1,9 +1,11 @@
 @import "styles/mixins.scss";
+@import "styles/variables/colors.module.scss";
 
 @include for-tablet-landscape-up {
   section.wrapper {
     flex-direction: row !important;
     gap: 2.5rem;
+    border-top: solid 1px $blue-dark;
 
     .box {
       height: 11rem;
