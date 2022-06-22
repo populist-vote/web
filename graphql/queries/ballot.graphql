@@ -6,8 +6,10 @@ fragment raceFields on RaceResult {
   office {
     id
     title
+    state
     district
     electionScope
+    districtType
     politicalScope
     state
     incumbent {

@@ -79,6 +79,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
   const sponsoredBills = politician?.sponsoredBills || { edges: [] };
   const yearsInPublicOffice = politician?.yearsInPublicOffice;
+  const raceWins = politician?.raceWins;
+  const raceLosses = politician?.raceLosses;
   const age = politician?.age;
   const endorsements = politician?.endorsements;
   const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
@@ -151,6 +153,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>Years in Public Office</span>
             <div className={styles.dots} />
             <span>{yearsInPublicOffice}</span>
+          </p>
+        )}
+        {(raceWins != null) && (raceLosses != null) && (
+          <p className={styles.flexBetween}>
+            <span>Elections Won / Lost</span>
+            <div className={styles.dots} />
+            <span>{raceWins} / {raceLosses}</span>
           </p>
         )}
         {!!age && (

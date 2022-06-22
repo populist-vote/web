@@ -12,13 +12,6 @@
     "footer";
   grid-template-rows: auto 10fr auto;
 
-  h3 {
-    font-size: $text-sm;
-    font-weight: 400;
-    color: $white;
-    text-transform: uppercase;
-  }
-
   @include for-tablet-landscape-up {
     main {
       padding: 0.35rem;

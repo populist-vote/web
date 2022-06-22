@@ -4,7 +4,7 @@ import { PartyAvatar, Scroller } from "components";
 import layoutStyles from "../../components/Layout/Layout.module.scss";
 import states from "utils/states";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { PoliticalParty, PoliticianResult } from "../../generated";
+import { District, ElectionScope, PoliticalParty, PoliticianResult } from "../../generated";
 import { dateString } from "utils/dates";
 import classNames from "classnames";
 
@@ -49,6 +49,35 @@ function ElectionInfoSection({
     electionStyles.wrapper
   );
 
+  let officeSubheader = "";
+  
+  switch (upcomingRace?.office.electionScope) {
+    case ElectionScope.National:
+      break;
+    case ElectionScope.State:
+      if (upcomingRace?.office.state) {
+        officeSubheader = states[upcomingRace.office.state];
+      } else {
+        officeSubheader = "ddd";
+      }
+      break;
+    case ElectionScope.District:
+      switch (upcomingRace?.office.districtType) {
+        case District.UsCongressional:
+          if (upcomingRace.office.state) {
+            officeSubheader = states[upcomingRace.office.state] + " District " + upcomingRace?.office.district;
+          }
+          break;
+        case District.StateSenate:
+          officeSubheader = upcomingRace.office.state + " Senate District " + upcomingRace?.office.district;
+          break;
+        case District.StateHouse:
+          officeSubheader = upcomingRace.office.state + " House District " + upcomingRace?.office.district;
+        default:
+          officeSubheader = "default";
+      }
+  }
+
   return (
     <section className={sectionCx}>
       <div>
@@ -61,7 +90,7 @@ function ElectionInfoSection({
       <div>
         <h4 className={styles.subHeader}>Running For</h4>
         <div className={`${styles.roundedCard} ${electionStyles.box}`}>
-          {upcomingRace?.state && <h3>{states[upcomingRace.state]}</h3>}
+          <h3>{officeSubheader}</h3>
           <h2>{upcomingRace?.office.title}</h2>
         </div>
       </div>
