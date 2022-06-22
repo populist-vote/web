@@ -129,64 +129,65 @@ function HeaderSection({
       {!isMobile && (
         <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
       )}
-
-      <div className={headerStyles.note}>
-        <span className={headerStyles.header}>Voting Guide Note</span>
-        {guideEnabled && noteState === NoteState.View && (
-          <>
-            <div className={headerStyles.noteText}>{note}</div>
-            {isGuideOwner && (
-              <div>
-                <div className={headerStyles.buttonArea}>
-                  <Button
-                    label={note ? "Edit note" : "Add note"}
-                    onClick={() => setNoteState(NoteState.Edit)}
-                    variant="secondary"
-                    size="medium"
-                  />
-                  {note && (
+      {guideData && (
+        <div className={headerStyles.note}>
+          <span className={headerStyles.header}>Voting Guide Note</span>
+          {guideEnabled && noteState === NoteState.View && (
+            <>
+              <div className={headerStyles.noteText}>{note}</div>
+              {isGuideOwner && (
+                <div>
+                  <div className={headerStyles.buttonArea}>
                     <Button
+                      label={note ? "Edit note" : "Add note"}
+                      onClick={() => setNoteState(NoteState.Edit)}
                       variant="secondary"
                       size="medium"
-                      label="Delete Note"
-                      onClick={() => {
-                        setNote("");
-                        addNote();
-                      }}
                     />
-                  )}
+                    {note && (
+                      <Button
+                        variant="secondary"
+                        size="medium"
+                        label="Delete Note"
+                        onClick={() => {
+                          setNote("");
+                          addNote();
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
-          </>
-        )}
-        {noteState === NoteState.Edit && (
-          <div>
-            <textarea
-              value={note || ""}
-              onChange={(e) => setNote(e.target.value)}
-            />
+              )}
+            </>
+          )}
+          {noteState === NoteState.Edit && (
+            <div>
+              <textarea
+                value={note || ""}
+                onChange={(e) => setNote(e.target.value)}
+              />
 
-            <div className={headerStyles.buttonArea}>
-              <Button
-                label="Save note"
-                onClick={() => addNote()}
-                variant="secondary"
-                size="medium"
-              />
-              <Button
-                label="Cancel"
-                onClick={() => {
-                  setNote(getInitialNote() || "");
-                  setNoteState(NoteState.View);
-                }}
-                variant="secondary"
-                size="medium"
-              />
+              <div className={headerStyles.buttonArea}>
+                <Button
+                  label="Save note"
+                  onClick={() => addNote()}
+                  variant="secondary"
+                  size="medium"
+                />
+                <Button
+                  label="Cancel"
+                  onClick={() => {
+                    setNote(getInitialNote() || "");
+                    setNoteState(NoteState.View);
+                  }}
+                  variant="secondary"
+                  size="medium"
+                />
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </section>
   );
 }

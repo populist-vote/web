@@ -109,7 +109,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       : [];
 
   function OfficeSection() {
-
     const cx = classNames(
       styles.center,
       styles.borderBottom,
@@ -130,6 +129,20 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     const cx = classNames(styles.center, politicianStyles.basicInfo, {
       [politicianStyles.wide as string]: tags.length === 0,
     });
+
+    if (
+      !termStart &&
+      !termEnd &&
+      !yearsInPublicOffice &&
+      !age &&
+      !raceWins &&
+      !raceLosses &&
+      !politician?.websiteUrl &&
+      !politician?.twitterUrl &&
+      !politician?.facebookUrl &&
+      !politician?.instagramUrl
+    )
+      return null;
 
     return (
       <section className={cx}>
@@ -155,11 +168,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{yearsInPublicOffice}</span>
           </p>
         )}
-        {(raceWins != null) && (raceLosses != null) && (
+        {raceWins != null && raceLosses != null && (
           <p className={styles.flexBetween}>
             <span>Elections Won / Lost</span>
             <div className={styles.dots} />
-            <span>{raceWins} / {raceLosses}</span>
+            <span>
+              {raceWins} / {raceLosses}
+            </span>
           </p>
         )}
         {!!age && (
@@ -512,7 +527,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{ratingPercent}</span>
           </div>
         </div>
-        {rating.organization?.name && <span className={styles.avatarName}>{rating.organization?.name}</span>}
+        {rating.organization?.name && (
+          <span className={styles.avatarName}>{rating.organization?.name}</span>
+        )}
       </div>
     );
   }
