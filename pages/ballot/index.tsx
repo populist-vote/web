@@ -76,17 +76,17 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   // Use either the voting guide ID from query params OR the users voting guide ID
   // to instantiate the VotingGuideContext
   const queriedGuideId = router.query.votingGuideId;
+  const userGuideId =
+    userVotingGuideQuery.data?.electionVotingGuideByUserId?.id;
   const votingGuideId = (queriedGuideId ||
     userVotingGuideQuery.data?.electionVotingGuideByUserId?.id) as string;
+  const isGuideOwner = queriedGuideId === userGuideId;
 
-  const isGuideOwner =
-    queriedGuideId ===
-    userVotingGuideQuery.data?.electionVotingGuideByUserId?.id;
   useEffect(() => {
-    if (!!queriedGuideId && !isGuideOwner) {
+    if (!!queriedGuideId && !!userGuideId && !isGuideOwner) {
       addSavedGuideId(queriedGuideId as string);
     }
-  }, [queriedGuideId, isGuideOwner, addSavedGuideId]);
+  }, [queriedGuideId, userGuideId, isGuideOwner, addSavedGuideId]);
 
   const otherVotingGuideQuery = useVotingGuideByIdQuery(
     { id: queriedGuideId as string },
@@ -179,9 +179,15 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
               <div data-testid="ballot-page">
                 <FlagSection title={flagSectionTitle}>
                   <div className={styles.electionHeader}>
-                    {upcomingElection.electionDate && <h1>{dateString(upcomingElection.electionDate, true)}</h1>}
-                    {upcomingElection.title && <h4>{upcomingElection.title}</h4>}
-                    {upcomingElection.description && <p>{upcomingElection.description}</p>}
+                    {upcomingElection.electionDate && (
+                      <h1>{dateString(upcomingElection.electionDate, true)}</h1>
+                    )}
+                    {upcomingElection.title && (
+                      <h4>{upcomingElection.title}</h4>
+                    )}
+                    {upcomingElection.description && (
+                      <p>{upcomingElection.description}</p>
+                    )}
                   </div>
                 </FlagSection>
 
