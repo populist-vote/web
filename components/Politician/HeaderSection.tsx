@@ -110,9 +110,11 @@ function HeaderSection({
   const noteVars: CSSProperties & {
     "--note-top-margin": string;
     "--note-top-padding": string;
+    "--note-top-border": string;
   } = {
     "--note-top-margin": !!note ? "2rem" : "0",
     "--note-top-padding": !!note ? "2.5rem" : "0",
+    "--note-top-border": !!note ? "solid 1px $blue-dark" : "none",
   };
 
   return (
