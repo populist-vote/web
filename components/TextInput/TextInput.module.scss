@@ -25,19 +25,20 @@
   &.hideLabel {
     label {
       position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        border: 0;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
   }
 
   span.errorMessage {
-    font-size: $text-sm;
     color: $red;
+    font-size: $text-sm;
     padding: 0.5em 0.25em;
+    display: inline-block;
   }
 }

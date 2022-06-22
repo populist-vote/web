@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
+import textInputStyles from "../../TextInput/TextInput.module.scss";
 import { updateAction } from "pages/register";
 import states from "utils/states";
 
@@ -23,6 +24,7 @@ export function AddressStep() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm({
     defaultValues: {
       address: loginFormState.address,
@@ -30,7 +32,10 @@ export function AddressStep() {
   });
 
   const handleUserRegistration = useBeginUserRegistrationMutation({
-    onError: (error: Error) => alert(error.message),
+    onError: (error: Error) => {
+      if (error instanceof Error)
+        setError("address.line1", { message: error.message });
+    },
     onSuccess: () => router.push("/home"),
   });
 
@@ -65,6 +70,13 @@ export function AddressStep() {
                 required: "Address line 1 is required",
               })}
             />
+            {errors?.address?.line1 && (
+              <div className={textInputStyles.inputContainer}>
+                <span className={textInputStyles.errorMessage}>
+                  {errors.address.line1.message}
+                </span>
+              </div>
+            )}
           </div>
           <div
             className={`${styles.inputWrapper} ${
