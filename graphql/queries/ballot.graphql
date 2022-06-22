@@ -1,5 +1,6 @@
 fragment raceFields on RaceResult {
   id
+  raceType
   title
   party
   office {

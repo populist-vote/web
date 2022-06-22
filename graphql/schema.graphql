@@ -443,6 +443,8 @@ type DeleteVotingGuideResult {
 }
 
 enum District {
+  CITY
+  COUNTY
   SCHOOL
   STATE_HOUSE
   STATE_SENATE
@@ -620,6 +622,8 @@ type Office {
 type OfficeResult {
   createdAt: DateTime!
   district: String
+  districtType: District
+  electionScope: ElectionScope!
   id: ID!
   incumbent: PoliticianResult
   municipality: String
@@ -735,6 +739,8 @@ type PoliticianResult {
   officeId: ID
   party: PoliticalParty
   preferredName: String
+  raceLosses: Int
+  raceWins: Int
 
   """Leverages Votesmart ratings data for the time being"""
   ratings(after: String, before: String, first: Int, last: Int): RatingResultConnection!

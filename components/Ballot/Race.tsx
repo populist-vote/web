@@ -76,7 +76,7 @@ export default function Race({
   return (
     <div itemID={itemId}>
       <FieldSet
-        heading={race.title}
+        heading={race.raceType}
         color={race.party === PoliticalParty.Republican ? "red" : "blue"}
       >
         {race.candidates.length < 1 && (
