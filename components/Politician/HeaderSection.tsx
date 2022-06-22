@@ -13,6 +13,7 @@ import {
 } from "generated";
 import styles from "styles/page.module.scss";
 import headerStyles from "./HeaderSection.module.scss";
+import { CSSProperties } from "styled-components";
 
 enum NoteState {
   View,
@@ -106,6 +107,14 @@ function HeaderSection({
       onSuccess: () => setNoteState(NoteState.View),
     });
 
+  const noteVars: CSSProperties & {
+    "--note-top-margin": string;
+    "--note-top-padding": string;
+  } = {
+    "--note-top-margin": !!note ? "2rem" : "0",
+    "--note-top-padding": !!note ? "2.5rem" : "0",
+  };
+
   return (
     <section className={sectionCx}>
       <PartyAvatar
@@ -130,9 +139,8 @@ function HeaderSection({
         <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
       )}
       {guideData && (
-        
-        <div className={headerStyles.note}>
-          <h4 className={headerStyles.header}>Voting Guide Note</h4>
+        <div className={headerStyles.note} style={noteVars}>
+          {note && <h4 className={headerStyles.header}>Voting Guide Note</h4>}
           {guideEnabled && noteState === NoteState.View && (
             <>
               <div className={headerStyles.noteText}>{note}</div>
@@ -145,6 +153,7 @@ function HeaderSection({
                       variant="primary"
                       size="large"
                     />
+
                     {note && (
                       <Button
                         variant="secondary"
