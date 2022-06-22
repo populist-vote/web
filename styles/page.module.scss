@@ -62,9 +62,13 @@
       border-bottom: 1px solid $blue-dark;
     }
 
+    &.borderTop {
+      border-top: 1px solid $blue-dark;
+    }
+
     &.center {
       align-items: center;
-      justify-content: center;
+      justify-content: center !important;
       display: flex;
       flex-direction: column;
     }
@@ -72,6 +76,14 @@
 
   section.politicianOffice {
     padding: 2.5rem 0;
+  }
+}
+
+.coloredSection {
+  margin-top:3rem;
+
+  p.bioContent {
+    margin:1rem 0 2rem;
   }
 }
 

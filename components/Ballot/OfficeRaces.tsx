@@ -35,14 +35,14 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
       switch (office?.districtType) {
         case District.UsCongressional:
           if (office.state) {
-            officeSubheader = states[office.state] + " District " + office.district;
+            officeSubheader = office.state + " District " + office.district;
           }
           break;
         case District.StateSenate:
-          officeSubheader = office?.state + " Senate District " + office.district;
+          officeSubheader = "SD " + office.district;
           break;
         case District.StateHouse:
-          officeSubheader = office?.state + " House District " + office.district;
+          officeSubheader = "HD " + office.district;
       }
       break;
     default:
