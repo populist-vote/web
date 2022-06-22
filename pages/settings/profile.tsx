@@ -134,6 +134,9 @@ const UsernameSection = ({ username }: { username: string }) => {
 
   // Need to handle username already taken here
 
+  // 3-20 characters, no spaces, no special characters besides _ and ., no _ or . at the end
+  const usernameRegex = /^[a-zA-Z0-9_.]{3,20}$/;
+
   return (
     <section>
       <h2>Username</h2>
@@ -149,9 +152,7 @@ const UsernameSection = ({ username }: { username: string }) => {
             register={register}
             rules={{
               required: "Username is required",
-              pattern:
-                // 8-12 characters, no spaces, no special characters besides _ and ., no _ or . at the end
-                /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+              pattern: usernameRegex,
             }}
           />
           <Button
