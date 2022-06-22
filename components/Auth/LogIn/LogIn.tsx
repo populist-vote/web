@@ -20,7 +20,7 @@ export function LogIn() {
   const getCurrentUser = useCurrentUserQuery();
   const { data, isLoading } = useCurrentUserQuery();
   const user = data?.currentUser;
-  if (user) void router.push(`/${router.query.next || "/"}`);
+  if (user) void router.push(`/${router.query.next || "/home"}`);
 
   const login = useLogInMutation({
     onError: (error) => {
