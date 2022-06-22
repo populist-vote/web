@@ -48,6 +48,7 @@ import {
 } from "utils/constants";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
 import { getYear } from "utils/dates";
+import ReactMarkdown from "react-markdown";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -559,7 +560,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       // <section className={styles.center}>
       <ColoredSection color="var(--blue-dark)">
         <h4 className={styles.subHeader}>Biography</h4>
-        <p>{politician?.biography}</p>
+        <div style={{ textAlign: "left" }}>
+          <ReactMarkdown>{politician?.biography}</ReactMarkdown>
+        </div>
         {politician?.biographySource && (
           <a
             href={politician?.biographySource as string}
