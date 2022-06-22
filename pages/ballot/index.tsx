@@ -178,17 +178,27 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             {upcomingElection && (
               <div data-testid="ballot-page">
                 <FlagSection title={flagSectionTitle}>
-                  <div className={styles.electionHeader}>
-                    {upcomingElection.electionDate && (
-                      <h1>{dateString(upcomingElection.electionDate, true)}</h1>
-                    )}
-                    {upcomingElection.title && (
-                      <h4>{upcomingElection.title}</h4>
-                    )}
-                    {upcomingElection.description && (
-                      <p>{upcomingElection.description}</p>
-                    )}
-                  </div>
+                  {races.length < 1 ? (
+                    <h2>
+                      Looks like your voting address is outside of our current
+                      service area. We will be continuously adding states, so be
+                      sure to check back soon!
+                    </h2>
+                  ) : (
+                    <div className={styles.electionHeader}>
+                      {upcomingElection.electionDate && (
+                        <h1>
+                          {dateString(upcomingElection.electionDate, true)}
+                        </h1>
+                      )}
+                      {upcomingElection.title && (
+                        <h4>{upcomingElection.title}</h4>
+                      )}
+                      {upcomingElection.description && (
+                        <p>{upcomingElection.description}</p>
+                      )}
+                    </div>
+                  )}
                 </FlagSection>
 
                 {Object.keys(federalRacesGroupedByOffice).length > 0 && (
