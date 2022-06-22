@@ -4,7 +4,12 @@ import { PartyAvatar, Scroller } from "components";
 import layoutStyles from "../../components/Layout/Layout.module.scss";
 import states from "utils/states";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { District, ElectionScope, PoliticalParty, PoliticianResult } from "../../generated";
+import {
+  District,
+  ElectionScope,
+  PoliticalParty,
+  PoliticianResult,
+} from "../../generated";
 import { dateString } from "utils/dates";
 import classNames from "classnames";
 
@@ -50,7 +55,9 @@ function ElectionInfoSection({
   );
 
   let officeSubheader = "";
-  
+
+  console.log(upcomingRace);
+
   switch (upcomingRace?.office.electionScope) {
     case ElectionScope.National:
       break;
@@ -65,14 +72,23 @@ function ElectionInfoSection({
       switch (upcomingRace?.office.districtType) {
         case District.UsCongressional:
           if (upcomingRace.office.state) {
-            officeSubheader = states[upcomingRace.office.state] + " District " + upcomingRace?.office.district;
+            officeSubheader =
+              states[upcomingRace.office.state] +
+              " District " +
+              upcomingRace?.office.district;
           }
           break;
         case District.StateSenate:
-          officeSubheader = upcomingRace.office.state + " Senate District " + upcomingRace?.office.district;
+          officeSubheader =
+            upcomingRace.office.state +
+            " Senate District " +
+            upcomingRace?.office.district;
           break;
         case District.StateHouse:
-          officeSubheader = upcomingRace.office.state + " House District " + upcomingRace?.office.district;
+          officeSubheader =
+            upcomingRace.office.state +
+            " House District " +
+            upcomingRace?.office.district;
         default:
           officeSubheader = "default";
       }
@@ -83,7 +99,7 @@ function ElectionInfoSection({
       <div>
         <h4 className={styles.subHeader}>Next Election</h4>
         <div className={`${styles.roundedCard} ${electionStyles.box}`}>
-          <h3>{upcomingRace?.title}</h3>
+          <h3>{upcomingRace?.raceType}</h3>
           <h2>{dateString(upcomingRace?.electionDate, true)}</h2>
         </div>
       </div>
