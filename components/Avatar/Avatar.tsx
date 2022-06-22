@@ -290,7 +290,7 @@ function PartyAvatar({
     background:
       isEndorsement && iconType === "star" ? "var(--yellow)" : "var(--grey)",
     color:
-      isEndorsement && iconType === "note"
+      isEndorsement && iconType === "star"
         ? "var(--yellow-dark)"
         : "var(--grey-darker)",
     type: iconType,
