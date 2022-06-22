@@ -1,5 +1,6 @@
 import { RaceResult } from "generated";
 import dynamic from "next/dynamic";
+import states from "utils/states";
 import styles from "../Layout/Layout.module.scss";
 import Race from "./Race";
 
@@ -20,6 +21,8 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
       ? -1
       : 1;
 
+  const hasDistrict = !isNaN(parseInt(office?.district as string));
+
   return (
     <>
       <header
@@ -28,9 +31,15 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
         <h3>
           <span>{office?.title}</span>
           {/* If the district is not a number, don't display it */}
-          {!isNaN(parseInt(office?.district as string)) && (
-            <span className={styles.raceSubheader}>{`District ${office?.district}`}</span>
-          )}
+          {hasDistrict ? (
+            <span
+              className={styles.raceSubheader}
+            >{`District ${office?.district}`}</span>
+          ) : office?.state ? (
+            <span className={styles.raceSubheader}>
+              {states[office?.state]}
+            </span>
+          ) : null}
         </h3>
       </header>
 

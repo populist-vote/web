@@ -24,7 +24,9 @@ function Candidate({
         alt={candidate?.fullName || ""}
         href={`/politicians/${candidate.slug}`}
       />
-      <span className={classNames(layoutStyles.link,styles.avatarName)}>{candidate.fullName}</span>
+      <span className={classNames(layoutStyles.link, styles.avatarName)}>
+        {candidate.fullName}
+      </span>
     </div>
   );
 }
