@@ -48,7 +48,7 @@ const VotingGuideCard = ({
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={name as string}
         />
-        <h4>{name}</h4>
+        <span>{name}</span>
       </div>
       <div className={styles.buttonWrapper}>
         {showEdit ? (
@@ -80,11 +80,11 @@ const VotingGuideCard = ({
 
 const ElectionHeader = ({ election }: { election: ElectionResult }) => {
   return (
-    <div className={styles.votingHeader}>
-      {election.electionDate && <h1>{dateString(election.electionDate)}</h1>}
-      {election.title && <h2>{election.title}</h2>}
+    <header className={styles.electionHeader}>
+      {election.electionDate && <h1>{dateString(election.electionDate, true)}</h1>}
+      {election.title && <h4>{election.title}</h4>}
       {election.description && <p>{election.description}</p>}
-    </div>
+    </header>
   );
 };
 
@@ -119,7 +119,7 @@ const VotingGuides: NextPage<{
 
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
-          <FlagSection title="My Voting Guide">
+          <FlagSection title="Voting Guides">
             {election && (
               <ElectionHeader election={election as ElectionResult} />
             )}

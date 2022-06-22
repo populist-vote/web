@@ -4,7 +4,7 @@ import { default as classNames } from "classnames";
 
 type ButtonVariant = "primary" | "secondary" | "text";
 
-type ButtonTheme = "blue" | "yellow" | "red";
+type ButtonTheme = "blue" | "yellow" | "red" | "aqua";
 
 type ButtonSize = "small" | "medium" | "large";
 

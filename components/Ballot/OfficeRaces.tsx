@@ -1,5 +1,6 @@
-import { RaceResult } from "generated";
+import { RaceResult, ElectionScope, District } from "generated";
 import dynamic from "next/dynamic";
+import states from "utils/states";
 import styles from "../Layout/Layout.module.scss";
 import Race from "./Race";
 
@@ -20,19 +21,53 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
       ? -1
       : 1;
 
+  let officeSubheader = "";
+
+  switch (office?.electionScope) {
+    case ElectionScope.National:
+      break;
+    case ElectionScope.State:
+      if (office.state) {
+        officeSubheader = states[office.state];
+      }
+      break;
+    case ElectionScope.District:
+      switch (office?.districtType) {
+        case District.UsCongressional:
+          if (office.state) {
+            officeSubheader = states[office.state] + " District " + office.district;
+          }
+          break;
+        case District.StateSenate:
+          officeSubheader = office?.state + " Senate District " + office.district;
+          break;
+        case District.StateHouse:
+          officeSubheader = office?.state + " House District " + office.district;
+      }
+      break;
+    default:
+      officeSubheader = "default";
+      break;
+  }
+
+  // if (office?.electionScope == ElectionScope.State) {
+  //   officeSubheader = "Colorado";
+  // }
+
   return (
     <>
       <header
-        className={`${styles.bold} ${styles.flexBetween} ${styles.inset}`}
+        className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${styles.raceHeader}`}
       >
-        <h2>
-          <span>{office?.title} </span>
+        <h3>
+          <span>{office?.title}</span>
           {/* If the district is not a number, don't display it */}
-          {!isNaN(parseInt(office?.district as string)) && (
-            <span>{`District ${office?.district}`}</span>
-          )}
-        </h2>
-        <h3>{office?.state}</h3>
+          {/* {!isNaN(parseInt(office?.district as string)) && (
+            <span className={styles.raceSubheader}>{`District ${office?.district}`}</span>
+          )} */}
+          {/*  */}
+          <span className={styles.raceSubheader}>{officeSubheader}</span>
+        </h3>
       </header>
 
       <div className={`${styles.roundedCard}`}>

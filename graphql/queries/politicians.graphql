@@ -61,6 +61,8 @@ query PoliticianBySlug($slug: String!) {
     instagramUrl
     yearsInPublicOffice
     age
+    raceWins
+    raceLosses
     biography
     biographySource
     officeId
@@ -75,6 +77,10 @@ query PoliticianBySlug($slug: String!) {
       electionDate
       office {
         title
+        state
+        district
+        districtType
+        electionScope
       }
       candidates {
         id

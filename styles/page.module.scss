@@ -10,7 +10,6 @@
   overflow-x: hidden;
 
   h1 {
-    // font-size: $text-xxl;
     margin: 0;
 
     @include for-tablet-portrait-down {
@@ -18,22 +17,21 @@
     }
   }
 
-  h2 {
+  h3 {
     font-weight: 300;
     text-transform: uppercase;
     color: $blue-text;
     margin: 0;
   }
 
-  h1.politicianOffice {
+  h2.politicianOffice {
     margin: 0 0 0.75rem;
     text-align: center;
     max-width: 80%;
     font-weight: 500;
   }
 
-  h3.subHeader {
-    font-size: 1em;
+  h4.subHeader {
     font-weight: 400;
     color: $white;
     margin: 0 0 1.5rem;
@@ -41,12 +39,14 @@
     font-family: $font-primary;
   }
 
-  h3.aqua {
-    color: $aqua;
+  .aqua {
+    color: $aqua !important;
   }
 
   p {
     padding: 0 1rem;
+    margin-top:0;
+    line-height: 1.5em;
   }
 
   section {
@@ -78,17 +78,15 @@
 .gradientHeader {
   background: linear-gradient(180deg, #003c55 0%, #002e45 100%);
   font-family: $font-primary;
-  font-size: $text-md !important;
-  font-weight: 600;
+  font-weight: 500;
   margin: -1.5rem 0 1rem !important;
   padding: 1rem;
   text-align: center;
   width: 100%;
 
   @include for-tablet-landscape-up {
-    margin: 2rem 0 0.5rem !important;
+    margin: 2rem 0 1rem !important;
     background: none;
-    font-size: $text-xxl !important;
     padding: 0;
     text-transform: capitalize !important;
   }
@@ -198,19 +196,21 @@
   align-items: center;
   margin: 0 1rem;
   width: 7rem;
+}
 
-  h4 {
-    font-size: $text-sm;
-    font-weight: 300;
-    text-align: center;
-    margin: 1rem 0 0.375rem;
+.avatarName {
+  font-size: 1em;
+  font-weight: 300;
+  text-align: center;
+  margin: .8rem 0 .2rem;
+  line-height: 1.3em;
 
-    @include clamp-ellipsis;
-  }
+  @include clamp-ellipsis;
 }
 
 .politicianEndorsementOffice {
-  font-size: $text-sm;
+  font-size: .8em;
+  line-height: 1.4em;
   color: $aqua;
   font-style: italic;
   text-align: center;
@@ -222,15 +222,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  h5 {
-    margin-top: 1rem;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
-
-    @include clamp-ellipsis;
-  }
 }
 
 .ratingCircle {
