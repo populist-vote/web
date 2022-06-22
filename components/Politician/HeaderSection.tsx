@@ -69,20 +69,16 @@ function HeaderSection({
 
   const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation();
 
-  interface EditVotingGuidePolitician
-    extends Partial<EditVotingGuideCandidate> {
-    onSuccess?: () => void;
-  }
-
   const editVotingGuideCandidate = ({
     isEndorsement,
     note,
     onSuccess,
-  }: EditVotingGuidePolitician) => {
+    candidateId = politician.id || "",
+  }: Partial<EditVotingGuideCandidate>) => {
     upsertVotingGuideCandidate.mutate(
       {
         votingGuideId: guideData.id,
-        candidateId: politician.id || "",
+        candidateId,
         isEndorsement,
         note,
       },
@@ -92,6 +88,16 @@ function HeaderSection({
             console.error("Problem invalidating query", err)
           );
           if (onSuccess) onSuccess();
+
+          //auto unendorse others in race
+          if (isEndorsement) {
+            politician.upcomingRace?.candidates.forEach((c) =>
+              editVotingGuideCandidate({
+                candidateId: c.id,
+                isEndorsement: false,
+              })
+            );
+          }
         },
       }
     );

@@ -47,6 +47,30 @@ query PoliticianIndex(
   }
 }
 
+fragment raceInRaceFields on RaceResult {
+  title
+  raceType
+  state
+  electionDate
+  office {
+    title
+  }
+}
+
+fragment candidateFields on PoliticianResult {
+  id
+  slug
+  fullName
+  thumbnailImageUrl
+  party
+  upcomingRace {
+    id
+    candidates {
+      id
+    }
+  }
+}
+
 query PoliticianBySlug($slug: String!) {
   politicianBySlug(slug: $slug) {
     id
@@ -69,20 +93,7 @@ query PoliticianBySlug($slug: String!) {
     }
 
     upcomingRace {
-      title
-      raceType
-      state
-      electionDate
-      office {
-        title
-      }
-      candidates {
-        id
-        slug
-        fullName
-        thumbnailImageUrl
-        party
-      }
+      ...raceInRaceFields
     }
 
     votesmartCandidateBio {

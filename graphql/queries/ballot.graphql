@@ -15,11 +15,7 @@ fragment raceFields on RaceResult {
     }
   }
   candidates {
-    id
-    slug
-    fullName
-    party
-    thumbnailImageUrl
+    ...candidateFields
   }
 }
 

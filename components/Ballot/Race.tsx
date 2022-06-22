@@ -19,6 +19,7 @@ export interface EditVotingGuideCandidate {
   candidateId: string;
   isEndorsement?: boolean;
   note?: string | null;
+  onSuccess?: () => void;
 }
 
 export default function Race({
@@ -48,6 +49,7 @@ export default function Race({
     candidateId,
     isEndorsement,
     note,
+    onSuccess,
   }: EditVotingGuideCandidate) => {
     upsertVotingGuideCandidate.mutate(
       {
@@ -57,16 +59,39 @@ export default function Race({
         note,
       },
       {
-        onSuccess: () => invalidateVotingGuideQuery(),
+        onSuccess: () => {
+          invalidateVotingGuideQuery().catch((err) =>
+            console.error("Problem invalidating query", err)
+          );
+          if (onSuccess) onSuccess();
+        },
       }
     );
   };
 
-  const endorseCandidate = (candidateId: string) =>
-    editVotingGuideCandidate({ candidateId, isEndorsement: true });
+  const endorseCandidate = (candidateId: string, race: RaceResult) => {
+    console.log("endorsing...", candidateId, race.candidates);
+    editVotingGuideCandidate({
+      candidateId,
+      isEndorsement: true,
+      onSuccess: () => console.log("endorsement successful", candidateId),
+    });
+    race.candidates.forEach((c) => {
+      if (c.id !== candidateId) {
+        console.log("unendorse this foooo");
+        unendorseCandidate(c.id);
+      }
+    }); //auto unendorse others in race
+  };
 
-  const unendorseCandidate = (candidateId: string) =>
-    editVotingGuideCandidate({ candidateId, isEndorsement: false });
+  const unendorseCandidate = (candidateId: string) => {
+    console.log("unendorsing...", candidateId);
+    editVotingGuideCandidate({
+      candidateId,
+      isEndorsement: false,
+      onSuccess: () => console.log("unendior succccc", candidateId),
+    });
+  };
 
   const handleAddNoteClick = (politician: AtLeast<PoliticianResult, "id">) => {
     setDialogCandidate(politician);
@@ -131,8 +156,23 @@ export default function Race({
                     isEndorsement={isEndorsing}
                     hasNote={hasNote}
                     iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
-                    handleEndorseCandidate={() =>
-                      endorseCandidate(politician.id)
+                    handleEndorseCandidate={
+                      politician.upcomingRace
+                        ? () => {
+                            console.log(
+                              "endorse",
+                              politician.id,
+                              politician.upcomingRace
+                            );
+                            endorseCandidate(
+                              politician.id,
+                              politician.upcomingRace as RaceResult
+                            );
+                          }
+                        : () =>
+                            console.error(
+                              "Can't endorse a candidate without an upcoming race"
+                            )
                     }
                     handleUnendorseCandidate={() =>
                       unendorseCandidate(politician.id)
