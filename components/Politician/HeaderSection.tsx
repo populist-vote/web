@@ -186,6 +186,7 @@ function HeaderSection({
                   label="Save note"
                   onClick={() => addNote()}
                   variant="primary"
+                  disabled={!!note?.length}
                   size="large"
                 />
                 <Button
