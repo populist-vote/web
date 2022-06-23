@@ -19,6 +19,7 @@ import {
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import menuStyles from "./IconMenu.module.scss";
+
 import Link from "next/link";
 
 interface BadgeProps {
