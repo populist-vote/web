@@ -22,8 +22,10 @@
     height: 100vh;
   }
 
-  
-
+  .logoContainer {
+    display: block;
+    cursor: pointer;
+  }
   .mobileNav {
     display: flex;
     // grid-template-columns: repeat(3, auto);

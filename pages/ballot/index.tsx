@@ -179,6 +179,13 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             {upcomingElection && (
               <div data-testid="ballot-page">
                 <FlagSection title={flagSectionTitle} hideFlagForMobile={true}>
+                {races.length < 1 ? (
+                    <h2>
+                      Looks like your voting address is outside of our current
+                      service area. We will be continuously adding states, so be
+                      sure to check back soon!
+                    </h2>
+                  ) : (
                   <div className={ballotStyles.electionHeader}>
                     {upcomingElection.electionDate && (
                       <h1>{dateString(upcomingElection.electionDate, true)}</h1>
@@ -190,6 +197,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
                       <p>{upcomingElection.description}</p>
                     )}
                   </div>
+                  )}
                 </FlagSection>
 
                 {Object.keys(federalRacesGroupedByOffice).length > 0 && (

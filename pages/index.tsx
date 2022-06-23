@@ -8,40 +8,55 @@ import landing1 from "public/images/landing/ballot.jpg";
 import landing2 from "public/images/landing/action.jpg";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
-import { Footer, ImageWithFallback } from "components";
+import { Avatar, Footer, ImageWithFallback } from "components";
 import styles from "styles/landing.module.scss";
 import classNames from "classnames";
 import { Button } from "components";
 import Router from "next/router";
+import { useAuth } from "hooks/useAuth";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import Link from "next/link";
 
-
-// XXX: VERY SCARY THING THAT WE NEED TO FIX
 const Home: NextPage = () => {
+  const user = useAuth({ redirectTo: "/" });
   return (
     <>
       <main className={styles.container}>
         <div id={styles["container1"]}>
-
           <div id={styles["menu"]}>
             <ul className={styles["nav"]}>
-              <li>
-                <Button
-                  size="large"
-                  variant="primary"
-                  theme="blue"
-                  label="Sign in"
-                  onClick={() => Router.push(`/login`)}
-                />
-              </li>
-              <li>
-                <Button
-                  size="large"
-                  variant="secondary"
-                  theme="blue"
-                  label="Register"
-                  onClick={() => Router.push(`/register`)}
-                />  
-              </li>
+              {!user && (
+                <>
+                  <li>
+                    <Button
+                      size="large"
+                      variant="primary"
+                      theme="blue"
+                      label="Sign in"
+                      onClick={() => Router.push(`/login`)}
+                    />
+                  </li>
+                  <li>
+                    <Button
+                      size="large"
+                      variant="secondary"
+                      theme="blue"
+                      label="Register"
+                      onClick={() => Router.push(`/register`)}
+                    />
+                  </li>
+                </>
+              )}
+              {user && (
+                <Link href="/settings/profile" passHref>
+                  <Avatar
+                    src={PERSON_FALLBACK_IMAGE_URL}
+                    fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                    alt="profile picture"
+                    size={80}
+                  />
+                </Link>
+              )}
             </ul>
           </div>
 
@@ -67,25 +82,33 @@ const Home: NextPage = () => {
             </div>
             <div id={styles["s1ccol2"]}>
               <h2>Transparent government access.</h2>
-              <p>We believe that with better access to transparent, non-partisan information, we can create a well-informed and critical public - the foundation of a more equitable democracy for all.</p>
-              <p>It's time to change the way we engage with our government. From federal to local, ballots to bills, we’re bringing power back to the people.</p>
+              <p>
+                We believe that with better access to transparent, non-partisan
+                information, we can create a well-informed and critical
+                public—the foundation of a more equitable democracy for all.
+              </p>
+              <p>
+                It's time to change the way we engage with our government. From
+                federal to local, ballots to bills, we’re bringing power back to
+                the people.
+              </p>
               <Button
-                  size="large"
-                  variant="primary"
-                  theme="yellow"
-                  label="Explore the app"
-                  onClick={() => Router.push(`/home`)}
-                />  
+                size="large"
+                variant="primary"
+                theme="yellow"
+                label="Explore the app"
+                onClick={() => Router.push(`/home`)}
+              />
             </div>
           </div>
-            
 
           <div id={styles["section1b"]}>
             <div id={styles["s1bcol1"]}>
               <div className={styles.contentwide}>
                 <h2>It begins at the ballot.</h2>
                 <p>
-                  Easily research your ballot, create a personalized voting guide, and share it with your friends.
+                  Easily research your ballot, create a personalized voting
+                  guide, and share it with your friends.
                 </p>
                 <Button
                   size="large"
@@ -97,10 +120,7 @@ const Home: NextPage = () => {
               </div>
             </div>
             <div id={styles["s1bcol2"]}>
-              <Image
-                src={landing1}
-                alt="My ballot on mobile"
-              />
+              <Image src={landing1} alt="My ballot on mobile" />
             </div>
           </div>
 
@@ -112,7 +132,9 @@ const Home: NextPage = () => {
               <div className={styles.contentwide}>
                 <h2>New avenues of action.</h2>
                 <p>
-                Extend the power of your vote beyond the ballot box by letting your representatives know your position on key legislation and issues.
+                  Extend the power of your vote beyond the ballot box by letting
+                  your representatives know your position on key legislation and
+                  issues.
                 </p>
               </div>
             </div>
@@ -142,7 +164,8 @@ const Home: NextPage = () => {
                   alt="people becoming involved in government"
                 />
                 <h2>
-                  Populist is for <span className={styles.emphasized}>voters</span>,{" "}
+                  Populist is for{" "}
+                  <span className={styles.emphasized}>voters</span>,{" "}
                   <span className={styles.emphasized}>organizations</span>, and{" "}
                   <span className={styles.emphasized}>politicians</span>.
                 </h2>
@@ -155,7 +178,9 @@ const Home: NextPage = () => {
             </div>
             <div id={styles["s4row2"]}>
               <div className={classNames(styles.contentwide, styles.last)}>
-                <h2 className={styles.botspace}>Interested? Sign up to learn more.</h2>
+                <h2 className={styles.botspace}>
+                  Interested? Sign up to learn more.
+                </h2>
 
                 <div id={styles["mc_embed_signup"]}>
                   <form

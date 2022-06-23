@@ -3,7 +3,7 @@ import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
 import { PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
-import useDeviceInfo from "hooks/useDeviceInfo";
+// import useDeviceInfo from "hooks/useDeviceInfo";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import {
@@ -13,6 +13,7 @@ import {
 } from "generated";
 import styles from "styles/page.module.scss";
 import headerStyles from "./HeaderSection.module.scss";
+import { CSSProperties } from "styled-components";
 
 enum NoteState {
   View,
@@ -26,10 +27,11 @@ function HeaderSection({
 }) {
   const sectionCx = classNames(
     styles.center,
+    // styles.borderTop,
     headerStyles.headerSection
   );
 
-  const { isMobile } = useDeviceInfo();
+  // const { isMobile } = useDeviceInfo();
 
   const {
     data: guideData,
@@ -105,13 +107,25 @@ function HeaderSection({
       onSuccess: () => setNoteState(NoteState.View),
     });
 
+  const noteVars: CSSProperties & {
+    "--note-top-margin": string;
+    "--note-top-padding": string;
+    "--note-top-border": string;
+  } = {
+    "--note-top-margin": !!note ? "2rem" : "0",
+    "--note-top-padding": !!note ? "2.5rem" : "0",
+    "--note-top-border": !!note ? "solid 1px $blue-dark" : "none",
+  };
+
   return (
     <section className={sectionCx}>
       <PartyAvatar
         key={politician?.id}
         badgeSize={"3.125rem"}
         badgeFontSize={"2rem"}
+        borderWidth="6px"
         iconSize={guideEnabled ? "3.125rem" : undefined}
+        iconInnerSize="2.25rem"
         size={200}
         party={politician?.party as PoliticalParty}
         src={
@@ -125,13 +139,12 @@ function HeaderSection({
         handleIconClick={() => toggleEndorsement()}
         hasIconMenu={true}
       />
-      {!isMobile && (
-        <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
-      )}
+      
+      <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
+      
       {guideData && (
-        
-        <div className={headerStyles.note}>
-          <h4 className={headerStyles.header}>Voting Guide Note</h4>
+        <div className={headerStyles.note} style={noteVars}>
+          {note && <h4 className={headerStyles.header}>Voting Guide Note</h4>}
           {guideEnabled && noteState === NoteState.View && (
             <>
               <div className={headerStyles.noteText}>{note}</div>
@@ -144,6 +157,7 @@ function HeaderSection({
                       variant="primary"
                       size="large"
                     />
+
                     {note && (
                       <Button
                         variant="secondary"

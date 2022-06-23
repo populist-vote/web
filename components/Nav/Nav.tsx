@@ -77,6 +77,7 @@ export default function Nav({
             <><span className={styles.subTitleNoLogo}>{mobileNavTitle}</span></>
           )}
           
+          {/* <div className={styles.logoSizer}><LogoBeta /></div><span className={styles.subTitle}>{mobileNavTitle}</span> */}
           
           {/* <LogoBeta className={`${!showLogoOnMobile ? styles.hideLogo : ""}`} />
           <span className={`${!showLogoOnMobile ? styles.subTitleNoLogo : ""} ${styles.subTitle}`}>{mobileNavTitle}</span> */}
@@ -96,13 +97,11 @@ export default function Nav({
       {/* ///////// Desktop nav ///////// */}
 
       <div className={styles.navContent}>
-        
         <Link href="/home" passHref>
-          <div className={styles.logoContainer}>
-            <Logo height={100} />
-          </div>
+        <div className={styles.logoContainer}>
+          <Logo height={100} />
+        </div>
         </Link>
-        
         <div className={styles.items}>
           <ul>
             <Link href="/ballot" passHref>

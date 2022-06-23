@@ -34,16 +34,7 @@ mutation UpsertVotingGuideCandidate(
     }
   ) {
     note
-    politician {
-      fullName
-      party
-      upcomingRace {
-        title
-        candidates {
-          fullName
-        }
-      }
-    }
+    isEndorsement
   }
 }
 

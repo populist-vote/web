@@ -7,9 +7,6 @@
     flex-direction: row !important;
     gap: 2.5rem;
     border-top: solid 1px $blue-dark;
-    @include for-tablet-down {
-        // padding-top: -3rem;
-    }
 
     .box {
       height: 11rem;
