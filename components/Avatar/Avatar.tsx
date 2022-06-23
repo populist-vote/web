@@ -1,5 +1,6 @@
 import { ImageWithFallback, NoteIcon } from "components";
 import React, { useMemo, CSSProperties, EventHandler } from "react";
+import { FaPlus, FaStar } from "react-icons/fa";
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
@@ -17,8 +18,6 @@ import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import menuStyles from "./IconMenu.module.scss";
 import Link from "next/link";
-import StarIcon from "components/Icons/StarIcon";
-import PlusIcon from "components/Icons/PlusIcon";
 
 interface BadgeProps {
   background?: string;
@@ -109,9 +108,9 @@ const IconImage = ({ type }: { type: IconType }) => {
     case "note":
       return <NoteIcon />;
     case "plus":
-      return <PlusIcon />;
+      return <FaPlus />;
     case "star":
-      return <StarIcon />;
+      return <FaStar />;
   }
 };
 

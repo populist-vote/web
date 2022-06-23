@@ -131,7 +131,7 @@ export default function Race({
                     hasIconMenu
                     isEndorsement={isEndorsing}
                     iconInnerSize={
-                      !isEndorsing && !hasNote ? "2rem" : undefined
+                      !isEndorsing && !hasNote ? ".75rem" : undefined
                     }
                     hasNote={hasNote}
                     iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}

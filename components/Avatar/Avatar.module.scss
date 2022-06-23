@@ -76,9 +76,9 @@
   align-items: center;
   justify-content: center;
 
-  svg {
-    width: var(--icon-inner-size);
-    height: var(--icon-inner-size);
+  span {
+    min-width: var(--icon-inner-size);
+    min-height: var(--icon-inner-size);
   }
 }
 
