@@ -1,9 +1,13 @@
 import NoteIcon from "./NoteIcon";
 import PlusIcon from "./PlusIcon";
-import StarIcon from "./StarIcon";
+import StarGreyDarkIcon from "./StarGreyDarkIcon";
+import StarGreyDarkerIcon from "./StarGreyDarkerIcon";
+import StarYellowDarkIcon from "./StarYellowDarkIcon";
 
 export {
-    NoteIcon,
-    PlusIcon,
-    StarIcon
+  NoteIcon,
+  PlusIcon,
+  StarGreyDarkIcon,
+  StarGreyDarkerIcon,
+  StarYellowDarkIcon,
 };

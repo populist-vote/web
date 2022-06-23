@@ -1,5 +1,8 @@
 import { ImageWithFallback, NoteIcon } from "components";
 import React, { useMemo, CSSProperties, EventHandler } from "react";
+import { FaPlus } from "react-icons/fa";
+import { StarYellowDarkIcon, StarGreyDarkerIcon } from "components/Icons";
+
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
@@ -16,9 +19,8 @@ import {
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import menuStyles from "./IconMenu.module.scss";
+
 import Link from "next/link";
-import StarIcon from "components/Icons/StarIcon";
-import PlusIcon from "components/Icons/PlusIcon";
 
 interface BadgeProps {
   background?: string;
@@ -35,7 +37,7 @@ interface IconProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
   size: string;
-  innerSize: string;
+
   color: string;
   ref?: React.Ref<HTMLButtonElement>;
 }
@@ -76,10 +78,10 @@ export interface PartyAvatarProps extends AvatarProps {
   hasNote?: boolean;
   isEndorsement?: boolean;
   iconSize?: string;
-  iconInnerSize?: string;
   iconType?: IconType;
   handleEndorseCandidate?: EventHandler<ClickEvent | any>;
   handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
+  iconInnerSize?: string;
   handleAddNote?: EventHandler<ClickEvent | any>;
   readOnly?: boolean;
 }
@@ -104,25 +106,22 @@ function Badge(props: BadgeProps): JSX.Element {
   );
 }
 
-const IconImage = ({ type }: { type: IconType }) => {
+const IconImage = ({
+  type,
+  isEndorsement,
+  size,
+}: {
+  type: IconType;
+  isEndorsement?: boolean;
+  size?: string;
+}) => {
   switch (type) {
     case "note":
       return <NoteIcon />;
     case "plus":
-      return <PlusIcon />;
+      return <FaPlus size={size} />;
     case "star":
-      return <StarIcon />;
-  }
-};
-
-const iconSize = (type: IconType) => {
-  switch (type) {
-    case "note":
-      return "100%";
-    case "plus":
-      return "100%";
-    case "star":
-      return "150%";
+      return isEndorsement ? <StarYellowDarkIcon /> : <StarGreyDarkerIcon />;
   }
 };
 
@@ -130,7 +129,7 @@ const menuItemClassName: unknown = ({ hover }: { hover: boolean }) =>
   hover ? menuStyles.menuItemHover : menuStyles.menuItem;
 
 function IconMenu(props: IconMenuProps): JSX.Element {
-  const { background, size, type, color, innerSize } = props.icon;
+  const { background, size, type, color } = props.icon;
 
   const {
     isEndorsement = false,
@@ -147,13 +146,11 @@ function IconMenu(props: IconMenuProps): JSX.Element {
     "--icon-background": string | undefined;
     "--icon-size": string;
     "--icon-color": string;
-    "--icon-inner-size": string;
   } = {
     [`--icon-wrapper-size`]: type === "note" ? "auto" : size,
     [`--icon-background`]: type === "note" ? "none" : background,
-    [`--icon-size`]: iconSize(type),
+    [`--icon-size`]: size,
     [`--icon-color`]: color,
-    [`--icon-inner-size`]: innerSize,
   };
 
   if (readOnly && type === "plus") return <></>;
@@ -161,7 +158,7 @@ function IconMenu(props: IconMenuProps): JSX.Element {
   const $icon = (
     <div className={styles.iconInner}>
       <div className={styles.iconWrapper}>
-        <IconImage type={type} />
+        <IconImage type={type} isEndorsement={isEndorsement} />
       </div>
     </div>
   );
@@ -218,7 +215,7 @@ function Avatar(props: AvatarProps): JSX.Element {
   const {
     badge,
     borderColor,
-    borderWidth = "2px",
+    borderWidth = "3px",
     fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
     hasIconMenu,
     iconMenuProps,
@@ -273,7 +270,6 @@ function PartyAvatar({
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",
-  iconInnerSize = "100%",
   iconType = "plus",
   src,
   fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
@@ -309,7 +305,6 @@ function PartyAvatar({
         : "var(--grey-darker)",
     type: iconType,
     size: iconSize,
-    innerSize: iconInnerSize,
   };
 
   const iconMenuProps = {
@@ -323,7 +318,7 @@ function PartyAvatar({
   };
 
   return (
-    <div style={iconStyleVars}>
+    <div style={iconStyleVars} className={styles.avatarWrapper}>
       <Avatar
         borderColor={isEndorsement ? "var(--yellow)" : undefined}
         badge={badge}

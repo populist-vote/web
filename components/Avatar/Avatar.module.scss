@@ -76,9 +76,10 @@
   align-items: center;
   justify-content: center;
 
-  svg {
-    width: var(--icon-inner-size);
-    height: var(--icon-inner-size);
+  span {
+    img {
+      min-width: calc(var(--icon-size) * 0.75);
+    }
   }
 }
 
@@ -96,4 +97,11 @@
 
 .avatarLink {
   cursor: pointer;
+}
+
+.avatarWrapper {
+  button {
+    padding: 3px;
+    margin: 0;
+  }
 }

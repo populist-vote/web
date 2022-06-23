@@ -104,7 +104,10 @@ function HeaderSection({
   const addNote = () =>
     editVotingGuideCandidate({
       note,
-      onSuccess: () => setNoteState(NoteState.View),
+      onSuccess: () => {
+        setNoteState(NoteState.View);
+        console.log("initial note", getInitialNote());
+      },
     });
 
   const noteVars: CSSProperties & {
@@ -139,12 +142,14 @@ function HeaderSection({
         handleIconClick={() => toggleEndorsement()}
         hasIconMenu={true}
       />
-      
+
       <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
-      
+
       {guideData && (
         <div className={headerStyles.note} style={noteVars}>
-          {note && <h4 className={headerStyles.header}>Voting Guide Note</h4>}
+          {(note || noteState === NoteState.Edit) && (
+            <h4 className={headerStyles.header}>Voting Guide Note</h4>
+          )}
           {guideEnabled && noteState === NoteState.View && (
             <>
               <div className={headerStyles.noteText}>{note}</div>
@@ -186,6 +191,7 @@ function HeaderSection({
                   label="Save note"
                   onClick={() => addNote()}
                   variant="primary"
+                  disabled={!!note?.length}
                   size="large"
                 />
                 <Button
