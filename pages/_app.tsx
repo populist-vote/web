@@ -47,10 +47,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         </>
       )}
 
+      <Head />
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Hydrate state={pageProps.dehydratedState}>
-            <Head />
             {getLayout(<Component {...pageProps} />)}
             <ToastContainer theme="dark" />
             <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
