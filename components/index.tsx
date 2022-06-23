@@ -5,7 +5,7 @@ import ImageWithFallback from "./ImageWithFallback/ImageWithFallback";
 import Layout from "./Layout/Layout";
 import LoaderFlag from "./LoaderFlag/LoaderFlag";
 import Nav from "./Nav/Nav";
-import NoteIcon from "./NoteIcon/NoteIcon";
+import NoteIcon from "./Icons/NoteIcon";
 import Scroller from "./Scroller";
 import Spacer from "./Spacer/Spacer";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
