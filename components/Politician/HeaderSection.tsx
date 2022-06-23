@@ -26,7 +26,6 @@ function HeaderSection({
 }) {
   const sectionCx = classNames(
     styles.center,
-    styles.borderTop,
     headerStyles.headerSection
   );
 

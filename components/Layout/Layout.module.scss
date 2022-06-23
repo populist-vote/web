@@ -6,60 +6,34 @@
   height: 100%;
   background: $background-primary;
   display: grid;
+  
   grid-template-areas:
     "nav"
     "content"
     "footer";
   grid-template-rows: auto 10fr auto;
 
-  @include for-tablet-landscape-up {
-    main {
-      padding: 0.35rem;
-    }
-  }
-
-  @include for-tablet-landscape-up {
+  @include for-tablet-up {
     grid-template-columns: 12rem 5fr;
     grid-template-areas:
       "nav     content"
       "nav     content"
       "nav     footer";
     margin: 0 auto;
+  }
 
-    @include for-tablet-landscape-up {
-      main {
-        padding: 5rem 6rem;
-      }
+  .content {
+    grid-area: content;
+    max-height: 100%;
+    max-width: 100vw;
+    padding-top: 2rem;
+
+    @include for-tablet-up {
+      padding: 5rem 0rem;
+      margin: 0 auto;
+      width: calc(100vw - 24rem);
+      // max-width: 1400px;
     }
-  }
-
-  input {
-    border-radius: 25px;
-    border: none;
-    padding: 0.5rem 1rem;
-    width: 100%;
-
-    &.wide {
-      width: 21rem;
-    }
-  }
-
-  .sideText {
-    color: $blue;
-    font-family: $font-primary;
-    letter-spacing: 0.05em;
-    writing-mode: tb-rl; /* For backward compatability */
-    writing-mode: vertical-rl;
-    transform: rotate(180deg); /* so text reads from bottom up */
-    font-size: 0.75em;
-    width: 15px;
-    text-transform: uppercase;
-    align-self: center;
-  }
-
-  .noCandidates {
-    color: $blue;
-    margin-top: 0.9rem;
   }
 
   .roundedCard {
@@ -68,8 +42,8 @@
     border: 1px solid $blue-dark;
     background: $blue-darker;
     text-align: center;
-    padding: 0.75rem;
-    margin: 0 0 1.25rem 0.25rem;
+    padding: 1rem;
+    margin: 0 0 1.25rem 0;
 
     h1 {
       font-weight: 400;
@@ -77,7 +51,10 @@
   }
 
   .inset {
-    margin: 0 1rem;
+    margin: 0 0.5rem;
+    @include for-tablet-up {
+      margin: 0 0rem;
+    }
   }
 
   .radioLabel {
@@ -98,19 +75,19 @@
     }
   }
 
-  .content {
-    grid-area: content;
-    max-height: 100%;
-    max-width: 100vw;
-
-    @include for-tablet-landscape-up {
-      margin: 0 auto;
-      width: calc(100vw - 24rem);
-    }
-  }
-
   form {
     width: 100%;
+  }
+
+  input {
+    border-radius: 25px;
+    border: none;
+    padding: 0.5rem 1rem;
+    width: 100%;
+
+    &.wide {
+      width: 21rem;
+    }
   }
 
   input[type="radio"]:checked + label {
@@ -240,7 +217,7 @@
     transition: ease-in-out all 0.25s;
   }
 
-  @include for-tablet-landscape-up {
+  @include for-tablet-up {
     display: grid;
     grid-template-columns: 1fr 15fr;
   }
@@ -254,7 +231,7 @@
       color: $blue-text;
     }
 
-    @include for-tablet-landscape-up {
+    @include for-tablet-up {
       display: grid;
       grid-template-columns: 8fr 4fr 4fr;
       width: 100%;
@@ -276,46 +253,4 @@
   }
 }
 
-.electionHeader {
-  h1 {
-    font-weight: 500;
-    margin: 0;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid $blue-dark;
-  }
 
-  h4 {
-    font-size: 1.875em;
-    margin-top: 1.5rem;
-    margin-bottom: 0rem;
-  }
-
-  p {
-    margin-top: 1rem;
-    margin-bottom: 0;
-    color: $blue-lighter;
-  }
-}
-
-.raceHeader {
-  h3 {
-    font-size: 1.5em;
-
-    span:first-child {
-      font-weight: 400;
-      padding-right: 1rem;
-      border-right: 1px solid $aqua;
-    }
-    span:last-child {
-      font-weight: 400;
-      margin-left: 0;
-      padding-left: 0;
-      padding-left: 1rem;
-    }
-  }
-}
-
-.raceSubheader {
-  font-size: 0.75em;
-  text-transform: uppercase;
-}

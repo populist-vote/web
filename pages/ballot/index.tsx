@@ -31,6 +31,7 @@ import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
 import styles from "components/Layout/Layout.module.scss";
+import ballotStyles from "./Ballot.module.scss";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -177,8 +178,8 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             )}
             {upcomingElection && (
               <div data-testid="ballot-page">
-                <FlagSection title={flagSectionTitle}>
-                  <div className={styles.electionHeader}>
+                <FlagSection title={flagSectionTitle} hideFlagForMobile={true}>
+                  <div className={ballotStyles.electionHeader}>
                     {upcomingElection.electionDate && (
                       <h1>{dateString(upcomingElection.electionDate, true)}</h1>
                     )}

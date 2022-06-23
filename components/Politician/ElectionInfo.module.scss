@@ -1,11 +1,15 @@
 @import "styles/mixins.scss";
 @import "styles/variables/colors.module.scss";
 
-@include for-tablet-landscape-up {
+
+@include for-tablet-up {
   section.wrapper {
     flex-direction: row !important;
     gap: 2.5rem;
     border-top: solid 1px $blue-dark;
+    @include for-tablet-down {
+        // padding-top: -3rem;
+    }
 
     .box {
       height: 11rem;
@@ -44,8 +48,13 @@ section.wrapper {
     align-items: center;
     margin-bottom: 1rem;
     flex-grow: 1;
-    @include for-tablet-portrait-down {
+    @include for-tablet-down {
       width: calc(100% - 2.5rem);
+      padding-top:1rem;
+
+      h2 {
+        margin:.5rem;
+      }
     }
   }
 }

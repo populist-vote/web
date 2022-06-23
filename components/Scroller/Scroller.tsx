@@ -22,6 +22,7 @@ function Scroller(props: {
   children: ScrollerItem | ScrollerItem[];
   onePageAtATime?: boolean;
   showTextButtons?: boolean;
+  hideControls?: boolean;
 }) {
   const [hasScroll, setHasScroll] = useState(false);
 
@@ -35,6 +36,7 @@ function Scroller(props: {
     [`mobile-scroller`]: isMobile,
     [styles.hideArrowText as string]: !props.showTextButtons,
     [`no-scroll`]: !hasScroll,
+    [styles.hideControls as string]: props.hideControls,
   });
 
   const handleUpdate = (data: {
@@ -58,7 +60,7 @@ function Scroller(props: {
       >
         {props.children}
       </ScrollMenu>
-      {hasScroll && isMobile && <div className={styles.swipe}>SWIPE</div>}
+      {/* {hasScroll && isMobile && <div className={styles.swipe}>SWIPE</div>} */}
     </div>
   );
 }

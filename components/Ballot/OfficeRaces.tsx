@@ -2,6 +2,7 @@ import { RaceResult, ElectionScope, District } from "generated";
 import dynamic from "next/dynamic";
 import states from "utils/states";
 import styles from "../Layout/Layout.module.scss";
+import ballotStyles from "pages/ballot/Ballot.module.scss";
 import Race from "./Race";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
@@ -50,28 +51,19 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
       break;
   }
 
-  // if (office?.electionScope == ElectionScope.State) {
-  //   officeSubheader = "Colorado";
-  // }
-
   return (
     <>
       <header
-        className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${styles.raceHeader}`}
+        className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${ballotStyles.raceHeader}`}
       >
         <h3>
           <span>{office?.title}</span>
-          {/* If the district is not a number, don't display it */}
-          {/* {!isNaN(parseInt(office?.district as string)) && (
-            <span className={styles.raceSubheader}>{`District ${office?.district}`}</span>
-          )} */}
-          {/*  */}
-          <span className={styles.raceSubheader}>{officeSubheader}</span>
+          <span className={ballotStyles.raceSubheader}>{officeSubheader}</span>
         </h3>
       </header>
 
       <div className={`${styles.roundedCard}`}>
-        <Scroller>
+        <Scroller hideControls>
           {races.sort(raceSortFn).map((race) => (
             <Race
               race={race}

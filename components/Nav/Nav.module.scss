@@ -16,61 +16,89 @@
     transform: translateY(0%);
   }
 
-  @include for-tablet-landscape-up {
+  @include for-tablet-up {
     position: fixed;
     width: 12rem;
     height: 100vh;
   }
 
-  .logoContainer {
-    display: block;
-    cursor: pointer;
-
-    @include for-tablet-landscape-up {
-      margin: 2rem;
-    }
-
-    &.hideLogo {
-      @include for-tablet-portrait-down {
-        display: none;
-      }
-    }
-  }
-
-  .subTitle {
-    font-size: var(--text-md);
-    font-family: $font-primary;
-    font-weight: 400;
-    margin: 0.25rem 0 0;
-
-    @include for-tablet-landscape-up {
-      display: none;
-    }
-  }
+  
 
   .mobileNav {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
+    display: flex;
+    // grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
     text-align: center;
-    padding: 2rem 1rem 0;
+    padding: 1rem 1rem .7rem;
+    height: 80px;
 
     .homeButton {
       display: flex;
       justify-content: left;
       align-items: center;
+      width:35px;
 
-      @include for-tablet-landscape-up {
+      @include for-tablet-up {
         display: none;
       }
     }
 
-    @include for-tablet-landscape-up {
+    .backButtonContainer {
+      display:flex;
+      align-items: center;
+      width:35px;
+
+      .backButton {
+        background: transparent;
+        height:20px;
+      }
+    }
+
+    .logoContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      
+      .logoSizer {
+        margin:auto;
+        width: 170px;
+      }
+
+      .hideLogo {
+        display: none !important;
+      }
+    }
+
+    .subTitle {
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      font-size: var(--text-md);
+      font-family: $font-primary;
+      font-weight: 400;
+      margin-top: 0.2rem;
+  
+      @include for-tablet-up {
+        display: none;
+      }
+    }
+  
+    .subTitleNoLogo {
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      font-family: $font-primary;
+      font-weight: 400;
+      margin-bottom: 0.1rem;
+    }
+
+    @include for-tablet-up {
       display: flex;
       position: sticky;
       top: 0;
-    }
-
-    @include for-desktop-up {
       display: none;
     }
   }
@@ -95,16 +123,18 @@
     text-align: center;
     height: 100%;
 
-    .backButton {
-      background: transparent;
+    .logoContainer {
+      display: block;
+      cursor: pointer;
+      margin: 2rem;
     }
 
-    @include for-tablet-landscape-up {
+    @include for-tablet-up {
       display: flex;
       position: fixed;
     }
 
-    @include for-tablet-portrait-down {
+    @include for-tablet-down {
       display: none;
     }
   }
@@ -122,7 +152,7 @@
       padding: 0;
     }
 
-    @include for-tablet-portrait-down {
+    @include for-tablet-down {
       display: none;
     }
   }

@@ -1,0 +1,89 @@
+@import "styles/mixins";
+@import "styles/variables/colors.module";
+@import "styles/variables/fonts.module";
+
+.sideText {
+    color: $blue;
+    font-family: $font-primary;
+    letter-spacing: 0.05em;
+    writing-mode: tb-rl; /* For backward compatability */
+    writing-mode: vertical-rl;
+    transform: rotate(180deg); /* so text reads from bottom up */
+    font-size: 0.75em;
+    width: 15px;
+    text-transform: uppercase;
+    align-self: center;
+}
+
+.noCandidates {
+    color: $blue;
+    margin-top: 0.9rem;
+}
+
+.electionHeader {
+    padding: 0 1.5rem 2rem;
+
+    h1 {
+      font-weight: 500;
+      margin: 0;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid $blue-dark;
+    }
+  
+    h4 {
+      font-size: 1.25em;
+      margin-top: 1rem;
+      margin-bottom: 0rem;
+      @include for-tablet-up {
+        font-size: 1.875em;
+        margin-top: 1.5rem;
+      }
+    }
+  
+    p {
+      margin-top: 1rem;
+      margin-bottom: 0;
+      color: $blue-lighter;
+    }
+
+    @include for-tablet-up {
+        padding: 0 0;
+    }    
+  }
+
+  .raceHeader {
+    margin-left: .5rem;
+
+    h3 {
+      font-size: 1.25em;
+      margin-bottom: 0.75rem;
+      @include for-tablet-up {
+        font-size: 1.5em;
+        margin-bottom: 1rem;
+      }  
+      span:first-child {
+        font-weight: 400;
+        padding-right: .8rem;
+        border-right: 1px solid $aqua;
+        @include for-tablet-up {
+          padding-right: 1rem;
+        }
+      }
+      span:last-child {
+        font-weight: 400;
+        margin-left: 0;
+        padding-left: .8rem;
+        @include for-tablet-up {
+          padding-left: 1rem;
+        }
+      }
+    }
+  }
+  
+  .raceSubheader {
+    font-size: 0.7em;
+    text-transform: uppercase;
+    @include for-tablet-up {
+      font-size: 0.75em;
+    }
+  }

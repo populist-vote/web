@@ -12,7 +12,7 @@
   h1 {
     margin: 0;
 
-    @include for-tablet-portrait-down {
+    @include for-tablet-down {
       text-align: center;
     }
   }
@@ -29,6 +29,9 @@
     text-align: center;
     max-width: 80%;
     font-weight: 500;
+    @include for-tablet-down {
+      margin: 0 0 0.3rem;
+    }
   }
 
   h4.subHeader {
@@ -37,6 +40,9 @@
     margin: 0 0 1.5rem;
     text-transform: uppercase;
     font-family: $font-primary;
+    @include for-tablet-down {
+      margin: 0 0 1.2rem;
+    }
   }
 
   .aqua {
@@ -53,17 +59,27 @@
     width: 100%;
     padding: 1.5rem 0;
 
-    @include for-tablet-landscape-up {
+    @include for-tablet-down {
+      padding: 2.5rem 0;
+    }
+
+    @include for-tablet-up {
       padding: 2.5rem 0;
       border-top: solid 4px var(--color-accent);
     }
 
     &.borderBottom {
       border-bottom: 1px solid $blue-dark;
+      @include for-tablet-down {
+        border-top: solid 1px $blue-darker;
+      }
     }
 
     &.borderTop {
       border-top: 1px solid $blue-dark;
+      @include for-tablet-down {
+        border-top: solid 1px $blue-darker;
+      }
     }
 
     &.center {
@@ -76,11 +92,18 @@
 
   section.politicianOffice {
     padding: 2.5rem 0;
+    @include for-tablet-down {
+      padding: 2rem 0;
+    }
   }
 }
 
 .coloredSection {
   margin-top:3rem;
+
+  @include for-tablet-down {
+    margin-top:0rem;
+  }
 
   p.bioContent {
     margin:1rem 0 2rem;

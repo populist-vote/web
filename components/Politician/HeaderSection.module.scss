@@ -18,6 +18,10 @@
     margin-top: 2rem;
     padding-top: 2.5rem;
     width: 100%;
+
+    @include for-tablet-down {
+      border-top: solid 1px $blue-darker;
+    }
     
     h4 {
       margin-top:0;
