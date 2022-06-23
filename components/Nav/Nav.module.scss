@@ -114,6 +114,11 @@
     gap: 0.5rem;
     align-items: center;
 
+    .userName {
+      padding: 0 1rem;
+      word-break: break-all;
+    }
+
     @include for-tablet-landscape-up {
       flex-direction: column;
     }
