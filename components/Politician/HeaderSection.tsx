@@ -139,12 +139,14 @@ function HeaderSection({
         handleIconClick={() => toggleEndorsement()}
         hasIconMenu={true}
       />
-      
+
       <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
-      
+
       {guideData && (
         <div className={headerStyles.note} style={noteVars}>
-          {note && <h4 className={headerStyles.header}>Voting Guide Note</h4>}
+          {(note || noteState === NoteState.Edit) && (
+            <h4 className={headerStyles.header}>Voting Guide Note</h4>
+          )}
           {guideEnabled && noteState === NoteState.View && (
             <>
               <div className={headerStyles.noteText}>{note}</div>
