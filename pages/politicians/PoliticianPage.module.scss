@@ -10,16 +10,17 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  border-top: solid 1px $blue-dark;
+  border-top: solid 1px $blue-darker;
 
-  @include for-desktop-up {
+  @include for-tablet-up {
     padding: 2.5rem 0;
-
+    border-top: solid 1px $blue-dark;
+    
     section {
       justify-content: start !important;
       width: calc(50% - 1rem);
       box-sizing: border-box;
-      border-bottom: none;
+      // border-bottom: none;
 
       &.committees {
         border-left: solid 1px $blue-dark;
@@ -31,7 +32,7 @@
 
       &.wide {
         margin: 0 auto;
-        width: 50rem;
+        width: 100%;
       }
 
       &.basicInfo {
@@ -39,6 +40,13 @@
         padding-bottom:0;
       }
     }
+  }
+}
+
+.committees {
+  @include for-tablet-down {
+    border-top: solid 1px $blue-darker;
+    border-left: solid 1px $blue-darker;
   }
 }
 
@@ -66,5 +74,9 @@
     border-bottom: solid 1px $blue-dark;
     margin-bottom: 1rem;
     padding-bottom: 2.5rem;
+
+    @include for-tablet-down {
+      border-bottom: solid 1px $blue-darker;
+    }
   }
 }

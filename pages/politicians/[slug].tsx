@@ -38,6 +38,7 @@ import {
   ElectionScope,
 } from "../../generated";
 
+
 import styles from "styles/page.module.scss";
 import politicianStyles from "./PoliticianPage.module.scss";
 
@@ -50,7 +51,7 @@ import {
 } from "utils/constants";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
 import { getYear } from "utils/dates";
-import ReactMarkdown from "react-markdown";
+// import ReactMarkdown from "react-markdown";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -165,7 +166,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         switch (politician?.currentOffice.districtType) {
           case District.UsCongressional:
             officeSubtitle =
-              stateLong + " District " + politician.currentOffice.district;
+              stateLong +
+              " District " +
+              politician.currentOffice.district;
             break;
           case District.StateSenate:
             officeSubtitle =
@@ -206,7 +209,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
     return (
       <section className={cx}>
-        <h2 className={styles.politicianOffice}>{officeTitle}</h2>
+        <h2 className={styles.politicianOffice}>
+          {officeTitle}
+        </h2>
         <h3>{officeSubtitle}</h3>
       </section>
     );
@@ -644,10 +649,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     if (!politician?.biography) return null;
     return (
       <ColoredSection color="var(--blue-dark)">
-        <h4 className={styles.subHeader}>Biography</h4>
-        <div className={styles.bioContent}>
+        <h2 className={styles.gradientHeader}>Biography</h2>
+        <p className={styles.bioContent}>{politician?.biography}</p>
+        
+        {/* <div className={styles.bioContent}>
           <ReactMarkdown>{politician?.biography}</ReactMarkdown>
-        </div>
+        </div> */}
+
         {politician?.biographySource && (
           <a
             href={politician?.biographySource as string}
@@ -665,7 +673,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     <Layout
       mobileNavTitle={mobileNavTitle}
       showNavBackButton
-      showNavLogoOnMobile={false}
+      showNavLogoOnMobile={true}
     >
       <VotingGuideProvider votingGuideId={votingGuideId || ""}>
         <div className={styles.container}>

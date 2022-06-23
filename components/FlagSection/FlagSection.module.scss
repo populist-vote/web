@@ -3,8 +3,9 @@
 
 .container {
   position: relative;
+  margin-bottom: 1rem;
 
-  @include for-tablet-portrait-up {
+  @include for-tablet-up {
     border-left: 1px solid $blue-dark; // Default color
     margin-bottom: 4rem;
   }
@@ -35,7 +36,7 @@
   }
 
   &.yellow {
-    @include for-tablet-portrait-up {
+    @include for-tablet-up {
       border-left: 1px solid $yellow;
     }
 
@@ -72,7 +73,7 @@
   }
 
   .content {
-    padding: 0.5rem;
+    padding: 1rem;
 
     @include for-tablet-portrait-up {
       padding: 2rem;

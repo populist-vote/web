@@ -31,6 +31,7 @@ import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
 import styles from "components/Layout/Layout.module.scss";
+import ballotStyles from "./Ballot.module.scss";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -177,27 +178,25 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             )}
             {upcomingElection && (
               <div data-testid="ballot-page">
-                <FlagSection title={flagSectionTitle}>
-                  {races.length < 1 ? (
+                <FlagSection title={flagSectionTitle} hideFlagForMobile={true}>
+                {races.length < 1 ? (
                     <h2>
                       Looks like your voting address is outside of our current
                       service area. We will be continuously adding states, so be
                       sure to check back soon!
                     </h2>
                   ) : (
-                    <div className={styles.electionHeader}>
-                      {upcomingElection.electionDate && (
-                        <h1>
-                          {dateString(upcomingElection.electionDate, true)}
-                        </h1>
-                      )}
-                      {upcomingElection.title && (
-                        <h4>{upcomingElection.title}</h4>
-                      )}
-                      {upcomingElection.description && (
-                        <p>{upcomingElection.description}</p>
-                      )}
-                    </div>
+                  <div className={ballotStyles.electionHeader}>
+                    {upcomingElection.electionDate && (
+                      <h1>{dateString(upcomingElection.electionDate, true)}</h1>
+                    )}
+                    {upcomingElection.title && (
+                      <h4>{upcomingElection.title}</h4>
+                    )}
+                    {upcomingElection.description && (
+                      <p>{upcomingElection.description}</p>
+                    )}
+                  </div>
                   )}
                 </FlagSection>
 

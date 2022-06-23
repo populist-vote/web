@@ -5,6 +5,8 @@
 }
 
 .electionHeader {
+  padding: 0 1.5rem 2rem;
+
   h1 {
     font-weight: 500;
     margin: 0;
@@ -13,9 +15,13 @@
   }
 
   h4 {
-    font-size: 1.875em;
-    margin-top: 1.5rem;
+    font-size: 1.25em;
+    margin-top: 1rem;
     margin-bottom: 0rem;
+    @include for-tablet-up {
+      font-size: 1.875em;
+      margin-top: 1.5rem;
+    }
   }
 
   p {
@@ -23,6 +29,10 @@
     margin-bottom: 0;
     color: $blue-lighter;
   }
+
+  @include for-tablet-up {
+      padding: 0 0;
+  }    
 }
 
 .votingContainer {

@@ -3,7 +3,7 @@ import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
 import { PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
-import useDeviceInfo from "hooks/useDeviceInfo";
+// import useDeviceInfo from "hooks/useDeviceInfo";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import {
@@ -27,11 +27,11 @@ function HeaderSection({
 }) {
   const sectionCx = classNames(
     styles.center,
-    styles.borderTop,
+    // styles.borderTop,
     headerStyles.headerSection
   );
 
-  const { isMobile } = useDeviceInfo();
+  // const { isMobile } = useDeviceInfo();
 
   const {
     data: guideData,
@@ -139,9 +139,9 @@ function HeaderSection({
         handleIconClick={() => toggleEndorsement()}
         hasIconMenu={true}
       />
-      {!isMobile && (
-        <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
-      )}
+      
+      <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
+      
       {guideData && (
         <div className={headerStyles.note} style={noteVars}>
           {note && <h4 className={headerStyles.header}>Voting Guide Note</h4>}

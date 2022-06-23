@@ -8,7 +8,9 @@ import styles from "./Nav.module.scss";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 
 import { useMediaQuery } from "hooks/useMediaQuery";
-import { Avatar, Logo, LogoText } from "components";
+import { Avatar, Logo } from "components";
+import { LogoBeta } from "components/Logo/LogoBeta";
+
 
 export default function Nav({
   mobileNavTitle = "Colorado Legislators",
@@ -47,29 +49,38 @@ export default function Nav({
 
   return (
     <nav className={`${styles.nav} ${sticky ? styles.sticky : ""}`}>
+      
+      {/* ///////// Mobile Nav ///////// */}
+
       <div className={styles.mobileNav}>
         {showBackButton ? (
-          <FaChevronLeft
-            className={styles.backButton}
-            color="var(--white)"
-            aria-label="Go back"
-            onClick={() => router.back()}
-          />
+          <div className={styles.backButtonContainer}> 
+            <FaChevronLeft
+              className={styles.backButton}
+              color="var(--white)"
+              aria-label="Go back"
+              onClick={() => router.back()}
+            />
+          </div>
         ) : (
           <div className={styles.homeButton}>
             <Link href="/home" passHref>
-              <FaHome size={"1.5rem"} color="var(--blue-text)" />
+              <FaHome size={"1.7rem"} color="var(--blue)" />
             </Link>
           </div>
         )}
 
-        <div
-          className={`${styles.logoContainer} ${
-            !showLogoOnMobile ? styles.hideLogo : ""
-          }`}
-        >
-          <LogoText height={100} />
-          <h5 className={styles.subTitle}>{mobileNavTitle}</h5>
+        <div className={styles.logoContainer}>
+          {showLogoOnMobile ? (
+            <><div className={styles.logoSizer}><LogoBeta /></div><span className={styles.subTitle}>{mobileNavTitle}</span></>
+          ) : (
+            <><span className={styles.subTitleNoLogo}>{mobileNavTitle}</span></>
+          )}
+          
+          {/* <div className={styles.logoSizer}><LogoBeta /></div><span className={styles.subTitle}>{mobileNavTitle}</span> */}
+          
+          {/* <LogoBeta className={`${!showLogoOnMobile ? styles.hideLogo : ""}`} />
+          <span className={`${!showLogoOnMobile ? styles.subTitleNoLogo : ""} ${styles.subTitle}`}>{mobileNavTitle}</span> */}
         </div>
 
         <div className={styles.avatar}>
@@ -77,11 +88,14 @@ export default function Nav({
             <Avatar
               src={PERSON_FALLBACK_IMAGE_URL}
               alt="profile picture"
-              size={50}
+              size={35}
             />
           </Link>
         </div>
       </div>
+
+      {/* ///////// Desktop nav ///////// */}
+
       <div className={styles.navContent}>
         <Link href="/home" passHref>
         <div className={styles.logoContainer}>
