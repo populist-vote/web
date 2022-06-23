@@ -1,8 +1,9 @@
 @import "styles/mixins.scss";
 @import "styles/variables/colors.module.scss";
 
+$election-info-width: 1150px;
 
-@include for-tablet-up {
+@media (min-width: $election-info-width) {
   section.wrapper {
     flex-direction: row !important;
     gap: 2.5rem;
@@ -45,7 +46,7 @@ section.wrapper {
     align-items: center;
     margin-bottom: 1rem;
     flex-grow: 1;
-    @include for-tablet-down {
+    @media (max-width: $election-info-width) {
       width: calc(100% - 2.5rem);
       padding-top:1rem;
 
