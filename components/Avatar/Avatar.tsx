@@ -34,6 +34,7 @@ interface IconProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
   size: string;
+  innerSize: string;
   color: string;
   ref?: React.Ref<HTMLButtonElement>;
 }
@@ -56,6 +57,7 @@ export interface AvatarProps {
   size: number;
   badge?: BadgeProps;
   borderColor?: string;
+  borderWidth?: string;
   hasIconMenu?: boolean;
   handleIconClick?: EventHandler<ClickEvent | any>;
   iconMenuProps?: IconMenuProps;
@@ -73,6 +75,7 @@ export interface PartyAvatarProps extends AvatarProps {
   hasNote?: boolean;
   isEndorsement?: boolean;
   iconSize?: string;
+  iconInnerSize?: string;
   iconType?: IconType;
   handleEndorseCandidate?: EventHandler<ClickEvent | any>;
   handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
@@ -126,7 +129,7 @@ const menuItemClassName: unknown = ({ hover }: { hover: boolean }) =>
   hover ? menuStyles.menuItemHover : menuStyles.menuItem;
 
 function IconMenu(props: IconMenuProps): JSX.Element {
-  const { background, size, type, color } = props.icon;
+  const { background, size, type, color, innerSize } = props.icon;
 
   const {
     isEndorsement = false,
@@ -143,11 +146,13 @@ function IconMenu(props: IconMenuProps): JSX.Element {
     "--icon-background": string | undefined;
     "--icon-size": string;
     "--icon-color": string;
+    "--icon-inner-size": string;
   } = {
     [`--icon-wrapper-size`]: type === "note" ? "auto" : size,
     [`--icon-background`]: type === "note" ? "none" : background,
     [`--icon-size`]: iconSize(type),
     [`--icon-color`]: color,
+    [`--icon-inner-size`]: innerSize,
   };
 
   if (readOnly && type === "plus") return <></>;
@@ -212,6 +217,7 @@ function Avatar(props: AvatarProps): JSX.Element {
   const {
     badge,
     borderColor,
+    borderWidth = "2px",
     fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
     hasIconMenu,
     iconMenuProps,
@@ -225,7 +231,7 @@ function Avatar(props: AvatarProps): JSX.Element {
     "--border-style": string;
   } = {
     [`--border-color`]: borderColor || "transparent",
-    [`--border-width`]: borderColor ? "2px" : "0",
+    [`--border-width`]: borderColor ? borderWidth : "0",
     [`--border-style`]: borderColor ? "solid" : "none",
   };
 
@@ -266,6 +272,7 @@ function PartyAvatar({
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",
+  iconInnerSize = "100%",
   iconType = "plus",
   src,
   fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
@@ -286,15 +293,22 @@ function PartyAvatar({
     fontSize: badgeFontSize,
   };
 
+  const iconStyleVars: CSSProperties & {
+    "--icon-right-position": string;
+  } = {
+    ["--icon-right-position"]: iconType === "note" ? "-.5rem" : "0",
+  };
+
   const icon = {
     background:
       isEndorsement && iconType === "star" ? "var(--yellow)" : "var(--grey)",
     color:
-      isEndorsement && iconType === "note"
+      isEndorsement && iconType === "star"
         ? "var(--yellow-dark)"
         : "var(--grey-darker)",
     type: iconType,
     size: iconSize,
+    innerSize: iconInnerSize,
   };
 
   const iconMenuProps = {
@@ -308,15 +322,17 @@ function PartyAvatar({
   };
 
   return (
-    <Avatar
-      borderColor={isEndorsement ? "var(--yellow)" : undefined}
-      badge={badge}
-      hasIconMenu={hasIconMenu}
-      iconMenuProps={iconMenuProps}
-      src={src}
-      fallbackSrc={fallbackSrc}
-      {...rest}
-    />
+    <div style={iconStyleVars}>
+      <Avatar
+        borderColor={isEndorsement ? "var(--yellow)" : undefined}
+        badge={badge}
+        hasIconMenu={hasIconMenu}
+        iconMenuProps={iconMenuProps}
+        src={src}
+        fallbackSrc={fallbackSrc}
+        {...rest}
+      />
+    </div>
   );
 }
 
