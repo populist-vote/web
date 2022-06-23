@@ -77,8 +77,9 @@
   justify-content: center;
 
   span {
-    min-width: var(--icon-inner-size);
-    min-height: var(--icon-inner-size);
+    img {
+      min-width: calc(var(--icon-size) * 0.75);
+    }
   }
 }
 
@@ -96,4 +97,11 @@
 
 .avatarLink {
   cursor: pointer;
+}
+
+.avatarWrapper {
+  button {
+    padding: 3px;
+    margin: 0;
+  }
 }

@@ -104,7 +104,10 @@ function HeaderSection({
   const addNote = () =>
     editVotingGuideCandidate({
       note,
-      onSuccess: () => setNoteState(NoteState.View),
+      onSuccess: () => {
+        setNoteState(NoteState.View);
+        console.log("initial note", getInitialNote());
+      },
     });
 
   const noteVars: CSSProperties & {
