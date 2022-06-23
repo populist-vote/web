@@ -16,11 +16,13 @@ import Router from "next/router";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
+import { AppHead } from "components/Head/Head";
 
 const Home: NextPage = () => {
   const user = useAuth({ redirectTo: "/" });
   return (
     <>
+      <AppHead />
       <main className={styles.container}>
         <div id={styles["container1"]}>
           <div id={styles["menu"]}>
