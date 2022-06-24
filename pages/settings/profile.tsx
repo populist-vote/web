@@ -170,7 +170,7 @@ const UsernameSection = ({ username }: { username: string }) => {
 };
 
 const EmailSection = ({ email }: { email: string }) => {
-  const { register, handleSubmit, formState, reset } = useForm<{
+  const { register, handleSubmit, formState, reset, setError } = useForm<{
     email: string;
   }>({
     mode: "onChange",
@@ -181,6 +181,9 @@ const EmailSection = ({ email }: { email: string }) => {
   const updateEmailMutation = useUpdateEmailMutation({
     onSuccess: ({ updateEmail }: { updateEmail: { email: string } }) => {
       reset(updateEmail);
+    },
+    onError: (error) => {
+      if (error instanceof Error) setError("email", { message: error.message });
     },
   });
   const { errors, isValid, isDirty } = formState;
