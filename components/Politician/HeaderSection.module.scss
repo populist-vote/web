@@ -14,13 +14,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-top: solid 1px $blue-dark;
+    border-top: var(--note-top-border);
+    border-color: $blue-dark;
     margin-top: 2rem;
     padding-top: 2.5rem;
     width: 100%;
 
     @include for-tablet-down {
-      border-top: solid 1px $blue-darker;
+      border-color: $blue-darker;
     }
 
     h4 {
