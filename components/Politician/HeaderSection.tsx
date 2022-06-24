@@ -106,7 +106,6 @@ function HeaderSection({
       note,
       onSuccess: () => {
         setNoteState(NoteState.View);
-        console.log("initial note", getInitialNote());
       },
     });
 
@@ -191,7 +190,7 @@ function HeaderSection({
                   label="Save note"
                   onClick={() => addNote()}
                   variant="primary"
-                  disabled={!!note?.length}
+                  disabled={!note?.length}
                   size="large"
                 />
                 <Button
