@@ -131,7 +131,6 @@ export default function Race({
                     hasIconMenu
                     isEndorsement={isEndorsing}
                     iconSize="1.25rem"
-                    iconInnerSize="3rem"
                     hasNote={hasNote}
                     iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
                     handleEndorseCandidate={() =>
