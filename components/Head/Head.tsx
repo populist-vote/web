@@ -26,12 +26,12 @@ export function AppHead() {
       {/* OG FB meta tags */}
       <meta
         property="og:image"
-        content="https://populist-static-assets.s3.amazonaws.com/social/preview-image-fb.jpg"
+        content="https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg"
         key="og:image"
       />
       <meta
         property="og:title"
-        content="Populist - Non-partisan politics for the people."
+        content="Populist - Transparent democracy in action."
         key="og:title"
       />
       <meta
@@ -43,11 +43,11 @@ export function AppHead() {
       {/* Twitter meta tags */}
       <meta
         name="twitter:card"
-        content="https://populist-static-assets.s3.amazonaws.com/social/preview-image-fb.jpg"
+        content="https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg"
       />
       <meta
         name="twitter:title"
-        content="Populist - Non-partisan politics for the people."
+        content="Populist - Transparent democracy in action."
       />
       <meta
         name="twitter:description"
