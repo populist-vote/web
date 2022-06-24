@@ -76,11 +76,6 @@ export default function Nav({
           ) : (
             <><span className={styles.subTitleNoLogo}>{mobileNavTitle}</span></>
           )}
-          
-          {/* <div className={styles.logoSizer}><LogoBeta /></div><span className={styles.subTitle}>{mobileNavTitle}</span> */}
-          
-          {/* <LogoBeta className={`${!showLogoOnMobile ? styles.hideLogo : ""}`} />
-          <span className={`${!showLogoOnMobile ? styles.subTitleNoLogo : ""} ${styles.subTitle}`}>{mobileNavTitle}</span> */}
         </div>
 
         <div className={styles.avatar}>

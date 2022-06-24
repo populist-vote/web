@@ -112,11 +112,11 @@ const Home: NextPage = () => {
               />
             </div>
             <div id={styles["s1ccol2"]}>
-              <h2>Transparent government access.</h2>
+              <h2>Transparent democracy in action.</h2>
               <p>
                 We believe that with better access to transparent, non-partisan
                 information, we can create a well-informed and critical
-                public—the foundation of a more equitable democracy for all.
+                public – the foundation of a more equitable democracy for all.
               </p>
               <p>
                 It's time to change the way we engage with our government. From
