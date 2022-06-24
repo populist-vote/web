@@ -16,8 +16,8 @@
     align-items: center;
     border-top: var(--note-top-border);
     border-color: $blue-dark;
-    margin-top: 2rem;
-    padding-top: 2.5rem;
+    margin-top: var(--note-top-margin);
+    padding-top: var(--note-top-padding);
     width: 100%;
 
     @include for-tablet-down {
@@ -37,6 +37,10 @@
       font-weight: 300;
       max-width: 50rem;
       margin-bottom: 1rem;
+
+      @include for-tablet-down {
+        padding: 0.5rem 1.5rem 1.5rem;
+      }
     }
   }
 
@@ -45,7 +49,7 @@
     width: 19rem;
     max-width: 100vw;
 
-    @include for-tablet-portrait-down {
+    @include for-tablet-down {
       width: 12.5rem;
     }
   }

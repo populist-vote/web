@@ -14,10 +14,7 @@
   .botspace {
     margin-bottom: 30px;
   }
-  
-  #container1 a {
-    color: white;
-  }
+
 
   /*  MENU  */
   
@@ -63,7 +60,7 @@
   }
 
   .populist-button-1:hover {
-    background-color: #003c55;
+    background-color: $blue-dark;
     transition: 0.3s ease-in-out;
   }
 
@@ -80,7 +77,7 @@
   }
 
   input.button:hover {
-    background-color: #0D85AC !important;
+    background-color: #0D85AC;
   }
 
   div.content {
@@ -94,7 +91,12 @@
   }
 
   div.contentwide2 {
-    padding: 80px 80px 80px 80px;
+    padding: 80px;
+    max-width: 1160px;
+  }
+
+  div.contentwide3 {
+    padding: 80px 80px 130px 80px;
     max-width: 1160px;
   }
 
@@ -143,8 +145,8 @@
     max-width: 750px;
 
     /* min-width: 500px; */
-    background-color: #002a44;
-    box-shadow: 7px 7px 30px 0 rgb(0 0 0 / 20%);
+    background-color: $blue-darker;
+    box-shadow: 7px 7px 50px 0 rgb(0 0 0 / 30%);
     border-radius: 40px;
 
     h2 {
@@ -199,7 +201,7 @@
   #s2col1 {
     width: 50%;
     transform: translateZ(1px) scale(0.925) translateY(0) translateX(40px);
-    box-shadow: 10px 10px 30px 0 rgb(0 0 0 / 30%);
+    box-shadow: 10px 10px 50px 0 rgb(0 0 0 / 30%);
     border-radius: 40px;
   }
 
@@ -209,8 +211,8 @@
 
   #s2col2 {
     width: 50%;
-    background-color: #002a44;
-    box-shadow: 7px 7px 20px 0 rgb(0 0 0 / 20%);
+    background-color: $blue-darker;
+    box-shadow: 7px 7px 20px 0 rgb(0 0 0 / 30%);
     border-radius: 40px;
     margin-left: -100px;
     padding-left: 100px;
@@ -244,8 +246,8 @@
   #s3col1 {
     width: 55%;
     /* min-width: 500px; */
-    background-color: #002a44;
-    box-shadow: 7px 7px 30px 0 rgb(0 0 0 / 20%);
+    background-color: $blue-darker;
+    box-shadow: 7px 7px 50px 0 rgb(0 0 0 / 30%);
     border-radius: 40px;
     margin-right: -100px;
     padding-right: 100px;
@@ -300,12 +302,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: #002a44;
+    background-color: $blue-darker;
     color: white;
-  }
-
-  .last {
-    padding-top: 60px !important;
   }
 
   #section4 img {
@@ -342,7 +340,7 @@
     border: none !important;
 
     /* border: 1px solid #e5cd53; */
-    box-shadow: 0 0 5px 0 rgb(0 0 0 / 20%) inset !important;
+    box-shadow: 0 0 5px 0 rgb(0 0 0 / 30%) inset !important;
   }
 
   #mc-embedded-subscribe {
@@ -490,7 +488,7 @@
       width: 100%;
       transform: translateY(0) translateZ(0) scale(1);
       border-radius: 0px;
-      box-shadow: 0px 0px 30px 0 rgb(0 0 0 / 30%);
+      box-shadow: 0px 0px 50px 0 rgb(0 0 0 / 30%);
     }
 
     #s2col2 {

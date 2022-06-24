@@ -1,7 +1,7 @@
 import { ImageWithFallback, NoteIcon } from "components";
 import React, { useMemo, CSSProperties, EventHandler } from "react";
 import { FaPlus } from "react-icons/fa";
-import { StarYellowDarkIcon, StarGreyDarkerIcon } from "components/Icons";
+import { StarYellowDarkIcon, StarGreyDarkIcon } from "components/Icons";
 
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
@@ -120,7 +120,7 @@ const IconImage = ({
     case "plus":
       return <FaPlus size={size} />;
     case "star":
-      return isEndorsement ? <StarYellowDarkIcon /> : <StarGreyDarkerIcon />;
+      return isEndorsement ? <StarYellowDarkIcon /> : <StarGreyDarkIcon />;
   }
 };
 
@@ -293,13 +293,15 @@ function PartyAvatar({
 
   const iconStyleVars: CSSProperties & {
     "--icon-right-position": string;
+    "--icon-top-position": string;
   } = {
-    ["--icon-right-position"]: iconType === "note" ? "-.5rem" : "0",
+    ["--icon-right-position"]: iconType === "note" ? "-.2rem" : "0",
+    ["--icon-top-position"]: iconType === "note" ? "-.2rem" : "0",
   };
 
   const icon = {
     background:
-      isEndorsement && iconType === "star" ? "var(--yellow)" : "var(--grey)",
+      isEndorsement && iconType === "star" ? "var(--yellow)" : "var(--grey-light)",
     color:
       isEndorsement && iconType === "star"
         ? "var(--yellow-dark)"

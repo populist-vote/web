@@ -20,12 +20,11 @@
       font-family: "commuters_sans", sans-serif;
 
       a {
-        color: $blue-light !important;
-        font-size: .8em !important;
-      }
-
-      @include for-tablet-up {
-        font-size: 1.2em;
+        color: $blue-light;
+        font-size: .75em;
+        &:hover {
+          color: $blue-lighter;
+        }
       }
     }
   }

@@ -120,8 +120,8 @@ function HeaderSection({
     "--note-top-padding": string;
     "--note-top-border": string;
   } = {
-    "--note-top-margin": !!note ? "2rem" : "0",
-    "--note-top-padding": !!note ? "2.5rem" : "0",
+    "--note-top-margin": !!note || noteState === NoteState.Edit ? "2rem" : "0",
+    "--note-top-padding": !!note || noteState === NoteState.Edit ? "2.5rem" : "0",
     "--note-top-border":
       !!note || noteState === NoteState.Edit ? "solid 1px" : "none",
   };
