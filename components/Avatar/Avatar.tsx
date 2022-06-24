@@ -296,7 +296,7 @@ function PartyAvatar({
     "--icon-top-position": string;
   } = {
     ["--icon-right-position"]: iconType === "note" ? "-.2rem" : "0",
-    ["--icon-top-position"]: iconType === "note" ? "-.3rem" : "0",
+    ["--icon-top-position"]: iconType === "note" ? "-.2rem" : "0",
   };
 
   const icon = {
