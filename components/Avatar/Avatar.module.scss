@@ -42,7 +42,7 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 0;
+  top: var(--icon-top-position);
   right: var(--icon-right-position);
   border-radius: var(--icon-wrapper-size);
   border: none;
