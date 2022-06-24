@@ -3,7 +3,6 @@ import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
 import { PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
-// import useDeviceInfo from "hooks/useDeviceInfo";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import {
@@ -30,8 +29,6 @@ function HeaderSection({
     // styles.borderTop,
     headerStyles.headerSection
   );
-
-  // const { isMobile } = useDeviceInfo();
 
   const votingGuideQuery = useVotingGuide();
   const {
