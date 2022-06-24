@@ -33,12 +33,13 @@ function HeaderSection({
 
   // const { isMobile } = useDeviceInfo();
 
+  const votingGuideQuery = useVotingGuide();
   const {
     data: guideData,
     isGuideOwner,
     queryKey,
     enabled: guideEnabled,
-  } = useVotingGuide();
+  } = votingGuideQuery;
 
   const queryClient = useQueryClient();
 
@@ -109,6 +110,14 @@ function HeaderSection({
       },
     });
 
+  const deleteNote = () =>
+    editVotingGuideCandidate({
+      note: "",
+      onSuccess: () => {
+        setNoteState(NoteState.View);
+      },
+    });
+
   const noteVars: CSSProperties & {
     "--note-top-margin": string;
     "--note-top-padding": string;
@@ -127,7 +136,6 @@ function HeaderSection({
         badgeFontSize={"2rem"}
         borderWidth="6px"
         iconSize={guideEnabled ? "3.125rem" : undefined}
-        iconInnerSize="2.25rem"
         size={200}
         party={politician?.party as PoliticalParty}
         src={
@@ -169,7 +177,7 @@ function HeaderSection({
                         label="Delete note"
                         onClick={() => {
                           setNote("");
-                          addNote();
+                          deleteNote();
                         }}
                       />
                     )}
