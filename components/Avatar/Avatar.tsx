@@ -81,7 +81,6 @@ export interface PartyAvatarProps extends AvatarProps {
   iconType?: IconType;
   handleEndorseCandidate?: EventHandler<ClickEvent | any>;
   handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
-  iconInnerSize?: string;
   handleAddNote?: EventHandler<ClickEvent | any>;
   readOnly?: boolean;
 }
