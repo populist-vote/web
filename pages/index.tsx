@@ -47,7 +47,7 @@ const Home: NextPage = () => {
                   </li>
                   <li>
                     <Button
-                      size={isMobile ? "small" : "large"}
+                      size={isMobile ? "small" : "medium"}
                       variant="primary"
                       theme="blue"
                       label="Sign in"
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
                   </li>
                   <li className={SimpleNavStyles.menuButton}>
                     <Button
-                      size={isMobile ? "small" : "large"}
+                      size={isMobile ? "small" : "medium"}
                       variant="secondary"
                       theme="blue"
                       label="Register"
@@ -208,7 +208,7 @@ const Home: NextPage = () => {
               </div>
             </div>
             <div id={styles["s4row2"]}>
-              <div className={classNames(styles.contentwide, styles.last)}>
+              <div className={classNames(styles.contentwide3, styles.last)}>
                 <h2 className={styles.botspace}>
                   Interested? Sign up to learn more.
                 </h2>

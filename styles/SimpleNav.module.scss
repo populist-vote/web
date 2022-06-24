@@ -4,11 +4,12 @@
 
 .navContainer {
   display:flex;
-  justify-content: center;
+  justify-content: right;
   flex-wrap:wrap-reverse;
   align-items: center;
   width:100%;
   padding: 0rem 0rem;
+  padding-right: 2rem;
   @include for-tablet-up {
     padding: 3rem 8rem;
     justify-content: space-between;
@@ -21,7 +22,7 @@
   padding:2rem;
   @include for-tablet-up {
     width: 16rem;
-    height: 82px;
+    height: 100px;
   }
 }
 
@@ -43,7 +44,7 @@ ul.menu {
   flex-wrap:wrap;
   padding-left: 0;
   @include for-tablet-up {
-    gap: 4rem;
+    gap: 3rem;
     flex-wrap: nowrap;
     justify-content: right;
     // padding-right: 1rem;
@@ -81,6 +82,7 @@ ul.menu li {
   div {
     display: block !important;
   }
+  padding-left: 1rem;
   margin-top:5px;
 }
 

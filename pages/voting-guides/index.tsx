@@ -13,6 +13,7 @@ import { useAuth } from "hooks/useAuth";
 import { dateString } from "utils/dates";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
+import useDeviceInfo from "hooks/useDeviceInfo";
 
 const getGuideUrl = (guideId: string) =>
   `${window.location.origin}/ballot?votingGuideId=${guideId}`;
@@ -39,35 +40,38 @@ const VotingGuideCard = ({
   const name = firstName
     ? `${firstName} ${!!lastName ? lastName : ""}`
     : username;
+
+  const { isMobile } = useDeviceInfo();
+  
   return (
     <div className={styles.guideContainer}>
       <div className={styles.avatarContainer}>
         <Avatar
           src={PERSON_FALLBACK_IMAGE_URL}
-          size={80}
+          size={ !isMobile ? 80 : 40 }
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={name as string}
         />
-        <span>{name}</span>
+        <span className={styles.avatarName}>{name}</span>
       </div>
       <div className={styles.buttonWrapper}>
         {showEdit ? (
           <Button
-            size="large"
+            size={ !isMobile ? "large" : "small" }
             variant="secondary"
             label="Edit"
             onClick={() => Router.push(`/ballot`)}
           />
         ) : (
           <Button
-            size="large"
+            size={ !isMobile ? "large" : "small" }
             variant="secondary"
             label="View"
             onClick={() => Router.push(`/ballot?votingGuideId=${guide.id}`)}
           />
         )}
         <Button
-          size="large"
+          size={ !isMobile ? "large" : "small" }
           variant="primary"
           theme="yellow"
           label="Share"
@@ -80,11 +84,11 @@ const VotingGuideCard = ({
 
 const ElectionHeader = ({ election }: { election: ElectionResult }) => {
   return (
-    <header className={styles.electionHeader}>
+    <div className={styles.electionHeader}>
       {election.electionDate && <h1>{dateString(election.electionDate, true)}</h1>}
       {election.title && <h4>{election.title}</h4>}
       {election.description && <p>{election.description}</p>}
-    </header>
+    </div>
   );
 };
 
@@ -119,7 +123,7 @@ const VotingGuides: NextPage<{
 
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
-          <FlagSection title="Voting Guides">
+          <FlagSection title="Voting Guides" hideFlagForMobile>
             {election && (
               <ElectionHeader election={election as ElectionResult} />
             )}
@@ -130,7 +134,7 @@ const VotingGuides: NextPage<{
                 <small>No voting guides</small>
               </>
             )}
-
+            <div className={styles.guidesContainer}>
             {userVotingGuides?.map((guide) => (
               <VotingGuideCard
                 guide={guide as Partial<VotingGuideResult>}
@@ -138,20 +142,17 @@ const VotingGuides: NextPage<{
                 showEdit={user.id === guide.user.id}
               />
             ))}
+            </div>
           </FlagSection>
         </div>
         {!!savedGuidesQuery.data?.votingGuidesByIds?.length && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">
-              {/* This section uses {election} since we only have one right now.
-                As the app gets more dynamic this must be changed. */}
-              {election && (
-                <ElectionHeader election={election as ElectionResult} />
-              )}
 
               {savedGuidesQuery.isLoading && <LoaderFlag />}
               {savedGuidesQuery.error && <small>Something went wrong...</small>}
 
+              <div className={styles.otherGuidesContainer}>
               {savedGuidesQuery.data?.votingGuidesByIds?.map((guide) => (
                 <VotingGuideCard
                   guide={guide as Partial<VotingGuideResult>}
@@ -159,6 +160,7 @@ const VotingGuides: NextPage<{
                   showEdit={user.id === guide.user.id}
                 />
               ))}
+              </div>
             </FlagSection>
           </div>
         )}

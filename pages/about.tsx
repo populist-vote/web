@@ -43,7 +43,7 @@ const About: NextPage = () => {
                   </li>
                   <li>
                     <Button
-                      size={isMobile ? "small" : "large"}
+                      size={isMobile ? "small" : "medium"}
                       variant="primary"
                       theme="blue"
                       label="Sign in"
@@ -52,7 +52,7 @@ const About: NextPage = () => {
                   </li>
                   <li className={SimpleNavStyles.menuButton}>
                     <Button
-                      size={isMobile ? "small" : "large"}
+                      size={isMobile ? "small" : "medium"}
                       variant="secondary"
                       theme="blue"
                       label="Register"
