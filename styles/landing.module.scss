@@ -1,38 +1,11 @@
-// html {
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   /* font-smoothing: antialiased; */
-//   text-rendering: optimizeLegibility;
-//   font-display: fallback;
-//   background: var(--blue-darkest);
-// }
-
-// body {
-//   margin: 0;
-//   color: #fff;
-// }
-
-// p {
-//   font-family: "proxima_nova", sans-serif;
-//   font-size: 20px;
-//   font-weight: 300;
-//   line-height: 1.4em;
-// }
-
-// h1 {
-//   font-family: "commuters_sans", sans-serif;
-//   font-weight: 300;
-//   font-size: 32px;
-// }
-
-// h2 {
-//   font-family: "commuters_sans", sans-serif;
-//   font-weight: 300;
-//   font-size: 24px;
-//   line-height: 1.4em;
-// }
+@import "styles/mixins.scss";
+@import "styles/variables/colors.module.scss";
 
 .container {
+
+  a:hover {
+    color: $blue-lighter !important;
+  }
 
   html {
     background: var(--blue-darkest);
@@ -49,11 +22,24 @@
   /*  MENU  */
 
   #menu {
-    /* position: absolute;
-    right:10%;
-    top:50px; */
-    margin: 50px 10% 0 0;
-    text-align: right;
+    padding: 0rem 0rem;
+    @include for-tablet-up {
+      padding: 3rem 8rem;
+    }
+  }
+
+  ul.nav {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap:wrap-reverse;
+    padding:0;
+    @include for-tablet-up {
+      gap: 4rem;
+      flex-wrap: nowrap;
+      justify-content: right;
+    }
   }
 
   ul.nav li {
@@ -61,8 +47,31 @@
     display: inline-block;
     position: relative;
     font-family: "commuters_sans", sans-serif;
-    margin-left: 1.5rem;
+    font-size: 1em;
+    @include for-tablet-up {
+      font-size: 1.2em;
+    }
   }
+
+  .menuButton {
+    margin-left:0;
+
+    @include for-tablet-up {
+      margin-left:-2rem;
+    }
+  }
+
+  
+
+  
+  .textLink {
+    color: $blue-lighter;
+  }
+
+  .textLink:hover {
+    color: $blue-light;
+  }
+
 
   /*  CONTENT  */
 
@@ -421,13 +430,13 @@
 
   /*  RESPONSIVENESS  */
 
-  @media only screen and (max-width: 960px) {
+@include for-tablet-down {
     #menu {
       margin-top:1rem;
     }
 
     ul.nav li {
-      margin-bottom: 1rem;
+      // margin-bottom: 1rem;
     }
 
     #logo {

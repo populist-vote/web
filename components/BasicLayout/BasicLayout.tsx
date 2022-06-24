@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import Footer from "components/Footer/Footer";
 import styles from "./BasicLayout.module.scss";
-import { LogoText } from "components/LogoText/LogoText";
+import { LogoBetaDesktop } from "components/Logo/LogoBetaDesktop";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -16,7 +16,7 @@ export default function BasicLayout({
       <header className={styles.header}>
         <Link href="/" passHref>
           <div style={{ width: "10rem", cursor: "pointer" }}>
-            <LogoText />
+            <LogoBetaDesktop />
           </div>
         </Link>
         {pathname == "/register" && <Link href="/login">Log In</Link>}

@@ -2,7 +2,7 @@
 import type { NextPage } from "next";
 
 import { Avatar, Footer, LogoText } from "components";
-import styles from "styles/faq.module.scss";
+import styles from "styles/about.module.scss";
 import SimpleNavStyles from "styles/SimpleNav.module.scss";
 // import classNames from "classnames";
 import { Button, FlagSection } from "components";
@@ -13,7 +13,7 @@ import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
 
 const Home: NextPage = () => {
-  const user = useAuth({ redirectTo: "/faq" });
+  const user = useAuth({ redirectTo: "/about" });
   const { isMobile } = useDeviceInfo();
 
   return (
@@ -87,54 +87,13 @@ const Home: NextPage = () => {
         </div>
         
         <div className={styles.contentContainer}>
-          <FlagSection title={"Frequently Asked Questions"} hideFlagForMobile={true}>
+          <FlagSection title={"About"} hideFlagForMobile={true}>
               <div className={styles.content}>
-                <h2>What is Populist?</h2>
-                <p>
-                  Populist is a platform for civic engagement built on transparently
-                  sourced data.
-                </p>
-                <h2 id="no-google-fb-login">
-                  Why can't I sign in with Google or Facebook?
-                </h2>
-                <p>
-                  We want you to own your data. When you register for websites and apps
-                  with Facebook and Google, you are agreeing to have your behavior on
-                  the web tracked and ingested to serve the purposes of these
-                  corporations advertising engines.
-                </p>
-                <p>
-                  At Populist, we will never sell your data and you can expect our
-                  platform to remain ad free for the forseeable future.
-                </p>
-                <h2>How was Populist built?</h2>
-                <p>
-                  All of our code is open source and available{" "}
-                  <a
-                    className={styles.textLink}
-                    href="https://github.com/populist-vote"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    on GitHub.
-                  </a>{" "}
-                  We encourage you to join our community and help us in building a
-                  stronger democracy through public civic engagement. If you're
-                  interested in contributing, get in touch! Someone on our team would be
-                  happy to help you get up and running with our applications.
-                </p>
-                <h2>
-                  Where do you get your data?
-                </h2>
-                <p>
-                  We pull in some of our politician data from <a href="https://justfacts.votesmart.org/" className={styles.textLink} target="_blank" rel="noreferrer">VoteSmart</a>, but we also do our own research, so our data is unique. <a href="https://legiscan.com/" className={styles.textLink} target="_blank" rel="noreferrer">Legiscan</a> is where we get our legislative information.
-                </p>
-                
+                <h1>We’re re-imagining the future of our democracy.</h1>
+                <p>Our political landscape is suffering from a failure of imagination. There's a fundamental cynicism undermining the innovation we need to address the challenges of today. Increasing inequity, social unrest, and decaying trust in our leaders, institutions, and politics are all threatening our democracy. Technology, once promising, has been recast in the shadows and is now a vehicle of misinformation and massive corporate influence.</p>
+                <p>A healthy democracy starts with informed citizens. But that's just the first step - our goal is to channel the activist in all of us. That's what activism is - activating people, and it's what drives us at Populist. We center thoughtful and transparent design to inspire people to choose agency over inaction.</p>
               </div>
           </FlagSection>
-          {/* <div className={styles.section2}>
-            <h2>Moving fast and breaking things is no longer compatible with our modern society.</h2>
-          </div> */}
         </div>
 
         

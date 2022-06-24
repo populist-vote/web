@@ -8,37 +8,55 @@ import landing1 from "public/images/landing/ballot.jpg";
 import landing2 from "public/images/landing/action.jpg";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
-import { Avatar, Footer, ImageWithFallback } from "components";
+import { Avatar, Footer, ImageWithFallback, Button } from "components";
 import styles from "styles/landing.module.scss";
+import SimpleNavStyles from "styles/SimpleNav.module.scss";
 import classNames from "classnames";
-import { Button } from "components";
 import Router from "next/router";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
+import useDeviceInfo from "hooks/useDeviceInfo";
 
 const Home: NextPage = () => {
   const user = useAuth({ redirectTo: "/" });
+  const { isMobile } = useDeviceInfo();
+
   return (
     <>
       <main className={styles.container}>
         <div id={styles["container1"]}>
-          <div id={styles["menu"]}>
-            <ul className={styles["nav"]}>
+          
+        <div className={SimpleNavStyles.navContainer}> 
+          <div className={SimpleNavStyles.logoContainer}>
+            
+          </div>
+          <div className={SimpleNavStyles.menuContainer}>
+            <ul className={SimpleNavStyles.menu}>
               {!user && (
                 <>
                   <li>
+                    <Link href="/about" passHref>
+                      ABOUT
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/faq" passHref>
+                      FAQ
+                    </Link>
+                  </li>
+                  <li>
                     <Button
-                      size="large"
+                      size={isMobile ? "small" : "large"}
                       variant="primary"
                       theme="blue"
                       label="Sign in"
                       onClick={() => Router.push(`/login`)}
                     />
                   </li>
-                  <li>
+                  <li className={SimpleNavStyles.menuButton}>
                     <Button
-                      size="large"
+                      size={isMobile ? "small" : "large"}
                       variant="secondary"
                       theme="blue"
                       label="Register"
@@ -48,17 +66,30 @@ const Home: NextPage = () => {
                 </>
               )}
               {user && (
+                <><li>
+                <Link href="/about" passHref>
+                  ABOUT
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" passHref>
+                  FAQ
+                </Link>
+              </li>
+              <li className={SimpleNavStyles.accountProfile}>
                 <Link href="/settings/profile" passHref>
                   <Avatar
                     src={PERSON_FALLBACK_IMAGE_URL}
                     fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
                     alt="profile picture"
-                    size={80}
+                    size={isMobile ? 35 : 60}
                   />
                 </Link>
+              </li></>
               )}
             </ul>
           </div>
+        </div>
 
           <div id={styles["section1"]}>
             <Image
