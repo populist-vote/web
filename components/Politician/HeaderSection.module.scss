@@ -16,8 +16,8 @@
     align-items: center;
     border-top: var(--note-top-border);
     border-color: $blue-dark;
-    margin-top: 2rem;
-    padding-top: 2.5rem;
+    margin-top: var(--note-top-margin);
+    padding-top: var(--note-top-padding);
     width: 100%;
 
     @include for-tablet-down {
