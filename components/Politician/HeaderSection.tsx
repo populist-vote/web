@@ -3,7 +3,6 @@ import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
 import { PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
-// import useDeviceInfo from "hooks/useDeviceInfo";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import {
@@ -31,14 +30,13 @@ function HeaderSection({
     headerStyles.headerSection
   );
 
-  // const { isMobile } = useDeviceInfo();
-
+  const votingGuideQuery = useVotingGuide();
   const {
     data: guideData,
     isGuideOwner,
     queryKey,
     enabled: guideEnabled,
-  } = useVotingGuide();
+  } = votingGuideQuery;
 
   const queryClient = useQueryClient();
 
@@ -106,7 +104,14 @@ function HeaderSection({
       note,
       onSuccess: () => {
         setNoteState(NoteState.View);
-        console.log("initial note", getInitialNote());
+      },
+    });
+
+  const deleteNote = () =>
+    editVotingGuideCandidate({
+      note: "",
+      onSuccess: () => {
+        setNoteState(NoteState.View);
       },
     });
 
@@ -117,7 +122,8 @@ function HeaderSection({
   } = {
     "--note-top-margin": !!note ? "2rem" : "0",
     "--note-top-padding": !!note ? "2.5rem" : "0",
-    "--note-top-border": !!note ? "solid 1px $blue-dark" : "none",
+    "--note-top-border":
+      !!note || noteState === NoteState.Edit ? "solid 1px" : "none",
   };
 
   return (
@@ -128,7 +134,6 @@ function HeaderSection({
         badgeFontSize={"2rem"}
         borderWidth="6px"
         iconSize={guideEnabled ? "3.125rem" : undefined}
-        iconInnerSize="2.25rem"
         size={200}
         party={politician?.party as PoliticalParty}
         src={
@@ -170,7 +175,7 @@ function HeaderSection({
                         label="Delete note"
                         onClick={() => {
                           setNote("");
-                          addNote();
+                          deleteNote();
                         }}
                       />
                     )}
@@ -191,7 +196,7 @@ function HeaderSection({
                   label="Save note"
                   onClick={() => addNote()}
                   variant="primary"
-                  disabled={!!note?.length}
+                  disabled={!note?.length}
                   size="large"
                 />
                 <Button
