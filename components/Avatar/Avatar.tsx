@@ -145,11 +145,13 @@ function IconMenu(props: IconMenuProps): JSX.Element {
     "--icon-background": string | undefined;
     "--icon-size": string;
     "--icon-color": string;
+    "--icon-cursor": string;
   } = {
-    [`--icon-wrapper-size`]: type === "note" ? "auto" : size,
-    [`--icon-background`]: type === "note" ? "none" : background,
-    [`--icon-size`]: size,
-    [`--icon-color`]: color,
+    ["--icon-wrapper-size"]: type === "note" ? "auto" : size,
+    ["--icon-background"]: type === "note" ? "none" : background,
+    ["--icon-size"]: size,
+    ["--icon-color"]: color,
+    ["--icon-cursor"]: !!handleEndorseCandidate ? "pointer" : "default",
   };
 
   if (readOnly && type === "plus") return <></>;
