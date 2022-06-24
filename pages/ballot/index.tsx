@@ -76,7 +76,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   // Use either the voting guide ID from query params OR the users voting guide ID
   // to instantiate the VotingGuideContext
-  const queriedGuideId = router.query.votingGuideId;
+  const queriedGuideId = router.query[`voting-guide`];
   const userGuideId =
     userVotingGuideQuery.data?.electionVotingGuideByUserId?.id;
   const votingGuideId = (queriedGuideId ||
@@ -166,7 +166,10 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
-        <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
+        <Layout
+          mobileNavTitle={flagSectionTitle || mobileNavTitle}
+          showNavLogoOnMobile
+        >
           <VotingGuideProvider votingGuideId={votingGuideId}>
             {isLoading && (
               <div className={styles.center}>
@@ -179,24 +182,26 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
             {upcomingElection && (
               <div data-testid="ballot-page">
                 <FlagSection title={flagSectionTitle} hideFlagForMobile={true}>
-                {races.length < 1 ? (
-                    <h2>
-                      Looks like your voting address is outside of our current
-                      service area. We will be continuously adding states, so be
-                      sure to check back soon!
+                  {races.length < 1 ? (
+                    <h2 className={ballotStyles.errorNote}>
+                      {queriedGuideId && otherVotingGuideQuery.isSuccess
+                        ? "The user's guide who you're looking at hasn't added anything yet"
+                        : "Looks like your voting address is outside of our current service area. We will be continuously adding states, so be sure to check back soon!"}
                     </h2>
                   ) : (
-                  <div className={ballotStyles.electionHeader}>
-                    {upcomingElection.electionDate && (
-                      <h1>{dateString(upcomingElection.electionDate, true)}</h1>
-                    )}
-                    {upcomingElection.title && (
-                      <h4>{upcomingElection.title}</h4>
-                    )}
-                    {upcomingElection.description && (
-                      <p>{upcomingElection.description}</p>
-                    )}
-                  </div>
+                    <div className={ballotStyles.electionHeader}>
+                      {upcomingElection.electionDate && (
+                        <h1>
+                          {dateString(upcomingElection.electionDate, true)}
+                        </h1>
+                      )}
+                      {upcomingElection.title && (
+                        <h4>{upcomingElection.title}</h4>
+                      )}
+                      {upcomingElection.description && (
+                        <p>{upcomingElection.description}</p>
+                      )}
+                    </div>
                   )}
                 </FlagSection>
 
