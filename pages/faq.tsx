@@ -12,7 +12,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
 
-const Home: NextPage = () => {
+const Faq: NextPage = () => {
   const user = useAuth({ redirectTo: "/faq" });
   const { isMobile } = useDeviceInfo();
 
@@ -147,4 +147,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Faq;

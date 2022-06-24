@@ -20,49 +20,6 @@
   }
 
   /*  MENU  */
-
-  #menu {
-    padding: 0rem 0rem;
-    @include for-tablet-up {
-      padding: 3rem 8rem;
-    }
-  }
-
-  ul.nav {
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap:wrap-reverse;
-    padding:0;
-    @include for-tablet-up {
-      gap: 4rem;
-      flex-wrap: nowrap;
-      justify-content: right;
-    }
-  }
-
-  ul.nav li {
-    list-style: none;
-    display: inline-block;
-    position: relative;
-    font-family: "commuters_sans", sans-serif;
-    font-size: 1em;
-    @include for-tablet-up {
-      font-size: 1.2em;
-    }
-  }
-
-  .menuButton {
-    margin-left:0;
-
-    @include for-tablet-up {
-      margin-left:-2rem;
-    }
-  }
-
-  
-
   
   .textLink {
     color: $blue-lighter;
