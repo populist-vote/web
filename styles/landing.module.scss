@@ -1,38 +1,11 @@
-// html {
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   /* font-smoothing: antialiased; */
-//   text-rendering: optimizeLegibility;
-//   font-display: fallback;
-//   background: var(--blue-darkest);
-// }
-
-// body {
-//   margin: 0;
-//   color: #fff;
-// }
-
-// p {
-//   font-family: "proxima_nova", sans-serif;
-//   font-size: 20px;
-//   font-weight: 300;
-//   line-height: 1.4em;
-// }
-
-// h1 {
-//   font-family: "commuters_sans", sans-serif;
-//   font-weight: 300;
-//   font-size: 32px;
-// }
-
-// h2 {
-//   font-family: "commuters_sans", sans-serif;
-//   font-weight: 300;
-//   font-size: 24px;
-//   line-height: 1.4em;
-// }
+@import "styles/mixins.scss";
+@import "styles/variables/colors.module.scss";
 
 .container {
+
+  a:hover {
+    color: $blue-lighter !important;
+  }
 
   html {
     background: var(--blue-darkest);
@@ -47,22 +20,15 @@
   }
 
   /*  MENU  */
-
-  #menu {
-    /* position: absolute;
-    right:10%;
-    top:50px; */
-    margin: 50px 10% 0 0;
-    text-align: right;
+  
+  .textLink {
+    color: $blue-lighter;
   }
 
-  ul.nav li {
-    list-style: none;
-    display: inline-block;
-    position: relative;
-    font-family: "commuters_sans", sans-serif;
-    margin-left: 1.5rem;
+  .textLink:hover {
+    color: $blue-light;
   }
+
 
   /*  CONTENT  */
 
@@ -421,13 +387,13 @@
 
   /*  RESPONSIVENESS  */
 
-  @media only screen and (max-width: 960px) {
+@include for-tablet-down {
     #menu {
       margin-top:1rem;
     }
 
     ul.nav li {
-      margin-bottom: 1rem;
+      // margin-bottom: 1rem;
     }
 
     #logo {

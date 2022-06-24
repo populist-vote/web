@@ -1,0 +1,92 @@
+@import "styles/mixins.scss";
+@import "styles/variables/colors.module.scss";
+
+
+.navContainer {
+  display:flex;
+  justify-content: center;
+  flex-wrap:wrap-reverse;
+  align-items: center;
+  width:100%;
+  padding: 0rem 0rem;
+  @include for-tablet-up {
+    padding: 3rem 8rem;
+    justify-content: space-between;
+  }
+}
+
+.logoContainer {
+  width: 100%;
+  cursor: pointer;
+  padding:2rem;
+  @include for-tablet-up {
+    width: 16rem;
+    height: 82px;
+  }
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+  @include for-tablet-up {
+    flex-basis: 0;
+  }
+}
+
+
+
+ul.menu {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap:wrap;
+  padding-left: 0;
+  @include for-tablet-up {
+    gap: 4rem;
+    flex-wrap: nowrap;
+    justify-content: right;
+    // padding-right: 1rem;
+  }
+}
+
+ul.menu li {
+  list-style: none;
+  display: inline-block;
+  position: relative;
+  font-family: "commuters_sans", sans-serif;
+  font-size: 1em;
+  @include for-tablet-up {
+    font-size: 1.2em;
+  }
+
+  a {
+    color: $white;
+  }
+  
+  a:hover {
+    color: $blue-lighter;
+  }
+}
+
+.menuButton {
+  margin-left:-0.5rem;
+
+  @include for-tablet-up {
+    margin-left:-2rem;
+  }
+}
+
+.accountProfile {
+  div {
+    display: block !important;
+  }
+  margin-top:5px;
+}
+
+
+
+
+
+
+

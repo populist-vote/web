@@ -36,7 +36,6 @@ function Scroller(props: {
     [`mobile-scroller`]: isMobile,
     [styles.hideArrowText as string]: !props.showTextButtons,
     [`no-scroll`]: !hasScroll,
-    [styles.hideControls as string]: props.hideControls,
   });
 
   const handleUpdate = (data: {
@@ -54,8 +53,8 @@ function Scroller(props: {
       <ScrollMenu
         apiRef={apiRef}
         onUpdate={handleUpdate}
-        LeftArrow={hasScroll ? LeftArrow : undefined}
-        RightArrow={hasScroll ? RightArrow : undefined}
+        LeftArrow={hasScroll && !props.hideControls ? LeftArrow : undefined}
+        RightArrow={hasScroll && !props.hideControls ? RightArrow : undefined}
         itemClassName={props.onePageAtATime ? styles.scrollPage : ""}
       >
         {props.children}

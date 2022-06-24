@@ -1,0 +1,55 @@
+@import "styles/mixins.scss";
+@import "styles/variables/colors.module.scss";
+
+
+.content {
+  padding: 0rem 3rem; 
+  
+  h2:first-child {
+    margin-bottom:0;
+  }
+
+  h2 {
+    font-weight: 500;
+    margin-top: 4rem;
+  }
+}
+
+.contentContainer {
+  max-width: 1100px;
+  margin:auto;
+  padding-top:2rem;
+}
+
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-flow: column nowrap;
+  -webkit-overflow-scrolling: touch;
+  background-image: linear-gradient(rgba(0, 33,53, .2), rgba(0, 33,53, 1)),
+          url("/images/landing/bg.jpg");
+  background-size: cover;
+
+  
+  .textLink {
+    color: $blue-lighter;
+  }
+
+  .textLink:hover {
+    color: $blue-light;
+  }
+
+  html {
+    background: var(--blue-darkest);
+  }
+
+}
+
+
+
+
+

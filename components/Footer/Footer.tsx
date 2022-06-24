@@ -1,10 +1,17 @@
 import styles from "./Footer.module.scss";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
+import Link from "next/link";
+
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
+      
       <p>
+        <ul>
+          <li><Link href="/about" passHref>ABOUT</Link></li>
+          <li><Link href="/faq" passHref>FAQ</Link></li>
+        </ul>
         <a
           href="https://www.facebook.com/populist.us"
           rel="noreferrer"

@@ -192,11 +192,11 @@ a {
 
 p {
   font-family: "proxima_nova", sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 300;
-  line-height: 1.4em;
+  line-height: 1.6em;
   @include for-tablet-up {
-    font-size: 20px;
+    font-size: 24px;
   }
 }
 
