@@ -14,6 +14,7 @@ import { dateString } from "utils/dates";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { toast } from "react-toastify";
 
 const getGuideUrl = (guideId: string) =>
   `${window.location.origin}/ballot?voting-guide=${guideId}`;
@@ -24,7 +25,9 @@ const copyGuideUrl = (guideId?: string) => {
   const url = getGuideUrl(guideId);
   navigator.clipboard
     .writeText(url)
-    .then(() => alert(`Link copied to clipboard: ${url}`))
+    .then(() =>
+      toast(`The link to your voting guide has been copied to the clipboard.`)
+    )
     .catch((err) => console.error("Problem copying to clipboard", err));
 };
 
