@@ -29,6 +29,19 @@ const copyGuideUrl = (guideId?: string) => {
       toast(`The link to your voting guide has been copied to the clipboard.`)
     )
     .catch((err) => console.error("Problem copying to clipboard", err));
+
+  navigator
+    .share({
+      title: "Share your voting guide",
+      text: "Check out this voting guide I made!",
+      url,
+    })
+    .then(() =>
+      toast(`The link to your voting guide has been copied to the clipboard.`, {
+        autoClose: 3000,
+      })
+    )
+    .catch((err) => console.error("Problem copying to clipboard", err));
 };
 
 const VotingGuideCard = ({
