@@ -14,6 +14,7 @@ import { dateString } from "utils/dates";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { IoIosRemoveCircle } from "react-icons/io";
 
 const getGuideUrl = (guideId: string) =>
   `${window.location.origin}/ballot?voting-guide=${guideId}`;
@@ -31,9 +32,11 @@ const copyGuideUrl = (guideId?: string) => {
 const VotingGuideCard = ({
   guide,
   showEdit = false,
+  deleteAction,
 }: {
   guide: Partial<VotingGuideResult>;
   showEdit?: boolean;
+  deleteAction?: () => void;
 }) => {
   const { user } = guide;
   const { firstName, lastName, username } = user || {};
@@ -77,6 +80,14 @@ const VotingGuideCard = ({
           label="Share"
           onClick={() => copyGuideUrl(guide?.id)}
         />
+        {deleteAction && (
+          <button
+            className={styles.deleteButton}
+            onClick={() => deleteAction()}
+          >
+            <IoIosRemoveCircle size="2rem" />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -147,14 +158,15 @@ const VotingGuides: NextPage<{
             </div>
           </FlagSection>
         </div>
+
+        {savedGuidesQuery.isLoading && <LoaderFlag />}
         {!!savedGuidesQuery.data?.votingGuidesByIds?.length && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">
-              {savedGuidesQuery.isLoading && <LoaderFlag />}
               {savedGuidesQuery.error && <small>Something went wrong...</small>}
 
               <div className={styles.otherGuidesContainer}>
-                {savedGuidesQuery.data?.votingGuidesByIds?.map((guide) => (
+                {savedGuidesQuery.data?.votingGuidesByIds.map((guide) => (
                   <VotingGuideCard
                     guide={guide as Partial<VotingGuideResult>}
                     key={guide.id}

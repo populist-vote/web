@@ -35,6 +35,7 @@ function getGuideIds(userId: string) {
 export function useSavedGuideIds(userId: string): {
   savedGuideIds: string[];
   addSavedGuideId: (id: string) => void;
+  removeSavedGuide: (index: number) => void;
 } {
   const [savedGuideIds, setSavedGuideIds] = useState<string[]>(
     getGuideIds(userId)
@@ -46,6 +47,15 @@ export function useSavedGuideIds(userId: string): {
     }
   };
 
+  const removeSavedGuide = (index: number) => {
+    if (index > savedGuideIds.length - 1) return;
+    const newList = [
+      ...savedGuideIds.slice(0, index),
+      ...savedGuideIds.slice(index + 1),
+    ];
+    setSavedGuideIds(newList);
+  };
+
   useEffect(() => {
     if (savedGuideIds.length > 0) {
       const joinedIds = JSON.stringify(savedGuideIds);
@@ -53,5 +63,5 @@ export function useSavedGuideIds(userId: string): {
     }
   }, [savedGuideIds, userId]);
 
-  return { savedGuideIds, addSavedGuideId };
+  return { savedGuideIds, addSavedGuideId, removeSavedGuide };
 }
