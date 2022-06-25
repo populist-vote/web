@@ -32,8 +32,8 @@
   }
 
   @include for-tablet-up {
-      padding: 0 0;
-  }    
+    padding: 0 0;
+  }
 }
 
 .votingContainer {
@@ -50,16 +50,15 @@
 }
 
 .guidesContainer {
-  
-  padding:0 1rem 1.5rem;
+  padding: 0 1rem 1.5rem;
   @include for-tablet-up {
-    padding:0;
-    margin-top:2rem;
+    padding: 0;
+    margin-top: 2rem;
   }
 }
 
 .otherGuidesContainer {
-  margin-top:1.5rem;
+  margin-top: 1.5rem;
 }
 
 .guideContainer {
@@ -69,13 +68,13 @@
   align-items: center;
   flex-direction: row;
   // border-top: 1px solid $white;
-  
+
   background: $blue-darker;
   border: 1px solid $blue-dark;
   border-radius: 30px;
   margin: 1rem 0;
-  width:100%;
-  
+  width: 100%;
+
   min-width: 0;
 
   @include for-tablet-up {
@@ -89,9 +88,9 @@
 .buttonWrapper {
   display: flex;
   flex-direction: row;
-  flex-basis:auto;
-  width:auto;
-  gap: .75rem;
+  flex-basis: auto;
+  width: auto;
+  gap: 0.75rem;
   @include for-tablet-up {
     flex-direction: row;
     gap: 1rem;
@@ -101,14 +100,14 @@
 .avatarContainer {
   display: flex;
   flex-direction: row;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
-  flex-basis:auto;
+  flex-basis: auto;
   min-width: 0;
 
   div {
-    flex-shrink:0;
-    margin-top:1px;
+    flex-shrink: 0;
+    margin-top: 1px;
     // width:40px;
     // height:40px;
   }
@@ -119,10 +118,19 @@
     margin: 1rem;
     line-height: 1.3em;
     max-width: 100%;
-    flex-shrink:1;
+    flex-shrink: 1;
     flex-grow: 1;
 
     @include clamp-ellipsis;
     white-space: nowrap;
+  }
+}
+
+.deleteButton {
+  @include override-button-styles;
+  color: $blue-dark;
+  cursor: pointer;
+  :hover {
+    color: $blue;
   }
 }
