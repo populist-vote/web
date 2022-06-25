@@ -21,27 +21,37 @@ const getGuideUrl = (guideId: string) =>
 
 const copyGuideUrl = (guideId?: string) => {
   if (!guideId) return;
-
   const url = getGuideUrl(guideId);
-  navigator.clipboard
-    .writeText(url)
-    .then(() =>
-      toast(`The link to your voting guide has been copied to the clipboard.`)
-    )
-    .catch((err) => console.error("Problem copying to clipboard", err));
 
-  navigator
-    .share({
-      title: "Share your voting guide",
-      text: "Check out this voting guide I made!",
-      url,
-    })
-    .then(() =>
-      toast(`The link to your voting guide has been copied to the clipboard.`, {
-        autoClose: 3000,
+  if (!navigator.canShare) {
+    navigator.clipboard
+      .writeText(url)
+      .then(() =>
+        toast(
+          `The link to your voting guide has been copied to the clipboard.`,
+          {
+            position: "bottom-center",
+          }
+        )
+      )
+      .catch((err) => console.error("Problem copying to clipboard", err));
+  } else {
+    navigator
+      .share({
+        title: "Share your voting guide",
+        text: "Check out this voting guide I made on Populist!",
+        url,
       })
-    )
-    .catch((err) => console.error("Problem copying to clipboard", err));
+      .then(() =>
+        toast(
+          `The link to your voting guide has been copied to the clipboard.`,
+          {
+            autoClose: 3000,
+          }
+        )
+      )
+      .catch((err) => console.error("Problem copying to clipboard", err));
+  }
 };
 
 const VotingGuideCard = ({
