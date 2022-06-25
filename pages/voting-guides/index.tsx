@@ -1,6 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import Router from "next/router";
+import { toast } from "react-toastify";
+import { IoIosRemoveCircle } from "react-icons/io";
 import {
   useVotingGuidesByUserIdQuery,
   VotingGuideResult,
@@ -8,16 +10,12 @@ import {
   ElectionResult,
 } from "generated";
 import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
-import styles from "./VotingGuides.module.scss";
 import { useAuth } from "hooks/useAuth";
-import { dateString } from "utils/dates";
-import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
-
-import { IoIosRemoveCircle } from "react-icons/io";
-
-import { toast } from "react-toastify";
+import { dateString } from "utils/dates";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import styles from "./VotingGuides.module.scss";
 
 const getGuideUrl = (guideId: string) =>
   `${window.location.origin}/ballot?voting-guide=${guideId}`;
