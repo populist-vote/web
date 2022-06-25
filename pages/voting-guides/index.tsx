@@ -24,7 +24,7 @@ const copyGuideUrl = (guideId?: string) => {
   const url = getGuideUrl(guideId);
   navigator.clipboard
     .writeText(url)
-    .then(() => alert(`Link copied to clipboard: ${url}`))
+    .then(() => alert(`Link copied to clipboard.`))
     .catch((err) => console.error("Problem copying to clipboard", err));
 };
 
