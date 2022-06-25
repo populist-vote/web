@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { PasswordEntropyMeter } from "./PasswordEntropyMeter/PasswordEntropyMeter";
 import useDebounce from "hooks/useDebounce";
+import Button from "components/Button";
 
 export function EmailStep() {
   const router = useRouter();
@@ -183,9 +184,13 @@ export function EmailStep() {
               isLoading={isEntropyCalcLoading}
             />
           </div>
-          <button disabled={isLoading}>
-            {isLoading ? "Loading..." : "Continue"}
-          </button>
+          <Button
+            variant="primary"
+            type="submit"
+            label={isLoading ? "Loading..." : "Continue"}
+            disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
+            size="large"
+          />
           <br />
           <small className={styles.formError}>{errors?.email?.message}</small>
           <small className={styles.formError}>

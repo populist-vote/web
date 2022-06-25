@@ -155,15 +155,13 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   if (!user) return null;
   return (
     <>
-      {!isLoading && (
-        <Head>
-          <title>Populist - The Ballot</title>
-          <meta
-            name="description"
-            content="Find information on your government representatives like voting histories, endorsements, and financial data."
-          />
-        </Head>
-      )}
+      <Head>
+        <title>Populist - The Ballot</title>
+        <meta
+          name="description"
+          content="Find information on your government representatives like voting histories, endorsements, and financial data."
+        />
+      </Head>
 
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
