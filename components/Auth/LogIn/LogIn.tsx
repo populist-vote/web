@@ -37,12 +37,20 @@ export function LogIn() {
     login.mutate(data);
   };
 
+  let message = "";
+
   if (user || isLoading) return null;
+  if (router.query.next?.includes("voting-guide")) {
+    message = "Please sign in or create an account to view this voting guide.";
+  } else {
+    message = "Sign in";
+  }
+  
 
   return (
     <BasicLayout hideFooter>
       <div className={styles.container}>
-        <h1>Log In</h1>
+        <h2>{message}</h2>
         <div className={styles.formWrapper}>
           <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
             <div

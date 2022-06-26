@@ -28,7 +28,7 @@ export default function BasicLayout({
             shallow
             replace
           >
-            Log In
+            Sign in
           </Link>
         )}
         {pathname == "/login" && (
@@ -40,7 +40,7 @@ export default function BasicLayout({
             shallow
             replace
           >
-            Sign Up
+            Create an account
           </Link>
         )}
       </header>
