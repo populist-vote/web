@@ -9,7 +9,9 @@ export default function BasicLayout({
   children,
   hideFooter = false,
 }: PropsWithChildren<{ hideFooter?: boolean }>) {
-  const { pathname } = useRouter();
+  const { pathname, query } = useRouter();
+
+  console.log({ pathname, query });
 
   return (
     <div className={styles.container}>
@@ -19,8 +21,30 @@ export default function BasicLayout({
             <LogoBetaDesktop />
           </div>
         </Link>
-        {pathname == "/register" && <Link href="/login">Log In</Link>}
-        {pathname == "/login" && <Link href="/register">Sign Up</Link>}
+        {pathname == "/register" && (
+          <Link
+            href={{
+              pathname: "/login",
+              query,
+            }}
+            shallow
+            replace
+          >
+            Log In
+          </Link>
+        )}
+        {pathname == "/login" && (
+          <Link
+            href={{
+              pathname: "/register",
+              query,
+            }}
+            shallow
+            replace
+          >
+            Sign Up
+          </Link>
+        )}
       </header>
       <main className={styles.content}>{children}</main>
       {hideFooter ? <footer /> : <Footer />}

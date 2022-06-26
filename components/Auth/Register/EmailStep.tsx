@@ -14,6 +14,7 @@ import Button from "components/Button";
 
 export function EmailStep() {
   const router = useRouter();
+  const { query } = router;
 
   const {
     actions,
@@ -81,7 +82,7 @@ export function EmailStep() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ({ data: response, error }: { data: any; error: any }) => {
           if (response?.validateEmailAvailable) {
-            void router.push({ query: { step: "address" } });
+            void router.push({ query: { ...query, step: "address" } });
           } else {
             setError(
               "email",

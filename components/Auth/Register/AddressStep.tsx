@@ -14,6 +14,7 @@ import states from "utils/states";
 
 export function AddressStep() {
   const router = useRouter();
+  const { query } = router;
 
   const {
     actions,
@@ -36,7 +37,14 @@ export function AddressStep() {
       if (error instanceof Error)
         setError("address.line1", { message: error.message });
     },
-    onSuccess: () => router.push("/home"),
+    onSuccess: () => {
+      console.log(query);
+      if (query.next) {
+        void router.push(query.next as string);
+      } else {
+        void router.push("/home");
+      }
+    },
   });
 
   const submitForm = (data: { address: AddressInput }) => {
@@ -142,7 +150,16 @@ export function AddressStep() {
           </div>
           <button>Show Me My Ballot</button>
           <br />
-          <Link href="/register?step=email">Back</Link>
+          <Link
+            href={{
+              pathname: "/register?step=email",
+              query,
+            }}
+            shallow
+            replace
+          >
+            Back
+          </Link>
         </form>
       </div>
     </div>

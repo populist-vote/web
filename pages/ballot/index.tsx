@@ -36,7 +36,9 @@ import ballotStyles from "./Ballot.module.scss";
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
-  const user = useAuth({ redirectTo: "/login?next=ballot" });
+  const router = useRouter();
+  const { asPath } = router;
+  const user = useAuth({ redirectTo: `/login?next=${asPath}` });
   const upcomingElectionsQuery = useNextElectionQuery(
     {},
     {
@@ -71,7 +73,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     electionId,
   });
 
-  const router = useRouter();
   const { addSavedGuideId } = useSavedGuideIds(user?.id);
 
   // Use either the voting guide ID from query params OR the users voting guide ID
