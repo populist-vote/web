@@ -61,13 +61,11 @@ function ElectionInfoSection({
     stateLong = states[upcomingRace.office.state];
   }
 
-  console.log(upcomingRace);
-
   switch (upcomingRace?.office.electionScope) {
     case ElectionScope.National:
       break;
     case ElectionScope.State:
-        officeSubheader = stateLong;
+      officeSubheader = stateLong;
       break;
     case ElectionScope.District:
       switch (upcomingRace?.office.districtType) {
@@ -78,16 +76,10 @@ function ElectionInfoSection({
             upcomingRace?.office.district;
           break;
         case District.StateSenate:
-          officeSubheader =
-            stateLong +
-            " SD " +
-            upcomingRace?.office.district;
+          officeSubheader = stateLong + " SD " + upcomingRace?.office.district;
           break;
         case District.StateHouse:
-          officeSubheader =
-            stateLong +
-            " HD " +
-            upcomingRace?.office.district;
+          officeSubheader = stateLong + " HD " + upcomingRace?.office.district;
       }
   }
 

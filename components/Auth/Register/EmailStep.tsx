@@ -10,9 +10,11 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { PasswordEntropyMeter } from "./PasswordEntropyMeter/PasswordEntropyMeter";
 import useDebounce from "hooks/useDebounce";
+import Button from "components/Button";
 
 export function EmailStep() {
   const router = useRouter();
+  const { query } = router;
 
   const {
     actions,
@@ -80,7 +82,7 @@ export function EmailStep() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ({ data: response, error }: { data: any; error: any }) => {
           if (response?.validateEmailAvailable) {
-            void router.push({ query: { step: "address" } });
+            void router.push({ query: { ...query, step: "address" } });
           } else {
             setError(
               "email",
@@ -183,9 +185,13 @@ export function EmailStep() {
               isLoading={isEntropyCalcLoading}
             />
           </div>
-          <button disabled={isLoading}>
-            {isLoading ? "Loading..." : "Continue"}
-          </button>
+          <Button
+            variant="primary"
+            type="submit"
+            label={isLoading ? "Loading..." : "Continue"}
+            disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
+            size="large"
+          />
           <br />
           <small className={styles.formError}>{errors?.email?.message}</small>
           <small className={styles.formError}>

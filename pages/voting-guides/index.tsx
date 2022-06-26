@@ -1,6 +1,8 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import Router from "next/router";
+import { toast } from "react-toastify";
+import { IoIosRemoveCircle } from "react-icons/io";
 import {
   useVotingGuidesByUserIdQuery,
   VotingGuideResult,
@@ -8,32 +10,59 @@ import {
   ElectionResult,
 } from "generated";
 import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
-import styles from "./VotingGuides.module.scss";
 import { useAuth } from "hooks/useAuth";
-import { dateString } from "utils/dates";
-import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { dateString } from "utils/dates";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import styles from "./VotingGuides.module.scss";
 
 const getGuideUrl = (guideId: string) =>
-  `${window.location.origin}/ballot?votingGuideId=${guideId}`;
+  `${window.location.origin}/ballot?voting-guide=${guideId}`;
 
 const copyGuideUrl = (guideId?: string) => {
   if (!guideId) return;
-
   const url = getGuideUrl(guideId);
-  navigator.clipboard
-    .writeText(url)
-    .then(() => alert(`Link copied to clipboard: ${url}`))
-    .catch((err) => console.error("Problem copying to clipboard", err));
+
+  if (!navigator.canShare) {
+    navigator.clipboard
+      .writeText(url)
+      .then(() =>
+        toast(
+          `The link to your voting guide has been copied to the clipboard.`,
+          {
+            position: "bottom-center",
+          }
+        )
+      )
+      .catch((err) => console.error("Problem copying to clipboard", err));
+  } else {
+    navigator
+      .share({
+        title: "Share your voting guide",
+        text: "Check out this voting guide I made on Populist!",
+        url,
+      })
+      .then(() =>
+        toast(
+          `The link to your voting guide has been copied to the clipboard.`,
+          {
+            autoClose: 3000,
+          }
+        )
+      )
+      .catch((err) => console.error("Problem copying to clipboard", err));
+  }
 };
 
 const VotingGuideCard = ({
   guide,
   showEdit = false,
+  deleteAction,
 }: {
   guide: Partial<VotingGuideResult>;
   showEdit?: boolean;
+  deleteAction?: () => void;
 }) => {
   const { user } = guide;
   const { firstName, lastName, username } = user || {};
@@ -42,13 +71,13 @@ const VotingGuideCard = ({
     : username;
 
   const { isMobile } = useDeviceInfo();
-  
+
   return (
     <div className={styles.guideContainer}>
       <div className={styles.avatarContainer}>
         <Avatar
           src={PERSON_FALLBACK_IMAGE_URL}
-          size={ !isMobile ? 80 : 40 }
+          size={!isMobile ? 80 : 40}
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={name as string}
         />
@@ -57,26 +86,34 @@ const VotingGuideCard = ({
       <div className={styles.buttonWrapper}>
         {showEdit ? (
           <Button
-            size={ !isMobile ? "large" : "small" }
+            size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="Edit"
             onClick={() => Router.push(`/ballot`)}
           />
         ) : (
           <Button
-            size={ !isMobile ? "large" : "small" }
+            size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="View"
-            onClick={() => Router.push(`/ballot?votingGuideId=${guide.id}`)}
+            onClick={() => Router.push(`/ballot?voting-guide=${guide.id}`)}
           />
         )}
         <Button
-          size={ !isMobile ? "large" : "small" }
+          size={!isMobile ? "large" : "small"}
           variant="primary"
           theme="yellow"
           label="Share"
           onClick={() => copyGuideUrl(guide?.id)}
         />
+        {deleteAction && (
+          <button
+            className={styles.deleteButton}
+            onClick={() => deleteAction()}
+          >
+            <IoIosRemoveCircle size="2rem" />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -85,7 +122,9 @@ const VotingGuideCard = ({
 const ElectionHeader = ({ election }: { election: ElectionResult }) => {
   return (
     <div className={styles.electionHeader}>
-      {election.electionDate && <h1>{dateString(election.electionDate, true)}</h1>}
+      {election.electionDate && (
+        <h1>{dateString(election.electionDate, true)}</h1>
+      )}
       {election.title && <h4>{election.title}</h4>}
       {election.description && <p>{election.description}</p>}
     </div>
@@ -135,31 +174,31 @@ const VotingGuides: NextPage<{
               </>
             )}
             <div className={styles.guidesContainer}>
-            {userVotingGuides?.map((guide) => (
-              <VotingGuideCard
-                guide={guide as Partial<VotingGuideResult>}
-                key={guide.id}
-                showEdit={user.id === guide.user.id}
-              />
-            ))}
-            </div>
-          </FlagSection>
-        </div>
-        {!!savedGuidesQuery.data?.votingGuidesByIds?.length && (
-          <div className={styles.votingContainer}>
-            <FlagSection title="Other Guides">
-
-              {savedGuidesQuery.isLoading && <LoaderFlag />}
-              {savedGuidesQuery.error && <small>Something went wrong...</small>}
-
-              <div className={styles.otherGuidesContainer}>
-              {savedGuidesQuery.data?.votingGuidesByIds?.map((guide) => (
+              {userVotingGuides?.map((guide) => (
                 <VotingGuideCard
                   guide={guide as Partial<VotingGuideResult>}
                   key={guide.id}
                   showEdit={user.id === guide.user.id}
                 />
               ))}
+            </div>
+          </FlagSection>
+        </div>
+
+        {savedGuidesQuery.isLoading && <LoaderFlag />}
+        {!!savedGuidesQuery.data?.votingGuidesByIds?.length && (
+          <div className={styles.votingContainer}>
+            <FlagSection title="Other Guides">
+              {savedGuidesQuery.error && <small>Something went wrong...</small>}
+
+              <div className={styles.otherGuidesContainer}>
+                {savedGuidesQuery.data?.votingGuidesByIds.map((guide) => (
+                  <VotingGuideCard
+                    guide={guide as Partial<VotingGuideResult>}
+                    key={guide.id}
+                    showEdit={user.id === guide.user.id}
+                  />
+                ))}
               </div>
             </FlagSection>
           </div>
