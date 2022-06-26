@@ -147,7 +147,7 @@ export function AddressStep() {
               />
             </div>
           </div>
-          <button>Show Me My Ballot</button>
+          <button>Complete Registration</button>
           <br />
           <Link
             href={{
