@@ -40,7 +40,7 @@ export default function BasicLayout({
             shallow
             replace
           >
-            Create an account
+            Create account
           </Link>
         )}
       </header>
