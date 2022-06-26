@@ -11,8 +11,6 @@ export default function BasicLayout({
 }: PropsWithChildren<{ hideFooter?: boolean }>) {
   const { pathname, query } = useRouter();
 
-  console.log({ pathname, query });
-
   return (
     <div className={styles.container}>
       <header className={styles.header}>

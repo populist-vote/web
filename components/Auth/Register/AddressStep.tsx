@@ -38,7 +38,6 @@ export function AddressStep() {
         setError("address.line1", { message: error.message });
     },
     onSuccess: () => {
-      console.log(query);
       if (query.next) {
         void router.push(query.next as string);
       } else {
