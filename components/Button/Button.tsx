@@ -23,6 +23,7 @@ function Button({
   theme = "blue",
   variant = "primary",
   type = "submit",
+  ...props
 }: PropsWithChildren<{
   /** Sets the disabled state of a button */
   disabled?: boolean;
@@ -41,6 +42,7 @@ function Button({
   theme?: ButtonTheme;
   variant: ButtonVariant;
   type?: "submit" | "button";
+  [x: string]: unknown;
 }>) {
   const cx = classNames(
     styles.common,
@@ -62,6 +64,7 @@ function Button({
       onClick={onClick}
       className={cx}
       type={type}
+      {...props}
     >
       {iconPosition === "before" && icon}
       <span className={labelCx}>{label}</span>

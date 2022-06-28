@@ -585,7 +585,7 @@ type Mutation {
   updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
   updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
   updateUsername(username: String!): UpdateUsernameResult!
-  uploadPoliticianThumbnail(file: Upload!): Int!
+  uploadProfilePicture(file: Upload!): Boolean!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
   upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
@@ -1315,6 +1315,7 @@ type UserResult {
   firstName: String
   id: ID!
   lastName: String
+  profilePictureUrl: String
   username: String!
 }
 
