@@ -51,7 +51,7 @@
 
   p {
     padding: 0 1.5rem;
-    margin-top:0;
+    margin-top: 0;
     line-height: 1.5em;
   }
 
@@ -99,14 +99,14 @@
 }
 
 .coloredSection {
-  margin-top:3rem;
+  margin-top: 3rem;
 
   @include for-tablet-down {
-    margin-top:0rem;
+    margin-top: 0rem;
   }
 
   .bioContent {
-    margin:1rem 0 2rem;
+    margin: 1rem 0 2rem;
     max-width: 1000px;
   }
 }
@@ -194,10 +194,14 @@
   }
 
   div.dots {
-    display:inline;
+    display: inline;
     width: 100%;
     height: 1px;
-    background-image: linear-gradient(to right, $blue 20%, rgba(255,255,255,0) 0%);
+    background-image: linear-gradient(
+      to right,
+      $blue 20%,
+      rgba(255, 255, 255, 0) 0%
+    );
     background-position: bottom;
     background-size: 5px 1px;
     background-repeat: repeat-x;
@@ -238,14 +242,14 @@
   font-size: 1em;
   font-weight: 300;
   text-align: center;
-  margin: .8rem 0 .2rem;
+  margin: 0.8rem 0 0.2rem;
   line-height: 1.3em;
 
   @include clamp-ellipsis;
 }
 
 .politicianEndorsementOffice {
-  font-size: .8em;
+  font-size: 0.8em;
   line-height: 1.4em;
   color: $aqua;
   font-style: italic;
@@ -279,5 +283,23 @@
 
   :nth-child(2) {
     margin-left: -1.5rem;
+  }
+}
+
+.adminBox {
+  padding: 1.25rem;
+  border-radius: 5px;
+  border: 1px solid var(--blue-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 48rem;
+
+  .itemHeader {
+    font-weight: 400;
+    font-size: $text-lg;
+    display: inline-block;
+    flex-wrap: nowrap;
+    text-transform: uppercase;
   }
 }

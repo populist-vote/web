@@ -585,7 +585,7 @@ type Mutation {
   updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
   updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
   updateUsername(username: String!): UpdateUsernameResult!
-  uploadPoliticianThumbnail(file: Upload!): Int!
+  uploadProfilePicture(file: Upload!): Boolean!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
   upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
@@ -758,6 +758,8 @@ type PoliticianResult {
   upcomingRace: RaceResult
   upcomingRaceId: ID
   updatedAt: DateTime!
+  votePercentage(raceId: UUID!): Float
+  votes(raceId: UUID!): Int
   votesmartCandidateBio: GetCandidateBioResponse
   votesmartCandidateId: Int
   votesmartCandidateRatings: [VsRating!]!
@@ -888,6 +890,9 @@ type Query {
   ): [RaceResult!]!
   upcomingElections: [ElectionResult!]!
 
+  """Get all users"""
+  userCount: Int
+
   """Publicly accessible user information"""
   userProfile(userId: ID!): UserResult!
 
@@ -922,6 +927,7 @@ type RaceResult {
   slug: String!
   state: State
   title: String!
+  totalVotes: Int
   updatedAt: DateTime!
   winnerId: ID
 }
@@ -1286,6 +1292,7 @@ input UpdateRaceInput {
   slug: String
   state: State
   title: String
+  totalVotes: Int
   winnerId: UUID
 }
 
@@ -1315,6 +1322,7 @@ type UserResult {
   firstName: String
   id: ID!
   lastName: String
+  profilePictureUrl: String
   username: String!
 }
 
