@@ -41,6 +41,8 @@ fragment electionFields on ElectionResult {
   }
 }
 
+
+
 query NextElection {
   nextElection {
     ...electionFields
@@ -50,5 +52,13 @@ query NextElection {
 query VotingGuideById($id: ID!) {
   votingGuideById(id: $id) {
     ...guideFields
+  }
+}
+
+
+
+query Elections($search: ElectionSearchInput) {
+  elections(search: $search) {
+    ...electionFields
   }
 }
