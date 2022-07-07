@@ -5,6 +5,7 @@ import {
   PoliticianResult,
   RaceResult,
   useUpsertVotingGuideCandidateMutation,
+  VotingGuideByIdQuery,
 } from "generated";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { useState } from "react";
@@ -39,7 +40,55 @@ export default function Race({
   const queryClient = useQueryClient();
   const invalidateVotingGuideQuery = () =>
     queryClient.invalidateQueries(queryKey);
-  const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation();
+  const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation({
+    // @ts-ignore
+    onMutate: async (newVotingGuideCandidate: EditVotingGuideCandidate) => {
+      await queryClient.cancelQueries(queryKey);
+      const previousVotingGuide =
+        queryClient.getQueryData<VotingGuideByIdQuery>(queryKey);
+
+      if (previousVotingGuide) {
+        queryClient.setQueryData<VotingGuideByIdQuery>(
+          queryKey,
+          // @ts-ignore
+          (oldGuideQuery) => {
+            if (oldGuideQuery) {
+              const optimisticNewGuide = {
+                votingGuideById: {
+                  ...oldGuideQuery.votingGuideById,
+                  candidates: [
+                    ...oldGuideQuery.votingGuideById.candidates.map((c) => {
+                      if (
+                        c?.politician?.id ===
+                        newVotingGuideCandidate.candidateId
+                      ) {
+                        return {
+                          ...c,
+                          ...(newVotingGuideCandidate as EditVotingGuideCandidate),
+                          note: c.note,
+                        };
+                      }
+                      return c;
+                    }),
+                  ],
+                },
+              };
+
+              return optimisticNewGuide;
+            }
+          }
+        );
+      }
+
+      return { previousVotingGuide };
+    },
+    onError: (err, newVotingGuide, context) => {
+      if (context?.previousVotingGuide) {
+        queryClient.setQueryData(queryKey, context?.previousVotingGuide);
+      }
+    },
+    onSuccess: () => invalidateVotingGuideQuery(),
+  });
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogCandidate, setDialogCandidate] = useState<AtLeast<
@@ -52,17 +101,12 @@ export default function Race({
     isEndorsement,
     note,
   }: EditVotingGuideCandidate) => {
-    upsertVotingGuideCandidate.mutate(
-      {
-        votingGuideId: votingGuide.id,
-        candidateId,
-        isEndorsement,
-        note,
-      },
-      {
-        onSuccess: () => invalidateVotingGuideQuery(),
-      }
-    );
+    upsertVotingGuideCandidate.mutate({
+      votingGuideId: votingGuide.id,
+      candidateId,
+      isEndorsement,
+      note,
+    });
   };
 
   const endorseCandidate = (candidateId: string) =>

@@ -840,7 +840,7 @@ type Query {
   ): VotingGuideResult
   elections(
     """Search by slug or title"""
-    search: ElectionSearchInput
+    search: ElectionSearchInput!
   ): [ElectionResult!]!
   health: Boolean!
   issueTagBySlug(
