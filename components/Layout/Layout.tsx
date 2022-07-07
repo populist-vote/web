@@ -15,11 +15,13 @@ export default function Layout({
 }>) {
   return (
     <div className={styles.app}>
-      <Nav
-        mobileNavTitle={mobileNavTitle}
-        showBackButton={showNavBackButton}
-        showLogoOnMobile={showNavLogoOnMobile}
-      />
+      <aside>
+        <Nav
+          mobileNavTitle={mobileNavTitle}
+          showBackButton={showNavBackButton}
+          showLogoOnMobile={showNavLogoOnMobile}
+        />
+      </aside>
       <main className={styles.content}>{children}</main>
       <Footer />
     </div>

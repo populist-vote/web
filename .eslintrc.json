@@ -29,7 +29,8 @@
         "varsIgnorePattern": "^_",
         "caughtErrorsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "@typescript-eslint/ban-ts-comment": "warn"
   },
   "globals": {
     "JSX": "readonly"
