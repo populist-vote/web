@@ -36,14 +36,18 @@ function Race({
   itemId: string;
   incumbentId?: string;
 }) {
+  const queryClient = useQueryClient();
+
   const candidateSortFn = (a: PoliticianResult, b: PoliticianResult) =>
     a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
+
   const { data: votingGuide, isGuideOwner, queryKey } = useVotingGuide();
-  const queryClient = useQueryClient();
+
   const invalidateVotingGuideQuery = () =>
     queryClient.invalidateQueries(queryKey);
+
   const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation({
-    // @ts-ignore
+    // @ts-ignore - this is tricky to type properly
     onMutate: async (newVotingGuideCandidate: EditVotingGuideCandidate) => {
       await queryClient.cancelQueries(queryKey);
       const previousVotingGuide =
@@ -122,13 +126,15 @@ function Race({
     setDialogOpen(true);
   };
 
+  const { raceType, party, candidates, results } = race;
+
   return (
     <div itemID={itemId}>
       <FieldSet
-        heading={race.raceType}
-        color={race.party === PoliticalParty.Republican ? "red" : "blue"}
+        heading={raceType}
+        color={party === PoliticalParty.Republican ? "red" : "blue"}
       >
-        {race.candidates.length < 1 && (
+        {candidates.length < 1 && (
           <h4 className={ballotStyles.noCandidates}>No candidates</h4>
         )}
         {dialogCandidate && (
@@ -140,7 +146,7 @@ function Race({
             handleClose={() => setDialogOpen(false)}
           />
         )}
-        {race.candidates
+        {candidates
           ?.sort(candidateSortFn)
           ?.map((politician: PoliticianResult) => {
             const isEndorsing = votingGuide?.candidates
@@ -160,6 +166,10 @@ function Race({
             const politicianLink = `/politicians/${encodeURIComponent(
               politician?.slug
             )}${appendString}`;
+
+            const votePercentage = results.votesByCandidate.find(
+              (c) => (c.candidateId = politician.id)
+            )?.votePercentage;
 
             return (
               <div
@@ -198,11 +208,13 @@ function Race({
                     >
                       {politician.fullName}
                     </span>
+                    <span>Vote won: {votePercentage}</span>
                   </Link>
                 </div>
 
-                {politician.id == incumbentId &&
-                  race.candidates?.length > 1 && <VerticalDivider />}
+                {politician.id == incumbentId && candidates?.length > 1 && (
+                  <VerticalDivider />
+                )}
               </div>
             );
           })}

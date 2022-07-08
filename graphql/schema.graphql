@@ -758,7 +758,6 @@ type PoliticianResult {
   upcomingRace: RaceResult
   upcomingRaceId: ID
   updatedAt: DateTime!
-  votePercentage(raceId: UUID!): Float
   votes(raceId: UUID!): Int
   votesmartCandidateBio: GetCandidateBioResponse
   votesmartCandidateId: Int
@@ -910,6 +909,12 @@ type Query {
   ): [VotingGuideResult!]!
 }
 
+type RaceCandidateResult {
+  candidateId: ID!
+  votePercentage: Float
+  votes: Int
+}
+
 type RaceResult {
   ballotpediaLink: String
   candidates: [PoliticianResult!]!
@@ -924,12 +929,17 @@ type RaceResult {
   officialWebsite: String
   party: PoliticalParty
   raceType: RaceType!
+  results: RaceResultsResult!
   slug: String!
   state: State
   title: String!
-  totalVotes: Int
   updatedAt: DateTime!
-  winnerId: ID
+}
+
+type RaceResultsResult {
+  totalVotes: Int
+  votesByCandidate: [RaceCandidateResult!]!
+  winner: PoliticianResult
 }
 
 input RaceSearch {

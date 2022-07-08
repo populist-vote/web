@@ -26,6 +26,17 @@ fragment raceFields on RaceResult {
     party
     thumbnailImageUrl
   }
+  results {
+    votesByCandidate {
+      candidateId
+      votes 
+      votePercentage
+    }
+    totalVotes
+    winner {
+      id
+    }
+  }
 }
 
 fragment electionFields on ElectionResult {
