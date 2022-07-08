@@ -1,5 +1,9 @@
-import { FieldSet } from "components/FieldSet/FieldSet";
-import { VotingGuideNote } from "components/VotingGuide/VotingGuideNote/VotingGuideNote";
+import {
+  FieldSet,
+  VotingGuideNote,
+  PartyAvatar,
+  VerticalDivider,
+} from "components";
 import {
   PoliticalParty,
   PoliticianResult,
@@ -12,20 +16,18 @@ import { useState } from "react";
 import { useQueryClient } from "react-query";
 import styles from "components/Layout/Layout.module.scss";
 import ballotStyles from "pages/ballot/Ballot.module.scss";
-import { PartyAvatar } from "components/Avatar/Avatar";
-import { VerticalDivider } from "components/VerticalDivider/VerticalDivider";
 import { AtLeast } from "types/global";
 import Link from "next/link";
 
 import { default as classNames } from "classnames";
 
-export interface EditVotingGuideCandidate {
+interface EditVotingGuideCandidate {
   candidateId: string;
   isEndorsement?: boolean;
   note?: string | null;
 }
 
-export default function Race({
+function Race({
   race,
   itemId,
   incumbentId,
@@ -208,3 +210,6 @@ export default function Race({
     </div>
   );
 }
+
+export type { EditVotingGuideCandidate };
+export { Race };

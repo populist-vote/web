@@ -1,4 +1,4 @@
-import BasicLayout from "components/BasicLayout/BasicLayout";
+import { BasicLayout } from "components";
 import { useConfirmUserEmailMutation } from "generated";
 import { NextPage } from "next";
 import { useRouter } from "next/router";

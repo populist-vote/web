@@ -1,7 +1,7 @@
 import styles from "./PasswordEntropyMeter.module.scss";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export function PasswordEntropyMeter({
+function PasswordEntropyMeter({
   length,
   valid,
   score,
@@ -77,3 +77,5 @@ export function PasswordEntropyMeter({
     </div>
   );
 }
+
+export { PasswordEntropyMeter };
