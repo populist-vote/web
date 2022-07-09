@@ -167,9 +167,16 @@ function Race({
               politician?.slug
             )}${appendString}`;
 
-            const votePercentage = results.votesByCandidate.find(
-              (c) => (c.candidateId = politician.id)
-            )?.votePercentage;
+            const votePercentage =
+              results.votesByCandidate.find(
+                (c) => c.candidateId === politician.id
+              )?.votePercentage + "%";
+
+            const labelLeftProps = {
+              text: votePercentage,
+              background: "var(--grey-lighter)",
+              color: "var(--grey-darker)",
+            };
 
             return (
               <div
@@ -201,6 +208,8 @@ function Race({
                     alt={politician.fullName}
                     readOnly={!isGuideOwner}
                     href={politicianLink}
+                    labelLeft={labelLeftProps}
+                    opaque={results && results.winner?.id !== politician.id}
                   />
                   <Link href={politicianLink} passHref>
                     <span
@@ -208,7 +217,6 @@ function Race({
                     >
                       {politician.fullName}
                     </span>
-                    <span>Vote won: {votePercentage}</span>
                   </Link>
                 </div>
 
