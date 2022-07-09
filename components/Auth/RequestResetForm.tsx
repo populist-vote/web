@@ -1,4 +1,4 @@
-import BasicLayout from "components/BasicLayout/BasicLayout";
+import { BasicLayout } from "components";
 import { useRequestPasswordResetMutation } from "generated";
 import Link from "next/link";
 import { useState } from "react";
@@ -7,7 +7,7 @@ import styles from "../Auth/Auth.module.scss";
 
 type ResetFormValues = { email: string };
 
-export function RequestResetForm() {
+function RequestResetForm() {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const {
@@ -87,3 +87,5 @@ export function RequestResetForm() {
     </BasicLayout>
   );
 }
+
+export { RequestResetForm };

@@ -1,37 +1,51 @@
-import BillCard from "./BillCard";
-import Button from "./Button";
-import Footer from "./Footer/Footer";
-import ImageWithFallback from "./ImageWithFallback/ImageWithFallback";
-import Layout from "./Layout/Layout";
-import LoaderFlag from "./LoaderFlag/LoaderFlag";
-import Nav from "./Nav/Nav";
+import { BillCard } from "./BillCard/BillCard";
+import { Button } from "./Button/Button";
+import { Footer } from "./Footer/Footer";
+import { ImageWithFallback } from "./ImageWithFallback/ImageWithFallback";
+import { BasicLayout } from "./BasicLayout/BasicLayout";
+import { Layout } from "./Layout/Layout";
+import { LoaderFlag } from "./LoaderFlag/LoaderFlag";
+import { Nav } from "./Nav/Nav";
 import NoteIcon from "./Icons/NoteIcon";
-import Scroller from "./Scroller";
-import Spacer from "./Spacer/Spacer";
+import { Spacer } from "./Spacer/Spacer";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { Avatar, PartyAvatar } from "./Avatar/Avatar";
 import { FieldSet } from "./FieldSet/FieldSet";
-import FlagSection from "./FlagSection/FlagSection";
-import { LogoText } from "./LogoText/LogoText";
-import { Logo } from "./Logo/Logo";
-import TextInput from "./TextInput/TextInput";
+import { FlagSection } from "./FlagSection/FlagSection";
+import { Logo, LogoBeta, LogoBetaDesktop, LogoText } from "./Logo";
+import { TextInput } from "./TextInput/TextInput";
 import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
 import { OfficeRaces } from "./Ballot/OfficeRaces";
+import { PasswordEntropyMeter } from "./Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
+import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
+import { EditVotingGuideCandidate } from "./Ballot/Race";
+import { AppHead } from "./Head/Head";
+import { HomePageButton } from "./HomePageButton/HomePageButton";
+import { HeaderSection } from "./Politician/HeaderSection";
+import { ElectionInfoSection } from "./Politician/ElectionInfoSection";
+
+export type { EditVotingGuideCandidate };
 
 export {
+  HeaderSection,
+  ElectionInfoSection,
+  AppHead,
   Avatar,
   BillCard,
+  BasicLayout,
   Button,
   Footer,
   ImageWithFallback,
+  HomePageButton,
   Layout,
   LoaderFlag,
   Logo,
   LogoText,
+  LogoBeta,
+  LogoBetaDesktop,
   Nav,
   NoteIcon,
   PartyAvatar,
-  Scroller,
   Spacer,
   TextInput,
   VerticalDivider,
@@ -39,4 +53,6 @@ export {
   FlagSection,
   VotingGuideWelcome,
   OfficeRaces,
+  PasswordEntropyMeter,
+  VotingGuideNote,
 };

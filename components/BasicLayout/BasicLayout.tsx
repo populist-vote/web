@@ -1,11 +1,10 @@
 import type { PropsWithChildren } from "react";
-import Footer from "components/Footer/Footer";
+import { Footer, LogoBetaDesktop } from "components";
 import styles from "./BasicLayout.module.scss";
-import { LogoBetaDesktop } from "components/Logo/LogoBetaDesktop";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function BasicLayout({
+function BasicLayout({
   children,
   hideFooter = false,
 }: PropsWithChildren<{ hideFooter?: boolean }>) {
@@ -49,3 +48,5 @@ export default function BasicLayout({
     </div>
   );
 }
+
+export { BasicLayout };

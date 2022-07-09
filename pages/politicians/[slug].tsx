@@ -5,8 +5,15 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
-import { BillCard, Button, Layout, LoaderFlag, PartyAvatar } from "components";
-import { HeaderSection, ElectionInfoSection } from "components/Politician";
+import {
+  BillCard,
+  Button,
+  Layout,
+  LoaderFlag,
+  PartyAvatar,
+  HeaderSection,
+  ElectionInfoSection,
+} from "components";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 
 import { GrTree } from "react-icons/gr";

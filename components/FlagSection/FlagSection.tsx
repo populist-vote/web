@@ -6,14 +6,14 @@ interface FlagSectionProps {
   title: string;
   children: React.ReactNode;
   color?: "salmon" | "green" | "yellow" | "aqua";
-  hideFlagForMobile?: boolean
+  hideFlagForMobile?: boolean;
 }
 
-export default function FlagSection(props: FlagSectionProps): JSX.Element {
+function FlagSection(props: FlagSectionProps): JSX.Element {
   const { title, children, color, hideFlagForMobile = false } = props;
   const styleClasses = classNames(styles.container, {
     [styles.hideFlagForMobile as string]: hideFlagForMobile,
-    ...!!color ? { [styles[color] as string]: true } : {},
+    ...(!!color ? { [styles[color] as string]: true } : {}),
   });
   return (
     <section className={styleClasses}>
@@ -24,3 +24,5 @@ export default function FlagSection(props: FlagSectionProps): JSX.Element {
     </section>
   );
 }
+
+export { FlagSection };

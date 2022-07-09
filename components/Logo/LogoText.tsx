@@ -1,7 +1,7 @@
 import Image from "next/image";
 import PopulistLogo from "public/images/LogoWithText.svg";
 
-export function LogoText({ ...rest }) {
+function LogoText({ ...rest }) {
   return (
     <Image
       src={PopulistLogo}
@@ -13,3 +13,5 @@ export function LogoText({ ...rest }) {
     />
   );
 }
+
+export { LogoText };

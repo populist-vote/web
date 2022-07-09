@@ -3,14 +3,14 @@ import dynamic from "next/dynamic";
 import states from "utils/states";
 import styles from "../Layout/Layout.module.scss";
 import ballotStyles from "pages/ballot/Ballot.module.scss";
-import Race from "./Race";
+import { Race } from "./Race";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
 });
 
 // Races associated with a single office (to handle primaries)
-export function OfficeRaces({ races }: { races: RaceResult[] }) {
+function OfficeRaces({ races }: { races: RaceResult[] }) {
   const office = races[0]?.office;
 
   const incumbentId = office?.incumbent?.id;
@@ -77,3 +77,5 @@ export function OfficeRaces({ races }: { races: RaceResult[] }) {
     </>
   );
 }
+
+export { OfficeRaces };

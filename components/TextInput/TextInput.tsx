@@ -69,4 +69,4 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   );
 }
 
-export default TextInput;
+export { TextInput };

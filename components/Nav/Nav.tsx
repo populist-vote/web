@@ -6,13 +6,10 @@ import { useScrollPosition } from "hooks/useScrollPosition";
 import { useAuth } from "hooks/useAuth";
 import styles from "./Nav.module.scss";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-
 import { useMediaQuery } from "hooks/useMediaQuery";
-import { Avatar, Logo } from "components";
-import { LogoBeta } from "components/Logo/LogoBeta";
+import { Avatar, Logo, LogoBeta } from "components";
 
-
-export default function Nav({
+function Nav({
   mobileNavTitle = "Colorado Legislators",
   showBackButton = true,
   showLogoOnMobile,
@@ -49,12 +46,11 @@ export default function Nav({
 
   return (
     <nav className={`${styles.nav} ${sticky ? styles.sticky : ""}`}>
-      
       {/* ///////// Mobile Nav ///////// */}
 
       <div className={styles.mobileNav}>
         {showBackButton ? (
-          <div className={styles.backButtonContainer}> 
+          <div className={styles.backButtonContainer}>
             <FaChevronLeft
               className={styles.backButton}
               color="var(--white)"
@@ -72,9 +68,16 @@ export default function Nav({
 
         <div className={styles.logoContainer}>
           {showLogoOnMobile ? (
-            <><div className={styles.logoSizer}><LogoBeta /></div><span className={styles.subTitle}>{mobileNavTitle}</span></>
+            <>
+              <div className={styles.logoSizer}>
+                <LogoBeta />
+              </div>
+              <span className={styles.subTitle}>{mobileNavTitle}</span>
+            </>
           ) : (
-            <><span className={styles.subTitleNoLogo}>{mobileNavTitle}</span></>
+            <>
+              <span className={styles.subTitleNoLogo}>{mobileNavTitle}</span>
+            </>
           )}
         </div>
 
@@ -93,9 +96,9 @@ export default function Nav({
 
       <div className={styles.navContent}>
         <Link href="/home" passHref>
-        <div className={styles.logoContainer}>
-          <Logo height={100} />
-        </div>
+          <div className={styles.logoContainer}>
+            <Logo height={100} />
+          </div>
         </Link>
         <div className={styles.items}>
           <ul>
@@ -152,3 +155,5 @@ export default function Nav({
     </nav>
   );
 }
+
+export { Nav };
