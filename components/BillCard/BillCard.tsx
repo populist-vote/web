@@ -2,13 +2,13 @@ import Link from "next/link";
 import styles from "./BillCard.module.scss";
 import type { BillResult } from "generated";
 
-const BillCard = ({
+function BillCard({
   bill,
   itemId,
 }: {
   bill: Partial<BillResult>;
   itemId: string;
-}) => {
+}) {
   return (
     <div className={styles.billPage} itemID={itemId}>
       <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
@@ -24,6 +24,6 @@ const BillCard = ({
       </Link>
     </div>
   );
-};
+}
 
-export default BillCard;
+export { BillCard };

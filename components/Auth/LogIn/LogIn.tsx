@@ -1,4 +1,4 @@
-import BasicLayout from "components/BasicLayout/BasicLayout";
+import { BasicLayout } from "components";
 import { useCurrentUserQuery, useLogInMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
 
-export function LogIn() {
+function LogIn() {
   const router = useRouter();
   const {
     register,
@@ -45,7 +45,6 @@ export function LogIn() {
   } else {
     message = "Sign in";
   }
-  
 
   return (
     <BasicLayout hideFooter>
@@ -94,3 +93,5 @@ export function LogIn() {
     </BasicLayout>
   );
 }
+
+export { LogIn };

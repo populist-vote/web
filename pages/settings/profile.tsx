@@ -26,7 +26,7 @@ import {
   useDeleteAccountMutation,
   useCurrentUserQuery,
 } from "generated";
-import { PasswordEntropyMeter } from "components/Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
+import { PasswordEntropyMeter } from "components";
 import states from "utils/states";
 import { useQueryClient } from "react-query";
 

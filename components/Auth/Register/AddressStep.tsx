@@ -12,7 +12,7 @@ import textInputStyles from "../../TextInput/TextInput.module.scss";
 import { updateAction } from "pages/register";
 import states from "utils/states";
 
-export function AddressStep() {
+function AddressStep() {
   const router = useRouter();
   const { query } = router;
 
@@ -161,3 +161,5 @@ export function AddressStep() {
     </div>
   );
 }
+
+export { AddressStep };

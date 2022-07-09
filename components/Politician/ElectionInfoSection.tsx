@@ -1,6 +1,6 @@
 import styles from "styles/page.module.scss";
 import electionStyles from "./ElectionInfo.module.scss";
-import { PartyAvatar, Scroller } from "components";
+import { PartyAvatar } from "components";
 import layoutStyles from "../../components/Layout/Layout.module.scss";
 import states from "utils/states";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
@@ -12,6 +12,11 @@ import {
 } from "../../generated";
 import { dateString } from "utils/dates";
 import classNames from "classnames";
+import dynamic from "next/dynamic";
+
+const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
+  ssr: false,
+});
 
 function Candidate({
   candidate,
@@ -127,4 +132,4 @@ function ElectionInfoSection({
   );
 }
 
-export default ElectionInfoSection;
+export { ElectionInfoSection };

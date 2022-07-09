@@ -1,9 +1,8 @@
 import type { PropsWithChildren } from "react";
-import Footer from "components/Footer/Footer";
-import Nav from "components/Nav/Nav";
+import { Footer, Nav } from "components";
 import styles from "./Layout.module.scss";
 
-export default function Layout({
+function Layout({
   mobileNavTitle,
   showNavBackButton = false,
   showNavLogoOnMobile = true,
@@ -27,3 +26,5 @@ export default function Layout({
     </div>
   );
 }
+
+export { Layout };

@@ -1,10 +1,4 @@
-import {
-  ReactElement,
-  useContext,
-  useRef,
-  useState,
-  ContextType,
-} from "react";
+import { ReactElement, useContext, useRef, useState, ContextType } from "react";
 import { Button } from "components";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
@@ -105,4 +99,5 @@ function RightArrow() {
   );
 }
 
+// Need default export here for Nextjs dynamic import
 export default Scroller;

@@ -29,7 +29,7 @@ interface BadgeProps {
   fontSize: string;
 }
 
-export type IconType = "plus" | "note" | "star";
+type IconType = "plus" | "note" | "star";
 
 interface IconProps {
   type: IconType;
@@ -53,7 +53,7 @@ interface IconMenuProps {
   readOnly: boolean;
 }
 
-export interface AvatarProps {
+interface AvatarProps {
   src: string;
   fallbackSrc?: string;
   alt: string;
@@ -70,7 +70,7 @@ export interface AvatarProps {
   onClick?: () => void;
 }
 
-export interface PartyAvatarProps extends AvatarProps {
+interface PartyAvatarProps extends AvatarProps {
   party?: PoliticalParty;
   badgeSize?: string;
   badgeFontSize?: string;
@@ -301,7 +301,9 @@ function PartyAvatar({
 
   const icon = {
     background:
-      isEndorsement && iconType === "star" ? "var(--yellow)" : "var(--grey-light)",
+      isEndorsement && iconType === "star"
+        ? "var(--yellow)"
+        : "var(--grey-light)",
     color:
       isEndorsement && iconType === "star"
         ? "var(--yellow-dark)"
@@ -343,9 +345,7 @@ function OrganizationAvatar({
   return <Avatar src={src} fallbackSrc={fallbackSrc} {...rest} />;
 }
 
-export function getPartyColor(
-  party: PoliticalParty = PoliticalParty.Unknown
-): string {
+function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
   switch (party) {
     case PoliticalParty.Democratic:
       return "var(--blue)";
@@ -360,4 +360,5 @@ export function getPartyColor(
   }
 }
 
-export { Avatar, PartyAvatar, OrganizationAvatar };
+export type { IconType, AvatarProps, PartyAvatarProps };
+export { Avatar, PartyAvatar, OrganizationAvatar, getPartyColor };

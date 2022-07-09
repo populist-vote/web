@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import BasicLayout from "components/BasicLayout/BasicLayout";
+import { BasicLayout } from "components";
 import { useRouter } from "next/router";
 import { EmailStep } from "./EmailStep";
 import { AddressStep } from "./AddressStep";
 
-export type RegisterStep = "email" | "address";
+type RegisterStep = "email" | "address";
 
-export function Register({ step }: { step: RegisterStep }) {
+function Register({ step }: { step: RegisterStep }) {
   const router = useRouter();
   const { step: stepParam } = router.query;
   const [currentStep, setCurrentStep] = useState<RegisterStep>(
@@ -28,3 +28,6 @@ export function Register({ step }: { step: RegisterStep }) {
 
   return <BasicLayout hideFooter>{renderStep()}</BasicLayout>;
 }
+
+export type { RegisterStep };
+export { Register };

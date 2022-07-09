@@ -1,14 +1,18 @@
-import BasicLayout from "components/BasicLayout/BasicLayout";
-import Button from "components/Button";
+import { Button, BasicLayout } from "components";
 import styles from "styles/page.module.scss";
 import VotingGuideWelcomeStyles from "./VotingGuideWelcome.module.scss";
 import classNames from "classnames";
 
-export function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
+function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
   return (
     <BasicLayout>
       <div className={styles.container}>
-        <section className={classNames(styles.center, VotingGuideWelcomeStyles.content)}>
+        <section
+          className={classNames(
+            styles.center,
+            VotingGuideWelcomeStyles.content
+          )}
+        >
           <h1>Create A Voting Guide</h1>
           <p>
             Endorse and comment on candidates running for local offices to
@@ -28,3 +32,5 @@ export function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
     </BasicLayout>
   );
 }
+
+export { VotingGuideWelcome };

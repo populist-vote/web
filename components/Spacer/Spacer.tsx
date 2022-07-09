@@ -1,4 +1,4 @@
-const Spacer = ({
+function Spacer({
   size,
   axis = "horizontal",
   delimiter,
@@ -9,7 +9,7 @@ const Spacer = ({
   axis?: "vertical" | "horizontal";
   delimiter?: string;
   style?: Record<string, unknown>;
-}) => {
+}) {
   const width = axis === "vertical" ? 1 : size;
   const height = axis === "horizontal" ? 1 : size;
   return (
@@ -25,6 +25,6 @@ const Spacer = ({
       {delimiter}
     </span>
   );
-};
+}
 
-export default Spacer;
+export { Spacer };

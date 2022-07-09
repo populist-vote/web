@@ -1,5 +1,7 @@
 import styles from "./VerticalDivider.module.scss";
 
-export function VerticalDivider() {
+function VerticalDivider() {
   return <div className={styles.verticalDivider} />;
 }
+
+export { VerticalDivider };

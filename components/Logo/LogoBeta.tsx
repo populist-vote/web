@@ -1,7 +1,7 @@
 import Image from "next/image";
 import PopulistLogoBeta from "public/images/logo-beta.svg";
 
-export function LogoBeta({ ...rest }) {
+function LogoBeta({ ...rest }) {
   return (
     <Image
       src={PopulistLogoBeta}
@@ -14,3 +14,4 @@ export function LogoBeta({ ...rest }) {
   );
 }
 
+export { LogoBeta };

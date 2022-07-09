@@ -8,11 +8,10 @@ import { updateAction } from "pages/register";
 import styles from "../Auth.module.scss";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { PasswordEntropyMeter } from "./PasswordEntropyMeter/PasswordEntropyMeter";
 import useDebounce from "hooks/useDebounce";
-import Button from "components/Button";
+import { Button, PasswordEntropyMeter } from "components";
 
-export function EmailStep() {
+function EmailStep() {
   const router = useRouter();
   const { query } = router;
 
@@ -202,3 +201,5 @@ export function EmailStep() {
     </div>
   );
 }
+
+export { EmailStep };

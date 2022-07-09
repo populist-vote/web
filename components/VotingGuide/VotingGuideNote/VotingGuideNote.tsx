@@ -10,10 +10,10 @@ import usePortal from "hooks/usePortal";
 import { useForm } from "react-hook-form";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { AtLeast } from "types/global";
-import type { EditVotingGuideCandidate } from "components/Ballot/Race";
+import type { EditVotingGuideCandidate } from "components";
 import { useQueryClient } from "react-query";
 
-export function VotingGuideNote({
+function VotingGuideNote({
   politician,
   isOpen,
   handleClose,
@@ -127,3 +127,5 @@ export function VotingGuideNote({
     portal
   );
 }
+
+export { VotingGuideNote };

@@ -1,5 +1,4 @@
-import BasicLayout from "components/BasicLayout/BasicLayout";
-import { HomePageButton } from "components/HomePageButton/HomePageButton";
+import { BasicLayout, HomePageButton } from "components";
 import Head from "next/head";
 
 function HomePage() {

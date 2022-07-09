@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export function AppHead() {
+function AppHead() {
   return (
     <Head>
       <title>Populist</title>
@@ -73,3 +73,5 @@ export function AppHead() {
     </Head>
   );
 }
+
+export { AppHead };

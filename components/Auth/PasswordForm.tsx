@@ -1,4 +1,4 @@
-import BasicLayout from "components/BasicLayout/BasicLayout";
+import { BasicLayout } from "components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -13,7 +13,7 @@ import useDebounce from "hooks/useDebounce";
 
 type PasswordFormValues = { password: string; confirmPassword: string };
 
-export function ResetPasswordForm() {
+function ResetPasswordForm() {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const {
@@ -141,3 +141,5 @@ export function ResetPasswordForm() {
     </BasicLayout>
   );
 }
+
+export { ResetPasswordForm };

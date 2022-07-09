@@ -8,7 +8,7 @@ interface FieldSetProps {
   children: ReactNode;
 }
 
-export function FieldSet({ heading, color, children }: FieldSetProps) {
+function FieldSet({ heading, color, children }: FieldSetProps) {
   return (
     <fieldset className={`${color && styles[color]} ${styles.container} `}>
       <legend>{heading}</legend>
@@ -16,3 +16,5 @@ export function FieldSet({ heading, color, children }: FieldSetProps) {
     </fieldset>
   );
 }
+
+export { FieldSet };
