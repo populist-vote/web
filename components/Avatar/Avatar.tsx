@@ -21,6 +21,7 @@ import "@szhsin/react-menu/dist/transitions/slide.css";
 import menuStyles from "./IconMenu.module.scss";
 
 import Link from "next/link";
+import classNames from "classnames";
 
 interface BadgeProps {
   background?: string;
@@ -67,6 +68,8 @@ interface AvatarProps {
   name?: string;
   round?: boolean;
   href?: string;
+  labelLeft?: LabelLeftProps;
+  opaque?: boolean;
   onClick?: () => void;
 }
 
@@ -83,6 +86,30 @@ interface PartyAvatarProps extends AvatarProps {
   handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
   handleAddNote?: EventHandler<ClickEvent | any>;
   readOnly?: boolean;
+}
+
+interface LabelLeftProps {
+  color?: string;
+  background?: string;
+  text: string;
+}
+
+function LabelLeft(props: LabelLeftProps): JSX.Element {
+  const { text, color, background } = props;
+
+  const styleVars: CSSProperties & {
+    "--color": string | undefined;
+    "--background": string | undefined;
+  } = {
+    [`--color`]: color,
+    [`--background`]: background,
+  };
+
+  return (
+    <div className={styles.labelLeftWrapper} style={styleVars}>
+      <span className={styles.labelText}>{text}</span>
+    </div>
+  );
 }
 
 function Badge(props: BadgeProps): JSX.Element {
@@ -222,6 +249,8 @@ function Avatar(props: AvatarProps): JSX.Element {
     iconMenuProps,
     href,
     handleIconClick,
+    labelLeft,
+    opaque = false,
   } = props;
 
   const styleVars: CSSProperties & {
@@ -234,13 +263,17 @@ function Avatar(props: AvatarProps): JSX.Element {
     [`--border-style`]: borderColor ? "solid" : "none",
   };
 
+  const cx = classNames(styles.imageContainer, {
+    [styles.opaque as string]: opaque,
+  });
+
   const $avatarImage = (
     <ImageWithFallback
       src={props.src || fallbackSrc}
       fallbackSrc={fallbackSrc}
       width={props.size}
       height={props.size}
-      className={styles.imageContainer}
+      className={cx}
       alt={props.alt}
     />
   );
@@ -261,6 +294,7 @@ function Avatar(props: AvatarProps): JSX.Element {
           <IconMenu {...iconMenuProps} handleIconClick={handleIconClick} />
         )}
         {badge && <Badge {...badge} />}
+        {labelLeft && <LabelLeft {...labelLeft} />}
       </div>
     </div>
   );
@@ -281,6 +315,8 @@ function PartyAvatar({
   handleUnendorseCandidate,
   handleAddNote,
   readOnly = true,
+  labelLeft,
+  opaque = false,
   ...rest
 }: PartyAvatarProps): JSX.Element {
   const partyColor = useMemo(() => getPartyColor(party), [party]);
@@ -327,10 +363,12 @@ function PartyAvatar({
       <Avatar
         borderColor={isEndorsement ? "var(--yellow)" : undefined}
         badge={badge}
+        labelLeft={labelLeft}
         hasIconMenu={hasIconMenu}
         iconMenuProps={iconMenuProps}
         src={src}
         fallbackSrc={fallbackSrc}
+        opaque={opaque}
         {...rest}
       />
     </div>
