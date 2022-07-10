@@ -46,11 +46,9 @@ type ArgumentResult {
   authorId: ID!
   authorType: AuthorType!
   body: String
-  createdAt: DateTime!
   id: ID!
   position: String!
   title: String!
-  updatedAt: DateTime!
   votes: Int!
 }
 
@@ -73,7 +71,6 @@ type BallotMeasureResult {
   arguments: [BallotMeasureResult!]!
   ballotMeasureCode: String!
   ballotState: State!
-  createdAt: DateTime!
   definitions: String!
   description: String
   electionId: ID!
@@ -85,7 +82,6 @@ type BallotMeasureResult {
   populistSummary: String
   slug: String!
   title: String!
-  updatedAt: DateTime!
 }
 
 input BallotMeasureSearch {
@@ -140,7 +136,6 @@ type Bill {
 type BillResult {
   arguments: [ArgumentResult!]!
   billNumber: String!
-  createdAt: DateTime!
   description: String
   fullTextUrl: String
   history: JSON!
@@ -152,7 +147,6 @@ type BillResult {
   populistSummary: String
   slug: String!
   title: String!
-  updatedAt: DateTime!
 }
 
 type BillResultConnection {
@@ -395,13 +389,6 @@ type CreateUserResult {
   id: ID!
 }
 
-"""
-Implement the DateTime<Utc> scalar
-
-The input/output is a string in RFC3339 format.
-"""
-scalar DateTime
-
 type DeleteArgumentResult {
   id: String!
 }
@@ -503,14 +490,12 @@ type History {
 type IssueTagResult {
   ballotMeasures: [BallotMeasureResult!]!
   bills: [BillResult!]!
-  createdAt: DateTime!
   description: String
   id: ID!
   name: String!
   organizations: [OrganizationResult!]!
   politicians: [PoliticianResult!]!
   slug: String!
-  updatedAt: DateTime!
 }
 
 input IssueTagSearch {
@@ -620,7 +605,6 @@ type Office {
 }
 
 type OfficeResult {
-  createdAt: DateTime!
   district: String
   districtType: District
   electionScope: ElectionScope!
@@ -632,7 +616,6 @@ type OfficeResult {
   slug: String!
   state: State
   title: String!
-  updatedAt: DateTime!
 }
 
 input OfficeSearch {
@@ -726,7 +709,6 @@ type PoliticianResult {
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
-  createdAt: DateTime!
   currentOffice: OfficeResult
   dateOfBirth: NaiveDate
   email: String
@@ -757,8 +739,6 @@ type PoliticianResult {
   twitterUrl: String
   upcomingRace: RaceResult
   upcomingRaceId: ID
-  updatedAt: DateTime!
-  votePercentage(raceId: UUID!): Float
   votes(raceId: UUID!): Int
   votesmartCandidateBio: GetCandidateBioResponse
   votesmartCandidateId: Int
@@ -910,10 +890,15 @@ type Query {
   ): [VotingGuideResult!]!
 }
 
+type RaceCandidateResult {
+  candidateId: ID!
+  votePercentage: Float
+  votes: Int
+}
+
 type RaceResult {
   ballotpediaLink: String
   candidates: [PoliticianResult!]!
-  createdAt: DateTime!
   description: String
   earlyVotingBeginsDate: NaiveDate
   electionDate: NaiveDate
@@ -924,12 +909,16 @@ type RaceResult {
   officialWebsite: String
   party: PoliticalParty
   raceType: RaceType!
+  results: RaceResultsResult!
   slug: String!
   state: State
   title: String!
+}
+
+type RaceResultsResult {
   totalVotes: Int
-  updatedAt: DateTime!
-  winnerId: ID
+  votesByCandidate: [RaceCandidateResult!]!
+  winner: PoliticianResult
 }
 
 input RaceSearch {
