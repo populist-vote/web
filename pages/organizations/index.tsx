@@ -1,6 +1,5 @@
-import Head from "next/head";
 import { ReactElement } from "react";
-import { Layout } from "components";
+import { Layout, SEO } from "components";
 import { NextPageWithLayout } from "../_app";
 
 const OrganizationIndex: NextPageWithLayout = () => {
@@ -10,13 +9,10 @@ const OrganizationIndex: NextPageWithLayout = () => {
 OrganizationIndex.getLayout = function getLayout(page: ReactElement) {
   return (
     <>
-      <Head>
-        <title>Populist - Politician Browser</title>
-        <meta
-          name="description"
-          content="Find information on your government representatives like voting histories, endorsements, and financial data."
-        />
-      </Head>
+      <SEO
+        title="Politician Browser"
+        description="Find information on your government representatives like voting histories, endorsements, and financial data."
+      />
       <Layout>{page}</Layout>
     </>
   );

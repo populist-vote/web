@@ -7,12 +7,11 @@ import {
   useRef,
   useState,
 } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { FaChevronDown, FaSearch } from "react-icons/fa";
 import Link from "next/link";
 
-import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
+import { Layout, LoaderFlag, PartyAvatar, SEO, Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
 
 import {
@@ -177,13 +176,10 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
 
   return (
     <>
-      <Head>
-        <title>Populist - Politician Browser</title>
-        <meta
-          name="description"
-          content="Find information on your government representatives like voting histories, endorsements, and financial data."
-        />
-      </Head>
+      <SEO
+        title="Politician Browser"
+        description="Find information on your government representatives like voting histories, endorsements, and financial data."
+      />
       <div>
         <header>
           <h1 className={styles.desktopOnly}>Colorado Legislators</h1>

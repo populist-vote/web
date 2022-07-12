@@ -1,16 +1,12 @@
-import { BasicLayout, HomePageButton } from "components";
-import Head from "next/head";
+import { BasicLayout, HomePageButton, SEO } from "components";
 
 function HomePage() {
   return (
     <>
-      <Head>
-        <title>Populist - Home</title>
-        <meta
-          name="description"
-          content="Find information on your government representatives like voting histories, endorsements, and financial data."
-        />
-      </Head>
+      <SEO
+        title="Home"
+        description="Find information on your government representatives like voting histories, endorsements, and financial data."
+      />
       <BasicLayout>
         <HomePageButton href="/ballot" className="myBallot" label="My Ballot" />
         <HomePageButton
