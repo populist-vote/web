@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Head from "next/head";
 import Router from "next/router";
 import { toast } from "react-toastify";
 import { IoIosRemoveCircle } from "react-icons/io";
@@ -9,7 +8,14 @@ import {
   useVotingGuidesByIdsQuery,
   ElectionResult,
 } from "generated";
-import { Layout, Avatar, FlagSection, Button, LoaderFlag } from "components";
+import {
+  Layout,
+  Avatar,
+  FlagSection,
+  Button,
+  LoaderFlag,
+  SEO,
+} from "components";
 import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
@@ -155,11 +161,7 @@ const VotingGuides: NextPage<{
 
   return (
     <>
-      <Head>
-        <title>Populist - Voting Guides</title>
-        <meta name="description" content="View Voting Guides." />
-      </Head>
-
+      <SEO title="Voting Guides" description="View Populist Voting Guides" />
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
           <FlagSection title="Voting Guides" hideFlagForMobile>

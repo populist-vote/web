@@ -19,7 +19,7 @@ import { OfficeRaces } from "./Ballot/OfficeRaces";
 import { PasswordEntropyMeter } from "./Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
 import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
 import { EditVotingGuideCandidate } from "./Ballot/Race";
-import { AppHead } from "./Head/Head";
+import { SEO } from "./SEO/SEO";
 import { HomePageButton } from "./HomePageButton/HomePageButton";
 import { HeaderSection } from "./Politician/HeaderSection";
 import { ElectionInfoSection } from "./Politician/ElectionInfoSection";
@@ -29,7 +29,7 @@ export type { EditVotingGuideCandidate };
 export {
   HeaderSection,
   ElectionInfoSection,
-  AppHead,
+  SEO,
   Avatar,
   BillCard,
   BasicLayout,

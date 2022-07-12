@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQueryClient } from "react-query";
 
@@ -32,6 +31,7 @@ import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
 import styles from "components/Layout/Layout.module.scss";
 import ballotStyles from "./Ballot.module.scss";
+import { SEO } from "components";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -156,13 +156,10 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   if (!user) return null;
   return (
     <>
-      <Head>
-        <title>Populist - The Ballot</title>
-        <meta
-          name="description"
-          content="Find information on your government representatives like voting histories, endorsements, and financial data."
-        />
-      </Head>
+      <SEO
+        title="Ballot"
+        description="Find information on your government representatives like voting histories, endorsements, and financial data."
+      />
 
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
