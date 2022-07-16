@@ -13,10 +13,15 @@ function Nav({
   mobileNavTitle = "Colorado Legislators",
   showBackButton = true,
   showLogoOnMobile,
+  navItems,
 }: {
   mobileNavTitle?: string;
   showBackButton: boolean;
   showLogoOnMobile: boolean;
+  navItems: {
+    label: string;
+    href: string;
+  }[];
 }) {
   const router = useRouter();
   const [sticky, setSticky] = useState<boolean>(true);
@@ -102,37 +107,19 @@ function Nav({
         </Link>
         <div className={styles.items}>
           <ul>
-            <Link href="/ballot" passHref>
-              <li
-                className={`${styles.navItem} ${
-                  pathname.includes("/ballot") &&
-                  !query.votingGuideId &&
-                  styles.active
-                }`}
-              >
-                Ballot
-              </li>
-            </Link>
-            <Link href="/politicians" passHref>
-              <li
-                className={`${styles.navItem} ${
-                  pathname.includes("/politicians") && styles.active
-                }`}
-              >
-                Politicians
-              </li>
-            </Link>
-            <Link href="/voting-guides" passHref>
-              <li
-                className={`${styles.navItem} ${
-                  (pathname.includes("/voting-guides") ||
-                    query.votingGuideId) &&
-                  styles.active
-                }`}
-              >
-                Voting Guides
-              </li>
-            </Link>
+            {navItems.map(({ label, href }) => (
+              <Link href={href} passHref key={href}>
+                <li
+                  className={`${styles.navItem} ${
+                    pathname.includes(href) &&
+                    !query.votingGuideId &&
+                    styles.active
+                  }`}
+                >
+                  {label}
+                </li>
+              </Link>
+            ))}
           </ul>
           {user ? (
             <Link href="/settings/profile" passHref>
