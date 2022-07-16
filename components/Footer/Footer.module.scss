@@ -1,27 +1,34 @@
 @import "styles/variables/colors.module.scss";
+@import "styles/variables/fonts.module";
 @import "styles/mixins.scss";
+
+$font-size: 0.85em;
 
 .footer {
   grid-area: footer;
-  text-align: center;
-  margin: 3rem 0;
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 
   ul {
-    display:flex;
+    padding: 0;
+    width: auto;
+    list-style: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 2rem;
-    padding: 0 0 1rem;
 
     li {
       list-style: none;
       display: inline-block;
       position: relative;
-      font-family: "commuters_sans", sans-serif;
+      font-family: $font-primary;
+      font-size: $font-size;
 
       a {
         color: $blue-light;
-        font-size: .75em;
         &:hover {
           color: $blue-lighter;
         }
@@ -29,13 +36,21 @@
     }
   }
 
-  svg {
-    margin: 0 1rem;
+  .socials {
     color: $blue;
 
     &:hover {
       color: $blue-light;
       transition: ease-in-out 0.3s all;
     }
+  }
+
+  .copywright {
+    font-size: $font-size;
+    color: $blue-light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
   }
 }
