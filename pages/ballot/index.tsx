@@ -6,6 +6,7 @@ import { dehydrate, QueryClient, useQueryClient } from "react-query";
 import { Layout, LoaderFlag, VotingGuideWelcome } from "components";
 
 import {
+  ElectionResult,
   useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
   useNextElectionQuery,
@@ -127,8 +128,8 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
           {isSuccess && (
             <>
               <ElectionSelector
-                elections={data.elections}
-                selectedElectionId={selectedElectionId}
+                elections={data?.elections as Partial<ElectionResult>[]}
+                selectedElectionId={selectedElectionId as string}
                 setSelectedElectionId={setSelectedElectionId}
               />
               <VotingGuideProvider votingGuideId={votingGuideId}>

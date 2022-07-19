@@ -91,7 +91,7 @@ interface PartyAvatarProps extends AvatarProps {
 interface LabelLeftProps {
   color?: string;
   background?: string;
-  text: string;
+  text: string | null;
 }
 
 function LabelLeft(props: LabelLeftProps): JSX.Element | null {
