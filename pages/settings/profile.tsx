@@ -132,8 +132,6 @@ const UsernameSection = ({ username }: { username: string }) => {
     });
   };
 
-  // Need to handle username already taken here
-
   // 3-20 characters, no spaces, no special characters besides _ and ., no _ or . at the end
   const usernameRegex = /^[a-zA-Z0-9_.]{3,20}$/;
 
@@ -550,24 +548,68 @@ const PasswordSection = () => {
   );
 };
 
-const ProfilePhotoSection = () => {
+const ProfilePhotoSection = ({
+  profilePictureUrl,
+  userId,
+}: {
+  profilePictureUrl: string;
+  userId: string;
+}) => {
+  const queryClient = useQueryClient();
+  const { register, handleSubmit } = useForm<{ file: File }>();
+
+  const onSubmit = (data: any) => {
+    const formData = new FormData();
+    const uploadProfilePictureOperations = `
+      {
+        "query":"mutation UploadProfilePicture($file: Upload) {uploadProfilePicture(file: $file) }",
+        "variables":{
+            "file":null
+        }
+      }
+      `;
+
+    formData.append("operations", uploadProfilePictureOperations);
+    const map = `{"file": ["variables.file"]}`;
+    formData.append("map", map);
+    formData.append("file", data.file[0]);
+
+    fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    })
+      .then(() => {
+        queryClient
+          .invalidateQueries(useUserProfileQuery.getKey({ userId }))
+          .catch((err) => console.error(err));
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <section>
       <h2>Profile picture</h2>
       <div className={profileStyles.avatarSection}>
         <Avatar
-          src={PERSON_FALLBACK_IMAGE_URL}
+          key={profilePictureUrl}
+          src={profilePictureUrl}
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt="profile picture"
           size={200}
         />
-        <Button
-          id="upload-photo-btn"
-          label={"Upload Photo"}
-          variant="secondary"
-          size="large"
-          theme="blue"
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Button
+            id="upload-photo-btn"
+            label={"Upload Photo"}
+            variant="secondary"
+            size="large"
+            theme="blue"
+          />
+
+          <input type="file" id="file" {...register("file")} />
+        </form>
+
         <Button
           id="edit-thumbnail-btn"
           label={"Edit Thumbnail"}
@@ -598,12 +640,16 @@ export const ProfilePage: NextPageWithLayout = () => {
     lastName = "",
     email,
     username,
+    profilePictureUrl,
   } = userProfile;
 
   return (
     <FlagSection hideFlagForMobile title="My Profile">
       <div className={profileStyles.profile}>
-        {false && <ProfilePhotoSection />}
+        <ProfilePhotoSection
+          profilePictureUrl={profilePictureUrl as string}
+          userId={user.id}
+        />
         <NameSection
           firstName={firstName as string}
           lastName={lastName as string}
