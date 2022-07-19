@@ -2,7 +2,7 @@ import { RaceResult, ElectionScope, District } from "generated";
 import dynamic from "next/dynamic";
 import states from "utils/states";
 import styles from "../Layout/Layout.module.scss";
-import ballotStyles from "pages/ballot/Ballot.module.scss";
+import ballotStyles from "./Ballot.module.scss";
 import { Race } from "./Race";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {

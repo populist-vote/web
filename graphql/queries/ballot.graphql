@@ -60,6 +60,19 @@ query NextElection {
   }
 }
 
+query Elections {
+  elections {
+    id
+    electionDate
+  }
+}
+
+query ElectionById($id: ID!) {
+  electionById(id: $id) {
+    ...electionFields
+  }
+}
+
 query VotingGuideById($id: ID!) {
   votingGuideById(id: $id) {
     ...guideFields

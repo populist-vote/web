@@ -807,7 +807,7 @@ type Query {
   Provides current user based on JWT found in client's access_token cookie
   """
   currentUser: AuthTokenResult
-  electionById(id: String!): ElectionResult!
+  electionById(id: ID!): ElectionResult!
   electionBySlug(slug: String!): ElectionResult!
 
   """Returns a single voting guide for the given election and user"""
@@ -820,7 +820,7 @@ type Query {
   ): VotingGuideResult
   elections(
     """Search by slug or title"""
-    search: ElectionSearchInput!
+    search: ElectionSearchInput
   ): [ElectionResult!]!
   health: Boolean!
   issueTagBySlug(
@@ -868,7 +868,6 @@ type Query {
     """Search by race title or state"""
     search: RaceSearch
   ): [RaceResult!]!
-  upcomingElections: [ElectionResult!]!
 
   """Get all users"""
   userCount: Int

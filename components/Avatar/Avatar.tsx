@@ -94,7 +94,7 @@ interface LabelLeftProps {
   text: string;
 }
 
-function LabelLeft(props: LabelLeftProps): JSX.Element {
+function LabelLeft(props: LabelLeftProps): JSX.Element | null {
   const { text, color, background } = props;
 
   const styleVars: CSSProperties & {
@@ -104,6 +104,8 @@ function LabelLeft(props: LabelLeftProps): JSX.Element {
     [`--color`]: color,
     [`--background`]: background,
   };
+
+  if (!text) return null;
 
   return (
     <div className={styles.labelLeftWrapper} style={styleVars}>
