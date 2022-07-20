@@ -177,6 +177,11 @@ function Race({
               color: "var(--grey-darker)",
             };
 
+            const isOpaque =
+              results.winner && results?.winner?.id !== politician.id
+                ? true
+                : false;
+
             return (
               <div
                 className={styles.flexBetween}
@@ -208,7 +213,7 @@ function Race({
                     readOnly={!isGuideOwner}
                     href={politicianLink}
                     labelLeft={labelLeftProps}
-                    opaque={results && results.winner?.id !== politician.id}
+                    opaque={isOpaque}
                   />
                   <Link href={politicianLink} passHref>
                     <span
