@@ -3,6 +3,8 @@ import PlusIcon from "./PlusIcon";
 import StarGreyDarkIcon from "./StarGreyDarkIcon";
 import StarGreyDarkerIcon from "./StarGreyDarkerIcon";
 import StarYellowDarkIcon from "./StarYellowDarkIcon";
+import LeftArrowIcon from "./LeftArrowIcon";
+import RightArrowIcon from "./RightArrowIcon";
 
 export {
   NoteIcon,
@@ -10,4 +12,6 @@ export {
   StarGreyDarkIcon,
   StarGreyDarkerIcon,
   StarYellowDarkIcon,
+  LeftArrowIcon,
+  RightArrowIcon,
 };

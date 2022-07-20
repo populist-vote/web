@@ -91,10 +91,10 @@ interface PartyAvatarProps extends AvatarProps {
 interface LabelLeftProps {
   color?: string;
   background?: string;
-  text: string;
+  text: string | null;
 }
 
-function LabelLeft(props: LabelLeftProps): JSX.Element {
+function LabelLeft(props: LabelLeftProps): JSX.Element | null {
   const { text, color, background } = props;
 
   const styleVars: CSSProperties & {
@@ -104,6 +104,8 @@ function LabelLeft(props: LabelLeftProps): JSX.Element {
     [`--color`]: color,
     [`--background`]: background,
   };
+
+  if (!text) return null;
 
   return (
     <div className={styles.labelLeftWrapper} style={styleVars}>

@@ -46,6 +46,11 @@
     color: $blue-lighter;
   }
 
+  small {
+    font-size: 0.85em;
+    color: $aqua;
+  }
+
   @include for-tablet-up {
     padding: 0 0;
   }

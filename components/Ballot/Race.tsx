@@ -15,7 +15,7 @@ import { useVotingGuide } from "hooks/useVotingGuide";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
 import styles from "components/Layout/Layout.module.scss";
-import ballotStyles from "pages/ballot/Ballot.module.scss";
+import ballotStyles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
 import Link from "next/link";
 
@@ -167,16 +167,20 @@ function Race({
               politician?.slug
             )}${appendString}`;
 
-            const votePercentage =
-              results.votesByCandidate.find(
-                (c) => c.candidateId === politician.id
-              )?.votePercentage + "%";
+            const votePercentage = results.votesByCandidate.find(
+              (c) => c.candidateId === politician.id
+            )?.votePercentage;
 
             const labelLeftProps = {
-              text: votePercentage,
+              text: votePercentage ? `${votePercentage}%` : null,
               background: "var(--grey-lighter)",
               color: "var(--grey-darker)",
             };
+
+            const isOpaque =
+              results.winner && results?.winner?.id !== politician.id
+                ? true
+                : false;
 
             return (
               <div
@@ -209,7 +213,7 @@ function Race({
                     readOnly={!isGuideOwner}
                     href={politicianLink}
                     labelLeft={labelLeftProps}
-                    opaque={results && results.winner?.id !== politician.id}
+                    opaque={isOpaque}
                   />
                   <Link href={politicianLink} passHref>
                     <span
