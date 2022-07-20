@@ -8,6 +8,7 @@ import {
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { ElectionRaces } from "./BallotRaces";
 import { ElectionHeader } from "./ElectionHeader";
+import styles from "./Ballot.module.scss";
 
 function Election({
   electionId,
@@ -17,12 +18,12 @@ function Election({
   flagLabel: string;
 }) {
   const { data: votingGuide, isGuideOwner } = useVotingGuide();
-  const { data, isLoading, isError, error } = useElectionByIdQuery(
+  const electionQuery = useElectionByIdQuery(
     {
       id: electionId,
     },
     {
-      enabled: !votingGuide.id || isGuideOwner,
+      enabled: !votingGuide?.id || isGuideOwner,
     }
   );
 
@@ -36,19 +37,37 @@ function Election({
     }
   );
 
-  const races =
-    electionVotingGuideRacesQuery.data?.electionById.racesByVotingGuide ??
-    (data?.electionById?.racesByUserDistricts || []);
+  const isLoading =
+    electionQuery.isLoading || electionVotingGuideRacesQuery.isLoading;
+  const isError =
+    electionQuery.isError || electionVotingGuideRacesQuery.isError;
+  const error = electionQuery.error || electionVotingGuideRacesQuery.error;
 
   if (isLoading) return <LoaderFlag />;
   if (isError) return <div>{JSON.stringify(error)}</div>;
+
+  const election =
+    electionVotingGuideRacesQuery.data?.electionById ??
+    electionQuery.data?.electionById;
+
+  const races =
+    electionVotingGuideRacesQuery.data?.electionById.racesByVotingGuide ??
+    (electionQuery?.data?.electionById?.racesByUserDistricts || []);
 
   return (
     <>
       <ElectionHeader
         flagLabel={flagLabel}
-        election={data?.electionById as Partial<ElectionResult>}
+        election={election as Partial<ElectionResult>}
       />
+      {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
+        <div className={styles.electionHeader}>
+          <small>
+            This voting guide doesn't have any candidates selected for this
+            election
+          </small>
+        </div>
+      )}
       <ElectionRaces races={races as RaceResult[]} />
     </>
   );
