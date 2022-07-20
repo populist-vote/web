@@ -446,6 +446,7 @@ type ElectionResult {
 
   """Show races relevant to the user based on their address"""
   racesByUserDistricts: [RaceResult!]!
+  racesByVotingGuide(votingGuideId: ID!): [RaceResult!]!
   slug: String!
   title: String!
 }

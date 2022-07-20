@@ -9,7 +9,6 @@ import {
   ElectionResult,
   useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
-  useNextElectionQuery,
   useUpsertVotingGuideMutation,
   useVotingGuideByIdQuery,
 } from "generated";
@@ -164,8 +163,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(
-    useNextElectionQuery.getKey(),
-    useNextElectionQuery.fetcher()
+    useElectionsQuery.getKey(),
+    useElectionsQuery.fetcher()
   );
 
   const state = dehydrate(queryClient);

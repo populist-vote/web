@@ -44,20 +44,7 @@ fragment electionFields on ElectionResult {
   title
   description
   electionDate
-  races {
-    ...raceFields
-  }
-  racesByUserDistricts {
-    ...raceFields
-  }
-}
-
-
-
-query NextElection {
-  nextElection {
-    ...electionFields
-  }
+  
 }
 
 query Elections {
@@ -70,6 +57,19 @@ query Elections {
 query ElectionById($id: ID!) {
   electionById(id: $id) {
     ...electionFields
+    racesByUserDistricts {
+      ...raceFields
+    }
+  }
+}
+
+# Shows only races where voting guide has endorsed or noted candidates
+query ElectionVotingGuideRaces($electionId: ID!, $votingGuideId: ID!) {
+  electionById(id: $electionId) {
+    ...electionFields
+    racesByVotingGuide(votingGuideId: $votingGuideId) {
+      ...raceFields
+    }
   }
 }
 
