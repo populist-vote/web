@@ -1,5 +1,5 @@
 import { ElectionResult } from "generated";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { LeftArrowIcon, RightArrowIcon } from "components/Icons";
 import { dateString } from "utils/dates";
 import styles from "./ElectionSelector.module.scss";
 
@@ -28,27 +28,28 @@ function ElectionSelector({
         disabled={!hasPreviousElection}
         onClick={() => setSelectedElectionId(previousElection?.id as string)}
       >
+        <LeftArrowIcon />
+
         {hasPreviousElection && (
-          <>
-            <span>Previous Vote</span>
-            <span>{dateString(previousElection?.electionDate)}</span>
-          </>
+          <div className={styles.lastLabel}>
+            <h4>Last Vote</h4>
+            <h3>{dateString(previousElection?.electionDate, true)}</h3>
+          </div>
         )}
 
-        <FaChevronLeft />
       </button>
       <button
         disabled={!hasNextElection}
         onClick={() => setSelectedElectionId(nextElection?.id as string)}
       >
         {hasNextElection && (
-          <>
-            <span>Next Vote</span>
-            <span>{dateString(nextElection?.electionDate)}</span>
-          </>
+          <div className={styles.nextLabel}>
+            <h4>Next Vote</h4>
+            <h3>{dateString(nextElection?.electionDate, true)}</h3>
+          </div>
         )}
 
-        <FaChevronRight />
+        <RightArrowIcon />
       </button>
     </div>
   );
