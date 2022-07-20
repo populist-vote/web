@@ -2,14 +2,14 @@
 
 .container {
   position: absolute;
-  top:0;
-  right:0;
+  top: 0;
+  right: 0;
   z-index: 25;
   display: flex;
   flex-direction: row;
   align-items: top;
   justify-content: flex-end;
-  margin-right:8rem;
+  margin-right: 8rem;
 
   button {
     background: $blue-darker;
@@ -29,7 +29,12 @@
     &:last-child {
       border-left: 1px solid $blue-dark;
     }
-    
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
     .nextLabel {
       display: flex;
       flex-direction: column;
@@ -45,7 +50,7 @@
     }
 
     h4 {
-      margin:0;
+      margin: 0;
       font-size: 1.2em;
     }
 
@@ -57,7 +62,3 @@
     }
   }
 }
-
-
-
-
