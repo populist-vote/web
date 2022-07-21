@@ -2,6 +2,7 @@ import { ElectionResult } from "generated";
 import { LeftArrowIcon, RightArrowIcon } from "components/Icons";
 import { dateString } from "utils/dates";
 import styles from "./ElectionSelector.module.scss";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function ElectionSelector({
   elections,
@@ -22,6 +23,8 @@ function ElectionSelector({
   const hasNextElection =
     typeof elections[currentElectionIndex + 1] !== "undefined";
   const nextElection = elections[currentElectionIndex + 1];
+  const isSmallScreen = useMediaQuery("(max-width: 896px)");
+  
   return (
     <div className={styles.container}>
       <button
@@ -29,12 +32,17 @@ function ElectionSelector({
         onClick={() => setSelectedElectionId(previousElection?.id as string)}
       >
         <LeftArrowIcon />
-
-        {hasPreviousElection && (
+        {isSmallScreen ? (
           <div className={styles.lastLabel}>
             <h4>Last Vote</h4>
-            <h3>{dateString(previousElection?.electionDate, true)}</h3>
           </div>
+        ) : (
+          (hasPreviousElection && !hasNextElection) && (
+            <div className={styles.lastLabel}>
+              <h4>Last Vote</h4>
+              <h3>{dateString(previousElection?.electionDate, true)}</h3>
+            </div>
+          )
         )}
 
       </button>
@@ -42,11 +50,18 @@ function ElectionSelector({
         disabled={!hasNextElection}
         onClick={() => setSelectedElectionId(nextElection?.id as string)}
       >
-        {hasNextElection && (
+        
+        {isSmallScreen ? (
           <div className={styles.nextLabel}>
             <h4>Next Vote</h4>
-            <h3>{dateString(nextElection?.electionDate, true)}</h3>
           </div>
+        ) : (
+          hasNextElection && (
+            <div className={styles.nextLabel}>
+              <h4>Next Vote</h4>
+              <h3>{dateString(nextElection?.electionDate, true)}</h3>
+            </div>
+          )
         )}
 
         <RightArrowIcon />
