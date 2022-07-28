@@ -111,9 +111,10 @@ function Nav({
               <Link href={href} passHref key={href}>
                 <li
                   className={`${styles.navItem} ${
-                    pathname.includes(href) &&
-                    !query.votingGuideId &&
-                    styles.active
+                    (pathname.includes(href) && !query["voting-guide"]) ||
+                    (!!query["voting-guide"] &&
+                      href === "/voting-guides" &&
+                      styles.active)
                   }`}
                 >
                   {label}

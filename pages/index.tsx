@@ -10,7 +10,7 @@ import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
 import { Avatar, Footer, ImageWithFallback, Button } from "components";
 import styles from "styles/landing.module.scss";
-import SimpleNavStyles from "styles/SimpleNav.module.scss";
+import SimpleNavStyles from "styles/nav.module.scss";
 import classNames from "classnames";
 import Router from "next/router";
 import { useAuth } from "hooks/useAuth";
@@ -26,70 +26,69 @@ const Home: NextPage = () => {
     <>
       <main className={styles.container}>
         <div id={styles["container1"]}>
-          
-        <div className={SimpleNavStyles.navContainer}> 
-          <div className={SimpleNavStyles.logoContainer}>
-            
+          <div className={SimpleNavStyles.navContainer}>
+            <div className={SimpleNavStyles.logoContainer}></div>
+            <div className={SimpleNavStyles.menuContainer}>
+              <ul className={SimpleNavStyles.menu}>
+                {!user && (
+                  <>
+                    <li>
+                      <Link href="/about" passHref>
+                        ABOUT
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/faq" passHref>
+                        FAQ
+                      </Link>
+                    </li>
+                    <li>
+                      <Button
+                        size={isMobile ? "small" : "medium"}
+                        variant="primary"
+                        theme="blue"
+                        label="Sign in"
+                        onClick={() => Router.push(`/login`)}
+                      />
+                    </li>
+                    <li className={SimpleNavStyles.menuButton}>
+                      <Button
+                        size={isMobile ? "small" : "medium"}
+                        variant="secondary"
+                        theme="blue"
+                        label="Register"
+                        onClick={() => Router.push(`/register`)}
+                      />
+                    </li>
+                  </>
+                )}
+                {user && (
+                  <>
+                    <li>
+                      <Link href="/about" passHref>
+                        ABOUT
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/faq" passHref>
+                        FAQ
+                      </Link>
+                    </li>
+                    <li className={SimpleNavStyles.accountProfile}>
+                      <Link href="/settings/profile" passHref>
+                        <Avatar
+                          src={PERSON_FALLBACK_IMAGE_URL}
+                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                          alt="profile picture"
+                          size={isMobile ? 35 : 60}
+                        />
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
           </div>
-          <div className={SimpleNavStyles.menuContainer}>
-            <ul className={SimpleNavStyles.menu}>
-              {!user && (
-                <>
-                  <li>
-                    <Link href="/about" passHref>
-                      ABOUT
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/faq" passHref>
-                      FAQ
-                    </Link>
-                  </li>
-                  <li>
-                    <Button
-                      size={isMobile ? "small" : "medium"}
-                      variant="primary"
-                      theme="blue"
-                      label="Sign in"
-                      onClick={() => Router.push(`/login`)}
-                    />
-                  </li>
-                  <li className={SimpleNavStyles.menuButton}>
-                    <Button
-                      size={isMobile ? "small" : "medium"}
-                      variant="secondary"
-                      theme="blue"
-                      label="Register"
-                      onClick={() => Router.push(`/register`)}
-                    />
-                  </li>
-                </>
-              )}
-              {user && (
-                <><li>
-                <Link href="/about" passHref>
-                  ABOUT
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" passHref>
-                  FAQ
-                </Link>
-              </li>
-              <li className={SimpleNavStyles.accountProfile}>
-                <Link href="/settings/profile" passHref>
-                  <Avatar
-                    src={PERSON_FALLBACK_IMAGE_URL}
-                    fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                    alt="profile picture"
-                    size={isMobile ? 35 : 60}
-                  />
-                </Link>
-              </li></>
-              )}
-            </ul>
-          </div>
-        </div>
 
           <div id={styles["section1"]}>
             <Image
@@ -115,8 +114,8 @@ const Home: NextPage = () => {
               <h2>Transparent democracy in action.</h2>
               <p>
                 We believe that with better access to transparent, non-partisan
-                information, we can create a well-informed and critical
-                public – the foundation of a more equitable democracy for all.
+                information, we can create a well-informed and critical public –
+                the foundation of a more equitable democracy for all.
               </p>
               <p>
                 It's time to change the way we engage with our government. From

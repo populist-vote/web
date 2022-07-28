@@ -2,7 +2,6 @@
   "extends": "stylelint-config-standard-scss",
   "rules": {
     "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$",
-    "scss/at-mixin-pattern": "^[a-z][a-zA-Z0-9]+$",
     "scss/at-import-partial-extension": null,
     "property-no-vendor-prefix": null,
     "declaration-colon-newline-after": null,

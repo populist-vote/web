@@ -1,24 +1,23 @@
 @import "styles/mixins.scss";
 @import "styles/variables/colors.module.scss";
 
-
 .content {
-  padding: 0rem 3rem; 
-  
-  h2:first-child {
-    margin-bottom:0;
-  }
+  padding: 0 3rem;
 
   h2 {
     font-weight: 500;
     margin-top: 4rem;
+
+    &:first-child {
+      margin-bottom: 0;
+    }
   }
 }
 
 .contentContainer {
   max-width: 1100px;
-  margin:auto;
-  padding-top:2rem;
+  margin: auto;
+  padding-top: 2rem;
 }
 
 .container {
@@ -30,11 +29,10 @@
   display: flex;
   flex-flow: column nowrap;
   -webkit-overflow-scrolling: touch;
-  background-image: linear-gradient(rgba(0, 33,53, .2), rgba(0, 33,53, 1)),
-          url("/images/landing/bg.jpg");
+  background-image: linear-gradient(rgba(0 33 53 0.2), rgba(0 33 53 1)),
+    url("/images/landing/bg.jpg");
   background-size: cover;
 
-  
   .textLink {
     color: $blue-lighter;
   }
@@ -46,10 +44,4 @@
   html {
     background: var(--blue-darkest);
   }
-
 }
-
-
-
-
-

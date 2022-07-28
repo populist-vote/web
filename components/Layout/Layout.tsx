@@ -4,7 +4,7 @@ import styles from "./Layout.module.scss";
 
 const defaultNavItems = [
   {
-    label: "Ballot",
+    label: "My Ballot",
     href: "/ballot",
   },
   {

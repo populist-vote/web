@@ -29,6 +29,7 @@
     text-align: center;
     max-width: 80%;
     font-weight: 500;
+
     @include for-tablet-down {
       margin: 0 0 0.3rem;
     }
@@ -40,6 +41,7 @@
     margin: 0 0 1.5rem;
     text-transform: uppercase;
     font-family: $font-primary;
+
     @include for-tablet-down {
       margin: 0 0 1.2rem;
     }
@@ -70,6 +72,7 @@
 
     &.borderBottom {
       border-bottom: 1px solid $blue-dark;
+
       @include for-tablet-down {
         border-top: solid 1px $blue-darker;
       }
@@ -77,6 +80,7 @@
 
     &.borderTop {
       border-top: 1px solid $blue-dark;
+
       @include for-tablet-down {
         border-top: solid 1px $blue-darker;
       }
@@ -92,6 +96,7 @@
 
   section.politicianOffice {
     padding: 2.5rem 0;
+
     @include for-tablet-down {
       padding: 2rem 0;
     }
@@ -102,7 +107,7 @@
   margin-top: 3rem;
 
   @include for-tablet-down {
-    margin-top: 0rem;
+    margin-top: 0;
   }
 
   .bioContent {
@@ -197,11 +202,7 @@
     display: inline;
     width: 100%;
     height: 1px;
-    background-image: linear-gradient(
-      to right,
-      $blue 20%,
-      rgba(255, 255, 255, 0) 0%
-    );
+    background-image: linear-gradient(to right, $blue 20%, $black 0%);
     background-position: bottom;
     background-size: 5px 1px;
     background-repeat: repeat-x;
