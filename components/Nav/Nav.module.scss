@@ -31,7 +31,7 @@
     // grid-template-columns: repeat(3, auto);
     justify-content: space-between;
     text-align: center;
-    padding: 1rem 1rem .7rem;
+    padding: 1rem 1rem 0.7rem;
     height: 80px;
     min-width: 0;
 
@@ -39,7 +39,7 @@
       display: flex;
       justify-content: left;
       align-items: center;
-      width:35px;
+      width: 35px;
 
       @include for-tablet-up {
         display: none;
@@ -47,13 +47,13 @@
     }
 
     .backButtonContainer {
-      display:flex;
+      display: flex;
       align-items: center;
-      width:35px;
+      width: 35px;
 
       .backButton {
         background: transparent;
-        height:20px;
+        height: 20px;
       }
     }
 
@@ -64,9 +64,9 @@
       align-items: center;
       flex-shrink: 1;
       width: 100%;
-      
+
       .logoSizer {
-        margin:auto;
+        margin: auto;
         width: 170px;
       }
 
@@ -76,21 +76,21 @@
     }
 
     .subTitle {
-      display:flex;
+      display: flex;
       justify-content: center;
       align-items: center;
       font-size: var(--text-md);
       font-family: $font-primary;
       font-weight: 400;
       margin-top: 0.2rem;
-  
+
       @include for-tablet-up {
         display: none;
       }
     }
-  
+
     .subTitleNoLogo {
-      display:flex;
+      display: flex;
       justify-content: center;
       align-items: center;
       font-size: 1.2em;

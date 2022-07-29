@@ -355,7 +355,6 @@ input CreatePoliticianInput {
   thumbnailImageUrl: String
   tiktokUrl: String
   twitterUrl: String
-  upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   votesmartCandidateRatings: JSON
@@ -739,7 +738,6 @@ type PoliticianResult {
   tiktokUrl: String
   twitterUrl: String
   upcomingRace: RaceResult
-  upcomingRaceId: ID
   votes(raceId: UUID!): Int
   votesmartCandidateBio: GetCandidateBioResponse
   votesmartCandidateId: Int
@@ -1261,7 +1259,6 @@ input UpdatePoliticianInput {
   thumbnailImageUrl: String
   tiktokUrl: String
   twitterUrl: String
-  upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   votesmartCandidateRatings: JSON

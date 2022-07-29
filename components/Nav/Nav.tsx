@@ -107,20 +107,22 @@ function Nav({
         </Link>
         <div className={styles.items}>
           <ul>
-            {navItems.map(({ label, href }) => (
-              <Link href={href} passHref key={href}>
-                <li
-                  className={`${styles.navItem} ${
-                    (pathname.includes(href) && !query["voting-guide"]) ||
-                    (!!query["voting-guide"] &&
-                      href === "/voting-guides" &&
-                      styles.active)
-                  }`}
-                >
-                  {label}
-                </li>
-              </Link>
-            ))}
+            {navItems.map(({ label, href }) => {
+              const isNavItemActive =
+                (pathname.includes(href) && !query["voting-guide"]) ||
+                (!!query["voting-guide"] && href === "/voting-guides");
+              return (
+                <Link href={href} passHref key={href}>
+                  <li
+                    className={`${styles.navItem} ${
+                      isNavItemActive && styles.active
+                    }`}
+                  >
+                    {label}
+                  </li>
+                </Link>
+              );
+            })}
           </ul>
           {user ? (
             <Link href="/settings/profile" passHref>
