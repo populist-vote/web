@@ -76,7 +76,7 @@ $desktop-max: 1440px;
 }
 
 @mixin dropshadow {
-  filter: drop-shadow(3px 6px 3px rgba(0 0 50%));
+  filter: drop-shadow(3px 6px 3px rgba(0 0 0 / 0.5));
 }
 
 @mixin override-button-styles {

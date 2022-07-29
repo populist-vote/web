@@ -1,15 +1,14 @@
 @import "styles/mixins.scss";
 @import "styles/variables/colors.module.scss";
 
-
 .content {
-  padding: 0rem 3rem;  
+  padding: 0 3rem;
 }
 
 .contentContainer {
   max-width: 1100px;
-  margin:auto;
-  padding-top:2rem;
+  margin: auto;
+  padding-top: 2rem;
 }
 
 .container {
@@ -18,28 +17,24 @@
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
-  // perspective: 8px;
-  // perspective-origin: center;
   display: flex;
   flex-flow: column nowrap;
   -webkit-overflow-scrolling: touch;
-  background-image: linear-gradient(rgba(0, 33,53, .2), rgba(0, 33,53, 1)),
-          url("/images/landing/bg.jpg");
+  background-image: linear-gradient(rgba(0 33 53 / 0.2), rgba(0 33 53 / 1)),
+    url("/images/landing/bg.jpg");
   background-size: cover;
 
   a {
-    color:#fff;
+    color: #fff;
   }
 
   a:hover {
     color: $blue-lighter;
   }
 
-
   html {
     background: var(--blue-darkest);
   }
-
 }
 
 .textLink {
@@ -49,6 +44,3 @@
 .textLink:hover {
   color: $blue-light;
 }
-
-
-
