@@ -29,6 +29,8 @@ import {
 import { PasswordEntropyMeter } from "components";
 import states from "utils/states";
 import { useQueryClient } from "react-query";
+import { useDropzone, FileWithPath } from "react-dropzone";
+import { toast } from "react-toastify";
 
 type NameSectionProps = {
   firstName: string;
@@ -555,10 +557,11 @@ const ProfilePhotoSection = ({
   profilePictureUrl: string;
   userId: string;
 }) => {
+  const [uploading, setUploading] = useState<boolean>(false);
   const queryClient = useQueryClient();
-  const { register, handleSubmit } = useForm<{ file: File }>();
 
-  const onSubmit = (data: any) => {
+  const onDropAccepted = (files: FileWithPath[]) => {
+    setUploading(true);
     const formData = new FormData();
     const uploadProfilePictureOperations = `
       {
@@ -572,7 +575,7 @@ const ProfilePhotoSection = ({
     formData.append("operations", uploadProfilePictureOperations);
     const map = `{"file": ["variables.file"]}`;
     formData.append("map", map);
-    formData.append("file", data.file[0]);
+    if (files[0]) formData.append("file", files[0]);
 
     fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
       method: "POST",
@@ -584,39 +587,49 @@ const ProfilePhotoSection = ({
           .invalidateQueries(useUserProfileQuery.getKey({ userId }))
           .catch((err) => console.error(err));
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => setUploading(false));
   };
+
+  const onDropRejected = () =>
+    toast(`Please try a file under 2MB`, {
+      type: "error",
+      position: "bottom-center",
+    });
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDropAccepted,
+    onDropRejected,
+    multiple: false,
+    maxSize: 2 * 1024 * 1024,
+  });
 
   return (
     <section>
       <h2>Profile picture</h2>
       <div className={profileStyles.avatarSection}>
-        <Avatar
-          key={profilePictureUrl}
-          src={profilePictureUrl}
-          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-          alt="profile picture"
-          size={200}
-        />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {uploading ? (
+          <LoaderFlag />
+        ) : (
+          <Avatar
+            key={profilePictureUrl}
+            src={profilePictureUrl}
+            fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+            alt="profile picture"
+            size={200}
+          />
+        )}
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
           <Button
-            id="upload-photo-btn"
-            label={"Upload Photo"}
             variant="secondary"
             size="large"
             theme="blue"
+            label={
+              isDragActive ? "Drop profile picture" : "Upload profile picture"
+            }
           />
-
-          <input type="file" id="file" {...register("file")} />
-        </form>
-
-        <Button
-          id="edit-thumbnail-btn"
-          label={"Edit Thumbnail"}
-          variant="secondary"
-          size="large"
-          theme="blue"
-        />
+        </div>
       </div>
     </section>
   );
