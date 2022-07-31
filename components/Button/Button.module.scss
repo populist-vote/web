@@ -28,7 +28,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin-top:-1px;
+  margin-top: -1px;
 
   &.sr {
     position: absolute;
@@ -47,12 +47,17 @@ $medium-size: 2.5rem;
 $small-size: 1.825rem;
 
 @mixin primary(
-  $color,                        // background color + active border color
-  $colorDark,                    // active background color + disabled border
-  $colorDarker,                  // disabled background color
-  $colorLight,                   // hover background color
-  $colorLighter: $blue-lighter,  // focus color
-  $textColor: $white             // text color
+  $color,
+  // background color + active border color
+  $colorDark,
+  // active background color + disabled border
+  $colorDarker,
+  // disabled background color
+  $colorLight,
+  // hover background color
+  $colorLighter: $blue-lighter,
+  // focus color
+  $textColor: $white // text color
 ) {
   background: $color;
   color: $textColor;
@@ -194,7 +199,7 @@ $small-size: 1.825rem;
     $yellow,
     $yellow-dark,
     $yellow-dark,
-    #FFD70F,
+    #ffd70f,
     $white,
     $dark-brown
   );
@@ -210,12 +215,17 @@ $small-size: 1.825rem;
 
 .aqua.primary {
   @include primary(
-    $aqua,                      // background color + active border color
-    #2C6E6A,                  // active background color + disabled border
-    $blue-darkest,              // disabled background color
-    #9AEACF,                  // hover background color
-    $blue-lighter,              // focus color
-    #103E49                   // text color
+    $aqua,
+    // background color + active border color
+    #2c6e6a,
+    // active background color + disabled border
+    $blue-darkest,
+    // disabled background color
+    #9aeacf,
+    // hover background color
+    $blue-lighter,
+    // focus color
+    #103e49 // text color
   );
 }
 

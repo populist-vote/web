@@ -25,10 +25,13 @@ import {
   useUpdateUsernameMutation,
   useDeleteAccountMutation,
   useCurrentUserQuery,
+  useDeleteProfilePictureMutation,
 } from "generated";
 import { PasswordEntropyMeter } from "components";
 import states from "utils/states";
 import { useQueryClient } from "react-query";
+import { useDropzone, FileWithPath } from "react-dropzone";
+import { toast } from "react-toastify";
 
 type NameSectionProps = {
   firstName: string;
@@ -131,8 +134,6 @@ const UsernameSection = ({ username }: { username: string }) => {
       username,
     });
   };
-
-  // Need to handle username already taken here
 
   // 3-20 characters, no spaces, no special characters besides _ and ., no _ or . at the end
   const usernameRegex = /^[a-zA-Z0-9_.]{3,20}$/;
@@ -550,31 +551,109 @@ const PasswordSection = () => {
   );
 };
 
-const ProfilePhotoSection = () => {
+const ProfilePhotoSection = ({
+  profilePictureUrl,
+  userId,
+}: {
+  profilePictureUrl: string;
+  userId: string;
+}) => {
+  const [uploading, setUploading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
+  const onDropAccepted = (files: FileWithPath[]) => {
+    setUploading(true);
+    const formData = new FormData();
+    const uploadProfilePictureOperations = `
+      {
+        "query":"mutation UploadProfilePicture($file: Upload) {uploadProfilePicture(file: $file) }",
+        "variables":{
+            "file":null
+        }
+      }
+      `;
+
+    formData.append("operations", uploadProfilePictureOperations);
+    const map = `{"file": ["variables.file"]}`;
+    formData.append("map", map);
+    if (files[0]) formData.append("file", files[0]);
+
+    fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    })
+      .then(() => {
+        queryClient
+          .invalidateQueries(useUserProfileQuery.getKey({ userId }))
+          .catch((err) => console.error(err));
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setUploading(false));
+  };
+
+  const onDropRejected = () =>
+    toast(`Please try a file under 2MB`, {
+      type: "error",
+      position: "bottom-center",
+    });
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDropAccepted,
+    onDropRejected,
+    multiple: false,
+    maxSize: 2 * 1024 * 1024,
+  });
+
+  const label = isDragActive
+    ? "Drop image here"
+    : !profilePictureUrl
+    ? "Upload profile picture"
+    : "Change profile picture";
+
+  const deleteProfilePictureMutation = useDeleteProfilePictureMutation({
+    onSuccess: () => {
+      queryClient
+        .invalidateQueries(useUserProfileQuery.getKey({ userId }))
+        .catch((err) => console.error(err));
+    },
+  });
+
+  const handleDeleteProfilePicture = () => {
+    deleteProfilePictureMutation.mutate({});
+  };
+
   return (
     <section>
       <h2>Profile picture</h2>
       <div className={profileStyles.avatarSection}>
-        <Avatar
-          src={PERSON_FALLBACK_IMAGE_URL}
-          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-          alt="profile picture"
-          size={200}
-        />
-        <Button
-          id="upload-photo-btn"
-          label={"Upload Photo"}
-          variant="secondary"
-          size="large"
-          theme="blue"
-        />
-        <Button
-          id="edit-thumbnail-btn"
-          label={"Edit Thumbnail"}
-          variant="secondary"
-          size="large"
-          theme="blue"
-        />
+        {uploading ? (
+          <LoaderFlag />
+        ) : (
+          <Avatar
+            key={profilePictureUrl}
+            src={profilePictureUrl}
+            fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+            alt="profile picture"
+            size={200}
+          />
+        )}
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
+          <Button variant="secondary" size="large" theme="blue" label={label} />
+        </div>
+        <div>
+          {profilePictureUrl && (
+            <Button
+              variant="secondary"
+              size="large"
+              theme="red"
+              label={"Remove profile picture"}
+              onClick={handleDeleteProfilePicture}
+              disabled={deleteProfilePictureMutation.isLoading}
+            />
+          )}
+        </div>
       </div>
     </section>
   );
@@ -598,12 +677,16 @@ export const ProfilePage: NextPageWithLayout = () => {
     lastName = "",
     email,
     username,
+    profilePictureUrl,
   } = userProfile;
 
   return (
     <FlagSection hideFlagForMobile title="My Profile">
       <div className={profileStyles.profile}>
-        {false && <ProfilePhotoSection />}
+        <ProfilePhotoSection
+          profilePictureUrl={profilePictureUrl as string}
+          userId={user.id}
+        />
         <NameSection
           firstName={firstName as string}
           lastName={lastName as string}

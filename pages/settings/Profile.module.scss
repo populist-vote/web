@@ -153,4 +153,9 @@
   .passwordSection {
     gap: 1.25rem;
   }
+
+  input[type="file"],
+  input[type="submit"] {
+    display: none;
+  }
 }

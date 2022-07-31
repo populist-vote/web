@@ -5,6 +5,7 @@ query UserProfile($userId: ID!) {
     username
     firstName
     lastName
+    profilePictureUrl
     address {
       city
         country
@@ -14,6 +15,14 @@ query UserProfile($userId: ID!) {
         state
     }
   }
+}
+
+mutation UploadProfilePicture($file: Upload!) {
+  uploadProfilePicture(file: $file) 
+}
+
+mutation DeleteProfilePicture {
+  deleteProfilePicture
 }
 
 mutation UpdateFirstAndLastName(
