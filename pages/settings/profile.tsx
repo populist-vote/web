@@ -25,6 +25,7 @@ import {
   useUpdateUsernameMutation,
   useDeleteAccountMutation,
   useCurrentUserQuery,
+  useDeleteProfilePictureMutation,
 } from "generated";
 import { PasswordEntropyMeter } from "components";
 import states from "utils/states";
@@ -604,6 +605,24 @@ const ProfilePhotoSection = ({
     maxSize: 2 * 1024 * 1024,
   });
 
+  const label = isDragActive
+    ? "Drop image here"
+    : !profilePictureUrl
+    ? "Upload profile picture"
+    : "Change profile picture";
+
+  const deleteProfilePictureMutation = useDeleteProfilePictureMutation({
+    onSuccess: () => {
+      queryClient
+        .invalidateQueries(useUserProfileQuery.getKey({ userId }))
+        .catch((err) => console.error(err));
+    },
+  });
+
+  const handleDeleteProfilePicture = () => {
+    deleteProfilePictureMutation.mutate({});
+  };
+
   return (
     <section>
       <h2>Profile picture</h2>
@@ -621,14 +640,19 @@ const ProfilePhotoSection = ({
         )}
         <div {...getRootProps()}>
           <input {...getInputProps()} />
-          <Button
-            variant="secondary"
-            size="large"
-            theme="blue"
-            label={
-              isDragActive ? "Drop profile picture" : "Upload profile picture"
-            }
-          />
+          <Button variant="secondary" size="large" theme="blue" label={label} />
+        </div>
+        <div>
+          {profilePictureUrl && (
+            <Button
+              variant="secondary"
+              size="large"
+              theme="red"
+              label={"Remove profile picture"}
+              onClick={handleDeleteProfilePicture}
+              disabled={deleteProfilePictureMutation.isLoading}
+            />
+          )}
         </div>
       </div>
     </section>

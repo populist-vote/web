@@ -21,6 +21,10 @@ mutation UploadProfilePicture($file: Upload!) {
   uploadProfilePicture(file: $file) 
 }
 
+mutation DeleteProfilePicture {
+  deleteProfilePicture
+}
+
 mutation UpdateFirstAndLastName(
   $firstName: String!
   $lastName: String!

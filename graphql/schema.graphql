@@ -548,6 +548,7 @@ type Mutation {
   deleteOffice(id: String!): DeleteOfficeResult!
   deleteOrganization(id: String!): DeleteOrganizationResult!
   deletePolitician(id: String!): DeletePoliticianResult!
+  deleteProfilePicture: Boolean!
   deleteRace(id: String!): DeleteRaceResult!
   deleteVotingGuide(id: ID!): DeleteVotingGuideResult!
   deleteVotingGuideCandidateNote(candidateId: ID!, votingGuideId: ID!): VotingGuideCandidateResult!
@@ -570,7 +571,7 @@ type Mutation {
   updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
   updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
   updateUsername(username: String!): UpdateUsernameResult!
-  uploadProfilePicture(file: Upload!): Boolean!
+  uploadProfilePicture(file: Upload!): String!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
   upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
