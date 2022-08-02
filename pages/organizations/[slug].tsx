@@ -1,11 +1,14 @@
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
-
 import { Layout, LoaderFlag } from "components";
-import { useOrganizationBySlugQuery } from "../../generated";
-import { NextPageWithLayout } from "../_app";
+import {
+  OrganizationBySlugQuery,
+  useOrganizationBySlugQuery,
+} from "../../generated";
+import { GetServerSideProps } from "next";
+import { Params } from "next/dist/server/router";
+import { dehydrate, QueryClient } from "react-query";
 
-const OrganizationPage: NextPageWithLayout = () => {
+function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   const { query } = useRouter();
   const slug = query.slug as string;
   const { data, isLoading, error } = useOrganizationBySlugQuery({ slug });
@@ -14,11 +17,40 @@ const OrganizationPage: NextPageWithLayout = () => {
 
   if (error) return <p>Error: {error}</p>;
 
-  return <pre>{JSON.stringify(data, null, 4)}</pre>;
-};
-
-OrganizationPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
+  const { organizationBySlug: organization } = data || {};
+  return (
+    <Layout
+      mobileNavTitle={mobileNavTitle}
+      showNavBackButton
+      showNavLogoOnMobile={true}
+    >
+      <pre>{JSON.stringify(data, null, 4)}</pre>
+      <h1>{organization?.name}</h1>
+      <p>{organization?.description}</p>
+    </Layout>
+  );
+}
 
 export default OrganizationPage;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { slug } = ctx.params as Params;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    useOrganizationBySlugQuery.getKey({ slug }),
+    useOrganizationBySlugQuery.fetcher({ slug })
+  );
+  const state = dehydrate(queryClient);
+
+  const data = state.queries[0]?.state.data as OrganizationBySlugQuery;
+
+  return {
+    notFound: state.queries.length === 0,
+    props: {
+      dehydratedState: state,
+      mobileNavTitle: data.organizationBySlug?.name,
+    },
+  };
+};

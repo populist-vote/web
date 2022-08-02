@@ -2,6 +2,7 @@ query OrganizationBySlug($slug: String!) {
   organizationBySlug(slug: $slug) {
     id
     name
+    description
     thumbnailImageUrl
   }
 }

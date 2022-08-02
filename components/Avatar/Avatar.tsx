@@ -26,6 +26,7 @@ import classNames from "classnames";
 interface BadgeProps {
   background?: string;
   text?: string;
+  title?: string;
   size: string;
   fontSize: string;
 }
@@ -115,7 +116,7 @@ function LabelLeft(props: LabelLeftProps): JSX.Element | null {
 }
 
 function Badge(props: BadgeProps): JSX.Element {
-  const { text, background, size, fontSize } = props;
+  const { text, title, background, size, fontSize } = props;
 
   const styleVars: CSSProperties & {
     "--avatar-size": string;
@@ -128,7 +129,7 @@ function Badge(props: BadgeProps): JSX.Element {
   };
 
   return (
-    <div className={styles.badgeWrapper} style={styleVars}>
+    <div className={styles.badgeWrapper} style={styleVars} title={title}>
       <span className={styles.badgeText}>{text}</span>
     </div>
   );
@@ -325,6 +326,7 @@ function PartyAvatar({
   const badge = {
     background: partyColor,
     text: (party || "UNKNOWN").slice(0, 1).toUpperCase(),
+    title: party || "UNKNOWN",
     size: badgeSize,
     fontSize: badgeFontSize,
   };
