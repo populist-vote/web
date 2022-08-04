@@ -22,19 +22,28 @@
     border-top: solid 1px $blue-dark;
 
     section {
-      &.committees {
-        margin-left: 1rem;
-        padding-left: 1rem;
-        padding-bottom: 0;
-      }
+      justify-content: start !important;
+      width: calc(50% - 1rem);
+      box-sizing: border-box;
 
-      &.wide {
-        margin: 0 auto;
-        width: 100%;
-      }
+      section {
+        &.committees {
+          margin-left: 1rem;
+          padding-left: 1rem;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
 
-      &.basicInfo {
-        padding-top: 0;
+        &.wide {
+          margin: 0 auto;
+          width: 100%;
+        }
+
+        &.basicInfo {
+          padding-top: 0;
+          padding-bottom: 0;
+          font-size: 1rem;
+        }
       }
     }
   }

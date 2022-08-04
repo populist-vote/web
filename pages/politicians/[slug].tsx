@@ -61,6 +61,17 @@ import {
 } from "../../generated";
 
 import styles from "./PoliticianPage.module.scss";
+  District,
+  ElectionScope,
+  Sector,
+} from "../../generated";
+import politicianStyles from "./PoliticianPage.module.scss";
+
+import states from "utils/states";
+import { Table } from "components/Table/Table";
+import { ColumnDef } from "@tanstack/react-table";
+import { formatCurrency } from "utils/numbers";
+// import ReactMarkdown from "react-markdown";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -132,7 +143,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
 
   // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
-  const tags =
+  const committeeTags =
     politicalExperience?.constructor === Array
       ? politicalExperience.map(
           (committee: {
@@ -151,6 +162,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           })
         )
       : [];
+
+  const donationsByIndustry = politician?.donationsByIndustry;
 
   function OfficeSection() {
     const cx = classNames(
@@ -172,8 +185,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BasicInfoSection() {
+<<<<<<< HEAD
     const cx = classNames(styles.center, styles.basicInfo, {
       [styles.wide as string]: tags.length === 0,
+=======
+    const cx = classNames(styles.center, politicianStyles.basicInfo, {
+      [politicianStyles.wide as string]: committeeTags.length === 0,
+>>>>>>> cf728bf (Wip on candidate donations by industry table)
     });
 
     if (
@@ -197,28 +215,28 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{termStart}</span>
           </p>
         )}
         {!!termEnd && (
           <p className={styles.flexBetween}>
             <span>Term Ends</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{termEnd}</span>
           </p>
         )}
         {!!yearsInPublicOffice && (
           <p className={styles.flexBetween}>
             <span>Years in Public Office</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{yearsInPublicOffice}</span>
           </p>
         )}
         {raceWins != null && raceLosses != null && (
           <p className={styles.flexBetween}>
             <span>Elections Won / Lost</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>
               {raceWins} / {raceLosses}
             </span>
@@ -227,7 +245,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         {!!age && (
           <p className={styles.flexBetween}>
             <span>Age</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{age}</span>
           </p>
         )}
@@ -638,6 +656,45 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
+  function FinancialsSection() {
+    const columns = useMemo<ColumnDef<Sector>[]>(
+      () => [
+        {
+          accessorKey: "name",
+          header: "Industry",
+          cell: (info) => info.getValue(),
+        },
+        {
+          accessorKey: "total",
+          header: "Amount",
+          cell: (info) => formatCurrency(info.getValue() as number),
+        },
+      ],
+      []
+    );
+
+    return (
+      <ColoredSection color="var(--green)">
+        <h2 className={styles.gradientHeader}>Financials</h2>
+        <p className={styles.flexBetween}>
+          <span>Total Raised</span>
+          <span className={styles.dots} />
+          <span>$234,325</span>
+        </p>
+        <p className={styles.flexBetween}>
+          <span>
+            From Individual Contributions{" "}
+            <span className={styles.green}>(Less than $200)</span>
+          </span>
+          <span className={styles.dots} />
+          <span>$234,325</span>
+        </p>
+
+        <Table data={donationsByIndustry?.sectors || []} columns={columns} />
+      </ColoredSection>
+    );
+  }
+
   return (
     <Layout
       mobileNavTitle={mobileNavTitle}
@@ -660,6 +717,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <EndorsementsSection />
           <RatingsSection />
           <BioSection />
+          <FinancialsSection />
         </div>
       </VotingGuideProvider>
     </Layout>
