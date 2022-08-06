@@ -1,5 +1,5 @@
-@import "styles/variables/colors.module.scss";
-@import "styles/mixins.scss";
+@import "styles/variables/colors";
+@import "styles/mixins/media";
 
 .container {
   position: relative;
@@ -83,7 +83,11 @@
 
 .hideFlagForMobile {
   @include for-tablet-portrait-down {
-    header { display: none; }
-    .content { padding: 0 }
+    header {
+      display: none;
+    }
+    .content {
+      padding: 0;
+    }
   }
 }

@@ -1,0 +1,129 @@
+/* stylelint-disable value-list-comma-newline-after */
+/* stylelint-disable declaration-colon-newline-after */
+/* stylelint-disable indentation */
+
+@import "styles/mixins/media";
+@import "base/normalize";
+@import "base/typography";
+
+::selection {
+  background: var(--aqua);
+}
+
+/* CSS Variables */
+:root {
+  /* Colors */
+  --text-primary: var(--white);
+  --text-secondary: var(--blue-darkest);
+  --background-primary: var(--blue-darkest);
+  --background-secondary: var(--blue-darker);
+  --blue-text: #55a3bd;
+  --blue-lighter: #8ed7ee;
+  --blue-light: #0d85ac;
+  --blue: #006586;
+  --blue-dark: #003c55;
+  --blue-darker: #002b41;
+  --blue-darkest: #002135;
+  --red: #d75050;
+  --yellow: #ffe45c;
+  --yellow-dark: #c1a826;
+  --green: #8eea78;
+  --green-support: #46b918;
+  --aqua: #6ee1ba;
+  --aqua-dark: #2c6e6a;
+  --violet: #c3b1e5;
+  --violet-dark: #4e5b7b;
+  --salmon: #e78f84;
+  --orange: #ffb45c;
+  --purple: #8f77bb;
+  --white: #fff;
+  --grey-darkest: #333;
+  --grey-darker: #666;
+  --grey-dark: #999;
+  --grey: #aaa;
+  --grey-light: #ccc;
+  --grey-lighter: #ddd;
+  --grey-lightest: #eee;
+  --dark-brown: #665b25;
+  --black: #002135;
+
+  /* set base values */
+  --text-base-size: 1em;
+  --text-scale-ratio: 1.125;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: var(--text-primary);
+  background: #002135;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+  font-display: fallback;
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+p {
+  font-family: "proxima_nova", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.4em;
+
+  @include for-tablet-up {
+    font-size: 24px;
+    line-height: 1.6em;
+  }
+}
+
+h1 {
+  font-family: "commuters_sans", sans-serif;
+  font-weight: 300;
+  font-size: 36px;
+
+  @include for-tablet-up {
+    font-size: 55px;
+  }
+}
+
+h2 {
+  font-family: "commuters_sans", sans-serif;
+  font-weight: 300;
+  font-size: 24px;
+
+  @include for-tablet-up {
+    font-size: 36px;
+  }
+}
+
+h3 {
+  font-family: "commuters_sans", sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.4em;
+
+  @include for-tablet-up {
+    font-size: 22px;
+  }
+}
+
+h4 {
+  font-family: "commuters_sans", sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+#copyright {
+  color: #006586;
+}

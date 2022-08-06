@@ -1,4 +1,4 @@
-import styles from "styles/page.module.scss";
+import styles from "styles/modules/page.module.scss";
 import electionStyles from "./ElectionInfo.module.scss";
 import { PartyAvatar } from "components";
 import layoutStyles from "../../components/Layout/Layout.module.scss";

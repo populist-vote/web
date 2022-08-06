@@ -1,5 +1,5 @@
-@import "styles/mixins.scss";
-@import "styles/variables/colors.module.scss";
+@import "styles/mixins/media";
+@import "styles/variables/colors";
 
 .sectionContent {
   padding: 0 1.125rem;
@@ -15,7 +15,7 @@
   @include for-tablet-up {
     padding: 2.5rem 0;
     border-top: solid 1px $blue-dark;
-    
+
     section {
       justify-content: start !important;
       width: calc(50% - 1rem);
@@ -26,8 +26,8 @@
         border-left: solid 1px $blue-dark;
         margin-left: 1rem;
         padding-left: 1rem;
-        padding-top:0;
-        padding-bottom:0;
+        padding-top: 0;
+        padding-bottom: 0;
       }
 
       &.wide {
@@ -36,8 +36,8 @@
       }
 
       &.basicInfo {
-        padding-top:0;
-        padding-bottom:0;
+        padding-top: 0;
+        padding-bottom: 0;
       }
     }
   }

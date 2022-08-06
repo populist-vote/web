@@ -1,6 +1,6 @@
-@import "styles/mixins";
-@import "styles/variables/colors.module";
-@import "styles/variables/fonts.module";
+@import "styles/mixins/media";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
 
 .sideText {
   color: $blue;

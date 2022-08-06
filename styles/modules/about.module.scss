@@ -1,17 +1,8 @@
-@import "styles/mixins.scss";
-@import "styles/variables/colors.module.scss";
+@import "styles/mixins/media";
+@import "styles/variables/colors";
 
 .content {
   padding: 0 3rem;
-
-  h2 {
-    font-weight: 500;
-    margin-top: 4rem;
-
-    &:first-child {
-      margin-bottom: 0;
-    }
-  }
 }
 
 .contentContainer {
@@ -33,15 +24,23 @@
     url("/images/landing/bg.jpg");
   background-size: cover;
 
-  .textLink {
-    color: $blue-lighter;
+  a {
+    color: #fff;
   }
 
-  .textLink:hover {
-    color: $blue-light;
+  a:hover {
+    color: $blue-lighter;
   }
 
   html {
     background: var(--blue-darkest);
   }
+}
+
+.textLink {
+  color: $blue-lighter;
+}
+
+.textLink:hover {
+  color: $blue-light;
 }

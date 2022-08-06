@@ -45,7 +45,7 @@ import {
   ElectionScope,
 } from "../../generated";
 
-import styles from "styles/page.module.scss";
+import styles from "styles/modules/page.module.scss";
 import politicianStyles from "./PoliticianPage.module.scss";
 
 import states from "utils/states";

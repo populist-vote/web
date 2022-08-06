@@ -2,8 +2,8 @@
 import type { NextPage } from "next";
 
 import { Avatar, Footer, LogoText } from "components";
-import styles from "styles/about.module.scss";
-import SimpleNavStyles from "styles/nav.module.scss";
+import styles from "styles/modules/about.module.scss";
+import SimpleNavStyles from "styles/modules/nav.module.scss";
 // import classNames from "classnames";
 import { Button, FlagSection } from "components";
 import Router from "next/router";

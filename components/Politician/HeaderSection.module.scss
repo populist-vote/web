@@ -1,6 +1,6 @@
-@import "styles/variables/colors.module.scss";
-@import "styles/variables/fonts.module.scss";
-@import "styles/mixins.scss";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/mixins/media";
 
 .headerSection {
   .fullName {

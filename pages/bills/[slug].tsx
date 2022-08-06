@@ -4,7 +4,7 @@ import { Layout, LoaderFlag } from "components";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "react-query";
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
-import styles from "styles/page.module.scss";
+import styles from "styles/modules/page.module.scss";
 import layoutStyles from "../../components/BasicLayout/BasicLayout.module.scss";
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
@@ -92,4 +92,3 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   };
 };
-

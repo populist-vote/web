@@ -3,12 +3,12 @@ import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
 import { ReactQueryDevtools } from "react-query/devtools";
-import "styles/globals.scss";
+import "styles/main.scss";
 import { SEO } from "components";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "styles/toast.css";
+import "styles/vendor/toast.css";
 import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 

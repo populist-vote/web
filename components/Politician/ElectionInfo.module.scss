@@ -1,5 +1,5 @@
-@import "styles/mixins.scss";
-@import "styles/variables/colors.module.scss";
+@import "styles/mixins/media";
+@import "styles/variables/colors";
 
 $election-info-width: 1150px;
 
@@ -24,7 +24,7 @@ $election-info-width: 1150px;
       }
 
       h3 {
-        margin-bottom: .8rem;
+        margin-bottom: 0.8rem;
       }
     }
 
@@ -48,10 +48,10 @@ section.wrapper {
     flex-grow: 1;
     @media (max-width: $election-info-width) {
       width: calc(100% - 2.5rem);
-      padding-top:1rem;
+      padding-top: 1rem;
 
       h2 {
-        margin:.5rem;
+        margin: 0.5rem;
       }
     }
   }

@@ -5,7 +5,7 @@ import { Layout } from "components";
 import { FlagSection } from "components";
 import { useAuth } from "hooks/useAuth";
 import { Role, useUserCountQuery } from "generated";
-import styles from "styles/page.module.scss";
+import styles from "styles/modules/page.module.scss";
 import classNames from "classnames";
 
 const adminNavItems = [

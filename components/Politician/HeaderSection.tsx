@@ -10,7 +10,7 @@ import {
   PoliticianResult,
   useUpsertVotingGuideCandidateMutation,
 } from "generated";
-import styles from "styles/page.module.scss";
+import styles from "styles/modules/page.module.scss";
 import headerStyles from "./HeaderSection.module.scss";
 import { CSSProperties } from "styled-components";
 

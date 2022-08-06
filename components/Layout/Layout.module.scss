@@ -1,12 +1,13 @@
-@import "styles/mixins";
-@import "styles/variables/colors.module";
-@import "styles/variables/fonts.module";
+@import "styles/mixins/media";
+@import "styles/mixins/utils";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
 
 .app {
   height: 100%;
   background: $background-primary;
   display: grid;
-  
+
   grid-template-areas:
     "nav"
     "content"
@@ -252,5 +253,3 @@
     text-decoration: dotted underline;
   }
 }
-
-

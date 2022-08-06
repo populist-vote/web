@@ -1,5 +1,5 @@
 import { Button, BasicLayout } from "components";
-import styles from "styles/page.module.scss";
+import styles from "styles/modules/page.module.scss";
 import VotingGuideWelcomeStyles from "./VotingGuideWelcome.module.scss";
 import classNames from "classnames";
 

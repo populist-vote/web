@@ -1,5 +1,5 @@
-@import "../../../styles/variables/colors.module.scss";
-@import "../../../styles/mixins";
+@import "styles/variables/colors";
+@import "styles/mixins/media";
 
 .container {
   display: flex;
@@ -98,11 +98,11 @@
       display: none;
 
       @include for-tablet-up {
-        display:block;
+        display: block;
         margin: 0.3rem 0 0 0;
         font-size: 1.75em;
         font-weight: 500;
-      }      
+      }
     }
 
     svg {
@@ -112,8 +112,5 @@
         height: 40px;
       }
     }
-
   }
-  
 }
-

@@ -1,6 +1,7 @@
-@import "../styles/mixins.scss";
-@import "../styles/variables/fonts.module.scss";
-@import "../styles/variables/colors.module.scss";
+@import "styles/mixins/media";
+@import "styles/mixins/utils";
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
 
 .container {
   display: flex;

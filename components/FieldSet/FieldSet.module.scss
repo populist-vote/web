@@ -1,5 +1,5 @@
-@import "styles/variables/colors.module";
-@import "styles/variables/fonts.module";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
 
 .container {
   border-radius: 20px;
@@ -23,6 +23,6 @@
     text-transform: uppercase;
     display: inline-block;
     white-space: nowrap;
-    font-size: .75em;
+    font-size: 0.75em;
   }
 }

@@ -1,5 +1,5 @@
-@import "styles/mixins.scss";
-@import "styles/variables/colors.module.scss";
+@import "styles/mixins/media";
+@import "styles/variables/colors";
 
 .navContainer {
   display: flex;
