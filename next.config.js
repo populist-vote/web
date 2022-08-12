@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 
 const runtimeCaching = require("next-pwa/cache");
+const { i18n } = require('./next-i18next.config');
+
 
 const withPWA = require('next-pwa')({
   dest: "public",
@@ -22,7 +24,7 @@ const nextConfig = {
   i18n: {
     // These are all the locales you want to support in
     // your application
-    locales: ["en-US"],
+    locales: ["en-US", "es-US"],
     // This is the default locale you want to be used when visiting
     // a non-locale prefixed path e.g. `/hello`
     defaultLocale: "en-US",
@@ -33,6 +35,4 @@ const nextConfig = {
   },
 };
 
-module.exports = process.env.NODE_ENV === 'development' ? nextConfig : withPWA(nextConfig);
-
-
+module.exports = process.env.NODE_ENV === 'development' ? nextConfig : withPWA({nextConfig, i18n});
