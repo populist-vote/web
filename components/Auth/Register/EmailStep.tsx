@@ -81,7 +81,10 @@ function EmailStep() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ({ data: response, error }: { data: any; error: any }) => {
           if (response?.validateEmailAvailable) {
-            void router.push({ query: { ...query, step: "address" } });
+            void router.push({
+              pathname: "/register/address",
+              query: { ...query },
+            });
           } else {
             setError(
               "email",
