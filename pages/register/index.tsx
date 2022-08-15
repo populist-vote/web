@@ -1,7 +1,7 @@
-import { Register, RegisterStep } from "components/Auth/Register/Register";
-import { GetServerSideProps, NextPage } from "next";
 import { StateMachineProvider, createStore } from "little-state-machine";
 import { BeginUserRegistrationInput, State } from "generated";
+import { EmailStep } from "components/Auth/Register/EmailStep";
+import { BasicLayout } from "components";
 
 export const updateAction = (
   state: { loginFormState: BeginUserRegistrationInput },
@@ -16,7 +16,7 @@ export const updateAction = (
   };
 };
 
-export const SignUpPage: NextPage<{ step: RegisterStep }> = ({ step }) => {
+function Register() {
   createStore({
     loginFormState: {
       email: "",
@@ -34,17 +34,11 @@ export const SignUpPage: NextPage<{ step: RegisterStep }> = ({ step }) => {
 
   return (
     <StateMachineProvider>
-      <Register step={step} />
+      <BasicLayout hideFooter>
+        <EmailStep />
+      </BasicLayout>
     </StateMachineProvider>
   );
-};
+}
 
-export default SignUpPage;
-
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  return {
-    props: {
-      step: query.step ?? "email",
-    },
-  };
-};
+export default Register;

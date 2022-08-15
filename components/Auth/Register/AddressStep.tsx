@@ -11,6 +11,7 @@ import styles from "../Auth.module.scss";
 import textInputStyles from "../../TextInput/TextInput.module.scss";
 import { updateAction } from "pages/register";
 import states from "utils/states";
+import { useEffect } from "react";
 
 function AddressStep() {
   const router = useRouter();
@@ -28,9 +29,13 @@ function AddressStep() {
     setError,
   } = useForm({
     defaultValues: {
-      address: loginFormState.address,
+      address: loginFormState?.address,
     },
   });
+
+  useEffect(() => {
+    if (!loginFormState) void router.push("/register");
+  }, [loginFormState, router]);
 
   const handleUserRegistration = useBeginUserRegistrationMutation({
     onError: (error: Error) => {
@@ -57,8 +62,7 @@ function AddressStep() {
       <h1>Get Local</h1>
       <p>
         For a more personalized experience, we'll need the address where you're
-        registered to vote so we can localize your ballot information. Don't
-        worry, this will not be shared with anyone.
+        registered to vote so we can localize your ballot information.
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-2">
@@ -148,7 +152,7 @@ function AddressStep() {
           <br />
           <Link
             href={{
-              pathname: "/register?step=email",
+              pathname: "/register",
               query,
             }}
             shallow
