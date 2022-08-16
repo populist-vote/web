@@ -20,7 +20,7 @@ const adminNavItems = [
 ];
 
 const AdminPanel: NextPage = () => {
-  useAuth({ redirectTo: "/login?next=admin", minRole: Role.Staff });
+  useAuth({ redirectTo: "/login", minRole: Role.Staff });
 
   const { data } = useUserCountQuery();
 
