@@ -41,14 +41,10 @@ import {
   RatingResult,
   RatingResultEdge,
   usePoliticianBySlugQuery,
-  District,
-  ElectionScope,
 } from "../../generated";
 
 import styles from "styles/modules/page.module.scss";
 import politicianStyles from "./PoliticianPage.module.scss";
-
-import states from "utils/states";
 
 import { computeShortOfficeTitle } from "utils/politician";
 import {
@@ -126,91 +122,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       styles.politicianOffice
     );
 
-    let officeTitle = "";
+    const officeTitle = politician?.currentOffice?.title;
 
-    switch (politician?.currentOffice?.title) {
-      case "State House":
-        officeTitle = "State Representative";
-        break;
-      case "State Senate":
-        officeTitle = "State Senator";
-        break;
-      case "U.S. House":
-        officeTitle = "U.S. Representative";
-        break;
-      case "U.S. Senate":
-        officeTitle = "U.S. Senator";
-        break;
-      case "City Council":
-        officeTitle = "City Council Member";
-        break;
-      default:
-        if (politician?.currentOffice?.title) {
-          officeTitle = politician.currentOffice.title;
-        }
-    }
-
-    let officeSubtitle = "";
-    let stateLong = "";
-    let muni = "";
-
-    if (politician?.currentOffice?.state) {
-      stateLong = states[politician.currentOffice.state];
-    }
-    if (politician?.currentOffice?.municipality) {
-      muni = politician.currentOffice.municipality;
-    }
-
-    switch (politician?.currentOffice?.electionScope) {
-      case ElectionScope.National:
-        break;
-      case ElectionScope.State:
-        if (politician.currentOffice.state) {
-          officeSubtitle = stateLong;
-        }
-        break;
-      case ElectionScope.District:
-        switch (politician?.currentOffice.districtType) {
-          case District.UsCongressional:
-            officeSubtitle =
-              stateLong + " District " + politician.currentOffice.district;
-            break;
-          case District.StateSenate:
-            officeSubtitle =
-              stateLong +
-              " Senate District " +
-              politician.currentOffice.district;
-            break;
-          case District.StateHouse:
-            officeSubtitle =
-              stateLong +
-              " House District " +
-              politician.currentOffice.district;
-            break;
-          case District.County:
-            officeSubtitle =
-              muni +
-              " County " +
-              " District " +
-              politician.currentOffice.district;
-            break;
-          case District.City:
-            officeSubtitle =
-              muni + " District " + politician.currentOffice.district;
-            break;
-          case District.School:
-            officeSubtitle =
-              muni + " District " + politician.currentOffice.district;
-        }
-        break;
-      case ElectionScope.County:
-        if (muni != "") {
-          officeSubtitle = muni + " County";
-        }
-        break;
-      case ElectionScope.City:
-        officeSubtitle = muni;
-    }
+    const officeSubtitle = politician?.currentOffice?.subtitle;
 
     return (
       <section className={cx}>
@@ -233,6 +147,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       !raceWins &&
       !raceLosses &&
       !politician?.websiteUrl &&
+      !politician?.campaignWebsiteUrl &&
       !politician?.twitterUrl &&
       !politician?.facebookUrl &&
       !politician?.instagramUrl
@@ -287,6 +202,20 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                 politician.websiteUrl?.startsWith("http")
                   ? politician.websiteUrl
                   : `//${politician.websiteUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGlobe />
+            </a>
+          )}
+          {politician?.campaignWebsiteUrl && (
+            <a
+              aria-label={"Website"}
+              href={
+                politician.campaignWebsiteUrl?.startsWith("http")
+                  ? politician.campaignWebsiteUrl
+                  : `//${politician.campaignWebsiteUrl}`
               }
               target="_blank"
               rel="noopener noreferrer"

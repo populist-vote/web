@@ -279,22 +279,6 @@ input CreateIssueTagInput {
   slug: String
 }
 
-input CreateOfficeInput {
-  chamber: Chamber
-  district: String
-  districtType: District
-  electionScope: ElectionScope!
-  incumbentId: UUID
-  municipality: String
-  officeType: String
-  politicalScope: PoliticalScope!
-  seat: String
-  slug: String
-  state: State
-  termLength: Int
-  title: String!
-}
-
 input CreateOrConnectIssueTagInput {
   connect: [String!]
   create: [CreateIssueTagInput!]
@@ -307,7 +291,7 @@ input CreateOrConnectOrganizationInput {
 
 input CreateOrConnectPoliticianInput {
   connect: [String!]
-  create: [CreatePoliticianInput!]
+  create: [UpsertPoliticianInput!]
 }
 
 input CreateOrganizationInput {
@@ -325,57 +309,6 @@ input CreateOrganizationInput {
   twitterUrl: String
   votesmartSigId: Int
   websiteUrl: String
-}
-
-input CreatePoliticianInput {
-  biography: String
-  biographySource: String
-  campaignWebsiteUrl: String
-  crpCandidateId: String
-  dateOfBirth: NaiveDate
-  email: String
-  facebookUrl: String
-  fecCandidateId: String
-  firstName: String!
-  homeState: State
-  instagramUrl: String
-  issueTags: CreateOrConnectIssueTagInput
-  lastName: String!
-  legiscanPeopleId: Int
-  linkedinUrl: String
-  middleName: String
-  officeId: UUID
-  organizationEndorsements: CreateOrConnectOrganizationInput
-  party: PoliticalParty
-  politicianEndorsements: CreateOrConnectPoliticianInput
-  preferredName: String
-  raceLosses: Int
-  raceWins: Int
-  slug: String
-  suffix: String
-  thumbnailImageUrl: String
-  tiktokUrl: String
-  twitterUrl: String
-  votesmartCandidateBio: JSON
-  votesmartCandidateId: Int
-  votesmartCandidateRatings: JSON
-  websiteUrl: String
-  youtubeUrl: String
-}
-
-input CreateRaceInput {
-  ballotpediaLink: String
-  description: String
-  earlyVotingBeginsDate: NaiveDate
-  electionId: UUID
-  officeId: UUID!
-  officialWebsite: String
-  party: PoliticalParty
-  raceType: RaceType!
-  slug: String
-  state: State
-  title: String!
-  winnerId: UUID
 }
 
 input CreateUserInput {
@@ -432,6 +365,8 @@ type DeleteVotingGuideResult {
 enum District {
   CITY
   COUNTY
+  HOSPITAL
+  JUDICIAL
   SCHOOL
   STATE_HOUSE
   STATE_SENATE
@@ -541,10 +476,7 @@ type Mutation {
   createBill(input: CreateBillInput!): BillResult!
   createElection(input: CreateElectionInput!): ElectionResult!
   createIssueTag(input: CreateIssueTagInput!): IssueTagResult!
-  createOffice(input: CreateOfficeInput!): OfficeResult!
   createOrganization(input: CreateOrganizationInput!): OrganizationResult!
-  createPolitician(input: CreatePoliticianInput!): PoliticianResult!
-  createRace(input: CreateRaceInput!): RaceResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
   deleteArgument(id: String!): DeleteArgumentResult!
@@ -572,13 +504,13 @@ type Mutation {
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
-  updateOffice(id: String!, input: UpdateOfficeInput!): OfficeResult!
   updateOrganization(id: String!, input: UpdateOrganizationInput!): OrganizationResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
-  updatePolitician(id: String!, input: UpdatePoliticianInput!): PoliticianResult!
-  updateRace(id: String!, input: UpdateRaceInput!): RaceResult!
   updateUsername(username: String!): UpdateUsernameResult!
   uploadProfilePicture(file: Upload!): String!
+  upsertOffice(input: UpsertOfficeInput!): OfficeResult!
+  upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
+  upsertRace(input: UpsertRaceInput!): RaceResult!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
   upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
@@ -623,6 +555,7 @@ type OfficeResult {
   politicalScope: PoliticalScope!
   slug: String!
   state: State
+  subtitle: String
   title: String!
 }
 
@@ -1214,23 +1147,6 @@ type UpdateNameResult {
   lastName: String
 }
 
-input UpdateOfficeInput {
-  chamber: Chamber
-  district: String
-  districtType: District
-  electionScope: ElectionScope
-  incumbentId: UUID
-  municipality: String
-  name: String
-  officeType: String
-  politicalScope: PoliticalScope
-  seat: String
-  slug: String
-  state: State
-  termLength: Int
-  title: String
-}
-
 input UpdateOrganizationInput {
   description: String
   email: String
@@ -1253,7 +1169,33 @@ input UpdatePasswordInput {
   oldPassword: String!
 }
 
-input UpdatePoliticianInput {
+type UpdateUsernameResult {
+  username: String!
+}
+
+scalar Upload
+
+input UpsertOfficeInput {
+  chamber: Chamber
+  county: String
+  district: String
+  districtType: District
+  electionScope: ElectionScope
+  hospitalDistrict: String
+  id: UUID
+  incumbentId: UUID
+  municipality: String
+  officeType: String
+  politicalScope: PoliticalScope
+  schoolDistrict: String
+  seat: String
+  slug: String
+  state: State
+  termLength: Int
+  title: String
+}
+
+input UpsertPoliticianInput {
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
@@ -1264,6 +1206,7 @@ input UpdatePoliticianInput {
   fecCandidateId: String
   firstName: String
   homeState: State
+  id: UUID!
   instagramUrl: String
   issueTags: CreateOrConnectIssueTagInput
   lastName: String
@@ -1273,10 +1216,12 @@ input UpdatePoliticianInput {
   officeId: UUID
   organizationEndorsements: CreateOrConnectOrganizationInput
   party: PoliticalParty
+  phone: String
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
   raceLosses: Int
   raceWins: Int
+  slug: String
   suffix: String
   thumbnailImageUrl: String
   tiktokUrl: String
@@ -1288,11 +1233,14 @@ input UpdatePoliticianInput {
   youtubeUrl: String
 }
 
-input UpdateRaceInput {
+input UpsertRaceInput {
   ballotpediaLink: String
   description: String
   earlyVotingBeginsDate: NaiveDate
   electionId: UUID
+  id: UUID
+  isSpecialElection: Boolean!
+  numElect: Int
   officeId: UUID
   officialWebsite: String
   party: PoliticalParty
@@ -1303,12 +1251,6 @@ input UpdateRaceInput {
   totalVotes: Int
   winnerId: UUID
 }
-
-type UpdateUsernameResult {
-  username: String!
-}
-
-scalar Upload
 
 input UpsertVotingGuideCandidateInput {
   candidateId: ID!
