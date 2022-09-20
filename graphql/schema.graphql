@@ -288,6 +288,7 @@ input CreateOfficeInput {
   municipality: String
   officeType: String
   politicalScope: PoliticalScope!
+  seat: String
   slug: String
   state: State
   termLength: Int
@@ -350,7 +351,7 @@ input CreatePoliticianInput {
   preferredName: String
   raceLosses: Int
   raceWins: Int
-  slug: String!
+  slug: String
   suffix: String
   thumbnailImageUrl: String
   tiktokUrl: String
@@ -435,6 +436,12 @@ enum District {
   STATE_HOUSE
   STATE_SENATE
   US_CONGRESSIONAL
+}
+
+type DonationsByIndustry {
+  cycle: Int!
+  lastUpdated: NaiveDate!
+  sectors: [Sector!]!
 }
 
 type ElectionResult {
@@ -684,9 +691,12 @@ enum PoliticalParty {
   APPROVAL_VOTING
   CONSTITUTION
   DEMOCRATIC
+  DEMOCRATIC_FARMER_LABOR
   FREEDOM
+  GRASSROOTS_LEGALIZE_CANNABIS
   GREEN
   INDEPENDENT
+  LEGAL_MARIJUANA_NOW
   LIBERTARIAN
   REPUBLICAN
   UNAFFILIATED
@@ -710,8 +720,10 @@ type PoliticianResult {
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
+  crpCandidateId: String
   currentOffice: OfficeResult
   dateOfBirth: NaiveDate
+  donationsByIndustry: DonationsByIndustry
   email: String
   endorsements: Endorsements!
   facebookUrl: String
@@ -998,6 +1010,14 @@ type Sast {
   typeId: Int!
 }
 
+type Sector {
+  id: String!
+  individuals: Int!
+  name: String!
+  pacs: Int!
+  total: Int!
+}
+
 type Session {
   sessionId: Int!
   sessionName: String!
@@ -1204,6 +1224,7 @@ input UpdateOfficeInput {
   name: String
   officeType: String
   politicalScope: PoliticalScope
+  seat: String
   slug: String
   state: State
   termLength: Int

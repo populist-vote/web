@@ -22,6 +22,7 @@ query PoliticianIndex(
           id
           slug
           title
+          subtitle
           municipality
           district
           state
@@ -56,6 +57,7 @@ query PoliticianBySlug($slug: String!) {
     party
     thumbnailImageUrl
     websiteUrl
+    campaignWebsiteUrl
     twitterUrl
     facebookUrl
     instagramUrl
