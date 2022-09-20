@@ -17,7 +17,7 @@ function HomePage() {
         <HomePageButton
           href="/politicians"
           className="myLegislators"
-          label="Colorado Legislators"
+          label="Browse"
         />
       </BasicLayout>
     </>
