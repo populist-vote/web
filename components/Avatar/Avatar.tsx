@@ -391,9 +391,15 @@ function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
   switch (party) {
     case PoliticalParty.Democratic:
       return "var(--blue)";
+    case PoliticalParty.DemocraticFarmerLabor:
+      return "var(--blue)";
     case PoliticalParty.Republican:
       return "var(--red)";
     case PoliticalParty.Green:
+      return "var(--green)";
+    case PoliticalParty.LegalMarijuanaNow:
+      return "var(--green)";
+    case PoliticalParty.GrassrootsLegalizeCannabis:
       return "var(--green)";
     case PoliticalParty.Libertarian:
       return "var(--aqua)";
