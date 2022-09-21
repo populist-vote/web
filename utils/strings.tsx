@@ -5,7 +5,7 @@ function titleCase(str: string): string {
     .map(function (word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     })
-    .join("");
+    .join(" ");
 }
 
 function kebabCase(str: string): string {
