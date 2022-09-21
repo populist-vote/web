@@ -16,6 +16,12 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
     ),
     (race) => race.office.id
   );
+  const localRacesGroupedByOffice = groupBy(
+    races?.filter(
+      (race) => race.office.politicalScope === PoliticalScope.Local
+    ),
+    (race) => race.office.id
+  );
 
   return (
     <>
@@ -34,6 +40,16 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
       {Object.keys(stateRacesGroupedByOffice).length > 0 && (
         <FlagSection title="State" color="yellow">
           {Object.entries(stateRacesGroupedByOffice).map(
+            ([officeId, races]) => (
+              <OfficeRaces key={officeId} races={races as RaceResult[]} />
+            )
+          )}
+        </FlagSection>
+      )}
+
+      {Object.keys(localRacesGroupedByOffice).length > 0 && (
+        <FlagSection title="Local" color="salmon">
+          {Object.entries(localRacesGroupedByOffice).map(
             ([officeId, races]) => (
               <OfficeRaces key={officeId} races={races as RaceResult[]} />
             )
