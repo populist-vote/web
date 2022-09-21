@@ -558,6 +558,7 @@ type OfficeResult {
   id: ID!
   incumbent: PoliticianResult
   municipality: String
+  name: String
   officeType: String
   politicalScope: PoliticalScope!
   schoolDistrict: String
@@ -565,6 +566,7 @@ type OfficeResult {
   slug: String!
   state: State
   subtitle: String
+  subtitleShort: String
   termLength: Int
   title: String!
 }
@@ -683,7 +685,9 @@ type PoliticianResult {
   linkedinUrl: String
   middleName: String
   officeId: ID
+  officialWebsiteUrl: String
   party: PoliticalParty
+  phone: String
   preferredName: String
   raceLosses: Int
   raceWins: Int
@@ -701,7 +705,6 @@ type PoliticianResult {
   votesmartCandidateBio: GetCandidateBioResponse
   votesmartCandidateId: Int
   votesmartCandidateRatings: [VsRating!]!
-  websiteUrl: String
 
   """
   Calculates the total years a politician has been in office using
@@ -1203,6 +1206,7 @@ input UpsertOfficeInput {
   id: UUID
   incumbentId: UUID
   municipality: String
+  name: String
   officeType: String
   politicalScope: PoliticalScope
   schoolDistrict: String
@@ -1232,6 +1236,7 @@ input UpsertPoliticianInput {
   linkedinUrl: String
   middleName: String
   officeId: UUID
+  officialWebsiteUrl: String
   organizationEndorsements: CreateOrConnectOrganizationInput
   party: PoliticalParty
   phone: String
@@ -1247,7 +1252,6 @@ input UpsertPoliticianInput {
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   votesmartCandidateRatings: JSON
-  websiteUrl: String
   youtubeUrl: String
 }
 

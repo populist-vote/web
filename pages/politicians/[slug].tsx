@@ -146,7 +146,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       !age &&
       !raceWins &&
       !raceLosses &&
-      !politician?.websiteUrl &&
+      !politician?.officialWebsiteUrl &&
       !politician?.campaignWebsiteUrl &&
       !politician?.twitterUrl &&
       !politician?.facebookUrl &&
@@ -195,13 +195,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           </p>
         )}
         <div className={politicianStyles.links}>
-          {politician?.websiteUrl && (
+          {politician?.officialWebsiteUrl && (
             <a
               aria-label={"Website"}
               href={
-                politician.websiteUrl?.startsWith("http")
-                  ? politician.websiteUrl
-                  : `//${politician.websiteUrl}`
+                politician.officialWebsiteUrl?.startsWith("http")
+                  ? politician.officialWebsiteUrl
+                  : `//${politician.officialWebsiteUrl}`
               }
               target="_blank"
               rel="noopener noreferrer"

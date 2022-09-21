@@ -56,7 +56,7 @@ query PoliticianBySlug($slug: String!) {
     homeState
     party
     thumbnailImageUrl
-    websiteUrl
+    officialWebsiteUrl
     campaignWebsiteUrl
     twitterUrl
     facebookUrl
