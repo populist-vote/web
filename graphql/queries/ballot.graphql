@@ -6,12 +6,14 @@ fragment raceFields on RaceResult {
   office {
     id
     title
+    subtitle
     state
+    county
+    municipality
     district
     electionScope
     districtType
     politicalScope
-    state
     incumbent {
       id
       fullName

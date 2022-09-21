@@ -1,6 +1,6 @@
 input AddressInput {
   city: String!
-  congressionalDistrict: Int
+  congressionalDistrict: String
   coordinates: Coordinates
   country: String!
   county: String
@@ -8,8 +8,8 @@ input AddressInput {
   line2: String
   postalCode: String!
   state: State!
-  stateHouseDistrict: Int
-  stateSenateDistrict: Int
+  stateHouseDistrict: String
+  stateSenateDistrict: String
 }
 
 type AddressResult {
@@ -151,7 +151,10 @@ type BillResult {
 
 type BillResultConnection {
   """A list of edges."""
-  edges: [BillResultEdge]
+  edges: [BillResultEdge!]!
+
+  """A list of nodes."""
+  nodes: [BillResult!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -368,6 +371,7 @@ enum District {
   HOSPITAL
   JUDICIAL
   SCHOOL
+  SOIL_AND_WATER
   STATE_HOUSE
   STATE_SENATE
   US_CONGRESSIONAL
@@ -545,17 +549,23 @@ type Office {
 }
 
 type OfficeResult {
+  chamber: Chamber
+  county: String
   district: String
   districtType: District
   electionScope: ElectionScope!
+  hospitalDistrict: String
   id: ID!
   incumbent: PoliticianResult
   municipality: String
   officeType: String
   politicalScope: PoliticalScope!
+  schoolDistrict: String
+  seat: String
   slug: String!
   state: State
   subtitle: String
+  termLength: Int
   title: String!
 }
 
@@ -577,7 +587,10 @@ type OrganizationResult {
 
 type OrganizationResultConnection {
   """A list of edges."""
-  edges: [OrganizationResultEdge]
+  edges: [OrganizationResultEdge!]!
+
+  """A list of nodes."""
+  nodes: [OrganizationResult!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -701,7 +714,10 @@ type PoliticianResult {
 
 type PoliticianResultConnection {
   """A list of edges."""
-  edges: [PoliticianResultEdge]
+  edges: [PoliticianResultEdge!]!
+
+  """A list of nodes."""
+  nodes: [PoliticianResult!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -793,7 +809,6 @@ type Query {
     """Search by organization name"""
     search: OrganizationSearch
   ): OrganizationResultConnection!
-  politicianById(id: String!): PoliticianResult!
   politicianBySlug(slug: String!): PoliticianResult!
   politicians(
     after: String
@@ -882,7 +897,10 @@ type RatingResult {
 
 type RatingResultConnection {
   """A list of edges."""
-  edges: [RatingResultEdge]
+  edges: [RatingResultEdge!]!
+
+  """A list of nodes."""
+  nodes: [RatingResult!]!
 
   """Information to aid in pagination."""
   pageInfo: PageInfo!
@@ -1077,9 +1095,9 @@ type Text {
 }
 
 """
-A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as Strings
-within GraphQL. UUIDs are used to assign unique identifiers to entities without requiring a central
-allocating authority.
+A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+Strings within GraphQL. UUIDs are used to assign unique identifiers to
+entities without requiring a central allocating authority.
 
 # References
 
@@ -1206,7 +1224,7 @@ input UpsertPoliticianInput {
   fecCandidateId: String
   firstName: String
   homeState: State
-  id: UUID!
+  id: UUID
   instagramUrl: String
   issueTags: CreateOrConnectIssueTagInput
   lastName: String
