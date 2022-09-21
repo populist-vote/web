@@ -66,6 +66,7 @@ function ElectionInfoSection({
     stateLong = states[upcomingRace.office.state];
   }
 
+  // TODO add subtitle_short to API
   switch (upcomingRace?.office.electionScope) {
     case ElectionScope.National:
       break;

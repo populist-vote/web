@@ -32,6 +32,16 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
         officeSubheader = states[office.state];
       }
       break;
+    case ElectionScope.County:
+      if (office.state && office.county) {
+        officeSubheader = `${office.county} County`;
+      }
+      break;
+    case ElectionScope.City:
+      if (office.state && office.municipality) {
+        officeSubheader = `${office.municipality}, ${states[office.state]}`;
+      }
+      break;
     case ElectionScope.District:
       switch (office?.districtType) {
         case District.UsCongressional:
@@ -47,7 +57,7 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
       }
       break;
     default:
-      officeSubheader = "default";
+      officeSubheader = "";
       break;
   }
 
