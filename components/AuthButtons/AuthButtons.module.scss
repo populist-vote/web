@@ -1,0 +1,16 @@
+@import "styles/modules/nav.module";
+
+.authButtons {
+  display: flex;
+  flex-direction: row;
+  button {
+    text-transform: none;
+    margin: 0;
+  }
+}
+
+.showButtonOutline {
+  button {
+    border-style: solid;
+  }
+}
