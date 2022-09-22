@@ -30,7 +30,7 @@ function ChooseAdventure() {
           <p>Browse elections and candidate information</p>
           <Link href="/politicians?state=CO" passHref>
             <div className={classNames(styles.stateButton, styles.aquaButton)}>
-              <h2>Colorado</h2>
+              Colorado
             </div>
           </Link>
 
@@ -38,7 +38,7 @@ function ChooseAdventure() {
             <div
               className={classNames(styles.stateButton, styles.violetButton)}
             >
-              <h2>Minnesota</h2>
+              Minnesota
             </div>
           </Link>
         </div>

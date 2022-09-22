@@ -34,8 +34,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2em;
   cursor: pointer;
+  font-size: $text-xl;
+  font-family: $font-primary;
+  font-weight: 500;
   transition: all 0.2s ease-in-out;
 
   &.aquaButton {
