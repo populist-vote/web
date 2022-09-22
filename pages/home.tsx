@@ -29,7 +29,7 @@ function HomePage() {
         ) : (
           <>
             <HomePageButton
-              href="/ballot"
+              href="/ballot/choose"
               className="myBallot"
               label="My Ballot"
             />

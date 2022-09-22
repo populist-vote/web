@@ -1,9 +1,14 @@
 import classNames from "classnames";
 import { Button, Layout } from "components";
+import { useAuth } from "hooks/useAuth";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import styles from "./choose.module.scss";
 
 function ChooseAdventure() {
+  const user = useAuth({ redirect: false });
+  const router = useRouter();
+  if (user) void router.push("/ballot");
   return (
     <Layout>
       <div className={styles.container}>
