@@ -40,7 +40,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     if (isSuccess)
       setSelectedElectionId(
         // Sort by most current election - copy array to preserve chronological order
-        [...data?.elections].sort((a, b) => {
+        [...(data?.elections as ElectionResult[])].sort((a, b) => {
           const today = new Date();
           const distancea = Math.abs(
             today.getTime() - new Date(a.electionDate).getTime()
