@@ -7,7 +7,6 @@
   height: 100%;
   background: $background-primary;
   display: grid;
-
   grid-template-areas:
     "nav"
     "content"
@@ -27,13 +26,11 @@
     grid-area: content;
     max-height: 100%;
     max-width: 100vw;
-    // padding-top: 2rem;
 
     @include for-tablet-up {
-      padding: 5rem 0rem;
+      padding: 5rem 0;
       margin: 0 auto;
       width: calc(100vw - 24rem);
-      // max-width: 1400px;
     }
   }
 
@@ -44,7 +41,7 @@
     background: $blue-darker;
     text-align: center;
     padding: 1rem;
-    margin: 0 0 1.25rem 0;
+    margin: 0 0 1.25rem;
 
     h1 {
       font-weight: 400;
@@ -53,8 +50,9 @@
 
   .inset {
     margin: 0 0.5rem;
+
     @include for-tablet-up {
-      margin: 0 0rem;
+      margin: 0;
     }
   }
 
@@ -69,6 +67,18 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
+    &.aquaLabel {
+      border: 1px solid $aqua;
+    }
+
+    &.yellowLabel {
+      border: 1px solid $yellow;
+    }
+
+    &.salmonLabel {
+      border: 1px solid $salmon;
+    }
 
     &:hover {
       transform: translate3d(2px, 2px, 2px);
@@ -92,7 +102,20 @@
   }
 
   input[type="radio"]:checked + label {
-    background: $blue;
+    &.aquaLabel {
+      background: $aqua;
+      color: $grey-darkest;
+    }
+
+    &.yellowLabel {
+      background: $yellow;
+      color: $grey-darkest;
+    }
+
+    &.salmonLabel {
+      background: $salmon;
+      color: $grey-darkest;
+    }
   }
 
   input[type="radio"] {
@@ -129,7 +152,6 @@
     margin: 0;
     margin-left: -2rem;
     pointer-events: none;
-    align-self: center;
   }
 
   hr {

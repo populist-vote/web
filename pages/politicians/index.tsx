@@ -1,12 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  ReactElement,
-  MouseEvent,
-  ChangeEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { AiFillCaretDown, AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
@@ -28,6 +21,7 @@ import { NextPageWithLayout } from "../_app";
 import { computeOfficeTitle } from "utils/politician";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { GetServerSideProps } from "next";
+import classNames from "classnames";
 
 const PAGE_SIZE = 20;
 
@@ -79,45 +73,29 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
 };
 
 type PoliticianIndexProps = {
-  search: string;
-  scope: PoliticalScope;
-  chamber: Chambers;
-  state: State;
+  query: {
+    search: string;
+    scope: PoliticalScope;
+    chamber: Chambers;
+    state: State;
+  };
 };
 
 const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
   props: PoliticianIndexProps
 ) => {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState<string | null>(
-    props.search as string
+  const { query } = router;
+  const {
+    state = null,
+    scope = null,
+    chamber = null,
+    search = null,
+  } = props.query || query;
+  const debouncedSearchQuery = useDebounce<string | null>(
+    search as string,
+    500
   );
-  const debouncedSearchQuery = useDebounce<string | null>(searchQuery, 500);
-  const [politicalScope, setPoliticalScope] = useState<PoliticalScope | null>(
-    (props.scope as PoliticalScope) || null
-  );
-  const [chamberFilter, setChamberFilter] = useState<Chambers | null>(
-    (props.chamber as Chambers) || null
-  );
-
-  const [stateFilter, setStateFilter] = useState<State | null>(
-    props.state || State.Co
-  );
-
-  useEffect(() => {
-    type RouteQuery = {
-      search: string | null;
-      scope: PoliticalScope | null;
-      chamber: Chambers | null;
-      state: State | null;
-    };
-    const query: Partial<RouteQuery> = {};
-    if (!!debouncedSearchQuery) query.search = debouncedSearchQuery;
-    if (!!politicalScope) query.scope = politicalScope;
-    if (!!chamberFilter) query.chamber = chamberFilter;
-    if (!!stateFilter) query.state = stateFilter;
-    void router.push({ query });
-  }, [debouncedSearchQuery, politicalScope, chamberFilter, stateFilter]);
 
   const {
     data,
@@ -132,15 +110,15 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
       pageSize: PAGE_SIZE,
       search: {
         name: debouncedSearchQuery || null,
-        homeState: stateFilter,
+        homeState: state as State,
       },
       filter: {
-        politicalScope: politicalScope,
-        chambers: chamberFilter,
+        politicalScope: scope as PoliticalScope,
+        chambers: chamber as Chambers,
       },
     },
     {
-      queryKey: `politicianIndex-${debouncedSearchQuery}-${politicalScope}-${chamberFilter}`,
+      queryKey: `politicianIndex-${debouncedSearchQuery}-${scope}-${chamber}-${state}`,
       getNextPageParam: (lastPage) => {
         if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
         return {
@@ -174,42 +152,56 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
     };
   }, [loadMoreRef.current, hasNextPage, isFetchingNextPage]);
 
-  const handleScopeClick = (e: MouseEvent) => {
-    if (politicalScope === (e.target as HTMLInputElement).value)
-      setPoliticalScope(null);
+  const handleScopeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.checked) {
+      console.log("uncheck");
+      const { scope: _, ...newQuery } = query;
+      void router.push({ query: newQuery });
+    }
+    const scope = e.target.value as PoliticalScope;
+    void router.push({ query: { ...query, scope } });
   };
 
-  const handleScopeChange = (e: ChangeEvent) => {
-    setPoliticalScope((e.target as HTMLInputElement).value as PoliticalScope);
+  const handleChamberSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    const chamber = e.target.value as Chambers;
+    void router.push({ query: { ...query, chamber } });
   };
 
   return (
-    <>
+    <Layout>
       <SEO
         title="Politician Browser"
         description="Find information on your government representatives like voting histories, endorsements, and financial data."
       />
       <div>
-        <div className={styles.flexLeft}>
-          <select
-            className={styles.pillSelect}
-            name="state"
-            onChange={(e) => setStateFilter(e.target.value as State)}
-            value={stateFilter || State.Co}
-          >
-            <option value={State.Co}>Colorado</option>
-            <option value={State.Mn}>Minnesota</option>
-          </select>
-          <AiFillCaretDown className={styles.chevron} />
-        </div>
         <header>
           <div className={styles.filtersContainer}>
+            <div className={styles.flexLeft}>
+              <select
+                className={styles.pillSelect}
+                name="state"
+                onChange={(e) =>
+                  void router.push({
+                    query: { ...query, state: e.target.value },
+                  })
+                }
+                value={state as State}
+              >
+                <option value={State.Co}>Colorado</option>
+                <option value={State.Mn}>Minnesota</option>
+              </select>
+              <AiFillCaretDown className={styles.chevron} />
+            </div>
             <h2 className={styles.desktopOnly}>Browse</h2>
             <div className={styles.inputWithIcon}>
               <input
                 placeholder="Search"
-                onChange={(e) => setSearchQuery(e.target.value)}
-                value={searchQuery || ""}
+                onChange={(e) =>
+                  void router.push({
+                    query: { ...query, search: e.target.value },
+                  })
+                }
+                value={search || ""}
               ></input>
               <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
             </div>
@@ -220,11 +212,13 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
                 id="federal-radio"
                 type="radio"
                 value={PoliticalScope.Federal}
-                checked={politicalScope === PoliticalScope.Federal}
-                onClick={handleScopeClick}
+                checked={scope === PoliticalScope.Federal}
                 onChange={handleScopeChange}
               />
-              <label htmlFor="federal-radio" className={styles.radioLabel}>
+              <label
+                htmlFor="federal-radio"
+                className={classNames(styles.radioLabel, styles.aquaLabel)}
+              >
                 Federal
               </label>
               <input
@@ -232,35 +226,48 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
                 id="state-radio"
                 type="radio"
                 value={PoliticalScope.State}
-                checked={politicalScope === PoliticalScope.State}
-                onClick={handleScopeClick}
+                checked={scope === PoliticalScope.State}
                 onChange={handleScopeChange}
               />
-              <label htmlFor="state-radio" className={styles.radioLabel}>
+              <label
+                htmlFor="state-radio"
+                className={classNames(styles.radioLabel, styles.yellowLabel)}
+              >
                 State
               </label>
-              <select
-                className={styles.pillSelect}
-                name="chambers"
-                onChange={(e) => {
-                  const newFilter =
-                    e.target.value === Chambers.All ? null : e.target.value;
-                  setChamberFilter(newFilter as Chambers);
-                }}
-                value={chamberFilter || Chambers.All}
+              <input
+                name="scope"
+                id="local-radio"
+                type="radio"
+                value={PoliticalScope.Local}
+                checked={scope === PoliticalScope.Local}
+                onChange={handleScopeChange}
+              />
+              <label
+                htmlFor="local-radio"
+                className={classNames(styles.radioLabel, styles.salmonLabel)}
               >
-                <option value={Chambers.All}>All Chambers</option>
-                <option value={Chambers.House}>House</option>
-                <option value={Chambers.Senate}>Senate</option>
-              </select>
-              <AiFillCaretDown className={styles.chevron} />
+                Local
+              </label>
+              <div className={styles.flexLeft}>
+                <select
+                  className={styles.pillSelect}
+                  name="chambers"
+                  onChange={handleChamberSelect}
+                  value={chamber || Chambers.All}
+                >
+                  <option value={Chambers.All}>All Chambers</option>
+                  <option value={Chambers.House}>House</option>
+                  <option value={Chambers.Senate}>Senate</option>
+                </select>
+                <AiFillCaretDown className={styles.chevron} />
+              </div>
             </form>
           </div>
         </header>
         <div>
           {isLoading && (
             <div className={styles.center}>
-              {" "}
               <LoaderFlag />
             </div>
           )}
@@ -295,17 +302,13 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
           )}
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { chamber = null, scope = null, search = null } = ctx.query;
-  return { props: { chamber, scope, search } };
-};
-
-PoliticianIndex.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
+  console.log(ctx.query);
+  return { props: ctx.query };
 };
 
 export default PoliticianIndex;

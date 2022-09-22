@@ -25,8 +25,8 @@ function Nav({
 }) {
   const router = useRouter();
   const [sticky, setSticky] = useState<boolean>(true);
-  const user = useAuth({ redirectTo: "" });
   const { asPath, pathname, query } = useRouter();
+  const user = useAuth({ redirectTo: asPath });
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   useScrollPosition(
