@@ -23,6 +23,7 @@ import { SEO } from "./SEO/SEO";
 import { HomePageButton } from "./HomePageButton/HomePageButton";
 import { HeaderSection } from "./Politician/HeaderSection";
 import { ElectionInfoSection } from "./Politician/ElectionInfoSection";
+import { BetaNotice } from "./BetaNotice/BetaNotice";
 
 export type { EditVotingGuideCandidate };
 
@@ -31,6 +32,7 @@ export {
   ElectionInfoSection,
   SEO,
   Avatar,
+  BetaNotice,
   BillCard,
   BasicLayout,
   Button,
