@@ -1,13 +1,14 @@
 import type { PropsWithChildren } from "react";
-import { Footer, LogoBetaDesktop } from "components";
-import styles from "./BasicLayout.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Footer, LogoBetaDesktop, AuthButtons } from "components";
+import styles from "./BasicLayout.module.scss";
 
 function BasicLayout({
   children,
   hideFooter = false,
-}: PropsWithChildren<{ hideFooter?: boolean }>) {
+  showAuthButtons = false,
+}: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
   const { pathname, query } = useRouter();
 
   return (
@@ -18,30 +19,39 @@ function BasicLayout({
             <LogoBetaDesktop />
           </div>
         </Link>
-        {pathname == "/register" && (
-          <Link
-            href={{
-              pathname: "/login",
-              query,
-            }}
-            shallow
-            replace
-          >
-            Sign in
-          </Link>
-        )}
-        {pathname == "/login" && (
-          <Link
-            href={{
-              pathname: "/register",
-              query,
-            }}
-            shallow
-            replace
-          >
-            Create an account
-          </Link>
-        )}
+
+        {(() => {
+          switch (pathname) {
+            case "/register":
+              return (
+                <Link
+                  href={{
+                    pathname: "/login",
+                    query,
+                  }}
+                  shallow
+                  replace
+                >
+                  Sign in
+                </Link>
+              );
+            case "/login":
+              return (
+                <Link
+                  href={{
+                    pathname: "/register",
+                    query,
+                  }}
+                  shallow
+                  replace
+                >
+                  Create an account
+                </Link>
+              );
+            default:
+              return showAuthButtons ? <AuthButtons /> : <></>;
+          }
+        })()}
       </header>
       <main className={styles.content}>{children}</main>
       {hideFooter ? <footer /> : <Footer />}
