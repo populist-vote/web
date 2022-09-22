@@ -38,7 +38,20 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   >();
 
   useEffect(() => {
-    if (isSuccess) setSelectedElectionId(data?.elections[0]?.id);
+    if (isSuccess)
+      setSelectedElectionId(
+        // Sort by most current election - copy array to preserve chronological order
+        [...data?.elections].sort((a, b) => {
+          const today = new Date();
+          const distancea = Math.abs(
+            today.getTime() - new Date(a.electionDate).getTime()
+          );
+          const distanceb = Math.abs(
+            today.getTime() - new Date(b.electionDate).getTime()
+          );
+          return distancea - distanceb;
+        })[0]?.id
+      );
   }, [isSuccess, data]);
 
   const createVotingGuide = useUpsertVotingGuideMutation({

@@ -34,7 +34,10 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
       break;
     case ElectionScope.County:
       if (office.state && office.county) {
-        officeSubheader = `${office.county} County`;
+        const districtText = office.district
+          ? `- District ${office.district}`
+          : "";
+        officeSubheader = `${office.county} County ${districtText}`;
       }
       break;
     case ElectionScope.City:

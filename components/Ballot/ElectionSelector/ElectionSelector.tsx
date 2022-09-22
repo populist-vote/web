@@ -24,7 +24,7 @@ function ElectionSelector({
     typeof elections[currentElectionIndex + 1] !== "undefined";
   const nextElection = elections[currentElectionIndex + 1];
   const isSmallScreen = useMediaQuery("(max-width: 896px)");
-  
+
   return (
     <div className={styles.container}>
       <button
@@ -37,20 +37,19 @@ function ElectionSelector({
             <h4>Last Vote</h4>
           </div>
         ) : (
-          (hasPreviousElection && !hasNextElection) && (
+          hasPreviousElection &&
+          !hasNextElection && (
             <div className={styles.lastLabel}>
               <h4>Last Vote</h4>
               <h3>{dateString(previousElection?.electionDate, true)}</h3>
             </div>
           )
         )}
-
       </button>
       <button
         disabled={!hasNextElection}
         onClick={() => setSelectedElectionId(nextElection?.id as string)}
       >
-        
         {isSmallScreen ? (
           <div className={styles.nextLabel}>
             <h4>Next Vote</h4>
