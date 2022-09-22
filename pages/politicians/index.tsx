@@ -154,7 +154,6 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
 
   const handleScopeChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
-      console.log("uncheck");
       const { scope: _, ...newQuery } = query;
       void router.push({ query: newQuery });
     }
@@ -307,7 +306,6 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log(ctx.query);
   return { props: ctx.query };
 };
 
