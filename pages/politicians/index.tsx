@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/router";
-import { FaChevronDown, FaSearch } from "react-icons/fa";
+import { AiFillCaretDown, AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
 
 import { Layout, LoaderFlag, PartyAvatar, SEO, Spacer } from "components";
@@ -18,6 +18,7 @@ import {
   Chambers,
   PoliticalParty,
   PoliticalScope,
+  State,
   useInfinitePoliticianIndexQuery,
 } from "../../generated";
 import type { PoliticianResult } from "../../generated";
@@ -81,6 +82,7 @@ type PoliticianIndexProps = {
   search: string;
   scope: PoliticalScope;
   chamber: Chambers;
+  state: State;
 };
 
 const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
@@ -98,18 +100,24 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
     (props.chamber as Chambers) || null
   );
 
+  const [stateFilter, setStateFilter] = useState<State | null>(
+    props.state || State.Co
+  );
+
   useEffect(() => {
     type RouteQuery = {
       search: string | null;
       scope: PoliticalScope | null;
       chamber: Chambers | null;
+      state: State | null;
     };
     const query: Partial<RouteQuery> = {};
     if (!!debouncedSearchQuery) query.search = debouncedSearchQuery;
     if (!!politicalScope) query.scope = politicalScope;
     if (!!chamberFilter) query.chamber = chamberFilter;
+    if (!!stateFilter) query.state = stateFilter;
     void router.push({ query });
-  }, [debouncedSearchQuery, politicalScope, chamberFilter]);
+  }, [debouncedSearchQuery, politicalScope, chamberFilter, stateFilter]);
 
   const {
     data,
@@ -124,6 +132,7 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
       pageSize: PAGE_SIZE,
       search: {
         name: debouncedSearchQuery || null,
+        homeState: stateFilter,
       },
       filter: {
         politicalScope: politicalScope,
@@ -181,8 +190,19 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
         description="Find information on your government representatives like voting histories, endorsements, and financial data."
       />
       <div>
+        <div className={styles.flexLeft}>
+          <select
+            className={styles.pillSelect}
+            name="state"
+            onChange={(e) => setStateFilter(e.target.value as State)}
+            value={stateFilter || State.Co}
+          >
+            <option value={State.Co}>Colorado</option>
+            <option value={State.Mn}>Minnesota</option>
+          </select>
+          <AiFillCaretDown className={styles.chevron} />
+        </div>
         <header>
-          <h1 className={styles.desktopOnly}>Colorado Legislators</h1>
           <div className={styles.filtersContainer}>
             <h2 className={styles.desktopOnly}>Browse</h2>
             <div className={styles.inputWithIcon}>
@@ -191,7 +211,7 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
                 onChange={(e) => setSearchQuery(e.target.value)}
                 value={searchQuery || ""}
               ></input>
-              <FaSearch color="var(--blue)" />
+              <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
             </div>
             <Spacer size={16} axis="vertical" />
             <form className={`${styles.flexBetween}`}>
@@ -233,7 +253,7 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
                 <option value={Chambers.House}>House</option>
                 <option value={Chambers.Senate}>Senate</option>
               </select>
-              <FaChevronDown className={styles.chevron} />
+              <AiFillCaretDown className={styles.chevron} />
             </form>
           </div>
         </header>

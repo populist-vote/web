@@ -122,9 +122,10 @@
   }
 
   select + svg.chevron {
+    font-size: 1em;
     color: $blue;
     height: 1rem;
-    width: 3rem;
+    width: 2rem;
     margin: 0;
     margin-left: -2rem;
     pointer-events: none;
@@ -146,6 +147,12 @@
     gap: 0.5rem;
   }
 
+  .flexLeft {
+    display: flex;
+    align-items: center;
+    justify-content: baseline;
+  }
+
   .filtersContainer {
     padding: 1rem;
     border-bottom: 1px solid $blue-dark;
@@ -159,7 +166,7 @@
     width: 100%;
 
     input {
-      margin-right: -1.5rem;
+      margin-right: -2rem;
     }
 
     input:focus + svg {
