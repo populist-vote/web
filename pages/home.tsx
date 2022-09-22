@@ -23,7 +23,7 @@ function HomePage() {
         title="Home"
         description="Find information on your government representatives like voting histories, endorsements, and financial data."
       />
-      <BasicLayout>
+      <BasicLayout showAuthButtons>
         {isBetaVisible ? (
           <BetaNotice onContinue={handleBetaDismissal} />
         ) : (
