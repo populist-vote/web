@@ -11,3 +11,5 @@ export const VOTING_GUIDE_WELCOME_VISIBLE =
   "populist-voting-guide-welcome-visible";
 
 export const SAVED_GUIDES_LOCAL_STORAGE = "populist-saved-guides-local-storage";
+
+export const BETA_NOTICE_VISIBLE = "populist-beta-notice-visible";
