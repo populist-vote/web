@@ -10,7 +10,7 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta } from "components";
 
 function Nav({
-  mobileNavTitle = "Colorado Legislators",
+  mobileNavTitle,
   showBackButton = true,
   showLogoOnMobile,
   navItems,

@@ -1,0 +1,89 @@
+@import "../../styles/modules/page.module.scss";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  .flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 3rem;
+    box-sizing: border-box;
+
+    h2 {
+      margin: 0;
+    }
+  }
+}
+
+.stateButton {
+  border-radius: 20px;
+  padding: 2.5rem;
+  min-width: 85%;
+  max-width: 64rem;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &.aquaButton {
+    background: $aqua-dark;
+    &:hover {
+      background: $aqua;
+    }
+  }
+
+  &.violetButton {
+    background: $violet-dark;
+    &:hover {
+      background: $violet;
+    }
+  }
+}
+
+.verticalDivider {
+  display: table;
+  text-align: center;
+  margin: 0 3rem;
+  height: 100%;
+  width: 3rem;
+}
+
+.centerElement {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 1.6em;
+  font-family: $font-primary;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: "";
+    width: 1px;
+    left: 50%;
+    border-left: 1px solid $blue-dark;
+  }
+  &::before {
+    bottom: 50%;
+    top: 0;
+    margin-bottom: 20px;
+  }
+  &::after {
+    top: 50%;
+    bottom: 0;
+    margin-top: 20px;
+  }
+}
