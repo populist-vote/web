@@ -12,7 +12,7 @@ function ChooseAdventure() {
   return (
     <Layout>
       <div className={styles.container}>
-        <Link href={`/login?next=/ballot`} passHref>
+        <Link href={`/register?next=/ballot`} passHref>
           <div className={classNames(styles.roundedCard, styles.flex)}>
             <h2>View your Ballot</h2>
             <p>

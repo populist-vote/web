@@ -29,7 +29,7 @@ function HomePage() {
         ) : (
           <>
             <HomePageButton
-              href="/ballot/choose"
+              href={user ? "/ballot" : "/ballot/choose"}
               className="myBallot"
               label="My Ballot"
             />
@@ -41,7 +41,7 @@ function HomePage() {
             <HomePageButton
               href="/politicians"
               className="myLegislators"
-              label="Browse"
+              label="Browse Politicians"
             />
           </>
         )}
