@@ -102,7 +102,7 @@ function ElectionInfoSection({
         <h4 className={styles.subHeader}>Running For</h4>
         <div className={`${styles.roundedCard} ${electionStyles.box}`}>
           <h3>{officeSubheader}</h3>
-          <h2>{upcomingRace?.office.name}</h2>
+          <h2>{upcomingRace?.office.name || upcomingRace?.office.title}</h2>
         </div>
       </div>
       <div>
