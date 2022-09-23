@@ -34,22 +34,22 @@ function AuthButtons() {
         <ul className={styles.menu}>
           <li className={styles.menuButton}>
             <Button
-              label="Sign In"
+              label="Register"
               size={isMobile ? "small" : "medium"}
               variant="primary"
               theme="blue"
-              onClick={() => push(`/login`)}
+              onClick={() => push(`/register`)}
             />
           </li>
           <li
             className={classnames(styles.menuButton, styles.showButtonOutline)}
           >
             <Button
-              label="Register"
+              label="Sign In"
               size={isMobile ? "small" : "medium"}
               variant="secondary"
               theme="blue"
-              onClick={() => push(`/register`)}
+              onClick={() => push(`/login`)}
             />
           </li>
         </ul>
