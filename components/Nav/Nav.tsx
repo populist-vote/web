@@ -143,7 +143,7 @@ function Nav({
                 <Button size="medium" variant="primary" label="Register" />
               </Link>
               <Link href={`/login?next=${asPath}`} passHref>
-                <div className={styles.avatar}>Login</div>
+                <Button size="medium" variant="secondary" label="Sign in" />
               </Link>
             </div>
           )}
