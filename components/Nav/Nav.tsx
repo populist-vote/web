@@ -86,15 +86,17 @@ function Nav({
           )}
         </div>
 
-        <div className={styles.avatar}>
-          <Link href="/settings/profile" passHref>
-            <Avatar
-              src={PERSON_FALLBACK_IMAGE_URL}
-              alt="profile picture"
-              size={35}
-            />
-          </Link>
-        </div>
+        {user && (
+          <div className={styles.avatar}>
+            <Link href="/settings/profile" passHref>
+              <Avatar
+                src={PERSON_FALLBACK_IMAGE_URL}
+                alt="profile picture"
+                size={35}
+              />
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* ///////// Desktop nav ///////// */}

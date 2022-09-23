@@ -138,11 +138,16 @@
     border-radius: 25px;
     border: 1px solid $blue;
     padding: 0.5rem 2rem;
+    width: 100%;
     cursor: pointer;
     font-size: $text-sm;
     -webkit-appearance: none;
     -moz-appearance: none;
     -o-appearance: none;
+
+    @include for-tablet-up {
+      width: fit-content;
+    }
   }
 
   select + svg.chevron {
@@ -159,6 +164,10 @@
     border: 1px solid $blue;
   }
 
+  .mb1 {
+    margin-bottom: 1rem;
+  }
+
   .mb3 {
     margin-bottom: 3rem;
   }
@@ -168,15 +177,20 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
+
+    @include for-tablet-up {
+      flex-wrap: nowrap;
+    }
   }
 
   .flexLeft {
     display: flex;
     align-items: center;
-    justify-content: baseline;
   }
 
   .filtersContainer {
+    gap: 0.5rem;
     padding: 1rem;
     border-bottom: 1px solid $blue-dark;
   }
