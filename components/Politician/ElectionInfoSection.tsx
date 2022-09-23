@@ -86,6 +86,16 @@ function ElectionInfoSection({
           break;
         case District.StateHouse:
           officeSubheader = stateLong + " HD " + upcomingRace?.office.district;
+        case District.County:
+          officeSubheader = upcomingRace?.office.county as string;
+          break;
+        case District.School:
+          officeSubheader = `${
+            upcomingRace.office.county || upcomingRace.office.municipality
+          } - ${upcomingRace?.office.schoolDistrict as string}`;
+          break;
+        default:
+          officeSubheader = upcomingRace?.office.municipality as string;
       }
   }
 
