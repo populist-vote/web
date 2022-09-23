@@ -1,5 +1,4 @@
-@import "components/Nav/Nav.module.scss";
-@import "styles/modules/nav.module.scss";
+@import "styles/modules/nav.module";
 
 .authButtons {
   display: flex;
@@ -7,6 +6,8 @@
   button {
     text-transform: none;
     margin: 0;
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
   }
 }
 

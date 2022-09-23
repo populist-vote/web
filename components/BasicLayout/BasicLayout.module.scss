@@ -81,3 +81,11 @@
 .alignLeft {
   text-align: left;
 }
+
+.auxButtonsMobile {
+  @include smaller-than-tablet-only;
+}
+
+.auxButtonsDesktop {
+  @include tablet-up-only;
+}
