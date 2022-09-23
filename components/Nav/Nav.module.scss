@@ -12,6 +12,13 @@
   background-color: $background-secondary;
   box-shadow: 0 7px 9px 0 $background-primary;
 
+  .flexColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
   &.sticky {
     transform: translateY(0%);
   }
