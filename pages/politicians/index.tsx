@@ -91,9 +91,10 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
     chamber = null,
     search = null,
   } = props.query || query;
+
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
-    500
+    350
   );
 
   const {
