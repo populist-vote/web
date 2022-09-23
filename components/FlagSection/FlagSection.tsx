@@ -5,7 +5,7 @@ import classNames from "classnames";
 interface FlagSectionProps {
   title: string;
   children: React.ReactNode;
-  color?: "salmon" | "green" | "yellow" | "aqua";
+  color?: "salmon" | "green" | "yellow" | "aqua" | "violet";
   hideFlagForMobile?: boolean;
 }
 

@@ -68,6 +68,17 @@
     }
   }
 
+  &.violet {
+    @include for-tablet-portrait-up {
+      border-left: 1px solid $violet;
+    }
+
+    .sectionTitle {
+      background: $violet;
+      color: $background-primary;
+    }
+  }
+
   .header {
     justify-content: space-between;
   }
