@@ -7,7 +7,7 @@ import { useAuth } from "hooks/useAuth";
 import styles from "./Nav.module.scss";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useMediaQuery } from "hooks/useMediaQuery";
-import { Avatar, Logo, LogoBeta } from "components";
+import { Avatar, Logo, LogoBeta, Button } from "components";
 
 function Nav({
   mobileNavTitle,
@@ -138,9 +138,14 @@ function Nav({
               </div>
             </Link>
           ) : (
-            <Link href={`/login?next=${asPath}`} passHref>
-              <div className={styles.avatar}>Login</div>
-            </Link>
+            <div className={styles.flexColumn}>
+              <Link href="/signup" passHref>
+                <Button size="medium" variant="primary" label="Register" />
+              </Link>
+              <Link href={`/login?next=${asPath}`} passHref>
+                <div className={styles.avatar}>Login</div>
+              </Link>
+            </div>
           )}
         </div>
       </div>
