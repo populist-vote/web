@@ -1,7 +1,5 @@
-import styles from "styles/modules/page.module.scss";
-import electionStyles from "./ElectionInfo.module.scss";
+import styles from "./ElectionInfoSection.module.scss";
 import { PartyAvatar } from "components";
-import layoutStyles from "../../components/Layout/Layout.module.scss";
 import states from "utils/states";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import {
@@ -9,7 +7,7 @@ import {
   ElectionScope,
   PoliticalParty,
   PoliticianResult,
-} from "../../generated";
+} from "../../../generated";
 import { dateString } from "utils/dates";
 import classNames from "classnames";
 import dynamic from "next/dynamic";
@@ -25,7 +23,7 @@ function Candidate({
   itemId: string;
 }) {
   return (
-    <div className={layoutStyles.avatarContainer} key={candidate.id}>
+    <div className={styles.avatarContainer} key={candidate.id}>
       <PartyAvatar
         size={60}
         party={candidate.party as PoliticalParty}
@@ -34,7 +32,7 @@ function Candidate({
         alt={candidate?.fullName || ""}
         href={`/politicians/${candidate.slug}`}
       />
-      <span className={classNames(layoutStyles.link, styles.avatarName)}>
+      <span className={classNames(styles.link, styles.avatarName)}>
         {candidate.fullName}
       </span>
     </div>
@@ -53,11 +51,7 @@ function ElectionInfoSection({
     ) || [];
   if (!upcomingRace) return null;
 
-  const sectionCx = classNames(
-    styles.center,
-    styles.borderTop,
-    electionStyles.wrapper
-  );
+  const sectionCx = classNames(styles.center, styles.borderTop, styles.wrapper);
 
   let officeSubheader = "";
   let stateLong = "";
@@ -103,14 +97,14 @@ function ElectionInfoSection({
     <section className={sectionCx}>
       <div>
         <h4 className={styles.subHeader}>Next Election</h4>
-        <div className={`${styles.roundedCard} ${electionStyles.box}`}>
+        <div className={`${styles.roundedCard} ${styles.box}`}>
           <h3>{upcomingRace?.raceType}</h3>
           <h2>{dateString(upcomingRace?.electionDate, true)}</h2>
         </div>
       </div>
       <div>
         <h4 className={styles.subHeader}>Running For</h4>
-        <div className={`${styles.roundedCard} ${electionStyles.box}`}>
+        <div className={`${styles.roundedCard} ${styles.box}`}>
           <h3>{officeSubheader}</h3>
           <h2>{upcomingRace?.office.name || upcomingRace?.office.title}</h2>
         </div>
@@ -119,11 +113,11 @@ function ElectionInfoSection({
         <h4 className={styles.subHeader}>
           Opponent{opponents.length > 1 && "s"}
         </h4>
-        <div className={`${styles.roundedCard} ${electionStyles.boxOpponent}`}>
+        <div className={`${styles.roundedCard} ${styles.boxOpponent}`}>
           {opponents.length == 0 ? (
             <h3>None</h3>
           ) : (
-            <Scroller>
+            <Scroller hideControls>
               {opponents.map(
                 (candidate: Partial<PoliticianResult> & { id: string }) => {
                   return (

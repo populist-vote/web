@@ -1,5 +1,6 @@
 @import "styles/mixins/media";
 @import "styles/variables/colors";
+@import "styles/layout/containers";
 
 $election-info-width: 1150px;
 
@@ -10,16 +11,16 @@ $election-info-width: 1150px;
     border-top: solid 1px $blue-dark;
 
     .box {
-      height: 14rem;
+      height: 11rem;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 1.5rem 3rem 2rem 3rem;
+      padding: 1.5rem 3rem 2rem;
 
       h2 {
         // margin-bottom: .8rem;
-        margin: 0 0;
+        margin: 0;
         font-weight: 400;
       }
 
@@ -29,24 +30,31 @@ $election-info-width: 1150px;
     }
 
     .boxOpponent {
-      height: 14rem;
-
+      height: 11rem;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 0rem 3rem;
+      padding: 0 3rem;
     }
   }
 }
 
 section.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  overflow: scroll;
+
   & > div {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
     flex-grow: 1;
+    min-width: 15rem;
+
     @media (max-width: $election-info-width) {
       width: calc(100% - 2.5rem);
       padding-top: 1rem;

@@ -1,6 +1,8 @@
 @import "styles/mixins/media";
+@import "styles/mixins/utils";
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
+@import "styles/layout/containers";
 
 .sideText {
   color: $blue;
@@ -15,9 +17,21 @@
   align-self: center;
 }
 
+.inset {
+  margin: 0 0.5rem;
+
+  @include for-tablet-up {
+    margin: 0;
+  }
+}
+
 .noCandidates {
   color: $blue;
   margin-top: 0.9rem;
+}
+
+.flexBetween {
+  @include flex-between(0.5rem);
 }
 
 .electionHeader {
@@ -34,6 +48,7 @@
     font-size: 1.25em;
     margin-top: 1rem;
     margin-bottom: 0rem;
+
     @include for-tablet-up {
       font-size: 1.875em;
       margin-top: 1.5rem;

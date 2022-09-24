@@ -1,0 +1,66 @@
+@import "styles/variables/colors";
+@import "styles/mixins/utils";
+
+.hero {
+  margin-top: 0;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    color: $blue-text;
+    border-bottom: 1px dotted;
+    width: fit-content;
+  }
+}
+
+.roundedCard {
+  border-radius: 25px;
+  border: 1px solid $blue-dark;
+  background: $blue-darker;
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem;
+  min-width: 10rem;
+
+  h1 {
+    font-weight: 400;
+  }
+}
+
+.avatarContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.5rem;
+  min-width: 5rem;
+  min-height: 5rem;
+
+  .avatarName {
+    font-size: 1em;
+    font-weight: 300;
+    text-align: center !important;
+    margin: 0.5rem 0 0.2rem;
+    line-height: 1.3em;
+
+    @include clamp-ellipsis;
+  }
+
+  button {
+    padding: 3px;
+    margin: 0;
+  }
+
+  &.link {
+    cursor: pointer;
+
+    &:hover {
+      color: $blue-text;
+      text-decoration: dotted underline;
+    }
+  }
+}

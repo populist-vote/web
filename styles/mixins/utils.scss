@@ -20,3 +20,10 @@
     border: none;
   }
 }
+
+@mixin flex-between($gap) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $gap;
+}

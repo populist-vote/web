@@ -2,19 +2,6 @@
 @import "styles/variables/colors.scss";
 @import "styles/variables/fonts.scss";
 
-.horizontalScrollContainer {
-  width: 100%;
-  max-height: max-content;
-  position: relative;
-  text-align: center;
-
-  button {
-    span {
-      padding: 0 0.5rem;
-    }
-  }
-}
-
 .scrollPage {
   @include for-tablet-portrait-down {
     min-width: 100%;

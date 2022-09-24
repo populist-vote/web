@@ -364,7 +364,7 @@ function PartyAvatar({
   };
 
   return (
-    <div style={iconStyleVars} className={styles.avatarWrapper}>
+    <div style={iconStyleVars} className={styles.avatarContainer}>
       <Avatar
         borderColor={isEndorsement ? "var(--yellow)" : undefined}
         badge={badge}

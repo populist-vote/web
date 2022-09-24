@@ -1,8 +1,7 @@
 import { RaceResult, ElectionScope, District } from "generated";
 import dynamic from "next/dynamic";
 import states from "utils/states";
-import styles from "../Layout/Layout.module.scss";
-import ballotStyles from "./Ballot.module.scss";
+import styles from "./Ballot.module.scss";
 import { Race } from "./Race";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
@@ -67,11 +66,11 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
   return (
     <>
       <header
-        className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${ballotStyles.raceHeader}`}
+        className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${styles.raceHeader}`}
       >
         <h3>
           <span>{office?.title}</span>
-          <span className={ballotStyles.raceSubheader}>{officeSubheader}</span>
+          <span className={styles.raceSubheader}>{officeSubheader}</span>
         </h3>
       </header>
 

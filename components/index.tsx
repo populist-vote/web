@@ -21,8 +21,8 @@ import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
 import { EditVotingGuideCandidate } from "./Ballot/Race";
 import { SEO } from "./SEO/SEO";
 import { HomePageButton } from "./HomePageButton/HomePageButton";
-import { HeaderSection } from "./Politician/HeaderSection";
-import { ElectionInfoSection } from "./Politician/ElectionInfoSection";
+import { HeaderSection } from "./Politician/HeaderSection/HeaderSection";
+import { ElectionInfoSection } from "./Politician/ElectionInfo/ElectionInfoSection";
 import { BetaNotice } from "./BetaNotice/BetaNotice";
 import { AuthButtons } from "./AuthButtons/AuthButtons";
 

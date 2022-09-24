@@ -1,12 +1,15 @@
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
+@import "styles/mixins/utils";
 
 .container {
   border-radius: 20px;
   border: 1px solid $blue;
-  padding: 1rem 1rem 1rem;
-  text-align: left;
-  margin-right: 1rem;
+  padding: 1rem;
+
+  .flexBetween {
+    @include flex-between(1rem);
+  }
 
   &.red {
     border: 1px solid $red;

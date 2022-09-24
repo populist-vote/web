@@ -1,9 +1,15 @@
 @import "styles/mixins/media";
 @import "styles/variables/colors";
+@import "styles/modules/page.module";
+@import "styles/layout/containers";
 
 .sectionContent {
   padding: 0 1.125rem;
   width: 100%;
+}
+
+.avatarContainer {
+  margin: 0 1rem;
 }
 
 .infoCommitteeWrapper {
@@ -17,11 +23,6 @@
     border-top: solid 1px $blue-dark;
 
     section {
-      justify-content: start !important;
-      width: calc(50% - 1rem);
-      box-sizing: border-box;
-      // border-bottom: none;
-
       &.committees {
         border-left: solid 1px $blue-dark;
         margin-left: 1rem;

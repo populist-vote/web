@@ -35,28 +35,6 @@
     }
   }
 
-  .roundedCard {
-    flex: 0 1 auto;
-    border-radius: 25px;
-    border: 1px solid $blue-dark;
-    background: $blue-darker;
-    text-align: center;
-    padding: 1rem;
-    margin: 0 0 1.25rem;
-
-    h1 {
-      font-weight: 400;
-    }
-  }
-
-  .inset {
-    margin: 0 0.5rem;
-
-    @include for-tablet-up {
-      margin: 0;
-    }
-  }
-
   .radioLabel {
     background: $background-secondary;
     color: $white;
@@ -172,18 +150,6 @@
     margin-bottom: 3rem;
   }
 
-  .flexBetween {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-
-    @include for-tablet-up {
-      flex-wrap: nowrap;
-    }
-  }
-
   .flexLeft {
     display: flex;
     align-items: center;
@@ -223,26 +189,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.avatarContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 1rem;
-  min-width: 5rem;
-  min-height: 5rem;
-}
-
-.avatarName {
-  font-size: 1em;
-  font-weight: 300;
-  text-align: center;
-  margin: 0.5rem 0 0.2rem;
-  line-height: 1.3em;
-
-  @include clamp-ellipsis;
 }
 
 .rowItem {
@@ -286,14 +232,5 @@
         text-align: right;
       }
     }
-  }
-}
-
-.link {
-  cursor: pointer;
-
-  &:hover {
-    color: $blue-text;
-    text-decoration: dotted underline;
   }
 }

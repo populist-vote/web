@@ -1,5 +1,6 @@
 @import "styles/modules/page.module";
 @import "styles/mixins/utils";
+@import "styles/layout/containers";
 
 .imageContainer {
   border-radius: 250px;
@@ -116,11 +117,4 @@
 
 .avatarLink {
   cursor: pointer;
-}
-
-.avatarWrapper {
-  button {
-    padding: 3px;
-    margin: 0;
-  }
 }

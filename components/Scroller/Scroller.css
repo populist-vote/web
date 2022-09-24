@@ -6,11 +6,6 @@
 .react-horizontal-scrolling-menu--scroll-container {
   flex-basis: 100%;
   flex-shrink: 0;
-  mask-image: linear-gradient(
-    to left,
-    rgba(0 0 0 / 0%) 2%,
-    rgba(0 0 0 / 100%) 10%
-  );
   margin-bottom: 0.5rem;
   scroll-snap-type: x mandatory;
   order: 1;

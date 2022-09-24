@@ -1,4 +1,8 @@
-@import "../../styles/modules/page.module.scss";
+@import "styles/layout/containers";
+@import "styles/mixins/media";
+@import "styles/mixins/utils";
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
 
 .container {
   margin-top: 1rem;

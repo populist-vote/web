@@ -43,8 +43,7 @@ import {
   usePoliticianBySlugQuery,
 } from "../../generated";
 
-import styles from "styles/modules/page.module.scss";
-import politicianStyles from "./PoliticianPage.module.scss";
+import styles from "./PoliticianPage.module.scss";
 
 import { computeShortOfficeTitle } from "utils/politician";
 import {
@@ -135,8 +134,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BasicInfoSection() {
-    const cx = classNames(styles.center, politicianStyles.basicInfo, {
-      [politicianStyles.wide as string]: tags.length === 0,
+    const cx = classNames(styles.center, styles.basicInfo, {
+      [styles.wide as string]: tags.length === 0,
     });
 
     if (
@@ -194,7 +193,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <span>{age}</span>
           </p>
         )}
-        <div className={politicianStyles.links}>
+        <div className={styles.links}>
           {politician?.officialWebsiteUrl && (
             <a
               aria-label={"Website"}
@@ -338,11 +337,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       .map((begin) => tags?.slice(begin, begin + TAG_PAGE_SIZE));
 
     if (tags.length === 0) return null;
-    const cx = classNames(styles.center, politicianStyles.committees);
+    const cx = classNames(styles.center, styles.committees);
     return (
       <section className={cx}>
         <h4 className={styles.subHeader}>Committees</h4>
-        <div className={politicianStyles.sectionContent}>
+        <div className={styles.sectionContent}>
           <Scroller onePageAtATime>
             {tagPages.map((tagPage, index) => (
               <CommitteeTagPage
@@ -368,7 +367,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       return (
         <section className={classNames(styles.center, styles.borderTop)}>
           <h4 className={styles.subHeader}>Sponsored Bills</h4>
-          <div className={politicianStyles.sectionContent}>
+          <div className={styles.sectionContent}>
             <Scroller>
               {edges
                 .map((edge) => {
@@ -402,14 +401,13 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         key={organization.id}
         passHref
       >
-        <div className={styles.organizationContainer}>
+        <div className={styles.avatarContainer}>
           <OrganizationAvatar
             src={organization.thumbnailImageUrl as string}
             fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
             alt={organization.name as string}
             size={80}
           />
-
           <span className={styles.avatarName}>{organization.name}</span>
         </div>
       </Link>
@@ -432,7 +430,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         key={politician.id}
         passHref
       >
-        <div className={styles.organizationContainer}>
+        <div className={styles.avatarContainer}>
           <PartyAvatar
             party={politician?.party as PoliticalParty}
             src={politician?.thumbnailImageUrl as string}
@@ -485,11 +483,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <h2 className={styles.gradientHeader}>Endorsements</h2>
         {endorsements?.organizations &&
           endorsements?.organizations?.length > 0 && (
-            <div className={politicianStyles.endorsementSection}>
+            <div className={styles.endorsementSection}>
               <h4 className={`${styles.subHeader} ${styles.aqua}`}>
                 Organizations
               </h4>
-              <div className={politicianStyles.sectionContent}>
+              <div className={styles.sectionContent}>
                 <Scroller showTextButtons>
                   {endorsements?.organizations?.map((organization) => (
                     <OrganizationEndorsement
@@ -503,11 +501,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             </div>
           )}
         {endorsements?.politicians && endorsements?.politicians?.length > 0 && (
-          <div className={politicianStyles.endorsementSection}>
+          <div className={styles.endorsementSection}>
             <h4 className={`${styles.subHeader} ${styles.aqua}`}>
               Individuals
             </h4>
-            <div className={politicianStyles.sectionContent}>
+            <div className={styles.sectionContent}>
               <Scroller showTextButtons>
                 {endorsements?.politicians?.map((politician) => (
                   <PoliticianEndorsement
@@ -563,15 +561,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       return (
         <ColoredSection color="var(--yellow)">
           <h2 className={styles.gradientHeader}>Ratings</h2>
-          <Scroller>
-            {ratings.map((edge: RatingResultEdge, i) => (
-              <RatingsItem
-                rating={edge.node}
-                key={`${edge.node.vsRating.ratingId}-${i}`}
-                itemId={`${edge.node.vsRating.ratingId}-${i}`}
-              />
-            ))}
-          </Scroller>
+          <div className={styles.sectionContent}>
+            <Scroller showTextButtons>
+              {ratings.map((edge: RatingResultEdge, i) => (
+                <RatingsItem
+                  rating={edge.node}
+                  key={`${edge.node.vsRating.ratingId}-${i}`}
+                  itemId={`${edge.node.vsRating.ratingId}-${i}`}
+                />
+              ))}
+            </Scroller>
+          </div>
         </ColoredSection>
       );
     return null;
@@ -615,7 +615,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <ElectionInfoSection
             politician={politician as Partial<PoliticianResult>}
           />
-          <div className={politicianStyles.infoCommitteeWrapper}>
+          <div className={styles.infoCommitteeWrapper}>
             <BasicInfoSection />
             <CommitteesSection />
           </div>
