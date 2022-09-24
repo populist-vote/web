@@ -16,13 +16,13 @@ function AuthButtons() {
   if (user) {
     return (
       <Link href="/settings/profile" passHref>
-        <div className={styles.avatar}>
+        <div className={styles.avatarContainer}>
           <Avatar
             src={PERSON_FALLBACK_IMAGE_URL}
             alt="profile picture"
             size={80}
           />
-          <small className={styles.userName}>{user.username}</small>
+          <small className={styles.avatarName}>{user.username}</small>
         </div>
       </Link>
     );

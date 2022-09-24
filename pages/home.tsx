@@ -9,12 +9,16 @@ function HomePage() {
   const userId = user?.id;
 
   const [isBetaVisible, setIsBetaVisible] = useState(
-    localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId}`) !== "false"
+    localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`) !==
+      "false"
   );
 
   const handleBetaDismissal = () => {
     setIsBetaVisible(false);
-    localStorage.setItem(`${BETA_NOTICE_VISIBLE}-${userId}`, "false");
+    localStorage.setItem(
+      `${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`,
+      "false"
+    );
   };
 
   return (
