@@ -1,6 +1,7 @@
 @import "styles/mixins/media";
 @import "styles/variables/colors";
 @import "styles/layout/containers";
+@import "styles/modules/page.module";
 
 $election-info-width: 1150px;
 
@@ -8,15 +9,14 @@ $election-info-width: 1150px;
   section.wrapper {
     flex-direction: row !important;
     gap: 2.5rem;
-    border-top: solid 1px $blue-dark;
 
     .box {
-      // height: 11rem;
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
-      // flex-direction: column;
-      // padding: 1.5rem 3rem 2rem;
+      height: 11rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 1.5rem 3rem 2rem;
 
       h2 {
         margin: 0;

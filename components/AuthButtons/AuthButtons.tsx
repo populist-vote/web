@@ -8,22 +8,19 @@ import Link from "next/link";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { Avatar } from "components";
 
-function AuthButtons() {
+function AuthButtons({ noAvatar }: { noAvatar?: boolean }) {
   const user = useAuth({ redirect: false });
   const { isMobile } = useDeviceInfo();
   const { push } = useRouter();
 
-  if (user) {
+  if (user && !noAvatar) {
     return (
       <Link href="/settings/profile" passHref>
-        <div className={styles.avatarContainer}>
-          <Avatar
-            src={PERSON_FALLBACK_IMAGE_URL}
-            alt="profile picture"
-            size={80}
-          />
-          <small className={styles.avatarName}>{user.username}</small>
-        </div>
+        <Avatar
+          src={PERSON_FALLBACK_IMAGE_URL}
+          alt="profile picture"
+          size={50}
+        />
       </Link>
     );
   }

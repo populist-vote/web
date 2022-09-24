@@ -337,7 +337,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       .map((begin) => tags?.slice(begin, begin + TAG_PAGE_SIZE));
 
     if (tags.length === 0) return null;
-    const cx = classNames(styles.center, styles.committees);
+    const cx = classNames(styles.center, styles.committees, styles.borderTop);
     return (
       <section className={cx}>
         <h4 className={styles.subHeader}>Committees</h4>
@@ -609,7 +609,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       <VotingGuideProvider votingGuideId={votingGuideId || ""}>
         <div className={styles.container}>
           <HeaderSection politician={politician as Partial<PoliticianResult>} />
-
           {politician?.currentOffice && <OfficeSection />}
 
           <ElectionInfoSection

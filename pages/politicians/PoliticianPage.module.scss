@@ -16,7 +16,6 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  border-top: solid 1px $blue-darker;
 
   @include for-tablet-up {
     padding: 2.5rem 0;
@@ -36,7 +35,6 @@
 
       &.basicInfo {
         padding-top: 0;
-        padding-bottom: 0;
       }
     }
   }

@@ -44,14 +44,14 @@ function ElectionInfoSection({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
+  const sectionCx = classNames(styles.center, styles.borderTop, styles.wrapper);
+
   const { upcomingRace } = politician;
   const opponents =
     upcomingRace?.candidates?.filter(
       (candidate) => candidate.id != politician.id
     ) || [];
   if (!upcomingRace) return null;
-
-  const sectionCx = classNames(styles.center, styles.borderTop, styles.wrapper);
 
   let officeSubheader = "";
   let stateLong = "";
@@ -94,7 +94,10 @@ function ElectionInfoSection({
   }
 
   return (
-    <section className={sectionCx}>
+    <section
+      className={sectionCx}
+      style={{ borderTop: "1px solid var(--blue-dark)" }}
+    >
       <div>
         <h4 className={styles.subHeader}>Next Election</h4>
         <div className={`${styles.roundedCard} ${styles.box}`}>
