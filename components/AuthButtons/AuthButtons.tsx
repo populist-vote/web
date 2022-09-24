@@ -17,7 +17,7 @@ function AuthButtons({
   const { isMobile } = useDeviceInfo();
   const { push } = useRouter();
 
-  if (user && !showAvatarIfUser) {
+  if (user && showAvatarIfUser) {
     return (
       <Link href="/settings/profile" passHref>
         <Avatar
