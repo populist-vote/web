@@ -49,11 +49,20 @@ function BasicLayout({
                 </Link>
               );
             default:
-              return showAuthButtons ? <AuthButtons /> : <></>;
+              return showAuthButtons ? (
+                <div className={styles.auxButtonsDesktop}>
+                  <AuthButtons />
+                </div>
+              ) : (
+                <></>
+              );
           }
         })()}
       </header>
       <main className={styles.content}>{children}</main>
+      <div className={styles.auxButtonsMobile}>
+        <AuthButtons />
+      </div>
       {hideFooter ? <footer /> : <Footer />}
     </div>
   );

@@ -32,9 +32,7 @@ function AuthButtons() {
     <div className={styles.authButtons}>
       <div className={styles.menuContainer}>
         <ul className={styles.menu}>
-          <li
-            className={classnames(styles.menuButton, styles.showButtonOutline)}
-          >
+          <li className={styles.menuButton}>
             <Button
               label="Register"
               size={isMobile ? "small" : "medium"}
@@ -43,7 +41,9 @@ function AuthButtons() {
               onClick={() => push(`/register`)}
             />
           </li>
-          <li className={styles.menuButton}>
+          <li
+            className={classnames(styles.menuButton, styles.showButtonOutline)}
+          >
             <Button
               label="Sign In"
               size={isMobile ? "small" : "medium"}
