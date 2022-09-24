@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Footer, LogoBetaDesktop, Avatar } from "components";
+import { Footer, LogoBetaDesktop, AuthButtons, Avatar } from "components";
 import styles from "./BasicLayout.module.scss";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
@@ -9,6 +9,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 function BasicLayout({
   children,
   hideFooter = false,
+  showAuthButtons = false,
 }: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
   const { pathname, query } = useRouter();
   const user = useAuth({ redirect: false });
@@ -58,7 +59,11 @@ function BasicLayout({
           </Link>
         )}
       </header>
-      <main className={styles.content}>{children}</main>
+      <main className={styles.content}>
+        <div />
+        {children}
+        <div>{showAuthButtons && <AuthButtons />}</div>
+      </main>
       {hideFooter ? <footer /> : <Footer />}
     </div>
   );

@@ -63,11 +63,11 @@
   }
 
   main {
-    height: calc(100vh - 6rem);
+    height: calc(100vh - 7.5rem);
     max-width: 48rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
   }
 }

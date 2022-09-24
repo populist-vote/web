@@ -1,14 +1,7 @@
 import { useState } from "react";
-import {
-  BasicLayout,
-  HomePageButton,
-  SEO,
-  BetaNotice,
-  AuthButtons,
-} from "components";
+import { BasicLayout, HomePageButton, SEO, BetaNotice } from "components";
 import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
-import styles from "styles/modules/home.module.scss";
 
 function HomePage() {
   const user = useAuth({ redirect: false });
@@ -38,27 +31,22 @@ function HomePage() {
         {isBetaVisible ? (
           <BetaNotice onContinue={handleBetaDismissal} />
         ) : (
-          <div className={styles.container}>
-            <div />
-            <div>
-              <HomePageButton
-                href={user ? "/ballot" : "/ballot/choose"}
-                className="myBallot"
-                label="My Ballot"
-              />
-              <HomePageButton
-                href="/voting-guides"
-                className="votingGuides"
-                label="Voting Guides"
-              />
-              <HomePageButton
-                href="/politicians"
-                className="myLegislators"
-                label="Browse Politicians"
-              />
-            </div>
-
-            <AuthButtons />
+          <div>
+            <HomePageButton
+              href={user ? "/ballot" : "/ballot/choose"}
+              className="myBallot"
+              label="My Ballot"
+            />
+            <HomePageButton
+              href="/voting-guides"
+              className="votingGuides"
+              label="Voting Guides"
+            />
+            <HomePageButton
+              href="/politicians"
+              className="myLegislators"
+              label="Browse Politicians"
+            />
           </div>
         )}
       </BasicLayout>

@@ -8,12 +8,16 @@ import Link from "next/link";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { Avatar } from "components";
 
-function AuthButtons({ noAvatar }: { noAvatar?: boolean }) {
+function AuthButtons({
+  showAvatarIfUser = false,
+}: {
+  showAvatarIfUser?: boolean;
+}) {
   const user = useAuth({ redirect: false });
   const { isMobile } = useDeviceInfo();
   const { push } = useRouter();
 
-  if (user && !noAvatar) {
+  if (user && !showAvatarIfUser) {
     return (
       <Link href="/settings/profile" passHref>
         <Avatar
