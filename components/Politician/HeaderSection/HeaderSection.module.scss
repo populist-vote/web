@@ -4,7 +4,7 @@
 @import "styles/modules/page.module";
 
 .headerSection {
-  padding: 1rem 0 0 !important;
+  padding: 1rem 0 !important;
 
   .fullName {
     font-weight: 500;
@@ -45,8 +45,6 @@
         padding: 0.5rem 1.5rem 1.5rem;
       }
     }
-
-    border-bottom: 1px solid $blue;
   }
 
   button.menu {

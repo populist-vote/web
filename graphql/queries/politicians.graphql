@@ -85,6 +85,7 @@ query PoliticianBySlug($slug: String!) {
       electionDate
       office {
         title
+        subtitle
         name
         state
         county

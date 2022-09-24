@@ -1,13 +1,7 @@
 import styles from "./ElectionInfoSection.module.scss";
 import { PartyAvatar } from "components";
-import states from "utils/states";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import {
-  District,
-  ElectionScope,
-  PoliticalParty,
-  PoliticianResult,
-} from "../../../generated";
+import { PoliticalParty, PoliticianResult } from "../../../generated";
 import { dateString } from "utils/dates";
 import classNames from "classnames";
 import dynamic from "next/dynamic";
@@ -53,46 +47,6 @@ function ElectionInfoSection({
     ) || [];
   if (!upcomingRace) return null;
 
-  let officeSubheader = "";
-  let stateLong = "";
-
-  if (upcomingRace?.office.state) {
-    stateLong = states[upcomingRace.office.state];
-  }
-
-  // TODO add subtitle_short to API
-  switch (upcomingRace?.office.electionScope) {
-    case ElectionScope.National:
-      break;
-    case ElectionScope.State:
-      officeSubheader = stateLong;
-      break;
-    case ElectionScope.District:
-      switch (upcomingRace?.office.districtType) {
-        case District.UsCongressional:
-          officeSubheader =
-            upcomingRace.office.state +
-            " District " +
-            upcomingRace?.office.district;
-          break;
-        case District.StateSenate:
-          officeSubheader = stateLong + " SD " + upcomingRace?.office.district;
-          break;
-        case District.StateHouse:
-          officeSubheader = stateLong + " HD " + upcomingRace?.office.district;
-        case District.County:
-          officeSubheader = upcomingRace?.office.county as string;
-          break;
-        case District.School:
-          officeSubheader = `${
-            upcomingRace.office.county || upcomingRace.office.municipality
-          } - ${upcomingRace?.office.schoolDistrict as string}`;
-          break;
-        default:
-          officeSubheader = upcomingRace?.office.municipality as string;
-      }
-  }
-
   return (
     <section
       className={sectionCx}
@@ -108,7 +62,7 @@ function ElectionInfoSection({
       <div>
         <h4 className={styles.subHeader}>Running For</h4>
         <div className={`${styles.box} ${styles.roundedCard} `}>
-          <h3>{officeSubheader}</h3>
+          <h3>{upcomingRace?.office.subtitle}</h3>
           <h2>{upcomingRace?.office.name || upcomingRace?.office.title}</h2>
         </div>
       </div>
