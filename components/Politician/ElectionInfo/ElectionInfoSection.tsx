@@ -100,14 +100,14 @@ function ElectionInfoSection({
     >
       <div>
         <h4 className={styles.subHeader}>Next Election</h4>
-        <div className={`${styles.roundedCard} ${styles.box}`}>
+        <div className={`${styles.box} ${styles.roundedCard} `}>
           <h3>{upcomingRace?.raceType}</h3>
           <h2>{dateString(upcomingRace?.electionDate, true)}</h2>
         </div>
       </div>
       <div>
         <h4 className={styles.subHeader}>Running For</h4>
-        <div className={`${styles.roundedCard} ${styles.box}`}>
+        <div className={`${styles.box} ${styles.roundedCard} `}>
           <h3>{officeSubheader}</h3>
           <h2>{upcomingRace?.office.name || upcomingRace?.office.title}</h2>
         </div>

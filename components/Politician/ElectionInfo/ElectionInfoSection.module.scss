@@ -4,6 +4,7 @@
 @import "styles/modules/page.module";
 
 $election-info-width: 1150px;
+$box-height: 14rem;
 
 @media (min-width: $election-info-width) {
   section.wrapper {
@@ -11,7 +12,7 @@ $election-info-width: 1150px;
     gap: 2.5rem;
 
     .box {
-      height: 11rem;
+      height: $box-height;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -29,7 +30,11 @@ $election-info-width: 1150px;
     }
 
     .boxOpponent {
-      // height: 11rem;
+      height: $box-height;
+      display: inline-flex;
+      align-items: center;
+      justify-content: left;
+      overflow: scroll;
     }
   }
 }
