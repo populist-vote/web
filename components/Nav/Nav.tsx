@@ -134,7 +134,6 @@ function Nav({
                   alt="profile picture"
                   size={80}
                 />
-                <small className={styles.userName}>{user.username}</small>
               </div>
             </Link>
           ) : (
