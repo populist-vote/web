@@ -60,9 +60,12 @@ function BasicLayout({
         })()}
       </header>
       <main className={styles.content}>{children}</main>
-      <div className={styles.auxButtonsMobile}>
-        <AuthButtons />
-      </div>
+      {showAuthButtons && (
+        <div className={styles.auxButtonsMobile}>
+          <AuthButtons />
+        </div>
+      )}
+
       {hideFooter ? <footer /> : <Footer />}
     </div>
   );
