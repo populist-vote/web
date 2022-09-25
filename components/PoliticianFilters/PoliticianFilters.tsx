@@ -65,7 +65,7 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
         <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
       </div>
       <Spacer size={16} axis="vertical" />
-      <form className={`${styles.flexBetween}`}>
+      <form className={styles.flexBetween}>
         <input
           name="scope"
           id="federal-radio"

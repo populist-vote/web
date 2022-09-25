@@ -150,6 +150,10 @@
     margin-bottom: 3rem;
   }
 
+  .flexBetween {
+    @include flex-between(0.5rem);
+  }
+
   .flexLeft {
     display: flex;
     align-items: center;
