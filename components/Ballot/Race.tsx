@@ -14,8 +14,7 @@ import {
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
-import styles from "components/Layout/Layout.module.scss";
-import ballotStyles from "./Ballot.module.scss";
+import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
 import Link from "next/link";
 
@@ -135,7 +134,7 @@ function Race({
         color={party === PoliticalParty.Republican ? "red" : "blue"}
       >
         {candidates.length < 1 && (
-          <h4 className={ballotStyles.noCandidates}>No candidates</h4>
+          <h4 className={styles.noCandidates}>No candidates</h4>
         )}
         {dialogCandidate && (
           <VotingGuideNote
@@ -189,7 +188,7 @@ function Race({
                 style={{ height: "8rem" }}
               >
                 {politician.id == incumbentId && (
-                  <span className={ballotStyles.sideText}>INCUMBENT</span>
+                  <span className={styles.sideText}>INCUMBENT</span>
                 )}
 
                 <div className={styles.avatarContainer}>

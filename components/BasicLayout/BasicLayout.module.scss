@@ -49,7 +49,7 @@
   }
 
   .header {
-    height: auto;
+    height: 3.5rem;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -63,11 +63,11 @@
   }
 
   main {
+    height: calc(100vh - 7.5rem);
     max-width: 48rem;
-    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
   }
 }
@@ -80,4 +80,12 @@
 
 .alignLeft {
   text-align: left;
+}
+
+.auxButtonsMobile {
+  @include smaller-than-tablet-only;
+}
+
+.auxButtonsDesktop {
+  @include tablet-up-only;
 }

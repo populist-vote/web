@@ -1,0 +1,20 @@
+@import "styles/modules/nav.module";
+@import "styles/layout/containers";
+
+.authButtons {
+  display: flex;
+  flex-direction: row;
+  button {
+    text-transform: none;
+    margin: 0;
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
+  }
+}
+
+.showButtonOutline {
+  button {
+    border-style: solid;
+    border-width: 1px;
+  }
+}

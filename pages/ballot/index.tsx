@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQueryClient } from "react-query";
 
 import { Layout, LoaderFlag, VotingGuideWelcome } from "components";
@@ -23,13 +22,13 @@ import styles from "components/Layout/Layout.module.scss";
 import { SEO } from "components";
 import { Election } from "components/Ballot/Election";
 import { ElectionSelector } from "components/Ballot/ElectionSelector/ElectionSelector";
+import { useRouter } from "next/router";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
   const router = useRouter();
-  const { asPath } = router;
-  const user = useAuth({ redirectTo: `/login?next=${asPath}` });
+  const user = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
 
   const { data, isLoading, isSuccess, error } = useElectionsQuery();
@@ -38,7 +37,20 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   >();
 
   useEffect(() => {
-    if (isSuccess) setSelectedElectionId(data?.elections[0]?.id);
+    if (isSuccess)
+      setSelectedElectionId(
+        // Sort by most current election - copy array to preserve chronological order
+        [...(data?.elections as ElectionResult[])].sort((a, b) => {
+          const today = new Date();
+          const distancea = Math.abs(
+            today.getTime() - new Date(a.electionDate).getTime()
+          );
+          const distanceb = Math.abs(
+            today.getTime() - new Date(b.electionDate).getTime()
+          );
+          return distancea - distanceb;
+        })[0]?.id
+      );
   }, [isSuccess, data]);
 
   const createVotingGuide = useUpsertVotingGuideMutation({

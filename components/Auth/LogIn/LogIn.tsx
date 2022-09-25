@@ -41,7 +41,7 @@ function LogIn() {
 
   if (user || isLoading) return null;
   if (router.query.next?.includes("voting-guide")) {
-    message = "Please sign in or create an account to view this voting guide.";
+    message = "Please sign in or create an account to view voting guides.";
   } else {
     message = "Sign in";
   }

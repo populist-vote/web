@@ -65,3 +65,15 @@ $desktop-max: 1440px;
     display: none;
   }
 }
+
+@mixin tablet-up-only {
+  @media (max-width: ($tablet-breakpoint - 1px)) {
+    display: none;
+  }
+}
+
+@mixin smaller-than-tablet-only {
+  @media (min-width: ($tablet-breakpoint)) {
+    display: none;
+  }
+}

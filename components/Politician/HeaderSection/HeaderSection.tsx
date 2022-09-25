@@ -10,8 +10,7 @@ import {
   PoliticianResult,
   useUpsertVotingGuideCandidateMutation,
 } from "generated";
-import styles from "styles/modules/page.module.scss";
-import headerStyles from "./HeaderSection.module.scss";
+import styles from "./HeaderSection.module.scss";
 import { CSSProperties } from "styled-components";
 
 enum NoteState {
@@ -26,8 +25,8 @@ function HeaderSection({
 }) {
   const sectionCx = classNames(
     styles.center,
-    // styles.borderTop,
-    headerStyles.headerSection
+    styles.borderTop,
+    styles.headerSection
   );
 
   const votingGuideQuery = useVotingGuide();
@@ -149,19 +148,19 @@ function HeaderSection({
         hasIconMenu={true}
       />
 
-      <h1 className={headerStyles.fullName}>{politician?.fullName}</h1>
+      <h1 className={styles.fullName}>{politician?.fullName}</h1>
 
       {guideData && (
-        <div className={headerStyles.note} style={noteVars}>
+        <div className={styles.note} style={noteVars}>
           {(note || noteState === NoteState.Edit) && (
-            <h4 className={headerStyles.header}>Voting Guide Note</h4>
+            <h4 className={styles.header}>Voting Guide Note</h4>
           )}
           {guideEnabled && noteState === NoteState.View && (
             <>
-              <div className={headerStyles.noteText}>{note}</div>
+              <div className={styles.noteText}>{note}</div>
               {isGuideOwner && (
                 <div>
-                  <div className={headerStyles.buttonArea}>
+                  <div className={styles.buttonArea}>
                     <Button
                       label={note ? "Edit note" : "Add note"}
                       onClick={() => setNoteState(NoteState.Edit)}
@@ -186,13 +185,13 @@ function HeaderSection({
             </>
           )}
           {noteState === NoteState.Edit && (
-            <div className={headerStyles.editContainer}>
+            <div className={styles.editContainer}>
               <textarea
                 value={note || ""}
                 onChange={(e) => setNote(e.target.value)}
               />
 
-              <div className={headerStyles.buttonArea}>
+              <div className={styles.buttonArea}>
                 <Button
                   label="Save note"
                   onClick={() => addNote()}

@@ -26,7 +26,7 @@ function Scroller(props: {
 
   const apiRef = useRef({} as scrollVisibilityApiType);
 
-  const scrollerClasses = classNames(styles.horizontalScrollContainer, {
+  const scrollerClasses = classNames({
     [`mobile-scroller`]: isMobile,
     [styles.hideArrowText as string]: !props.showTextButtons,
     [`no-scroll`]: !hasScroll,

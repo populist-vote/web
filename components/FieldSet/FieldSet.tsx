@@ -1,5 +1,4 @@
 import styles from "./FieldSet.module.scss";
-import layoutStyles from "../../components/Layout/Layout.module.scss";
 import { ReactNode } from "react";
 
 interface FieldSetProps {
@@ -12,7 +11,7 @@ function FieldSet({ heading, color, children }: FieldSetProps) {
   return (
     <fieldset className={`${color && styles[color]} ${styles.container} `}>
       <legend>{heading}</legend>
-      <div className={layoutStyles.flexBetween}>{children}</div>
+      <div className={styles.flexBetween}>{children}</div>
     </fieldset>
   );
 }

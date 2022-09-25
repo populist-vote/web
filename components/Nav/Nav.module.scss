@@ -12,6 +12,13 @@
   background-color: $background-secondary;
   box-shadow: 0 7px 9px 0 $background-primary;
 
+  .flexColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
   &.sticky {
     transform: translateY(0%);
   }
@@ -100,29 +107,9 @@
     }
 
     @include for-tablet-up {
-      display: flex;
       position: sticky;
       top: 0;
       display: none;
-    }
-  }
-
-  .avatar {
-    cursor: pointer;
-    font-family: $font-primary;
-    font-size: 1.25rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    align-items: center;
-
-    .userName {
-      padding: 0 1rem;
-      word-break: break-all;
-    }
-
-    @include for-tablet-landscape-up {
-      flex-direction: column;
     }
   }
 
@@ -185,5 +172,24 @@
       color: $white;
       background-color: $blue-dark;
     }
+  }
+}
+
+.avatar {
+  cursor: pointer;
+  font-family: $font-primary;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  align-items: center;
+
+  .userName {
+    padding: 0 1rem;
+    word-break: break-all;
+  }
+
+  @include for-tablet-landscape-up {
+    flex-direction: column;
   }
 }

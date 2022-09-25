@@ -1,15 +1,7 @@
-import styles from "styles/modules/page.module.scss";
-import electionStyles from "./ElectionInfo.module.scss";
+import styles from "./ElectionInfoSection.module.scss";
 import { PartyAvatar } from "components";
-import layoutStyles from "../../components/Layout/Layout.module.scss";
-import states from "utils/states";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import {
-  District,
-  ElectionScope,
-  PoliticalParty,
-  PoliticianResult,
-} from "../../generated";
+import { PoliticalParty, PoliticianResult } from "../../../generated";
 import { dateString } from "utils/dates";
 import classNames from "classnames";
 import dynamic from "next/dynamic";
@@ -25,7 +17,7 @@ function Candidate({
   itemId: string;
 }) {
   return (
-    <div className={layoutStyles.avatarContainer} key={candidate.id}>
+    <div className={styles.avatarContainer} key={candidate.id}>
       <PartyAvatar
         size={60}
         party={candidate.party as PoliticalParty}
@@ -34,7 +26,7 @@ function Candidate({
         alt={candidate?.fullName || ""}
         href={`/politicians/${candidate.slug}`}
       />
-      <span className={classNames(layoutStyles.link, styles.avatarName)}>
+      <span className={classNames(styles.link, styles.avatarName)}>
         {candidate.fullName}
       </span>
     </div>
@@ -46,6 +38,8 @@ function ElectionInfoSection({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
+  const sectionCx = classNames(styles.center, styles.borderTop, styles.wrapper);
+
   const { upcomingRace } = politician;
   const opponents =
     upcomingRace?.candidates?.filter(
@@ -53,67 +47,34 @@ function ElectionInfoSection({
     ) || [];
   if (!upcomingRace) return null;
 
-  const sectionCx = classNames(
-    styles.center,
-    styles.borderTop,
-    electionStyles.wrapper
-  );
-
-  let officeSubheader = "";
-  let stateLong = "";
-
-  if (upcomingRace?.office.state) {
-    stateLong = states[upcomingRace.office.state];
-  }
-
-  // TODO add subtitle_short to API
-  switch (upcomingRace?.office.electionScope) {
-    case ElectionScope.National:
-      break;
-    case ElectionScope.State:
-      officeSubheader = stateLong;
-      break;
-    case ElectionScope.District:
-      switch (upcomingRace?.office.districtType) {
-        case District.UsCongressional:
-          officeSubheader =
-            upcomingRace.office.state +
-            " District " +
-            upcomingRace?.office.district;
-          break;
-        case District.StateSenate:
-          officeSubheader = stateLong + " SD " + upcomingRace?.office.district;
-          break;
-        case District.StateHouse:
-          officeSubheader = stateLong + " HD " + upcomingRace?.office.district;
-      }
-  }
-
   return (
-    <section className={sectionCx}>
+    <section
+      className={sectionCx}
+      style={{ borderTop: "1px solid var(--blue-dark)" }}
+    >
       <div>
         <h4 className={styles.subHeader}>Next Election</h4>
-        <div className={`${styles.roundedCard} ${electionStyles.box}`}>
+        <div className={`${styles.box} ${styles.roundedCard} `}>
           <h3>{upcomingRace?.raceType}</h3>
           <h2>{dateString(upcomingRace?.electionDate, true)}</h2>
         </div>
       </div>
       <div>
         <h4 className={styles.subHeader}>Running For</h4>
-        <div className={`${styles.roundedCard} ${electionStyles.box}`}>
-          <h3>{officeSubheader}</h3>
-          <h2>{upcomingRace?.office.title}</h2>
+        <div className={`${styles.box} ${styles.roundedCard} `}>
+          <h3>{upcomingRace?.office.subtitle}</h3>
+          <h2>{upcomingRace?.office.name || upcomingRace?.office.title}</h2>
         </div>
       </div>
       <div>
         <h4 className={styles.subHeader}>
           Opponent{opponents.length > 1 && "s"}
         </h4>
-        <div className={`${styles.roundedCard} ${electionStyles.boxOpponent}`}>
+        <div className={`${styles.roundedCard} ${styles.boxOpponent}`}>
           {opponents.length == 0 ? (
             <h3>None</h3>
           ) : (
-            <Scroller>
+            <Scroller hideControls>
               {opponents.map(
                 (candidate: Partial<PoliticianResult> & { id: string }) => {
                   return (

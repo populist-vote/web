@@ -18,26 +18,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth({
   redirectTo = "/login",
   minRole = Role.Basic,
-}: { redirectTo?: string; minRole?: Role } = {}) {
+  redirect = true,
+}: { redirectTo?: string; minRole?: Role; redirect?: boolean } = {}) {
   const user = useContext(AuthContext);
 
   useEffect(() => {
-    if (user) {
-      switch (user.role) {
-        case Role.Superuser:
-          return;
-        case Role.Staff:
-          if (minRole === Role.Staff) return;
-        case Role.Premium:
-          if (minRole === Role.Premium) return;
-        case Role.Basic:
-          if (minRole === Role.Basic) return;
-        default:
-          void Router.push(redirectTo);
+    if (redirect) {
+      if (user) {
+        switch (user.role) {
+          case Role.Superuser:
+            return;
+          case Role.Staff:
+            if (minRole === Role.Staff) return;
+          case Role.Premium:
+            if (minRole === Role.Premium) return;
+          case Role.Basic:
+            if (minRole === Role.Basic) return;
+          default:
+            void Router.push(redirectTo);
+        }
       }
+      void Router.push(redirectTo);
     }
-    void Router.push(redirectTo);
-  }, [user, redirectTo, minRole]);
+  }, [user, redirectTo, minRole, redirect]);
 
   return user;
 }

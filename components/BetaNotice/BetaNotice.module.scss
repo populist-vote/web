@@ -1,0 +1,16 @@
+@import "styles/modules/page.module";
+@import "styles/mixins/media";
+@import "styles/layout/containers";
+
+.noticeContainer {
+  width: 100%;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: center;
+
+  button {
+    text-transform: none;
+  }
+}

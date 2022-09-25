@@ -22,6 +22,7 @@ import menuStyles from "./IconMenu.module.scss";
 
 import Link from "next/link";
 import classNames from "classnames";
+import { titleCase } from "utils/strings";
 
 interface BadgeProps {
   background?: string;
@@ -326,7 +327,7 @@ function PartyAvatar({
   const badge = {
     background: partyColor,
     text: (party || "UNKNOWN").slice(0, 1).toUpperCase(),
-    title: party || "UNKNOWN",
+    title: titleCase(party.replaceAll("_", " ")),
     size: badgeSize,
     fontSize: badgeFontSize,
   };
@@ -363,7 +364,7 @@ function PartyAvatar({
   };
 
   return (
-    <div style={iconStyleVars} className={styles.avatarWrapper}>
+    <div style={iconStyleVars} className={styles.avatarContainer}>
       <Avatar
         borderColor={isEndorsement ? "var(--yellow)" : undefined}
         badge={badge}

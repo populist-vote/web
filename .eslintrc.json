@@ -35,6 +35,5 @@
   "globals": {
     "JSX": "readonly"
   },
-  "ignorePatterns": ["generated.ts", "next.config.js"]
-
+  "ignorePatterns": ["generated.ts", "next.config.js", "public/*"]
 }

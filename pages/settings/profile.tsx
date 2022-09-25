@@ -305,7 +305,9 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
               >
                 <option value="">State</option>
                 {Object.entries(states).map(([key, value]) => (
-                  <option key={key} value={key} label={value} />
+                  <option key={key} value={key} label={value}>
+                    {value}
+                  </option>
                 ))}
               </select>
               {errors.state?.message && (

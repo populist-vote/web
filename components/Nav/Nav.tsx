@@ -7,10 +7,10 @@ import { useAuth } from "hooks/useAuth";
 import styles from "./Nav.module.scss";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useMediaQuery } from "hooks/useMediaQuery";
-import { Avatar, Logo, LogoBeta } from "components";
+import { Avatar, Logo, LogoBeta, Button } from "components";
 
 function Nav({
-  mobileNavTitle = "Colorado Legislators",
+  mobileNavTitle,
   showBackButton = true,
   showLogoOnMobile,
   navItems,
@@ -25,8 +25,8 @@ function Nav({
 }) {
   const router = useRouter();
   const [sticky, setSticky] = useState<boolean>(true);
-  const user = useAuth({ redirectTo: "" });
   const { asPath, pathname, query } = useRouter();
+  const user = useAuth({ redirectTo: asPath });
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   useScrollPosition(
@@ -86,15 +86,17 @@ function Nav({
           )}
         </div>
 
-        <div className={styles.avatar}>
-          <Link href="/settings/profile" passHref>
-            <Avatar
-              src={PERSON_FALLBACK_IMAGE_URL}
-              alt="profile picture"
-              size={35}
-            />
-          </Link>
-        </div>
+        {user && (
+          <div className={styles.avatar}>
+            <Link href="/settings/profile" passHref>
+              <Avatar
+                src={PERSON_FALLBACK_IMAGE_URL}
+                alt="profile picture"
+                size={35}
+              />
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* ///////// Desktop nav ///////// */}
@@ -132,13 +134,17 @@ function Nav({
                   alt="profile picture"
                   size={80}
                 />
-                <small className={styles.userName}>{user.username}</small>
               </div>
             </Link>
           ) : (
-            <Link href={`/login?next=${asPath}`} passHref>
-              <div className={styles.avatar}>Login</div>
-            </Link>
+            <div className={styles.flexColumn}>
+              <Link href="/signup" passHref>
+                <Button size="medium" variant="primary" label="Register" />
+              </Link>
+              <Link href={`/login?next=${asPath}`} passHref>
+                <Button size="medium" variant="secondary" label="Sign in" />
+              </Link>
+            </div>
           )}
         </div>
       </div>

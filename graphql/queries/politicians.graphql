@@ -85,8 +85,13 @@ query PoliticianBySlug($slug: String!) {
       electionDate
       office {
         title
+        subtitle
+        name
         state
+        county
+        municipality
         district
+        schoolDistrict
         districtType
         electionScope
       }

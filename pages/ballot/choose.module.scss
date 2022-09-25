@@ -1,0 +1,106 @@
+@import "styles/layout/containers";
+@import "styles/mixins/media";
+@import "styles/mixins/utils";
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
+
+.container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  @include for-tablet-up {
+    margin-top: 0;
+    flex-direction: row;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 3rem;
+    box-sizing: border-box;
+
+    h2 {
+      margin: 0;
+    }
+  }
+}
+
+.stateButton {
+  border-radius: 20px;
+  padding: 2.5rem;
+  min-width: 85%;
+  max-width: 64rem;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: $text-xl;
+  font-family: $font-primary;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+
+  &.aquaButton {
+    background: $aqua-dark;
+    &:hover {
+      background: $aqua;
+    }
+  }
+
+  &.violetButton {
+    background: $violet-dark;
+    &:hover {
+      background: $violet;
+    }
+  }
+}
+
+.verticalDivider {
+  display: table;
+  text-align: center;
+  margin: 0 3rem;
+  height: 100%;
+  width: 3rem;
+
+  @include for-phone-only {
+    display: none;
+  }
+}
+
+.centerElement {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 1.6em;
+  font-family: $font-primary;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: "";
+    width: 1px;
+    left: 50%;
+    border-left: 1px solid $blue-dark;
+  }
+  &::before {
+    bottom: 50%;
+    top: 0;
+    margin-bottom: 20px;
+  }
+  &::after {
+    top: 50%;
+    bottom: 0;
+    margin-top: 20px;
+  }
+}
