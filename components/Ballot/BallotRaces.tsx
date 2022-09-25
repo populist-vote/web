@@ -28,7 +28,11 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
   );
 
   const judicialRacesGroupedByOffice = groupBy(
-    races?.filter((race) => race.office.title.includes("Judge")),
+    races?.filter(
+      (race) =>
+        race.office.title.includes("Judge") ||
+        race.office.title.includes("Justice")
+    ),
     (race) => race.office.id
   );
 
