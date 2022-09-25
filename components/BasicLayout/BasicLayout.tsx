@@ -62,7 +62,7 @@ function BasicLayout({
       <main className={styles.content}>
         <div />
         {children}
-        <div>{showAuthButtons && <AuthButtons />}</div>
+        <div>{showAuthButtons && !user && <AuthButtons />}</div>
       </main>
       {hideFooter ? <footer /> : <Footer />}
     </div>
