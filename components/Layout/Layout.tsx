@@ -8,12 +8,12 @@ const defaultNavItems = [
     href: "/ballot",
   },
   {
-    label: "Politicians",
-    href: "/politicians",
+    label: "Voting Guides",
+    href: "/voting-guides",
   },
   {
-    label: "Voting guides",
-    href: "/voting-guides",
+    label: "Politicians",
+    href: "/politicians",
   },
 ];
 
