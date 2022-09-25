@@ -14,7 +14,10 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
     races?.filter(
       (race) =>
         race.office.politicalScope === PoliticalScope.State &&
-        !race.office.title.includes("Judge")
+        !(
+          race.office.title.includes("Judge") ||
+          race.office.title.includes("Justice")
+        )
     ),
     (race) => race.office.id
   );
@@ -22,7 +25,10 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
     races?.filter(
       (race) =>
         race.office.politicalScope === PoliticalScope.Local &&
-        !race.office.title.includes("Judge")
+        !(
+          race.office.title.includes("Judge") ||
+          race.office.title.includes("Justice")
+        )
     ),
     (race) => race.office.id
   );
