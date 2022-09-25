@@ -5,7 +5,7 @@ import { Chambers, PoliticalScope, State } from "../../generated";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { PoliticianIndexProps } from "pages/politicians";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 function PoliticianIndexFilters(props: PoliticianIndexProps) {
   const router = useRouter();
@@ -14,8 +14,10 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
     state = null,
     scope = null,
     chamber = null,
-    search = null,
+    search = "",
   } = props.query || query;
+
+  const [searchValue, setSearchValue] = useState<string | null>(search || "");
 
   const handleScopeChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.checked) {
@@ -54,12 +56,11 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
       <div className={styles.inputWithIcon}>
         <input
           placeholder="Search"
-          onChange={(e) =>
-            void router.push({
-              query: { ...query, search: e.target.value },
-            })
-          }
-          value={search || ""}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            void router.push({ query: { ...query, search: e.target.value } });
+          }}
+          value={searchValue || ""}
         ></input>
         <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
       </div>
