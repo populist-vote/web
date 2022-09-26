@@ -39,13 +39,19 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
         <select
           className={styles.pillSelect}
           name="state"
-          onChange={(e) =>
-            void router.push({
-              query: { ...query, state: e.target.value },
-            })
-          }
-          value={state as State}
+          onChange={(e) => {
+            if (e.target.value === "all") {
+              const { state: _, ...newQuery } = query;
+              void router.push({ query: newQuery });
+            } else {
+              void router.push({
+                query: { ...query, state: e.target.value },
+              });
+            }
+          }}
+          value={state || "all"}
         >
+          <option value={"all"}>All states</option>
           <option value={State.Co}>Colorado</option>
           <option value={State.Mn}>Minnesota</option>
         </select>
