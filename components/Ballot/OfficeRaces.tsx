@@ -1,6 +1,5 @@
-import { RaceResult, ElectionScope, District } from "generated";
+import { RaceResult } from "generated";
 import dynamic from "next/dynamic";
-import states from "utils/states";
 import styles from "./Ballot.module.scss";
 import { Race } from "./Race";
 
@@ -21,48 +20,6 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
       ? -1
       : 1;
 
-  let officeSubheader = "";
-
-  switch (office?.electionScope) {
-    case ElectionScope.National:
-      break;
-    case ElectionScope.State:
-      if (office.state) {
-        officeSubheader = states[office.state];
-      }
-      break;
-    case ElectionScope.County:
-      if (office.state && office.county) {
-        const districtText = office.district
-          ? `- District ${office.district}`
-          : "";
-        officeSubheader = `${office.county} County ${districtText}`;
-      }
-      break;
-    case ElectionScope.City:
-      if (office.state && office.municipality) {
-        officeSubheader = `${office.municipality}, ${states[office.state]}`;
-      }
-      break;
-    case ElectionScope.District:
-      switch (office?.districtType) {
-        case District.UsCongressional:
-          if (office.state) {
-            officeSubheader = office.state + " District " + office.district;
-          }
-          break;
-        case District.StateSenate:
-          officeSubheader = "SD " + office.district;
-          break;
-        case District.StateHouse:
-          officeSubheader = "HD " + office.district;
-      }
-      break;
-    default:
-      officeSubheader = "";
-      break;
-  }
-
   return (
     <>
       <header
@@ -70,7 +27,7 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
       >
         <h3>
           <span>{office?.title}</span>
-          <span className={styles.raceSubheader}>{officeSubheader}</span>
+          <span className={styles.raceSubheader}>{office?.subtitle}</span>
         </h3>
       </header>
 
