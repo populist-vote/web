@@ -26,7 +26,7 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
         className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${styles.raceHeader}`}
       >
         <h3>
-          <span>{office?.title}</span>
+          <span>{office?.name || office?.title}</span>
           <span className={styles.raceSubheader}>{office?.subtitle}</span>
         </h3>
       </header>
