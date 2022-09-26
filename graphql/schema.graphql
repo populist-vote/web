@@ -1214,6 +1214,8 @@ input UpsertOfficeInput {
   seat: String
   slug: String
   state: State
+  subtitle: String
+  subtitleShort: String
   termLength: Int
   title: String
 }

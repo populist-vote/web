@@ -5,6 +5,7 @@ fragment raceFields on RaceResult {
   party
   office {
     id
+    name
     title
     subtitle
     state
