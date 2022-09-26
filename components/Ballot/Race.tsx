@@ -8,6 +8,7 @@ import {
   PoliticalParty,
   PoliticianResult,
   RaceResult,
+  RaceType,
   useUpsertVotingGuideCandidateMutation,
   VotingGuideByIdQuery,
 } from "generated";
@@ -127,109 +128,115 @@ function Race({
 
   const { raceType, party, candidates, results } = race;
 
+  const $raceContent = (
+    <>
+      {candidates.length < 1 && (
+        <h4 className={styles.noCandidates}>No candidates</h4>
+      )}
+      {dialogCandidate && (
+        <VotingGuideNote
+          key={dialogCandidate?.id}
+          politician={dialogCandidate}
+          editVotingGuideCandidate={editVotingGuideCandidate}
+          isOpen={dialogOpen}
+          handleClose={() => setDialogOpen(false)}
+        />
+      )}
+      {candidates
+        ?.sort(candidateSortFn)
+        ?.map((politician: PoliticianResult) => {
+          const isEndorsing = votingGuide?.candidates
+            ?.filter((c) => c.isEndorsement)
+            .map((c) => c.politician.id)
+            .includes(politician.id);
+
+          const hasNote = votingGuide?.candidates
+            ?.filter((c) => c.note?.length)
+            .map((c) => c.politician.id)
+            .includes(politician.id);
+
+          const appendString = votingGuide?.id
+            ? `?voting-guide=${votingGuide.id}`
+            : "";
+
+          const politicianLink = `/politicians/${encodeURIComponent(
+            politician?.slug
+          )}${appendString}`;
+
+          const votePercentage = results.votesByCandidate.find(
+            (c) => c.candidateId === politician.id
+          )?.votePercentage;
+
+          const labelLeftProps = {
+            text: votePercentage ? `${votePercentage}%` : null,
+            background: "var(--grey-lighter)",
+            color: "var(--grey-darker)",
+          };
+
+          const isOpaque =
+            results.winner && results?.winner?.id !== politician.id
+              ? true
+              : false;
+
+          return (
+            <div
+              className={styles.flexBetween}
+              key={politician.id}
+              style={{ height: "8rem" }}
+            >
+              {politician.id == incumbentId && (
+                <span className={styles.sideText}>INCUMBENT</span>
+              )}
+
+              <div className={styles.avatarContainer}>
+                <PartyAvatar
+                  size={80}
+                  hasIconMenu
+                  isEndorsement={isEndorsing}
+                  iconSize="1.25rem"
+                  hasNote={hasNote}
+                  iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
+                  handleEndorseCandidate={() => endorseCandidate(politician.id)}
+                  handleUnendorseCandidate={() =>
+                    unendorseCandidate(politician.id)
+                  }
+                  handleAddNote={() => handleAddNoteClick(politician)}
+                  party={politician?.party as PoliticalParty}
+                  src={politician?.thumbnailImageUrl as string}
+                  alt={politician.fullName}
+                  readOnly={!isGuideOwner}
+                  href={politicianLink}
+                  labelLeft={labelLeftProps}
+                  opaque={isOpaque}
+                />
+                <Link href={politicianLink} passHref>
+                  <span className={classNames(styles.link, styles.avatarName)}>
+                    {politician.fullName}
+                  </span>
+                </Link>
+              </div>
+
+              {politician.id == incumbentId && candidates?.length > 1 && (
+                <VerticalDivider />
+              )}
+            </div>
+          );
+        })}
+    </>
+  );
+
   return (
     <div itemID={itemId}>
-      <FieldSet
-        heading={raceType}
-        color={party === PoliticalParty.Republican ? "red" : "blue"}
-      >
-        {candidates.length < 1 && (
-          <h4 className={styles.noCandidates}>No candidates</h4>
-        )}
-        {dialogCandidate && (
-          <VotingGuideNote
-            key={dialogCandidate?.id}
-            politician={dialogCandidate}
-            editVotingGuideCandidate={editVotingGuideCandidate}
-            isOpen={dialogOpen}
-            handleClose={() => setDialogOpen(false)}
-          />
-        )}
-        {candidates
-          ?.sort(candidateSortFn)
-          ?.map((politician: PoliticianResult) => {
-            const isEndorsing = votingGuide?.candidates
-              ?.filter((c) => c.isEndorsement)
-              .map((c) => c.politician.id)
-              .includes(politician.id);
-
-            const hasNote = votingGuide?.candidates
-              ?.filter((c) => c.note?.length)
-              .map((c) => c.politician.id)
-              .includes(politician.id);
-
-            const appendString = votingGuide?.id
-              ? `?voting-guide=${votingGuide.id}`
-              : "";
-
-            const politicianLink = `/politicians/${encodeURIComponent(
-              politician?.slug
-            )}${appendString}`;
-
-            const votePercentage = results.votesByCandidate.find(
-              (c) => c.candidateId === politician.id
-            )?.votePercentage;
-
-            const labelLeftProps = {
-              text: votePercentage ? `${votePercentage}%` : null,
-              background: "var(--grey-lighter)",
-              color: "var(--grey-darker)",
-            };
-
-            const isOpaque =
-              results.winner && results?.winner?.id !== politician.id
-                ? true
-                : false;
-
-            return (
-              <div
-                className={styles.flexBetween}
-                key={politician.id}
-                style={{ height: "8rem" }}
-              >
-                {politician.id == incumbentId && (
-                  <span className={styles.sideText}>INCUMBENT</span>
-                )}
-
-                <div className={styles.avatarContainer}>
-                  <PartyAvatar
-                    size={80}
-                    hasIconMenu
-                    isEndorsement={isEndorsing}
-                    iconSize="1.25rem"
-                    hasNote={hasNote}
-                    iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
-                    handleEndorseCandidate={() =>
-                      endorseCandidate(politician.id)
-                    }
-                    handleUnendorseCandidate={() =>
-                      unendorseCandidate(politician.id)
-                    }
-                    handleAddNote={() => handleAddNoteClick(politician)}
-                    party={politician?.party as PoliticalParty}
-                    src={politician?.thumbnailImageUrl as string}
-                    alt={politician.fullName}
-                    readOnly={!isGuideOwner}
-                    href={politicianLink}
-                    labelLeft={labelLeftProps}
-                    opaque={isOpaque}
-                  />
-                  <Link href={politicianLink} passHref>
-                    <span
-                      className={classNames(styles.link, styles.avatarName)}
-                    >
-                      {politician.fullName}
-                    </span>
-                  </Link>
-                </div>
-
-                {politician.id == incumbentId && candidates?.length > 1 && (
-                  <VerticalDivider />
-                )}
-              </div>
-            );
-          })}
-      </FieldSet>
+      {raceType === RaceType.General ? (
+        <div className={styles.flexBetween}>{$raceContent}</div>
+      ) : (
+        <FieldSet
+          heading={raceType}
+          color={party === PoliticalParty.Republican ? "red" : "blue"}
+        >
+          {$raceContent}
+        </FieldSet>
+      )}
     </div>
   );
 }
