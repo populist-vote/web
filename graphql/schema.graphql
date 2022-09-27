@@ -266,15 +266,6 @@ input CreateBillInput {
   votesmartBillId: Int
 }
 
-input CreateElectionInput {
-  description: String
-
-  """Must use format YYYY-MM-DD"""
-  electionDate: NaiveDate!
-  slug: String
-  title: String!
-}
-
 input CreateIssueTagInput {
   category: String
   description: String
@@ -393,6 +384,7 @@ type ElectionResult {
   racesByUserDistricts: [RaceResult!]!
   racesByVotingGuide(votingGuideId: ID!): [RaceResult!]!
   slug: String!
+  state: State
   title: String!
 }
 
@@ -406,6 +398,7 @@ enum ElectionScope {
 
 input ElectionSearchInput {
   slug: String
+  state: State
   title: String
 }
 
@@ -478,7 +471,6 @@ type Mutation {
   confirmUserEmail(confirmationToken: String!): Boolean!
   createBallotMeasure(electionId: UUID!, input: CreateBallotMeasureInput!): BallotMeasureResult!
   createBill(input: CreateBillInput!): BillResult!
-  createElection(input: CreateElectionInput!): ElectionResult!
   createIssueTag(input: CreateIssueTagInput!): IssueTagResult!
   createOrganization(input: CreateOrganizationInput!): OrganizationResult!
   createUser(input: CreateUserInput!): CreateUserResult!
@@ -504,7 +496,6 @@ type Mutation {
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
   updateBallotMeasure(id: String!, input: UpdateBallotMeasureInput!): BallotMeasureResult!
   updateBill(id: String, input: UpdateBillInput!, legiscanBillId: Int): BillResult!
-  updateElection(id: String!, input: UpdateElectionInput!): ElectionResult!
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
@@ -512,6 +503,7 @@ type Mutation {
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updateUsername(username: String!): UpdateUsernameResult!
   uploadProfilePicture(file: Upload!): String!
+  upsertElection(input: UpsertElectionInput!): ElectionResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
   upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
   upsertRace(input: UpsertRaceInput!): RaceResult!
@@ -786,6 +778,7 @@ type Query {
     """Search by slug or title"""
     search: ElectionSearchInput
   ): [ElectionResult!]!
+  electionsByUserState: [ElectionResult!]!
   health: Boolean!
   issueTagBySlug(
     """Search issue tag by slug"""
@@ -1143,15 +1136,6 @@ input UpdateBillInput {
   title: String
 }
 
-input UpdateElectionInput {
-  description: String
-
-  """Must use format YYYY-MM-DD"""
-  electionDate: NaiveDate
-  slug: String
-  title: String
-}
-
 type UpdateEmailResult {
   email: String!
 }
@@ -1195,6 +1179,17 @@ type UpdateUsernameResult {
 }
 
 scalar Upload
+
+input UpsertElectionInput {
+  description: String
+
+  """Must use format YYYY-MM-DD"""
+  electionDate: NaiveDate
+  id: UUID
+  slug: String
+  state: State
+  title: String
+}
 
 input UpsertOfficeInput {
   chamber: Chamber
