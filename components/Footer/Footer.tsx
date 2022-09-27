@@ -16,6 +16,11 @@ function Footer() {
             FAQ
           </Link>
         </li>
+        <li>
+          <Link href="/privacy-policy" passHref>
+            PRIVACY
+          </Link>
+        </li>
       </ul>
       <ul className={styles.socials}>
         <li>
@@ -51,7 +56,7 @@ function Footer() {
           </a>
         </li>
       </ul>
-      <p className={styles.copywright}>
+      <p className={styles.copyright}>
         &#169; {new Date().getFullYear()} Populist. &nbsp;Made in Colorado.
       </p>
     </footer>

@@ -7,10 +7,33 @@
   h2 {
     font-weight: 500;
     margin-top: 4rem;
+    line-height: 1.4em;
 
     &:first-child {
       margin-bottom: 0;
     }
+  }
+  h3 {
+    font-size: 1.8em;
+    font-weight: 500;
+    margin-top: 4rem;
+    line-height: 1.4em;
+  }
+  ul li {
+    margin:10px;
+    padding-left: 10px;
+  }
+
+  strong {
+    font-weight: 500;
+  }
+
+  a {
+    color: $blue-lighter;
+  }
+
+  a:hover {
+    color: $blue-light;
   }
 }
 

@@ -115,14 +115,13 @@ const Faq: NextPage = () => {
               <h2>How was Populist built?</h2>
               <p>
                 All of our code is open source and available{" "}
-                <a
-                  className={styles.textLink}
+                <Link
                   href="https://github.com/populist-vote"
                   target="_blank"
                   rel="noreferrer"
                 >
                   on GitHub.
-                </a>{" "}
+                </Link>{" "}
                 We encourage you to join our community and help us in building a
                 stronger democracy through public civic engagement. If you're
                 interested in contributing, get in touch! Someone on our team
@@ -131,26 +130,30 @@ const Faq: NextPage = () => {
               </p>
               <h2>Where do you get your data?</h2>
               <p>
-                We pull in some of our politician data from{" "}
-                <a
+                We get most of our politician data from government websites, and some information from organizations like{" "}
+                <Link
                   href="https://justfacts.votesmart.org/"
-                  className={styles.textLink}
                   target="_blank"
                   rel="noreferrer"
                 >
                   VoteSmart
-                </a>
-                , but we also do our own research, so our data is unique.{" "}
-                <a
+                </Link>
+                {" "}– we also do our own research, so our data is unique.{" "}
+                <Link
                   href="https://legiscan.com/"
-                  className={styles.textLink}
                   target="_blank"
                   rel="noreferrer"
                 >
                   Legiscan
-                </a>{" "}
+                </Link>{" "}
                 is where we get our legislative information.
               </p>
+              <h2>What do you do with my data?</h2>
+              <p>We are an ad-free platform and will never sell your data to third parties. Check out our <Link
+                  href="/privacy-policy"
+                  className={styles.textLink}
+                  rel="noreferrer"
+                >privacy policy</Link> for more information.</p>
             </div>
           </FlagSection>
           {/* <div className={styles.section2}>

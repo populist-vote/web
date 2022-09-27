@@ -38,14 +38,14 @@ $font-size: 0.85em;
 
   .socials {
     color: $blue;
-
+    font-size: 1.5em;
     &:hover {
       color: $blue-light;
       transition: ease-in-out 0.3s all;
     }
   }
 
-  .copywright {
+  .copyright {
     font-size: $font-size;
     color: $blue-light;
     display: flex;
