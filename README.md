@@ -4,7 +4,11 @@
 
 To get started, you'll need a `.env` file. You can simply `cp .env.example .env` and reach out to someone on the team to get the more sensitive credentials if necessary. Alternatively, if you have an account setup with Vercel, you can download their CLI with `npm i -g vercel` and then pull one down securely with `vercel env pull`. This file is .gitignored
 
-Now, run the development server:
+First, download the necessary dependencies with `npm install --legacy-peer-deps`
+
+Then, run `npm run generate` to generate the typings and hooks from the Populist API. More on this below.
+
+Now you can run the development server:
 
 ```bash
 pnpm run dev
