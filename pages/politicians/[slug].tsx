@@ -94,7 +94,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
 
   useEffect(() => {
-    if (votingGuidesResult.isFetched && !isLoading) {
+    if (votingGuidesResult.isFetched && !isLoading && votingGuideId === null) {
       const guide = votingGuidesResult.data?.votingGuidesByUserId.find((g) =>
         g.candidates.findIndex(
           (c) => c.politician.id === data?.politicianBySlug.id
@@ -103,6 +103,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       if (guide?.id) setVotingGuideId(guide.id);
     }
   }, [
+    votingGuideId,
     setVotingGuideId,
     votingGuidesResult.isFetched,
     votingGuidesResult.data,
