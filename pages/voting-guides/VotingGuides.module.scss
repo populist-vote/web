@@ -7,7 +7,7 @@
 }
 
 .electionHeader {
-  padding: 2rem 1.5rem 1rem;
+  padding: 2rem 1.5rem 3rem;
 
   h1 {
     font-weight: 500;
@@ -34,7 +34,7 @@
   }
 
   @include for-tablet-up {
-    padding: 0;
+    padding: 0 0 4rem;
   }
 }
 
