@@ -151,7 +151,6 @@ const Faq: NextPage = () => {
               <h2>What do you do with my data?</h2>
               <p>We are an ad-free platform and will never sell your data to third parties. Check out our <Link
                   href="/privacy-policy"
-                  className={styles.textLink}
                   rel="noreferrer"
                 >privacy policy</Link> for more information.</p>
             </div>

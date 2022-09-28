@@ -46,7 +46,7 @@ const copyGuideUrl = (guideId?: string) => {
     navigator
       .share({
         title: "Share your voting guide",
-        text: "Check out this voting guide I made on Populist!",
+        text: "Check out this voting guide made on Populist!",
         url,
       })
       .then(() =>
@@ -164,10 +164,11 @@ const VotingGuides: NextPage<{
       <SEO title="Voting Guides" description="View Populist Voting Guides" />
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
-          <FlagSection title="Voting Guides" hideFlagForMobile>
-            {election && (
+          {election && (
               <ElectionHeader election={election as ElectionResult} />
-            )}
+          )}
+          <FlagSection title="My Voting Guides">
+            
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
             {userVotingGuides && userVotingGuides.length < 1 && (
