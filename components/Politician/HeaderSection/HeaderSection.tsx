@@ -142,7 +142,7 @@ function HeaderSection({
         }
         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
         alt={politician?.fullName as string}
-        iconType={guideEnabled && isEndorsed ? "star" : undefined}
+        iconType={guideEnabled ? "star" : undefined}
         isEndorsement={isEndorsed}
         handleIconClick={() => toggleEndorsement()}
         hasIconMenu={true}
