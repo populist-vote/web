@@ -4,6 +4,8 @@ import { dateString } from "utils/dates";
 import styles from "./ElectionSelector.module.scss";
 import { useMediaQuery } from "hooks/useMediaQuery";
 
+const HIDE_ELECTION_SELECTOR = true;
+
 function ElectionSelector({
   elections,
   selectedElectionId,
@@ -25,48 +27,50 @@ function ElectionSelector({
   const nextElection = elections[currentElectionIndex + 1];
   const isSmallScreen = useMediaQuery("(max-width: 896px)");
 
-  return (
-    <div className={styles.container}>
-      <button
-        disabled={!hasPreviousElection}
-        onClick={() => setSelectedElectionId(previousElection?.id as string)}
-      >
-        <LeftArrowIcon />
-        {isSmallScreen ? (
-          <div className={styles.lastLabel}>
-            <h4>Last Vote</h4>
-          </div>
-        ) : (
-          hasPreviousElection &&
-          !hasNextElection && (
+  if (HIDE_ELECTION_SELECTOR) return <></>;
+  else
+    return (
+      <div className={styles.container}>
+        <button
+          disabled={!hasPreviousElection}
+          onClick={() => setSelectedElectionId(previousElection?.id as string)}
+        >
+          <LeftArrowIcon />
+          {isSmallScreen ? (
             <div className={styles.lastLabel}>
               <h4>Last Vote</h4>
-              <h3>{dateString(previousElection?.electionDate, true)}</h3>
             </div>
-          )
-        )}
-      </button>
-      <button
-        disabled={!hasNextElection}
-        onClick={() => setSelectedElectionId(nextElection?.id as string)}
-      >
-        {isSmallScreen ? (
-          <div className={styles.nextLabel}>
-            <h4>Next Vote</h4>
-          </div>
-        ) : (
-          hasNextElection && (
+          ) : (
+            hasPreviousElection &&
+            !hasNextElection && (
+              <div className={styles.lastLabel}>
+                <h4>Last Vote</h4>
+                <h3>{dateString(previousElection?.electionDate, true)}</h3>
+              </div>
+            )
+          )}
+        </button>
+        <button
+          disabled={!hasNextElection}
+          onClick={() => setSelectedElectionId(nextElection?.id as string)}
+        >
+          {isSmallScreen ? (
             <div className={styles.nextLabel}>
               <h4>Next Vote</h4>
-              <h3>{dateString(nextElection?.electionDate, true)}</h3>
             </div>
-          )
-        )}
+          ) : (
+            hasNextElection && (
+              <div className={styles.nextLabel}>
+                <h4>Next Vote</h4>
+                <h3>{dateString(nextElection?.electionDate, true)}</h3>
+              </div>
+            )
+          )}
 
-        <RightArrowIcon />
-      </button>
-    </div>
-  );
+          <RightArrowIcon />
+        </button>
+      </div>
+    );
 }
 
 export { ElectionSelector };
