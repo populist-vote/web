@@ -32,7 +32,7 @@ fragment raceFields on RaceResult {
   results {
     votesByCandidate {
       candidateId
-      votes 
+      votes
       votePercentage
     }
     totalVotes
@@ -47,13 +47,24 @@ fragment electionFields on ElectionResult {
   title
   description
   electionDate
-  
 }
 
 query Elections {
   elections {
     id
     electionDate
+  }
+}
+
+query ElectionsDetail {
+  elections {
+    id
+    electionDate
+    races {
+      candidates {
+        id
+      }
+    }
   }
 }
 
