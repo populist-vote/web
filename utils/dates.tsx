@@ -73,3 +73,17 @@ export function getRelativeTimeString(
 export function getYear(date: string) {
   return new Date(date).getFullYear();
 }
+
+// https://bobbyhadz.com/blog/javascript-check-if-date-is-in-the-future
+export function isInTheFuture(date: string) {
+  const compareDate = new Date(date);
+  const today = new Date();
+
+  // 👇️ OPTIONAL!
+  // This line sets the time of the current date to the
+  // last millisecond, so the comparison returns `true` only if
+  // date is at least tomorrow
+  today.setHours(23, 59, 59, 998);
+
+  return compareDate > today;
+}
