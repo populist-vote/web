@@ -1,21 +1,16 @@
-import { useMemo, CSSProperties, PropsWithChildren } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  CSSProperties,
+  PropsWithChildren,
+} from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
-import {
-  BillCard,
-  Button,
-  Layout,
-  LoaderFlag,
-  PartyAvatar,
-  HeaderSection,
-  ElectionInfoSection,
-} from "components";
-import { VotingGuideProvider } from "hooks/useVotingGuide";
-
 import { GrTree } from "react-icons/gr";
 import {
   FaChair,
@@ -25,12 +20,33 @@ import {
   FaGlobe,
 } from "react-icons/fa";
 import { default as classNames } from "classnames";
+import ReactMarkdown from "react-markdown";
 
+import {
+  BillCard,
+  Button,
+  Layout,
+  LoaderFlag,
+  PartyAvatar,
+  HeaderSection,
+  ElectionInfoSection,
+} from "components";
+import { OrganizationAvatar } from "components/Avatar/Avatar";
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
 // uses useLayoutEffect which is not supported by the server.
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
 });
+
+import { VotingGuideProvider } from "hooks/useVotingGuide";
+import { useAuth } from "hooks/useAuth";
+
+import { computeShortOfficeTitle } from "utils/politician";
+import {
+  ORGANIZATION_FALLBACK_IMAGE_URL,
+  PERSON_FALLBACK_IMAGE_URL,
+} from "utils/constants";
+import { getYear } from "utils/dates";
 
 import {
   BillResult,
@@ -41,19 +57,10 @@ import {
   RatingResult,
   RatingResultEdge,
   usePoliticianBySlugQuery,
+  useVotingGuidesByUserIdQuery,
 } from "../../generated";
 
 import styles from "./PoliticianPage.module.scss";
-
-import { computeShortOfficeTitle } from "utils/politician";
-import {
-  ORGANIZATION_FALLBACK_IMAGE_URL,
-  PERSON_FALLBACK_IMAGE_URL,
-} from "utils/constants";
-import { OrganizationAvatar } from "components/Avatar/Avatar";
-import { getYear } from "utils/dates";
-import ReactMarkdown from "react-markdown";
-// import ReactMarkdown from "react-markdown";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -62,7 +69,21 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 }) => {
   const { query } = useRouter();
   const slug = query.slug as string;
-  const votingGuideId = (query[`voting-guide`] as string) || null;
+
+  const user = useAuth({ redirect: false });
+
+  const votingGuidesResult = useVotingGuidesByUserIdQuery(
+    {
+      userId: user?.id,
+    },
+    {
+      enabled: !!user,
+    }
+  );
+
+  const [votingGuideId, setVotingGuideId] = useState<string | null>(
+    (query[`voting-guide`] as string) || null
+  );
 
   const { data, isLoading, error } = usePoliticianBySlugQuery(
     { slug },
@@ -71,6 +92,23 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       staleTime: Infinity,
     }
   );
+
+  useEffect(() => {
+    if (votingGuidesResult.isFetched && !isLoading) {
+      const guide = votingGuidesResult.data?.votingGuidesByUserId.find((g) =>
+        g.candidates.findIndex(
+          (c) => c.politician.id === data?.politicianBySlug.id
+        )
+      );
+      if (guide?.id) setVotingGuideId(guide.id);
+    }
+  }, [
+    setVotingGuideId,
+    votingGuidesResult.isFetched,
+    votingGuidesResult.data,
+    data,
+    isLoading,
+  ]);
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <>Error: {error}</>;
