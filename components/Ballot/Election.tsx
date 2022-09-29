@@ -33,7 +33,7 @@ function Election({
       votingGuideId: votingGuide?.id,
     },
     {
-      enabled: !isGuideOwner && !!votingGuide?.id,
+      enabled: !!votingGuide?.id,
     }
   );
 
@@ -50,9 +50,15 @@ function Election({
     electionVotingGuideRacesQuery.data?.electionById ??
     electionQuery.data?.electionById;
 
+  console.log(
+    electionVotingGuideRacesQuery.data?.electionById.racesByVotingGuide
+  );
+
   const races =
     electionVotingGuideRacesQuery.data?.electionById.racesByVotingGuide ??
     (electionQuery?.data?.electionById?.racesByUserDistricts || []);
+
+  console.log(races);
 
   return (
     <>
