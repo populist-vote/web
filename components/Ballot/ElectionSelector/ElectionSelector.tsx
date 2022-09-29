@@ -25,6 +25,8 @@ function ElectionSelector({
   const nextElection = elections[currentElectionIndex + 1];
   const isSmallScreen = useMediaQuery("(max-width: 896px)");
 
+  if (elections.length <= 1) return null;
+
   return (
     <div className={styles.container}>
       <button

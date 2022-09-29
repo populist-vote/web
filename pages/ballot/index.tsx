@@ -40,7 +40,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     if (isSuccess)
       setSelectedElectionId(
         // Sort by most current election - copy array to preserve chronological order
-        [...(data?.elections as ElectionResult[])].sort((a, b) => {
+        [...(data?.electionsByUserState as ElectionResult[])].sort((a, b) => {
           const today = new Date();
           const distancea = Math.abs(
             today.getTime() - new Date(a.electionDate).getTime()
@@ -139,7 +139,9 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
           {isSuccess && (
             <>
               <ElectionSelector
-                elections={data?.elections as Partial<ElectionResult>[]}
+                elections={
+                  data?.electionsByUserState as Partial<ElectionResult>[]
+                }
                 selectedElectionId={selectedElectionId as string}
                 setSelectedElectionId={setSelectedElectionId}
               />

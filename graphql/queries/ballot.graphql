@@ -51,7 +51,7 @@ fragment electionFields on ElectionResult {
 }
 
 query Elections {
-  elections {
+  electionsByUserState {
     id
     electionDate
   }
