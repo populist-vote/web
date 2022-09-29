@@ -46,7 +46,7 @@ import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
   PERSON_FALLBACK_IMAGE_URL,
 } from "utils/constants";
-import { getYear } from "utils/dates";
+import { getYear, isInTheFuture } from "utils/dates";
 
 import {
   BillResult,
@@ -58,6 +58,7 @@ import {
   RatingResultEdge,
   usePoliticianBySlugQuery,
   useVotingGuidesByUserIdQuery,
+  useElectionsDetailQuery,
 } from "../../generated";
 
 import styles from "./PoliticianPage.module.scss";
@@ -71,6 +72,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const slug = query.slug as string;
 
   const user = useAuth({ redirect: false });
+
+  const electionsResult = useElectionsDetailQuery();
 
   const votingGuidesResult = useVotingGuidesByUserIdQuery(
     {
@@ -94,25 +97,43 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
 
   useEffect(() => {
-    if (votingGuidesResult.isFetched && !isLoading && votingGuideId === null) {
-      const guide = votingGuidesResult.data?.votingGuidesByUserId.find((g) =>
-        g.candidates.findIndex(
-          (c) => c.politician.id === data?.politicianBySlug.id
-        )
+    if (
+      !electionsResult.isLoading &&
+      !votingGuidesResult.isLoading &&
+      !isLoading &&
+      votingGuideId === null
+    ) {
+      const politicianId = data?.politicianBySlug.id;
+
+      const election = electionsResult.data?.elections.find(
+        (e) =>
+          isInTheFuture(e.electionDate) &&
+          e.races.find((r) => r.candidates.find((c) => c.id === politicianId))
       );
+
+      console.log("election", election, isInTheFuture(election?.electionDate));
+
+      const guide = votingGuidesResult.data?.votingGuidesByUserId.find(
+        (g) => g.electionId === election?.id
+      );
+
       if (guide?.id) setVotingGuideId(guide.id);
     }
   }, [
     votingGuideId,
     setVotingGuideId,
-    votingGuidesResult.isFetched,
+    votingGuidesResult.isLoading,
     votingGuidesResult.data,
+    electionsResult.isLoading,
+    electionsResult.data,
     data,
     isLoading,
   ]);
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <>Error: {error}</>;
+
+  console.log({ votingGuideId });
 
   const politician = data?.politicianBySlug;
 
