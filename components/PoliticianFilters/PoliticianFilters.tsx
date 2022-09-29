@@ -79,6 +79,7 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
           value={PoliticalScope.Federal}
           checked={scope === PoliticalScope.Federal}
           onClick={() => handleScopeChange(PoliticalScope.Federal)}
+          onChange={() => null}
         />
         <label
           htmlFor="federal-radio"
@@ -93,6 +94,7 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
           value={PoliticalScope.State}
           checked={scope === PoliticalScope.State}
           onClick={() => handleScopeChange(PoliticalScope.State)}
+          onChange={() => null}
         />
         <label
           htmlFor="state-radio"
@@ -107,6 +109,7 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
           value={PoliticalScope.Local}
           checked={scope === PoliticalScope.Local}
           onClick={() => handleScopeChange(PoliticalScope.Local)}
+          onChange={() => null}
         />
         <label
           htmlFor="local-radio"
