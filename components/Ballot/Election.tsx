@@ -5,10 +5,10 @@ import {
   useElectionByIdQuery,
   useElectionVotingGuideRacesQuery,
 } from "generated";
-import { useVotingGuide } from "hooks/useVotingGuide";
 import { ElectionRaces } from "./BallotRaces";
 import { ElectionHeader } from "./ElectionHeader";
 import styles from "./Ballot.module.scss";
+import { useRouter } from "next/router";
 
 function Election({
   electionId,
@@ -17,23 +17,24 @@ function Election({
   electionId: string;
   flagLabel: string;
 }) {
-  const { data: votingGuide, isGuideOwner } = useVotingGuide();
+  const { query } = useRouter();
+  const votingGuideId = query["voting-guide"] as string;
   const electionQuery = useElectionByIdQuery(
     {
       id: electionId,
     },
     {
-      enabled: !votingGuide?.id || isGuideOwner,
+      enabled: !votingGuideId,
     }
   );
 
   const electionVotingGuideRacesQuery = useElectionVotingGuideRacesQuery(
     {
       electionId,
-      votingGuideId: votingGuide?.id,
+      votingGuideId: votingGuideId,
     },
     {
-      enabled: !!votingGuide?.id,
+      enabled: !!votingGuideId,
     }
   );
 
