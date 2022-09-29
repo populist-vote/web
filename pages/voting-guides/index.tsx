@@ -95,7 +95,7 @@ const VotingGuideCard = ({
             size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="Edit"
-            onClick={() => Router.push(`/ballot`)}
+            onClick={() => Router.push(`/ballot?voting-guide=${guide.id}`)}
           />
         ) : (
           <Button
