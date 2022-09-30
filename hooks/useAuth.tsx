@@ -23,22 +23,23 @@ export function useAuth({
   const user = useContext(AuthContext);
 
   useEffect(() => {
-    if (redirect) {
-      if (user) {
-        switch (user.role) {
-          case Role.Superuser:
-            return;
-          case Role.Staff:
-            if (minRole === Role.Staff) return;
-          case Role.Premium:
-            if (minRole === Role.Premium) return;
-          case Role.Basic:
-            if (minRole === Role.Basic) return;
-          default:
-            void Router.push(redirectTo);
-        }
-      }
+    if (redirect && !user) {
       void Router.push(redirectTo);
+    }
+
+    if (user) {
+      switch (user.role) {
+        case Role.Superuser:
+          return;
+        case Role.Staff:
+          if (minRole === Role.Staff) return;
+        case Role.Premium:
+          if (minRole === Role.Premium) return;
+        case Role.Basic:
+          if (minRole === Role.Basic) return;
+        default:
+          void Router.push(redirectTo);
+      }
     }
   }, [user, redirectTo, minRole, redirect]);
 
