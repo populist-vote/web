@@ -77,7 +77,10 @@ const Home: NextPage = () => {
                     <li className={SimpleNavStyles.accountProfile}>
                       <Link href="/settings/profile" passHref>
                         <Avatar
-                          src={PERSON_FALLBACK_IMAGE_URL}
+                          src={
+                            user?.userProfile.profilePictureUrl ||
+                            PERSON_FALLBACK_IMAGE_URL
+                          }
                           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
                           alt="profile picture"
                           size={isMobile ? 35 : 60}

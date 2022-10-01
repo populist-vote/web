@@ -16,6 +16,7 @@ query CurrentUser {
     email
     username
     userProfile {
+      profilePictureUrl
       firstName
       lastName
       address {

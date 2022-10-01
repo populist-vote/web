@@ -75,7 +75,10 @@ const Faq: NextPage = () => {
                   <li className={SimpleNavStyles.accountProfile}>
                     <Link href="/settings/profile" passHref>
                       <Avatar
-                        src={PERSON_FALLBACK_IMAGE_URL}
+                        src={
+                          user?.userProfile.profilePictureUrl ||
+                          PERSON_FALLBACK_IMAGE_URL
+                        }
                         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
                         alt="profile picture"
                         size={isMobile ? 35 : 60}
@@ -130,15 +133,16 @@ const Faq: NextPage = () => {
               </p>
               <h2>Where do you get your data?</h2>
               <p>
-                We get most of our politician data from government websites, and some information from organizations like{" "}
+                We get most of our politician data from government websites, and
+                some information from organizations like{" "}
                 <Link
                   href="https://justfacts.votesmart.org/"
                   target="_blank"
                   rel="noreferrer"
                 >
                   VoteSmart
-                </Link>
-                {" "}– we also do our own research, so our data is unique.{" "}
+                </Link>{" "}
+                – we also do our own research, so our data is unique.{" "}
                 <Link
                   href="https://legiscan.com/"
                   target="_blank"
@@ -149,11 +153,14 @@ const Faq: NextPage = () => {
                 is where we get our legislative information.
               </p>
               <h2>What do you do with my data?</h2>
-              <p>We are an ad-free platform and will never sell your data to third parties. Check out our <Link
-                  href="/privacy-policy"
-                  className={styles.textLink}
-                  rel="noreferrer"
-                >privacy policy</Link> for more information.</p>
+              <p>
+                We are an ad-free platform and will never sell your data to
+                third parties. Check out our{" "}
+                <Link href="/privacy-policy" rel="noreferrer">
+                  privacy policy
+                </Link>{" "}
+                for more information.
+              </p>
             </div>
           </FlagSection>
           {/* <div className={styles.section2}>

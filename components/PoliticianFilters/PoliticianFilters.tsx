@@ -19,13 +19,13 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
 
   const [searchValue, setSearchValue] = useState<string | null>(search || "");
 
-  const handleScopeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.checked) {
+  const handleScopeChange = (newScope: PoliticalScope) => {
+    if (newScope === scope) {
       const { scope: _, ...newQuery } = query;
       void router.push({ query: newQuery });
+    } else {
+      void router.push({ query: { ...query, scope: newScope } });
     }
-    const scope = e.target.value as PoliticalScope;
-    void router.push({ query: { ...query, scope } });
   };
 
   const handleChamberSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -78,7 +78,8 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
           type="radio"
           value={PoliticalScope.Federal}
           checked={scope === PoliticalScope.Federal}
-          onChange={handleScopeChange}
+          onClick={() => handleScopeChange(PoliticalScope.Federal)}
+          onChange={() => null}
         />
         <label
           htmlFor="federal-radio"
@@ -92,7 +93,8 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
           type="radio"
           value={PoliticalScope.State}
           checked={scope === PoliticalScope.State}
-          onChange={handleScopeChange}
+          onClick={() => handleScopeChange(PoliticalScope.State)}
+          onChange={() => null}
         />
         <label
           htmlFor="state-radio"
@@ -106,7 +108,8 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
           type="radio"
           value={PoliticalScope.Local}
           checked={scope === PoliticalScope.Local}
-          onChange={handleScopeChange}
+          onClick={() => handleScopeChange(PoliticalScope.Local)}
+          onChange={() => null}
         />
         <label
           htmlFor="local-radio"
