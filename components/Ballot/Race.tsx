@@ -182,7 +182,7 @@ function Race({
             <div
               className={styles.flexBetween}
               key={politician.id}
-              style={{ height: "8rem" }}
+              //style={{ height: "8rem" }}
             >
               {politician.id == incumbentId && (
                 <span className={styles.sideText}>INCUMBENT</span>
