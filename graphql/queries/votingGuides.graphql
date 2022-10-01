@@ -8,6 +8,7 @@ fragment guideFields on VotingGuideResult {
     username
     lastName
     firstName
+    profilePictureUrl
   }
   election {
     ...electionFields

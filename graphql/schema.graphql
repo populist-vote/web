@@ -639,6 +639,7 @@ enum PoliticalParty {
   LEGAL_MARIJUANA_NOW
   LIBERTARIAN
   REPUBLICAN
+  SOCIALIST_WORKERS
   UNAFFILIATED
   UNITY
   UNKNOWN
@@ -820,10 +821,7 @@ type Query {
   ): PoliticianResultConnection!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
-  races(
-    """Search by race title or state"""
-    search: RaceSearch
-  ): [RaceResult!]!
+  races(filter: RaceFilter): [RaceResult!]!
 
   """Get all users"""
   userCount: Int
@@ -851,6 +849,13 @@ type RaceCandidateResult {
   votes: Int
 }
 
+input RaceFilter {
+  electionScope: ElectionScope
+  officeTitles: [String!]
+  politicalScope: PoliticalScope
+  state: State
+}
+
 type RaceResult {
   ballotpediaLink: String
   candidates: [PoliticianResult!]!
@@ -874,11 +879,6 @@ type RaceResultsResult {
   totalVotes: Int
   votesByCandidate: [RaceCandidateResult!]!
   winner: PoliticianResult
-}
-
-input RaceSearch {
-  query: String
-  state: State
 }
 
 enum RaceType {

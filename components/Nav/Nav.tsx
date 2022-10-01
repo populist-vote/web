@@ -90,7 +90,10 @@ function Nav({
           <div className={styles.avatar}>
             <Link href="/settings/profile" passHref>
               <Avatar
-                src={PERSON_FALLBACK_IMAGE_URL}
+                src={
+                  user.userProfile.profilePictureUrl ||
+                  PERSON_FALLBACK_IMAGE_URL
+                }
                 alt="profile picture"
                 size={35}
               />
@@ -130,7 +133,10 @@ function Nav({
             <Link href="/settings/profile" passHref>
               <div className={styles.avatar}>
                 <Avatar
-                  src={PERSON_FALLBACK_IMAGE_URL}
+                  src={
+                    user?.userProfile.profilePictureUrl ||
+                    PERSON_FALLBACK_IMAGE_URL
+                  }
                   alt="profile picture"
                   size={80}
                 />
