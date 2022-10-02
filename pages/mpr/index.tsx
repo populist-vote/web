@@ -27,16 +27,18 @@ const MPRElection: NextPage = () => {
 
   return (
     <Layout>
-      <h1 className={styles.mprLogo}>
-        <MPRLogo height={80} />
-      </h1>
-      <h1 className={styles.subHeading}>2022 Election Coverage</h1>
-      <h2 className={styles.racesHeading}>Highlighted Races</h2>
-      <p className={styles.racesDescription}>
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
-        lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
-        fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-      </p>
+      <div className={styles.mprHeader}>
+        <h1 className={styles.mprLogo}>
+          <MPRLogo height={80} />
+        </h1>
+        <h1 className={styles.subHeading}>2022 Election Coverage</h1>
+        <h4 className={styles.racesHeading}>Highlighted Races</h4>
+        <p className={styles.racesDescription}>
+          Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
+          lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
+          fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+        </p>
+      </div>
 
       {isLoading ? (
         <LoaderFlag />

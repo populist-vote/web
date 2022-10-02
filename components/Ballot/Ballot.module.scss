@@ -59,8 +59,8 @@
 
   p {
     margin-top: 1rem;
-    margin-bottom: 0;
     color: $blue-lighter;
+    margin-bottom: 1rem;
   }
 
   small {
@@ -69,7 +69,7 @@
   }
 
   @include for-tablet-up {
-    padding: 0 0;
+    padding: 3rem 0;
   }
 }
 

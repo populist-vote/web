@@ -6,7 +6,7 @@ function MPRLogo({ ...rest }) {
     <Image
       src={MPRLogoSVG}
       alt="MPRnews"
-      layout="responsive"
+      layout="intrinsic"
       objectFit="contain"
       objectPosition="left"
       priority
