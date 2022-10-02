@@ -142,7 +142,7 @@
     flex-grow: 1;
     height: 100%;
     width: 12rem;
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
 
     ul {
       padding: 0;
@@ -189,7 +189,7 @@
     word-break: break-all;
   }
 
-  @include for-tablet-landscape-up {
+  @include for-tablet-up {
     flex-direction: column;
   }
 }
