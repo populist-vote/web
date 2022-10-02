@@ -82,7 +82,7 @@ const VotingGuideCard = ({
     <div className={styles.guideContainer}>
       <div className={styles.avatarContainer}>
         <Avatar
-          src={PERSON_FALLBACK_IMAGE_URL}
+          src={user?.profilePictureUrl || PERSON_FALLBACK_IMAGE_URL}
           size={!isMobile ? 80 : 40}
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
           alt={name as string}
@@ -164,11 +164,8 @@ const VotingGuides: NextPage<{
       <SEO title="Voting Guides" description="View Populist Voting Guides" />
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
-          {election && (
-              <ElectionHeader election={election as ElectionResult} />
-          )}
+          {election && <ElectionHeader election={election as ElectionResult} />}
           <FlagSection title="My Voting Guides">
-            
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
             {userVotingGuides && userVotingGuides.length < 1 && (
