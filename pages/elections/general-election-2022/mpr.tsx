@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { NextPage } from "next";
 
 import { Layout, MPRLogo, LoaderFlag, RaceSection } from "components";
@@ -8,6 +9,14 @@ import { splitRaces } from "utils/data";
 const MPRElection: NextPage = () => {
   const { data, isLoading, isError } = useMprFeaturedRacesQuery();
 
+  const [races, setRaces] = useState<ReturnType<typeof splitRaces>>();
+
+  useEffect(() => {
+    if (!isLoading && data?.races) {
+      setRaces(splitRaces(data?.races as RaceResult[]));
+    }
+  }, [isLoading, data, setRaces]);
+
   if (isError)
     return (
       <Layout>
@@ -15,8 +24,6 @@ const MPRElection: NextPage = () => {
         <h2>Please reload</h2>
       </Layout>
     );
-
-  const races = splitRaces(data?.races as RaceResult[]);
 
   return (
     <Layout>
