@@ -8,6 +8,7 @@ function MPRLogo({ ...rest }) {
       alt="MPRnews"
       layout="responsive"
       objectFit="contain"
+      objectPosition="left"
       priority
       {...rest}
     />

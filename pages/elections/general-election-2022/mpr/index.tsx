@@ -21,7 +21,7 @@ const MPRElection: NextPage = () => {
   return (
     <Layout>
       <h1 className={styles.mprLogo}>
-        <MPRLogo />
+        <MPRLogo height={80} />
       </h1>
       <h1 className={styles.subHeading}>2022 Election Coverage</h1>
       <h2 className={styles.racesHeading}>Highlighted Races</h2>
