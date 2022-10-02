@@ -2,10 +2,12 @@ import React from "react";
 import styles from "./FlagSection.module.scss";
 import classNames from "classnames";
 
+export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
+
 interface FlagSectionProps {
   title: string;
   children: React.ReactNode;
-  color?: "salmon" | "green" | "yellow" | "aqua" | "violet";
+  color?: FlagColor;
   hideFlagForMobile?: boolean;
 }
 
