@@ -28,17 +28,15 @@ export const filterRaces = (
   );
 };
 
-export const splitRaces = (races?: RaceResult[]) => {
-  if (!races) return null;
-
+export const splitRaces = (races: RaceResult[]) => {
   const federal = groupBy(
-    races?.filter(
+    races.filter(
       (race) => race.office.politicalScope === PoliticalScope.Federal
     ),
     (race) => race.office.id
   );
   const state = groupBy(
-    races?.filter(
+    races.filter(
       (race) =>
         race.office.politicalScope === PoliticalScope.State &&
         !(
@@ -49,7 +47,7 @@ export const splitRaces = (races?: RaceResult[]) => {
     (race) => race.office.id
   );
   const local = groupBy(
-    races?.filter(
+    races.filter(
       (race) =>
         race.office.politicalScope === PoliticalScope.Local &&
         !(
