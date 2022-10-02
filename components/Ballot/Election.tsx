@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 
 function Election({
   electionId,
-  flagLabel,
 }: {
   electionId: string;
   flagLabel: string;
@@ -58,7 +57,6 @@ function Election({
   return (
     <>
       <ElectionHeader
-        flagLabel={flagLabel}
         election={election as Partial<ElectionResult>}
       />
       {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
