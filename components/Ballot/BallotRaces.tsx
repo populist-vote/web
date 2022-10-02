@@ -1,89 +1,47 @@
-import { OfficeRaces } from "components/Ballot/OfficeRaces";
-import { FlagSection } from "components/FlagSection/FlagSection";
-import { PoliticalScope, RaceResult } from "generated";
-import { groupBy } from "utils/groupBy";
+import { RaceSection } from "components";
+import { RaceResult } from "generated";
+import { splitRaces } from "utils/data";
 
 function ElectionRaces({ races }: { races: RaceResult[] }) {
-  const federalRacesGroupedByOffice = groupBy(
-    races?.filter(
-      (race) => race.office.politicalScope === PoliticalScope.Federal
-    ),
-    (race) => race.office.id
-  );
-  const stateRacesGroupedByOffice = groupBy(
-    races?.filter(
-      (race) =>
-        race.office.politicalScope === PoliticalScope.State &&
-        !(
-          race.office.title.includes("Judge") ||
-          race.office.title.includes("Justice")
-        )
-    ),
-    (race) => race.office.id
-  );
-  const localRacesGroupedByOffice = groupBy(
-    races?.filter(
-      (race) =>
-        race.office.politicalScope === PoliticalScope.Local &&
-        !(
-          race.office.title.includes("Judge") ||
-          race.office.title.includes("Justice")
-        )
-    ),
-    (race) => race.office.id
-  );
-
-  const judicialRacesGroupedByOffice = groupBy(
-    races?.filter(
-      (race) =>
-        race.office.title.includes("Judge") ||
-        race.office.title.includes("Justice")
-    ),
-    (race) => race.office.id
-  );
+  const {
+    federal: federalRacesGroupedByOffice,
+    state: stateRacesGroupedByOffice,
+    local: localRacesGroupedByOffice,
+    judicial: judicialRacesGroupedByOffice,
+  } = splitRaces(races);
 
   return (
     <>
       {Object.keys(federalRacesGroupedByOffice).length > 0 && (
-        <FlagSection title="Federal" color="aqua">
-          {Object.entries(federalRacesGroupedByOffice).map(
-            ([officeId, races]) => {
-              return (
-                <OfficeRaces key={officeId} races={races as RaceResult[]} />
-              );
-            }
-          )}
-        </FlagSection>
+        <RaceSection
+          races={federalRacesGroupedByOffice}
+          title="Federal"
+          color="aqua"
+        />
       )}
 
       {Object.keys(stateRacesGroupedByOffice).length > 0 && (
-        <FlagSection title="State" color="yellow">
-          {Object.entries(stateRacesGroupedByOffice).map(
-            ([officeId, races]) => (
-              <OfficeRaces key={officeId} races={races as RaceResult[]} />
-            )
-          )}
-        </FlagSection>
+        <RaceSection
+          races={stateRacesGroupedByOffice}
+          title="State"
+          color="yellow"
+        />
       )}
 
       {Object.keys(localRacesGroupedByOffice).length > 0 && (
-        <FlagSection title="Local" color="salmon">
-          {Object.entries(localRacesGroupedByOffice).map(
-            ([officeId, races]) => (
-              <OfficeRaces key={officeId} races={races as RaceResult[]} />
-            )
-          )}
-        </FlagSection>
+        <RaceSection
+          races={localRacesGroupedByOffice}
+          title="Local"
+          color="salmon"
+        />
       )}
 
       {Object.keys(judicialRacesGroupedByOffice).length > 0 && (
-        <FlagSection title="Judicial" color="violet">
-          {Object.entries(judicialRacesGroupedByOffice).map(
-            ([officeId, races]) => (
-              <OfficeRaces key={officeId} races={races as RaceResult[]} />
-            )
-          )}
-        </FlagSection>
+        <RaceSection
+          races={judicialRacesGroupedByOffice}
+          title="Judicial"
+          color="violet"
+        />
       )}
     </>
   );
