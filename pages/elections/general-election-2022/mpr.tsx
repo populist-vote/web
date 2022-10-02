@@ -13,7 +13,7 @@ const MPRElection: NextPage = () => {
 
   useEffect(() => {
     if (!isLoading && data?.races) {
-      setRaces(splitRaces(data?.races as RaceResult[]));
+      setRaces(splitRaces(data.races as RaceResult[]));
     }
   }, [isLoading, data, setRaces]);
 
