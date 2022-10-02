@@ -16,10 +16,10 @@ import {
   LoaderFlag,
   SEO,
 } from "components";
+import { ElectionHeader } from "components/Ballot/ElectionHeader";
 import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
-import { dateString } from "utils/dates";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuides.module.scss";
 
@@ -121,18 +121,6 @@ const VotingGuideCard = ({
           </button>
         )}
       </div>
-    </div>
-  );
-};
-
-const ElectionHeader = ({ election }: { election: ElectionResult }) => {
-  return (
-    <div className={styles.electionHeader}>
-      {election.electionDate && (
-        <h1>{dateString(election.electionDate, true)}</h1>
-      )}
-      {election.title && <h4>{election.title}</h4>}
-      {election.description && <p>{election.description}</p>}
     </div>
   );
 };
