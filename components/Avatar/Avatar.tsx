@@ -327,7 +327,7 @@ function PartyAvatar({
   const badge = {
     background: partyColor,
     text: (party || "UNKNOWN").slice(0, 1).toUpperCase(),
-    title: titleCase(party.replaceAll("_", " ")),
+    title: titleCase((party || "UNKNOWN").replaceAll("_", " ")),
     size: badgeSize,
     fontSize: badgeFontSize,
   };
