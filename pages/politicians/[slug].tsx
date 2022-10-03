@@ -680,7 +680,21 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <span>$234,325</span>
         </p> */}
 
-        <Table data={donationsByIndustry?.sectors || []} columns={columns} />
+        <Table
+          data={donationsByIndustry?.sectors || []}
+          columns={columns}
+          initialState={{
+            pagination: {
+              pageSize: 7,
+            },
+            sorting: [
+              {
+                id: "total",
+                desc: true,
+              },
+            ],
+          }}
+        />
       </ColoredSection>
     );
   }

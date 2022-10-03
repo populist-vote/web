@@ -7,6 +7,7 @@ import {
   useReactTable,
   SortingState,
   getPaginationRowModel,
+  InitialTableState,
 } from "@tanstack/react-table";
 import styles from "./Table.module.scss";
 import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
@@ -15,10 +16,17 @@ import { Button } from "components/Button/Button";
 type TableProps<T extends object> = {
   data: T[];
   columns: ColumnDef<T>[];
+  initialState: InitialTableState;
 };
 
-function Table<T extends object>({ data, columns }: TableProps<T>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+function Table<T extends object>({
+  data,
+  columns,
+  initialState,
+}: TableProps<T>) {
+  const [sorting, setSorting] = useState<SortingState>(
+    initialState.sorting || []
+  );
 
   const table = useReactTable({
     data,
@@ -26,11 +34,7 @@ function Table<T extends object>({ data, columns }: TableProps<T>) {
     state: {
       sorting,
     },
-    initialState: {
-      pagination: {
-        pageSize: 4,
-      },
-    },
+    initialState,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
