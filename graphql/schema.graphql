@@ -653,7 +653,10 @@ enum PoliticalScope {
 
 input PoliticianFilter {
   chambers: Chambers
+  homeState: State
+  party: PoliticalParty
   politicalScope: PoliticalScope
+  query: String
 }
 
 type PoliticianResult {
@@ -731,12 +734,6 @@ type PoliticianResultEdge {
   node: PoliticianResult!
 }
 
-input PoliticianSearch {
-  homeState: State
-  name: String
-  party: PoliticalParty
-}
-
 type Progress {
   date: String!
   event: Int!
@@ -807,18 +804,7 @@ type Query {
     search: OrganizationSearch
   ): OrganizationResultConnection!
   politicianBySlug(slug: String!): PoliticianResult!
-  politicians(
-    after: String
-    before: String
-
-    """Filter by politicalScope or chambers"""
-    filter: PoliticianFilter
-    first: Int
-    last: Int
-
-    """Search by homeState or lastName"""
-    search: PoliticianSearch
-  ): PoliticianResultConnection!
+  politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(filter: RaceFilter): [RaceResult!]!

@@ -1,0 +1,51 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/layout/containers";
+@import "styles/mixins/media";
+
+.mprHeader {
+  margin:3.5rem 1.5rem 0;
+  @include for-tablet-up {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+}
+
+.mprLogo {
+  @include for-tablet-up {
+    margin-bottom: 3rem;
+  }
+}
+
+.mprLogoImage {
+  height: 2rem;
+}
+
+.subHeading {
+  font-weight: 500;
+  margin: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $blue-dark;
+}
+
+.racesHeading {
+  font-size: 1.25em;
+  margin-top: 1rem;
+  margin-bottom: 0rem;
+  text-transform: uppercase;
+
+  @include for-tablet-up {
+    font-size: 1.875em;
+    margin-top: 1.5rem;
+  }
+}
+
+.racesDescription {
+  color: $blue-lighter;
+  font-size: $text-md;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  @include for-tablet-up {
+    margin-bottom: 4rem;
+  }
+}

@@ -1,13 +1,11 @@
 query PoliticianIndex(
   $pageSize: Int
   $cursor: String
-  $search: PoliticianSearch
   $filter: PoliticianFilter
 ) {
   politicians(
     first: $pageSize
     after: $cursor
-    search: $search
     filter: $filter
   ) {
     edges {
@@ -27,16 +25,6 @@ query PoliticianIndex(
           district
           state
           officeType
-        }
-        votesmartCandidateBio {
-          office {
-            title
-            district
-            typeField
-          }
-          candidate {
-            photo
-          }
         }
       }
     }

@@ -17,7 +17,6 @@ import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
 import { NextPageWithLayout } from "../_app";
-import { computeOfficeTitle } from "utils/politician";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { GetServerSideProps } from "next";
 import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianFilters";
@@ -26,11 +25,9 @@ const PAGE_SIZE = 20;
 
 const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const { isMobile } = useDeviceInfo();
-  const officeTitleDisplay = computeOfficeTitle(politician);
-  const district = politician.currentOffice?.district;
-
-  const districtDisplay =
-    !district || isNaN(+district) ? district : `District ${district}`;
+  const officeTitle =
+    politician.currentOffice?.name || politician.currentOffice?.title;
+  const officeSubtitle = politician.currentOffice?.subtitleShort;
 
   return (
     <Link href={`/politicians/${politician.slug}`} passHref>
@@ -49,20 +46,22 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
           <p style={{ margin: 0 }}>{politician.fullName}</p>
           {isMobile ? (
             <div className={styles.flexBetween}>
-              {officeTitleDisplay && (
-                <span className={styles.bold}>{officeTitleDisplay}</span>
+              {officeTitle && (
+                <span className={styles.bold}>
+                  {politician.currentOffice?.title}
+                </span>
               )}
-              {district && officeTitleDisplay && (
+              {officeTitle && officeSubtitle && (
                 <Spacer size={8} delimiter="•" axis="horizontal" />
               )}
-              {districtDisplay && (
-                <span className={styles.bold}>{districtDisplay}</span>
+              {officeSubtitle && (
+                <span className={styles.bold}>{officeSubtitle}</span>
               )}
             </div>
           ) : (
             <>
-              <span className={styles.bold}>{districtDisplay}</span>
-              <span className={styles.bold}>{officeTitleDisplay}</span>
+              <span className={styles.bold}>{officeSubtitle}</span>
+              <span className={styles.bold}>{officeTitle}</span>
             </>
           )}
         </div>
@@ -108,11 +107,9 @@ const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
     "cursor",
     {
       pageSize: PAGE_SIZE,
-      search: {
-        name: debouncedSearchQuery || null,
-        homeState: state as State,
-      },
       filter: {
+        query: debouncedSearchQuery || null,
+        homeState: state as State,
         politicalScope: scope as PoliticalScope,
         chambers: chamber as Chambers,
       },

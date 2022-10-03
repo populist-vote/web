@@ -1,0 +1,17 @@
+query MPRFeaturedRaces {
+  races(
+    filter: {
+      state: MN
+      officeTitles: [
+        "U.S. Representative"
+        "Governor"
+        "Lieutenant Governor"
+        "Attorney General"
+        "Secretary of State"
+        "State Auditor"
+      ]
+    }
+  ) {
+    ...raceFields
+  }
+}

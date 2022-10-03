@@ -30,6 +30,8 @@ function Scroller(props: {
     [`mobile-scroller`]: isMobile,
     [styles.hideArrowText as string]: !props.showTextButtons,
     [`no-scroll`]: !hasScroll,
+    [styles.scrollButtons as string]: props.showTextButtons,
+    [styles.mobileScrollButtons as string]: isMobile,
   });
 
   const handleUpdate = (data: {

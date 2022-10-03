@@ -1,27 +1,4 @@
-import type { PoliticianResult } from "../generated";
-
-const computeOfficeTitle = (politician: Partial<PoliticianResult>) => {
-  const officeTitle =
-    politician?.currentOffice?.title ||
-    politician?.votesmartCandidateBio?.office?.title;
-  const officeType =
-    politician?.currentOffice?.officeType ||
-    politician?.votesmartCandidateBio?.office?.typeField;
-  switch (true) {
-    case officeType === "State Legislative" && officeTitle === "Senator":
-      return `${politician.homeState} Senate`;
-    case officeType === "State Legislative" && officeTitle === "Representative":
-      return `${politician.homeState} House`;
-    case officeType === "Local Executive":
-      return `${politician.currentOffice?.municipality ?? ""} ${officeTitle}`;
-    case officeTitle === "Senator":
-      return "U.S. Congress";
-    case officeTitle === "Representative":
-      return "U.S. House";
-    default:
-      return officeTitle;
-  }
-};
+import { PoliticianResult } from "generated";
 
 const computeShortOfficeTitle = (politician: Partial<PoliticianResult>) => {
   const districtDisplay = (includePrefix: boolean, includeDash: boolean) => {
@@ -71,4 +48,4 @@ const computeShortOfficeTitle = (politician: Partial<PoliticianResult>) => {
   }
 };
 
-export { computeOfficeTitle, computeShortOfficeTitle };
+export { computeShortOfficeTitle };
