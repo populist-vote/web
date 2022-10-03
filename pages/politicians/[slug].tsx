@@ -665,7 +665,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
     return (
       <ColoredSection color="var(--green)">
-        <h2 className={styles.gradientHeader}>Financials</h2>
+        {/* <h2 className={styles.gradientHeader}>Financials</h2>
         <p className={styles.flexBetween}>
           <span>Total Raised</span>
           <span className={styles.dots} />
@@ -678,7 +678,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           </span>
           <span className={styles.dots} />
           <span>$234,325</span>
-        </p>
+        </p> */}
 
         <Table data={donationsByIndustry?.sectors || []} columns={columns} />
       </ColoredSection>
