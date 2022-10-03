@@ -58,16 +58,11 @@ import {
   RatingResultEdge,
   usePoliticianBySlugQuery,
   useVotingGuidesByUserIdQuery,
+  Sector,
 } from "../../generated";
 
 import styles from "./PoliticianPage.module.scss";
-  District,
-  ElectionScope,
-  Sector,
-} from "../../generated";
-import politicianStyles from "./PoliticianPage.module.scss";
 
-import states from "utils/states";
 import { Table } from "components/Table/Table";
 import { ColumnDef } from "@tanstack/react-table";
 import { formatCurrency } from "utils/numbers";
@@ -185,13 +180,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BasicInfoSection() {
-<<<<<<< HEAD
     const cx = classNames(styles.center, styles.basicInfo, {
-      [styles.wide as string]: tags.length === 0,
-=======
-    const cx = classNames(styles.center, politicianStyles.basicInfo, {
-      [politicianStyles.wide as string]: committeeTags.length === 0,
->>>>>>> cf728bf (Wip on candidate donations by industry table)
+      [styles.wide as string]: committeeTags.length === 0,
     });
 
     if (
