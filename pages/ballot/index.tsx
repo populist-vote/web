@@ -1,8 +1,22 @@
 import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQueryClient } from "react-query";
 
-import { Layout, LoaderFlag, VotingGuideWelcome } from "components";
+import { Election } from "components/Ballot/Election";
+import {
+  Layout,
+  LoaderFlag,
+  VotingGuideWelcome,
+  SEO,
+  ElectionSelector,
+} from "components";
+
+import { useAuth } from "hooks/useAuth";
+import { VotingGuideProvider } from "hooks/useVotingGuide";
+import { useSavedGuideIds } from "hooks/useSavedGuideIds";
+
+import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
 import {
   ElectionResult,
@@ -12,17 +26,7 @@ import {
   useVotingGuideByIdQuery,
 } from "generated";
 
-import { useAuth } from "hooks/useAuth";
-import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { useSavedGuideIds } from "hooks/useSavedGuideIds";
-
-import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
-
 import styles from "components/Layout/Layout.module.scss";
-import { SEO } from "components";
-import { Election } from "components/Ballot/Election";
-import { ElectionSelector } from "components/Ballot/ElectionSelector/ElectionSelector";
-import { useRouter } from "next/router";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
