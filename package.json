@@ -18,7 +18,7 @@
     "@szhsin/react-menu": "^3.0.2",
     "classnames": "^2.3.1",
     "graphql": "^16.5.0",
-    "little-state-machine": "^4.2.3",
+    "little-state-machine": "^4.8.0",
     "next": "12.1.6",
     "next-pwa": "^5.4.6",
     "react": "18.1.0",
