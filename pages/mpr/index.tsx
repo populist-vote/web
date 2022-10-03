@@ -36,7 +36,8 @@ const MPRElection: NextPage = () => {
         <p className={styles.racesDescription}>
           Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
           lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
-          fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+          fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at
+          eros.
         </p>
       </div>
 
@@ -44,11 +45,11 @@ const MPRElection: NextPage = () => {
         <LoaderFlag />
       ) : (
         <>
+          {races?.state && (
+            <RaceSection races={races.state} color="yellow" title="State" />
+          )}
           {races?.federal && (
             <RaceSection races={races.federal} color="aqua" title="Federal" />
-          )}
-          {races?.state && (
-            <RaceSection races={races.state} color="yellow" title="Federal" />
           )}
         </>
       )}
