@@ -130,13 +130,16 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
           {isLoading && <LoaderFlag />}
           {isSuccess && (
             <>
-              <ElectionSelector
-                elections={
-                  data?.electionsByUserState as Partial<ElectionResult>[]
-                }
-                selectedElectionId={selectedElectionId as string}
-                setSelectedElectionId={setSelectedElectionId}
-              />
+              {!queriedGuideId && (
+                <ElectionSelector
+                  elections={
+                    data?.electionsByUserState as Partial<ElectionResult>[]
+                  }
+                  selectedElectionId={selectedElectionId as string}
+                  setSelectedElectionId={setSelectedElectionId}
+                />
+              )}
+
               <VotingGuideProvider votingGuideId={votingGuideId}>
                 {isLoading && (
                   <div className={styles.center}>
