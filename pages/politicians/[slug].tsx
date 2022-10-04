@@ -653,16 +653,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           cell: (info) => info.getValue(),
         },
         {
-          accessorKey: "individuals",
-          header: "Individuals",
-          cell: (info) => formatCurrency(info.getValue() as number),
-        },
-        {
-          accessorKey: "pacs",
-          header: "PACs",
-          cell: (info) => formatCurrency(info.getValue() as number),
-        },
-        {
           accessorKey: "total",
           header: "Total",
           cell: (info) => formatCurrency(info.getValue() as number),
