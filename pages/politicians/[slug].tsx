@@ -661,70 +661,79 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       []
     );
 
-    if (!donationsSummary && !donationsByIndustry) return null;
+    if (!!donationsSummary && !!donationsByIndustry) return null;
 
     return (
       <ColoredSection color="var(--green)">
         <h2 className={styles.gradientHeader}>Financials</h2>
 
-        <p className={styles.flexBetween}>
-          <span>Total Raised</span>
-          <span className={styles.dots} />
-          <span className={styles.white}>
-            {formatCurrency(donationsSummary?.totalRaised as number)}
-          </span>
-        </p>
-        <p className={styles.flexBetween}>
-          <span>Spent</span>
-          <span className={styles.dots} />
-          <span className={styles.white}>
-            {formatCurrency(donationsSummary?.spent as number)}
-          </span>
-        </p>
-        <p className={styles.flexBetween}>
-          <span>Cash on Hand</span>
-          <span className={styles.dots} />
-          <span className={styles.white}>
-            {formatCurrency(donationsSummary?.cashOnHand as number)}
-          </span>
-        </p>
-        <p className={styles.flexBetween}>
-          <span>Debt</span>
-          <span className={styles.dots} />
-          <span className={styles.white}>
-            {formatCurrency(donationsSummary?.debt as number)}
-          </span>
-        </p>
-        <br />
-        <div>
-          <a href={donationsByIndustry?.source} className={styles.pill}>
-            Source
-          </a>
-        </div>
-        <h3 style={{ color: "var(--green)", marginTop: "3rem" }}>
-          By Industry
-        </h3>
+        {!!donationsSummary && (
+          <>
+            <p className={styles.flexBetween}>
+              <span>Total Raised</span>
+              <span className={styles.dots} />
+              <span className={styles.white}>
+                {formatCurrency(donationsSummary?.totalRaised as number)}
+              </span>
+            </p>
+            <p className={styles.flexBetween}>
+              <span>Spent</span>
+              <span className={styles.dots} />
+              <span className={styles.white}>
+                {formatCurrency(donationsSummary?.spent as number)}
+              </span>
+            </p>
+            <p className={styles.flexBetween}>
+              <span>Cash on Hand</span>
+              <span className={styles.dots} />
+              <span className={styles.white}>
+                {formatCurrency(donationsSummary?.cashOnHand as number)}
+              </span>
+            </p>
+            <p className={styles.flexBetween}>
+              <span>Debt</span>
+              <span className={styles.dots} />
+              <span className={styles.white}>
+                {formatCurrency(donationsSummary?.debt as number)}
+              </span>
+            </p>
+            <br />
+            <div>
+              <a href={donationsByIndustry?.source} className={styles.pill}>
+                Source
+              </a>
+            </div>
+          </>
+        )}
 
-        <Table
-          data={donationsByIndustry?.sectors || []}
-          columns={columns}
-          initialState={{
-            pagination: {
-              pageSize: 7,
-            },
-            sorting: [
-              {
-                id: "total",
-                desc: true,
-              },
-            ],
-          }}
-          metaRight={
-            <a href={donationsByIndustry?.source} className={styles.pill}>
-              Source
-            </a>
-          }
-        />
+        {!!donationsByIndustry && (
+          <>
+            <h3 style={{ color: "var(--green)", marginTop: "3rem" }}>
+              By Industry
+            </h3>
+
+            <Table
+              data={donationsByIndustry?.sectors || []}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  pageSize: 7,
+                },
+                sorting: [
+                  {
+                    id: "total",
+                    desc: true,
+                  },
+                ],
+              }}
+              metaRight={
+                <a href={donationsByIndustry?.source} className={styles.pill}>
+                  Source
+                </a>
+              }
+            />
+          </>
+        )}
       </ColoredSection>
     );
   }
