@@ -2,12 +2,13 @@ import classNames from "classnames";
 import styles from "./TextInput.module.scss";
 import {
   ChangeHandler,
+  FieldValues,
   Path,
   RegisterOptions,
   UseFormRegister,
 } from "react-hook-form";
 
-type TextInputProps<TFormValues> = {
+type TextInputProps<TFormValues extends FieldValues> = {
   id?: string;
   name: Path<TFormValues>;
   errors?: boolean | string[] | string;
