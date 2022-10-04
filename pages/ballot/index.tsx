@@ -15,6 +15,7 @@ import {
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
+import { useElections } from "hooks/useElections";
 
 import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
@@ -35,27 +36,14 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const user = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isSuccess, error } = useElectionsQuery();
-  const [selectedElectionId, setSelectedElectionId] = useState<
-    string | undefined
-  >();
-
-  useEffect(() => {
-    if (isSuccess)
-      setSelectedElectionId(
-        // Sort by most current election - copy array to preserve chronological order
-        [...(data?.electionsByUserState as ElectionResult[])].sort((a, b) => {
-          const today = new Date();
-          const distancea = Math.abs(
-            today.getTime() - new Date(a.electionDate).getTime()
-          );
-          const distanceb = Math.abs(
-            today.getTime() - new Date(b.electionDate).getTime()
-          );
-          return distancea - distanceb;
-        })[0]?.id
-      );
-  }, [isSuccess, data]);
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    error,
+    selectedElectionId,
+    setSelectedElectionId,
+  } = useElections();
 
   const createVotingGuide = useUpsertVotingGuideMutation({
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
@@ -180,6 +168,11 @@ export default BallotPage;
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
+  /* 
+    This is currently the only place useElectionsQuery is being used, 
+    now that everything is in the hook.
+    Just want to note in case it causes server side issues.
+  */
   await queryClient.prefetchQuery(
     useElectionsQuery.getKey(),
     useElectionsQuery.fetcher()
