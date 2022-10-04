@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { NextPage } from "next";
 import Router from "next/router";
 import { toast } from "react-toastify";
@@ -15,11 +16,13 @@ import {
   Button,
   LoaderFlag,
   SEO,
+  ElectionSelector,
 } from "components";
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
 import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { useElections } from "hooks/useElections";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuides.module.scss";
 
@@ -138,12 +141,30 @@ const VotingGuides: NextPage<{
       enabled: !!user,
     }
   );
-  const userVotingGuides = data?.votingGuidesByUserId;
-  const election = data?.votingGuidesByUserId[0]?.election;
+
   const { savedGuideIds } = useSavedGuideIds(user?.id);
   const savedGuidesQuery = useVotingGuidesByIdsQuery({
     ids: savedGuideIds,
   });
+
+  const { selectedElectionId, setSelectedElectionId, elections } =
+    useElections();
+
+  const election = useMemo(
+    () =>
+      data?.votingGuidesByUserId.find(
+        (g) => g.electionId === selectedElectionId
+      )?.election as ElectionResult,
+    [data, selectedElectionId]
+  );
+
+  const userVotingGuides = useMemo(
+    () =>
+      data?.votingGuidesByUserId.filter(
+        (g) => g.electionId === selectedElectionId
+      ),
+    [data, selectedElectionId]
+  );
 
   if (!user) return null;
 
@@ -151,8 +172,13 @@ const VotingGuides: NextPage<{
     <>
       <SEO title="Voting Guides" description="View Populist Voting Guides" />
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
+        <ElectionSelector
+          elections={elections}
+          selectedElectionId={selectedElectionId as string}
+          setSelectedElectionId={setSelectedElectionId}
+        />
         <div className={styles.votingContainer}>
-          {election && <ElectionHeader election={election as ElectionResult} />}
+          {election && <ElectionHeader election={election} />}
           <FlagSection title="My Voting Guides">
             {isLoading && <LoaderFlag />}
             {error && <small>Something went wrong...</small>}
