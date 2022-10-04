@@ -1,8 +1,23 @@
 import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQueryClient } from "react-query";
 
-import { Layout, LoaderFlag, VotingGuideWelcome } from "components";
+import { Election } from "components/Ballot/Election";
+import {
+  Layout,
+  LoaderFlag,
+  VotingGuideWelcome,
+  SEO,
+  ElectionSelector,
+} from "components";
+
+import { useAuth } from "hooks/useAuth";
+import { VotingGuideProvider } from "hooks/useVotingGuide";
+import { useSavedGuideIds } from "hooks/useSavedGuideIds";
+import { useElections } from "hooks/useElections";
+
+import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
 import {
   ElectionResult,
@@ -12,17 +27,7 @@ import {
   useVotingGuideByIdQuery,
 } from "generated";
 
-import { useAuth } from "hooks/useAuth";
-import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { useSavedGuideIds } from "hooks/useSavedGuideIds";
-
-import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
-
 import styles from "components/Layout/Layout.module.scss";
-import { SEO } from "components";
-import { Election } from "components/Ballot/Election";
-import { ElectionSelector } from "components/Ballot/ElectionSelector/ElectionSelector";
-import { useRouter } from "next/router";
 
 const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -31,27 +36,14 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const user = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isSuccess, error } = useElectionsQuery();
-  const [selectedElectionId, setSelectedElectionId] = useState<
-    string | undefined
-  >();
-
-  useEffect(() => {
-    if (isSuccess)
-      setSelectedElectionId(
-        // Sort by most current election - copy array to preserve chronological order
-        [...(data?.electionsByUserState as ElectionResult[])].sort((a, b) => {
-          const today = new Date();
-          const distancea = Math.abs(
-            today.getTime() - new Date(a.electionDate).getTime()
-          );
-          const distanceb = Math.abs(
-            today.getTime() - new Date(b.electionDate).getTime()
-          );
-          return distancea - distanceb;
-        })[0]?.id
-      );
-  }, [isSuccess, data]);
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    error,
+    selectedElectionId,
+    setSelectedElectionId,
+  } = useElections();
 
   const createVotingGuide = useUpsertVotingGuideMutation({
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
@@ -176,6 +168,11 @@ export default BallotPage;
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
+  /* 
+    This is currently the only place useElectionsQuery is being used, 
+    now that everything is in the hook.
+    Just want to note in case it causes server side issues.
+  */
   await queryClient.prefetchQuery(
     useElectionsQuery.getKey(),
     useElectionsQuery.fetcher()

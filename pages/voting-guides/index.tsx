@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { NextPage } from "next";
 import Router from "next/router";
 import { toast } from "react-toastify";
@@ -15,11 +16,13 @@ import {
   Button,
   LoaderFlag,
   SEO,
+  ElectionSelector,
 } from "components";
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
 import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { useElections } from "hooks/useElections";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuides.module.scss";
 
@@ -138,49 +141,90 @@ const VotingGuides: NextPage<{
       enabled: !!user,
     }
   );
-  const userVotingGuides = data?.votingGuidesByUserId;
-  const election = data?.votingGuidesByUserId[0]?.election;
+
   const { savedGuideIds } = useSavedGuideIds(user?.id);
   const savedGuidesQuery = useVotingGuidesByIdsQuery({
     ids: savedGuideIds,
   });
 
+  const {
+    selectedElectionId,
+    setSelectedElectionId,
+    elections,
+    isLoading: isElectionsLoading,
+  } = useElections();
+
+  const election = useMemo(
+    () =>
+      data?.votingGuidesByUserId.find(
+        (g) => g.electionId === selectedElectionId
+      )?.election as ElectionResult,
+    [data, selectedElectionId]
+  );
+
+  const userVotingGuides = useMemo(
+    () =>
+      data?.votingGuidesByUserId.filter(
+        (g) => g.electionId === selectedElectionId
+      ),
+    [data, selectedElectionId]
+  );
+
+  const savedGuides = useMemo(
+    () =>
+      savedGuidesQuery.data?.votingGuidesByIds.filter(
+        (g) => g.electionId === selectedElectionId
+      ) as VotingGuideResult[],
+    [savedGuidesQuery.data, selectedElectionId]
+  );
+
   if (!user) return null;
+
+  const showLoader = isLoading || isElectionsLoading || !election;
 
   return (
     <>
       <SEO title="Voting Guides" description="View Populist Voting Guides" />
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
-          {election && <ElectionHeader election={election as ElectionResult} />}
-          <FlagSection title="My Voting Guides">
-            {isLoading && <LoaderFlag />}
-            {error && <small>Something went wrong...</small>}
-            {userVotingGuides && userVotingGuides.length < 1 && (
-              <>
-                <small>No voting guides</small>
-              </>
-            )}
-            <div className={styles.guidesContainer}>
-              {userVotingGuides?.map((guide) => (
-                <VotingGuideCard
-                  guide={guide as Partial<VotingGuideResult>}
-                  key={guide.id}
-                  showEdit={user.id === guide.user.id}
-                />
-              ))}
-            </div>
-          </FlagSection>
+          {elections && (
+            <ElectionSelector
+              elections={elections}
+              selectedElectionId={selectedElectionId as string}
+              setSelectedElectionId={setSelectedElectionId}
+            />
+          )}
+          {election && <ElectionHeader election={election} />}
+          {showLoader && <LoaderFlag />}
+          {!showLoader && (
+            <FlagSection title="My Voting Guides">
+              {error && <small>Something went wrong...</small>}
+              {userVotingGuides && (userVotingGuides?.length as number) < 1 && (
+                <>
+                  <small>No voting guides</small>
+                </>
+              )}
+              <div className={styles.guidesContainer}>
+                {userVotingGuides?.map((guide) => (
+                  <VotingGuideCard
+                    guide={guide as Partial<VotingGuideResult>}
+                    key={guide.id}
+                    showEdit={user.id === guide.user.id}
+                  />
+                ))}
+              </div>
+            </FlagSection>
+          )}
         </div>
 
         {savedGuidesQuery.isLoading && <LoaderFlag />}
-        {!!savedGuidesQuery.data?.votingGuidesByIds?.length && (
+        {!!savedGuides?.length && !savedGuidesQuery.isLoading && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">
               {savedGuidesQuery.error && <small>Something went wrong...</small>}
 
               <div className={styles.otherGuidesContainer}>
-                {savedGuidesQuery.data?.votingGuidesByIds.map((guide) => (
+                {savedGuides.map((guide) => (
                   <VotingGuideCard
                     guide={guide as Partial<VotingGuideResult>}
                     key={guide.id}
