@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 jobs:
   test_setup:
-    name: Test setup
+    name: Test Setup
     runs-on: ubuntu-latest
     outputs:
       preview_url: ${{ steps.waitForVercelPreviewDeployment.outputs.url }}
@@ -19,6 +19,7 @@ jobs:
           max_timeout: 600
 
   test:
+    name: Playwright Tests
     needs: test_setup
     timeout-minutes: 5
     runs-on: ubuntu-latest
@@ -27,6 +28,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 6.0.2
       - name: Install dependencies
         run: pnpm install
       - name: Install Playwright Browsers
