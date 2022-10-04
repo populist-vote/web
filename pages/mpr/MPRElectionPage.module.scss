@@ -11,6 +11,14 @@
   }
 }
 
+.mprBody {
+  margin:2rem 1.5rem 4rem;
+  @include for-tablet-up {
+    margin-left: 0;
+    margin-top: 2rem;
+  }
+}
+
 .mprLogo {
   @include for-tablet-up {
     margin-bottom: 3rem;
@@ -29,7 +37,7 @@
 }
 
 .racesHeading {
-  font-size: 1.25em;
+  font-size: 1.4em;
   margin-top: 1rem;
   margin-bottom: 0rem;
   text-transform: uppercase;
@@ -37,15 +45,27 @@
   @include for-tablet-up {
     font-size: 1.875em;
     margin-top: 1.5rem;
+    margin-bottom: 2rem;
   }
 }
 
 .racesDescription {
-  color: $blue-lighter;
+  color: $white;
   font-size: $text-md;
   margin-top: 1rem;
   margin-bottom: 3rem;
   @include for-tablet-up {
+    font-size: 24px;
     margin-bottom: 4rem;
   }
+
+  a {
+    color: $blue-lighter;
+    font-weight: 400;
+  }
+
+  a:hover {
+    color: $blue-light;
+  }
 }
+

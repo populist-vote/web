@@ -52,6 +52,11 @@ type ArgumentResult {
   votes: Int!
 }
 
+type Assets {
+  thumbnailImage160: String
+  thumbnailImage400: String
+}
+
 type AuthTokenResult {
   email: String!
   id: ID!
@@ -372,6 +377,16 @@ type DonationsByIndustry {
   cycle: Int!
   lastUpdated: NaiveDate!
   sectors: [Sector!]!
+  source: String!
+}
+
+type DonationsSummary {
+  cashOnHand: Float!
+  debt: Float!
+  lastUpdated: NaiveDate!
+  source: String!
+  spent: Float!
+  totalRaised: Float!
 }
 
 type ElectionResult {
@@ -661,6 +676,7 @@ input PoliticianFilter {
 
 type PoliticianResult {
   age: Int
+  assets: Assets!
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
@@ -668,6 +684,7 @@ type PoliticianResult {
   currentOffice: OfficeResult
   dateOfBirth: NaiveDate
   donationsByIndustry: DonationsByIndustry
+  donationsSummary: DonationsSummary
   email: String
   endorsements: Endorsements!
   facebookUrl: String
@@ -1202,6 +1219,7 @@ input UpsertOfficeInput {
 }
 
 input UpsertPoliticianInput {
+  assets: JSON
   biography: String
   biographySource: String
   campaignWebsiteUrl: String

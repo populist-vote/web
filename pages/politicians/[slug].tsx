@@ -30,6 +30,7 @@ import {
   PartyAvatar,
   HeaderSection,
   ElectionInfoSection,
+  SEO,
 } from "components";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
@@ -42,10 +43,7 @@ import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { useAuth } from "hooks/useAuth";
 
 import { computeShortOfficeTitle } from "utils/politician";
-import {
-  ORGANIZATION_FALLBACK_IMAGE_URL,
-  PERSON_FALLBACK_IMAGE_URL,
-} from "utils/constants";
+import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
 import { getYear } from "utils/dates";
 
 import {
@@ -58,9 +56,15 @@ import {
   RatingResultEdge,
   usePoliticianBySlugQuery,
   useVotingGuidesByUserIdQuery,
+  Sector,
 } from "../../generated";
 
 import styles from "./PoliticianPage.module.scss";
+
+import { Table } from "components/Table/Table";
+import { ColumnDef } from "@tanstack/react-table";
+import { formatCurrency } from "utils/numbers";
+// import ReactMarkdown from "react-markdown";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -132,7 +136,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
 
   // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
-  const tags =
+  const committeeTags =
     politicalExperience?.constructor === Array
       ? politicalExperience.map(
           (committee: {
@@ -151,6 +155,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           })
         )
       : [];
+
+  const donationsSummary = politician?.donationsSummary;
+  const donationsByIndustry = politician?.donationsByIndustry;
 
   function OfficeSection() {
     const cx = classNames(
@@ -173,7 +180,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   function BasicInfoSection() {
     const cx = classNames(styles.center, styles.basicInfo, {
-      [styles.wide as string]: tags.length === 0,
+      [styles.wide as string]: committeeTags.length === 0,
     });
 
     if (
@@ -197,28 +204,28 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         {!!termStart && (
           <p className={styles.flexBetween}>
             <span>Assumed Office</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{termStart}</span>
           </p>
         )}
         {!!termEnd && (
           <p className={styles.flexBetween}>
             <span>Term Ends</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{termEnd}</span>
           </p>
         )}
         {!!yearsInPublicOffice && (
           <p className={styles.flexBetween}>
             <span>Years in Public Office</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{yearsInPublicOffice}</span>
           </p>
         )}
         {raceWins != null && raceLosses != null && (
           <p className={styles.flexBetween}>
             <span>Elections Won / Lost</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>
               {raceWins} / {raceLosses}
             </span>
@@ -227,7 +234,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         {!!age && (
           <p className={styles.flexBetween}>
             <span>Age</span>
-            <div className={styles.dots} />
+            <span className={styles.dots} />
             <span>{age}</span>
           </p>
         )}
@@ -472,7 +479,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <PartyAvatar
             party={politician?.party as PoliticalParty}
             src={politician?.thumbnailImageUrl as string}
-            fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
             alt={politician?.fullName as string}
             size={80}
           />
@@ -638,31 +644,121 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
     );
   }
 
-  return (
-    <Layout
-      mobileNavTitle={mobileNavTitle}
-      showNavBackButton
-      showNavLogoOnMobile={true}
-    >
-      <VotingGuideProvider votingGuideId={votingGuideId || ""}>
-        <div className={styles.container}>
-          <HeaderSection politician={politician as Partial<PoliticianResult>} />
-          {politician?.currentOffice && <OfficeSection />}
+  function FinancialsSection() {
+    const columns = useMemo<ColumnDef<Sector>[]>(
+      () => [
+        {
+          accessorKey: "name",
+          header: "Industry",
+          cell: (info) => info.getValue(),
+        },
+        {
+          accessorKey: "individuals",
+          header: "Individuals",
+          cell: (info) => formatCurrency(info.getValue() as number),
+        },
+        {
+          accessorKey: "pacs",
+          header: "PACs",
+          cell: (info) => formatCurrency(info.getValue() as number),
+        },
+        {
+          accessorKey: "total",
+          header: "Total",
+          cell: (info) => formatCurrency(info.getValue() as number),
+        },
+      ],
+      []
+    );
 
-          <ElectionInfoSection
-            politician={politician as Partial<PoliticianResult>}
-          />
-          <div className={styles.infoCommitteeWrapper}>
-            <BasicInfoSection />
-            <CommitteesSection />
-          </div>
-          <SponsoredBillsSection />
-          <EndorsementsSection />
-          <RatingsSection />
-          <BioSection />
+    if (!donationsSummary && !donationsByIndustry) return null;
+
+    return (
+      <ColoredSection color="var(--green)">
+        <h2 className={styles.gradientHeader}>Financials</h2>
+
+        <p className={styles.flexBetween}>
+          <span>Total Raised</span>
+          <span className={styles.dots} />
+          <span>{formatCurrency(donationsSummary?.totalRaised as number)}</span>
+        </p>
+        <p className={styles.flexBetween}>
+          <span>Spent</span>
+          <span className={styles.dots} />
+          <span>{formatCurrency(donationsSummary?.spent as number)}</span>
+        </p>
+        <p className={styles.flexBetween}>
+          <span>Cash on Hand</span>
+          <span className={styles.dots} />
+          <span>{formatCurrency(donationsSummary?.cashOnHand as number)}</span>
+        </p>
+        <p className={styles.flexBetween}>
+          <span>Debt</span>
+          <span className={styles.dots} />
+          <span>{formatCurrency(donationsSummary?.debt as number)}</span>
+        </p>
+        <br />
+        <div>
+          <a href={donationsByIndustry?.source} className={styles.pill}>
+            Source
+          </a>
         </div>
-      </VotingGuideProvider>
-    </Layout>
+
+        <Table
+          data={donationsByIndustry?.sectors || []}
+          columns={columns}
+          initialState={{
+            pagination: {
+              pageSize: 7,
+            },
+            sorting: [
+              {
+                id: "total",
+                desc: true,
+              },
+            ],
+          }}
+          metaRight={
+            <a href={donationsByIndustry?.source} className={styles.pill}>
+              Source
+            </a>
+          }
+        />
+      </ColoredSection>
+    );
+  }
+
+  return (
+    <>
+      <SEO title={`Politicians | ${politician?.fullName}`} />
+      <Layout
+        mobileNavTitle={mobileNavTitle}
+        showNavBackButton
+        showNavLogoOnMobile={true}
+      >
+        <VotingGuideProvider votingGuideId={votingGuideId || ""}>
+          <div className={styles.container}>
+            <HeaderSection
+              politician={politician as Partial<PoliticianResult>}
+            />
+            {politician?.currentOffice && <OfficeSection />}
+
+            <ElectionInfoSection
+              politician={politician as Partial<PoliticianResult>}
+            />
+            <div className={styles.infoCommitteeWrapper}>
+              <BasicInfoSection />
+              <CommitteesSection />
+            </div>
+            <SponsoredBillsSection />
+            <EndorsementsSection />
+            <RatingsSection />
+            <BioSection />
+            <FinancialsSection />
+          </div>
+        </VotingGuideProvider>
+      </Layout>
+    </>
   );
 };
 

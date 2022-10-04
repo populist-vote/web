@@ -44,6 +44,9 @@ query PoliticianBySlug($slug: String!) {
     homeState
     party
     thumbnailImageUrl
+    assets {
+      thumbnailImage400
+    }
     officialWebsiteUrl
     campaignWebsiteUrl
     twitterUrl
@@ -165,6 +168,28 @@ query PoliticianBySlug($slug: String!) {
           }
         }
       }
+    }
+
+    donationsByIndustry {
+      cycle
+      lastUpdated
+      sectors {
+        name
+        id
+        individuals
+        pacs
+        total
+      }
+      source
+    }
+
+    donationsSummary {
+      totalRaised,
+      spent,
+      cashOnHand,
+      debt,
+      source,
+      lastUpdated
     }
   }
 }
