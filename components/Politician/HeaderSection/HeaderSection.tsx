@@ -137,7 +137,8 @@ function HeaderSection({
         size={200}
         party={politician?.party as PoliticalParty}
         src={
-          (politician?.thumbnailImageUrl ||
+          (politician?.assets?.thumbnailImage400 ||
+            politician?.thumbnailImageUrl ||
             politician?.votesmartCandidateBio?.candidate.photo) as string
         }
         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}

@@ -43,10 +43,7 @@ import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { useAuth } from "hooks/useAuth";
 
 import { computeShortOfficeTitle } from "utils/politician";
-import {
-  ORGANIZATION_FALLBACK_IMAGE_URL,
-  PERSON_FALLBACK_IMAGE_URL,
-} from "utils/constants";
+import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
 import { getYear } from "utils/dates";
 
 import {
@@ -482,7 +479,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           <PartyAvatar
             party={politician?.party as PoliticalParty}
             src={politician?.thumbnailImageUrl as string}
-            fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
             alt={politician?.fullName as string}
             size={80}
           />
