@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useElectionsQuery, ElectionResult } from "generated";
 
 export function useElections() {
@@ -8,22 +8,30 @@ export function useElections() {
     string | undefined
   >();
 
+  const elections = useMemo(
+    () =>
+      data
+        ? [...(data?.electionsByUserState as ElectionResult[])].sort((a, b) => {
+            const today = new Date();
+            const distancea = Math.abs(
+              today.getTime() - new Date(a.electionDate).getTime()
+            );
+            const distanceb = Math.abs(
+              today.getTime() - new Date(b.electionDate).getTime()
+            );
+            return distancea - distanceb;
+          })
+        : undefined,
+    [data]
+  );
+
   useEffect(() => {
-    if (isSuccess)
+    if (isSuccess && elections)
       setSelectedElectionId(
         // Sort by most current election - copy array to preserve chronological order
-        [...(data?.electionsByUserState as ElectionResult[])].sort((a, b) => {
-          const today = new Date();
-          const distancea = Math.abs(
-            today.getTime() - new Date(a.electionDate).getTime()
-          );
-          const distanceb = Math.abs(
-            today.getTime() - new Date(b.electionDate).getTime()
-          );
-          return distancea - distanceb;
-        })[0]?.id
+        elections[0]?.id
       );
-  }, [isSuccess, data]);
+  }, [isSuccess, elections]);
 
   return {
     selectedElectionId,
