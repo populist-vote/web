@@ -1,7 +1,7 @@
 define(['exports'], (function (exports) { 'use strict';
 
     try {
-      self['workbox:core:6.5.0'] && _();
+      self['workbox:core:6.5.3'] && _();
     } catch (e) {}
 
     /*
@@ -496,7 +496,7 @@ define(['exports'], (function (exports) { 'use strict';
     };
 
     try {
-      self['workbox:routing:6.5.0'] && _();
+      self['workbox:routing:6.5.3'] && _();
     } catch (e) {}
 
     /*
@@ -647,8 +647,6 @@ define(['exports'], (function (exports) { 'use strict';
      * For same-origin requests the RegExp only needs to match part of the URL. For
      * requests against third-party servers, you must define a RegExp that matches
      * the start of the URL.
-     *
-     * [See the module docs for info.]{@link https://developers.google.com/web/tools/workbox/modules/workbox-routing}
      *
      * @memberof workbox-routing
      * @extends workbox-routing.Route
@@ -1243,8 +1241,7 @@ define(['exports'], (function (exports) { 'use strict';
      * is required if `capture` is not a `Route` object.
      * @param {string} [method='GET'] The HTTP method to match the Route
      * against.
-     * @return {workbox-routing.Route} The generated `Route`(Useful for
-     * unregistering).
+     * @return {workbox-routing.Route} The generated `Route`.
      *
      * @memberof workbox-routing
      */
@@ -1311,7 +1308,7 @@ define(['exports'], (function (exports) { 'use strict';
     }
 
     try {
-      self['workbox:strategies:6.5.0'] && _();
+      self['workbox:strategies:6.5.3'] && _();
     } catch (e) {}
 
     /*
@@ -2395,13 +2392,13 @@ define(['exports'], (function (exports) { 'use strict';
     */
     /**
      * An implementation of a
-     * [network first]{@link https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#network-falling-back-to-cache}
+     * [network first](https://developer.chrome.com/docs/workbox/caching-strategies-overview/#network-first-falling-back-to-cache)
      * request strategy.
      *
      * By default, this strategy will cache responses with a 200 status code as
-     * well as [opaque responses]{@link https://developers.google.com/web/tools/workbox/guides/handle-third-party-requests}.
+     * well as [opaque responses](https://developer.chrome.com/docs/workbox/caching-resources-during-runtime/#opaque-responses).
      * Opaque responses are are cross-origin requests where the response doesn't
-     * support [CORS]{@link https://enable-cors.org/}.
+     * support [CORS](https://enable-cors.org/).
      *
      * If the network request fails, and there is no cache match, this will throw
      * a `WorkboxError` exception.
@@ -2626,11 +2623,11 @@ define(['exports'], (function (exports) { 'use strict';
     */
     /**
      * An implementation of a
-     * [network-only]{@link https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#network-only}
+     * [network-only](https://developer.chrome.com/docs/workbox/caching-strategies-overview/#network-only)
      * request strategy.
      *
      * This class is useful if you want to take advantage of any
-     * [Workbox plugins]{@link https://developers.google.com/web/tools/workbox/guides/using-plugins}.
+     * [Workbox plugins](https://developer.chrome.com/docs/workbox/using-plugins/).
      *
      * If the network request fails, this will throw a `WorkboxError` exception.
      *
@@ -2744,4 +2741,4 @@ define(['exports'], (function (exports) { 'use strict';
     exports.registerRoute = registerRoute;
 
 }));
-//# sourceMappingURL=workbox-d1b0e804.js.map
+//# sourceMappingURL=workbox-9a89b1f8.js.map
