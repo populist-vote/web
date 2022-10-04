@@ -12,6 +12,7 @@ import {
 import styles from "./Table.module.scss";
 import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
 import { Button } from "components/Button/Button";
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
 type TableProps<T extends object> = {
   data: T[];
@@ -112,7 +113,7 @@ function Table<T extends object>({
                         <div
                           {...{
                             className: header.column.getCanSort()
-                              ? "cursor-pointer select-none"
+                              ? styles.sortableHeader
                               : "",
                             onClick: header.column.getToggleSortingHandler(),
                           }}
@@ -122,8 +123,8 @@ function Table<T extends object>({
                             header.getContext()
                           )}
                           {{
-                            asc: " 🔼",
-                            desc: " 🔽",
+                            asc: <AiFillCaretUp color="var(--green)" />,
+                            desc: <AiFillCaretDown color="var(--green)" />,
                           }[header.column.getIsSorted() as string] ?? null}
                         </div>
                       )}

@@ -10,6 +10,14 @@
   justify-content: center;
   overflow-x: hidden;
 
+  .white {
+    color: $white !important;
+  }
+
+  .aqua {
+    color: $aqua !important;
+  }
+
   h1 {
     margin: 0;
 
@@ -46,10 +54,6 @@
     @include for-tablet-down {
       margin: 0 0 1.2rem;
     }
-  }
-
-  .aqua {
-    color: $aqua !important;
   }
 
   p {

@@ -1,5 +1,6 @@
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
+@import "styles/layout/containers";
 
 .container {
   width: 100%;
@@ -37,6 +38,11 @@
   td:first-child {
     color: $green;
     font-weight: 300;
+  }
+
+  td:not(:first-child) {
+    color: $green;
+    font-weight: 500;
   }
 
   .tableMeta {
@@ -98,4 +104,11 @@
       cursor: pointer;
     }
   }
+}
+
+.sortableHeader {
+  display: flex;
+  gap: 0.25rem;
+  cursor: pointer;
+  user-select: none;
 }
