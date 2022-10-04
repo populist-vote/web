@@ -8,6 +8,7 @@ export function useElections() {
     string | undefined
   >();
 
+  // Sort by most current election - copy array to preserve chronological order
   const elections = useMemo(
     () =>
       data
@@ -26,11 +27,7 @@ export function useElections() {
   );
 
   useEffect(() => {
-    if (isSuccess && elections)
-      setSelectedElectionId(
-        // Sort by most current election - copy array to preserve chronological order
-        elections[0]?.id
-      );
+    if (isSuccess && elections) setSelectedElectionId(elections[0]?.id);
   }, [isSuccess, elections]);
 
   return {
