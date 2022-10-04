@@ -667,7 +667,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         },
         {
           accessorKey: "total",
-          header: "Amount",
+          header: "Total",
           cell: (info) => formatCurrency(info.getValue() as number),
         },
       ],
