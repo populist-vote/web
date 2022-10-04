@@ -680,22 +680,30 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         <p className={styles.flexBetween}>
           <span>Total Raised</span>
           <span className={styles.dots} />
-          <span>{formatCurrency(donationsSummary?.totalRaised as number)}</span>
+          <span className={styles.white}>
+            {formatCurrency(donationsSummary?.totalRaised as number)}
+          </span>
         </p>
         <p className={styles.flexBetween}>
           <span>Spent</span>
           <span className={styles.dots} />
-          <span>{formatCurrency(donationsSummary?.spent as number)}</span>
+          <span className={styles.white}>
+            {formatCurrency(donationsSummary?.spent as number)}
+          </span>
         </p>
         <p className={styles.flexBetween}>
           <span>Cash on Hand</span>
           <span className={styles.dots} />
-          <span>{formatCurrency(donationsSummary?.cashOnHand as number)}</span>
+          <span className={styles.white}>
+            {formatCurrency(donationsSummary?.cashOnHand as number)}
+          </span>
         </p>
         <p className={styles.flexBetween}>
           <span>Debt</span>
           <span className={styles.dots} />
-          <span>{formatCurrency(donationsSummary?.debt as number)}</span>
+          <span className={styles.white}>
+            {formatCurrency(donationsSummary?.debt as number)}
+          </span>
         </p>
         <br />
         <div>
@@ -703,6 +711,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             Source
           </a>
         </div>
+        <h3 style={{ color: "var(--green)", marginTop: "3rem" }}>
+          By Industry
+        </h3>
 
         <Table
           data={donationsByIndustry?.sectors || []}
@@ -753,8 +764,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             <SponsoredBillsSection />
             <EndorsementsSection />
             <RatingsSection />
-            <BioSection />
             <FinancialsSection />
+            <BioSection />
           </div>
         </VotingGuideProvider>
       </Layout>
