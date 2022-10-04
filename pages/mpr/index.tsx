@@ -66,12 +66,12 @@ const MPRElection: NextPage = () => {
           <div className={styles.mprBody}>
             <p className={styles.racesDescription}>
               MPR News is here to serve your election information needs. {" "} 
-              <Link
+              <a
                 href="https://www.mprnews.org/election-2022-questions-stories"
                 target="_blank"
                 rel="noreferrer"
               >
-              What do you want to know about the 2022 election in Minnesota?</Link> You can also stay informed on the latest news about who is running and what Minnesotans are looking for in our daily{" "}
+              What do you want to know about the 2022 election in Minnesota?</a> You can also stay informed on the latest news about who is running and what Minnesotans are looking for in our daily{" "}
               <Link
                 href="https://www.mprnews.org/capitol-view-newsletter"
                 target="_blank"
