@@ -30,6 +30,7 @@ import {
   PartyAvatar,
   HeaderSection,
   ElectionInfoSection,
+  SEO,
 } from "components";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
 // Note: this is a dynamic import because the react-horizontal-scrolling-menu
@@ -732,31 +733,36 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   return (
-    <Layout
-      mobileNavTitle={mobileNavTitle}
-      showNavBackButton
-      showNavLogoOnMobile={true}
-    >
-      <VotingGuideProvider votingGuideId={votingGuideId || ""}>
-        <div className={styles.container}>
-          <HeaderSection politician={politician as Partial<PoliticianResult>} />
-          {politician?.currentOffice && <OfficeSection />}
+    <>
+      <SEO title={`Politicians | ${politician?.fullName}`} />
+      <Layout
+        mobileNavTitle={mobileNavTitle}
+        showNavBackButton
+        showNavLogoOnMobile={true}
+      >
+        <VotingGuideProvider votingGuideId={votingGuideId || ""}>
+          <div className={styles.container}>
+            <HeaderSection
+              politician={politician as Partial<PoliticianResult>}
+            />
+            {politician?.currentOffice && <OfficeSection />}
 
-          <ElectionInfoSection
-            politician={politician as Partial<PoliticianResult>}
-          />
-          <div className={styles.infoCommitteeWrapper}>
-            <BasicInfoSection />
-            <CommitteesSection />
+            <ElectionInfoSection
+              politician={politician as Partial<PoliticianResult>}
+            />
+            <div className={styles.infoCommitteeWrapper}>
+              <BasicInfoSection />
+              <CommitteesSection />
+            </div>
+            <SponsoredBillsSection />
+            <EndorsementsSection />
+            <RatingsSection />
+            <BioSection />
+            <FinancialsSection />
           </div>
-          <SponsoredBillsSection />
-          <EndorsementsSection />
-          <RatingsSection />
-          <BioSection />
-          <FinancialsSection />
-        </div>
-      </VotingGuideProvider>
-    </Layout>
+        </VotingGuideProvider>
+      </Layout>
+    </>
   );
 };
 
