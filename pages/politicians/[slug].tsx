@@ -699,9 +699,9 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             </p>
             <br />
             <div>
-              <a href={donationsByIndustry?.source} className={styles.pill}>
+              <Link href={donationsSummary?.source} className={styles.pill}>
                 Source
-              </a>
+              </Link>
             </div>
           </>
         )}
@@ -727,9 +727,12 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                 ],
               }}
               metaRight={
-                <a href={donationsByIndustry?.source} className={styles.pill}>
+                <Link
+                  href={donationsByIndustry?.source}
+                  className={styles.pill}
+                >
                   Source
-                </a>
+                </Link>
               }
             />
           </>
