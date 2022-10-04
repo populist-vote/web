@@ -1,1 +1,114 @@
-if(!self.define){let e,a={};const i=(i,s)=>(i=new URL(i+".js",s).href,a[i]||new Promise((a=>{if("document"in self){const e=document.createElement("script");e.src=i,e.onload=a,document.head.appendChild(e)}else e=i,importScripts(i),a()})).then((()=>{let e=a[i];if(!e)throw new Error(`Module ${i} didn’t register its module`);return e})));self.define=(s,n)=>{const c=e||("document"in self?document.currentScript.src:"")||location.href;if(a[c])return;let t={};const o=e=>i(e,c),f={module:{uri:c},exports:t,require:o};a[c]=Promise.all(s.map((e=>f[e]||o(e)))).then((e=>(n(...e),t)))}}define(["./workbox-5f5b08d6"],(function(e){"use strict";importScripts(),self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"/_next/static/6QdacdWYCYoqKnyb28cKs/_buildManifest.js",revision:"4aa1ea4a0ca3d40ffc9555ba0c53f0bb"},{url:"/_next/static/6QdacdWYCYoqKnyb28cKs/_middlewareManifest.js",revision:"fb2823d66b3e778e04a3f681d0d2fb19"},{url:"/_next/static/6QdacdWYCYoqKnyb28cKs/_ssgManifest.js",revision:"b6652df95db52feb4daf4eca35380933"},{url:"/_next/static/chunks/162-26d2ca9f6f45ea6e.js",revision:"26d2ca9f6f45ea6e"},{url:"/_next/static/chunks/485.4262db646d8ab5ee.js",revision:"4262db646d8ab5ee"},{url:"/_next/static/chunks/6728d85a-8dd979e8c1abaa3b.js",revision:"8dd979e8c1abaa3b"},{url:"/_next/static/chunks/729-b1a87c60c218834a.js",revision:"b1a87c60c218834a"},{url:"/_next/static/chunks/95b64a6e-dcb6226fd3581c93.js",revision:"dcb6226fd3581c93"},{url:"/_next/static/chunks/framework-a87821de553db91d.js",revision:"a87821de553db91d"},{url:"/_next/static/chunks/main-e018217ced674adb.js",revision:"e018217ced674adb"},{url:"/_next/static/chunks/pages/404-a46a9c94e7da3224.js",revision:"a46a9c94e7da3224"},{url:"/_next/static/chunks/pages/_app-ffb1cd2848fb2b43.js",revision:"ffb1cd2848fb2b43"},{url:"/_next/static/chunks/pages/_error-0a004b8b8498208d.js",revision:"0a004b8b8498208d"},{url:"/_next/static/chunks/pages/about-5ee46d0c9b893abf.js",revision:"5ee46d0c9b893abf"},{url:"/_next/static/chunks/pages/admin-8d077dfd4606b48b.js",revision:"8d077dfd4606b48b"},{url:"/_next/static/chunks/pages/auth/confirm-75796592176327b8.js",revision:"75796592176327b8"},{url:"/_next/static/chunks/pages/auth/password-6c4413ad84e24065.js",revision:"6c4413ad84e24065"},{url:"/_next/static/chunks/pages/auth/reset-153065ea4a86e0e6.js",revision:"153065ea4a86e0e6"},{url:"/_next/static/chunks/pages/ballot-0caa33eba464766f.js",revision:"0caa33eba464766f"},{url:"/_next/static/chunks/pages/ballot-measures/%5Bstate%5D/%5Bslug%5D-2470df2a4be24102.js",revision:"2470df2a4be24102"},{url:"/_next/static/chunks/pages/ballot/choose-e412ced924416f9f.js",revision:"e412ced924416f9f"},{url:"/_next/static/chunks/pages/bills-1f0b9edb7b76d911.js",revision:"1f0b9edb7b76d911"},{url:"/_next/static/chunks/pages/bills/%5Bslug%5D-446610504b044187.js",revision:"446610504b044187"},{url:"/_next/static/chunks/pages/elections/general-election-2022/mpr-02db8ae4f8544e59.js",revision:"02db8ae4f8544e59"},{url:"/_next/static/chunks/pages/faq-07934b8a9b45e75b.js",revision:"07934b8a9b45e75b"},{url:"/_next/static/chunks/pages/home-ce5676cdac8c60e9.js",revision:"ce5676cdac8c60e9"},{url:"/_next/static/chunks/pages/index-6c0d24962284688b.js",revision:"6c0d24962284688b"},{url:"/_next/static/chunks/pages/login-2c690a46842d6e8e.js",revision:"2c690a46842d6e8e"},{url:"/_next/static/chunks/pages/mpr-d4c6325c19fb75a4.js",revision:"d4c6325c19fb75a4"},{url:"/_next/static/chunks/pages/organizations-3daa2a1431007086.js",revision:"3daa2a1431007086"},{url:"/_next/static/chunks/pages/organizations/%5Bslug%5D-947fbb925cac5237.js",revision:"947fbb925cac5237"},{url:"/_next/static/chunks/pages/politicians-3baf9ea0e0f7850e.js",revision:"3baf9ea0e0f7850e"},{url:"/_next/static/chunks/pages/politicians/%5Bslug%5D-53acf5806520b00a.js",revision:"53acf5806520b00a"},{url:"/_next/static/chunks/pages/privacy-policy-4243cc611c5893e6.js",revision:"4243cc611c5893e6"},{url:"/_next/static/chunks/pages/register-2fdab2adb2e27b22.js",revision:"2fdab2adb2e27b22"},{url:"/_next/static/chunks/pages/register/address-0e6e19a3103910bc.js",revision:"0e6e19a3103910bc"},{url:"/_next/static/chunks/pages/settings/profile-fc07f76e4804b58e.js",revision:"fc07f76e4804b58e"},{url:"/_next/static/chunks/pages/voting-guides-cd795fe2eabf0851.js",revision:"cd795fe2eabf0851"},{url:"/_next/static/chunks/polyfills-5cd94c89d3acac5f.js",revision:"99442aec5788bccac9b2f0ead2afdd6b"},{url:"/_next/static/chunks/webpack-6ba34c2c46a2f0c6.js",revision:"6ba34c2c46a2f0c6"},{url:"/_next/static/css/0d5edbcd3c791b3f.css",revision:"0d5edbcd3c791b3f"},{url:"/_next/static/css/10b3fe9eecd893d4.css",revision:"10b3fe9eecd893d4"},{url:"/_next/static/css/2427ca0ad521591a.css",revision:"2427ca0ad521591a"},{url:"/_next/static/css/38e17173fdf8a094.css",revision:"38e17173fdf8a094"},{url:"/_next/static/css/3ca12c99623e8012.css",revision:"3ca12c99623e8012"},{url:"/_next/static/css/4649835567a13c88.css",revision:"4649835567a13c88"},{url:"/_next/static/css/765b7d79998cd95e.css",revision:"765b7d79998cd95e"},{url:"/_next/static/css/84de736919d0bd45.css",revision:"84de736919d0bd45"},{url:"/_next/static/css/9d7042b96a16654a.css",revision:"9d7042b96a16654a"},{url:"/_next/static/css/a2fbd9211929214d.css",revision:"a2fbd9211929214d"},{url:"/_next/static/css/b3350c06f7b4e042.css",revision:"b3350c06f7b4e042"},{url:"/_next/static/css/c1d6f8ec8c106792.css",revision:"c1d6f8ec8c106792"},{url:"/_next/static/css/cbed8961aa1bf9c6.css",revision:"cbed8961aa1bf9c6"},{url:"/_next/static/css/d3f6f8c8f84c145a.css",revision:"d3f6f8c8f84c145a"},{url:"/_next/static/media/3.ce8d7f57.png",revision:"48ad1f6da015e5600dc02a8f16a8e2de"},{url:"/_next/static/media/BallotFlag.e467effc.jpg",revision:"e467effc"},{url:"/_next/static/media/Connections.f3b80dd4.png",revision:"137d1851ecc0d9e4802eaa08888c9821"},{url:"/_next/static/media/LegislatorsBuilding.950b8f51.jpg",revision:"950b8f51"},{url:"/_next/static/media/LoaderBlue.297d942a.gif",revision:"928f9ea5060d980468f1d3b659b447bd"},{url:"/_next/static/media/Logo.f51a7d3d.svg",revision:"797b79fe0f20bcba75debc575a9faebf"},{url:"/_next/static/media/LogoWithText.46605d3d.svg",revision:"0ca3e2f9006b374e97a56fdbfa42946f"},{url:"/_next/static/media/NoteIcon.b79dd81a.svg",revision:"500ab43ef2cbbbd72401991f5ba685b5"},{url:"/_next/static/media/VotingGuidesHands.5db9e761.jpg",revision:"5db9e761"},{url:"/_next/static/media/action.c52cd680.jpg",revision:"93df3a53f83c2c81436021de36c4e56a"},{url:"/_next/static/media/add.95d14649.svg",revision:"46d898b507cff24511624a5463f4e822"},{url:"/_next/static/media/ballot.b46b7187.jpg",revision:"8eb304075e8683ac56da36b99062fe43"},{url:"/_next/static/media/commuter_sans_bold-webfont.9052f9d1.woff2",revision:"9052f9d1"},{url:"/_next/static/media/commuter_sans_bold-webfont.b86d45f4.woff",revision:"b86d45f4"},{url:"/_next/static/media/commuter_sans_bold_italic-webfont.91d7102e.woff2",revision:"91d7102e"},{url:"/_next/static/media/commuter_sans_bold_italic-webfont.c77f5fc9.woff",revision:"c77f5fc9"},{url:"/_next/static/media/commuter_sans_light-webfont.1dbe5d77.woff2",revision:"1dbe5d77"},{url:"/_next/static/media/commuter_sans_light-webfont.f2ac7cd3.woff",revision:"f2ac7cd3"},{url:"/_next/static/media/commuter_sans_regular-webfont.45ec7af0.woff",revision:"45ec7af0"},{url:"/_next/static/media/commuter_sans_regular-webfont.4a542a74.woff2",revision:"4a542a74"},{url:"/_next/static/media/commuter_sans_semi_bold-webfont.abb51712.woff",revision:"abb51712"},{url:"/_next/static/media/commuter_sans_semi_bold-webfont.c3f313dc.woff2",revision:"c3f313dc"},{url:"/_next/static/media/commuter_sans_semi_bold_italic-webfont.4afe44af.woff2",revision:"4afe44af"},{url:"/_next/static/media/commuter_sans_semi_bold_italic-webfont.cf13a7cd.woff",revision:"cf13a7cd"},{url:"/_next/static/media/logo-beta-desktop.0aa0fa11.svg",revision:"5706e1318031482e5da963fed59f5ff9"},{url:"/_next/static/media/logo-beta.99de288e.svg",revision:"52127471fda4da4e4cbda816da86c936"},{url:"/_next/static/media/mpr-logo-hor.e48210cd.svg",revision:"a4d20dca274dd01601d7b330738d7584"},{url:"/_next/static/media/politicianBrowser-fallback.d09f05f2.jpg",revision:"1f21517451235a2473229bd37f40a825"},{url:"/_next/static/media/proximanova-bold-webfont.01fca61b.woff2",revision:"01fca61b"},{url:"/_next/static/media/proximanova-bold-webfont.1f058103.woff",revision:"1f058103"},{url:"/_next/static/media/proximanova-boldit-webfont.68297b3d.woff2",revision:"68297b3d"},{url:"/_next/static/media/proximanova-boldit-webfont.d38afb42.woff",revision:"d38afb42"},{url:"/_next/static/media/proximanova-light-webfont.15e64eb9.woff2",revision:"15e64eb9"},{url:"/_next/static/media/proximanova-light-webfont.eb945a3b.woff",revision:"eb945a3b"},{url:"/_next/static/media/proximanova-lightitalic-webfont.81dbbeab.woff",revision:"81dbbeab"},{url:"/_next/static/media/proximanova-lightitalic-webfont.d6205861.woff2",revision:"d6205861"},{url:"/_next/static/media/proximanova-regular-webfont.14e9d7fa.woff",revision:"14e9d7fa"},{url:"/_next/static/media/proximanova-regular-webfont.e44ae7a1.woff2",revision:"e44ae7a1"},{url:"/_next/static/media/proximanova-regularitalic-webfont.232afafc.woff2",revision:"232afafc"},{url:"/_next/static/media/proximanova-regularitalic-webfont.72d30a85.woff",revision:"72d30a85"},{url:"/_next/static/media/proximanova-semibold-webfont.215e0f63.woff2",revision:"215e0f63"},{url:"/_next/static/media/proximanova-semibold-webfont.692c4176.woff",revision:"692c4176"},{url:"/_next/static/media/proximanova-semibolditalic-webfont.4112a1bb.woff2",revision:"4112a1bb"},{url:"/_next/static/media/proximanova-semibolditalic-webfont.48de479f.woff",revision:"48de479f"},{url:"/_next/static/media/star-grey-dark.730dde24.svg",revision:"76b19f199318462dd6146705b65e394a"},{url:"/_next/static/media/star-grey-darker.6c88989e.svg",revision:"62f2c715bb28cdbf2eecede1f973dae8"},{url:"/_next/static/media/star-yellow-dark.ada0afc6.svg",revision:"df0ed3da02c00e5146ec2b55b6a2254b"},{url:"/fonts/commuter_sans_bold-webfont.woff",revision:"960e00e66dcecba58a121edabcd5a865"},{url:"/fonts/commuter_sans_bold-webfont.woff2",revision:"876c60cdbfbb7da7708636f9d49505c4"},{url:"/fonts/commuter_sans_bold_italic-webfont.woff",revision:"6a40f7c872862afe9601214c5c27d20d"},{url:"/fonts/commuter_sans_bold_italic-webfont.woff2",revision:"75636b668bdf688f4b97272f72448608"},{url:"/fonts/commuter_sans_light-webfont.woff",revision:"a57315b474b3fe7989f02197f467885c"},{url:"/fonts/commuter_sans_light-webfont.woff2",revision:"c28c758ea791b09aaa43152111b7f9f0"},{url:"/fonts/commuter_sans_regular-webfont.woff",revision:"d98f94cc320efdf9ce170a86cf59a2e5"},{url:"/fonts/commuter_sans_regular-webfont.woff2",revision:"9e70b2a02d8b5a3a9d1fd91300219aa5"},{url:"/fonts/commuter_sans_semi_bold-webfont.woff",revision:"fc9b91ea5318ad3f32e9aa776ebe85ad"},{url:"/fonts/commuter_sans_semi_bold-webfont.woff2",revision:"4a15aa91d354a16ba8fcf624704be215"},{url:"/fonts/commuter_sans_semi_bold_italic-webfont.woff",revision:"f12d1fd7b9d1ab24ac7e0fdea346ea10"},{url:"/fonts/commuter_sans_semi_bold_italic-webfont.woff2",revision:"85d96e3439d3e45f5ccbfbbcb8c18e63"},{url:"/fonts/proximanova-bold-webfont.woff",revision:"31866790245cf9f3f038bc15931fe56e"},{url:"/fonts/proximanova-bold-webfont.woff2",revision:"99c492778839f04eaacfbf6ae9fbe0fa"},{url:"/fonts/proximanova-boldit-webfont.woff",revision:"b53544c8ba50b03a286efe5ee2154ee8"},{url:"/fonts/proximanova-boldit-webfont.woff2",revision:"0c8ed89e531832ee5c1d3bb77105d62f"},{url:"/fonts/proximanova-light-webfont.woff",revision:"7c902626eb6566343c39bfa9b202fba9"},{url:"/fonts/proximanova-light-webfont.woff2",revision:"be053688535864bf98ea708765113941"},{url:"/fonts/proximanova-lightitalic-webfont.woff",revision:"0178b495e2717f7a7226232230bdf659"},{url:"/fonts/proximanova-lightitalic-webfont.woff2",revision:"b80a905ed9e0a789433ec1465201e431"},{url:"/fonts/proximanova-regular-webfont.woff",revision:"af390470ad7072fe944e853a71b3ac78"},{url:"/fonts/proximanova-regular-webfont.woff2",revision:"e2c4f873ba146671508485e0c6d10692"},{url:"/fonts/proximanova-regularitalic-webfont.woff",revision:"2af1761405b108cc574878ffc90bfd41"},{url:"/fonts/proximanova-regularitalic-webfont.woff2",revision:"ff880ff866d9cf584c7b11eff6ed0b06"},{url:"/fonts/proximanova-semibold-webfont.woff",revision:"a1de14c1dab2f3a221c0da2da2356d74"},{url:"/fonts/proximanova-semibold-webfont.woff2",revision:"f4d3d47673b53932f97dfdee60f9b66c"},{url:"/fonts/proximanova-semibolditalic-webfont.woff",revision:"c92990d6878b0ff800b2b0e1fe28c3d3"},{url:"/fonts/proximanova-semibolditalic-webfont.woff2",revision:"ad86ce55e14a511fe5c6c35a51540e27"},{url:"/icons/icon-128x128.png",revision:"f198c2ab2851d53cbdeaf97a60b948ca"},{url:"/icons/icon-144x144.png",revision:"383c6accb237abb4699f1dd4009bb504"},{url:"/icons/icon-152x152.png",revision:"69608451874f979195316827c5c8d411"},{url:"/icons/icon-192x192.png",revision:"f7845c0fe54f598330a9f540c2633e94"},{url:"/icons/icon-384x384.png",revision:"fe6b1ac360a148ae2f369876e43ace6e"},{url:"/icons/icon-512x512.png",revision:"7ce4c44e4ca4346e095ab32d432a912f"},{url:"/icons/icon-72x72.png",revision:"1c34ee84b52e90810303c9677fd38afa"},{url:"/icons/icon-96x96.png",revision:"4e212d23890c08ea272bc85fe8b0287b"},{url:"/images/BallotFlag.jpg",revision:"6045c5e63bb77c23cd2fd350fdab01c3"},{url:"/images/LeftArrow40.svg",revision:"eae7d1ea5e916277648a320f92ac1f66"},{url:"/images/LegislatorsBuilding.jpg",revision:"340f601ec389727df766f5dfefe4af3d"},{url:"/images/LoaderBlue.gif",revision:"928f9ea5060d980468f1d3b659b447bd"},{url:"/images/Logo.svg",revision:"797b79fe0f20bcba75debc575a9faebf"},{url:"/images/LogoWithText.svg",revision:"0ca3e2f9006b374e97a56fdbfa42946f"},{url:"/images/NoteIcon.svg",revision:"500ab43ef2cbbbd72401991f5ba685b5"},{url:"/images/RightArrow40.svg",revision:"223a2adf6839f965bd7917096825f1dc"},{url:"/images/VotingGuidesHands.jpg",revision:"645c0784818732a35c674618dba0cd08"},{url:"/images/add.svg",revision:"46d898b507cff24511624a5463f4e822"},{url:"/images/favicon.ico",revision:"799589c4807883c7a1417e13d641bbf6"},{url:"/images/landing/1.png",revision:"389db77bd876b4ad86bedf32e0cd8509"},{url:"/images/landing/3.png",revision:"48ad1f6da015e5600dc02a8f16a8e2de"},{url:"/images/landing/CO_Legislative_Council.jpg",revision:"293df24a43c743b5581841154e16f2e5"},{url:"/images/landing/CO_Legislative_Council.png",revision:"8e1b7108631e0b199e356fcd7cc8fe99"},{url:"/images/landing/Connections.png",revision:"137d1851ecc0d9e4802eaa08888c9821"},{url:"/images/landing/action.jpg",revision:"93df3a53f83c2c81436021de36c4e56a"},{url:"/images/landing/amplify.png",revision:"716937e0984dfe220fc26f840c846d3d"},{url:"/images/landing/back_button.png",revision:"a5bf6d36b6b39560aae69aa0d2b940b6"},{url:"/images/landing/back_button.svg",revision:"04392011433919bb5286a9615d0afe6e"},{url:"/images/landing/ballot.jpg",revision:"8eb304075e8683ac56da36b99062fe43"},{url:"/images/landing/bg.jpg",revision:"862b7a4d2744452bf7ca7e2f1d38dce5"},{url:"/images/landing/desktop_ballot.png",revision:"81d32c29adfea4734dab0ae0bfc80145"},{url:"/images/landing/mobile_ballot.png",revision:"32543d7d0bc5a3c4c47a958992eacb93"},{url:"/images/landing/mobile_news.png",revision:"227d99b48601601cebbce1c7ac3917c2"},{url:"/images/landing/politicianBrowser-fallback.jpg",revision:"1f21517451235a2473229bd37f40a825"},{url:"/images/landing/politicianBrowser-new.webp",revision:"760ad8f5c25cac14bdc98fe311eb0d08"},{url:"/images/landing/politicianBrowser.webp",revision:"0a256542b24758fc1c603f9b9d950eb6"},{url:"/images/landing/populist_logo.png",revision:"239605ce511e0aedd80404bf395f72ce"},{url:"/images/logo-beta-desktop.svg",revision:"5706e1318031482e5da963fed59f5ff9"},{url:"/images/logo-beta.svg",revision:"52127471fda4da4e4cbda816da86c936"},{url:"/images/mpr-logo-hor.svg",revision:"a4d20dca274dd01601d7b330738d7584"},{url:"/images/preview-image-fb.jpg",revision:"61d83325b92fef4ba0f1f1bdeaf217fe"},{url:"/images/star-grey-dark.svg",revision:"76b19f199318462dd6146705b65e394a"},{url:"/images/star-grey-darker.svg",revision:"62f2c715bb28cdbf2eecede1f973dae8"},{url:"/images/star-yellow-dark.svg",revision:"df0ed3da02c00e5146ec2b55b6a2254b"},{url:"/manifest.json",revision:"ddb362aee2838664c410299734025633"},{url:"/vercel.svg",revision:"4b4f1876502eb6721764637fe5c41702"}],{ignoreURLParametersMatching:[]}),e.cleanupOutdatedCaches(),e.registerRoute("/",new e.NetworkFirst({cacheName:"start-url",plugins:[{cacheWillUpdate:async({request:e,response:a,event:i,state:s})=>a&&"opaqueredirect"===a.type?new Response(a.body,{status:200,statusText:"OK",headers:a.headers}):a}]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-webfonts",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:31536e3})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,new e.StaleWhileRevalidate({cacheName:"google-fonts-stylesheets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,new e.StaleWhileRevalidate({cacheName:"static-font-assets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,new e.StaleWhileRevalidate({cacheName:"static-image-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/image\?url=.+$/i,new e.StaleWhileRevalidate({cacheName:"next-image",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp3|wav|ogg)$/i,new e.CacheFirst({cacheName:"static-audio-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp4)$/i,new e.CacheFirst({cacheName:"static-video-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:js)$/i,new e.StaleWhileRevalidate({cacheName:"static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:css|less)$/i,new e.StaleWhileRevalidate({cacheName:"static-style-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/data\/.+\/.+\.json$/i,new e.StaleWhileRevalidate({cacheName:"next-data",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:json|xml|csv)$/i,new e.NetworkFirst({cacheName:"static-data-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:e})=>{if(!(self.origin===e.origin))return!1;const a=e.pathname;return!a.startsWith("/api/auth/")&&!!a.startsWith("/api/")}),new e.NetworkFirst({cacheName:"apis",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:16,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:e})=>{if(!(self.origin===e.origin))return!1;return!e.pathname.startsWith("/api/")}),new e.NetworkFirst({cacheName:"others",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:e})=>!(self.origin===e.origin)),new e.NetworkFirst({cacheName:"cross-origin",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:3600})]}),"GET")}));
+/**
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// If the loader is already loaded, just stop.
+if (!self.define) {
+  let registry = {};
+
+  // Used for `eval` and `importScripts` where we can't get script URL by other means.
+  // In both cases, it's safe to use a global var because those functions are synchronous.
+  let nextDefineUri;
+
+  const singleRequire = (uri, parentUri) => {
+    uri = new URL(uri + ".js", parentUri).href;
+    return registry[uri] || (
+      
+        new Promise(resolve => {
+          if ("document" in self) {
+            const script = document.createElement("script");
+            script.src = uri;
+            script.onload = resolve;
+            document.head.appendChild(script);
+          } else {
+            nextDefineUri = uri;
+            importScripts(uri);
+            resolve();
+          }
+        })
+      
+      .then(() => {
+        let promise = registry[uri];
+        if (!promise) {
+          throw new Error(`Module ${uri} didn’t register its module`);
+        }
+        return promise;
+      })
+    );
+  };
+
+  self.define = (depsNames, factory) => {
+    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    if (registry[uri]) {
+      // Module is already loading or loaded.
+      return;
+    }
+    let exports = {};
+    const require = depUri => singleRequire(depUri, uri);
+    const specialDeps = {
+      module: { uri },
+      exports,
+      require
+    };
+    registry[uri] = Promise.all(depsNames.map(
+      depName => specialDeps[depName] || require(depName)
+    )).then(deps => {
+      factory(...deps);
+      return exports;
+    });
+  };
+}
+define(['./workbox-9a89b1f8'], (function (workbox) { 'use strict';
+
+  /**
+  * Welcome to your Workbox-powered service worker!
+  *
+  * You'll need to register this file in your web app.
+  * See https://goo.gl/nhQhGp
+  *
+  * The rest of the code is auto-generated. Please don't update this file
+  * directly; instead, make changes to your Workbox build configuration
+  * and re-run your build process.
+  * See https://goo.gl/2aRDsh
+  */
+
+  importScripts();
+  self.skipWaiting();
+  workbox.clientsClaim();
+  workbox.registerRoute("/", new workbox.NetworkFirst({
+    "cacheName": "start-url",
+    plugins: [{
+      cacheWillUpdate: async ({
+        request,
+        response,
+        event,
+        state
+      }) => {
+        if (response && response.type === 'opaqueredirect') {
+          return new Response(response.body, {
+            status: 200,
+            statusText: 'OK',
+            headers: response.headers
+          });
+        }
+
+        return response;
+      }
+    }]
+  }), 'GET');
+  workbox.registerRoute(/.*/i, new workbox.NetworkOnly({
+    "cacheName": "dev",
+    plugins: []
+  }), 'GET');
+
+}));
+//# sourceMappingURL=sw.js.map

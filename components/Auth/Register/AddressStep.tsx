@@ -2,6 +2,7 @@ import {
   AddressInput,
   BeginUserRegistrationInput,
   useBeginUserRegistrationMutation,
+  useCurrentUserQuery,
 } from "generated";
 import { useStateMachine } from "little-state-machine";
 import Link from "next/link";
@@ -12,6 +13,7 @@ import textInputStyles from "../../TextInput/TextInput.module.scss";
 import { updateAction } from "pages/register";
 import states from "utils/states";
 import { useEffect } from "react";
+import { useQueryClient } from "react-query";
 
 function AddressStep() {
   const router = useRouter();
@@ -37,15 +39,20 @@ function AddressStep() {
     if (!loginFormState) void router.push("/register");
   }, [loginFormState, router]);
 
+  const queryClient = useQueryClient();
+  const queryKey = useCurrentUserQuery.getKey();
+
   const handleUserRegistration = useBeginUserRegistrationMutation({
     onError: (error: Error) => {
       if (error instanceof Error)
         setError("address.line1", { message: error.message });
     },
-    onSuccess: () =>
+    onSuccess: () => {
       query.next
         ? void router.push(query.next as string)
-        : void router.push("/home"),
+        : void router.push("/home");
+      void queryClient.invalidateQueries(queryKey);
+    },
   });
 
   const submitForm = (data: { address: AddressInput }) => {
