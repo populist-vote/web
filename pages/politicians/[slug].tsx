@@ -660,8 +660,8 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       ],
       []
     );
-    console.log(donationsByIndustry);
-    if (!!donationsSummary && !!donationsByIndustry) return null;
+
+    if (!donationsSummary && !donationsByIndustry) return null;
 
     return (
       <ColoredSection color="var(--green)">
@@ -700,11 +700,10 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
             {!!donationsSummary?.source && (
               <>
                 <br />
-                <div>
-                  <Link href={donationsSummary?.source} className={styles.pill}>
-                    Source
-                  </Link>
-                </div>
+
+                <Link href={donationsSummary?.source} passHref>
+                  <div className={styles.pill}>Source</div>
+                </Link>
               </>
             )}
           </>

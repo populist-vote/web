@@ -78,7 +78,8 @@
   }
 }
 
-a.pill {
+div.pill {
+  cursor: pointer;
   background: rgba(142 234 120 / 0.05);
   border-radius: 30px;
   padding: 0.5rem 1rem;

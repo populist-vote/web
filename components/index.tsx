@@ -6,6 +6,7 @@ import { BillCard } from "./BillCard/BillCard";
 import { Button } from "./Button/Button";
 import { EditVotingGuideCandidate } from "./Ballot/Race";
 import { ElectionInfoSection } from "./Politician/ElectionInfo/ElectionInfoSection";
+import { ElectionSelector } from "./ElectionSelector/ElectionSelector";
 import { FieldSet } from "./FieldSet/FieldSet";
 import { FlagSection, FlagColor } from "./FlagSection/FlagSection";
 import { Footer } from "./Footer/Footer";
@@ -38,6 +39,7 @@ export {
   BillCard,
   Button,
   ElectionInfoSection,
+  ElectionSelector,
   FieldSet,
   FlagSection,
   Footer,
