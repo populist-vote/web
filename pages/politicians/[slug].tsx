@@ -660,7 +660,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       ],
       []
     );
-
+    console.log(donationsByIndustry);
     if (!!donationsSummary && !!donationsByIndustry) return null;
 
     return (
@@ -697,12 +697,16 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                 {formatCurrency(donationsSummary?.debt as number)}
               </span>
             </p>
-            <br />
-            <div>
-              <Link href={donationsSummary?.source} className={styles.pill}>
-                Source
-              </Link>
-            </div>
+            {!!donationsSummary?.source && (
+              <>
+                <br />
+                <div>
+                  <Link href={donationsSummary?.source} className={styles.pill}>
+                    Source
+                  </Link>
+                </div>
+              </>
+            )}
           </>
         )}
 
@@ -727,12 +731,14 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                 ],
               }}
               metaRight={
-                <Link
-                  href={donationsByIndustry?.source}
-                  className={styles.pill}
-                >
-                  Source
-                </Link>
+                !!donationsByIndustry?.source ? (
+                  <Link
+                    href={donationsByIndustry?.source}
+                    className={styles.pill}
+                  >
+                    Source
+                  </Link>
+                ) : null
               }
             />
           </>
