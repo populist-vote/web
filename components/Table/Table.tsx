@@ -17,12 +17,14 @@ type TableProps<T extends object> = {
   data: T[];
   columns: ColumnDef<T>[];
   initialState: InitialTableState;
+  metaRight?: React.ReactNode;
 };
 
 function Table<T extends object>({
   data,
   columns,
   initialState,
+  metaRight,
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
     initialState.sorting || []
@@ -155,6 +157,7 @@ function Table<T extends object>({
         </table>
         <div className={styles.tableMeta}>
           <small>{table.getRowModel().rows.length} Rows</small>
+          {metaRight}
         </div>
       </div>
     </>

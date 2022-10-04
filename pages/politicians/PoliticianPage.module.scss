@@ -86,3 +86,17 @@
     }
   }
 }
+
+a.pill {
+  background: rgba(142 234 120 / 0.05);
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: $salmon;
+
+  &:hover {
+    background: rgba(142 234 120 / 0.1);
+    transition: ease-in-out all 0.25s;
+  }
+}

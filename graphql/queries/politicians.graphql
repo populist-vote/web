@@ -177,6 +177,16 @@ query PoliticianBySlug($slug: String!) {
         pacs
         total
       }
+      source
+    }
+
+    donationsSummary {
+      totalRaised,
+      spent,
+      cashOnHand,
+      debt,
+      source,
+      lastUpdated
     }
   }
 }

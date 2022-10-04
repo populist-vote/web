@@ -158,6 +158,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
         )
       : [];
 
+  const donationsSummary = politician?.donationsSummary;
   const donationsByIndustry = politician?.donationsByIndustry;
 
   function OfficeSection() {
@@ -655,6 +656,16 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
           cell: (info) => info.getValue(),
         },
         {
+          accessorKey: "individuals",
+          header: "Individuals",
+          cell: (info) => formatCurrency(info.getValue() as number),
+        },
+        {
+          accessorKey: "pacs",
+          header: "PACs",
+          cell: (info) => formatCurrency(info.getValue() as number),
+        },
+        {
           accessorKey: "total",
           header: "Amount",
           cell: (info) => formatCurrency(info.getValue() as number),
@@ -663,22 +674,38 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       []
     );
 
+    if (!donationsSummary && !donationsByIndustry) return null;
+
     return (
       <ColoredSection color="var(--green)">
-        {/* <h2 className={styles.gradientHeader}>Financials</h2>
+        <h2 className={styles.gradientHeader}>Financials</h2>
+
         <p className={styles.flexBetween}>
           <span>Total Raised</span>
           <span className={styles.dots} />
-          <span>$234,325</span>
+          <span>{formatCurrency(donationsSummary?.totalRaised as number)}</span>
         </p>
         <p className={styles.flexBetween}>
-          <span>
-            From Individual Contributions{" "}
-            <span className={styles.green}>(Less than $200)</span>
-          </span>
+          <span>Spent</span>
           <span className={styles.dots} />
-          <span>$234,325</span>
-        </p> */}
+          <span>{formatCurrency(donationsSummary?.spent as number)}</span>
+        </p>
+        <p className={styles.flexBetween}>
+          <span>Cash on Hand</span>
+          <span className={styles.dots} />
+          <span>{formatCurrency(donationsSummary?.cashOnHand as number)}</span>
+        </p>
+        <p className={styles.flexBetween}>
+          <span>Debt</span>
+          <span className={styles.dots} />
+          <span>{formatCurrency(donationsSummary?.debt as number)}</span>
+        </p>
+        <br />
+        <div>
+          <a href={donationsByIndustry?.source} className={styles.pill}>
+            Source
+          </a>
+        </div>
 
         <Table
           data={donationsByIndustry?.sectors || []}
@@ -694,6 +721,11 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               },
             ],
           }}
+          metaRight={
+            <a href={donationsByIndustry?.source} className={styles.pill}>
+              Source
+            </a>
+          }
         />
       </ColoredSection>
     );
