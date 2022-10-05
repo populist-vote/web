@@ -12,8 +12,8 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
 
-const Faq: NextPage = () => {
-  const user = useAuth({ redirectTo: "/faq" });
+const PrivacyPolicy: NextPage = () => {
+  const user = useAuth({ redirect: false });
   const { isMobile } = useDeviceInfo();
 
   return (
@@ -402,4 +402,4 @@ const Faq: NextPage = () => {
   );
 };
 
-export default Faq;
+export default PrivacyPolicy;
