@@ -8,7 +8,7 @@ import landing1 from "public/images/landing/ballot.jpg";
 import landing2 from "public/images/landing/action.jpg";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
-import { Avatar, Footer, ImageWithFallback, Button } from "components";
+import { Avatar, Footer, ImageWithFallback, Button, SEO } from "components";
 import styles from "styles/modules/landing.module.scss";
 import SimpleNavStyles from "styles/modules/nav.module.scss";
 import classNames from "classnames";
@@ -24,6 +24,7 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <SEO />
       <main className={styles.container}>
         <div id={styles["container1"]}>
           <div className={SimpleNavStyles.navContainer}>

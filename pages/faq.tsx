@@ -127,9 +127,12 @@ const Faq: NextPage = () => {
                 </Link>{" "}
                 We encourage you to join our community and help us in building a
                 stronger democracy through public civic engagement. If you're
-                interested in contributing, get in touch! Someone on our team
-                would be happy to help you get up and running with our
-                applications.
+                interested in contributing,{" "}
+                <Link href="mailto:info@populist.us" passHref>
+                  get in touch!
+                </Link>
+                Someone on our team would be happy to help you get up and
+                running with our applications.
               </p>
               <h2>Where do you get your data?</h2>
               <p>
