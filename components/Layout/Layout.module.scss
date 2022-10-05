@@ -28,6 +28,15 @@
     min-height: 100vh;
     max-height: 100%;
 
+    a {
+      color: $blue-lighter;
+      font-weight: 400;
+    }
+  
+    a:hover {
+      color: $blue-light;
+    }
+    
     @include for-tablet-up {
       padding: 5rem 0;
       margin: 0 auto;
