@@ -1,12 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
 import { useElectionsQuery, ElectionResult } from "generated";
 
-export function useElections() {
+export function useElections(initialSelectedElectionId?: string) {
   const electionsQuery = useElectionsQuery();
   const { data, isSuccess } = electionsQuery;
   const [selectedElectionId, setSelectedElectionId] = useState<
     string | undefined
-  >();
+  >(initialSelectedElectionId);
 
   // Sort by most current election - copy array to preserve chronological order
   const elections = useMemo(
@@ -27,13 +27,23 @@ export function useElections() {
   );
 
   useEffect(() => {
-    if (isSuccess && elections) setSelectedElectionId(elections[0]?.id);
-  }, [isSuccess, elections]);
+    if (isSuccess && elections && !initialSelectedElectionId)
+      setSelectedElectionId(elections[0]?.id);
+  }, [isSuccess, elections, initialSelectedElectionId]);
+
+  const selectedElection = useMemo(
+    () =>
+      selectedElectionId
+        ? data?.electionsByUserState.find((e) => e.id)
+        : undefined,
+    [selectedElectionId, data?.electionsByUserState]
+  );
 
   return {
     selectedElectionId,
     setSelectedElectionId,
-    elections: data?.electionsByUserState as Partial<ElectionResult>[],
+    elections: data?.electionsByUserState as ElectionResult[],
+    selectedElection,
     ...electionsQuery,
   };
 }

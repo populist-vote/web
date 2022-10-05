@@ -26,12 +26,12 @@ import { useElections } from "hooks/useElections";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuides.module.scss";
 
-const getGuideUrl = (guideId: string) =>
-  `${window.location.origin}/ballot?voting-guide=${guideId}`;
+const getGuideUrl = (guideId: string, electionId: string) =>
+  `${window.location.origin}/ballot?voting-guide=${guideId}&election=${electionId}`;
 
-const copyGuideUrl = (guideId?: string) => {
-  if (!guideId) return;
-  const url = getGuideUrl(guideId);
+const copyGuideUrl = (guideId?: string, electionId?: string) => {
+  if (!guideId || !electionId) return;
+  const url = getGuideUrl(guideId, electionId);
 
   if (!navigator.canShare) {
     navigator.clipboard
@@ -81,6 +81,8 @@ const VotingGuideCard = ({
 
   const { isMobile } = useDeviceInfo();
 
+  const guideUrl = `/ballot?voting-guide=${guide.id}&election=${guide.electionId}`;
+
   return (
     <div className={styles.guideContainer}>
       <div className={styles.avatarContainer}>
@@ -98,14 +100,14 @@ const VotingGuideCard = ({
             size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="Edit"
-            onClick={() => Router.push(`/ballot?voting-guide=${guide.id}`)}
+            onClick={() => Router.push(guideUrl)}
           />
         ) : (
           <Button
             size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="View"
-            onClick={() => Router.push(`/ballot?voting-guide=${guide.id}`)}
+            onClick={() => Router.push(guideUrl)}
           />
         )}
         <Button
@@ -113,7 +115,7 @@ const VotingGuideCard = ({
           variant="primary"
           theme="yellow"
           label="Share"
-          onClick={() => copyGuideUrl(guide?.id)}
+          onClick={() => copyGuideUrl(guide?.id, guide?.electionId)}
         />
         {deleteAction && (
           <button
@@ -187,13 +189,11 @@ const VotingGuides: NextPage<{
       <SEO title="Voting Guides" description="View Populist Voting Guides" />
       <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
         <div className={styles.votingContainer}>
-          {elections && (
-            <ElectionSelector
-              elections={elections}
-              selectedElectionId={selectedElectionId as string}
-              setSelectedElectionId={setSelectedElectionId}
-            />
-          )}
+          <ElectionSelector
+            elections={elections}
+            selectedElectionId={selectedElectionId as string}
+            setSelectedElectionId={setSelectedElectionId}
+          />
           {election && <ElectionHeader election={election} />}
           {showLoader && <LoaderFlag />}
           {!showLoader && (

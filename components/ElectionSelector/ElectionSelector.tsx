@@ -5,7 +5,7 @@ import styles from "./ElectionSelector.module.scss";
 import { useMediaQuery } from "hooks/useMediaQuery";
 
 function ElectionSelector({
-  elections,
+  elections = [],
   selectedElectionId,
   setSelectedElectionId,
 }: {
