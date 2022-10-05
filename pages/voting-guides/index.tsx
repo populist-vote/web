@@ -91,8 +91,6 @@ const VotingGuideCard = ({
           alt={name as string}
         />
         <span className={styles.avatarName}>{name}</span>
-        <p>Date: {guide.election?.electionDate}</p>
-        <p>VotingGuideId: {guide.id} </p>
       </div>
       <div className={styles.buttonWrapper}>
         {showEdit ? (

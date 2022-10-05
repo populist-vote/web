@@ -157,7 +157,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
                 )}
                 {selectedElectionId && (
                   <div data-testid="ballot-page">
-                    Selected Id: {selectedElectionId}
                     <Election
                       electionId={selectedElectionId}
                       flagLabel={flagLabel}
