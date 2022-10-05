@@ -42,3 +42,6 @@ cypress/screenshots
 
 # generated 
 generated.ts
+
+# SW Files
+public/sw.js.map
