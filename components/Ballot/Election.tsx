@@ -55,8 +55,6 @@ function Election({ electionId }: { electionId: string; flagLabel: string }) {
       <ElectionHeader election={election as Partial<ElectionResult>} />
       {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
         <div className={styles.electionHeader}>
-          <p>Election: {election?.id}</p>
-          <p>Voting Guide: {votingGuideId}</p>
           <small>
             This voting guide doesn't have any candidates selected for this
             election
