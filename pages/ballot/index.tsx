@@ -128,11 +128,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
           mobileNavTitle={flagLabel || mobileNavTitle}
           showNavLogoOnMobile
         >
-          {isLoading && (
-            <>
-              Ballot Outer <LoaderFlag />
-            </>
-          )}
+          {isLoading && <LoaderFlag />}
           {isSuccess && (
             <>
               {!queriedGuideId && (
@@ -148,7 +144,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
               <VotingGuideProvider votingGuideId={votingGuideId}>
                 {isLoading && (
                   <div className={styles.center}>
-                    Ballot inner
                     <LoaderFlag />
                   </div>
                 )}
