@@ -11,7 +11,11 @@ function RaceSection({ races, title, color }: RaceSectionProps) {
   return (
     <FlagSection {...{ title, color }}>
       {Object.entries(races).map(([officeId, races]) => (
-        <OfficeRaces key={officeId} races={races as RaceResult[]} />
+        <OfficeRaces
+          key={officeId}
+          races={races as RaceResult[]}
+          color={color}
+        />
       ))}
     </FlagSection>
   );

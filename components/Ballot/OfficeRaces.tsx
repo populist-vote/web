@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { RaceResult } from "generated";
 import dynamic from "next/dynamic";
 import styles from "./Ballot.module.scss";
@@ -8,7 +9,7 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
 });
 
 // Races associated with a single office (to handle primaries)
-function OfficeRaces({ races }: { races: RaceResult[] }) {
+function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
   const office = races[0]?.office;
 
   const incumbentId = office?.incumbent?.id;
@@ -20,11 +21,17 @@ function OfficeRaces({ races }: { races: RaceResult[] }) {
       ? -1
       : 1;
 
+  const headerCx = classNames(
+    styles.bold,
+    styles.flexBetween,
+    styles.inset,
+    styles.raceHeader,
+    styles[color]
+  );
+
   return (
     <>
-      <header
-        className={`${styles.bold} ${styles.flexBetween} ${styles.inset} ${styles.raceHeader}`}
-      >
+      <header className={headerCx}>
         <h3>
           <span>{office?.name || office?.title}</span>
           <span className={styles.raceSubheader}>{office?.subtitle}</span>

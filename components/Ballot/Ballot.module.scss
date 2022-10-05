@@ -32,8 +32,8 @@
 
 .flexBetween {
   @include flex-between(0.5rem);
-  align-items: stretch;
 
+  align-items: stretch;
 }
 
 .electionHeader {
@@ -49,7 +49,7 @@
   h4 {
     font-size: 1.25em;
     margin-top: 1rem;
-    margin-bottom: 0rem;
+    margin-bottom: 0;
 
     @include for-tablet-up {
       font-size: 1.875em;
@@ -75,19 +75,25 @@
 
 .raceHeader {
   margin-left: 0.5rem;
+  margin-top: 1rem;
+
+  @include for-tablet-up {
+    margin-top: 3rem;
+  }
 
   h3 {
     font-size: 1.25em;
     margin-bottom: 0.75rem;
+
     @include for-tablet-up {
       font-size: 1.5em;
       margin-bottom: 1rem;
-      margin-top:0;
+      margin-top: 0;
     }
     span:first-child {
       font-weight: 400;
       padding-right: 0.8rem;
-      border-right: 1px solid $aqua;
+
       @include for-tablet-up {
         padding-right: 1rem;
       }
@@ -96,29 +102,47 @@
       font-weight: 400;
       margin-left: 0;
       padding-left: 0.8rem;
+
       @include for-tablet-up {
         padding-left: 1rem;
       }
+    }
+  }
+
+  &.aqua {
+    h3 span:first-child {
+      border-right: 1px solid $aqua;
+    }
+  }
+  &.salmon {
+    h3 span:first-child {
+      border-right: 1px solid $salmon;
+    }
+  }
+  &.yellow {
+    h3 span:first-child {
+      border-right: 1px solid $yellow;
+    }
+  }
+  &.violet {
+    h3 span:first-child {
+      border-right: 1px solid $violet;
     }
   }
 }
 
 .raceHeader:first-child {
   margin-top: 0;
+
   @include for-tablet-up {
     margin-top: 1rem;
-  }
-}
-.raceHeader {
-  margin-top: 1rem;
-  @include for-tablet-up {
-    margin-top: 3rem;
   }
 }
 
 .raceSubheader {
   font-size: 0.7em;
   text-transform: uppercase;
+
   @include for-tablet-up {
     font-size: 0.75em;
   }
