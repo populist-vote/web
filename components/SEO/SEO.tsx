@@ -1,10 +1,13 @@
 import Head from "next/head";
 
+const DEFAULT_PREVIEW_IMAGE_URL =
+  "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg";
+
 function SEO({
   title = "Transparent democracy in action.",
   appName = "Populist",
   description = "We believe in people. In transparent, non-partisan, accessible information.",
-  previewImage = "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg",
+  previewImage = DEFAULT_PREVIEW_IMAGE_URL,
 }) {
   return (
     <Head>
@@ -21,34 +24,35 @@ function SEO({
         name="viewport"
         content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
       />
-      <meta name="description" content={description} key="description" />
+      <meta key="description" name="description" content={description} />
 
       {/* OG FB meta tags */}
-      <meta property="og:image" content={previewImage} key="og:image" />
+      <meta key="og_type" property="og:type" content="website" />
+      <meta key="og_image" property="og:image" content={previewImage} />
       <meta
+        key="og_title"
         property="og:title"
         content={`${title} | ${appName}`}
-        key="og:title"
       />
       <meta
+        key="og_description"
         property="og:description"
         content={description}
-        key="og:description"
       />
 
       {/* Twitter meta tags */}
-      <meta name="twitter:card" key="twitter:card" content={previewImage} />
+      <meta key="twitter_card" name="twitter:card" content={previewImage} />
       <meta
+        key="twitter_title"
         name="twitter:title"
-        key="twitter:title"
         content={`${title} | ${appName}`}
       />
       <meta
+        key="twitter_description"
         name="twitter:description"
-        key="twitter:description"
         content={description}
       />
-      <meta name="twitter:site" key="twitter:site" content="@populist_us" />
+      <meta key="twitter_site" name="twitter:site" content="@populist_us" />
 
       {/* PWA Links */}
       <link rel="shortcut icon" href="/images/favicon.ico" />
