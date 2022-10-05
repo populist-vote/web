@@ -42,7 +42,7 @@ export function useElections(initialSelectedElectionId?: string) {
   return {
     selectedElectionId,
     setSelectedElectionId,
-    elections: data?.electionsByUserState as Partial<ElectionResult>[],
+    elections: data?.electionsByUserState as ElectionResult[],
     selectedElection,
     ...electionsQuery,
   };
