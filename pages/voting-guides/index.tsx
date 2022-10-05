@@ -91,6 +91,8 @@ const VotingGuideCard = ({
           alt={name as string}
         />
         <span className={styles.avatarName}>{name}</span>
+        <p>Date: {guide.election?.electionDate}</p>
+        <p>VotingGuideId: {guide.id} </p>
       </div>
       <div className={styles.buttonWrapper}>
         {showEdit ? (
@@ -98,14 +100,22 @@ const VotingGuideCard = ({
             size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="Edit"
-            onClick={() => Router.push(`/ballot?voting-guide=${guide.id}`)}
+            onClick={() =>
+              Router.push(
+                `/ballot?voting-guide=${guide.id}&election=${guide.electionId}`
+              )
+            }
           />
         ) : (
           <Button
             size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="View"
-            onClick={() => Router.push(`/ballot?voting-guide=${guide.id}`)}
+            onClick={() =>
+              Router.push(
+                `/ballot?voting-guide=${guide.id}&election=${guide.electionId}`
+              )
+            }
           />
         )}
         <Button

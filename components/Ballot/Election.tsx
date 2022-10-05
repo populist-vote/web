@@ -10,14 +10,10 @@ import { ElectionHeader } from "./ElectionHeader";
 import styles from "./Ballot.module.scss";
 import { useRouter } from "next/router";
 
-function Election({
-  electionId,
-}: {
-  electionId: string;
-  flagLabel: string;
-}) {
+function Election({ electionId }: { electionId: string; flagLabel: string }) {
   const { query } = useRouter();
   const votingGuideId = query["voting-guide"] as string;
+
   const electionQuery = useElectionByIdQuery(
     {
       id: electionId,
@@ -30,7 +26,7 @@ function Election({
   const electionVotingGuideRacesQuery = useElectionVotingGuideRacesQuery(
     {
       electionId,
-      votingGuideId: votingGuideId,
+      votingGuideId,
     },
     {
       enabled: !!votingGuideId,
@@ -44,7 +40,7 @@ function Election({
   const error = electionQuery.error || electionVotingGuideRacesQuery.error;
 
   if (isLoading) return <LoaderFlag />;
-  if (isError) return <div>{JSON.stringify(error)}</div>;
+  if (isError) return <div>Error: {JSON.stringify(error)}</div>;
 
   const election =
     electionVotingGuideRacesQuery.data?.electionById ??
@@ -56,11 +52,11 @@ function Election({
 
   return (
     <>
-      <ElectionHeader
-        election={election as Partial<ElectionResult>}
-      />
+      <ElectionHeader election={election as Partial<ElectionResult>} />
       {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
         <div className={styles.electionHeader}>
+          <p>Election: {election?.id}</p>
+          <p>Voting Guide: {votingGuideId}</p>
           <small>
             This voting guide doesn't have any candidates selected for this
             election

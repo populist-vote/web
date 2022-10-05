@@ -33,9 +33,15 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }) => {
   const router = useRouter();
+  const queriedGuideId = router.query[`voting-guide`];
+  const queriedElectionId = router.query[`election`];
+
   const user = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
 
+  const createVotingGuide = useUpsertVotingGuideMutation({
+    onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
+  });
   const {
     data,
     isLoading,
@@ -43,11 +49,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     error,
     selectedElectionId,
     setSelectedElectionId,
-  } = useElections();
-
-  const createVotingGuide = useUpsertVotingGuideMutation({
-    onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
-  });
+  } = useElections(queriedElectionId as string);
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
@@ -72,9 +74,8 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   const { addSavedGuideId } = useSavedGuideIds(user?.id);
 
-  // Use either the voting guide ID from query params OR the users voting guide ID
+  // Use either the voting guide ID (above) from query params OR the users voting guide ID
   // to instantiate the VotingGuideContext
-  const queriedGuideId = router.query[`voting-guide`];
   const userGuideId =
     userVotingGuideQuery.data?.electionVotingGuideByUserId?.id;
   const votingGuideId = (queriedGuideId ||
@@ -127,7 +128,11 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
           mobileNavTitle={flagLabel || mobileNavTitle}
           showNavLogoOnMobile
         >
-          {isLoading && <LoaderFlag />}
+          {isLoading && (
+            <>
+              Ballot Outer <LoaderFlag />
+            </>
+          )}
           {isSuccess && (
             <>
               {!queriedGuideId && (
@@ -143,6 +148,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
               <VotingGuideProvider votingGuideId={votingGuideId}>
                 {isLoading && (
                   <div className={styles.center}>
+                    Ballot inner
                     <LoaderFlag />
                   </div>
                 )}
@@ -151,6 +157,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
                 )}
                 {selectedElectionId && (
                   <div data-testid="ballot-page">
+                    Selected Id: {selectedElectionId}
                     <Election
                       electionId={selectedElectionId}
                       flagLabel={flagLabel}
