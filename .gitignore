@@ -44,4 +44,6 @@ cypress/screenshots
 generated.ts
 
 # SW Files
-public/sw.js.map
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js

@@ -179,10 +179,7 @@ function Race({
               : false;
 
           return (
-            <div
-              className={styles.flexBetween}
-              key={politician.id}
-            >
+            <div className={styles.flexBetween} key={politician.id}>
               {politician.id == incumbentId && (
                 <span className={styles.sideText}>INCUMBENT</span>
               )}
