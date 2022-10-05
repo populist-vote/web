@@ -13,12 +13,12 @@
   }
 
   p:last-child {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     margin-bottom: 4rem;
     
     @include for-tablet-up {
-      margin-top: 2rem;
-      margin-bottom: 6rem;
+      margin-top: 1.5rem;
+      margin-bottom: 5rem;
     }
   }
 }
@@ -46,38 +46,30 @@
   margin: 0;
   padding-bottom: 1rem;
   border-bottom: 1px solid $blue-dark;
+  line-height: 1.3em;
 }
 
 .racesHeading {
   font-size: 1.4em;
-  margin-top: 1rem;
-  margin-bottom: 0rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   text-transform: uppercase;
 
   @include for-tablet-up {
     font-size: 1.875em;
     margin-top: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 }
 
-.racesDescription {
-  color: $white;
-  font-size: $text-md;
-  margin-top: 1rem;
-  margin-bottom: 3rem;
+.cta {
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid $blue-dark;
   @include for-tablet-up {
-    font-size: 24px;
-    margin-bottom: 4rem;
-  }
-
-  a {
-    color: $blue-lighter;
-    font-weight: 400;
-  }
-
-  a:hover {
-    color: $blue-light;
+    margin-top: 2rem;
+    padding-bottom: 2.5rem;
   }
 }
+
 
