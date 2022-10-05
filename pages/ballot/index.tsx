@@ -34,7 +34,11 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
 }) => {
   const router = useRouter();
   const queriedGuideId = router.query[`voting-guide`];
-  const queriedElectionId = router.query[`election`];
+
+  const votingGuideQuery = useVotingGuideByIdQuery(
+    { id: queriedGuideId as string },
+    { enabled: !!queriedGuideId }
+  );
 
   const user = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
@@ -42,6 +46,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
   const createVotingGuide = useUpsertVotingGuideMutation({
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
   });
+
   const {
     data,
     isLoading,
@@ -49,7 +54,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     error,
     selectedElectionId,
     setSelectedElectionId,
-  } = useElections(queriedElectionId as string);
+  } = useElections(votingGuideQuery.data?.votingGuideById.electionId);
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
@@ -88,12 +93,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     }
   }, [queriedGuideId, userGuideId, isGuideOwner, addSavedGuideId]);
 
-  const otherVotingGuideQuery = useVotingGuideByIdQuery(
-    { id: queriedGuideId as string },
-    { enabled: !!queriedGuideId }
-  );
-
-  const otherGuideData = otherVotingGuideQuery?.data?.votingGuideById;
+  const votingGuideData = votingGuideQuery?.data?.votingGuideById;
 
   const [isWelcomeVisible, setIsWelcomeVisible] = useState(
     localStorage.getItem(VOTING_GUIDE_WELCOME_VISIBLE) !== "false"
@@ -104,9 +104,9 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     localStorage.setItem(VOTING_GUIDE_WELCOME_VISIBLE, "false");
   };
 
-  const flagLabel = otherGuideData
+  const flagLabel = votingGuideData
     ? `${
-        otherGuideData.user.firstName || otherGuideData.user.username
+        votingGuideData.user.firstName || votingGuideData.user.username
       }'s Voting Guide`
     : "My Ballot";
 

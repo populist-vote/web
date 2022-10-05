@@ -6,7 +6,8 @@ export function useElections(initialSelectedElectionId?: string) {
   const { data, isSuccess } = electionsQuery;
   const [selectedElectionId, setSelectedElectionId] = useState<
     string | undefined
-  >(initialSelectedElectionId);
+  >();
+  const [intialized, setInitialized] = useState(false);
 
   // Sort by most current election - copy array to preserve chronological order
   const elections = useMemo(
@@ -25,6 +26,14 @@ export function useElections(initialSelectedElectionId?: string) {
         : undefined,
     [data]
   );
+
+  useEffect(() => {
+    // Initialize initialSelectedElectionId since it is asyncronous
+    if (!intialized && initialSelectedElectionId) {
+      setSelectedElectionId(initialSelectedElectionId);
+      setInitialized(true);
+    }
+  }, [initialSelectedElectionId, intialized, setInitialized]);
 
   useEffect(() => {
     if (isSuccess && elections && !initialSelectedElectionId)

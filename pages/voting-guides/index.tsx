@@ -26,12 +26,12 @@ import { useElections } from "hooks/useElections";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuides.module.scss";
 
-const getGuideUrl = (guideId: string, electionId: string) =>
-  `${window.location.origin}/ballot?voting-guide=${guideId}&election=${electionId}`;
+const getGuideUrl = (guideId: string) =>
+  `${window.location.origin}/ballot?voting-guide=${guideId}`;
 
-const copyGuideUrl = (guideId?: string, electionId?: string) => {
-  if (!guideId || !electionId) return;
-  const url = getGuideUrl(guideId, electionId);
+const copyGuideUrl = (guideId?: string) => {
+  if (!guideId) return;
+  const url = getGuideUrl(guideId);
 
   if (!navigator.canShare) {
     navigator.clipboard
@@ -81,7 +81,7 @@ const VotingGuideCard = ({
 
   const { isMobile } = useDeviceInfo();
 
-  const guideUrl = `/ballot?voting-guide=${guide.id}&election=${guide.electionId}`;
+  const guideUrl = `/ballot?voting-guide=${guide.id}`;
 
   return (
     <div className={styles.guideContainer}>
@@ -115,7 +115,7 @@ const VotingGuideCard = ({
           variant="primary"
           theme="yellow"
           label="Share"
-          onClick={() => copyGuideUrl(guide?.id, guide?.electionId)}
+          onClick={() => copyGuideUrl(guide?.id)}
         />
         {deleteAction && (
           <button
