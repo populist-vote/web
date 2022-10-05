@@ -36,7 +36,7 @@ const MPRElection: NextPage = () => {
         <h4 className={styles.racesHeading}>Highlighted Races</h4>
         
         <p>MPR News has highlighted some of the important races happening in Minnesota this election - check out the candidates below, then view what's on your ballot and create your own personalized voting guide to share with others.</p>
-        <p><a href="../ballot"><Button variant="primary" size="large" label="View your ballot"></Button></a></p>
+        <p className={styles.cta}><a href="../ballot"><Button variant="primary" size="large" label="View your ballot"></Button></a></p>
         <p>
           Got more questions about the election? {" "} 
           <Link
