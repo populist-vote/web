@@ -260,7 +260,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                   icon={<GiWireframeGlobe />}
                   label="Official Website"
                   iconPosition="before"
-                  size="small"
+                  size="medium"
                   variant="secondary"
                 />
               )}
@@ -284,7 +284,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                   icon={<FaGlobe />}
                   label="Campaign Website"
                   iconPosition="before"
-                  size="small"
+                  size="medium"
                   variant="secondary"
                 />
               )}
@@ -308,7 +308,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                   icon={<FaTwitter />}
                   label="Twitter"
                   iconPosition="before"
-                  size="small"
+                  size="medium"
                   variant="secondary"
                 />
               )}
@@ -332,7 +332,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                   icon={<FaFacebook />}
                   label="Facebook"
                   iconPosition="before"
-                  size="small"
+                  size="medium"
                   variant="secondary"
                 />
               )}
@@ -356,7 +356,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
                   icon={<FaInstagram />}
                   label="Instagram"
                   iconPosition="before"
-                  size="small"
+                  size="medium"
                   variant="secondary"
                 />
               )}
