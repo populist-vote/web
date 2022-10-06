@@ -53,32 +53,32 @@ const MPRElection: NextPage = () => {
             to share with others.
           </p>
           <p className={styles.cta}>
-            <a href="../ballot">
+            <Link href="/ballot" passHref>
               <Button
                 variant="primary"
                 size="large"
                 label="View your ballot"
               ></Button>
-            </a>
+            </Link>
           </p>
           <p>
             Got more questions about the election?{" "}
-            <Link
+            <a
               href="https://www.mprnews.org/election-2022-questions-stories"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Share them with us
-            </Link>
+            </a>
             , and stay informed on the latest news about who is running and what
             Minnesotans are looking for in our daily{" "}
-            <Link
+            <a
               href="https://www.mprnews.org/capitol-view-newsletter"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Capitol View newsletter.
-            </Link>
+            </a>
           </p>
         </div>
 
@@ -92,29 +92,29 @@ const MPRElection: NextPage = () => {
             <div className={styles.mprBody}>
               <p>
                 Early voting is open now until November 8.{" "}
-                <Link
+                <a
                   href="https://www.sos.state.mn.us/elections-voting/other-ways-to-vote/vote-early-by-mail/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   Request a mail-in ballot
-                </Link>{" "}
+                </a>{" "}
                 or find out where to vote{" "}
-                <Link
+                <a
                   href="https://pollfinder.sos.state.mn.us/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   here
-                </Link>{" "}
+                </a>{" "}
                 — if you aren’t registered to vote, you can{" "}
-                <Link
+                <a
                   href="https://mnvotes.sos.state.mn.us/VoterRegistration/VoterRegistrationMain.aspx"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   register online
-                </Link>
+                </a>
                 .
               </p>
             </div>
