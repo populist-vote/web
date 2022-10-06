@@ -19,6 +19,7 @@ import {
   FaFacebook,
   FaGlobe,
 } from "react-icons/fa";
+import { GiWireframeGlobe } from "react-icons/gi";
 import { default as classNames } from "classnames";
 import ReactMarkdown from "react-markdown";
 
@@ -64,6 +65,7 @@ import styles from "./PoliticianPage.module.scss";
 import { Table } from "components/Table/Table";
 import { ColumnDef } from "@tanstack/react-table";
 import { formatCurrency } from "utils/numbers";
+import { useMediaQuery } from "hooks/useMediaQuery";
 // import ReactMarkdown from "react-markdown";
 
 const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
@@ -179,6 +181,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   }
 
   function BasicInfoSection() {
+    const isSmallScreen = useMediaQuery("(max-width: 968px)");
     const cx = classNames(styles.center, styles.basicInfo, {
       [styles.wide as string]: committeeTags.length === 0,
     });
@@ -250,7 +253,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaGlobe />
+              {isSmallScreen ? (
+                <GiWireframeGlobe />
+              ) : (
+                <Button
+                  icon={<GiWireframeGlobe />}
+                  label="Official Website"
+                  iconPosition="before"
+                  size="medium"
+                  variant="secondary"
+                />
+              )}
             </a>
           )}
           {politician?.campaignWebsiteUrl && (
@@ -264,7 +277,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaGlobe />
+              {isSmallScreen ? (
+                <FaGlobe />
+              ) : (
+                <Button
+                  icon={<FaGlobe />}
+                  label="Campaign Website"
+                  iconPosition="before"
+                  size="medium"
+                  variant="secondary"
+                />
+              )}
             </a>
           )}
           {politician?.twitterUrl && (
@@ -278,7 +301,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaTwitter />
+              {isSmallScreen ? (
+                <FaTwitter />
+              ) : (
+                <Button
+                  icon={<FaTwitter />}
+                  label="Twitter"
+                  iconPosition="before"
+                  size="medium"
+                  variant="secondary"
+                />
+              )}
             </a>
           )}
           {politician?.facebookUrl && (
@@ -292,7 +325,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaFacebook />
+              {isSmallScreen ? (
+                <FaFacebook />
+              ) : (
+                <Button
+                  icon={<FaFacebook />}
+                  label="Facebook"
+                  iconPosition="before"
+                  size="medium"
+                  variant="secondary"
+                />
+              )}
             </a>
           )}
           {politician?.instagramUrl && (
@@ -306,7 +349,17 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FaInstagram />
+              {isSmallScreen ? (
+                <FaInstagram />
+              ) : (
+                <Button
+                  icon={<FaInstagram />}
+                  label="Instagram"
+                  iconPosition="before"
+                  size="medium"
+                  variant="secondary"
+                />
+              )}
             </a>
           )}
         </div>

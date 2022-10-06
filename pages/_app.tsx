@@ -4,7 +4,6 @@ import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "styles/main.scss";
-import { SEO } from "components";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,7 +44,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         </>
       )}
 
-      <SEO />
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Hydrate state={pageProps.dehydratedState}>
