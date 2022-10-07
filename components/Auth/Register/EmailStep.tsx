@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import useDebounce from "hooks/useDebounce";
 import { Button, PasswordEntropyMeter } from "components";
+import { PasswordInput } from "../PasswordInput";
 
 function EmailStep() {
   const router = useRouter();
@@ -166,16 +167,16 @@ function EmailStep() {
               errors.password && styles.invalid
             }`}
           >
-            <input
-              type="password"
+            <PasswordInput
+              name="password"
               placeholder="Password"
               aria-invalid={errors.password ? "true" : "false"}
-              {...register("password", {
+              register={register}
+              rules={{
                 required: "Password is required",
                 validate: () => isPasswordValid,
-              })}
-              // Need to update password synchronously to validate entropy via API call
-              onChange={(e) =>
+              }}
+              onChange={async (e) =>
                 actions.updateAction({ password: e.target.value })
               }
             />

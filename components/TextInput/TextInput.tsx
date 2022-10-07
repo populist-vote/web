@@ -7,12 +7,13 @@ import {
   RegisterOptions,
   UseFormRegister,
 } from "react-hook-form";
+import { ReactNode } from "react";
 
-type TextInputProps<TFormValues extends FieldValues> = {
+export type TextInputProps<TFormValues extends FieldValues> = {
   id?: string;
   name: Path<TFormValues>;
   errors?: boolean | string[] | string;
-  label: string;
+  label?: string;
   hideLabel?: boolean;
   value?: string;
   onChange?: ChangeHandler | (() => void);
@@ -20,6 +21,7 @@ type TextInputProps<TFormValues extends FieldValues> = {
   register?: UseFormRegister<TFormValues>;
   rules?: RegisterOptions;
   type?: "text" | "password";
+  icon?: ReactNode;
 };
 
 function TextInput<TFormValues extends Record<string, unknown>>({
@@ -32,6 +34,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   type = "text",
   register,
   rules,
+  icon,
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || "input";
@@ -55,14 +58,18 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   return (
     <div className={inputClasses}>
       <label htmlFor={inputId}>{label}</label>
-      <input
-        id={inputId}
-        type={type}
-        placeholder={placeholder || ""}
-        aria-invalid={hasErrors}
-        {...rest}
-        {...(register && register(name, rules))}
-      />
+      <div className={styles.inputWithIcon}>
+        <input
+          id={inputId}
+          type={type}
+          placeholder={placeholder || ""}
+          aria-invalid={hasErrors}
+          {...(register && register(name, rules))}
+          {...rest}
+        />
+        {icon}
+      </div>
+
       {hasErrors && errorMessage && (
         <span className={styles.errorMessage}>{errorMessage()}</span>
       )}

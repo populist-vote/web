@@ -13,6 +13,7 @@ import profileStyles from "pages/settings/Profile.module.scss";
 import { NextPageWithLayout } from "../_app";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import styles from "../../components/TextInput/TextInput.module.scss";
 import {
   AddressResult,
   useUpdateFirstAndLastNameMutation,
@@ -32,6 +33,8 @@ import states from "utils/states";
 import { useQueryClient } from "react-query";
 import { useDropzone, FileWithPath } from "react-dropzone";
 import { toast } from "react-toastify";
+import { PasswordInput } from "components/Auth/PasswordInput";
+import useDebounce from "hooks/useDebounce";
 
 type NameSectionProps = {
   firstName: string;
@@ -295,7 +298,7 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
               rules={{ required: "City is required" }}
             />
 
-            <div>
+            <div className={styles.inputContainer}>
               <select
                 id="states"
                 required
@@ -429,6 +432,9 @@ const PasswordSection = () => {
         newPasswordConfirmation: "",
       },
     });
+
+  const debouncedPassword = useDebounce(getValues("newPassword"), 500);
+
   const {
     data: passwordEntropyData = {
       validatePasswordEntropy: {
@@ -440,11 +446,11 @@ const PasswordSection = () => {
     isLoading: isEntropyCalcLoading,
   } = useValidatePasswordEntropyQuery(
     {
-      password: getValues("newPassword"),
+      password: debouncedPassword,
     },
     {
       refetchOnWindowFocus: false,
-      enabled: getValues("newPassword").length > 0,
+      enabled: debouncedPassword.length > 0,
     }
   );
 
@@ -486,10 +492,9 @@ const PasswordSection = () => {
       <h2>Password</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={profileStyles.passwordSection}>
-          <TextInput
+          <PasswordInput
             name="oldPassword"
             errors={errors.oldPassword?.message}
-            type="password"
             id="current-password"
             label="Old password"
             placeholder={"Old password"}
@@ -502,10 +507,9 @@ const PasswordSection = () => {
                 "Current password is required",
             }}
           />
-          <TextInput
+          <PasswordInput
             name="newPassword"
             errors={errors.newPassword?.message}
-            type="password"
             id="new-password"
             label="New password"
             placeholder={"New password"}
@@ -515,10 +519,9 @@ const PasswordSection = () => {
               validate: () => isPasswordValid,
             }}
           />
-          <TextInput
+          <PasswordInput
             name="newPasswordConfirmation"
             errors={errors.newPasswordConfirmation?.message}
-            type="password"
             id="confirm-password"
             label="Confirm password"
             placeholder={"Confirm password"}
