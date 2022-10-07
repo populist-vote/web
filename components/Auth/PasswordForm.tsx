@@ -10,6 +10,7 @@ import {
 } from "../../generated";
 import { PasswordEntropyMeter } from "./Register/PasswordEntropyMeter/PasswordEntropyMeter";
 import useDebounce from "hooks/useDebounce";
+import { PasswordInput } from "./PasswordInput";
 
 type PasswordFormValues = { password: string; confirmPassword: string };
 
@@ -96,14 +97,15 @@ function ResetPasswordForm() {
                 errors.password && styles.invalid
               }`}
             >
-              <input
-                type="password"
+              <PasswordInput
+                name="password"
                 placeholder="Password"
-                {...register("password", {
+                register={register}
+                rules={{
                   required: "Password is required",
                   validate: () => isPasswordValid,
-                })}
-                onChange={(e) => setPassword(e.target.value)}
+                }}
+                onChange={async (e) => setPassword(e.target.value)}
               />
             </div>
             <div
@@ -111,14 +113,15 @@ function ResetPasswordForm() {
                 errors.confirmPassword && styles.invalid
               }`}
             >
-              <input
-                type="password"
+              <PasswordInput
+                name="confirmPassword"
                 placeholder="Confirm Password"
-                {...register("confirmPassword", {
+                register={register}
+                rules={{
                   required: "Confirm password is required",
                   validate: (value: string) =>
                     value === getValues("password") || "Passwords do not match",
-                })}
+                }}
               />
             </div>
             <PasswordEntropyMeter
