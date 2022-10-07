@@ -132,8 +132,10 @@ function EmailStep() {
     <div className={styles.container}>
       <h1 className="title">Get Started</h1>
       <p>
-        All we need is your email and a strong password to get started. Longer
-        passwords with a mix of cases and characters are more secure.
+        All we need is your email and a strong password to get started.{" "}
+        <small className={styles.footnote}>
+          Longer passwords with a mix of cases and characters are more secure.
+        </small>
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
@@ -175,6 +177,7 @@ function EmailStep() {
                 actions.updateAction({ password: e.target.value })
               }
             />
+            <br />
             <PasswordEntropyMeter
               valid={isPasswordValid}
               score={score}
@@ -190,7 +193,6 @@ function EmailStep() {
             disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
             size="large"
           />
-          <br />
           <small className={styles.formError}>{errors?.email?.message}</small>
           <small className={styles.formError}>
             {errors?.password?.message}
