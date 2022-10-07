@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { updateAction } from "pages/register";
 import styles from "../Auth.module.scss";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import useDebounce from "hooks/useDebounce";
 import { Button, PasswordEntropyMeter } from "components";
 import { PasswordInput } from "../PasswordInput";
@@ -133,12 +132,8 @@ function EmailStep() {
     <div className={styles.container}>
       <h1 className="title">Get Started</h1>
       <p>
-        All we need is your email and a strong password to get started.{" "}
-        <Link href="/faq#no-google-fb-login" passHref>
-          <small className={styles.footnote}>
-            Why can't I sign in with Facebook or Google?
-          </small>
-        </Link>
+        All we need is your email and a strong password to get started. Longer
+        passwords with a mix of cases and characters are more secure.
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
