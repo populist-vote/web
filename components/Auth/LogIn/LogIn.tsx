@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
+import { PasswordInput } from "../PasswordInput";
 
 function LogIn() {
   const router = useRouter();
@@ -70,12 +71,10 @@ function LogIn() {
                 errors.password && styles.invalid
               }`}
             >
-              <input
-                type="password"
-                placeholder="Password"
-                {...register("password", {
-                  required: "Password is required",
-                })}
+              <PasswordInput
+                name="password"
+                register={register}
+                rules={{ required: "Password is required" }}
               />
             </div>
             <button>{login.isLoading ? "Loading..." : "Sign In"}</button>

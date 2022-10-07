@@ -4,8 +4,9 @@
 
 .footnote {
   font-style: italic;
-  cursor: pointer;
   color: $blue-lighter;
+  font-size: $text-sm;
+  font-weight: 300;
 
   &:hover {
     text-decoration: underline;

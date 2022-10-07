@@ -7,9 +7,9 @@ import { useForm } from "react-hook-form";
 import { updateAction } from "pages/register";
 import styles from "../Auth.module.scss";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import useDebounce from "hooks/useDebounce";
 import { Button, PasswordEntropyMeter } from "components";
+import { PasswordInput } from "../PasswordInput";
 
 function EmailStep() {
   const router = useRouter();
@@ -133,11 +133,9 @@ function EmailStep() {
       <h1 className="title">Get Started</h1>
       <p>
         All we need is your email and a strong password to get started.{" "}
-        <Link href="/faq#no-google-fb-login" passHref>
-          <small className={styles.footnote}>
-            Why can't I sign in with Facebook or Google?
-          </small>
-        </Link>
+        <small className={styles.footnote}>
+          Longer passwords with a mix of cases and characters are more secure.
+        </small>
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
@@ -166,19 +164,20 @@ function EmailStep() {
               errors.password && styles.invalid
             }`}
           >
-            <input
-              type="password"
+            <PasswordInput
+              name="password"
               placeholder="Password"
               aria-invalid={errors.password ? "true" : "false"}
-              {...register("password", {
+              register={register}
+              rules={{
                 required: "Password is required",
                 validate: () => isPasswordValid,
-              })}
-              // Need to update password synchronously to validate entropy via API call
-              onChange={(e) =>
+              }}
+              onChange={async (e) =>
                 actions.updateAction({ password: e.target.value })
               }
             />
+            <br />
             <PasswordEntropyMeter
               valid={isPasswordValid}
               score={score}
@@ -194,7 +193,6 @@ function EmailStep() {
             disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
             size="large"
           />
-          <br />
           <small className={styles.formError}>{errors?.email?.message}</small>
           <small className={styles.formError}>
             {errors?.password?.message}
