@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "styles/vendor/toast.css";
 import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
+import { SEO } from "components";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +44,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           </Script>
         </>
       )}
-
+      <SEO />
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Hydrate state={pageProps.dehydratedState}>
