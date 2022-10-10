@@ -135,9 +135,7 @@ const Home: NextPage = () => {
         </div>
 
         <div id={styles["section1a"]}>
-          {/* <div id={styles["s1acol1"]}> */}
-            <MPRLogo height={80} />
-          {/* </div> */}
+          <MPRLogo height={80} />
           <div id={styles["s1acol2"]}>
             <h2>We've partnered with Minnesota Public Radio.
             <Button
