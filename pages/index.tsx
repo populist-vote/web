@@ -8,7 +8,7 @@ import landing1 from "public/images/landing/ballot.jpg";
 import landing2 from "public/images/landing/action.jpg";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
-import { Avatar, Footer, ImageWithFallback, Button } from "components";
+import { Avatar, Footer, ImageWithFallback, Button, MPRLogo } from "components";
 import styles from "styles/modules/landing.module.scss";
 import SimpleNavStyles from "styles/modules/nav.module.scss";
 import classNames from "classnames";
@@ -132,6 +132,24 @@ const Home: NextPage = () => {
               onClick={() => Router.push(`/home`)}
             />
           </div>
+        </div>
+
+        <div id={styles["section1a"]}>
+          {/* <div id={styles["s1acol1"]}> */}
+            <MPRLogo height={80} />
+          {/* </div> */}
+          <div id={styles["s1acol2"]}>
+            <h2>We've partnered with Minnesota Public Radio.
+            <Button
+              size="large"
+              variant="primary"
+              theme="blue"
+              label="Our MPR Coverage"
+              onClick={() => Router.push(`/mpr`)}
+            />
+            </h2>
+          </div>
+          
         </div>
 
         <div id={styles["section1b"]}>
