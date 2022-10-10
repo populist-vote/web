@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { GetServerSideProps, NextPage } from "next";
+import { useState } from "react";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQueryClient } from "react-query";
 
@@ -14,7 +14,6 @@ import {
 
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import { useElections } from "hooks/useElections";
 
 import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
@@ -29,9 +28,7 @@ import {
 
 import styles from "components/Layout/Layout.module.scss";
 
-const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
-  mobileNavTitle,
-}) => {
+export default function BallotPage() {
   const router = useRouter();
   const queriedGuideId = router.query[`voting-guide`];
 
@@ -77,23 +74,12 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     electionId: selectedElectionId as string,
   });
 
-  const { addSavedGuideId } = useSavedGuideIds(user?.id);
-
   // Use either the voting guide ID (above) from query params OR the users voting guide ID
   // to instantiate the VotingGuideContext
-  const userGuideId =
-    userVotingGuideQuery.data?.electionVotingGuideByUserId?.id;
-  const votingGuideId = (queriedGuideId ||
-    userVotingGuideQuery.data?.electionVotingGuideByUserId?.id) as string;
-  const isGuideOwner = queriedGuideId === userGuideId;
+  const userGuideId = userVotingGuideQuery.data?.electionVotingGuideByUserId
+    ?.id as string;
 
-  useEffect(() => {
-    if (!!queriedGuideId && !!userGuideId && !isGuideOwner) {
-      addSavedGuideId(queriedGuideId as string);
-    }
-  }, [queriedGuideId, userGuideId, isGuideOwner, addSavedGuideId]);
-
-  const votingGuideData = votingGuideQuery?.data?.votingGuideById;
+  const flagLabel = "My Ballot";
 
   const [isWelcomeVisible, setIsWelcomeVisible] = useState(
     localStorage.getItem(VOTING_GUIDE_WELCOME_VISIBLE) !== "false"
@@ -103,12 +89,6 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
     setIsWelcomeVisible(false);
     localStorage.setItem(VOTING_GUIDE_WELCOME_VISIBLE, "false");
   };
-
-  const flagLabel = votingGuideData
-    ? `${
-        votingGuideData.user.firstName || votingGuideData.user.username
-      }'s Voting Guide`
-    : "My Ballot";
 
   if (!user) return null;
 
@@ -124,10 +104,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
-        <Layout
-          mobileNavTitle={flagLabel || mobileNavTitle}
-          showNavLogoOnMobile
-        >
+        <Layout mobileNavTitle={flagLabel} showNavLogoOnMobile>
           {isLoading && <LoaderFlag />}
           {isSuccess && (
             <>
@@ -141,7 +118,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
                 />
               )}
 
-              <VotingGuideProvider votingGuideId={votingGuideId}>
+              <VotingGuideProvider votingGuideId={userGuideId}>
                 {isLoading && (
                   <div className={styles.center}>
                     <LoaderFlag />
@@ -165,9 +142,7 @@ const BallotPage: NextPage<{ mobileNavTitle?: string }> = ({
       )}
     </>
   );
-};
-
-export default BallotPage;
+}
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();

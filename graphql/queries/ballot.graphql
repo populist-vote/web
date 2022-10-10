@@ -75,9 +75,3 @@ query ElectionVotingGuideRaces($electionId: ID!, $votingGuideId: ID!) {
     }
   }
 }
-
-query VotingGuideById($id: ID!) {
-  votingGuideById(id: $id) {
-    ...guideFields
-  }
-}
