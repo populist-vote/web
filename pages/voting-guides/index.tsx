@@ -26,44 +26,6 @@ import { useElections } from "hooks/useElections";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuides.module.scss";
 
-const getGuideUrl = (guideId: string) =>
-  `${window.location.origin}/voting-guides/${guideId}`;
-
-const copyGuideUrl = (guideId?: string) => {
-  if (!guideId) return;
-  const url = getGuideUrl(guideId);
-
-  if (!navigator.canShare) {
-    navigator.clipboard
-      .writeText(url)
-      .then(() =>
-        toast(
-          `The link to your voting guide has been copied to the clipboard.`,
-          {
-            position: "bottom-center",
-          }
-        )
-      )
-      .catch((err) => console.error("Problem copying to clipboard", err));
-  } else {
-    navigator
-      .share({
-        title: "Share your voting guide",
-        text: "Check out this voting guide made on Populist!",
-        url,
-      })
-      .then(() =>
-        toast(
-          `The link to your voting guide has been copied to the clipboard.`,
-          {
-            autoClose: 3000,
-          }
-        )
-      )
-      .catch((err) => console.error("Problem copying to clipboard", err));
-  }
-};
-
 const VotingGuideCard = ({
   guide,
   showEdit = false,
@@ -81,7 +43,45 @@ const VotingGuideCard = ({
 
   const { isMobile } = useDeviceInfo();
 
-  const guideUrl = `/voting-guides/${guide.id}`;
+  const guideHref = `/voting-guides/${guide.id}`;
+
+  const getGuideUrl = (guideId: string) =>
+    `${window.location.origin}/voting-guides/${guideId}`;
+
+  const copyGuideUrl = (guideId?: string) => {
+    if (!guideId) return;
+    const url = getGuideUrl(guideId);
+
+    if (!!navigator.canShare && isMobile) {
+      navigator
+        .share({
+          title: "Share your voting guide",
+          text: "Check out this voting guide made on Populist!",
+          url,
+        })
+        .then(() =>
+          toast(
+            `The link to your voting guide has been copied to the clipboard.`,
+            {
+              autoClose: 3000,
+            }
+          )
+        )
+        .catch((err) => console.error("Problem copying to clipboard", err));
+    } else {
+      navigator.clipboard
+        .writeText(url)
+        .then(() =>
+          toast(
+            `The link to your voting guide has been copied to the clipboard.`,
+            {
+              position: "bottom-center",
+            }
+          )
+        )
+        .catch((err) => console.error("Problem copying to clipboard", err));
+    }
+  };
 
   return (
     <div className={styles.guideContainer}>
@@ -100,14 +100,14 @@ const VotingGuideCard = ({
             size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="Edit"
-            onClick={() => Router.push(guideUrl)}
+            onClick={() => Router.push(guideHref)}
           />
         ) : (
           <Button
             size={!isMobile ? "large" : "small"}
             variant="secondary"
             label="View"
-            onClick={() => Router.push(guideUrl)}
+            onClick={() => Router.push(guideHref)}
           />
         )}
         <Button
