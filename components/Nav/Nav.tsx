@@ -139,6 +139,10 @@ function Nav({
                   }
                   alt="profile picture"
                   size={80}
+                  borderColor={
+                    pathname.includes("/settings/profile") ? "var(--aqua" : ""
+                  }
+                  borderWidth="3px"
                 />
               </div>
             </Link>
