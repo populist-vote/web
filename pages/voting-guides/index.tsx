@@ -81,7 +81,7 @@ const VotingGuideCard = ({
 
   const { isMobile } = useDeviceInfo();
 
-  const guideUrl = `/ballot?voting-guide=${guide.id}`;
+  const guideUrl = `/voting-guides/${guide.id}`;
 
   return (
     <div className={styles.guideContainer}>
