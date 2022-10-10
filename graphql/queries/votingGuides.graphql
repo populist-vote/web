@@ -22,6 +22,12 @@ fragment guideFields on VotingGuideResult {
   }
 }
 
+query VotingGuideById($id: ID!) {
+  votingGuideById(id: $id) {
+    ...guideFields
+  }
+}
+
 query VotingGuidesByUserId($userId: ID!) {
   votingGuidesByUserId(userId: $userId) {
     ...guideFields
