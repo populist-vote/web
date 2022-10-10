@@ -9,6 +9,7 @@ interface FlagSectionProps {
   children: React.ReactNode;
   color?: FlagColor;
   hideFlagForMobile?: boolean;
+  [x: string]: unknown;
 }
 
 function FlagSection(props: FlagSectionProps): JSX.Element {
@@ -18,7 +19,7 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
     ...(!!color ? { [styles[color] as string]: true } : {}),
   });
   return (
-    <section className={styleClasses}>
+    <section className={styleClasses} {...props}>
       <header className={styles.header}>
         <span className={styles.sectionTitle}>{title}</span>
       </header>

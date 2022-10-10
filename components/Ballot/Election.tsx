@@ -8,12 +8,17 @@ import {
 import { ElectionRaces } from "./BallotRaces";
 import { ElectionHeader } from "./ElectionHeader";
 import styles from "./Ballot.module.scss";
-import { useRouter } from "next/router";
+import { FlagSection } from "components/FlagSection/FlagSection";
 
-function Election({ electionId }: { electionId: string; flagLabel: string }) {
-  const { query } = useRouter();
-  const votingGuideId = query["voting-guide"] as string;
-
+function Election({
+  electionId,
+  flagLabel,
+  votingGuideId,
+}: {
+  electionId: string;
+  flagLabel?: string;
+  votingGuideId?: string;
+}) {
   const electionQuery = useElectionByIdQuery(
     {
       id: electionId,
@@ -26,7 +31,7 @@ function Election({ electionId }: { electionId: string; flagLabel: string }) {
   const electionVotingGuideRacesQuery = useElectionVotingGuideRacesQuery(
     {
       electionId,
-      votingGuideId,
+      votingGuideId: votingGuideId as string,
     },
     {
       enabled: !!votingGuideId,
@@ -52,7 +57,14 @@ function Election({ electionId }: { electionId: string; flagLabel: string }) {
 
   return (
     <>
-      <ElectionHeader election={election as Partial<ElectionResult>} />
+      {flagLabel ? (
+        <FlagSection title={flagLabel} hideFlagForMobile>
+          <ElectionHeader election={election as Partial<ElectionResult>} />
+        </FlagSection>
+      ) : (
+        <ElectionHeader election={election as Partial<ElectionResult>} />
+      )}
+
       {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
         <div className={styles.electionHeader}>
           <small>

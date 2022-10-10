@@ -27,7 +27,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuides.module.scss";
 
 const getGuideUrl = (guideId: string) =>
-  `${window.location.origin}/ballot?voting-guide=${guideId}`;
+  `${window.location.origin}/voting-guides/${guideId}`;
 
 const copyGuideUrl = (guideId?: string) => {
   if (!guideId) return;
@@ -81,7 +81,7 @@ const VotingGuideCard = ({
 
   const { isMobile } = useDeviceInfo();
 
-  const guideUrl = `/ballot?voting-guide=${guide.id}`;
+  const guideUrl = `/voting-guides/${guide.id}`;
 
   return (
     <div className={styles.guideContainer}>
