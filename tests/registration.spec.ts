@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Asset registration flow works as expected', async ({ page }) => {
 
-  // Go to http://localhost:3030/register
+  // Go to /register
   await page.goto('/register');
 
   // Click h1:has-text("Get Started")
@@ -22,7 +22,7 @@ test('Asset registration flow works as expected', async ({ page }) => {
 
   // Click button:has-text("Continue")
   await page.locator('button:has-text("Continue")').click();
-  await expect(page).toHaveURL('http://localhost:3030/register/address');
+  await expect(page).toHaveURL(`${process.env.PLAYWRIGHT_TEST_BASE_URL}/register/address`);
 
   // Click [placeholder="Street Address"]
   await page.locator('[placeholder="Street Address"]').click();
@@ -50,7 +50,7 @@ test('Asset registration flow works as expected', async ({ page }) => {
 
   // Click text=Complete Registration
   await page.locator('text=Complete Registration').click();
-  await expect(page).toHaveURL('http://localhost:3030/home');
+  await expect(page).toHaveURL(`${process.env.PLAYWRIGHT_TEST_BASE_URL}/home`);
 
   // Click text=We’re still in beta.
   await page.locator('text=We’re still in beta.').click();
