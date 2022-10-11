@@ -283,3 +283,10 @@
     text-transform: uppercase;
   }
 }
+
+.center {
+  align-items: center;
+  justify-content: center !important;
+  display: flex;
+  flex-direction: column;
+}
