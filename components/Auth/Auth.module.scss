@@ -2,16 +2,7 @@
 @import "styles/variables/fonts";
 @import "styles/mixins/media";
 
-.footnote {
-  font-style: italic;
-  color: $blue-lighter;
-  font-size: $text-sm;
-  font-weight: 300;
 
-  &:hover {
-    text-decoration: underline;
-  }
-}
 
 .container {
   min-width: 296px;
@@ -25,6 +16,25 @@
     margin: 0;
     width: 100%;
     align-self: left;
+  }
+
+  h2 { 
+    margin: 0;
+    line-height: 3rem;
+  }
+
+  p {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  p.footnote {
+    font-style: italic;
+    color: $blue-lighter;
+    font-size: $text-md;
+    font-weight: 300;
+    margin-top:0;
+    margin-bottom: 0;
   }
 }
 
@@ -48,7 +58,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 
     input,
     select {
@@ -96,7 +106,11 @@
 
   .formError {
     color: $red;
-    margin: 0.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .postalCode {
+    margin-left: 0.5rem;
   }
 }
 

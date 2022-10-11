@@ -66,10 +66,9 @@ function AddressStep() {
 
   return (
     <div className={styles.container}>
-      <h1>Get Local</h1>
+      <h2>Where are you registered to vote?</h2>
       <p>
-        For a more personalized experience, we'll need the address where you're
-        registered to vote so we can localize your ballot information.
+        We use your voter registration address to show you what's on your ballot.
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-2">
@@ -144,7 +143,7 @@ function AddressStep() {
             <div
               className={`${styles.inputWrapper} ${
                 errors?.address?.postalCode && styles.invalid
-              }`}
+              } ${styles.postalCode}`}
             >
               <input
                 type="text"
