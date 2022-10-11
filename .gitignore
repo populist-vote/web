@@ -48,3 +48,8 @@ generated.ts
 **/public/sw.js
 **/public/worker-*.js
 **/public/sw.js.map*
+
+#Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
