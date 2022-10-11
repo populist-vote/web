@@ -1,4 +1,4 @@
-import { Layout, LoaderFlag, SEO } from "components";
+import { Button, Layout, LoaderFlag, SEO } from "components";
 import { Election } from "components/Ballot/Election";
 import { useVotingGuideByIdQuery, VotingGuideByIdQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
@@ -6,9 +6,12 @@ import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { GetServerSideProps } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { dehydrate, QueryClient } from "react-query";
+import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import styles from "styles/modules/page.module.scss";
 
 export default function VotingGuidePage() {
   const user = useAuth({ redirect: false });
@@ -35,6 +38,12 @@ export default function VotingGuidePage() {
     }
   }, [votingGuideId, userGuideId, isGuideOwner, addSavedGuideId]);
 
+  const votingGuideAuthorName = (
+    guide?.user?.firstName && guide?.user?.lastName
+      ? `${guide?.user?.firstName} ${guide?.user.lastName}`
+      : guide?.user?.username
+  ) as string;
+
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>{JSON.stringify(error)}</div>;
 
@@ -48,7 +57,23 @@ export default function VotingGuidePage() {
               electionId={guide?.election.id as string}
               flagLabel={mobileNavTitle}
               votingGuideId={votingGuideId}
+              votingGuideAuthor={{
+                name: votingGuideAuthorName,
+                profilePictureUrl: (guide?.user.profilePictureUrl ||
+                  PERSON_FALLBACK_IMAGE_URL) as string,
+              }}
             />
+            {isGuideOwner && (
+              <div className={styles.center}>
+                <Link href="/ballot" passHref>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    label="Add more candidates from my ballot"
+                  />
+                </Link>
+              </div>
+            )}
           </div>
         </VotingGuideProvider>
       </Layout>

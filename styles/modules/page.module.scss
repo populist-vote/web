@@ -266,20 +266,9 @@
   }
 }
 
-.adminBox {
-  padding: 1.25rem;
-  border-radius: 5px;
-  border: 1px solid var(--blue-dark);
+.center {
+  align-items: center;
+  justify-content: center !important;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  width: 48rem;
-
-  .itemHeader {
-    font-weight: 400;
-    font-size: $text-lg;
-    display: inline-block;
-    flex-wrap: nowrap;
-    text-transform: uppercase;
-  }
+  flex-direction: column;
 }

@@ -50,7 +50,7 @@ function LogIn() {
   return (
     <BasicLayout hideFooter>
       <div className={styles.container}>
-        <h2>{message}</h2>
+        <h2 className={styles.signInTitle}>{message}</h2>
         <div className={styles.formWrapper}>
           <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
             <div

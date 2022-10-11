@@ -182,7 +182,8 @@ const VotingGuides: NextPage<{
 
   if (!user) return null;
 
-  const showLoader = isLoading || isElectionsLoading || !election;
+  const showLoader =
+    isLoading || isElectionsLoading || savedGuidesQuery.isLoading;
 
   return (
     <>
@@ -195,7 +196,11 @@ const VotingGuides: NextPage<{
             setSelectedElectionId={setSelectedElectionId}
           />
           {election && <ElectionHeader election={election} />}
-          {showLoader && <LoaderFlag />}
+          {showLoader && (
+            <div className={styles.center}>
+              <LoaderFlag />{" "}
+            </div>
+          )}
           {!showLoader && (
             <FlagSection title="My Voting Guides">
               {error && <small>Something went wrong...</small>}
@@ -217,7 +222,6 @@ const VotingGuides: NextPage<{
           )}
         </div>
 
-        {savedGuidesQuery.isLoading && <LoaderFlag />}
         {!!savedGuides?.length && !savedGuidesQuery.isLoading && (
           <div className={styles.votingContainer}>
             <FlagSection title="Other Guides">

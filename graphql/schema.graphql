@@ -285,29 +285,12 @@ input CreateOrConnectIssueTagInput {
 
 input CreateOrConnectOrganizationInput {
   connect: [String!]
-  create: [CreateOrganizationInput!]
+  create: [UpsertOrganizationInput!]
 }
 
 input CreateOrConnectPoliticianInput {
   connect: [String!]
   create: [UpsertPoliticianInput!]
-}
-
-input CreateOrganizationInput {
-  description: String
-  email: String
-  facebookUrl: String
-  headquartersAddressId: UUID
-  headquartersPhone: String
-  instagramUrl: String
-  issueTags: CreateOrConnectIssueTagInput
-  name: String!
-  slug: String
-  taxClassification: String
-  thumbnailImageUrl: String
-  twitterUrl: String
-  votesmartSigId: Int
-  websiteUrl: String
 }
 
 input CreateUserInput {
@@ -487,7 +470,6 @@ type Mutation {
   createBallotMeasure(electionId: UUID!, input: CreateBallotMeasureInput!): BallotMeasureResult!
   createBill(input: CreateBillInput!): BillResult!
   createIssueTag(input: CreateIssueTagInput!): IssueTagResult!
-  createOrganization(input: CreateOrganizationInput!): OrganizationResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
   deleteArgument(id: String!): DeleteArgumentResult!
@@ -514,12 +496,12 @@ type Mutation {
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
-  updateOrganization(id: String!, input: UpdateOrganizationInput!): OrganizationResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updateUsername(username: String!): UpdateUsernameResult!
   uploadProfilePicture(file: Upload!): String!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
+  upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
   upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
   upsertRace(input: UpsertRaceInput!): RaceResult!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
@@ -1155,23 +1137,6 @@ type UpdateNameResult {
   lastName: String
 }
 
-input UpdateOrganizationInput {
-  description: String
-  email: String
-  facebookUrl: String
-  headquartersAddressId: UUID
-  headquartersPhone: String
-  instagramUrl: String
-  issueTags: CreateOrConnectIssueTagInput
-  name: String
-  slug: String
-  taxClassification: String
-  thumbnailImageUrl: String
-  twitterUrl: String
-  votesmartSigId: Int
-  websiteUrl: String
-}
-
 input UpdatePasswordInput {
   newPassword: String!
   oldPassword: String!
@@ -1216,6 +1181,24 @@ input UpsertOfficeInput {
   subtitleShort: String
   termLength: Int
   title: String
+}
+
+input UpsertOrganizationInput {
+  description: String
+  email: String
+  facebookUrl: String
+  headquartersAddressId: UUID
+  headquartersPhone: String
+  id: UUID
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  name: String
+  slug: String
+  taxClassification: String
+  thumbnailImageUrl: String
+  twitterUrl: String
+  votesmartSigId: Int
+  websiteUrl: String
 }
 
 input UpsertPoliticianInput {
