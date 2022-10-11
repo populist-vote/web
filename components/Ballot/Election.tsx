@@ -14,10 +14,15 @@ function Election({
   electionId,
   flagLabel,
   votingGuideId,
+  votingGuideAuthor,
 }: {
   electionId: string;
   flagLabel?: string;
   votingGuideId?: string;
+  votingGuideAuthor?: {
+    name: string;
+    profilePictureUrl: string;
+  };
 }) {
   const electionQuery = useElectionByIdQuery(
     {
@@ -59,7 +64,10 @@ function Election({
     <>
       {flagLabel ? (
         <FlagSection title={flagLabel} hideFlagForMobile>
-          <ElectionHeader election={election as Partial<ElectionResult>} />
+          <ElectionHeader
+            election={election as Partial<ElectionResult>}
+            votingGuideAuthor={votingGuideAuthor}
+          />
         </FlagSection>
       ) : (
         <ElectionHeader election={election as Partial<ElectionResult>} />

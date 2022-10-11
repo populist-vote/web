@@ -1,0 +1,21 @@
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
+@import "styles/modules/page.module.scss";
+
+.adminContainer {
+  padding: 0;
+
+  .adminBox {
+    padding: 0 1.25rem;
+    border-radius: 5px;
+    border: 1px solid $blue-dark;
+
+    .itemHeader {
+      font-weight: 400;
+      font-size: $text-lg;
+      display: inline-block;
+      flex-wrap: nowrap;
+      text-transform: uppercase;
+    }
+  }
+}
