@@ -1,3 +1,17 @@
+type AddressExtendedMNResult {
+  countyCode: String
+  countyCommissionerDistrict: String
+  countyName: String
+  judicialDistrict: String
+  precinctCode: String
+  precinctName: String
+  schoolDistrictName: String
+  schoolDistrictNumber: String
+  schoolSubdistrictCode: String
+  schoolSubdistrictName: String
+  votingTabulationDistrictId: String
+}
+
 input AddressInput {
   city: String!
   congressionalDistrict: String
@@ -1275,6 +1289,7 @@ input UpsertVotingGuideInput {
 
 type UserResult {
   address: AddressResult
+  addressExtendedMn: AddressExtendedMNResult
   email: String!
   firstName: String
   id: ID!
