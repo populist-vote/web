@@ -13,6 +13,7 @@ import { Footer } from "./Footer/Footer";
 import { HeaderSection } from "./Politician/HeaderSection/HeaderSection";
 import { HomePageButton } from "./HomePageButton/HomePageButton";
 import { ImageWithFallback } from "./ImageWithFallback/ImageWithFallback";
+import { IssueTags } from "./IssueTags/IssueTags";
 import { Layout } from "./Layout/Layout";
 import { LoaderFlag } from "./LoaderFlag/LoaderFlag";
 import { Logo, LogoBeta, LogoBetaDesktop, LogoText } from "./Logo";
@@ -46,6 +47,7 @@ export {
   HeaderSection,
   HomePageButton,
   ImageWithFallback,
+  IssueTags,
   Layout,
   LoaderFlag,
   Logo,
