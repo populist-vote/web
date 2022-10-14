@@ -1,0 +1,17 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
+.issueBubble {
+  background-color: $blue-dark;
+  font: $font-secondary;
+  font-size: $text-sm;
+  padding: 0.5rem 1rem;
+  display: inline;
+  border-radius: 50px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
