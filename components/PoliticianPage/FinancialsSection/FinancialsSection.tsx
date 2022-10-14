@@ -1,19 +1,23 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Table } from "components/Table/Table";
-import { DonationsByIndustry, DonationsSummary, Sector } from "generated";
+import { Sector, usePoliticianFinancialsQuery } from "generated";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { formatCurrency } from "utils/numbers";
 import styles from "./FinancialsSection.module.scss";
 
-function FinancialsSection({
-  donationsSummary,
-  donationsByIndustry,
-}: {
-  donationsSummary: DonationsSummary;
-  donationsByIndustry: DonationsByIndustry;
-}) {
+function FinancialsSection() {
+  const { query } = useRouter();
+  const { data, isLoading } = usePoliticianFinancialsQuery({
+    slug: query.slug as string,
+  });
+
+  const { donationsSummary, donationsByIndustry } =
+    data?.politicianBySlug || {};
+
   const columns = useMemo<ColumnDef<Sector>[]>(
     () => [
       {
@@ -30,6 +34,7 @@ function FinancialsSection({
     []
   );
 
+  if (isLoading) return <LoaderFlag />;
   if (!donationsSummary && !donationsByIndustry) return null;
 
   return (

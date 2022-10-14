@@ -62,6 +62,10 @@ fragment BasicInfo on PoliticianResult {
       congMembership
     }
   }
+  thumbnailImageUrl
+  assets {
+    thumbnailImage400
+  }
 }
 
 fragment Bio on PoliticianResult {
@@ -83,6 +87,7 @@ fragment CurrentOffice on PoliticianResult {
 }
 
 fragment ElectionInfo on PoliticianResult {
+  id
   upcomingRace {
     title
     raceType
@@ -202,6 +207,55 @@ fragment Financials on PoliticianResult {
   }
 }
 
+query PoliticianBasicInfo($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...BasicInfo
+  }
+}
+
+query PoliticianBio($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Bio
+  }
+}
+
+query PoliticianCurrentOffice($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...CurrentOffice
+  }
+}
+
+query PoliticianElectionInfo($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...ElectionInfo
+  }
+}
+
+query PoliticianEndorsements($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Endorsements
+  }
+}
+
+query PoliticianSponsoredBills($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...SponsoredBills
+  }
+}
+
+query PoliticianRatings($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Ratings
+  }
+}
+
+query PoliticianFinancials($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Financials
+  }
+}
+
+
 query PoliticianBySlug($slug: String!) {
   politicianBySlug(slug: $slug) {
     ...BasicInfo
@@ -211,8 +265,5 @@ query PoliticianBySlug($slug: String!) {
     ...Endorsements
     ...SponsoredBills
     ...Ratings
-    assets {
-      thumbnailImage400
-    }
   }
 }

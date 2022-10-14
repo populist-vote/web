@@ -1,15 +1,18 @@
 import { Button } from "components/Button/Button";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
+import { usePoliticianBioQuery } from "generated";
+import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import styles from "./BioSection.module.scss";
 
-function BioSection({
-  biography,
-  biographySource,
-}: {
-  biography: string;
-  biographySource: string;
-}) {
+function BioSection() {
+  const { query } = useRouter();
+  const { data, isLoading } = usePoliticianBioQuery({
+    slug: query.slug as string,
+  });
+  const { biography, biographySource } = data?.politicianBySlug || {};
+  if (isLoading) return <LoaderFlag />;
   if (!biography) return null;
   return (
     <ColoredSection color="var(--blue-dark)">

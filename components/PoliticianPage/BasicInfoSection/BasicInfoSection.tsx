@@ -8,20 +8,20 @@ import { getYear } from "utils/dates";
 import styles from "./BasicInfoSection.module.scss";
 
 function BasicInfoSection({
-  politician,
+  basicInfo,
 }: {
-  politician: Partial<PoliticianResult>;
+  basicInfo: Partial<PoliticianResult>;
 }) {
   const termStart = getYear(
-    politician?.votesmartCandidateBio?.office?.termStart as string
+    basicInfo?.votesmartCandidateBio?.office?.termStart as string
   );
   const termEnd = getYear(
-    politician?.votesmartCandidateBio?.office?.termEnd as string
+    basicInfo?.votesmartCandidateBio?.office?.termEnd as string
   );
   const isSmallScreen = useMediaQuery("(max-width: 968px)");
 
   const politicalExperience =
-    politician?.votesmartCandidateBio?.candidate?.congMembership?.experience;
+    basicInfo?.votesmartCandidateBio?.candidate?.congMembership?.experience;
 
   // Votesmart data is very poorly typed, sometimes we get a string here so we need this check
   const committeeTags =
@@ -44,10 +44,10 @@ function BasicInfoSection({
         )
       : [];
 
-  const yearsInPublicOffice = politician?.yearsInPublicOffice;
-  const raceWins = politician?.raceWins;
-  const raceLosses = politician?.raceLosses;
-  const age = politician?.age;
+  const yearsInPublicOffice = basicInfo?.yearsInPublicOffice;
+  const raceWins = basicInfo?.raceWins;
+  const raceLosses = basicInfo?.raceLosses;
+  const age = basicInfo?.age;
 
   const cx = classNames(styles.center, styles.basicInfo, {
     [styles.wide as string]: committeeTags.length === 0,
@@ -60,11 +60,11 @@ function BasicInfoSection({
     !age &&
     !raceWins &&
     !raceLosses &&
-    !politician?.officialWebsiteUrl &&
-    !politician?.campaignWebsiteUrl &&
-    !politician?.twitterUrl &&
-    !politician?.facebookUrl &&
-    !politician?.instagramUrl
+    !basicInfo?.officialWebsiteUrl &&
+    !basicInfo?.campaignWebsiteUrl &&
+    !basicInfo?.twitterUrl &&
+    !basicInfo?.facebookUrl &&
+    !basicInfo?.instagramUrl
   )
     return null;
 
@@ -109,13 +109,13 @@ function BasicInfoSection({
         </p>
       )}
       <div className={styles.links}>
-        {politician?.officialWebsiteUrl && (
+        {basicInfo?.officialWebsiteUrl && (
           <a
             aria-label={"Website"}
             href={
-              politician.officialWebsiteUrl?.startsWith("http")
-                ? politician.officialWebsiteUrl
-                : `//${politician.officialWebsiteUrl}`
+              basicInfo.officialWebsiteUrl?.startsWith("http")
+                ? basicInfo.officialWebsiteUrl
+                : `//${basicInfo.officialWebsiteUrl}`
             }
             target="_blank"
             rel="noopener noreferrer"
@@ -133,13 +133,13 @@ function BasicInfoSection({
             )}
           </a>
         )}
-        {politician?.campaignWebsiteUrl && (
+        {basicInfo?.campaignWebsiteUrl && (
           <a
             aria-label={"Website"}
             href={
-              politician.campaignWebsiteUrl?.startsWith("http")
-                ? politician.campaignWebsiteUrl
-                : `//${politician.campaignWebsiteUrl}`
+              basicInfo.campaignWebsiteUrl?.startsWith("http")
+                ? basicInfo.campaignWebsiteUrl
+                : `//${basicInfo.campaignWebsiteUrl}`
             }
             target="_blank"
             rel="noopener noreferrer"
@@ -157,13 +157,13 @@ function BasicInfoSection({
             )}
           </a>
         )}
-        {politician?.twitterUrl && (
+        {basicInfo?.twitterUrl && (
           <a
             aria-label={"Twitter"}
             href={
-              politician.twitterUrl?.startsWith("http")
-                ? politician.twitterUrl
-                : `//${politician.twitterUrl}`
+              basicInfo.twitterUrl?.startsWith("http")
+                ? basicInfo.twitterUrl
+                : `//${basicInfo.twitterUrl}`
             }
             target="_blank"
             rel="noopener noreferrer"
@@ -181,13 +181,13 @@ function BasicInfoSection({
             )}
           </a>
         )}
-        {politician?.facebookUrl && (
+        {basicInfo?.facebookUrl && (
           <a
             aria-label={"Facebook"}
             href={
-              politician.facebookUrl?.startsWith("http")
-                ? politician.facebookUrl
-                : `//${politician.facebookUrl}`
+              basicInfo.facebookUrl?.startsWith("http")
+                ? basicInfo.facebookUrl
+                : `//${basicInfo.facebookUrl}`
             }
             target="_blank"
             rel="noopener noreferrer"
@@ -205,13 +205,13 @@ function BasicInfoSection({
             )}
           </a>
         )}
-        {politician?.instagramUrl && (
+        {basicInfo?.instagramUrl && (
           <a
             aria-label={"Instagram"}
             href={
-              politician.instagramUrl?.startsWith("http")
-                ? politician.instagramUrl
-                : `//${politician.instagramUrl}`
+              basicInfo.instagramUrl?.startsWith("http")
+                ? basicInfo.instagramUrl
+                : `//${basicInfo.instagramUrl}`
             }
             target="_blank"
             rel="noopener noreferrer"

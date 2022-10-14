@@ -1,13 +1,15 @@
 import { OrganizationAvatar, PartyAvatar } from "components/Avatar/Avatar";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import {
-  Endorsements,
   OrganizationResult,
   PoliticalParty,
   PoliticianResult,
+  usePoliticianEndorsementsQuery,
 } from "generated";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
 import { computeShortOfficeTitle } from "utils/politician";
@@ -72,7 +74,14 @@ function PoliticianEndorsement({
   );
 }
 
-function EndorsementsSection({ endorsements }: { endorsements: Endorsements }) {
+function EndorsementsSection() {
+  const { query } = useRouter();
+  const { data, isLoading } = usePoliticianEndorsementsQuery({
+    slug: query.slug as string,
+  });
+
+  const endorsements = data?.politicianBySlug?.endorsements;
+  if (isLoading) return <LoaderFlag />;
   if (
     [
       ...(endorsements?.organizations ?? []),

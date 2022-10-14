@@ -1,20 +1,24 @@
 import classNames from "classnames";
-import { OfficeResult } from "generated";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
+import { usePoliticianCurrentOfficeQuery } from "generated";
+import { useRouter } from "next/router";
 import styles from "./OfficeSection.module.scss";
 
-function OfficeSection({
-  currentOffice,
-}: {
-  currentOffice: Partial<OfficeResult>;
-}) {
+function OfficeSection() {
   const cx = classNames(
     styles.center,
     styles.borderTop,
     styles.politicianOffice
   );
+  const { query } = useRouter();
+  const { data, isLoading } = usePoliticianCurrentOfficeQuery({
+    slug: query.slug as string,
+  });
 
-  const officeTitle = currentOffice.title;
-  const officeSubtitle = currentOffice.subtitle;
+  const officeTitle = data?.politicianBySlug?.currentOffice?.title;
+  const officeSubtitle = data?.politicianBySlug?.currentOffice?.subtitle;
+
+  if (isLoading) return <LoaderFlag />;
 
   return (
     <section className={cx}>

@@ -1,7 +1,13 @@
 import { OrganizationAvatar } from "components/Avatar/Avatar";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
-import { RatingResult, RatingResultEdge } from "generated";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
+import {
+  RatingResult,
+  RatingResultEdge,
+  usePoliticianRatingsQuery,
+} from "generated";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./RatingsSection.module.scss";
 
@@ -43,7 +49,14 @@ function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
   );
 }
 
-function RatingsSection({ ratings }: { ratings: RatingResultEdge[] }) {
+function RatingsSection() {
+  const { query } = useRouter();
+  const { data, isLoading } = usePoliticianRatingsQuery({
+    slug: query.slug as string,
+  });
+  if (isLoading) return <LoaderFlag />;
+  const ratings = (data?.politicianBySlug?.ratings.edges ||
+    []) as RatingResultEdge[];
   if (ratings.length < 1) return null;
   return (
     <ColoredSection color="var(--yellow)">

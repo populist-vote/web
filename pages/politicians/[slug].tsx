@@ -4,20 +4,17 @@ import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
 import {
   Layout,
-  LoaderFlag,
   HeaderSection,
   ElectionInfoSection,
   SEO,
+  LoaderFlag,
 } from "components";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import {
-  PoliticianBySlugQuery,
-  PoliticianResult,
-  RatingResultEdge,
-  usePoliticianBySlugQuery,
   GetCandidateBioResponse,
-  DonationsSummary,
-  DonationsByIndustry,
+  PoliticianBasicInfoQuery,
+  PoliticianResult,
+  usePoliticianBasicInfoQuery,
 } from "../../generated";
 import styles from "./PoliticianPage.module.scss";
 import { OfficeSection } from "components/PoliticianPage/OfficeSection/OfficeSection";
@@ -31,34 +28,17 @@ import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/F
 
 function PoliticianPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
   const { query } = useRouter();
-  const slug = query.slug as string;
-
   const votingGuideId = query[`voting-guide`] as string;
-
-  const { data, isLoading, error } = usePoliticianBySlugQuery(
-    { slug },
-    {
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    }
-  );
+  const { data, isLoading } = usePoliticianBasicInfoQuery({
+    slug: query.slug as string,
+  });
+  const basicInfo = data?.politicianBySlug as Partial<PoliticianResult>;
 
   if (isLoading) return <LoaderFlag />;
-  if (error) return <>Error: {error}</>;
-
-  const politician = data?.politicianBySlug as PoliticianResult;
-
-  const endorsements = politician?.endorsements;
-  const ratings = politician?.ratings.edges as Array<RatingResultEdge>;
-
-  const donationsSummary = politician?.donationsSummary as DonationsSummary;
-  const donationsByIndustry =
-    politician?.donationsByIndustry as DonationsByIndustry;
-  const sponsoredBills = politician?.sponsoredBills || { edges: [] };
 
   return (
     <>
-      <SEO title={`Politicians | ${politician?.fullName}`} />
+      <SEO title={`Politicians | ${data?.politicianBySlug.fullName}`} />
       <Layout
         mobileNavTitle={mobileNavTitle}
         showNavBackButton
@@ -66,31 +46,22 @@ function PoliticianPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
       >
         <VotingGuideProvider votingGuideId={votingGuideId || ""}>
           <div className={styles.container}>
-            <HeaderSection politician={politician} />
-            {politician?.currentOffice && (
-              <OfficeSection currentOffice={politician?.currentOffice} />
-            )}
-
-            <ElectionInfoSection politician={politician} />
+            <HeaderSection basicInfo={basicInfo} />
+            <OfficeSection />
+            <ElectionInfoSection />
             <div className={styles.infoCommitteeWrapper}>
-              <BasicInfoSection politician={politician} />
+              <BasicInfoSection basicInfo={basicInfo} />
               <CommitteesSection
                 votesmartCandidateBio={
-                  politician?.votesmartCandidateBio as GetCandidateBioResponse
+                  basicInfo.votesmartCandidateBio as GetCandidateBioResponse
                 }
               />
             </div>
-            <SponsoredBillsSection sponsoredBills={sponsoredBills} />
-            <EndorsementsSection endorsements={endorsements} />
-            <RatingsSection ratings={ratings} />
-            <FinancialsSection
-              donationsSummary={donationsSummary}
-              donationsByIndustry={donationsByIndustry}
-            />
-            <BioSection
-              biography={politician.biography as string}
-              biographySource={politician.biographySource as string}
-            />
+            <SponsoredBillsSection />
+            <EndorsementsSection />
+            <RatingsSection />
+            <FinancialsSection />
+            <BioSection />
           </div>
         </VotingGuideProvider>
       </Layout>
@@ -110,12 +81,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(
-    usePoliticianBySlugQuery.getKey({ slug }),
-    usePoliticianBySlugQuery.fetcher({ slug })
+    usePoliticianBasicInfoQuery.getKey({ slug }),
+    usePoliticianBasicInfoQuery.fetcher({ slug })
   );
   const state = dehydrate(queryClient);
 
-  const data = state.queries[0]?.state.data as PoliticianBySlugQuery;
+  const data = state.queries[0]?.state.data as PoliticianBasicInfoQuery;
 
   return {
     notFound: !data,
