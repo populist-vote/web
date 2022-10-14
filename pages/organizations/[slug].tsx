@@ -35,7 +35,7 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
             <Avatar
               src={organization.thumbnailImageUrl}
               alt={organization.name}
-              size={90}
+              size={200}
             />
           </h1>
         )}
