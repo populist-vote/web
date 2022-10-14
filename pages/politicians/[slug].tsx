@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useMemo,
-  CSSProperties,
-  PropsWithChildren,
-} from "react";
+import { useMemo, CSSProperties, PropsWithChildren } from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
@@ -41,7 +35,6 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
 });
 
 import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { useAuth } from "hooks/useAuth";
 
 import { computeShortOfficeTitle } from "utils/politician";
 import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
@@ -56,7 +49,6 @@ import {
   RatingResult,
   RatingResultEdge,
   usePoliticianBySlugQuery,
-  useVotingGuidesByUserIdQuery,
   Sector,
 } from "../../generated";
 
@@ -76,20 +68,7 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { query } = useRouter();
   const slug = query.slug as string;
 
-  const user = useAuth({ redirect: false });
-
-  const votingGuidesResult = useVotingGuidesByUserIdQuery(
-    {
-      userId: user?.id,
-    },
-    {
-      enabled: !!user,
-    }
-  );
-
-  const [votingGuideId, setVotingGuideId] = useState<string | null>(
-    (query[`voting-guide`] as string) || null
-  );
+  const votingGuideId = query[`voting-guide`] as string;
 
   const { data, isLoading, error } = usePoliticianBySlugQuery(
     { slug },
@@ -98,23 +77,6 @@ const PoliticianPage: NextPage<{ mobileNavTitle?: string }> = ({
       staleTime: Infinity,
     }
   );
-
-  useEffect(() => {
-    if (votingGuidesResult.isFetched && !isLoading) {
-      const guide = votingGuidesResult.data?.votingGuidesByUserId.find((g) =>
-        g.candidates.findIndex(
-          (c) => c.politician.id === data?.politicianBySlug.id
-        )
-      );
-      if (guide?.id) setVotingGuideId(guide.id);
-    }
-  }, [
-    setVotingGuideId,
-    votingGuidesResult.isFetched,
-    votingGuidesResult.data,
-    data,
-    isLoading,
-  ]);
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <>Error: {error}</>;

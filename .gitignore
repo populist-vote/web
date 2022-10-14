@@ -49,3 +49,8 @@ generated.ts
 **/public/worker-*.js
 **/public/worker-*.map
 **/public/sw.js.map*
+
+#Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/

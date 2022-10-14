@@ -247,12 +247,17 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
   });
   const { errors, isValid, isDirty } = formState;
   const onSubmit = (address: AddressResult) => {
-    updateAddressMutation.mutate({
-      address: {
-        ...address,
-        country: "USA",
+    updateAddressMutation.mutate(
+      {
+        address: {
+          ...address,
+          country: "USA",
+        },
       },
-    });
+      {
+        onSuccess: () => void toast.success("Address updated successfully"),
+      }
+    );
   };
 
   return (

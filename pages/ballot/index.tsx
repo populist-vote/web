@@ -129,10 +129,7 @@ export default function BallotPage() {
                 )}
                 {selectedElectionId && (
                   <div data-testid="ballot-page">
-                    <Election
-                      electionId={selectedElectionId}
-                      flagLabel={flagLabel}
-                    />
+                    <Election electionId={selectedElectionId} />
                   </div>
                 )}
               </VotingGuideProvider>
