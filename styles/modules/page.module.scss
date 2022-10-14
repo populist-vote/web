@@ -108,19 +108,6 @@
   }
 }
 
-.coloredSection {
-  margin-top: 3rem;
-
-  @include for-tablet-down {
-    margin-top: 0;
-  }
-
-  .bioContent {
-    margin: 1rem 0 2rem;
-    max-width: 1000px;
-  }
-}
-
 .gradientHeader {
   background: linear-gradient(180deg, #003c55 0%, #002e45 100%);
   font-family: $font-primary;
