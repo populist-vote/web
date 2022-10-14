@@ -19,6 +19,7 @@ function OfficeSection() {
   const officeSubtitle = data?.politicianBySlug?.currentOffice?.subtitle;
 
   if (isLoading) return <LoaderFlag />;
+  if (!officeTitle) return null;
 
   return (
     <section className={cx}>
