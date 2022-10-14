@@ -4,5 +4,12 @@ query OrganizationBySlug($slug: String!) {
     name
     description
     thumbnailImageUrl
+    websiteUrl
+    issueTags {
+      id
+      name
+      slug
+      description
+    }
   }
 }

@@ -1,0 +1,32 @@
+@import "styles/variables/colors";
+@import "styles/mixins/media";
+
+.orgLogo {
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  margin-top: 2rem;
+  border-bottom: 1px solid $blue-darker;
+}
+
+.mainTitle {
+  font-weight: 600;
+  text-align: center;
+}
+
+.descriptionText {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  @include for-tablet-portrait-down {
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+}
