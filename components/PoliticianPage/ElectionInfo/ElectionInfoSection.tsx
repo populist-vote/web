@@ -1,10 +1,15 @@
 import styles from "./ElectionInfoSection.module.scss";
-import { PartyAvatar } from "components";
+import { PartyAvatar, LoaderFlag } from "components";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { PoliticalParty, PoliticianResult } from "../../../generated";
+import {
+  PoliticalParty,
+  PoliticianResult,
+  usePoliticianElectionInfoQuery,
+} from "../../../generated";
 import { dateString } from "utils/dates";
 import classNames from "classnames";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
 const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
   ssr: false,
@@ -33,17 +38,20 @@ function Candidate({
   );
 }
 
-function ElectionInfoSection({
-  politician,
-}: {
-  politician: Partial<PoliticianResult>;
-}) {
+function ElectionInfoSection() {
+  const { query } = useRouter();
   const sectionCx = classNames(styles.center, styles.borderTop, styles.wrapper);
+  const { data, isLoading } = usePoliticianElectionInfoQuery({
+    slug: query.slug as string,
+  });
+  const politicianId = data?.politicianBySlug?.id;
+  const upcomingRace = data?.politicianBySlug?.upcomingRace;
 
-  const { upcomingRace } = politician;
+  if (isLoading) return <LoaderFlag />;
+
   const opponents =
     upcomingRace?.candidates?.filter(
-      (candidate) => candidate.id != politician.id
+      (candidate) => candidate.id != politicianId
     ) || [];
   if (!upcomingRace) return null;
 

@@ -19,9 +19,9 @@ enum NoteState {
 }
 
 function HeaderSection({
-  politician,
+  basicInfo,
 }: {
-  politician: Partial<PoliticianResult>;
+  basicInfo: Partial<PoliticianResult>;
 }) {
   const sectionCx = classNames(
     styles.center,
@@ -29,6 +29,7 @@ function HeaderSection({
     styles.headerSection
   );
 
+  const politician = basicInfo;
   const votingGuideQuery = useVotingGuide();
   const {
     data: guideData,
@@ -46,7 +47,7 @@ function HeaderSection({
     ? guideData?.candidates
         ?.filter((c) => c.isEndorsement)
         .map((c) => c.politician.id)
-        .includes(politician.id as string)
+        .includes(politician?.id as string)
     : false;
 
   const [noteState, setNoteState] = useState(NoteState.View);
@@ -54,9 +55,9 @@ function HeaderSection({
 
   const getInitialNote = useCallback(
     () =>
-      guideData?.candidates?.find((c) => c.politician.id === politician.id)
+      guideData?.candidates?.find((c) => c.politician.id === politician?.id)
         ?.note,
-    [guideData?.candidates, politician.id]
+    [guideData?.candidates, politician?.id]
   );
 
   useEffect(() => {
@@ -80,7 +81,7 @@ function HeaderSection({
     upsertVotingGuideCandidate.mutate(
       {
         votingGuideId: guideData.id,
-        candidateId: politician.id || "",
+        candidateId: politician?.id || "",
         isEndorsement,
         note,
       },

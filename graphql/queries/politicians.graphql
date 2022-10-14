@@ -36,160 +36,234 @@ query PoliticianIndex(
   }
 }
 
-query PoliticianBySlug($slug: String!) {
-  politicianBySlug(slug: $slug) {
-    id
-    fullName
-    preferredName
-    homeState
-    party
-    thumbnailImageUrl
-    assets {
-      thumbnailImage400
+fragment BasicInfo on PoliticianResult {
+  id
+  fullName 
+  preferredName 
+  homeState 
+  party
+  yearsInPublicOffice
+  raceWins
+  raceLosses
+  age
+  officialWebsiteUrl
+  campaignWebsiteUrl
+  twitterUrl
+  facebookUrl
+  instagramUrl
+  votesmartCandidateBio {
+    office {
+      name
+      termStart
+      termEnd
     }
-    officialWebsiteUrl
-    campaignWebsiteUrl
-    twitterUrl
-    facebookUrl
-    instagramUrl
-    yearsInPublicOffice
-    age
-    raceWins
-    raceLosses
-    biography
-    biographySource
-    officeId
-    currentOffice {
+    candidate {
+      photo
+      congMembership
+    }
+  }
+  thumbnailImageUrl
+  assets {
+    thumbnailImage400
+  }
+}
+
+fragment Bio on PoliticianResult {
+  biography
+  biographySource
+}
+
+fragment CurrentOffice on PoliticianResult {
+  officeId
+  currentOffice {
+    title
+    subtitle
+    state
+    electionScope
+    district
+    districtType
+    municipality
+  }
+}
+
+fragment ElectionInfo on PoliticianResult {
+  id
+  upcomingRace {
+    title
+    raceType
+    state
+    electionDate
+    office {
       title
       subtitle
+      name
       state
-      electionScope
-      district
-      districtType
+      county
       municipality
+      district
+      schoolDistrict
+      districtType
+      electionScope
     }
+    candidates {
+      id
+      slug
+      fullName
+      thumbnailImageUrl
+      party
+    }
+  }
+}
 
-    upcomingRace {
-      title
-      raceType
-      state
-      electionDate
-      office {
+fragment Endorsements on PoliticianResult {
+  endorsements {
+    organizations {
+      id
+      slug
+      name
+      thumbnailImageUrl
+    }
+    politicians {
+      id
+      slug
+      fullName
+      homeState
+      party
+      thumbnailImageUrl
+      currentOffice {
+        id
+        slug
         title
-        subtitle
-        name
-        state
-        county
         municipality
         district
-        schoolDistrict
-        districtType
-        electionScope
+        state
+        officeType
       }
-      candidates {
-        id
-        slug
-        fullName
-        thumbnailImageUrl
-        party
-      }
-    }
-
-    votesmartCandidateBio {
-      office {
-        name
-        termStart
-        termEnd
-      }
-
-      candidate {
-        photo
-        congMembership
-      }
-    }
-
-    sponsoredBills {
-      edges {
-        node {
-          slug
-          billNumber
-          title
-          legislationStatus
-        }
-      }
-    }
-
-    endorsements {
-      organizations {
-        id
-        slug
-        name
-        thumbnailImageUrl
-      }
-      politicians {
-        id
-        slug
-        fullName
-        homeState
-        party
-        thumbnailImageUrl
-        currentOffice {
-          id
-          slug
-          title
-          municipality
+      votesmartCandidateBio {
+        office {
+          name
           district
-          state
-          officeType
+          typeField
         }
-        votesmartCandidateBio {
-          office {
-            name
-            district
-            typeField
-          }
-          candidate {
-            photo
-          }
+        candidate {
+          photo
         }
       }
     }
+  }
+}
 
-    ratings {
-      edges {
-        node {
-          vsRating {
-            rating
-          }
-          organization {
-            slug
-            name
-            thumbnailImageUrl
-          }
+fragment SponsoredBills on PoliticianResult {
+  sponsoredBills {
+    edges {
+      node {
+        slug
+        billNumber
+        title
+        legislationStatus
+      }
+    }
+  }
+}
+
+fragment Ratings on PoliticianResult {
+  ratings {
+    edges {
+      node {
+        vsRating {
+          rating
+        }
+        organization {
+          slug
+          name
+          thumbnailImageUrl
         }
       }
     }
+  }
+}
 
-    donationsByIndustry {
-      cycle
-      lastUpdated
-      sectors {
-        name
-        id
-        individuals
-        pacs
-        total
-      }
-      source
+fragment Financials on PoliticianResult {
+  donationsByIndustry {
+    cycle
+    lastUpdated
+    sectors {
+      name
+      id
+      individuals
+      pacs
+      total
     }
+    source
+  }
 
-    donationsSummary {
-      totalRaised,
-      spent,
-      cashOnHand,
-      debt,
-      source,
-      lastUpdated
-    }
+  donationsSummary {
+    totalRaised,
+    spent,
+    cashOnHand,
+    debt,
+    source,
+    lastUpdated
+  }
+}
+
+query PoliticianBasicInfo($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...BasicInfo
+  }
+}
+
+query PoliticianBio($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Bio
+  }
+}
+
+query PoliticianCurrentOffice($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...CurrentOffice
+  }
+}
+
+query PoliticianElectionInfo($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...ElectionInfo
+  }
+}
+
+query PoliticianEndorsements($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Endorsements
+  }
+}
+
+query PoliticianSponsoredBills($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...SponsoredBills
+  }
+}
+
+query PoliticianRatings($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Ratings
+  }
+}
+
+query PoliticianFinancials($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...Financials
+  }
+}
+
+
+query PoliticianBySlug($slug: String!) {
+  politicianBySlug(slug: $slug) {
+    ...BasicInfo
+    ...Bio
+    ...CurrentOffice
+    ...ElectionInfo
+    ...Endorsements
+    ...SponsoredBills
+    ...Ratings
   }
 }

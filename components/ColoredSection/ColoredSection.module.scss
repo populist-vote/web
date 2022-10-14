@@ -1,0 +1,14 @@
+@import "styles/modules/page.module.scss";
+
+.coloredSection {
+  margin-top: 3rem;
+
+  @include for-tablet-down {
+    margin-top: 0;
+  }
+
+  .bioContent {
+    margin: 1rem 0 2rem;
+    max-width: 1000px;
+  }
+}
