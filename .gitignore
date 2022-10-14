@@ -47,4 +47,5 @@ generated.ts
 **/public/workbox-*.js
 **/public/sw.js
 **/public/worker-*.js
+**/public/worker-*.map
 **/public/sw.js.map*
