@@ -60,8 +60,8 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
             </div>
           ) : (
             <>
-              <span className={styles.bold}>{officeSubtitle}</span>
               <span className={styles.bold}>{officeTitle}</span>
+              <span className={styles.bold}>{officeSubtitle}</span>
             </>
           )}
         </div>

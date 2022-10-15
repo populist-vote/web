@@ -21,6 +21,7 @@ query PoliticianIndex(
           slug
           title
           subtitle
+          subtitleShort
           municipality
           district
           state

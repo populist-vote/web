@@ -486,6 +486,7 @@ type Mutation {
   createIssueTag(input: CreateIssueTagInput!): IssueTagResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
+  deleteAccountByEmail(email: String!): ID!
   deleteArgument(id: String!): DeleteArgumentResult!
   deleteBallotMeasure(id: String!): DeleteBallotMeasureResult!
   deleteBill(id: String!): DeleteBillResult!
