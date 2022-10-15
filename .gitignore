@@ -45,6 +45,7 @@ generated.ts
 
 # SW Files
 **/public/workbox-*.js
+**/public/workbox-*.js.map
 **/public/sw.js
 **/public/worker-*.js
 **/public/worker-*.map
