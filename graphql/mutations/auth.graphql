@@ -61,3 +61,7 @@ mutation RequestPasswordReset($email: String!) {
 mutation ResetPassword($newPassword: String!, $resetToken: String!) {
   resetPassword(input: { newPassword: $newPassword, resetToken: $resetToken })
 }
+
+mutation DeleteAccountByEmail($email: String!) {
+  deleteAccountByEmail(email: $email)
+}
