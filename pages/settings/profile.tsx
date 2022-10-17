@@ -232,6 +232,7 @@ const EmailSection = ({ email }: { email: string }) => {
 };
 
 const AddressSection = ({ address }: { address: AddressResult }) => {
+  const queryClient = useQueryClient();
   const { register, handleSubmit, formState, reset, setError } =
     useForm<AddressResult>({
       mode: "onChange",
@@ -240,6 +241,9 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
   const updateAddressMutation = useUpdateAddressMutation({
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
+      queryClient
+        .invalidateQueries(["ElectionById"])
+        .catch((err) => console.error(err));
     },
     onError: (error) => {
       if (error instanceof Error) setError("line1", { message: error.message });
