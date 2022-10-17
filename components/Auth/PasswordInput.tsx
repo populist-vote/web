@@ -15,11 +15,13 @@ function PasswordInput(props: PasswordInputProps) {
           <FaEye
             color="var(--blue)"
             onClick={() => setPasswordInputType("text")}
+            aria-label="show password"
           />
         ) : (
           <FaRegEyeSlash
             color="var(--blue)"
             onClick={() => setPasswordInputType("password")}
+            aria-label="hide password"
           />
         )
       }
