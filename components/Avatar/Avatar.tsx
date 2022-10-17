@@ -273,7 +273,7 @@ function Avatar(props: AvatarProps): JSX.Element {
 
   const $avatarImage = (
     <ImageWithFallback
-      src={props.src}
+      src={props.src || fallbackSrc}
       fallbackSrc={fallbackSrc}
       width={props.size}
       height={props.size}

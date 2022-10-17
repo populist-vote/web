@@ -1,7 +1,9 @@
-import { ElectionResult } from "generated";
+import { ElectionResult, State } from "generated";
 import styles from "./Ballot.module.scss";
 import { dateString } from "utils/dates";
 import { Avatar } from "components/Avatar/Avatar";
+import { Button } from "components/Button/Button";
+import { useAuth } from "hooks/useAuth";
 
 function ElectionHeader({
   election,
@@ -13,6 +15,9 @@ function ElectionHeader({
     profilePictureUrl: string;
   };
 }) {
+  const user = useAuth();
+  const isColoradan = user?.userProfile?.address?.state == State.Co;
+
   return (
     <div className={styles.electionHeader}>
       {election.electionDate && (
@@ -29,6 +34,15 @@ function ElectionHeader({
           />
           <span>By {votingGuideAuthor.name}</span>
         </div>
+      )}
+      {isColoradan && (
+        <a href="https://measures.populist.us/colorado">
+          <Button
+            variant="primary"
+            size="large"
+            label="Colorado Statewide Ballot Measures"
+          />
+        </a>
       )}
     </div>
   );
