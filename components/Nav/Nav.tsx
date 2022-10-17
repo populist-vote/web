@@ -66,7 +66,9 @@ function Nav({
         ) : (
           <div className={styles.homeButton}>
             <Link href="/home" passHref>
-              <FaHome size={"1.7rem"} color="var(--blue)" />
+              <div>
+                <FaHome size={"1.7rem"} color="var(--blue)" />
+              </div>
             </Link>
           </div>
         )}
@@ -89,14 +91,16 @@ function Nav({
         {user && (
           <div className={styles.avatar}>
             <Link href="/settings/profile" passHref>
-              <Avatar
-                src={
-                  user.userProfile.profilePictureUrl ||
-                  PERSON_FALLBACK_IMAGE_URL
-                }
-                alt="profile picture"
-                size={35}
-              />
+              <div>
+                <Avatar
+                  src={
+                    user.userProfile.profilePictureUrl ||
+                    PERSON_FALLBACK_IMAGE_URL
+                  }
+                  alt="profile picture"
+                  size={35}
+                />
+              </div>
             </Link>
           </div>
         )}

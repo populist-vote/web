@@ -20,11 +20,15 @@ function AuthButtons({
   if (user && showAvatarIfUser) {
     return (
       <Link href="/settings/profile" passHref>
-        <Avatar
-          src={user?.userProfile.profilePictureUrl || PERSON_FALLBACK_IMAGE_URL}
-          alt="profile picture"
-          size={50}
-        />
+        <div>
+          <Avatar
+            src={
+              user?.userProfile.profilePictureUrl || PERSON_FALLBACK_IMAGE_URL
+            }
+            alt="profile picture"
+            size={50}
+          />
+        </div>
       </Link>
     );
   }

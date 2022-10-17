@@ -74,15 +74,17 @@ const Faq: NextPage = () => {
                   </li>
                   <li className={SimpleNavStyles.accountProfile}>
                     <Link href="/settings/profile" passHref>
-                      <Avatar
-                        src={
-                          user?.userProfile.profilePictureUrl ||
-                          PERSON_FALLBACK_IMAGE_URL
-                        }
-                        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                        alt="profile picture"
-                        size={isMobile ? 35 : 60}
-                      />
+                      <div>
+                        <Avatar
+                          src={
+                            user?.userProfile.profilePictureUrl ||
+                            PERSON_FALLBACK_IMAGE_URL
+                          }
+                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                          alt="profile picture"
+                          size={isMobile ? 35 : 60}
+                        />
+                      </div>
                     </Link>
                   </li>
                 </>

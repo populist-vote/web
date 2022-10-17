@@ -75,15 +75,17 @@ const Home: NextPage = () => {
                   </li>
                   <li className={SimpleNavStyles.accountProfile}>
                     <Link href="/settings/profile" passHref>
-                      <Avatar
-                        src={
-                          user?.userProfile.profilePictureUrl ||
-                          PERSON_FALLBACK_IMAGE_URL
-                        }
-                        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                        alt="profile picture"
-                        size={isMobile ? 35 : 60}
-                      />
+                      <div>
+                        <Avatar
+                          src={
+                            user?.userProfile.profilePictureUrl ||
+                            PERSON_FALLBACK_IMAGE_URL
+                          }
+                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                          alt="profile picture"
+                          size={isMobile ? 35 : 60}
+                        />
+                      </div>
                     </Link>
                   </li>
                 </>
@@ -137,17 +139,17 @@ const Home: NextPage = () => {
         <div id={styles["section1a"]}>
           <MPRLogo height={80} />
           <div id={styles["s1acol2"]}>
-            <h2>We've partnered with Minnesota Public Radio.
-            <Button
-              size="large"
-              variant="primary"
-              theme="blue"
-              label="Our MPR Coverage"
-              onClick={() => Router.push(`/mpr`)}
-            />
+            <h2>
+              We've partnered with Minnesota Public Radio.
+              <Button
+                size="large"
+                variant="primary"
+                theme="blue"
+                label="Our MPR Coverage"
+                onClick={() => Router.push(`/mpr`)}
+              />
             </h2>
           </div>
-          
         </div>
 
         <div id={styles["section1b"]}>
