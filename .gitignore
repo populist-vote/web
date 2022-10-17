@@ -1,21 +1,16 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.js
-
-# testing
-/coverage
 
 # next.js
 /.next/
 /out/
 
-# production
+# Production
 /build
 
-# misc
+# Misc
 .DS_Store
 *.pem
 
@@ -24,26 +19,22 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# TypesScript
 *.tsbuildinfo
 
 # env
 .env
 
-# cypress 
-cypress/videos
-cypress/screenshots
-
-# local only
+# Local
 *.code-workspace
 
-# generated 
+# Generated 
 generated.ts
 
-# SW Files
+# PWA / Workbox Files
 **/public/workbox-*.js
 **/public/workbox-*.js.map
 **/public/sw.js
@@ -51,7 +42,7 @@ generated.ts
 **/public/worker-*.map
 **/public/sw.js.map*
 
-#Playwright
+# Playwright
 /test-results/
 /playwright-report/
 /playwright/.cache/
