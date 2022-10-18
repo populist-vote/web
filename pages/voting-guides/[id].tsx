@@ -21,9 +21,7 @@ export default function VotingGuidePage() {
   });
 
   const guide = data?.votingGuideById;
-  const mobileNavTitle = `${
-    guide?.user?.firstName || guide?.user?.username
-  }'s Voting Guide`;
+  const mobileNavTitle = "Voting Guides";
 
   const userGuideId = guide?.user.id;
   const isGuideOwner = user?.id === userGuideId;

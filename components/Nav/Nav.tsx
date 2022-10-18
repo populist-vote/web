@@ -11,7 +11,7 @@ import { Avatar, Logo, LogoBeta, Button } from "components";
 
 function Nav({
   mobileNavTitle,
-  showBackButton = true,
+  showBackButton = false,
   showLogoOnMobile,
   navItems,
 }: {
