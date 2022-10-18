@@ -242,8 +242,9 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
       queryClient
-        .invalidateQueries(["ElectionById"])
+        .resetQueries(["ElectionById", useCurrentUserQuery.getKey()])
         .catch((err) => console.error(err));
+      void toast.success("Address updated successfully");
     },
     onError: (error) => {
       if (error instanceof Error) setError("line1", { message: error.message });
@@ -251,17 +252,12 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
   });
   const { errors, isValid, isDirty } = formState;
   const onSubmit = (address: AddressResult) => {
-    updateAddressMutation.mutate(
-      {
-        address: {
-          ...address,
-          country: "USA",
-        },
+    updateAddressMutation.mutate({
+      address: {
+        ...address,
+        country: "USA",
       },
-      {
-        onSuccess: () => void toast.success("Address updated successfully"),
-      }
-    );
+    });
   };
 
   return (
