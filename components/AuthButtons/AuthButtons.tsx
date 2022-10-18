@@ -26,7 +26,7 @@ function AuthButtons({
               user?.userProfile.profilePictureUrl || PERSON_FALLBACK_IMAGE_URL
             }
             alt="profile picture"
-            size={50}
+            size={35}
           />
         </div>
       </Link>
