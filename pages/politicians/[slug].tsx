@@ -42,7 +42,7 @@ function PoliticianPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
 
   return (
     <>
-      <SEO title={`Politicians | ${data?.politicianBySlug.fullName}`} />
+      <SEO title={`${data?.politicianBySlug.fullName} | Politicians`} />
       <Layout
         mobileNavTitle={mobileNavTitle}
         showNavBackButton

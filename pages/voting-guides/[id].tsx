@@ -40,7 +40,11 @@ export default function VotingGuidePage() {
 
   return (
     <>
-      <SEO title="Voting Guide" />
+      <SEO
+        title={`${
+          guide?.user.firstName ?? guide?.user.username
+        }'s Voting Guide`}
+      />
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
         <VotingGuideProvider votingGuideId={votingGuideId}>
           <VotingGuideNav />
