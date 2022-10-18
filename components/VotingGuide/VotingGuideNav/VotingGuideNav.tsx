@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { Avatar } from "components/Avatar/Avatar";
+import { LeftArrowIcon } from "components/Icons";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import Link from "next/link";
 import { useState } from "react";
-import { FaChevronLeft } from "react-icons/fa";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuideNav.module.scss";
 
@@ -40,7 +40,7 @@ function VotingGuideNav() {
       <div className={styles.backButton}>
         <Link href="/voting-guides" passHref>
           <div>
-            <FaChevronLeft />
+            <LeftArrowIcon height={30} />
           </div>
         </Link>
       </div>
@@ -50,7 +50,7 @@ function VotingGuideNav() {
             (guideAuthor.profilePictureUrl ||
               PERSON_FALLBACK_IMAGE_URL) as string
           }
-          size={35}
+          size={40}
           alt={guideAuthor.name}
         />
         <span>By {guideAuthor.name}</span>

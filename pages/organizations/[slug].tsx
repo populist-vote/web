@@ -24,11 +24,7 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
 
   const { organizationBySlug: organization } = data || {};
   return (
-    <Layout
-      mobileNavTitle={mobileNavTitle}
-      showNavBackButton
-      showNavLogoOnMobile={true}
-    >
+    <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={true}>
       <div className={styles.content}>
         {organization?.thumbnailImageUrl && (
           <h1 className={styles.orgLogo}>

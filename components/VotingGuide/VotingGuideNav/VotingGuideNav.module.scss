@@ -16,13 +16,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 4.5rem;
 
   &.sticky {
     transform: translateY(0%);
   }
 
   @include for-tablet-up {
+    background-color: $blue-darker-2;
+    height: 5.625rem;
     padding: 1rem 1rem 1rem 0;
     position: absolute;
     top: 0;
@@ -40,16 +41,18 @@
   justify-content: center;
   align-items: center;
   display: flex;
-  justify-content: center;
-  align-items: center;
 
   @include for-tablet-up {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 5rem;
+    height: 5.625rem;
     border-right: 1px solid $blue-dark;
     padding: 1rem;
     margin: -1rem 0;
     margin-right: 3rem;
+
+    &:hover {
+      background-color: $blue-darker;
+    }
   }
 }
 

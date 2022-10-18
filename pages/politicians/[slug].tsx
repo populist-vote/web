@@ -43,11 +43,7 @@ function PoliticianPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
   return (
     <>
       <SEO title={`${data?.politicianBySlug.fullName} | Politicians`} />
-      <Layout
-        mobileNavTitle={mobileNavTitle}
-        showNavBackButton
-        showNavLogoOnMobile={true}
-      >
+      <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={true}>
         <VotingGuideProvider votingGuideId={votingGuideId || ""}>
           <VotingGuideNav />
           <div className={styles.container}>

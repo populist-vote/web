@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaChevronLeft, FaHome } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { useState } from "react";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useAuth } from "hooks/useAuth";
@@ -12,19 +12,16 @@ import classNames from "classnames";
 
 function Nav({
   mobileNavTitle,
-  showBackButton = false,
   showLogoOnMobile,
   navItems,
 }: {
   mobileNavTitle?: string;
-  showBackButton: boolean;
   showLogoOnMobile: boolean;
   navItems: {
     label: string;
     href: string;
   }[];
 }) {
-  const router = useRouter();
   const [sticky, setSticky] = useState<boolean>(true);
   const { asPath, pathname, query } = useRouter();
   const user = useAuth({ redirectTo: asPath });
@@ -59,24 +56,13 @@ function Nav({
       {/* ///////// Mobile Nav ///////// */}
 
       <div className={styles.mobileNav}>
-        {showBackButton ? (
-          <div className={styles.backButtonContainer}>
-            <FaChevronLeft
-              className={styles.backButton}
-              color="var(--white)"
-              aria-label="Go back"
-              onClick={() => router.back()}
-            />
-          </div>
-        ) : (
-          <div className={styles.homeButton}>
-            <Link href="/home" passHref>
-              <div>
-                <FaHome size={"1.7rem"} color="var(--blue)" />
-              </div>
-            </Link>
-          </div>
-        )}
+        <div className={styles.homeButton}>
+          <Link href="/home" passHref>
+            <div>
+              <FaHome size={"1.7rem"} color="var(--blue)" />
+            </div>
+          </Link>
+        </div>
 
         <div className={styles.logoContainer}>
           {showLogoOnMobile ? (

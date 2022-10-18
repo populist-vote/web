@@ -19,14 +19,12 @@ const defaultNavItems = [
 
 function Layout({
   mobileNavTitle,
-  showNavBackButton = false,
   showNavLogoOnMobile = true,
   navItems = defaultNavItems,
   hideFooter = false,
   children,
 }: PropsWithChildren<{
   mobileNavTitle?: string;
-  showNavBackButton?: boolean;
   showNavLogoOnMobile?: boolean;
   navItems?: {
     label: string;
@@ -38,7 +36,6 @@ function Layout({
     <div className={styles.app}>
       <Nav
         mobileNavTitle={mobileNavTitle}
-        showBackButton={showNavBackButton}
         showLogoOnMobile={showNavLogoOnMobile}
         navItems={navItems}
       />

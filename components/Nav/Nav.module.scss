@@ -35,7 +35,6 @@
   }
   .mobileNav {
     display: flex;
-    // grid-template-columns: repeat(3, auto);
     justify-content: space-between;
     text-align: center;
     padding: 1rem 1rem 0.7rem;
@@ -50,17 +49,6 @@
 
       @include for-tablet-up {
         display: none;
-      }
-    }
-
-    .backButtonContainer {
-      display: flex;
-      align-items: center;
-      width: 35px;
-
-      .backButton {
-        background: transparent;
-        height: 20px;
       }
     }
 

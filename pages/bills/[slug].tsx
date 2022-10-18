@@ -31,11 +31,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   if (!bill) return null;
   return (
-    <Layout
-      mobileNavTitle={mobileNavTitle}
-      showNavBackButton
-      showNavLogoOnMobile={false}
-    >
+    <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
       <div className={styles.container}>
         <section className={styles.center}>
           <h1>{bill?.title}</h1>
