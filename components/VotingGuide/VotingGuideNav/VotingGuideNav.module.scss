@@ -1,0 +1,35 @@
+@import "styles/modules/page.module";
+
+.topBar {
+  background-color: $blue-darker;
+  color: $white;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 500;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include for-tablet-up {
+    position: absolute;
+    top: 0;
+    left: 12rem;
+    width: calc(100% - 12rem);
+  }
+
+  :first-child {
+    cursor: pointer;
+  }
+}
+
+.votingGuideAuthor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: $text-xs;
+  font-weight: 300;
+}

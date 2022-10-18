@@ -1,4 +1,4 @@
-import { Button, Layout, LoaderFlag, SEO } from "components";
+import { Button, Layout, LoaderFlag, SEO, VotingGuideNav } from "components";
 import { Election } from "components/Ballot/Election";
 import { useVotingGuideByIdQuery, VotingGuideByIdQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
@@ -10,7 +10,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { dehydrate, QueryClient } from "react-query";
-import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "styles/modules/page.module.scss";
 
 export default function VotingGuidePage() {
@@ -38,12 +37,6 @@ export default function VotingGuidePage() {
     }
   }, [votingGuideId, userGuideId, isGuideOwner, addSavedGuideId]);
 
-  const votingGuideAuthorName = (
-    guide?.user?.firstName && guide?.user?.lastName
-      ? `${guide?.user?.firstName} ${guide?.user.lastName}`
-      : guide?.user?.username
-  ) as string;
-
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>{JSON.stringify(error)}</div>;
 
@@ -52,16 +45,11 @@ export default function VotingGuidePage() {
       <SEO title="Voting Guide" />
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
         <VotingGuideProvider votingGuideId={votingGuideId}>
+          <VotingGuideNav />
           <div data-testid="voting-guide-page">
             <Election
               electionId={guide?.election.id as string}
-              flagLabel={mobileNavTitle}
               votingGuideId={votingGuideId}
-              votingGuideAuthor={{
-                name: votingGuideAuthorName,
-                profilePictureUrl: (guide?.user.profilePictureUrl ||
-                  PERSON_FALLBACK_IMAGE_URL) as string,
-              }}
             />
             {isGuideOwner && (
               <div className={styles.center}>
@@ -95,12 +83,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   );
 
   const state = dehydrate(queryClient);
-
   const data = state.queries[0]?.state.data as VotingGuideByIdQuery;
-  const guide = data?.votingGuideById;
-  const mobileNavTitle = `${
-    guide?.user?.firstName || guide?.user?.username
-  }'s Voting Guide`;
+
+  const mobileNavTitle = "Voting Guides";
 
   return {
     notFound: !data,

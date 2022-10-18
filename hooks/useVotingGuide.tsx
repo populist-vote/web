@@ -10,6 +10,10 @@ import type { PropsWithChildren } from "react";
 type VotingGuideQueryContext = {
   data: VotingGuideResult;
   isGuideOwner: boolean;
+  guideAuthor: {
+    name: string;
+    profilePictureUrl?: string;
+  };
   queryKey: (string | Exact<{ id: string }>)[];
   enabled: boolean;
 };
@@ -32,13 +36,26 @@ export function VotingGuideProvider({
     }
   );
 
+  const guide = data?.votingGuideById;
+
+  const votingGuideAuthorName = (
+    guide?.user?.firstName && guide?.user?.lastName
+      ? `${guide?.user?.firstName} ${guide?.user.lastName}`
+      : guide?.user?.username
+  ) as string;
+
   const queryKey = useVotingGuideByIdQuery.getKey({ id: votingGuideId });
-  const isGuideOwner = currentUser?.id === data?.votingGuideById.user.id;
+  const isGuideOwner = currentUser?.id === guide?.user.id;
+  const guideAuthor = {
+    name: votingGuideAuthorName,
+    profilePictureUrl: guide?.user?.profilePictureUrl as string,
+  };
 
   return (
     <VotingGuideContext.Provider
       value={{
-        data: data?.votingGuideById as VotingGuideResult,
+        data: guide as VotingGuideResult,
+        guideAuthor,
         isGuideOwner,
         queryKey,
         enabled: !!votingGuideId,

@@ -29,6 +29,7 @@ import { TextInput } from "./TextInput/TextInput";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
 import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
+import { VotingGuideNav } from "./VotingGuide/VotingGuideNav/VotingGuideNav";
 
 export type { EditVotingGuideCandidate, FlagColor };
 
@@ -65,6 +66,7 @@ export {
   Spacer,
   TextInput,
   VerticalDivider,
+  VotingGuideNav,
   VotingGuideNote,
   VotingGuideWelcome,
 };

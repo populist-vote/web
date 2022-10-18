@@ -8,16 +8,12 @@ import {
 import { ElectionRaces } from "./BallotRaces";
 import { ElectionHeader } from "./ElectionHeader";
 import styles from "./Ballot.module.scss";
-import { FlagSection } from "components/FlagSection/FlagSection";
 
 function Election({
   electionId,
-  flagLabel,
   votingGuideId,
-  votingGuideAuthor,
 }: {
   electionId: string;
-  flagLabel?: string;
   votingGuideId?: string;
   votingGuideAuthor?: {
     name: string;
@@ -62,16 +58,7 @@ function Election({
 
   return (
     <>
-      {flagLabel ? (
-        <FlagSection title={flagLabel} hideFlagForMobile>
-          <ElectionHeader
-            election={election as Partial<ElectionResult>}
-            votingGuideAuthor={votingGuideAuthor}
-          />
-        </FlagSection>
-      ) : (
-        <ElectionHeader election={election as Partial<ElectionResult>} />
-      )}
+      <ElectionHeader election={election as Partial<ElectionResult>} />
 
       {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
         <div className={styles.electionHeader}>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useQueryClient } from "react-query";
 import { default as classNames } from "classnames";
-import { PartyAvatar, Button } from "components";
+import { Avatar, PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
@@ -34,6 +34,7 @@ function HeaderSection({
   const {
     data: guideData,
     isGuideOwner,
+    guideAuthor,
     queryKey,
     enabled: guideEnabled,
   } = votingGuideQuery;
@@ -155,11 +156,20 @@ function HeaderSection({
       {guideData && (
         <div className={styles.note} style={noteVars}>
           {(note || noteState === NoteState.Edit) && (
-            <h4 className={styles.header}>Voting Guide Note</h4>
+            <h4 className={styles.header}>
+              {isGuideOwner ? "Your" : `${guideAuthor.name}'s`} Note
+            </h4>
           )}
           {guideEnabled && noteState === NoteState.View && (
             <>
               <div className={styles.noteText}>{note}</div>
+              {!isGuideOwner && (
+                <Avatar
+                  src={guideAuthor?.profilePictureUrl as string}
+                  alt={guideAuthor?.name as string}
+                  size={50}
+                />
+              )}
               {isGuideOwner && (
                 <div>
                   <div className={styles.buttonArea}>

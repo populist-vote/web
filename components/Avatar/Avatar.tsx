@@ -283,7 +283,14 @@ function Avatar(props: AvatarProps): JSX.Element {
   );
 
   return (
-    <div style={{ display: "inline", width: "max-content", ...styleVars }}>
+    <div
+      style={{
+        display: "inline",
+        width: "max-content",
+        height: props.size,
+        ...styleVars,
+      }}
+    >
       <div className={styles.container}>
         {href ? (
           <div className={styles.avatarLink}>
