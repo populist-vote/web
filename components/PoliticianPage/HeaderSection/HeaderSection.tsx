@@ -167,7 +167,7 @@ function HeaderSection({
                 <Avatar
                   src={guideAuthor?.profilePictureUrl as string}
                   alt={guideAuthor?.name as string}
-                  size={50}
+                  size={80}
                 />
               )}
               {isGuideOwner && (
