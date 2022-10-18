@@ -36,14 +36,12 @@ function Layout({
 }>) {
   return (
     <div className={styles.app}>
-      <aside>
-        <Nav
-          mobileNavTitle={mobileNavTitle}
-          showBackButton={showNavBackButton}
-          showLogoOnMobile={showNavLogoOnMobile}
-          navItems={navItems}
-        />
-      </aside>
+      <Nav
+        mobileNavTitle={mobileNavTitle}
+        showBackButton={showNavBackButton}
+        showLogoOnMobile={showNavLogoOnMobile}
+        navItems={navItems}
+      />
       <main className={styles.content}>{children}</main>
       {!hideFooter && <Footer />}
     </div>

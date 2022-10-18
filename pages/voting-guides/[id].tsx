@@ -56,11 +56,13 @@ export default function VotingGuidePage() {
             {isGuideOwner && (
               <div className={styles.center}>
                 <Link href="/ballot" passHref>
-                  <Button
-                    variant="secondary"
-                    size="small"
-                    label="Add more candidates from my ballot"
-                  />
+                  <div>
+                    <Button
+                      variant="secondary"
+                      size="small"
+                      label="Add more candidates from my ballot"
+                    />
+                  </div>
                 </Link>
               </div>
             )}

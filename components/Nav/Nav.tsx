@@ -8,6 +8,7 @@ import styles from "./Nav.module.scss";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
+import classNames from "classnames";
 
 function Nav({
   mobileNavTitle,
@@ -49,8 +50,12 @@ function Nav({
     [sticky]
   );
 
+  const navStyles = classNames(styles.nav, {
+    [styles.sticky as string]: sticky,
+  });
+
   return (
-    <nav className={`${styles.nav} ${sticky ? styles.sticky : ""}`}>
+    <nav className={navStyles}>
       {/* ///////// Mobile Nav ///////// */}
 
       <div className={styles.mobileNav}>
@@ -91,7 +96,7 @@ function Nav({
         {user && (
           <div className={styles.avatar}>
             <Link href="/settings/profile" passHref>
-              <div>
+              <div style={{ width: "35px" }}>
                 <Avatar
                   src={
                     user.userProfile.profilePictureUrl ||

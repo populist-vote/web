@@ -286,7 +286,7 @@ function Avatar(props: AvatarProps): JSX.Element {
     <div
       style={{
         display: "inline",
-        width: "max-content",
+        width: props.size,
         height: props.size,
         ...styleVars,
       }}

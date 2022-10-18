@@ -1,6 +1,11 @@
 @import "styles/modules/page.module";
 
 .topBar {
+  position: sticky;
+  top: 80px;
+  z-index: 14;
+  transform: translateY(-250%);
+  transition: transform 400ms ease-in;
   background-color: $blue-darker;
   color: $white;
   padding: 1rem;
@@ -8,16 +13,20 @@
   font-size: 1.25em;
   font-weight: 500;
   width: 100%;
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &.sticky {
+    transform: translateY(0%);
+  }
 
   @include for-tablet-up {
     position: absolute;
     top: 0;
     left: 12rem;
-    width: calc(100% - 12rem);
+    width: calc(100vw - 12rem);
+    justify-content: left;
   }
 
   :first-child {
