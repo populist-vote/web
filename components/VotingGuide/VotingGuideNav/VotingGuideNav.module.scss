@@ -16,6 +16,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid $blue-dark;
 
   &.sticky {
     transform: translateY(0%);
@@ -30,6 +31,7 @@
     left: 12rem;
     width: calc(100vw - 12rem);
     justify-content: left;
+    border-bottom: none;
   }
 
   :first-child {
