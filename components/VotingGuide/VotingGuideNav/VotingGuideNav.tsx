@@ -6,9 +6,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuideNav.module.scss";
 
 function VotingGuideNav() {
-  const { isGuideOwner, guideAuthor } = useVotingGuide();
-
-  if (isGuideOwner) return null;
+  const { guideAuthor } = useVotingGuide();
 
   return (
     <nav className={styles.topBar}>
