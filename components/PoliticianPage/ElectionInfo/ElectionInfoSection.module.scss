@@ -33,7 +33,7 @@ $box-height: 14rem;
       height: $box-height;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       overflow: scroll;
     }
   }
