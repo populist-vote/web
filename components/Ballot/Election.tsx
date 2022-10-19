@@ -67,12 +67,13 @@ function Election({
       <ElectionHeader election={election as Partial<ElectionResult>} />
       {isColoradan && (
         <a href="https://measures.populist.us/colorado">
-          <Button
-            variant="primary"
-            size="large"
-            label="Colorado Statewide Ballot Measures"
-            style={{ margin: "-2rem 1rem 3rem" }}
-          />
+          <div className={styles.ballotMeasuresButton}>
+            <Button
+              variant="primary"
+              size="large"
+              label="Colorado Statewide Ballot Measures"
+            />
+          </div>
         </a>
       )}
       {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
