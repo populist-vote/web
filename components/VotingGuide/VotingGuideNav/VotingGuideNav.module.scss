@@ -14,9 +14,6 @@
   font-size: 1.25em;
   font-weight: 500;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   border-bottom: 1px solid $blue-dark;
 
   &.sticky {
@@ -29,7 +26,9 @@
     padding: 1rem 1rem 1rem 0;
     top: 0;
     width: calc(100vw - 12rem);
+    display: flex;
     justify-content: left;
+    align-items: center;
     border-bottom: none;
     margin: -12rem 0 6rem -6rem;
   }
@@ -40,17 +39,20 @@
 }
 
 .backButton {
-  justify-content: center;
-  align-items: center;
-  display: flex;
+  display: none;
 
   @include for-tablet-up {
+    justify-content: center;
+    align-items: center;
+    display: flex;
     width: 5rem;
     height: 5.625rem;
+    border: none;
     border-right: 1px solid $blue-dark;
     padding: 1rem;
     margin: -1rem 0;
     margin-right: 3rem;
+    background: $blue-darker-2;
 
     &:hover {
       background-color: $blue-darker;
@@ -65,4 +67,12 @@
   gap: 0.5rem;
   font-size: $text-xs;
   font-weight: 300;
+}
+
+.placeholder {
+  display: none;
+
+  @include for-tablet-up {
+    display: block;
+  }
 }

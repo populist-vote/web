@@ -3,7 +3,7 @@ import { Avatar } from "components/Avatar/Avatar";
 import { LeftArrowIcon } from "components/Icons";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useVotingGuide } from "hooks/useVotingGuide";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./VotingGuideNav.module.scss";
@@ -11,6 +11,7 @@ import styles from "./VotingGuideNav.module.scss";
 function VotingGuideNav() {
   const { guideAuthor } = useVotingGuide();
   const [sticky, setSticky] = useState<boolean>(true);
+  const router = useRouter();
 
   useScrollPosition(
     ({
@@ -39,11 +40,10 @@ function VotingGuideNav() {
 
   return (
     <nav className={navStyles}>
-      <Link href="/voting-guides" passHref>
-        <div className={styles.backButton}>
-          <LeftArrowIcon height={30} />
-        </div>
-      </Link>
+      <button className={styles.backButton} onClick={() => router.back()}>
+        <LeftArrowIcon height={30} />
+      </button>
+
       <div className={styles.votingGuideAuthor}>
         <Avatar
           src={
@@ -55,7 +55,7 @@ function VotingGuideNav() {
         />
         <span>By {guideAuthor.name}</span>
       </div>
-      <div />
+      <div className={styles.placeholder} />
     </nav>
   );
 }

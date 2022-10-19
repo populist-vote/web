@@ -71,7 +71,7 @@ function Election({
             variant="primary"
             size="large"
             label="Colorado Statewide Ballot Measures"
-            style={{ margin: "-2rem 0 3rem" }}
+            style={{ margin: "-2rem 1rem 3rem" }}
           />
         </a>
       )}
