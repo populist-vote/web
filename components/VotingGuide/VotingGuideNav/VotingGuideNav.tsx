@@ -37,13 +37,11 @@ function VotingGuideNav() {
 
   return (
     <nav className={navStyles}>
-      <div className={styles.backButton}>
-        <Link href="/voting-guides" passHref>
-          <div>
-            <LeftArrowIcon height={30} />
-          </div>
-        </Link>
-      </div>
+      <Link href="/voting-guides" passHref>
+        <div className={styles.backButton}>
+          <LeftArrowIcon height={30} />
+        </div>
+      </Link>
       <div className={styles.votingGuideAuthor}>
         <Avatar
           src={
