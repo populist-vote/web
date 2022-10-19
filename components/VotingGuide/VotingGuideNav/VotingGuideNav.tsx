@@ -35,6 +35,8 @@ function VotingGuideNav() {
     [styles.sticky as string]: sticky,
   });
 
+  if (!guideAuthor) return null;
+
   return (
     <nav className={navStyles}>
       <Link href="/voting-guides" passHref>
