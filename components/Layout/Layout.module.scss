@@ -9,6 +9,7 @@
   display: grid;
   grid-template-areas:
     "nav"
+    "subnav"
     "content"
     "footer";
   grid-template-rows: auto 10fr auto;
@@ -16,7 +17,7 @@
   @include for-tablet-up {
     grid-template-columns: 12rem 5fr;
     grid-template-areas:
-      "nav     content"
+      "nav     subnav"
       "nav     content"
       "nav     footer";
     margin: 0 auto;

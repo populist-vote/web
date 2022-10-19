@@ -1,6 +1,7 @@
 @import "styles/modules/page.module";
 
 .topBar {
+  grid-area: "subnav";
   position: sticky;
   top: 80px;
   z-index: 14;
@@ -26,12 +27,11 @@
     background-color: $blue-darker-2;
     height: 5.625rem;
     padding: 1rem 1rem 1rem 0;
-    position: absolute;
     top: 0;
-    left: 12rem;
     width: calc(100vw - 12rem);
     justify-content: left;
     border-bottom: none;
+    margin: -12rem 0 6rem -6rem;
   }
 
   :first-child {
