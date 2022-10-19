@@ -1,3 +1,5 @@
-query UserCount {
-  userCount
+query UserCountByState($state: State) {
+  userCount(filter: {
+    state: $state
+  })
 }
