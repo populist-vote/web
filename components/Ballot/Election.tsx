@@ -2,12 +2,15 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import {
   ElectionResult,
   RaceResult,
+  State,
   useElectionByIdQuery,
   useElectionVotingGuideRacesQuery,
 } from "generated";
 import { ElectionRaces } from "./BallotRaces";
 import { ElectionHeader } from "./ElectionHeader";
 import styles from "./Ballot.module.scss";
+import { useAuth } from "hooks/useAuth";
+import { Button } from "components/Button/Button";
 
 function Election({
   electionId,
@@ -39,6 +42,9 @@ function Election({
     }
   );
 
+  const user = useAuth();
+  const isColoradan = user?.userProfile?.address?.state == State.Co;
+
   const isLoading =
     electionQuery.isLoading || electionVotingGuideRacesQuery.isLoading;
   const isError =
@@ -59,7 +65,16 @@ function Election({
   return (
     <>
       <ElectionHeader election={election as Partial<ElectionResult>} />
-
+      {isColoradan && (
+        <a href="https://measures.populist.us/colorado">
+          <Button
+            variant="primary"
+            size="large"
+            label="Colorado Statewide Ballot Measures"
+            style={{ margin: "-2rem 0 3rem" }}
+          />
+        </a>
+      )}
       {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
         <div className={styles.electionHeader}>
           <small>
