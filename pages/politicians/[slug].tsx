@@ -16,7 +16,6 @@ import {
   PoliticianBasicInfoQuery,
   PoliticianResult,
   usePoliticianBasicInfoQuery,
-  useVotingGuideByIdQuery,
 } from "../../generated";
 import styles from "./PoliticianPage.module.scss";
 import { OfficeSection } from "components/PoliticianPage/OfficeSection/OfficeSection";
@@ -31,14 +30,13 @@ import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/F
 function PoliticianPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
   const { query } = useRouter();
   const votingGuideId = query[`voting-guide`] as string;
-  const votingGuideQuery = useVotingGuideByIdQuery({ id: votingGuideId });
 
   const { data, isLoading } = usePoliticianBasicInfoQuery({
     slug: query.slug as string,
   });
   const basicInfo = data?.politicianBySlug as Partial<PoliticianResult>;
 
-  if (isLoading || votingGuideQuery.isLoading) return <LoaderFlag />;
+  if (isLoading) return <LoaderFlag />;
 
   return (
     <>
