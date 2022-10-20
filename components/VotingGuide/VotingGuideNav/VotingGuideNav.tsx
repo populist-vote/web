@@ -36,7 +36,7 @@ function VotingGuideNav() {
     [styles.sticky as string]: sticky,
   });
 
-  if (!guideAuthor) return null;
+  if (!guideAuthor.name) return null;
 
   return (
     <nav className={navStyles}>
