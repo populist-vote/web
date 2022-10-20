@@ -156,7 +156,7 @@ function Race({
             .includes(politician.id);
 
           const appendString = votingGuide?.id
-            ? `?voting-guide=${votingGuide.id}`
+            ? `?votingGuideId=${votingGuide.id}`
             : "";
 
           const politicianLink = `/politicians/${encodeURIComponent(

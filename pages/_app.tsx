@@ -1,6 +1,6 @@
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import type { AppProps } from "next/app";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import { NextPage } from "next";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "styles/main.scss";
@@ -12,8 +12,6 @@ import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
 
-const queryClient = new QueryClient();
-
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -24,7 +22,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <>
@@ -48,7 +46,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Hydrate state={pageProps.dehydratedState}>
-            {getLayout(<Component {...pageProps} />)}
+            <Component {...pageProps} />
             <ToastContainer theme="dark" />
             <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
           </Hydrate>

@@ -1,6 +1,5 @@
 import type { GetServerSideProps } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
-import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
 import {
   Layout,
@@ -27,13 +26,25 @@ import { RatingsSection } from "components/PoliticianPage/RatingsSection/Ratings
 import { BioSection } from "components/PoliticianPage/BioSection/BioSection";
 import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/FinancialsSection";
 
-function PoliticianPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
-  const { query } = useRouter();
-  const votingGuideId = query[`voting-guide`] as string;
+function PoliticianPage({
+  slug,
+  votingGuideId,
+  mobileNavTitle,
+}: {
+  slug: string;
+  votingGuideId?: string;
+  mobileNavTitle?: string;
+}) {
+  const { data, isLoading } = usePoliticianBasicInfoQuery(
+    {
+      slug: slug as string,
+    },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
+  );
 
-  const { data, isLoading } = usePoliticianBasicInfoQuery({
-    slug: query.slug as string,
-  });
   const basicInfo = data?.politicianBySlug as Partial<PoliticianResult>;
 
   if (isLoading) return <LoaderFlag />;
@@ -76,6 +87,7 @@ interface Params extends NextParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { slug } = ctx.params as Params;
+  const { votingGuideId = null } = ctx.query || {};
 
   const queryClient = new QueryClient();
 
@@ -90,6 +102,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     notFound: !data,
     props: {
+      slug,
+      votingGuideId,
       dehydratedState: state,
       mobileNavTitle: data?.politicianBySlug.fullName,
     },

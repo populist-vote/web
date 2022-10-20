@@ -109,8 +109,8 @@ function Nav({
           <ul>
             {navItems.map(({ label, href }) => {
               const isNavItemActive =
-                (pathname.includes(href) && !query["voting-guide"]) ||
-                (!!query["voting-guide"] && href === "/voting-guides");
+                (pathname.includes(href) && !query.votingGuideId) ||
+                (!!query.votingGuideId && href === "/voting-guides");
               return (
                 <Link href={href} passHref key={href}>
                   <li

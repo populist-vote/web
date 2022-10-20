@@ -30,7 +30,7 @@ import styles from "components/Layout/Layout.module.scss";
 
 export default function BallotPage() {
   const router = useRouter();
-  const queriedGuideId = router.query[`voting-guide`];
+  const queriedGuideId = router.query.votingGuideId;
 
   const votingGuideQuery = useVotingGuideByIdQuery(
     { id: queriedGuideId as string },
