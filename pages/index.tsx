@@ -10,7 +10,6 @@ import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
 import { Avatar, Footer, ImageWithFallback, Button, MPRLogo } from "components";
 import styles from "styles/modules/landing.module.scss";
-import SimpleNavStyles from "styles/modules/nav.module.scss";
 import classNames from "classnames";
 import Router from "next/router";
 import { useAuth } from "hooks/useAuth";
@@ -25,10 +24,10 @@ const Home: NextPage = () => {
   return (
     <main className={styles.container}>
       <div id={styles["container1"]}>
-        <div className={SimpleNavStyles.navContainer}>
-          <div className={SimpleNavStyles.logoContainer}></div>
-          <div className={SimpleNavStyles.menuContainer}>
-            <ul className={SimpleNavStyles.menu}>
+        <div className={styles.navContainer}>
+          <div className={styles.logoContainer}></div>
+          <div className={styles.menuContainer}>
+            <ul className={styles.menu}>
               {!user && (
                 <>
                   <li>
@@ -44,18 +43,18 @@ const Home: NextPage = () => {
                   <li>
                     <Button
                       size={isMobile ? "small" : "medium"}
-                      variant="primary"
+                      variant="secondary"
                       theme="blue"
                       label="Sign in"
                       onClick={() => Router.push(`/login`)}
                     />
                   </li>
-                  <li className={SimpleNavStyles.menuButton}>
+                  <li className={styles.menuButton}>
                     <Button
                       size={isMobile ? "small" : "medium"}
-                      variant="secondary"
+                      variant="primary"
                       theme="blue"
-                      label="Register"
+                      label="Get Started"
                       onClick={() => Router.push(`/register`)}
                     />
                   </li>
@@ -73,7 +72,7 @@ const Home: NextPage = () => {
                       FAQ
                     </Link>
                   </li>
-                  <li className={SimpleNavStyles.accountProfile}>
+                  <li className={styles.accountProfile}>
                     <Link href="/settings/profile" passHref>
                       <div>
                         <Avatar

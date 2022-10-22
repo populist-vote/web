@@ -1,4 +1,4 @@
-import { BasicLayout } from "components";
+import { BasicLayout, Button } from "components";
 import { useCurrentUserQuery, useLogInMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -77,7 +77,13 @@ function LogIn() {
                 rules={{ required: "Password is required" }}
               />
             </div>
-            <button>{login.isLoading ? "Loading..." : "Sign In"}</button>
+            <Button
+              label={login.isLoading ? "Loading..." : "Sign In"}
+              size="large"
+              variant="primary"
+              theme="blue"
+            />
+
             <br />
             <Link href="/auth/reset" passHref>
               <small className={layoutStyles.textLink}>

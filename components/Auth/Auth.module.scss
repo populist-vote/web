@@ -2,8 +2,6 @@
 @import "styles/variables/fonts";
 @import "styles/mixins/media";
 
-
-
 .container {
   min-width: 296px;
   max-width: 496px;
@@ -18,7 +16,7 @@
     align-self: left;
   }
 
-  h2 { 
+  h2 {
     margin: 0;
     line-height: 3rem;
   }
@@ -28,18 +26,17 @@
     margin-bottom: 2rem;
   }
 
-  p.footnote {
+  span.footnote {
     font-style: italic;
     color: $blue-lighter;
-    font-size: $text-md;
+    font-size: $text-sm;
     font-weight: 300;
-    margin-top:0;
+    margin-top: 0;
     margin-bottom: 0;
   }
 
   h2.signInTitle {
     margin-bottom: 2rem;
-    // text-align: center;
   }
 }
 

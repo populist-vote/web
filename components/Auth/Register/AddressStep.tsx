@@ -14,6 +14,7 @@ import { updateAction } from "pages/register";
 import states from "utils/states";
 import { useEffect } from "react";
 import { useQueryClient } from "react-query";
+import { Button } from "components/Button/Button";
 
 function AddressStep() {
   const router = useRouter();
@@ -68,7 +69,8 @@ function AddressStep() {
     <div className={styles.container}>
       <h2>Where are you registered to vote?</h2>
       <p>
-        We use your voter registration address to show you what's on your ballot.
+        We use your voter registration address to show you what's on your
+        ballot.
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-2">
@@ -154,7 +156,12 @@ function AddressStep() {
               />
             </div>
           </div>
-          <button>Complete Registration</button>
+          <Button
+            label="Complete Registration"
+            size="large"
+            variant="primary"
+            theme="blue"
+          />
           <br />
           <Link
             href={{

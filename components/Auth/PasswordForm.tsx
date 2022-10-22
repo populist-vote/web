@@ -1,4 +1,4 @@
-import { BasicLayout } from "components";
+import { BasicLayout, Button } from "components";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -76,7 +76,7 @@ function ResetPasswordForm() {
         <div className={styles.container}>
           <h1>Your password has been reset</h1>
           <Link href={"/login"} passHref>
-            <button>Login</button>
+            <Button label="Login" size="large" variant="primary" theme="blue" />
           </Link>
         </div>
       </BasicLayout>
@@ -131,7 +131,12 @@ function ResetPasswordForm() {
               length={password.length}
               isLoading={isEntropyCalcLoading}
             />
-            <button>Submit</button>
+            <Button
+              label="Submit"
+              size="large"
+              variant="primary"
+              theme="blue"
+            />
             <br />
             {Object.entries(errors).map(([key, value]) => (
               <small key={key} className={styles.formError}>

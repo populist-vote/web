@@ -1,4 +1,4 @@
-import { BasicLayout } from "components";
+import { BasicLayout, Button } from "components";
 import { useRequestPasswordResetMutation } from "generated";
 import Link from "next/link";
 import { useState } from "react";
@@ -45,7 +45,7 @@ function RequestResetForm() {
           <h1>Check your email</h1>
           <p>We've sent you instructions on how to reset your password.</p>
           <Link href={"/login"} passHref>
-            <button>Login</button>
+            <Button label="Login" size="large" variant="primary" theme="blue" />
           </Link>
         </div>
       </BasicLayout>
@@ -78,9 +78,13 @@ function RequestResetForm() {
                 {errors.email?.message}
               </small>
             </div>
-            <button disabled={isLoading}>
-              {isLoading ? "Loading..." : "Submit"}
-            </button>
+            <Button
+              label={isLoading ? "Loading..." : "Submit"}
+              size="large"
+              variant="primary"
+              theme="blue"
+              disabled={isLoading}
+            />
           </form>
         </div>
       </div>

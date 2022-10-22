@@ -26,26 +26,8 @@
 
   button {
     margin-top: 1.5rem;
-    background-color: $blue;
-    font-family: $font-primary;
-    border: none;
-    border-radius: 100px;
-    color: #fff;
-    font-size: 19px;
-    letter-spacing: 0.2px;
-    padding: 15px 24px;
-    text-transform: uppercase;
-    cursor: pointer;
-    justify-self: center;
 
-    &:hover {
-      background-color: $blue-dark;
-      transition: 0.3s ease-in-out;
-    }
-
-    @include for-tablet-portrait-up {
-      min-width: 75%;
-    }
+    min-width: 75%;
   }
 
   .header {

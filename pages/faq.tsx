@@ -1,12 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { NextPage } from "next";
-
-import { Avatar, Footer, LogoText } from "components";
+import { AuthButtons, Avatar, Footer, LogoText } from "components";
 import styles from "styles/modules/faq.module.scss";
 import SimpleNavStyles from "styles/modules/nav.module.scss";
-// import classNames from "classnames";
-import { Button, FlagSection } from "components";
-import Router from "next/router";
+import { FlagSection } from "components";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
@@ -40,24 +37,7 @@ const Faq: NextPage = () => {
                       FAQ
                     </Link>
                   </li>
-                  <li>
-                    <Button
-                      size={isMobile ? "small" : "medium"}
-                      variant="primary"
-                      theme="blue"
-                      label="Sign in"
-                      onClick={() => Router.push(`/login`)}
-                    />
-                  </li>
-                  <li className={SimpleNavStyles.menuButton}>
-                    <Button
-                      size={isMobile ? "small" : "medium"}
-                      variant="secondary"
-                      theme="blue"
-                      label="Register"
-                      onClick={() => Router.push(`/register`)}
-                    />
-                  </li>
+                  <AuthButtons />
                 </>
               )}
               {user && (

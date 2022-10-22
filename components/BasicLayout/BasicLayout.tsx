@@ -45,7 +45,7 @@ function BasicLayout({
             shallow
             replace
           >
-            Create an account
+            Get Started
           </Link>
         )}
 

@@ -133,6 +133,9 @@ function EmailStep() {
       <h1 className="title">Get Started</h1>
       <p>
         Please create an account with your email and a strong password.{" "}
+        <span className={styles.footnote}>
+          Longer passwords with a mix of cases and characters are more secure.
+        </span>
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
@@ -183,9 +186,6 @@ function EmailStep() {
               isLoading={isEntropyCalcLoading}
             />
           </div>
-          <p className={styles.footnote}>
-            Longer passwords with a mix of cases and characters are more secure.
-          </p>
           <Button
             variant="primary"
             type="submit"
