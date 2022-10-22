@@ -30,14 +30,19 @@ function SEO({
       />
 
       {/* Twitter meta tags */}
-      <meta key="twitter_card" name="twitter:card" content={previewImage} />
+      <meta
+        key="twitter_card"
+        name="twitter:card"
+        content="summary_large_image"
+      />
+      <meta key="twitter_image" name="twitter:image" content={previewImage} />
+      <meta key="twitter_site" name="twitter:site" content="@populist_us" />
       <meta key="twitter_title" name="twitter:title" content={fullTitle} />
       <meta
         key="twitter_description"
         name="twitter:description"
         content={description}
       />
-      <meta key="twitter_site" name="twitter:site" content="@populist_us" />
 
       {/* PWA Links */}
       <meta name="apple-mobile-web-app-title" content="Populist" />
