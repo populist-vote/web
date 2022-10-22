@@ -691,29 +691,27 @@ export const ProfilePage: NextPageWithLayout = () => {
   } = userProfile;
 
   return (
-    <FlagSection hideFlagForMobile title="My Profile">
-      <div className={profileStyles.profile}>
-        <ProfilePhotoSection
-          profilePictureUrl={profilePictureUrl as string}
-          userId={user.id}
-        />
-        <NameSection
-          firstName={firstName as string}
-          lastName={lastName as string}
-        />
-        <UsernameSection username={username as string} />
-        <AddressSection address={address as AddressResult} />
-        <EmailSection email={email} />
-        <PasswordSection />
-        <SignOutSection />
-        <DeleteAccountSection />
-      </div>
-    </FlagSection>
+    <Layout mobileNavTitle="My Account">
+      <FlagSection hideFlagForMobile title="My Profile">
+        <div className={profileStyles.profile}>
+          <ProfilePhotoSection
+            profilePictureUrl={profilePictureUrl as string}
+            userId={user.id}
+          />
+          <NameSection
+            firstName={firstName as string}
+            lastName={lastName as string}
+          />
+          <UsernameSection username={username as string} />
+          <AddressSection address={address as AddressResult} />
+          <EmailSection email={email} />
+          <PasswordSection />
+          <SignOutSection />
+          <DeleteAccountSection />
+        </div>
+      </FlagSection>
+    </Layout>
   );
-};
-
-ProfilePage.getLayout = function getLayout(page: React.ReactElement) {
-  return <Layout mobileNavTitle="My Account">{page}</Layout>;
 };
 
 export default ProfilePage;
