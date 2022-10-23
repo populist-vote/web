@@ -52,6 +52,9 @@ fragment BasicInfo on PoliticianResult {
   twitterUrl
   facebookUrl
   instagramUrl
+  tiktokUrl
+  youtubeUrl
+  linkedinUrl
   votesmartCandidateBio {
     office {
       name

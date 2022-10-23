@@ -285,16 +285,9 @@ input CreateBillInput {
   votesmartBillId: Int
 }
 
-input CreateIssueTagInput {
-  category: String
-  description: String
-  name: String!
-  slug: String
-}
-
 input CreateOrConnectIssueTagInput {
   connect: [String!]
-  create: [CreateIssueTagInput!]
+  create: [UpsertIssueTagInput!]
 }
 
 input CreateOrConnectOrganizationInput {
@@ -317,6 +310,13 @@ input CreateUserInput {
 type CreateUserResult {
   id: ID!
 }
+
+"""
+Implement the DateTime<Utc> scalar
+
+The input/output is a string in RFC3339 format.
+"""
+scalar DateTime
 
 type DeleteArgumentResult {
   id: String!
@@ -430,6 +430,10 @@ type GetCandidateBioResponse {
   office: Office
 }
 
+type Heartbeat {
+  utc: DateTime!
+}
+
 type History {
   action: String!
   chamber: String!
@@ -483,7 +487,6 @@ type Mutation {
   confirmUserEmail(confirmationToken: String!): Boolean!
   createBallotMeasure(electionId: UUID!, input: CreateBallotMeasureInput!): BallotMeasureResult!
   createBill(input: CreateBillInput!): BillResult!
-  createIssueTag(input: CreateIssueTagInput!): IssueTagResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
   deleteAccountByEmail(email: String!): ID!
@@ -510,11 +513,11 @@ type Mutation {
   updateBill(id: String, input: UpdateBillInput!, legiscanBillId: Int): BillResult!
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
-  updateIssueTag(id: String!, input: UpdateIssueTagInput!): IssueTagResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updateUsername(username: String!): UpdateUsernameResult!
   uploadProfilePicture(file: Upload!): String!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
+  upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
   upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
   upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
@@ -791,6 +794,8 @@ type Query {
     search: ElectionSearchInput
   ): [ElectionResult!]!
   electionsByUserState: [ElectionResult!]!
+
+  """Returns `true` to indicate the GraphQL server is reachable"""
   health: Boolean!
   issueTagBySlug(
     """Search issue tag by slug"""
@@ -1065,6 +1070,13 @@ type Subject {
   subjectName: String!
 }
 
+type Subscription {
+  """
+  Heartbeat, containing the UTC timestamp of the last server-sent payload
+  """
+  heartbeat(interval: Int! = 1000): Heartbeat!
+}
+
 type Supplement {
   date: String!
   description: String!
@@ -1140,13 +1152,6 @@ type UpdateEmailResult {
   email: String!
 }
 
-input UpdateIssueTagInput {
-  category: String
-  description: String
-  name: String
-  slug: String
-}
-
 type UpdateNameResult {
   firstName: String
   lastName: String
@@ -1172,6 +1177,14 @@ input UpsertElectionInput {
   slug: String
   state: State
   title: String
+}
+
+input UpsertIssueTagInput {
+  category: String
+  description: String
+  id: UUID
+  name: String
+  slug: String
 }
 
 input UpsertOfficeInput {

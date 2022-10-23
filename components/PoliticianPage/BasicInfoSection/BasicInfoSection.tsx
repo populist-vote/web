@@ -2,7 +2,15 @@ import clsx from "clsx";
 import { Button } from "components/Button/Button";
 import { PoliticianResult } from "generated";
 import { useMediaQuery } from "hooks/useMediaQuery";
-import { FaFacebook, FaGlobe, FaInstagram, FaTwitter } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaGlobe,
+  FaInstagram,
+  FaLinkedin,
+  FaTiktok,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa";
 import { GiWireframeGlobe } from "react-icons/gi";
 import { getYear } from "utils/dates";
 import styles from "./BasicInfoSection.module.scss";
@@ -222,6 +230,78 @@ function BasicInfoSection({
               <Button
                 icon={<FaInstagram />}
                 label="Instagram"
+                iconPosition="before"
+                size="medium"
+                variant="secondary"
+              />
+            )}
+          </a>
+        )}
+        {basicInfo.tiktokUrl && (
+          <a
+            aria-label={"TikTok"}
+            href={
+              basicInfo.tiktokUrl?.startsWith("http")
+                ? basicInfo.tiktokUrl
+                : `//${basicInfo.tiktokUrl}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {isSmallScreen ? (
+              <FaTiktok />
+            ) : (
+              <Button
+                icon={<FaTiktok />}
+                label="TikTok"
+                iconPosition="before"
+                size="medium"
+                variant="secondary"
+              />
+            )}
+          </a>
+        )}
+        {basicInfo.youtubeUrl && (
+          <a
+            aria-label={"YouTube"}
+            href={
+              basicInfo.youtubeUrl?.startsWith("http")
+                ? basicInfo.youtubeUrl
+                : `//${basicInfo.youtubeUrl}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {isSmallScreen ? (
+              <FaYoutube />
+            ) : (
+              <Button
+                icon={<FaYoutube />}
+                label="YouTube"
+                iconPosition="before"
+                size="medium"
+                variant="secondary"
+              />
+            )}
+          </a>
+        )}
+        {basicInfo.linkedinUrl && (
+          <a
+            aria-label={"LinkedIn"}
+            href={
+              basicInfo.linkedinUrl?.startsWith("http")
+                ? basicInfo.linkedinUrl
+                : `//${basicInfo.linkedinUrl}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {isSmallScreen ? (
+              <FaLinkedin />
+            ) : (
+              <Button
+                icon={<FaLinkedin />}
+                label="YouTube"
                 iconPosition="before"
                 size="medium"
                 variant="secondary"
