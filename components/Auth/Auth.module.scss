@@ -18,7 +18,11 @@
 
   h2 {
     margin: 0;
-    line-height: 3rem;
+    line-height: 2rem;
+
+    @include for-tablet-portrait-up {
+      line-height: 3rem;
+    }
   }
 
   p {
@@ -118,11 +122,10 @@
 
 .flexBetween {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
 
   @include for-tablet-portrait-up {
-    flex-direction: row;
     gap: 0.5rem;
     justify-content: space-between;
     align-items: center;
