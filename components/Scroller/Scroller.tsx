@@ -6,7 +6,7 @@ import useDeviceInfo from "hooks/useDeviceInfo";
 
 import styles from "./Scroller.module.scss";
 
-import { default as classNames } from "classnames";
+import { default as clsx } from "clsx";
 
 type ScrollerItem = ReactElement<{
   itemId: string; // Required. id for every item, should be unique
@@ -26,7 +26,7 @@ function Scroller(props: {
 
   const apiRef = useRef({} as scrollVisibilityApiType);
 
-  const scrollerClasses = classNames({
+  const scrollerClasses = clsx({
     [`mobile-scroller`]: isMobile,
     [styles.hideArrowText as string]: !props.showTextButtons,
     [`no-scroll`]: !hasScroll,

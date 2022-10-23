@@ -19,7 +19,7 @@ import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
 import Link from "next/link";
 
-import { default as classNames } from "classnames";
+import { default as clsx } from "clsx";
 
 interface EditVotingGuideCandidate {
   candidateId: string;
@@ -206,7 +206,7 @@ function Race({
                   opaque={isOpaque}
                 />
                 <Link href={politicianLink} passHref>
-                  <span className={classNames(styles.link, styles.avatarName)}>
+                  <span className={clsx(styles.link, styles.avatarName)}>
                     {politician.fullName}
                   </span>
                 </Link>

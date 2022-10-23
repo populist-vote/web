@@ -10,7 +10,7 @@ import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
 import { Avatar, Footer, ImageWithFallback, Button, MPRLogo } from "components";
 import styles from "styles/modules/landing.module.scss";
-import classNames from "classnames";
+import clsx from "clsx";
 import Router from "next/router";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
@@ -226,7 +226,7 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div id={styles["s4row2"]}>
-            <div className={classNames(styles.contentwide3, styles.last)}>
+            <div className={clsx(styles.contentwide3, styles.last)}>
               <h2 className={styles.botspace}>
                 Interested? Sign up to learn more.
               </h2>

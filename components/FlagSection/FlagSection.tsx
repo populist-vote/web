@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./FlagSection.module.scss";
-import classNames from "classnames";
+import clsx from "clsx";
 
 export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
 
@@ -14,7 +14,7 @@ interface FlagSectionProps {
 
 function FlagSection(props: FlagSectionProps): JSX.Element {
   const { title, children, color, hideFlagForMobile = false } = props;
-  const styleClasses = classNames(styles.container, {
+  const styleClasses = clsx(styles.container, {
     [styles.hideFlagForMobile as string]: hideFlagForMobile,
     ...(!!color ? { [styles[color] as string]: true } : {}),
   });

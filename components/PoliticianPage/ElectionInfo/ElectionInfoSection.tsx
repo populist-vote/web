@@ -7,7 +7,7 @@ import {
   usePoliticianElectionInfoQuery,
 } from "../../../generated";
 import { dateString } from "utils/dates";
-import classNames from "classnames";
+import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
@@ -31,7 +31,7 @@ function Candidate({
         alt={candidate?.fullName || ""}
         href={`/politicians/${candidate.slug}`}
       />
-      <span className={classNames(styles.link, styles.avatarName)}>
+      <span className={clsx(styles.link, styles.avatarName)}>
         {candidate.fullName}
       </span>
     </div>
@@ -40,7 +40,7 @@ function Candidate({
 
 function ElectionInfoSection() {
   const { query } = useRouter();
-  const sectionCx = classNames(styles.center, styles.borderTop, styles.wrapper);
+  const sectionCx = clsx(styles.center, styles.borderTop, styles.wrapper);
   const { data, isLoading } = usePoliticianElectionInfoQuery({
     slug: query.slug as string,
   });

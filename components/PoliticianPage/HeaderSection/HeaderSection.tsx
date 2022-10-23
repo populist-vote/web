@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useQueryClient } from "react-query";
-import { default as classNames } from "classnames";
+import { default as clsx } from "clsx";
 import { Avatar, PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
 import { useVotingGuide } from "hooks/useVotingGuide";
@@ -23,11 +23,7 @@ function HeaderSection({
 }: {
   basicInfo: Partial<PoliticianResult>;
 }) {
-  const sectionCx = classNames(
-    styles.center,
-    styles.borderTop,
-    styles.headerSection
-  );
+  const sectionCx = clsx(styles.center, styles.borderTop, styles.headerSection);
 
   const politician = basicInfo;
   const votingGuideQuery = useVotingGuide();

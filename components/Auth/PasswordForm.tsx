@@ -105,6 +105,7 @@ function ResetPasswordForm() {
                   required: "Password is required",
                   validate: () => isPasswordValid,
                 }}
+                autoComplete="new-password"
                 onChange={async (e) => setPassword(e.target.value)}
               />
             </div>
@@ -117,6 +118,7 @@ function ResetPasswordForm() {
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 register={register}
+                autoComplete="new-password"
                 rules={{
                   required: "Confirm password is required",
                   validate: (value: string) =>

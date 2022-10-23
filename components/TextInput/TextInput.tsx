@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import styles from "./TextInput.module.scss";
 import {
   ChangeHandler,
@@ -22,6 +22,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   rules?: RegisterOptions;
   type?: "text" | "password";
   icon?: ReactNode;
+  [x: string]: unknown;
 };
 
 function TextInput<TFormValues extends Record<string, unknown>>({
@@ -38,7 +39,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || "input";
-  const inputClasses = classNames(styles.inputContainer, {
+  const inputClasses = clsx(styles.inputContainer, {
     [styles.hideLabel as string]: hideLabel,
   });
   const hasErrors = Array.isArray(errors)

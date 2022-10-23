@@ -75,6 +75,7 @@ function LogIn() {
                 name="password"
                 register={register}
                 rules={{ required: "Password is required" }}
+                autoComplete="current-password"
               />
             </div>
             <Button

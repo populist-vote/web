@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { Avatar } from "components/Avatar/Avatar";
 import { LeftArrowIcon } from "components/Icons";
 import { useScrollPosition } from "hooks/useScrollPosition";
@@ -32,7 +32,7 @@ function VotingGuideNav() {
     [sticky]
   );
 
-  const navStyles = classNames(styles.topBar, {
+  const navStyles = clsx(styles.topBar, {
     [styles.sticky as string]: sticky,
   });
 

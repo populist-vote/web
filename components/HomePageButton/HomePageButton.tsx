@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import Link from "next/link";
 import styles from "./HomePageButton.module.scss";
 
@@ -13,9 +13,7 @@ function HomePageButton({
 }) {
   return (
     <Link href={href} passHref>
-      <div className={classNames(styles.container, styles[className])}>
-        {label}
-      </div>
+      <div className={clsx(styles.container, styles[className])}>{label}</div>
     </Link>
   );
 }

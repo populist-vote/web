@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { Button } from "components/Button/Button";
 import { PoliticianResult } from "generated";
 import { useMediaQuery } from "hooks/useMediaQuery";
@@ -49,7 +49,7 @@ function BasicInfoSection({
   const raceLosses = basicInfo?.raceLosses;
   const age = basicInfo?.age;
 
-  const cx = classNames(styles.center, styles.basicInfo, {
+  const cx = clsx(styles.center, styles.basicInfo, {
     [styles.wide as string]: committeeTags.length === 0,
   });
 

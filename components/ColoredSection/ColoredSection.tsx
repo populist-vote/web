@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { CSSProperties, PropsWithChildren } from "react";
 import styles from "./ColoredSection.module.scss";
 
@@ -15,7 +15,7 @@ function ColoredSection(
 
   return (
     <section
-      className={classNames(styles.center, styles.coloredSection)}
+      className={clsx(styles.center, styles.coloredSection)}
       style={styleVars}
     >
       {props.children}

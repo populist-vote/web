@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import useDebounce from "hooks/useDebounce";
 import { Button, PasswordEntropyMeter } from "components";
 import { PasswordInput } from "../PasswordInput";
+import clsx from "clsx";
 
 function EmailStep() {
   const router = useRouter();
@@ -134,15 +135,17 @@ function EmailStep() {
       <p>
         Please create an account with your email and a strong password.{" "}
         <span className={styles.footnote}>
-          Longer passwords with a mix of cases and characters are more secure.
+          Longer passwords are more secure. We recommend using a password
+          manager.
         </span>
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
           <div
-            className={`${styles.inputWrapper} ${
+            className={clsx(
+              styles.inputWrapper,
               errors.email && styles.invalid
-            }`}
+            )}
           >
             <input
               type="email"
@@ -155,6 +158,7 @@ function EmailStep() {
                   message: "Invalid email address",
                 },
               })}
+              autoComplete="email"
               // Need to update email synchronously so that we can revalidate it on each form submission
               onChange={(e) => actions.updateAction({ email: e.target.value })}
             />
@@ -173,6 +177,7 @@ function EmailStep() {
                 required: "Password is required",
                 validate: () => isPasswordValid,
               }}
+              autoComplete="new-password"
               onChange={async (e) =>
                 actions.updateAction({ password: e.target.value })
               }

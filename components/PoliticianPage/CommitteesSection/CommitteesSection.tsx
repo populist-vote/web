@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { GetCandidateBioResponse } from "generated";
 import dynamic from "next/dynamic";
 import { FaChair } from "react-icons/fa";
@@ -75,7 +75,7 @@ function CommitteesSection({
     .map((begin) => tags?.slice(begin, begin + TAG_PAGE_SIZE));
 
   if (tags.length === 0) return null;
-  const cx = classNames(styles.center, styles.committees, styles.borderTop);
+  const cx = clsx(styles.center, styles.committees, styles.borderTop);
   return (
     <section className={cx}>
       <h4 className={styles.subHeader}>Committees</h4>

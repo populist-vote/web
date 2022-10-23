@@ -1,6 +1,6 @@
 import styles from "./Button.module.scss";
 import type { PropsWithChildren, ReactNode } from "react";
-import { default as classNames } from "classnames";
+import { default as clsx } from "clsx";
 
 type ButtonVariant = "primary" | "secondary" | "text";
 
@@ -44,7 +44,7 @@ function Button({
   type?: "submit" | "button";
   [x: string]: unknown;
 }>) {
-  const cx = classNames(
+  const cx = clsx(
     styles.common,
     styles[variant as string],
     styles[size as string],
@@ -54,7 +54,7 @@ function Button({
         !children && (!label || hideLabel) && !!icon,
     }
   );
-  const labelCx = classNames(styles.buttonLabel, {
+  const labelCx = clsx(styles.buttonLabel, {
     [styles.sr as string]: hideLabel,
   });
   return (

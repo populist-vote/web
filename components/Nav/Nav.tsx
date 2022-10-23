@@ -8,7 +8,7 @@ import styles from "./Nav.module.scss";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
-import classNames from "classnames";
+import clsx from "clsx";
 
 function Nav({
   mobileNavTitle,
@@ -47,7 +47,7 @@ function Nav({
     [sticky]
   );
 
-  const navStyles = classNames(styles.nav, {
+  const navStyles = clsx(styles.nav, {
     [styles.sticky as string]: sticky,
   });
 

@@ -4,7 +4,7 @@ import { Layout } from "components";
 import { useAuth } from "hooks/useAuth";
 import { Role, State, useUserCountByStateQuery } from "generated";
 import styles from "./admin.module.scss";
-import classNames from "classnames";
+import clsx from "clsx";
 
 const adminNavItems = [
   {
@@ -23,7 +23,7 @@ const AdminPanel: NextPage = () => {
   return (
     <Layout navItems={adminNavItems} hideFooter>
       <div className={styles.adminContainer}>
-        <div className={classNames(styles.adminBox)}>
+        <div className={clsx(styles.adminBox)}>
           <div className={styles.flexBetween}>
             <span className={styles.itemHeader}>Total Users</span>
             <span className={styles.dots} />

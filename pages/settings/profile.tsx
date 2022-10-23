@@ -503,6 +503,7 @@ const PasswordSection = () => {
             id="current-password"
             label="Old password"
             placeholder={"Old password"}
+            autoComplete="current-password"
             hideLabel
             register={register}
             rules={{
@@ -518,6 +519,7 @@ const PasswordSection = () => {
             id="new-password"
             label="New password"
             placeholder={"New password"}
+            autoComplete="new-password"
             hideLabel
             register={register}
             rules={{
@@ -530,6 +532,7 @@ const PasswordSection = () => {
             id="confirm-password"
             label="Confirm password"
             placeholder={"Confirm password"}
+            autoComplete="new-password"
             hideLabel
             register={register}
             rules={{

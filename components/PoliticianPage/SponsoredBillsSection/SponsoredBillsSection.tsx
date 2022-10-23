@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { BillCard } from "components/BillCard/BillCard";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { BillResult, usePoliticianSponsoredBillsQuery } from "generated";
@@ -26,7 +26,7 @@ function SponsoredBillsSection() {
     const edges =
       (sponsoredBills.edges as Array<{ node: Partial<BillResult> }>) || [];
     return (
-      <section className={classNames(styles.center, styles.borderTop)}>
+      <section className={clsx(styles.center, styles.borderTop)}>
         <h4 className={styles.subHeader}>Sponsored Bills</h4>
         <div className={styles.sectionContent}>
           <Scroller>

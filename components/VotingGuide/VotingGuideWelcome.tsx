@@ -1,17 +1,14 @@
 import { Button, BasicLayout } from "components";
 import styles from "styles/modules/page.module.scss";
 import VotingGuideWelcomeStyles from "./VotingGuideWelcome.module.scss";
-import classNames from "classnames";
+import clsx from "clsx";
 
 function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
   return (
     <BasicLayout>
       <div className={styles.container}>
         <section
-          className={classNames(
-            styles.center,
-            VotingGuideWelcomeStyles.content
-          )}
+          className={clsx(styles.center, VotingGuideWelcomeStyles.content)}
         >
           <h1>Create A Voting Guide</h1>
           <p>

@@ -2,7 +2,7 @@ import { AiFillCaretDown, AiOutlineSearch } from "react-icons/ai";
 import { Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
 import { Chambers, PoliticalScope, State } from "../../generated";
-import classNames from "classnames";
+import clsx from "clsx";
 import { useRouter } from "next/router";
 import { PoliticianIndexProps } from "pages/politicians";
 import { ChangeEvent, useState } from "react";
@@ -83,7 +83,7 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
         />
         <label
           htmlFor="federal-radio"
-          className={classNames(styles.radioLabel, styles.aquaLabel)}
+          className={clsx(styles.radioLabel, styles.aquaLabel)}
         >
           Federal
         </label>
@@ -98,7 +98,7 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
         />
         <label
           htmlFor="state-radio"
-          className={classNames(styles.radioLabel, styles.yellowLabel)}
+          className={clsx(styles.radioLabel, styles.yellowLabel)}
         >
           State
         </label>
@@ -113,7 +113,7 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
         />
         <label
           htmlFor="local-radio"
-          className={classNames(styles.radioLabel, styles.salmonLabel)}
+          className={clsx(styles.radioLabel, styles.salmonLabel)}
         >
           Local
         </label>

@@ -21,7 +21,7 @@ import "@szhsin/react-menu/dist/transitions/slide.css";
 import menuStyles from "./IconMenu.module.scss";
 
 import Link from "next/link";
-import classNames from "classnames";
+import clsx from "clsx";
 import { titleCase } from "utils/strings";
 
 interface BadgeProps {
@@ -267,7 +267,7 @@ function Avatar(props: AvatarProps): JSX.Element {
     [`--border-style`]: borderColor ? "solid" : "none",
   };
 
-  const cx = classNames(styles.imageContainer, {
+  const cx = clsx(styles.imageContainer, {
     [styles.opaque as string]: opaque,
   });
 

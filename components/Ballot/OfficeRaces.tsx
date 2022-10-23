@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { RaceResult } from "generated";
 import dynamic from "next/dynamic";
 import styles from "./Ballot.module.scss";
@@ -21,7 +21,7 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
       ? -1
       : 1;
 
-  const headerCx = classNames(
+  const headerCx = clsx(
     styles.bold,
     styles.flexBetween,
     styles.inset,
