@@ -19,7 +19,7 @@ function AuthButtons({
   if (user && showAvatarIfUser) {
     return (
       <Link href="/settings/profile" passHref>
-        <div>
+        <div style={{ cursor: "pointer" }}>
           <Avatar
             src={
               user?.userProfile.profilePictureUrl || PERSON_FALLBACK_IMAGE_URL

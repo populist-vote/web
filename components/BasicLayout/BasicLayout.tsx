@@ -51,7 +51,7 @@ function BasicLayout({
 
         {user && (
           <Link href="/settings/profile" passHref>
-            <div>
+            <div style={{ cursor: "pointer" }}>
               <Avatar
                 src={
                   user?.userProfile.profilePictureUrl ||
