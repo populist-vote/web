@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import StarSvg from "public/images/star-grey-dark.svg";
 
 export default function StarGreyDarkIcon({ ...rest }) {

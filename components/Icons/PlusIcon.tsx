@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import PlusSvg from "public/images/add.svg";
 
 export default function PlusIcon({ ...rest }) {

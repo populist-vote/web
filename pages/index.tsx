@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { NextPage } from "next";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import headerLogo from "public/images/LogoWithText.svg";
 import landing0 from "public/images/landing/politicianBrowser-new.webp";
 import landing0fallback from "public/images/landing/politicianBrowser-fallback.jpg";

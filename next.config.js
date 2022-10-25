@@ -1,9 +1,13 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require('next-pwa')({
-  dest: 'public'
-})
 const runtimeCaching = require("next-pwa/cache");
+
+const withPWA = require('next-pwa')({
+  dest: "public",
+    disable: process.env.NODE_ENV === "development",
+    runtimeCaching,
+})
+
 
 const nextConfig = {
   reactStrictMode: true,
@@ -13,7 +17,7 @@ const nextConfig = {
       "populist-platform.s3.us-east-2.amazonaws.com",
       "www.gravatar.com",
     ],
-    format: ["image/webp", "image/png", "image/jpeg", "image/gif"],
+    formats: ["image/webp"],
   },
   i18n: {
     // These are all the locales you want to support in
@@ -22,11 +26,6 @@ const nextConfig = {
     // This is the default locale you want to be used when visiting
     // a non-locale prefixed path e.g. `/hello`
     defaultLocale: "en-US",
-  },
-  pwa: {
-    dest: "public",
-    disable: process.env.NODE_ENV === "development",
-    runtimeCaching,
   },
   env: {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,

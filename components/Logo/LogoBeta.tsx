@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import PopulistLogoBeta from "public/images/logo-beta.svg";
 
 function LogoBeta({ ...rest }) {

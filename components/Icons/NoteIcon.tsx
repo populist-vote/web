@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import NoteIconSVG from "public/images/NoteIcon.svg";
 
 export default function NoteIcon({ ...rest }) {

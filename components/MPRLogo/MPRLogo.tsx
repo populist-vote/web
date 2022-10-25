@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import MPRLogoSVG from "public/images/mpr-logo-hor.svg";
 
 function MPRLogo({ ...rest }) {

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
-import Image, { StaticImageData, ImageProps } from "next/image";
+import Image, { StaticImageData, ImageProps } from "next/legacy/image";
 
 function ImageWithFallback(
   props: ImageProps & {
