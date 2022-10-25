@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import { Params } from "next/dist/server/router";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
 import { FaGlobe } from "react-icons/fa";
@@ -69,7 +68,7 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
 export default OrganizationPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug } = ctx.params as Params;
+  const { slug } = ctx.params as { slug: string };
 
   const queryClient = new QueryClient();
 

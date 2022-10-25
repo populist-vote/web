@@ -97,8 +97,8 @@ const Home: NextPage = () => {
           <Image
             id="logo"
             src={headerLogo}
-            width="555px"
-            height="83px"
+            width="555"
+            height="83"
             alt="🇺🇸Populist"
           />
         </div>
@@ -108,7 +108,7 @@ const Home: NextPage = () => {
             <ImageWithFallback
               src={landing0}
               fallbackSrc={landing0fallback}
-              height="540px"
+              height="540"
               alt="Politician browser on mobile"
               priority
             />
