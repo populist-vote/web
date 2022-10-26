@@ -1,7 +1,6 @@
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import type { AppProps } from "next/app";
-import { ReactElement, ReactNode, useState } from "react";
-import { NextPage } from "next";
+import { useState } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "styles/main.scss";
 import Script from "next/script";
@@ -12,36 +11,28 @@ import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type NextPageWithLayout<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <>
-      {process.env.NODE_ENV === "production" && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', "${process.env.GOOGLE_ANALYTICS_ID}");
-        `}
-          </Script>
-        </>
-      )}
+      {process.env.NODE_ENV === "production" &&
+        process.env.GOOGLE_ANALYTICS_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', "${process.env.GOOGLE_ANALYTICS_ID}");
+              `}
+            </Script>
+          </>
+        )}
       <SEO />
       <QueryClientProvider client={queryClient}>
         <AuthProvider>

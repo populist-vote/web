@@ -10,7 +10,6 @@ import {
   TextInput,
 } from "components";
 import profileStyles from "pages/settings/Profile.module.scss";
-import { NextPageWithLayout } from "../_app";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "../../components/TextInput/TextInput.module.scss";
@@ -35,6 +34,7 @@ import { useDropzone, FileWithPath } from "react-dropzone";
 import { toast } from "react-toastify";
 import { PasswordInput } from "components/Auth/PasswordInput";
 import useDebounce from "hooks/useDebounce";
+import { NextPage } from "next";
 
 type NameSectionProps = {
   firstName: string;
@@ -672,7 +672,7 @@ const ProfilePhotoSection = ({
   );
 };
 
-export const ProfilePage: NextPageWithLayout = () => {
+export const ProfilePage: NextPage = () => {
   const user = useAuth({ redirectTo: "/login?next=settings/profile" });
   const { data: { userProfile } = {}, isLoading } = useUserProfileQuery(
     {

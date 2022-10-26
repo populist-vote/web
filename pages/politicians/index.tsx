@@ -16,9 +16,8 @@ import {
 import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
-import { NextPageWithLayout } from "../_app";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianFilters";
 
 const PAGE_SIZE = 20;
@@ -79,7 +78,7 @@ export type PoliticianIndexProps = {
   };
 };
 
-const PoliticianIndex: NextPageWithLayout<PoliticianIndexProps> = (
+const PoliticianIndex: NextPage<PoliticianIndexProps> = (
   props: PoliticianIndexProps
 ) => {
   const router = useRouter();
