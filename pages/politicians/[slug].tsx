@@ -30,10 +30,12 @@ function PoliticianPage({
   slug,
   votingGuideId,
   mobileNavTitle,
+  referer,
 }: {
   slug: string;
   votingGuideId?: string;
   mobileNavTitle?: string;
+  referer?: string;
 }) {
   const { data, isLoading } = usePoliticianBasicInfoQuery(
     {
@@ -45,6 +47,8 @@ function PoliticianPage({
     }
   );
 
+  const hasVotingGuide = referer?.includes("voting-guide");
+
   const basicInfo = data?.politicianBySlug as Partial<PoliticianResult>;
 
   if (isLoading) return <LoaderFlag />;
@@ -52,9 +56,13 @@ function PoliticianPage({
   return (
     <>
       <SEO title={`${data?.politicianBySlug.fullName} | Politicians`} />
-      <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={true}>
+      <Layout
+        mobileNavTitle={mobileNavTitle}
+        showNavLogoOnMobile={true}
+        hasVotingGuide={hasVotingGuide}
+      >
         <VotingGuideProvider votingGuideId={votingGuideId || ""}>
-          <VotingGuideNav />
+          {hasVotingGuide && <VotingGuideNav />}
           <div className={styles.container}>
             <HeaderSection basicInfo={basicInfo} />
             <OfficeSection />
@@ -88,6 +96,7 @@ interface Params extends NextParsedUrlQuery {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { slug } = ctx.params as Params;
   const { votingGuideId = null } = ctx.query || {};
+  const referer = ctx.req.headers?.referer || null;
 
   const queryClient = new QueryClient();
 
@@ -103,6 +112,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     notFound: !data,
     props: {
       slug,
+      referer,
       votingGuideId,
       dehydratedState: state,
       mobileNavTitle: data?.politicianBySlug.fullName,

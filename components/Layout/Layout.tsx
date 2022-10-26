@@ -20,12 +20,14 @@ const defaultNavItems = [
 function Layout({
   mobileNavTitle,
   showNavLogoOnMobile = true,
+  hasVotingGuide = false,
   navItems = defaultNavItems,
   hideFooter = false,
   children,
 }: PropsWithChildren<{
   mobileNavTitle?: string;
   showNavLogoOnMobile?: boolean;
+  hasVotingGuide?: boolean;
   navItems?: {
     label: string;
     href: string;
@@ -38,6 +40,7 @@ function Layout({
         mobileNavTitle={mobileNavTitle}
         showLogoOnMobile={showNavLogoOnMobile}
         navItems={navItems}
+        hasVotingGuide={hasVotingGuide}
       />
       <main className={styles.content}>{children}</main>
       {!hideFooter && <Footer />}

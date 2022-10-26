@@ -13,17 +13,19 @@ import clsx from "clsx";
 function Nav({
   mobileNavTitle,
   showLogoOnMobile,
+  hasVotingGuide,
   navItems,
 }: {
   mobileNavTitle?: string;
   showLogoOnMobile: boolean;
+  hasVotingGuide?: boolean;
   navItems: {
     label: string;
     href: string;
   }[];
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
-  const { asPath, pathname, query } = useRouter();
+  const { asPath, pathname } = useRouter();
   const user = useAuth({ redirectTo: asPath });
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
@@ -109,8 +111,8 @@ function Nav({
           <ul>
             {navItems.map(({ label, href }) => {
               const isNavItemActive =
-                (pathname.includes(href) && !query.votingGuideId) ||
-                (!!query.votingGuideId && href === "/voting-guides");
+                (pathname.includes(href) && !hasVotingGuide) ||
+                (href === "/voting-guides" && hasVotingGuide);
               return (
                 <Link href={href} passHref key={href}>
                   <li
