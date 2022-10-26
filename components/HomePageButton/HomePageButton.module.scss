@@ -10,11 +10,12 @@
   justify-content: center;
   align-items: center;
   margin: 0.75rem 0;
-  font-size: $text-lg;
+  font-size: $text-xxl;
   font-family: $font-primary;
   font-weight: 500;
   color: $white;
   cursor: pointer;
+  text-transform: none;
 
   &:hover {
     filter: brightness(1.15);

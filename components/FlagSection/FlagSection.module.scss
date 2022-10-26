@@ -1,4 +1,5 @@
 @import "styles/variables/colors";
+@import "styles/variables/fonts";
 @import "styles/mixins/media";
 
 .container {
@@ -13,7 +14,7 @@
   .sectionTitle {
     display: flex;
     width: max-content;
-    font-family: "Commuters Sans", sans-serif;
+    font-family: $font-primary;
     background: $blue-dark; // Default color
     color: $white;
     font-weight: normal;

@@ -111,7 +111,6 @@ const Home: NextPage = () => {
               alt="Politician browser on mobile"
               height={540}
               quality={50}
-              layout="responsive"
               priority={!isMobile}
             />
           </div>

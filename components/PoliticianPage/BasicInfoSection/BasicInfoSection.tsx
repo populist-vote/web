@@ -301,7 +301,7 @@ function BasicInfoSection({
             ) : (
               <Button
                 icon={<FaLinkedin />}
-                label="YouTube"
+                label="LinkedIn"
                 iconPosition="before"
                 size="medium"
                 variant="secondary"
