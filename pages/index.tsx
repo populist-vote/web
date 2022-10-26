@@ -108,10 +108,11 @@ const Home: NextPage = () => {
             <ImageWithFallback
               src={landing0}
               fallbackSrc={landing0fallback}
-              height="540"
               alt="Politician browser on mobile"
+              height={540}
               quality={50}
-              priority
+              layout="responsive"
+              priority={!isMobile}
             />
           </div>
           <div id={styles["s1ccol2"]}>
