@@ -15,7 +15,7 @@ function SEO({
       <title key="title">{fullTitle}</title>
       <meta
         name="viewport"
-        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5,user-scalable=yes"
       />
       <meta key="description" name="description" content={description} />
 
