@@ -227,52 +227,17 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div id={styles["s4row2"]}>
-            <div className={clsx(styles.contentwide3, styles.last)}>
-              <h2 className={styles.botspace}>
-                Interested? Sign up to learn more.
-              </h2>
-
-              <div id={styles["mc_embed_signup"]}>
-                <form
-                  action="https://populist.us2.list-manage.com/subscribe/post?u=f24fbd8a9a3cd91b78cb4a457&amp;id=361b16ea14"
-                  method="post"
-                  id={styles["mc-embedded-subscribe-form"]}
-                  name="mc-embedded-subscribe-form"
-                  className={styles.validate}
-                  target="_blank"
-                  noValidate
-                >
-                  <div id={styles["mc_embed_signup_scroll"]}>
-                    <input
-                      type="email"
-                      name="EMAIL"
-                      className={styles.email}
-                      id={styles["mce-EMAIL"]}
-                      placeholder="Email address"
-                      required
-                    />
-                    <div
-                      style={{ position: "absolute", left: "-5000px" }}
-                      aria-hidden="true"
-                    >
-                      <input
-                        type="text"
-                        name="b_f24fbd8a9a3cd91b78cb4a457_361b16ea14"
-                        tabIndex={-1}
-                      />
-                    </div>
-                    <div className={styles.clear}>
-                      <input
-                        type="submit"
-                        value="Submit"
-                        name="subscribe"
-                        id={styles["mc-embedded-subscribe"]}
-                        className={styles.button}
-                      />
-                    </div>
-                  </div>
-                </form>
-              </div>
+            <div
+              className={clsx(
+                styles.contentwide3,
+                styles.last,
+                styles.botspace
+              )}
+            >
+              <h2>Interested? Create an account now.</h2>
+              <Link href="register">
+                <Button size="large" variant="primary" label="Get Started" />
+              </Link>
             </div>
           </div>
 
