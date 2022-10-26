@@ -30,7 +30,7 @@ function Footer() {
             rel="noreferrer"
             target="_blank"
           >
-            <FaFacebookF />
+            <FaFacebookF aria-labelledby="populist on facebook" />
           </a>
         </li>
 
@@ -41,7 +41,7 @@ function Footer() {
             rel="noreferrer"
             target="_blank"
           >
-            <FaTwitter />
+            <FaTwitter aria-labelledby="populist on twitter" />
           </a>
         </li>
 
@@ -52,7 +52,7 @@ function Footer() {
             rel="noreferrer"
             target="_blank"
           >
-            <FaInstagram />
+            <FaInstagram aria-labelledby="populist on instagram" />
           </a>
         </li>
       </ul>
