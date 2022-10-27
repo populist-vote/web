@@ -13,7 +13,7 @@ import {
   VotingGuideByIdQuery,
 } from "generated";
 import { useVotingGuide } from "hooks/useVotingGuide";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQueryClient } from "react-query";
 import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
@@ -37,9 +37,6 @@ function Race({
   incumbentId?: string;
 }) {
   const queryClient = useQueryClient();
-
-  const candidateSortFn = (a: PoliticianResult, b: PoliticianResult) =>
-    a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
 
   const { data: votingGuide, isGuideOwner, queryKey } = useVotingGuide();
 
@@ -128,6 +125,25 @@ function Race({
 
   const { raceType, party, candidates, results } = race;
 
+  const sortedCandidates = useMemo(() => {
+    const randomizeFn = () => Math.random() - 0.5;
+
+    const incumbentSortFn = (a: PoliticianResult, b: PoliticianResult) =>
+      a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
+
+    const partySortFn = (a: PoliticianResult, b: PoliticianResult) =>
+      (a.party === PoliticalParty.Democratic &&
+        b.party !== PoliticalParty.Democratic) ||
+      (a.party === PoliticalParty.Republican &&
+        b.party !== PoliticalParty.Republican)
+        ? -1
+        : 1;
+    return candidates
+      ?.sort(randomizeFn)
+      .sort(partySortFn)
+      .sort(incumbentSortFn);
+  }, [candidates, incumbentId]);
+
   const $raceContent = (
     <>
       {candidates.length < 1 && (
@@ -142,82 +158,80 @@ function Race({
           handleClose={() => setDialogOpen(false)}
         />
       )}
-      {candidates
-        ?.sort(candidateSortFn)
-        ?.map((politician: PoliticianResult) => {
-          const isEndorsing = votingGuide?.candidates
-            ?.filter((c) => c.isEndorsement)
-            .map((c) => c.politician.id)
-            .includes(politician.id);
+      {sortedCandidates.map((politician: PoliticianResult) => {
+        const isEndorsing = votingGuide?.candidates
+          ?.filter((c) => c.isEndorsement)
+          .map((c) => c.politician.id)
+          .includes(politician.id);
 
-          const hasNote = votingGuide?.candidates
-            ?.filter((c) => c.note?.length)
-            .map((c) => c.politician.id)
-            .includes(politician.id);
+        const hasNote = votingGuide?.candidates
+          ?.filter((c) => c.note?.length)
+          .map((c) => c.politician.id)
+          .includes(politician.id);
 
-          const appendString = votingGuide?.id
-            ? `?votingGuideId=${votingGuide.id}`
-            : "";
+        const appendString = votingGuide?.id
+          ? `?votingGuideId=${votingGuide.id}`
+          : "";
 
-          const politicianLink = `/politicians/${encodeURIComponent(
-            politician?.slug
-          )}${appendString}`;
+        const politicianLink = `/politicians/${encodeURIComponent(
+          politician?.slug
+        )}${appendString}`;
 
-          const votePercentage = results.votesByCandidate.find(
-            (c) => c.candidateId === politician.id
-          )?.votePercentage;
+        const votePercentage = results.votesByCandidate.find(
+          (c) => c.candidateId === politician.id
+        )?.votePercentage;
 
-          const labelLeftProps = {
-            text: votePercentage ? `${votePercentage}%` : null,
-            background: "var(--grey-lighter)",
-            color: "var(--grey-darker)",
-          };
+        const labelLeftProps = {
+          text: votePercentage ? `${votePercentage}%` : null,
+          background: "var(--grey-lighter)",
+          color: "var(--grey-darker)",
+        };
 
-          const isOpaque =
-            results.winner && results?.winner?.id !== politician.id
-              ? true
-              : false;
+        const isOpaque =
+          results.winner && results?.winner?.id !== politician.id
+            ? true
+            : false;
 
-          return (
-            <div className={styles.flexBetween} key={politician.id}>
-              {politician.id == incumbentId && (
-                <span className={styles.sideText}>INCUMBENT</span>
-              )}
+        return (
+          <div className={styles.flexBetween} key={politician.id}>
+            {politician.id == incumbentId && (
+              <span className={styles.sideText}>INCUMBENT</span>
+            )}
 
-              <div className={styles.avatarContainer}>
-                <PartyAvatar
-                  size={80}
-                  hasIconMenu
-                  isEndorsement={isEndorsing}
-                  iconSize="1.25rem"
-                  hasNote={hasNote}
-                  iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
-                  handleEndorseCandidate={() => endorseCandidate(politician.id)}
-                  handleUnendorseCandidate={() =>
-                    unendorseCandidate(politician.id)
-                  }
-                  handleAddNote={() => handleAddNoteClick(politician)}
-                  party={politician?.party as PoliticalParty}
-                  src={politician?.thumbnailImageUrl as string}
-                  alt={politician.fullName}
-                  readOnly={!isGuideOwner}
-                  href={politicianLink}
-                  labelLeft={labelLeftProps}
-                  opaque={isOpaque}
-                />
-                <Link href={politicianLink} passHref>
-                  <span className={clsx(styles.link, styles.avatarName)}>
-                    {politician.fullName}
-                  </span>
-                </Link>
-              </div>
-
-              {politician.id == incumbentId && candidates?.length > 1 && (
-                <VerticalDivider />
-              )}
+            <div className={styles.avatarContainer}>
+              <PartyAvatar
+                size={80}
+                hasIconMenu
+                isEndorsement={isEndorsing}
+                iconSize="1.25rem"
+                hasNote={hasNote}
+                iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
+                handleEndorseCandidate={() => endorseCandidate(politician.id)}
+                handleUnendorseCandidate={() =>
+                  unendorseCandidate(politician.id)
+                }
+                handleAddNote={() => handleAddNoteClick(politician)}
+                party={politician?.party as PoliticalParty}
+                src={politician?.thumbnailImageUrl as string}
+                alt={politician.fullName}
+                readOnly={!isGuideOwner}
+                href={politicianLink}
+                labelLeft={labelLeftProps}
+                opaque={isOpaque}
+              />
+              <Link href={politicianLink} passHref>
+                <span className={clsx(styles.link, styles.avatarName)}>
+                  {politician.fullName}
+                </span>
+              </Link>
             </div>
-          );
-        })}
+
+            {politician.id == incumbentId && candidates?.length > 1 && (
+              <VerticalDivider />
+            )}
+          </div>
+        );
+      })}
     </>
   );
 
