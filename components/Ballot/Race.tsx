@@ -199,27 +199,27 @@ function Race({
             )}
 
             <div className={styles.avatarContainer}>
-              <PartyAvatar
-                size={80}
-                hasIconMenu
-                isEndorsement={isEndorsing}
-                iconSize="1.25rem"
-                hasNote={hasNote}
-                iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
-                handleEndorseCandidate={() => endorseCandidate(politician.id)}
-                handleUnendorseCandidate={() =>
-                  unendorseCandidate(politician.id)
-                }
-                handleAddNote={() => handleAddNoteClick(politician)}
-                party={politician?.party as PoliticalParty}
-                src={politician?.thumbnailImageUrl as string}
-                alt={politician.fullName}
-                readOnly={!isGuideOwner}
-                href={politicianLink}
-                labelLeft={labelLeftProps}
-                opaque={isOpaque}
-              />
-              <Link href={politicianLink} passHref>
+              <Link href={politicianLink}>
+                <PartyAvatar
+                  size={80}
+                  hasIconMenu
+                  isEndorsement={isEndorsing}
+                  iconSize="1.25rem"
+                  hasNote={hasNote}
+                  iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
+                  handleEndorseCandidate={() => endorseCandidate(politician.id)}
+                  handleUnendorseCandidate={() =>
+                    unendorseCandidate(politician.id)
+                  }
+                  handleAddNote={() => handleAddNoteClick(politician)}
+                  party={politician?.party as PoliticalParty}
+                  src={politician?.thumbnailImageUrl as string}
+                  alt={politician.fullName}
+                  readOnly={!isGuideOwner}
+                  href={politicianLink}
+                  labelLeft={labelLeftProps}
+                  opaque={isOpaque}
+                />
                 <span className={clsx(styles.link, styles.avatarName)}>
                   {politician.fullName}
                 </span>
