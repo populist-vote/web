@@ -1,7 +1,9 @@
 import styles from "./BetaNotice.module.scss";
 import { Button } from "components/Button/Button";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function BetaNotice({ onContinue }: { onContinue: () => void }) {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   return (
     <div className={styles.noticeContainer}>
       <div className={styles.roundedCard}>
@@ -15,7 +17,7 @@ function BetaNotice({ onContinue }: { onContinue: () => void }) {
           <Button
             onClick={() => onContinue()}
             label="Continue"
-            size="small"
+            size={isMobile ? "small" : "large"}
             variant="primary"
           />
         </div>
