@@ -113,8 +113,16 @@ function Nav({
               const isNavItemActive =
                 (pathname.includes(href) && !hasVotingGuide) ||
                 (href === "/voting-guides" && hasVotingGuide);
+
+              const authedHref = user
+                ? href
+                : href === "/politicians"
+                ? href
+                : href === "/ballot"
+                ? "/ballot/choose"
+                : `/login?next=${href}`;
               return (
-                <Link href={href} passHref key={href}>
+                <Link href={authedHref} key={href}>
                   <li
                     className={`${styles.navItem} ${
                       isNavItemActive && styles.active
