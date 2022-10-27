@@ -6,6 +6,12 @@
 $election-info-width: 1150px;
 $box-height: 14rem;
 
+.boxOpponent {
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+}
+
 @media (min-width: $election-info-width) {
   section.wrapper {
     flex-direction: row !important;
@@ -31,10 +37,14 @@ $box-height: 14rem;
 
     .boxOpponent {
       height: $box-height;
+      overflow: scroll;
+      justify-content: flex-start;
       display: inline-flex;
       align-items: center;
-      justify-content: flex-start;
-      overflow: scroll;
+
+      :last-child {
+        margin: auto;
+      }
     }
   }
 }
