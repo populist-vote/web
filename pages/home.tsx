@@ -38,7 +38,7 @@ function HomePage() {
               label="My Ballot"
             />
             <HomePageButton
-              href="/voting-guides"
+              href={user ? "/voting-guides" : "/login?next=/voting-guides"}
               className="votingGuides"
               label="Voting Guides"
             />
