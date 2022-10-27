@@ -145,10 +145,10 @@ function Nav({
             </Link>
           ) : (
             <div className={styles.flexColumn}>
-              <Link href="/signup" passHref>
+              <Link href="/register">
                 <Button size="medium" variant="primary" label="Register" />
               </Link>
-              <Link href={`/login?next=${asPath}`} passHref>
+              <Link href={`/login?next=${asPath}`}>
                 <Button size="medium" variant="secondary" label="Sign in" />
               </Link>
             </div>
