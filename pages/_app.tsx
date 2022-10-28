@@ -10,6 +10,7 @@ import "styles/vendor/toast.css";
 import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -33,7 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Script>
           </>
         )}
-      <SEO />
+      <Head>
+        <SEO {...pageProps} />
+      </Head>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <Hydrate state={pageProps.dehydratedState}>
