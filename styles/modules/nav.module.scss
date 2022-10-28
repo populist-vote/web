@@ -42,7 +42,6 @@ ul.menu {
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  padding-left: 0;
 
   @include for-tablet-up {
     gap: 3rem;

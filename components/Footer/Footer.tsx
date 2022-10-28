@@ -8,7 +8,7 @@ function Footer() {
       <p className={styles.copyright}>
         &#169; {new Date().getFullYear()} Populist. &nbsp;Made in Colorado.
       </p>
-      <ul>
+      <ul className={styles.links}>
         <li>
           <Link href="/about" passHref>
             ABOUT
