@@ -15,7 +15,6 @@ import {
   FlagSection,
   Button,
   LoaderFlag,
-  SEO,
   ElectionSelector,
 } from "components";
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
@@ -186,62 +185,69 @@ const VotingGuides: NextPage<{
     isLoading || isElectionsLoading || savedGuidesQuery.isLoading;
 
   return (
-    <>
-      <SEO title="Voting Guides" description="View Populist Voting Guides" />
-      <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
-        <div className={styles.votingContainer}>
-          <ElectionSelector
-            elections={elections}
-            selectedElectionId={selectedElectionId as string}
-            setSelectedElectionId={setSelectedElectionId}
-          />
-          {election && <ElectionHeader election={election} />}
-          {showLoader && (
-            <div className={styles.center}>
-              <LoaderFlag />{" "}
-            </div>
-          )}
-          {!showLoader && (
-            <FlagSection title="My Voting Guides">
-              {error && <small>Something went wrong...</small>}
-              {userVotingGuides && (userVotingGuides?.length as number) < 1 && (
-                <>
-                  <small>No voting guides</small>
-                </>
-              )}
-              <div className={styles.guidesContainer}>
-                {userVotingGuides?.map((guide) => (
-                  <VotingGuideCard
-                    guide={guide as Partial<VotingGuideResult>}
-                    key={guide.id}
-                    showEdit={user.id === guide.user.id}
-                  />
-                ))}
-              </div>
-            </FlagSection>
-          )}
-        </div>
-
-        {!!savedGuides?.length && !savedGuidesQuery.isLoading && (
-          <div className={styles.votingContainer}>
-            <FlagSection title="Other Guides">
-              {savedGuidesQuery.error && <small>Something went wrong...</small>}
-
-              <div className={styles.otherGuidesContainer}>
-                {savedGuides.map((guide) => (
-                  <VotingGuideCard
-                    guide={guide as Partial<VotingGuideResult>}
-                    key={guide.id}
-                    showEdit={user.id === guide.user.id}
-                  />
-                ))}
-              </div>
-            </FlagSection>
+    <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
+      <div className={styles.votingContainer}>
+        <ElectionSelector
+          elections={elections}
+          selectedElectionId={selectedElectionId as string}
+          setSelectedElectionId={setSelectedElectionId}
+        />
+        {election && <ElectionHeader election={election} />}
+        {showLoader && (
+          <div className={styles.center}>
+            <LoaderFlag />{" "}
           </div>
         )}
-      </Layout>
-    </>
+        {!showLoader && (
+          <FlagSection title="My Voting Guides">
+            {error && <small>Something went wrong...</small>}
+            {userVotingGuides && (userVotingGuides?.length as number) < 1 && (
+              <>
+                <small>No voting guides</small>
+              </>
+            )}
+            <div className={styles.guidesContainer}>
+              {userVotingGuides?.map((guide) => (
+                <VotingGuideCard
+                  guide={guide as Partial<VotingGuideResult>}
+                  key={guide.id}
+                  showEdit={user.id === guide.user.id}
+                />
+              ))}
+            </div>
+          </FlagSection>
+        )}
+      </div>
+
+      {!!savedGuides?.length && !savedGuidesQuery.isLoading && (
+        <div className={styles.votingContainer}>
+          <FlagSection title="Other Guides">
+            {savedGuidesQuery.error && <small>Something went wrong...</small>}
+
+            <div className={styles.otherGuidesContainer}>
+              {savedGuides.map((guide) => (
+                <VotingGuideCard
+                  guide={guide as Partial<VotingGuideResult>}
+                  key={guide.id}
+                  showEdit={user.id === guide.user.id}
+                />
+              ))}
+            </div>
+          </FlagSection>
+        </div>
+      )}
+    </Layout>
   );
 };
 
 export default VotingGuides;
+
+export function getServerSideProps() {
+  return {
+    props: {
+      title: "Voting Guides",
+      description:
+        "Check out voting guides from organizations and fellow voters on Populist.",
+    },
+  };
+}

@@ -1,4 +1,4 @@
-import { Button, Layout, LoaderFlag, SEO, VotingGuideNav } from "components";
+import { Button, Layout, LoaderFlag, VotingGuideNav } from "components";
 import { Election } from "components/Ballot/Election";
 import { useVotingGuideByIdQuery, VotingGuideByIdQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
@@ -39,37 +39,30 @@ export default function VotingGuidePage() {
   if (error) return <div>{JSON.stringify(error)}</div>;
 
   return (
-    <>
-      <SEO
-        title={`${
-          guide?.user.firstName ?? guide?.user.username
-        }'s Voting Guide`}
-      />
-      <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
-        <VotingGuideProvider votingGuideId={votingGuideId}>
-          <VotingGuideNav />
-          <div data-testid="voting-guide-page">
-            <Election
-              electionId={guide?.election.id as string}
-              votingGuideId={votingGuideId}
-            />
-            {isGuideOwner && (
-              <div className={styles.center}>
-                <Link href="/ballot" passHref>
-                  <div>
-                    <Button
-                      variant="secondary"
-                      size="small"
-                      label="Add more candidates from my ballot"
-                    />
-                  </div>
-                </Link>
-              </div>
-            )}
-          </div>
-        </VotingGuideProvider>
-      </Layout>
-    </>
+    <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
+      <VotingGuideProvider votingGuideId={votingGuideId}>
+        <VotingGuideNav />
+        <div data-testid="voting-guide-page">
+          <Election
+            electionId={guide?.election.id as string}
+            votingGuideId={votingGuideId}
+          />
+          {isGuideOwner && (
+            <div className={styles.center}>
+              <Link href="/ballot" passHref>
+                <div>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    label="Add more candidates from my ballot"
+                  />
+                </div>
+              </Link>
+            </div>
+          )}
+        </div>
+      </VotingGuideProvider>
+    </Layout>
   );
 }
 
@@ -91,9 +84,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const mobileNavTitle = "Voting Guides";
 
+  const title = `${
+    data.votingGuideById?.user.firstName ?? data.votingGuideById?.user.username
+  }'s Voting Guide`;
+
   return {
     notFound: !data,
     props: {
+      title,
+      description: `Check out ${title} on Populist.`,
       dehydratedState: state,
       mobileNavTitle,
     },

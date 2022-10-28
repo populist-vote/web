@@ -1,5 +1,3 @@
-import Head from "next/head";
-
 const DEFAULT_PREVIEW_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg";
 
@@ -11,7 +9,7 @@ function SEO({
 }) {
   const fullTitle = `${title} | ${appName}`;
   return (
-    <Head>
+    <>
       <title key="title">{fullTitle}</title>
       <meta
         name="viewport"
@@ -68,7 +66,7 @@ function SEO({
         href="/icons/icon-16x16.png"
       />
       <link rel="manifest" href="/manifest.json" />
-    </Head>
+    </>
   );
 }
 

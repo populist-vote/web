@@ -10,12 +10,16 @@ import "styles/vendor/toast.css";
 import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <>
+      <Head>
+        <SEO {...pageProps} />
+      </Head>
       {process.env.NODE_ENV === "production" &&
         process.env.GOOGLE_ANALYTICS_ID && (
           <>
@@ -33,15 +37,14 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Script>
           </>
         )}
-      <SEO />
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Hydrate state={pageProps.dehydratedState}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <AuthProvider>
             <Component {...pageProps} />
             <ToastContainer theme="dark" />
             <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
-          </Hydrate>
-        </AuthProvider>
+          </AuthProvider>
+        </Hydrate>
       </QueryClientProvider>
     </>
   );

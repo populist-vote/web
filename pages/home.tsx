@@ -1,7 +1,15 @@
 import { useState } from "react";
-import { BasicLayout, HomePageButton, SEO, BetaNotice } from "components";
+import { BasicLayout, HomePageButton, BetaNotice } from "components";
 import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
+
+export function getServerSideProps() {
+  return {
+    props: {
+      title: "Home",
+    },
+  };
+}
 
 function HomePage() {
   const user = useAuth({ redirect: false });
@@ -22,35 +30,29 @@ function HomePage() {
   };
 
   return (
-    <>
-      <SEO
-        title="Home"
-        description="Find information on your government representatives like voting histories, endorsements, and financial data."
-      />
-      <BasicLayout showAuthButtons>
-        {isBetaVisible ? (
-          <BetaNotice onContinue={handleBetaDismissal} />
-        ) : (
-          <div>
-            <HomePageButton
-              href={user ? "/ballot" : "/ballot/choose"}
-              className="myBallot"
-              label="My Ballot"
-            />
-            <HomePageButton
-              href={user ? "/voting-guides" : "/login?next=/voting-guides"}
-              className="votingGuides"
-              label="Voting Guides"
-            />
-            <HomePageButton
-              href="/politicians"
-              className="myLegislators"
-              label="Browse Politicians"
-            />
-          </div>
-        )}
-      </BasicLayout>
-    </>
+    <BasicLayout showAuthButtons>
+      {isBetaVisible ? (
+        <BetaNotice onContinue={handleBetaDismissal} />
+      ) : (
+        <div>
+          <HomePageButton
+            href={user ? "/ballot" : "/ballot/choose"}
+            className="myBallot"
+            label="My Ballot"
+          />
+          <HomePageButton
+            href={user ? "/voting-guides" : "/login?next=/voting-guides"}
+            className="votingGuides"
+            label="Voting Guides"
+          />
+          <HomePageButton
+            href="/politicians"
+            className="myLegislators"
+            label="Browse Politicians"
+          />
+        </div>
+      )}
+    </BasicLayout>
   );
 }
 
