@@ -33,7 +33,10 @@ function OrganizationEndorsement({
     >
       <div className={styles.avatarContainer}>
         <OrganizationAvatar
-          src={organization.thumbnailImageUrl as string}
+          src={
+            (organization.assets?.thumbnailImage160 ||
+              organization.thumbnailImageUrl) as string
+          }
           fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
           alt={organization.name as string}
           size={80}

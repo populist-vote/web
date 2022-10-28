@@ -126,6 +126,9 @@ fragment Endorsements on PoliticianResult {
       slug
       name
       thumbnailImageUrl
+      assets {
+        thumbnailImage160
+      }
     }
     politicians {
       id

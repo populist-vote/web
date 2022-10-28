@@ -22,7 +22,10 @@ function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
     <div className={styles.ratingContainer} key={rating?.vsRating.ratingId}>
       <div className={styles.circlesContainer}>
         <OrganizationAvatar
-          src={rating?.organization?.thumbnailImageUrl as string}
+          src={
+            (rating.organization?.assets?.thumbnailImage160 ||
+              rating.organization?.thumbnailImageUrl) as string
+          }
           fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
           alt={rating?.organization?.name as string}
           size={80}
