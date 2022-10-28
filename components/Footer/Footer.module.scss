@@ -6,10 +6,15 @@ $font-size: 0.85em;
 
 .footer {
   grid-area: footer;
-  margin: 1.5rem 0;
+  margin: 0.75rem 1.5rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
+
+  @include for-tablet-up {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
   ul {
     padding: 0;
@@ -52,5 +57,28 @@ $font-size: 0.85em;
     justify-content: center;
     align-items: center;
     gap: 2rem;
+  }
+
+  .platformStatus {
+    font-size: $text-xxs;
+    color: $blue-light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    font-family: $font-secondary;
+
+    span:first-child {
+      background: $black-alpha-3;
+      padding: 0.5rem 0.75rem;
+      border-radius: 5px;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      .statusText {
+        color: $green;
+      }
+    }
   }
 }

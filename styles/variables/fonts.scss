@@ -9,6 +9,7 @@ $weight-semibold: 500;
 $weight-bold: 700;
 
 // font sizes
+$text-xxs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio)));
 $text-xs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio)));
 $text-sm: calc(1em / var(--text-scale-ratio));
 $text-md: calc(1em * var(--text-scale-ratio));

@@ -5,6 +5,9 @@ import Link from "next/link";
 function Footer() {
   return (
     <footer className={styles.footer}>
+      <p className={styles.copyright}>
+        &#169; {new Date().getFullYear()} Populist. &nbsp;Made in Colorado.
+      </p>
       <ul>
         <li>
           <Link href="/about" passHref>
@@ -55,10 +58,18 @@ function Footer() {
             <FaInstagram aria-labelledby="populist on instagram" />
           </a>
         </li>
+
+        {/* <li>
+          <div className={styles.platformStatus}>
+            <span>
+              Status <FaCircle color={"var(--green)"} />{" "}
+              <span className={styles.statusText}>
+                All systems operational.
+              </span>
+            </span>
+          </div>
+        </li> */}
       </ul>
-      <p className={styles.copyright}>
-        &#169; {new Date().getFullYear()} Populist. &nbsp;Made in Colorado.
-      </p>
     </footer>
   );
 }
