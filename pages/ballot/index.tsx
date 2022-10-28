@@ -8,7 +8,6 @@ import {
   Layout,
   LoaderFlag,
   VotingGuideWelcome,
-  SEO,
   ElectionSelector,
 } from "components";
 
@@ -96,11 +95,6 @@ export default function BallotPage() {
 
   return (
     <>
-      <SEO
-        title="Ballot"
-        description="Find information on your government representatives like voting histories, endorsements, and financial data."
-      />
-
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
@@ -160,6 +154,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       dehydratedState: state,
       mobileNavTitle: "My Ballot",
+      title: "My Ballot",
+      description:
+        "Find information on your government representatives like voting histories, endorsements, and financial data.",
     },
   };
 };

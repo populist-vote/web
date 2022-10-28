@@ -5,7 +5,6 @@ import {
   Layout,
   HeaderSection,
   ElectionInfoSection,
-  SEO,
   LoaderFlag,
   VotingGuideNav,
 } from "components";
@@ -54,36 +53,33 @@ function PoliticianPage({
   if (isLoading) return <LoaderFlag />;
 
   return (
-    <>
-      <SEO title={`${data?.politicianBySlug.fullName} | Politicians`} />
-      <Layout
-        mobileNavTitle={mobileNavTitle}
-        showNavLogoOnMobile={true}
-        hasVotingGuide={hasVotingGuide}
-      >
-        <VotingGuideProvider votingGuideId={votingGuideId || ""}>
-          {hasVotingGuide && <VotingGuideNav />}
-          <div className={styles.container}>
-            <HeaderSection basicInfo={basicInfo} />
-            <OfficeSection />
-            <ElectionInfoSection />
-            <div className={styles.infoCommitteeWrapper}>
-              <BasicInfoSection basicInfo={basicInfo} />
-              <CommitteesSection
-                votesmartCandidateBio={
-                  basicInfo.votesmartCandidateBio as GetCandidateBioResponse
-                }
-              />
-            </div>
-            <SponsoredBillsSection />
-            <EndorsementsSection />
-            <RatingsSection />
-            <FinancialsSection />
-            <BioSection />
+    <Layout
+      mobileNavTitle={mobileNavTitle}
+      showNavLogoOnMobile={true}
+      hasVotingGuide={hasVotingGuide}
+    >
+      <VotingGuideProvider votingGuideId={votingGuideId || ""}>
+        {hasVotingGuide && <VotingGuideNav />}
+        <div className={styles.container}>
+          <HeaderSection basicInfo={basicInfo} />
+          <OfficeSection />
+          <ElectionInfoSection />
+          <div className={styles.infoCommitteeWrapper}>
+            <BasicInfoSection basicInfo={basicInfo} />
+            <CommitteesSection
+              votesmartCandidateBio={
+                basicInfo.votesmartCandidateBio as GetCandidateBioResponse
+              }
+            />
           </div>
-        </VotingGuideProvider>
-      </Layout>
-    </>
+          <SponsoredBillsSection />
+          <EndorsementsSection />
+          <RatingsSection />
+          <FinancialsSection />
+          <BioSection />
+        </div>
+      </VotingGuideProvider>
+    </Layout>
   );
 }
 
@@ -116,6 +112,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       votingGuideId,
       dehydratedState: state,
       mobileNavTitle: data?.politicianBySlug.fullName,
+      title: data?.politicianBySlug.fullName,
+      description: `Check out ${data?.politicianBySlug.fullName}'s voting record, financial data, and more on Populist.`,
     },
   };
 };

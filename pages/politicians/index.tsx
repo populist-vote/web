@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { Layout, LoaderFlag, PartyAvatar, SEO, Spacer } from "components";
+import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
 
 import {
@@ -150,10 +150,6 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
 
   return (
     <Layout>
-      <SEO
-        title="Politician Browser"
-        description="Find information on your government representatives like voting histories, endorsements, and financial data."
-      />
       <div>
         <header>
           <PoliticianIndexFilters query={props.query} />
@@ -200,7 +196,14 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return { props: ctx.query };
+  return {
+    props: {
+      title: "Politician Browser",
+      description:
+        "Find information on your government representatives like voting histories, endorsements, and financial data.",
+      ...ctx.query,
+    },
+  };
 };
 
 export default PoliticianIndex;
