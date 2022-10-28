@@ -66,11 +66,6 @@ type ArgumentResult {
   votes: Int!
 }
 
-type Assets {
-  thumbnailImage160: String
-  thumbnailImage400: String
-}
-
 type AuthTokenResult {
   email: String!
   id: ID!
@@ -584,13 +579,27 @@ input OfficeSearch {
   state: State
 }
 
+type OrganizationAssets {
+  thumbnailImage160: String
+  thumbnailImage400: String
+}
+
 type OrganizationResult {
+  assets: OrganizationAssets!
   description: String
+  email: String
+  facebookUrl: String
+  headquartersAddressId: ID
+  headquartersPhone: String
   id: ID!
+  instagramUrl: String
   issueTags: [IssueTagResult!]!
   name: String!
   slug: String!
+  taxClassification: String
   thumbnailImageUrl: String
+  twitterUrl: String
+  votesmartSigId: Int
   websiteUrl: String
 }
 
@@ -666,6 +675,11 @@ enum PoliticalScope {
   STATE
 }
 
+type PoliticianAssets {
+  thumbnailImage160: String
+  thumbnailImage400: String
+}
+
 input PoliticianFilter {
   chambers: Chambers
   homeState: State
@@ -676,7 +690,7 @@ input PoliticianFilter {
 
 type PoliticianResult {
   age: Int
-  assets: Assets!
+  assets: PoliticianAssets!
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
@@ -1212,6 +1226,7 @@ input UpsertOfficeInput {
 }
 
 input UpsertOrganizationInput {
+  assets: JSON
   description: String
   email: String
   facebookUrl: String

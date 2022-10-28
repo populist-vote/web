@@ -181,6 +181,9 @@ fragment Ratings on PoliticianResult {
           slug
           name
           thumbnailImageUrl
+          assets {
+            thumbnailImage160
+          }
         }
       }
     }

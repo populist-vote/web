@@ -11,6 +11,7 @@ import {
 } from "../../generated";
 
 import styles from "./OrganizationPage.module.scss";
+import { ORGANIZATION_FALLBACK_IMAGE_400_URL } from "utils/constants";
 
 function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   const { query } = useRouter();
@@ -28,7 +29,12 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
         {organization?.thumbnailImageUrl && (
           <h1 className={styles.orgLogo}>
             <Avatar
-              src={organization.thumbnailImageUrl}
+              src={
+                organization?.assets?.thumbnailImage400 ||
+                organization?.assets?.thumbnailImage160 ||
+                organization.thumbnailImageUrl
+              }
+              fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_400_URL}
               alt={organization.name}
               size={200}
             />

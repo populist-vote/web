@@ -4,7 +4,7 @@ import { default as clsx } from "clsx";
 import { Avatar, PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
 import { useVotingGuide } from "hooks/useVotingGuide";
-import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import {
   PoliticalParty,
   PoliticianResult,
@@ -139,7 +139,7 @@ function HeaderSection({
             politician?.thumbnailImageUrl ||
             politician?.votesmartCandidateBio?.candidate.photo) as string
         }
-        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+        fallbackSrc={PERSON_FALLBACK_IMAGE_400_URL}
         alt={politician?.fullName as string}
         iconType={guideEnabled ? "star" : undefined}
         isEndorsement={isEndorsed}
