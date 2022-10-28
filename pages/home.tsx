@@ -1,25 +1,29 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { BasicLayout, HomePageButton, SEO, BetaNotice } from "components";
 import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
 
 function HomePage() {
-  const user = useAuth({ redirect: false });
+  const user = null;
+  const isBetaVisible = false;
+  const handleBetaDismissal = () => console.log("here");
+  // const user = useAuth({ redirect: false });
 
-  const userId = user?.id;
+  // const userId = user?.id;
 
-  const [isBetaVisible, setIsBetaVisible] = useState(
-    localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`) !==
-      "false"
-  );
+  // const [isBetaVisible, setIsBetaVisible] = useState(
+  //   localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`) !==
+  //     "false"
+  // );
 
-  const handleBetaDismissal = () => {
-    setIsBetaVisible(false);
-    localStorage.setItem(
-      `${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`,
-      "false"
-    );
-  };
+  // const handleBetaDismissal = () => {
+  //   setIsBetaVisible(false);
+  //   localStorage.setItem(
+  //     `${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`,
+  //     "false"
+  //   );
+  // };
 
   return (
     <>
