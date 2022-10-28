@@ -17,29 +17,29 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      {process.env.NODE_ENV === "production" &&
-        process.env.GOOGLE_ANALYTICS_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Head>
+              <SEO {...pageProps} />
+            </Head>
+            {process.env.NODE_ENV === "production" &&
+              process.env.GOOGLE_ANALYTICS_ID && (
+                <>
+                  <Script
+                    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
+                    strategy="afterInteractive"
+                  />
+                  <Script id="google-analytics" strategy="afterInteractive">
+                    {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){window.dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', "${process.env.GOOGLE_ANALYTICS_ID}");
               `}
-            </Script>
-          </>
-        )}
-      <Head>
-        <SEO {...pageProps} />
-      </Head>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Hydrate state={pageProps.dehydratedState}>
+                  </Script>
+                </>
+              )}
             <Component {...pageProps} />
             <ToastContainer theme="dark" />
             <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>

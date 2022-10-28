@@ -3,6 +3,15 @@ import { BasicLayout, HomePageButton, SEO, BetaNotice } from "components";
 import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
 
+export function getServerSideProps() {
+  return {
+    props: {
+      title: "Populist",
+      description: "A social media platform for the people",
+    },
+  };
+}
+
 function HomePage() {
   const user = useAuth({ redirect: false });
 
