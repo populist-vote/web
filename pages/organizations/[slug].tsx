@@ -26,20 +26,18 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   return (
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={true}>
       <div className={styles.content}>
-        {organization?.thumbnailImageUrl && (
-          <h1 className={styles.orgLogo}>
-            <Avatar
-              src={
-                organization?.assets?.thumbnailImage400 ||
+        <h1 className={styles.orgLogo}>
+          <Avatar
+            src={
+              (organization?.assets?.thumbnailImage400 ||
                 organization?.assets?.thumbnailImage160 ||
-                organization.thumbnailImageUrl
-              }
-              fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_400_URL}
-              alt={organization.name}
-              size={200}
-            />
-          </h1>
-        )}
+                organization?.thumbnailImageUrl) as string
+            }
+            fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_400_URL}
+            alt={organization?.name as string}
+            size={200}
+          />
+        </h1>
 
         <h1 className={styles.mainTitle}>{organization?.name}</h1>
 
@@ -90,7 +88,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     notFound: state.queries.length === 0,
     props: {
       dehydratedState: state,
-      mobileNavTitle: data.organizationBySlug?.name,
+      mobileNavTitle: data?.organizationBySlug?.name,
+      title: data?.organizationBySlug?.name,
     },
   };
 };
