@@ -10,16 +10,13 @@ import "styles/vendor/toast.css";
 import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
-import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
     <>
-      <Head>
-        <SEO {...pageProps} />
-      </Head>
+      <SEO {...pageProps} />
       {process.env.NODE_ENV === "production" &&
         process.env.GOOGLE_ANALYTICS_ID && (
           <>
