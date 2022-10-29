@@ -7,9 +7,11 @@ $election-info-width: 1150px;
 $box-height: 14rem;
 
 .boxOpponent {
-  justify-content: center;
+  justify-content: flex-start;
   display: inline-flex;
   align-items: center;
+  margin: 0 auto;
+  overflow: scroll;
 }
 
 @media (min-width: $election-info-width) {
