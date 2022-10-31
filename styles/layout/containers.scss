@@ -39,6 +39,8 @@
   margin: 0 0.65rem;
   min-width: 5rem;
   min-height: 5rem;
+  overflow: visible;
+  transition: all 1s;
 
   .avatarName {
     color: $white;

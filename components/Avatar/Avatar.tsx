@@ -26,6 +26,7 @@ import { titleCase } from "utils/strings";
 
 interface BadgeProps {
   background?: string;
+  color?: string;
   text?: string;
   title?: string;
   size: string;
@@ -117,21 +118,26 @@ function LabelLeft(props: LabelLeftProps): JSX.Element | null {
 }
 
 function Badge(props: BadgeProps): JSX.Element {
-  const { text, title, background, size, fontSize } = props;
+  const { text, title, background, color, size, fontSize } = props;
 
   const styleVars: CSSProperties & {
-    "--avatar-size": string;
-    "--avatar-font-size": string;
-    "--avatar-background": string | undefined;
+    "--badge-size": string;
+    "--badge-font-size": string;
+    "--badge-background": string | undefined;
+    "--badge-color": string | undefined;
   } = {
-    [`--avatar-size`]: size,
-    [`--avatar-font-size`]: fontSize,
-    [`--avatar-background`]: background,
+    [`--badge-size`]: size,
+    [`--badge-font-size`]: fontSize,
+    [`--badge-background`]: background,
+    [`--badge-color`]: color,
   };
 
   return (
     <div className={styles.badgeWrapper} style={styleVars} title={title}>
-      <span className={styles.badgeText}>{text}</span>
+      <span className={styles.badgeText}>{text?.slice(0, 1)}</span>
+      <span className={styles.badgeFullText}>
+        {text?.slice(1).replaceAll("_", " ")}
+      </span>
     </div>
   );
 }
@@ -288,6 +294,7 @@ function Avatar(props: AvatarProps): JSX.Element {
         display: "inline",
         width: props.size,
         height: props.size,
+        overflow: "visible",
         ...styleVars,
       }}
     >
@@ -330,10 +337,14 @@ function PartyAvatar({
   opaque = false,
   ...rest
 }: PartyAvatarProps): JSX.Element {
-  const partyColor = useMemo(() => getPartyColor(party), [party]);
+  const { background, text: color } = useMemo(
+    () => getPartyColors(party),
+    [party]
+  );
   const badge = {
-    background: partyColor,
-    text: (party || "UNKNOWN").slice(0, 1).toUpperCase(),
+    background,
+    color,
+    text: (party || "UNKNOWN").toUpperCase(),
     title: titleCase((party || "UNKNOWN").replaceAll("_", " ")),
     size: badgeSize,
     fontSize: badgeFontSize,
@@ -395,26 +406,82 @@ function OrganizationAvatar({
   return <Avatar src={src} fallbackSrc={fallbackSrc} {...rest} />;
 }
 
-function getPartyColor(party: PoliticalParty = PoliticalParty.Unknown): string {
+type BadgeColors = {
+  background: string;
+  text: string;
+};
+
+function getPartyColors(
+  party: PoliticalParty = PoliticalParty.Unknown
+): BadgeColors {
   switch (party) {
     case PoliticalParty.Democratic:
-      return "var(--blue)";
+      return {
+        background: "var(--blue)",
+        text: "var(--white)",
+      };
     case PoliticalParty.DemocraticFarmerLabor:
-      return "var(--blue)";
+      return {
+        background: "var(--blue)",
+        text: "var(--blue-white)",
+      };
     case PoliticalParty.Republican:
-      return "var(--red)";
+      return {
+        background: "var(--red)",
+        text: "var(--white)",
+      };
     case PoliticalParty.Green:
-      return "var(--green)";
+      return {
+        background: "var(--green)",
+        text: "var(--grey-darkest)",
+      };
     case PoliticalParty.LegalMarijuanaNow:
-      return "var(--green)";
+      return {
+        background: "var(--green)",
+        text: "var(--grey-darkest)",
+      };
     case PoliticalParty.GrassrootsLegalizeCannabis:
-      return "var(--green)";
+      return {
+        background: "var(--green)",
+        text: "var(--grey-darkest)",
+      };
     case PoliticalParty.Libertarian:
-      return "var(--aqua)";
+      return {
+        background: "var(--yellow)",
+        text: "var(--blue-darkest)",
+      };
+    case PoliticalParty.AmericanConstitution:
+      return {
+        background: "var(--red)",
+        text: "var(--white)",
+      };
+    case PoliticalParty.Constitution:
+      return {
+        background: "var(--red)",
+        text: "var(--white)",
+      };
+    case PoliticalParty.Unknown:
+      return {
+        background: "var(--grey-light)",
+        text: "var(--grey-darkest)",
+      };
+    case PoliticalParty.Unaffiliated:
+      return {
+        background: "var(--grey-light)",
+        text: "var(--grey-darkest)",
+      };
+    case PoliticalParty.SocialistWorkers:
+      return {
+        background: "var(--salmon)",
+        text: "var(--blue-darkest)",
+      };
     default:
-      return "var(--purple)";
+      return {
+        background: "var(--violet)",
+        text: "var(--grey-darkest)",
+      };
   }
 }
 
 export type { IconType, AvatarProps, PartyAvatarProps };
-export { Avatar, PartyAvatar, OrganizationAvatar, getPartyColor };
+export { Avatar, PartyAvatar, OrganizationAvatar, getPartyColors };

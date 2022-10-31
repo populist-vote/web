@@ -13,6 +13,8 @@
   &.opaque {
     opacity: 40%;
   }
+
+  transition: all 1s;
 }
 
 .badgeText,
@@ -24,22 +26,38 @@
   text-align: center;
 }
 
+.badgeFullText {
+  display: none;
+}
+
 .badgeWrapper {
   position: absolute;
   bottom: 0;
   right: 0;
-  border-radius: var(--avatar-size);
-  width: var(--avatar-size);
-  height: var(--avatar-size);
-  font-size: var(--avatar-font-size);
+  border-radius: var(--badge-size);
+  width: var(--badge-size);
+  height: var(--badge-size);
+  font-size: var(--badge-font-size);
   text-transform: uppercase;
-  color: var(--white);
-  background: var(--avatar-background);
+  background: var(--badge-background);
+  color: var(--badge-color);
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  cursor: default;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    display: inline-flex;
+    width: max-content;
+    overflow: visible;
+    padding: 0 0.5rem;
+  }
+
+  &:hover .badgeFullText {
+    display: block;
+  }
 }
 
 .labelLeftWrapper {
@@ -78,6 +96,18 @@
   }
 }
 
+.container {
+  position: relative;
+  padding: 0;
+  margin: auto;
+  display: inline-flex;
+  overflow-x: visible;
+
+  img {
+    object-fit: cover;
+  }
+}
+
 .iconInner {
   display: flex;
   align-self: center;
@@ -101,18 +131,6 @@
     img {
       min-width: calc(var(--icon-size) * 0.75);
     }
-  }
-}
-
-.container {
-  position: relative;
-  padding: 0;
-  margin: auto;
-  display: inline-flex;
-  overflow-x: visible;
-
-  img {
-    object-fit: cover;
   }
 }
 

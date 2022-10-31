@@ -10,6 +10,8 @@
 
 .avatarContainer {
   margin: 0 1rem;
+  overflow: visible;
+  transition: all 1s;
 }
 
 .infoCommitteeWrapper {
