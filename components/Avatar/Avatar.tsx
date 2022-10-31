@@ -432,22 +432,22 @@ function getPartyColors(
       };
     case PoliticalParty.Green:
       return {
-        background: "var(--green)",
+        background: "var(--green-support)",
         text: "var(--grey-darkest)",
       };
     case PoliticalParty.LegalMarijuanaNow:
       return {
-        background: "var(--green)",
+        background: "var(--green-support)",
         text: "var(--grey-darkest)",
       };
     case PoliticalParty.GrassrootsLegalizeCannabis:
       return {
-        background: "var(--green)",
+        background: "var(--green-support)",
         text: "var(--grey-darkest)",
       };
     case PoliticalParty.Libertarian:
       return {
-        background: "var(--yellow)",
+        background: "var(--yellow-dark)",
         text: "var(--blue-darkest)",
       };
     case PoliticalParty.AmericanConstitution:
