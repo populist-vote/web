@@ -41,6 +41,7 @@
   min-height: 5rem;
 
   .avatarName {
+    color: $white;
     display: flex;
     font-size: 1em;
     font-weight: 300;
@@ -49,6 +50,11 @@
     line-height: 1.3em;
 
     @include clamp-ellipsis;
+  }
+
+  &:hover .avatarName {
+    color: $blue-text;
+    transition: ease-in-out 0.15s;
   }
 
   button {
