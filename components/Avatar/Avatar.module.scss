@@ -26,10 +26,6 @@
   text-align: center;
 }
 
-.badgeFullText {
-  display: none;
-}
-
 .badgeWrapper {
   position: absolute;
   bottom: 0;
@@ -45,17 +41,23 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  transition: all 0.3s;
+  transition: all 0.5s;
   cursor: pointer;
 
   &:hover {
     display: inline-flex;
     width: max-content;
-    overflow: visible;
-    padding: 0 0.5rem;
+    overflow: hidden;
+    padding: 0 10%;
+  }
+
+  .badgeFullText {
+    opacity: 0;
+    display: none;
   }
 
   &:hover .badgeFullText {
+    opacity: 1;
     display: block;
   }
 }

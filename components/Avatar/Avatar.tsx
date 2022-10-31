@@ -433,17 +433,17 @@ function getPartyColors(
     case PoliticalParty.Green:
       return {
         background: "var(--green-support)",
-        text: "var(--grey-darkest)",
+        text: "var(--white)",
       };
     case PoliticalParty.LegalMarijuanaNow:
       return {
         background: "var(--green-support)",
-        text: "var(--grey-darkest)",
+        text: "var(--white)",
       };
     case PoliticalParty.GrassrootsLegalizeCannabis:
       return {
         background: "var(--green-support)",
-        text: "var(--grey-darkest)",
+        text: "var(--white)",
       };
     case PoliticalParty.Libertarian:
       return {
