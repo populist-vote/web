@@ -423,7 +423,7 @@ function getPartyColors(
     case PoliticalParty.DemocraticFarmerLabor:
       return {
         background: "var(--blue)",
-        text: "var(--blue-white)",
+        text: "var(--white)",
       };
     case PoliticalParty.Republican:
       return {

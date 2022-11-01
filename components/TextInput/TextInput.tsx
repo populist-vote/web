@@ -20,7 +20,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   placeholder?: string;
   register?: UseFormRegister<TFormValues>;
   rules?: RegisterOptions;
-  type?: "text" | "password";
+  type?: "text" | "password" | "email" | "tel";
   icon?: ReactNode;
   [x: string]: unknown;
 };

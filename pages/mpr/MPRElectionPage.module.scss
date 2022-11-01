@@ -4,8 +4,8 @@
 @import "styles/mixins/media";
 
 .mprHeader {
-  margin:3.5rem 1.5rem 0;
-  
+  margin: 3.5rem 1.5rem 0;
+
   @include for-tablet-up {
     margin-left: 0;
     margin-top: 2rem;
@@ -15,7 +15,7 @@
   p:last-child {
     margin-top: 1.5rem;
     margin-bottom: 4rem;
-    
+
     @include for-tablet-up {
       margin-top: 1.5rem;
       margin-bottom: 5rem;
@@ -24,7 +24,8 @@
 }
 
 .mprBody {
-  margin:2rem 1.5rem 4rem;
+  margin: 2rem 1.5rem 4rem;
+
   @include for-tablet-up {
     margin-left: 0;
     margin-top: 2rem;
@@ -66,10 +67,36 @@
   margin-top: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid $blue-dark;
+
   @include for-tablet-up {
     margin-top: 2rem;
     padding-bottom: 2.5rem;
   }
 }
 
+.smsSection {
+  border-top: 1px solid $blue;
+  padding-top: 1.5rem;
+  h2 {
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
 
+  p {
+    color: $blue-text;
+  }
+
+  small {
+    color: $blue-text;
+  }
+}
+
+form.smsForm {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 36rem;
+}

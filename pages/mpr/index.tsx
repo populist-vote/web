@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react";
 
-import { Layout, MPRLogo, LoaderFlag, RaceSection, Button } from "components";
+import {
+  Layout,
+  MPRLogo,
+  LoaderFlag,
+  RaceSection,
+  Button,
+  TextInput,
+} from "components";
 import { useMprFeaturedRacesQuery, RaceResult } from "generated";
 import styles from "./MPRElectionPage.module.scss";
 import { splitRaces } from "utils/data";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export function getServerSideProps() {
   return {
@@ -26,6 +35,43 @@ function MPRElectionPage() {
       setRaces(splitRaces(data.races as RaceResult[]));
     }
   }, [isLoading, data, setRaces]);
+
+  const { register, handleSubmit, formState } = useForm<{
+    phone: number;
+  }>({
+    mode: "onChange",
+  });
+
+  const { isValid, isSubmitting } = formState;
+
+  const handleSmsSubscribe = async (phone: string) => {
+    try {
+      const res = await fetch(
+        `https://app.groundsource.co/surveys/sms/textsms/?MessageSid=1&To=%2B18338704111&From=%2B${phone.replaceAll(
+          "-",
+          ""
+        )}&Body=ELECTION&ant=True`,
+        {
+          method: "GET",
+        }
+      );
+
+      if (res.status === 200) {
+        toast(
+          "You have successfully subscribed to election updates from MPR!",
+          {
+            type: "success",
+            position: "bottom-center",
+          }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onSubscribe = ({ phone }: { phone: string }) =>
+    handleSmsSubscribe(phone);
 
   if (isError)
     return (
@@ -121,6 +167,42 @@ function MPRElectionPage() {
           {races?.federal && (
             <RaceSection races={races.federal} color="aqua" title="Federal" />
           )}
+          <section className={styles.smsSection}>
+            <h2>Sign up for SMS election results</h2>
+            <p>
+              Get midterm election results from MPR sent directly to your phone
+              via text message.
+            </p>
+            <form
+              onSubmit={handleSubmit(onSubscribe)}
+              className={styles.smsForm}
+            >
+              <TextInput
+                name="phone"
+                type="tel"
+                placeholder="Enter your phone number"
+                register={register}
+                rules={{
+                  required: true,
+                  minLength: 6,
+                  maxLength: 12,
+                  pattern:
+                    /^[(]{0,1}[0-9]{3,5}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{2,4}$/,
+                }}
+              />
+              <Button
+                variant="primary"
+                size="large"
+                label={isSubmitting ? "Loading" : "Subscribe"}
+                disabled={isSubmitting || !isValid}
+                style={{ minWidth: "14rem" }}
+              />
+            </form>
+            <small>
+              Text STOP to quit receiving messages at any time. Standard message
+              rates apply.
+            </small>
+          </section>
         </>
       )}
     </Layout>

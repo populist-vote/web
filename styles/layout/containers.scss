@@ -55,8 +55,11 @@
   }
 
   &:hover .avatarName {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: $blue-text;
     color: $blue-text;
-    transition: ease-in-out 0.15s;
+    transition: color 0.25s ease-in-out;
   }
 
   button {
