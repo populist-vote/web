@@ -16,13 +16,25 @@ import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import nextI18nextConfig from "next-i18next.config";
+
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+    },
+  };
+}
 
 const Home: NextPage = () => {
   const user = useAuth({ redirectTo: "/" });
   const { isMobile } = useDeviceInfo();
-  const { t } = useTranslation("landing");
 
   return (
     <main className={styles.container}>
@@ -250,13 +262,5 @@ const Home: NextPage = () => {
     </main>
   );
 };
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["landing"])),
-    },
-  };
-}
 
 export default Home;

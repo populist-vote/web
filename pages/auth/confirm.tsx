@@ -7,6 +7,22 @@ import styles from "components/Auth/Auth.module.scss";
 import layoutStyles from "components/BasicLayout/BasicLayout.module.scss";
 import Link from "next/link";
 import { LoaderFlag } from "components";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
+
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      title: "Confirm your email",
+      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+    },
+  };
+}
 
 const ConfirmEmail: NextPage = () => {
   const { query } = useRouter();

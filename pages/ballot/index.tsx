@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQueryClient } from "react-query";
 
@@ -26,6 +25,9 @@ import {
 } from "generated";
 
 import styles from "components/Layout/Layout.module.scss";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
 
 export default function BallotPage() {
   const router = useRouter();
@@ -135,7 +137,11 @@ export default function BallotPage() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
   const queryClient = new QueryClient();
 
   /* 
@@ -157,6 +163,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       title: "My Ballot",
       description:
         "Find information on your government representatives like voting histories, endorsements, and financial data.",
+      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
     },
   };
-};
+}
