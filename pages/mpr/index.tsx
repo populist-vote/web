@@ -37,7 +37,7 @@ function MPRElectionPage() {
   }, [isLoading, data, setRaces]);
 
   const { register, handleSubmit, formState } = useForm<{
-    phone: number;
+    phone: string;
   }>({
     mode: "onChange",
   });

@@ -28,7 +28,7 @@ $font-size: 0.85em;
     gap: 2rem;
 
     @include for-tablet-up {
-      width: 25%;
+      min-width: 25%;
     }
 
     li {
@@ -50,7 +50,7 @@ $font-size: 0.85em;
   .links {
     align-self: center;
     @include for-tablet-up {
-      width: 25%;
+      min-width: 25%;
     }
   }
 
@@ -75,7 +75,7 @@ $font-size: 0.85em;
     gap: 2rem;
 
     @include for-tablet-up {
-      width: 25%;
+      min-width: 25%;
       justify-content: left;
     }
   }
