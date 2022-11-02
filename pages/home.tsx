@@ -2,19 +2,28 @@ import { useState } from "react";
 import { BasicLayout, HomePageButton, BetaNotice } from "components";
 import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
+import { useTranslation } from "next-i18next";
 
-export function getServerSideProps() {
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
   return {
     props: {
       title: "Home",
+      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
     },
   };
 }
 
 function HomePage() {
   const user = useAuth({ redirect: false });
-
   const userId = user?.id;
+  const { t } = useTranslation("actions");
 
   const [isBetaVisible, setIsBetaVisible] = useState(
     localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`) !==
@@ -38,17 +47,17 @@ function HomePage() {
           <HomePageButton
             href={user ? "/ballot" : "/ballot/choose"}
             className="myBallot"
-            label="My Ballot"
+            label={t("my-ballot")}
           />
           <HomePageButton
             href={user ? "/voting-guides" : "/login?next=/voting-guides"}
             className="votingGuides"
-            label="Voting Guides"
+            label={t("voting-guides")}
           />
           <HomePageButton
             href="/politicians"
             className="myLegislators"
-            label="Browse Politicians"
+            label={t("browse-politicians")}
           />
         </div>
       )}

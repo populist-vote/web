@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 
 const runtimeCaching = require("next-pwa/cache");
+const { i18n } = require('./next-i18next.config');
+
 
 const withPWA = require('next-pwa')({
   dest: "public",
@@ -11,6 +13,7 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = {
   reactStrictMode: true,
+  i18n,
   images: {
     domains: [
       "static.votesmart.org",
@@ -19,20 +22,10 @@ const nextConfig = {
     ],
     formats: ["image/webp"],
   },
-  i18n: {
-    // These are all the locales you want to support in
-    // your application
-    locales: ["en-US"],
-    // This is the default locale you want to be used when visiting
-    // a non-locale prefixed path e.g. `/hello`
-    defaultLocale: "en-US",
-  },
   env: {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     GRAPHQL_SCHEMA_PATH: process.env.GRAPHQL_SCHEMA_PATH,
   },
 };
 
-module.exports = process.env.NODE_ENV === 'development' ? nextConfig : withPWA(nextConfig);
-
-
+module.exports = withPWA(nextConfig);

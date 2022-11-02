@@ -6,6 +6,7 @@ import { useAuth } from "hooks/useAuth";
 import Link from "next/link";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { Avatar } from "components";
+import { useTranslation } from "next-i18next";
 
 function AuthButtons({
   showAvatarIfUser = false,
@@ -15,6 +16,7 @@ function AuthButtons({
   const user = useAuth({ redirect: false });
   const { isMobile } = useDeviceInfo();
   const { push } = useRouter();
+  const { t } = useTranslation("actions");
 
   if (user && showAvatarIfUser) {
     return (
@@ -36,7 +38,7 @@ function AuthButtons({
     <ul className={styles.menu}>
       <li className={styles.menuButton}>
         <Button
-          label="Sign In"
+          label={t("sign-in")}
           size={isMobile ? "small" : "medium"}
           variant="secondary"
           theme="blue"
@@ -45,7 +47,7 @@ function AuthButtons({
       </li>
       <li className={styles.menuButton}>
         <Button
-          label="Get Started"
+          label={t("register")}
           size={isMobile ? "small" : "medium"}
           variant="primary"
           theme="blue"

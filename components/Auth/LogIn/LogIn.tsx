@@ -7,9 +7,11 @@ import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
 import { PasswordInput } from "../PasswordInput";
+import { useTranslation } from "next-i18next";
 
 function LogIn() {
   const router = useRouter();
+  const { t } = useTranslation("actions");
   const {
     register,
     handleSubmit,
@@ -42,9 +44,9 @@ function LogIn() {
 
   if (user || isLoading) return null;
   if (router.query.next?.includes("/voting-guides")) {
-    message = "Please sign in or create an account to view voting guides.";
+    message = t("voting-guide-sign-in");
   } else {
-    message = "Sign in";
+    message = t("sign-in");
   }
 
   return (
@@ -60,9 +62,9 @@ function LogIn() {
             >
               <input
                 type="text"
-                placeholder="Email or Username"
+                placeholder={t("email-or-username")}
                 {...register("emailOrUsername", {
-                  required: "Email or Username is required",
+                  required: t("email-or-username-is-required"),
                 })}
               />
             </div>
@@ -74,12 +76,12 @@ function LogIn() {
               <PasswordInput
                 name="password"
                 register={register}
-                rules={{ required: "Password is required" }}
+                rules={{ required: t("password-is-required") }}
                 autoComplete="current-password"
               />
             </div>
             <Button
-              label={login.isLoading ? "Loading..." : "Sign In"}
+              label={login.isLoading ? t("loading") : t("sign-in")}
               size="large"
               variant="primary"
               theme="blue"
@@ -88,7 +90,7 @@ function LogIn() {
             <br />
             <Link href="/auth/reset" passHref>
               <small className={layoutStyles.textLink}>
-                Forgot your password?
+                {t("forgot-your-password")}
               </small>
             </Link>
             <br />

@@ -9,6 +9,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
+import { useTranslation } from "next-i18next";
 
 function Nav({
   mobileNavTitle,
@@ -28,6 +29,7 @@ function Nav({
   const { asPath, pathname } = useRouter();
   const user = useAuth({ redirectTo: asPath });
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
+  const { t } = useTranslation("actions");
 
   useScrollPosition(
     ({
@@ -154,10 +156,14 @@ function Nav({
           ) : (
             <div className={styles.flexColumn}>
               <Link href="/register">
-                <Button size="medium" variant="primary" label="Register" />
+                <Button size="medium" variant="primary" label={t("register")} />
               </Link>
               <Link href={`/login?next=${asPath}`}>
-                <Button size="medium" variant="secondary" label="Sign in" />
+                <Button
+                  size="medium"
+                  variant="secondary"
+                  label={t("sign-in")}
+                />
               </Link>
             </div>
           )}

@@ -5,6 +5,7 @@ import { Footer, LogoBetaDesktop, AuthButtons, Avatar } from "components";
 import styles from "./BasicLayout.module.scss";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import { useTranslation } from "next-i18next";
 
 function BasicLayout({
   children,
@@ -13,6 +14,7 @@ function BasicLayout({
 }: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
   const { pathname, query } = useRouter();
   const user = useAuth({ redirect: false });
+  const { t } = useTranslation("actions");
 
   return (
     <div className={styles.container}>
@@ -32,7 +34,7 @@ function BasicLayout({
             shallow
             replace
           >
-            Sign in
+            {t("sign-in")}
           </Link>
         )}
 
@@ -45,7 +47,7 @@ function BasicLayout({
             shallow
             replace
           >
-            Get Started
+            {t("get-started")}
           </Link>
         )}
 

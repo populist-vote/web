@@ -10,8 +10,9 @@ import "styles/vendor/toast.css";
 import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
+import { appWithTranslation } from "next-i18next";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function Populist({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -47,4 +48,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(Populist);

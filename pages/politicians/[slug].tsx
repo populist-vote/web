@@ -24,6 +24,9 @@ import { EndorsementsSection } from "components/PoliticianPage/EndorsementsSecti
 import { RatingsSection } from "components/PoliticianPage/RatingsSection/RatingsSection";
 import { BioSection } from "components/PoliticianPage/BioSection/BioSection";
 import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/FinancialsSection";
+import nextI18nextConfig from "next-i18next.config";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { SupportedLocale } from "types/global";
 
 function PoliticianPage({
   slug,
@@ -90,7 +93,8 @@ interface Params extends NextParsedUrlQuery {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug } = ctx.params as Params;
+  const { locale, params } = ctx;
+  const { slug } = params as Params;
   const { votingGuideId = null } = ctx.query || {};
   const referer = ctx.req.headers?.referer || null;
 
@@ -114,6 +118,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       mobileNavTitle: data?.politicianBySlug.fullName,
       title: data?.politicianBySlug.fullName,
       description: `Check out ${data?.politicianBySlug.fullName}'s voting record, financial data, and more on Populist.`,
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["actions"],
+        nextI18nextConfig
+      )),
     },
   };
 };

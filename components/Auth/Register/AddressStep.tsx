@@ -15,10 +15,12 @@ import states from "utils/states";
 import { useEffect } from "react";
 import { useQueryClient } from "react-query";
 import { Button } from "components/Button/Button";
+import { useTranslation } from "next-i18next";
 
 function AddressStep() {
   const router = useRouter();
   const { query } = router;
+  const { t } = useTranslation("actions");
 
   const {
     actions,
@@ -67,11 +69,8 @@ function AddressStep() {
 
   return (
     <div className={styles.container}>
-      <h2>Where are you registered to vote?</h2>
-      <p>
-        We use your voter registration address to show you what's on your
-        ballot.
-      </p>
+      <h2>{t("where-are-you-registered-copy")}</h2>
+      <p>{t("we-use-your-address-copy")}</p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-2">
           <div
@@ -81,7 +80,7 @@ function AddressStep() {
           >
             <input
               type="text"
-              placeholder="Street Address"
+              placeholder={t("street-address")}
               {...register("address.line1", {
                 required: "Address line 1 is required",
               })}
@@ -101,7 +100,7 @@ function AddressStep() {
           >
             <input
               type="text"
-              placeholder="Apartment, unit, suite, floor #, etc."
+              placeholder={t("apartment-line")}
               {...register("address.line2")}
             />
           </div>
@@ -112,7 +111,7 @@ function AddressStep() {
           >
             <input
               type="text"
-              placeholder="City"
+              placeholder={t("city")}
               {...register("address.city", {
                 required: "City is required",
               })}
@@ -133,7 +132,7 @@ function AddressStep() {
                 })}
               >
                 <option disabled value="">
-                  State
+                  {t("state")}
                 </option>
                 {Object.entries(states).map(([key, value]) => (
                   <option key={key} value={key} label={value}>
@@ -149,7 +148,7 @@ function AddressStep() {
             >
               <input
                 type="text"
-                placeholder="Postal Code"
+                placeholder={t("postal-code")}
                 {...register("address.postalCode", {
                   required: "Postal code is required",
                 })}
@@ -157,7 +156,7 @@ function AddressStep() {
             </div>
           </div>
           <Button
-            label="Complete Registration"
+            label={t("complete-registration")}
             size="large"
             variant="primary"
             theme="blue"
@@ -171,7 +170,7 @@ function AddressStep() {
             shallow
             replace
           >
-            Back
+            {t("back")}
           </Link>
         </form>
       </div>

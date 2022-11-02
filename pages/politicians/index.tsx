@@ -19,6 +19,9 @@ import useDebounce from "hooks/useDebounce";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { GetServerSideProps, NextPage } from "next";
 import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianFilters";
+import nextI18nextConfig from "next-i18next.config";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { SupportedLocale } from "types/global";
 
 const PAGE_SIZE = 20;
 
@@ -196,12 +199,18 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { locale } = ctx;
   return {
     props: {
       title: "Politician Browser",
       description:
         "Find information on your government representatives like voting histories, endorsements, and financial data.",
       ...ctx.query,
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["actions"],
+        nextI18nextConfig
+      )),
     },
   };
 };

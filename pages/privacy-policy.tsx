@@ -8,6 +8,22 @@ import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
+
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      title: "Privacy",
+      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+    },
+  };
+}
 
 const PrivacyPolicy: NextPage = () => {
   const user = useAuth({ redirect: false });

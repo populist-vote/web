@@ -14,13 +14,21 @@ import { splitRaces } from "utils/data";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18NextConfig from "../../next-i18next.config";
+import { SupportedLocale } from "types/global";
 
-export function getServerSideProps() {
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
   return {
     props: {
       title: "MPR News | Minnesota 2022 Election",
       description:
         "Find information on your government representatives like voting histories, endorsements, and financial data.",
+      ...(await serverSideTranslations(locale, ["actions"], nextI18NextConfig)),
     },
   };
 }
