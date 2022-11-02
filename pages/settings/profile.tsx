@@ -732,7 +732,7 @@ export async function getServerSideProps({
       title: "Profile",
       ...(await serverSideTranslations(
         locale as SupportedLocale,
-        ["actions"],
+        ["auth", "common"],
         nextI18nextConfig
       )),
     },

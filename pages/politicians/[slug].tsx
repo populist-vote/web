@@ -120,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       description: `Check out ${data?.politicianBySlug.fullName}'s voting record, financial data, and more on Populist.`,
       ...(await serverSideTranslations(
         locale as SupportedLocale,
-        ["actions"],
+        ["auth", "common"],
         nextI18nextConfig
       )),
     },

@@ -14,7 +14,7 @@ function BasicLayout({
 }: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
   const { pathname, query } = useRouter();
   const user = useAuth({ redirect: false });
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation(["common", "auth"]);
 
   return (
     <div className={styles.container}>
@@ -47,7 +47,7 @@ function BasicLayout({
             shallow
             replace
           >
-            {t("get-started")}
+            {t("get-started", { ns: "common" })}
           </Link>
         )}
 

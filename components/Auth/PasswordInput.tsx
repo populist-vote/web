@@ -9,7 +9,7 @@ function PasswordInput(props: PasswordInputProps) {
   const [passwordInputType, setPasswordInputType] = useState<
     "password" | "text"
   >("password");
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation("auth");
   return (
     <TextInput
       icon={

@@ -208,7 +208,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       ...ctx.query,
       ...(await serverSideTranslations(
         locale as SupportedLocale,
-        ["actions"],
+        ["auth", "common"],
         nextI18nextConfig
       )),
     },

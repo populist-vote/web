@@ -32,7 +32,11 @@ export async function getServerSideProps({
   return {
     props: {
       title: "Register",
-      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 }

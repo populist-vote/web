@@ -16,7 +16,7 @@ import { useTranslation } from "next-i18next";
 function EmailStep() {
   const router = useRouter();
   const { query } = router;
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation(["auth", "common"]);
 
   const {
     actions,
@@ -133,7 +133,7 @@ function EmailStep() {
 
   return (
     <div className={styles.container}>
-      <h1 className="title">{t("get-started")}</h1>
+      <h1 className="title">{t("get-started", { ns: "common" })}</h1>
       <p>
         {t("please-create-account-copy")}{" "}
         <span className={styles.footnote}>{t("passwords-copy")}</span>
@@ -193,7 +193,11 @@ function EmailStep() {
           <Button
             variant="primary"
             type="submit"
-            label={isLoading ? t("loading") : t("continue")}
+            label={
+              isLoading
+                ? t("loading", { ns: "common" })
+                : t("continue", { ns: "common" })
+            }
             disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
             size="large"
           />

@@ -255,7 +255,11 @@ export async function getServerSideProps({
       title: "Voting Guides",
       description:
         "Check out voting guides from organizations and fellow voters on Populist.",
-      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 }

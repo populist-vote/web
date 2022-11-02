@@ -12,7 +12,11 @@ export async function getServerSideProps({
   return {
     props: {
       title: "Reset Password",
-      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 }
