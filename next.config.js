@@ -2,7 +2,6 @@
 
 const runtimeCaching = require("next-pwa/cache");
 const { i18n } = require('./next-i18next.config');
-const path = require('path'); 
 
 
 const withPWA = require('next-pwa')({
@@ -14,6 +13,7 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = {
   reactStrictMode: true,
+  i18n,
   images: {
     domains: [
       "static.votesmart.org",
@@ -22,16 +22,10 @@ const nextConfig = {
     ],
     formats: ["image/webp"],
   },
-  i18n: {
-    locales: ["en", "es", "so", "hmn"],
-    defaultLocale: "en",
-    localeDetection: true,
-    localePath: path.resolve("./public/locales"),
-  },
   env: {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     GRAPHQL_SCHEMA_PATH: process.env.GRAPHQL_SCHEMA_PATH,
   },
 };
 
-module.exports = process.env.NODE_ENV === 'development' ? nextConfig : withPWA({nextConfig, i18n});
+module.exports = process.env.NODE_ENV === 'development' ? nextConfig : withPWA({nextConfig});
