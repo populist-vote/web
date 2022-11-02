@@ -16,7 +16,7 @@ import { useTranslation } from "next-i18next";
 function EmailStep() {
   const router = useRouter();
   const { query } = router;
-  const { t } = useTranslation("auth");
+  const { t } = useTranslation(["auth", "common"]);
 
   const {
     actions,
