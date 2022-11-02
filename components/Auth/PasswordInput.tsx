@@ -1,4 +1,5 @@
 import { TextInput, TextInputProps } from "components/TextInput/TextInput";
+import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 
@@ -8,6 +9,7 @@ function PasswordInput(props: PasswordInputProps) {
   const [passwordInputType, setPasswordInputType] = useState<
     "password" | "text"
   >("password");
+  const { t } = useTranslation("actions");
   return (
     <TextInput
       icon={
@@ -26,7 +28,7 @@ function PasswordInput(props: PasswordInputProps) {
         )
       }
       type={passwordInputType}
-      placeholder="Password"
+      placeholder={t("password")}
       {...props}
     />
   );

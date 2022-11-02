@@ -19,6 +19,7 @@ import useDeviceInfo from "hooks/useDeviceInfo";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
+import { useTranslation } from "next-i18next";
 
 export async function getServerSideProps({
   locale,
@@ -35,6 +36,7 @@ export async function getServerSideProps({
 const Home: NextPage = () => {
   const user = useAuth({ redirectTo: "/" });
   const { isMobile } = useDeviceInfo();
+  const { t } = useTranslation("actions");
 
   return (
     <main className={styles.container}>
@@ -60,7 +62,7 @@ const Home: NextPage = () => {
                       size={isMobile ? "small" : "medium"}
                       variant="secondary"
                       theme="blue"
-                      label="Sign in"
+                      label={t("sign-in")}
                       onClick={() => Router.push(`/login`)}
                     />
                   </li>
@@ -69,7 +71,7 @@ const Home: NextPage = () => {
                       size={isMobile ? "small" : "medium"}
                       variant="primary"
                       theme="blue"
-                      label="Get Started"
+                      label={t("get-started")}
                       onClick={() => Router.push(`/register`)}
                     />
                   </li>
