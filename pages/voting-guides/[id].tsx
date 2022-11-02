@@ -5,12 +5,15 @@ import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { GetServerSideProps } from "next";
+import nextI18nextConfig from "next-i18next.config";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { dehydrate, QueryClient } from "react-query";
 import styles from "styles/modules/page.module.scss";
+import { SupportedLocale } from "types/global";
 
 export default function VotingGuidePage() {
   const user = useAuth({ redirect: false });
@@ -72,6 +75,7 @@ interface Params extends NextParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { id } = ctx.query as Params;
+  const { locale } = ctx;
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(
@@ -95,6 +99,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       description: `Check out ${title} on Populist.`,
       dehydratedState: state,
       mobileNavTitle,
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 };

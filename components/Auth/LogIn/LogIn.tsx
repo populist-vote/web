@@ -81,7 +81,9 @@ function LogIn() {
               />
             </div>
             <Button
-              label={login.isLoading ? t("loading") : t("sign-in")}
+              label={
+                login.isLoading ? t("loading", { ns: "common" }) : t("sign-in")
+              }
               size="large"
               variant="primary"
               theme="blue"
