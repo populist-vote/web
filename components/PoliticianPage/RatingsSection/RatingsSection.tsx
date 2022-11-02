@@ -48,6 +48,7 @@ function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
       {rating.organization?.name && (
         <span className={styles.avatarName}>{rating.organization?.name}</span>
       )}
+      <span className={styles.timespan}>{rating.vsRating.timespan}</span>
     </div>
   );
 }
@@ -58,6 +59,7 @@ function RatingsSection() {
     slug: query.slug as string,
   });
   if (isLoading) return <LoaderFlag />;
+
   const ratings = (data?.politicianBySlug?.ratings.edges ||
     []) as RatingResultEdge[];
   if (ratings.length < 1) return null;

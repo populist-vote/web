@@ -179,6 +179,7 @@ fragment Ratings on PoliticianResult {
       node {
         vsRating {
           rating
+          timespan
         }
         organization {
           slug
