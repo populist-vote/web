@@ -75,7 +75,7 @@ const Home: NextPage = () => {
                       size={isMobile ? "small" : "medium"}
                       variant="primary"
                       theme="blue"
-                      label={t("get-started")}
+                      label={t("get-started", { ns: "common" })}
                       onClick={() => Router.push(`/register`)}
                     />
                   </li>

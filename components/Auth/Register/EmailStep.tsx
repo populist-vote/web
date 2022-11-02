@@ -133,7 +133,7 @@ function EmailStep() {
 
   return (
     <div className={styles.container}>
-      <h1 className="title">{t("get-started")}</h1>
+      <h1 className="title">{t("get-started", { ns: "common" })}</h1>
       <p>
         {t("please-create-account-copy")}{" "}
         <span className={styles.footnote}>{t("passwords-copy")}</span>
@@ -193,7 +193,11 @@ function EmailStep() {
           <Button
             variant="primary"
             type="submit"
-            label={isLoading ? t("loading") : t("continue")}
+            label={
+              isLoading
+                ? t("loading", { ns: "common" })
+                : t("continue", { ns: "common" })
+            }
             disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
             size="large"
           />

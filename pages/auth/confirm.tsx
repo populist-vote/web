@@ -19,7 +19,11 @@ export async function getServerSideProps({
   return {
     props: {
       title: "Confirm your email",
-      ...(await serverSideTranslations(locale, ["auth"], nextI18nextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 }

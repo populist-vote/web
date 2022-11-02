@@ -27,7 +27,7 @@ export async function getServerSideProps({
 function HomePage() {
   const user = useAuth({ redirect: false });
   const userId = user?.id;
-  const { t } = useTranslation(["auth", "common"]);
+  const { t } = useTranslation("common");
 
   const [isBetaVisible, setIsBetaVisible] = useState(
     localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`) !==

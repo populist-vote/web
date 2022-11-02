@@ -47,7 +47,7 @@ function BasicLayout({
             shallow
             replace
           >
-            {t("get-started")}
+            {t("get-started", { ns: "common" })}
           </Link>
         )}
 
