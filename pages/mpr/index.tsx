@@ -28,7 +28,11 @@ export async function getServerSideProps({
       title: "MPR News | Minnesota 2022 Election",
       description:
         "Find information on your government representatives like voting histories, endorsements, and financial data.",
-      ...(await serverSideTranslations(locale, ["actions"], nextI18NextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["common", "auth"],
+        nextI18NextConfig
+      )),
     },
   };
 }

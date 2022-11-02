@@ -11,7 +11,7 @@ export async function getServerSideProps({
 }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+      ...(await serverSideTranslations(locale, ["auth"], nextI18nextConfig)),
     },
   };
 }

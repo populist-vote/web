@@ -20,7 +20,7 @@ function Layout({
   }[];
   hideFooter?: boolean;
 }>) {
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation("common");
   const defaultNavItems = [
     {
       label: t("my-ballot"),

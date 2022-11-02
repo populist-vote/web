@@ -14,7 +14,7 @@ function PasswordEntropyMeter({
   message?: string | null;
   isLoading: boolean;
 }) {
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation("auth");
 
   const fill = (score || 1 / 3) * 360;
   const color = valid ? "var(--green)" : "var(--red)";

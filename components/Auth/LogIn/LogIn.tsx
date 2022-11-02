@@ -11,7 +11,7 @@ import { useTranslation } from "next-i18next";
 
 function LogIn() {
   const router = useRouter();
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation("auth");
   const {
     register,
     handleSubmit,

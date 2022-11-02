@@ -28,7 +28,11 @@ export async function getServerSideProps({
 }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 }
@@ -36,7 +40,7 @@ export async function getServerSideProps({
 const Home: NextPage = () => {
   const user = useAuth({ redirectTo: "/" });
   const { isMobile } = useDeviceInfo();
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation(["auth", "common"]);
 
   return (
     <main className={styles.container}>

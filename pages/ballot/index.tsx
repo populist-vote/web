@@ -163,7 +163,11 @@ export async function getServerSideProps({
       title: "My Ballot",
       description:
         "Find information on your government representatives like voting histories, endorsements, and financial data.",
-      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 }

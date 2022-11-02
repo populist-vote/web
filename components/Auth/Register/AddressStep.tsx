@@ -20,7 +20,7 @@ import { useTranslation } from "next-i18next";
 function AddressStep() {
   const router = useRouter();
   const { query } = router;
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation("auth");
 
   const {
     actions,

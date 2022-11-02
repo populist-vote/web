@@ -20,7 +20,11 @@ export async function getServerSideProps({
   return {
     props: {
       title: "Privacy",
-      ...(await serverSideTranslations(locale, ["actions"], nextI18nextConfig)),
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 }

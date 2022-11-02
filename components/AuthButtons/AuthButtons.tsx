@@ -16,7 +16,7 @@ function AuthButtons({
   const user = useAuth({ redirect: false });
   const { isMobile } = useDeviceInfo();
   const { push } = useRouter();
-  const { t } = useTranslation("actions");
+  const { t } = useTranslation("auth");
 
   if (user && showAvatarIfUser) {
     return (
