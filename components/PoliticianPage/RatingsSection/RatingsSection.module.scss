@@ -1,5 +1,16 @@
 @import "../../../pages/politicians/PoliticianPage.module.scss";
 
+.avatarName {
+  color: $white;
+}
+
+.ratingContainer {
+  &:hover .avatarName {
+    color: $blue-text;
+    transition: color 0.25s ease-in-out;
+  }
+}
+
 .timespan {
   color: $yellow;
   font-style: italic;
