@@ -47,6 +47,7 @@ function ResetPasswordForm() {
       },
     },
     isLoading: isEntropyCalcLoading,
+    fetchStatus,
   } = useValidatePasswordEntropyQuery(
     {
       password: debouncedPassword,
@@ -131,7 +132,7 @@ function ResetPasswordForm() {
               score={score}
               message={message}
               length={password.length}
-              isLoading={isEntropyCalcLoading}
+              isLoading={isEntropyCalcLoading && fetchStatus != "idle"}
             />
             <Button
               label="Submit"

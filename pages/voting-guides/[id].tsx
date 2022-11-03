@@ -11,7 +11,7 @@ import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { dehydrate, QueryClient } from "react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import styles from "styles/modules/page.module.scss";
 import { SupportedLocale } from "types/global";
 

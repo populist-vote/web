@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { Layout, LoaderFlag } from "components";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
-import { dehydrate, QueryClient } from "react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
 import styles from "styles/modules/page.module.scss";
 import layoutStyles from "../../components/BasicLayout/BasicLayout.module.scss";
@@ -24,7 +24,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   );
 
   if (isLoading) return <LoaderFlag />;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <>Error: {error}</>;
 
   const bill = data?.billBySlug;
   const summary = bill?.populistSummary || bill?.description;

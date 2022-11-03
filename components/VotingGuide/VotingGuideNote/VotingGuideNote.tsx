@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { AtLeast } from "types/global";
 import type { EditVotingGuideCandidate } from "components";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 function VotingGuideNote({
   politician,

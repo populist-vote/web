@@ -161,7 +161,7 @@ const VotingGuides: NextPage<{
   const election = useMemo(
     () =>
       data?.votingGuidesByUserId.find(
-        (g) => g.electionId === selectedElectionId
+        (g: VotingGuideResult) => g.electionId === selectedElectionId
       )?.election as ElectionResult,
     [data, selectedElectionId]
   );
@@ -169,7 +169,7 @@ const VotingGuides: NextPage<{
   const userVotingGuides = useMemo(
     () =>
       data?.votingGuidesByUserId.filter(
-        (g) => g.electionId === selectedElectionId
+        (g: VotingGuideResult) => g.electionId === selectedElectionId
       ),
     [data, selectedElectionId]
   );
@@ -177,7 +177,7 @@ const VotingGuides: NextPage<{
   const savedGuides = useMemo(
     () =>
       savedGuidesQuery.data?.votingGuidesByIds.filter(
-        (g) => g.electionId === selectedElectionId
+        (g: VotingGuideResult) => g.electionId === selectedElectionId
       ) as VotingGuideResult[],
     [savedGuidesQuery.data, selectedElectionId]
   );
@@ -203,21 +203,23 @@ const VotingGuides: NextPage<{
         )}
         {!showLoader && (
           <FlagSection label="My Voting Guides">
-            {error && <small>Something went wrong...</small>}
-            {userVotingGuides && (userVotingGuides?.length as number) < 1 && (
-              <>
-                <small>No voting guides</small>
-              </>
-            )}
-            <div className={styles.guidesContainer}>
-              {userVotingGuides?.map((guide) => (
-                <VotingGuideCard
-                  guide={guide as Partial<VotingGuideResult>}
-                  key={guide.id}
-                  showEdit={user.id === guide.user.id}
-                />
-              ))}
-            </div>
+            <>
+              {error && <small>Something went wrong...</small>}
+              {userVotingGuides && (userVotingGuides?.length as number) < 1 && (
+                <>
+                  <small>No voting guides</small>
+                </>
+              )}
+              <div className={styles.guidesContainer}>
+                {userVotingGuides?.map((guide: VotingGuideResult) => (
+                  <VotingGuideCard
+                    guide={guide as Partial<VotingGuideResult>}
+                    key={guide.id}
+                    showEdit={user.id === guide.user.id}
+                  />
+                ))}
+              </div>
+            </>
           </FlagSection>
         )}
       </div>
@@ -225,17 +227,19 @@ const VotingGuides: NextPage<{
       {!!savedGuides?.length && !savedGuidesQuery.isLoading && (
         <div className={styles.votingContainer}>
           <FlagSection label="Other Guides">
-            {savedGuidesQuery.error && <small>Something went wrong...</small>}
+            <>
+              {savedGuidesQuery.error && <small>Something went wrong...</small>}
 
-            <div className={styles.otherGuidesContainer}>
-              {savedGuides.map((guide) => (
-                <VotingGuideCard
-                  guide={guide as Partial<VotingGuideResult>}
-                  key={guide.id}
-                  showEdit={user.id === guide.user.id}
-                />
-              ))}
-            </div>
+              <div className={styles.otherGuidesContainer}>
+                {savedGuides.map((guide) => (
+                  <VotingGuideCard
+                    guide={guide as Partial<VotingGuideResult>}
+                    key={guide.id}
+                    showEdit={user.id === guide.user.id}
+                  />
+                ))}
+              </div>
+            </>
           </FlagSection>
         </div>
       )}

@@ -14,7 +14,7 @@ import {
 } from "generated";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { useMemo, useState } from "react";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
 

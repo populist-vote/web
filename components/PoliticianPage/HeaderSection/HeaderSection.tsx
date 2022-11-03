@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useQueryClient } from "react-query";
+import { useState, useEffect, useCallback, CSSProperties } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { default as clsx } from "clsx";
 import { Avatar, PartyAvatar, Button } from "components";
 import { EditVotingGuideCandidate } from "components/Ballot/Race";
@@ -11,7 +11,6 @@ import {
   useUpsertVotingGuideCandidateMutation,
 } from "generated";
 import styles from "./HeaderSection.module.scss";
-import { CSSProperties } from "styled-components";
 
 enum NoteState {
   View,

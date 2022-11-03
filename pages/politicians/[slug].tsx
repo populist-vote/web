@@ -1,6 +1,6 @@
 import type { GetServerSideProps } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
-import { dehydrate, QueryClient } from "react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import {
   Layout,
   HeaderSection,

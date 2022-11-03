@@ -17,9 +17,9 @@ generates:
           content: "/* eslint-disable @typescript-eslint/no-explicit-any */"
 
     config:
-      addInfiniteQuery: true
       pureMagicComment: true
       exposeQueryKeys: true
+      exposeDocument: true
       exposeFetcher: true
       fetcher:
         endpoint: ${GRAPHQL_SCHEMA_PATH}

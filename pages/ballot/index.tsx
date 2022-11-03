@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
-import { dehydrate, QueryClient, useQueryClient } from "react-query";
+import { dehydrate, QueryClient, useQueryClient } from "@tanstack/react-query";
 
 import { Election } from "components/Ballot/Election";
 import {
@@ -18,10 +17,10 @@ import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
 import {
   ElectionResult,
+  ElectionVotingGuideByUserIdQuery,
   useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
   useUpsertVotingGuideMutation,
-  useVotingGuideByIdQuery,
 } from "generated";
 
 import styles from "components/Layout/Layout.module.scss";
@@ -30,14 +29,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 
 export default function BallotPage() {
-  const router = useRouter();
-  const queriedGuideId = router.query.votingGuideId;
-
-  const votingGuideQuery = useVotingGuideByIdQuery(
-    { id: queriedGuideId as string },
-    { enabled: !!queriedGuideId }
-  );
-
   const user = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
 
@@ -52,7 +43,7 @@ export default function BallotPage() {
     error,
     selectedElectionId,
     setSelectedElectionId,
-  } = useElections(votingGuideQuery.data?.votingGuideById.electionId);
+  } = useElections();
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
@@ -61,7 +52,7 @@ export default function BallotPage() {
     },
     {
       enabled: !!user?.id && !!selectedElectionId,
-      onSuccess: (data) => {
+      onSuccess: (data: ElectionVotingGuideByUserIdQuery) => {
         if (!data?.electionVotingGuideByUserId)
           createVotingGuide.mutate({
             electionId: selectedElectionId as string,
@@ -101,18 +92,15 @@ export default function BallotPage() {
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
         <Layout mobileNavTitle={flagLabel} showNavLogoOnMobile>
-          {isLoading && <LoaderFlag />}
           {isSuccess && (
             <>
-              {!queriedGuideId && (
-                <ElectionSelector
-                  elections={
-                    data?.electionsByUserState as Partial<ElectionResult>[]
-                  }
-                  selectedElectionId={selectedElectionId as string}
-                  setSelectedElectionId={setSelectedElectionId}
-                />
-              )}
+              <ElectionSelector
+                elections={
+                  data?.electionsByUserState as Partial<ElectionResult>[]
+                }
+                selectedElectionId={selectedElectionId as string}
+                setSelectedElectionId={setSelectedElectionId}
+              />
 
               <VotingGuideProvider votingGuideId={userGuideId}>
                 {isLoading && (

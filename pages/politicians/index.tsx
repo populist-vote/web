@@ -11,7 +11,6 @@ import {
   PoliticalParty,
   PoliticalScope,
   State,
-  useInfinitePoliticianIndexQuery,
 } from "../../generated";
 import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
@@ -117,7 +116,13 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
       },
     },
     {
-      queryKey: `politicianIndex-${debouncedSearchQuery}-${scope}-${chamber}-${state}`,
+      queryKey: [
+        "politicianIndex",
+        debouncedSearchQuery,
+        scope,
+        chamber,
+        state,
+      ],
       getNextPageParam: (lastPage) => {
         if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
         return {
@@ -158,40 +163,45 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
           <PoliticianIndexFilters query={props.query} />
         </header>
         <div>
-          {isLoading && (
-            <div className={styles.center}>
-              <LoaderFlag />
-            </div>
-          )}
-          {error && (
-            <h4>Something went wrong fetching politician records...</h4>
-          )}
-          <div>
-            {data?.pages.map((page) =>
-              page.politicians.edges
-                ?.map((edge) => edge?.node as PoliticianResult)
-                .map((politician: PoliticianResult) => (
-                  <PoliticianRow politician={politician} key={politician.id} />
-                ))
+          <>
+            {isLoading && (
+              <div className={styles.center}>
+                <LoaderFlag />
+              </div>
             )}
-          </div>
-          {hasNextPage && (
-            <>
-              <button
-                className={styles.wideButton}
-                style={{ margin: "1rem 0 0 " }}
-                ref={loadMoreRef}
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-              >
-                {isFetchingNextPage
-                  ? "Loading more..."
-                  : hasNextPage
-                  ? "Load More"
-                  : "Nothing more to load"}
-              </button>
-            </>
-          )}
+            {error && (
+              <h4>Something went wrong fetching politician records...</h4>
+            )}
+            <div>
+              {data?.pages.map((page) =>
+                page.politicians.edges
+                  ?.map((edge) => edge?.node as PoliticianResult)
+                  .map((politician: PoliticianResult) => (
+                    <PoliticianRow
+                      politician={politician}
+                      key={politician.id}
+                    />
+                  ))
+              )}
+            </div>
+            {hasNextPage && (
+              <>
+                <button
+                  className={styles.wideButton}
+                  style={{ margin: "1rem 0 0 " }}
+                  ref={loadMoreRef}
+                  onClick={() => fetchNextPage()}
+                  disabled={isFetchingNextPage}
+                >
+                  {isFetchingNextPage
+                    ? "Loading more..."
+                    : hasNextPage
+                    ? "Load More"
+                    : "Nothing more to load"}
+                </button>
+              </>
+            )}
+          </>
         </div>
       </div>
     </Layout>
