@@ -15,3 +15,8 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+}

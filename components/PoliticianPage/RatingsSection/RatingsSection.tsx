@@ -53,6 +53,10 @@ function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
         )}
         <span className={styles.timespan}>{rating.vsRating.timespan}</span>
       </div>
+      {rating.organization?.name && (
+        <span className={styles.avatarName}>{rating.organization?.name}</span>
+      )}
+      <span className={styles.timespan}>{rating.vsRating.timespan}</span>
     </Link>
   );
 }

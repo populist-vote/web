@@ -1,0 +1,122 @@
+@import "../../../styles/variables/colors.scss";
+@import "../../../styles/variables/fonts.scss";
+@import "../../../styles/mixins/media.scss";
+@import "styles/modules/page.module";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .content {
+    margin: 3rem 1rem;
+    padding: 1rem;
+    background: $blue-dark-alpha-8;
+    border: 1px solid $blue-dark;
+    display: grid;
+    gap: 2rem;
+    border-radius: 30px;
+    min-width: 80%;
+
+    @include for-tablet-up {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+
+  .optionsContainer {
+    display: flex;
+    gap: 1.5rem;
+
+    @include for-tablet-down {
+      flex-direction: column;
+    }
+  }
+}
+
+.issuesSelect {
+  @include for-tablet-up {
+    display: none;
+  }
+}
+
+.issuesContainer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-right: 1px solid $blue-dark;
+
+  @include for-tablet-down {
+    display: none;
+    width: 0;
+  }
+
+  .issuesContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: left;
+    width: fit-content;
+  }
+
+  h2 {
+    width: auto;
+    text-align: left;
+    margin-top: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+
+    .issueButton {
+      cursor: pointer;
+      border-radius: 40px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 9px 16px;
+      gap: 10px;
+      border: none;
+      color: $white;
+      background: $blue-dark;
+
+      &:disabled {
+        background: $blue;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.noteContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: auto;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+
+  @include for-tablet-up {
+    flex-direction: row;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $blue-dark;
+  }
+
+  p {
+    font-size: $text-md;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}

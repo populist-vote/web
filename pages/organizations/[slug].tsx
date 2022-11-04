@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "react-query";
-import { FaGlobe } from "react-icons/fa";
+import { FaFacebook, FaGlobe, FaInstagram, FaTwitter } from "react-icons/fa";
 
 import { Avatar, Layout, LoaderFlag, IssueTags, Button } from "components";
 
@@ -16,58 +16,139 @@ import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "types/global";
 import nextI18nextConfig from "next-i18next.config";
+import { PoliticianNotes } from "components/OrganizationPage/PoliticianNotes/PoliticianNotes";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
+  const isSmallScreen = useMediaQuery("(max-width: 968px)");
   const { query } = useRouter();
   const slug = query.slug as string;
   const { data, isLoading, error } = useOrganizationBySlugQuery({ slug });
 
   if (isLoading) return <LoaderFlag />;
 
-  if (error) return <p>Error: {error}</p>;
+  if (error) {
+    console.error("Organization Error", error);
+    return (
+      <p>
+        Organization Query Error. Please reload. <br />
+        Error: {JSON.stringify(error)}
+      </p>
+    );
+  }
 
   const { organizationBySlug: organization } = data || {};
   return (
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={true}>
-      <div className={styles.content}>
-        <h1 className={styles.orgLogo}>
-          <Avatar
-            src={
-              (organization?.assets?.thumbnailImage400 ||
-                organization?.assets?.thumbnailImage160 ||
-                organization?.thumbnailImageUrl) as string
-            }
-            fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_400_URL}
-            alt={organization?.name as string}
-            size={200}
-          />
-        </h1>
-
-        <h1 className={styles.mainTitle}>{organization?.name}</h1>
-
-        {organization?.issueTags && <IssueTags tags={organization.issueTags} />}
-
-        <div className={styles.divider}></div>
-        <p className={styles.descriptionText}>{organization?.description}</p>
-
-        {organization?.websiteUrl && (
-          <a
-            aria-label={"Website"}
-            href={organization?.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              icon={<FaGlobe />}
-              label="Website"
-              iconPosition="before"
-              size="medium"
-              variant="secondary"
+      <div className={styles.container}>
+        <section className={styles.content}>
+          <h1 className={styles.orgLogo}>
+            <Avatar
+              src={
+                (organization?.assets?.thumbnailImage400 ||
+                  organization?.assets?.thumbnailImage160 ||
+                  organization?.thumbnailImageUrl) as string
+              }
+              fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_400_URL}
+              alt={organization?.name as string}
+              size={200}
             />
-          </a>
-        )}
+          </h1>
 
-        <div className={styles.divider}></div>
+          <h1 className={styles.mainTitle}>{organization?.name}</h1>
+          {organization?.issueTags && (
+            <IssueTags tags={organization.issueTags} />
+          )}
+
+          <div className={styles.divider} />
+          <p className={styles.descriptionText}>{organization?.description}</p>
+          <div className={styles.socialLinks}>
+            {organization?.websiteUrl && (
+              <a
+                aria-label={"Website"}
+                href={organization?.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {isSmallScreen ? (
+                  <FaGlobe />
+                ) : (
+                  <Button
+                    icon={<FaGlobe />}
+                    label="Website"
+                    iconPosition="before"
+                    size="medium"
+                    variant="secondary"
+                  />
+                )}
+              </a>
+            )}
+            {organization?.twitterUrl && (
+              <a
+                aria-label={"Twitter"}
+                href={organization?.twitterUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {isSmallScreen ? (
+                  <FaTwitter />
+                ) : (
+                  <Button
+                    icon={<FaTwitter />}
+                    label="Twitter"
+                    iconPosition="before"
+                    size="medium"
+                    variant="secondary"
+                  />
+                )}
+              </a>
+            )}
+            {organization?.facebookUrl && (
+              <a
+                aria-label={"Facebook"}
+                href={organization?.facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {isSmallScreen ? (
+                  <FaFacebook />
+                ) : (
+                  <Button
+                    icon={<FaFacebook />}
+                    label="Facebook"
+                    iconPosition="before"
+                    size="medium"
+                    variant="secondary"
+                  />
+                )}
+              </a>
+            )}
+            {organization?.instagramUrl && (
+              <a
+                aria-label={"Instagram"}
+                href={organization?.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {isSmallScreen ? (
+                  <FaInstagram />
+                ) : (
+                  <Button
+                    icon={<FaInstagram />}
+                    label="Instagram"
+                    iconPosition="before"
+                    size="medium"
+                    variant="secondary"
+                  />
+                )}
+              </a>
+            )}
+          </div>
+        </section>
+        <div className={styles.divider} />
+        <section>
+          <PoliticianNotes />
+        </section>
       </div>
     </Layout>
   );

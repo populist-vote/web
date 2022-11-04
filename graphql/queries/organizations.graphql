@@ -1,19 +1,57 @@
-query OrganizationBySlug($slug: String!) {
-  organizationBySlug(slug: $slug) {
+fragment organizationFields on OrganizationResult {
+  id
+  name
+  slug
+  description
+  thumbnailImageUrl
+  assets {
+    thumbnailImage160
+    thumbnailImage400
+  }
+  websiteUrl
+  twitterUrl
+  facebookUrl
+  instagramUrl
+  issueTags {
     id
     name
+    slug
     description
-    thumbnailImageUrl
-    assets {
-      thumbnailImage160
-      thumbnailImage400
-    }
-    websiteUrl
-    issueTags {
+  }
+}
+
+query OrganizationBySlug($slug: String!) {
+  organizationBySlug(slug: $slug) {
+    ...organizationFields
+  }
+}
+
+query OrganizationPoliticianNotes($slug: String!, $electionId: ID!) {
+  organizationBySlug(slug: $slug) {
+    politicianNotes(electionId: $electionId) {
       id
-      name
-      slug
-      description
+      notes
+      politician {
+        id
+        slug
+        fullName
+        party
+        assets {
+          thumbnailImage160
+          thumbnailImage400
+        }
+        upcomingRace {
+          office {
+            slug
+            name
+          }
+        }
+      }
+      issueTags {
+        name
+        slug
+        id
+      }
     }
   }
 }

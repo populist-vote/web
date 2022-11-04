@@ -5,7 +5,10 @@ import { BetaNotice } from "./BetaNotice/BetaNotice";
 import { BillCard } from "./BillCard/BillCard";
 import { Button } from "./Button/Button";
 import { EditVotingGuideCandidate } from "./Ballot/Race";
-import { ElectionInfoSection } from "./PoliticianPage/ElectionInfo/ElectionInfoSection";
+import {
+  ElectionInfoSection,
+  Candidate,
+} from "./PoliticianPage/ElectionInfo/ElectionInfoSection";
 import { ElectionSelector } from "./ElectionSelector/ElectionSelector";
 import { FieldSet } from "./FieldSet/FieldSet";
 import { FlagSection, FlagColor } from "./FlagSection/FlagSection";
@@ -22,6 +25,7 @@ import { Nav } from "./Nav/Nav";
 import NoteIcon from "./Icons/NoteIcon";
 import { OfficeRaces } from "./Ballot/OfficeRaces";
 import { PasswordEntropyMeter } from "./Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
+import { PoliticianNote } from "./PoliticianNote/PoliticianNote";
 import { RaceSection } from "./Races/RaceSection";
 import { SEO } from "./SEO/SEO";
 import { Spacer } from "./Spacer/Spacer";
@@ -40,6 +44,7 @@ export {
   BetaNotice,
   BillCard,
   Button,
+  Candidate,
   ElectionInfoSection,
   ElectionSelector,
   FieldSet,
@@ -61,6 +66,7 @@ export {
   OfficeRaces,
   PartyAvatar,
   PasswordEntropyMeter,
+  PoliticianNote,
   RaceSection,
   SEO,
   Spacer,
