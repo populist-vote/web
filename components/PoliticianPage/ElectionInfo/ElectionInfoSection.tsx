@@ -102,4 +102,4 @@ function ElectionInfoSection() {
   );
 }
 
-export { ElectionInfoSection };
+export { ElectionInfoSection, Candidate };
