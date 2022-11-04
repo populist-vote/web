@@ -135,9 +135,6 @@ function Badge(props: BadgeProps): JSX.Element {
   return (
     <div className={styles.badgeWrapper} style={styleVars} title={title}>
       <span className={styles.badgeText}>{text?.slice(0, 1)}</span>
-      <span className={styles.badgeFullText}>
-        {text?.slice(1).replaceAll("_", " ")}
-      </span>
     </div>
   );
 }

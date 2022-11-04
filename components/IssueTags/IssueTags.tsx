@@ -1,8 +1,12 @@
-import styles from "./IssueTags.module.scss";
 import { IssueTagResult } from "generated";
+import styles from "./IssueTags.module.scss";
 
-const IssueTag = ({ name }: Partial<IssueTagResult>) => (
-  <span className={styles.issueBubble}>{name}</span>
+interface IssueTagProps extends Partial<IssueTagResult> {
+  selected?: boolean;
+}
+
+const IssueTag = ({ name }: IssueTagProps) => (
+  <li className={styles.issueBubble}>{name}</li>
 );
 
 const IssueTags = ({ tags }: { tags: Partial<IssueTagResult>[] }) => {
@@ -14,5 +18,22 @@ const IssueTags = ({ tags }: { tags: Partial<IssueTagResult>[] }) => {
     </div>
   );
 };
+
+// const IssueTagList = ({
+//   tags, // selected,
+// }: {
+//   tags: Partial<IssueTagResult>[];
+//   // selected?: string;
+// }) => {
+//   // const { current, setCurrent } = useState(0);
+
+//   return (
+//     <ul className={styles.container}>
+//       {tags.map((i) => (
+//         <IssueTag key={i.id} name={i.name} />
+//       ))}
+//     </ul>
+//   );
+// };
 
 export { IssueTags };

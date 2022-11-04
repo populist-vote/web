@@ -1,0 +1,36 @@
+@import "../../styles/variables/colors.scss";
+@import "../../styles/variables/fonts.scss";
+@import "../../styles/mixins/media.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+
+  .pillSelect {
+    background: transparent;
+    color: $white;
+    border-radius: 25px;
+    border: 1px solid $blue;
+    padding: 0.5rem 2rem;
+    width: 100%;
+    cursor: pointer;
+    font-size: $text-sm;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+
+    @include for-tablet-up {
+      width: fit-content;
+    }
+  }
+
+  select + svg.chevron {
+    font-size: 1em;
+    color: $blue;
+    height: 1rem;
+    width: 2rem;
+    margin: 0;
+    margin-left: -2rem;
+    pointer-events: none;
+  }
+}

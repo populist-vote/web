@@ -1,5 +1,6 @@
 import styles from "./PasswordEntropyMeter.module.scss";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useTranslation } from "next-i18next";
 
 function PasswordEntropyMeter({
   length,
@@ -13,8 +14,9 @@ function PasswordEntropyMeter({
   message?: string | null;
   isLoading: boolean;
 }) {
-  const fill = (score || 1 / 3) * 360;
+  const { t } = useTranslation("auth");
 
+  const fill = (score || 1 / 3) * 360;
   const color = valid ? "var(--green)" : "var(--red)";
 
   if (length < 1) return <div className={styles.container} />;
@@ -22,7 +24,7 @@ function PasswordEntropyMeter({
   return (
     <div className={styles.container}>
       <>
-        <small>{valid ? "Strong" : "Too weak"}</small>
+        <small>{valid ? t("strong") : t("too-weak")}</small>
         {isLoading ? (
           <AiOutlineLoading3Quarters className={styles.spin} />
         ) : valid ? (

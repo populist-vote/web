@@ -11,10 +11,12 @@ import useDebounce from "hooks/useDebounce";
 import { Button, PasswordEntropyMeter } from "components";
 import { PasswordInput } from "../PasswordInput";
 import clsx from "clsx";
+import { useTranslation } from "next-i18next";
 
 function EmailStep() {
   const router = useRouter();
   const { query } = router;
+  const { t } = useTranslation(["auth", "common"]);
 
   const {
     actions,
@@ -131,13 +133,10 @@ function EmailStep() {
 
   return (
     <div className={styles.container}>
-      <h1 className="title">Get Started</h1>
+      <h1 className="title">{t("get-started", { ns: "common" })}</h1>
       <p>
-        Please create an account with your email and a strong password.{" "}
-        <span className={styles.footnote}>
-          Longer passwords are more secure. We recommend using a password
-          manager.
-        </span>
+        {t("please-create-account-copy")}{" "}
+        <span className={styles.footnote}>{t("passwords-copy")}</span>
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
@@ -149,13 +148,13 @@ function EmailStep() {
           >
             <input
               type="email"
-              placeholder="Email"
+              placeholder={t("email")}
               aria-invalid={errors.email ? "true" : "false"}
               {...register("email", {
-                required: "Email is required",
+                required: t("email-is-required"),
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address",
+                  message: t("invalid-email"),
                 },
               })}
               autoComplete="email"
@@ -170,11 +169,11 @@ function EmailStep() {
           >
             <PasswordInput
               name="password"
-              placeholder="Password"
+              placeholder={t("password")}
               aria-invalid={errors.password ? "true" : "false"}
               register={register}
               rules={{
-                required: "Password is required",
+                required: t("password-is-required"),
                 validate: () => isPasswordValid,
               }}
               autoComplete="new-password"
@@ -194,7 +193,11 @@ function EmailStep() {
           <Button
             variant="primary"
             type="submit"
-            label={isLoading ? "Loading..." : "Continue"}
+            label={
+              isLoading
+                ? t("loading", { ns: "common" })
+                : t("continue", { ns: "common" })
+            }
             disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
             size="large"
           />

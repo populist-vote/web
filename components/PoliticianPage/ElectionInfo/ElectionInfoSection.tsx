@@ -26,7 +26,11 @@ function Candidate({
       <PartyAvatar
         size={60}
         party={candidate.party as PoliticalParty}
-        src={candidate.thumbnailImageUrl || PERSON_FALLBACK_IMAGE_URL}
+        src={
+          candidate.thumbnailImageUrl ||
+          candidate.assets?.thumbnailImage160 ||
+          PERSON_FALLBACK_IMAGE_URL
+        }
         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
         alt={candidate?.fullName || ""}
         href={`/politicians/${candidate.slug}`}
@@ -102,4 +106,4 @@ function ElectionInfoSection() {
   );
 }
 
-export { ElectionInfoSection };
+export { ElectionInfoSection, Candidate };

@@ -1,6 +1,5 @@
 @import "styles/modules/page.module";
 @import "styles/mixins/utils";
-@import "styles/layout/containers";
 
 .imageContainer {
   border-radius: 250px;
@@ -13,8 +12,6 @@
   &.opaque {
     opacity: 40%;
   }
-
-  transition: all 1s;
 }
 
 .badgeText,
@@ -43,24 +40,6 @@
   text-align: center;
   transition: all 0.5s;
   cursor: pointer;
-
-  &:hover {
-    display: inline-flex;
-    width: max-content;
-    overflow: hidden;
-    padding: 0 10%;
-    right: auto;
-  }
-
-  .badgeFullText {
-    opacity: 0;
-    display: none;
-  }
-
-  &:hover .badgeFullText {
-    opacity: 1;
-    display: block;
-  }
 }
 
 .labelLeftWrapper {

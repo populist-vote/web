@@ -35,6 +35,9 @@ import { toast } from "react-toastify";
 import { PasswordInput } from "components/Auth/PasswordInput";
 import useDebounce from "hooks/useDebounce";
 import { NextPage } from "next";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
 
 type NameSectionProps = {
   firstName: string;
@@ -718,3 +721,20 @@ export const ProfilePage: NextPage = () => {
 };
 
 export default ProfilePage;
+
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      title: "Profile",
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+}

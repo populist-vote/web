@@ -8,6 +8,25 @@ import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import { SupportedLocale } from "types/global";
+import nextI18nextConfig from "next-i18next.config";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+}
 
 const Faq: NextPage = () => {
   const user = useAuth({ redirectTo: "/faq" });

@@ -1,3 +1,26 @@
+import { i18n } from "next-i18next.config";
+export const DEFAULT_LANGUAGE = i18n.defaultLocale;
+export type Language = typeof i18n.locales[number];
+
+export interface LocalizedNote {
+  en?: string;
+  es?: string;
+  so?: string;
+  hmn?: string;
+}
+
+export interface LanguageCode {
+  code: Language;
+  display: string;
+}
+
+export const LANGUAGES: LanguageCode[] = [
+  { code: "en", display: "English" },
+  { code: "es", display: "Spanish" },
+  { code: "so", display: "Somali" },
+  { code: "hmn", display: "Hmong" },
+];
+
 // Urls
 
 export const PERSON_FALLBACK_IMAGE_URL =

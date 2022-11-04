@@ -1,27 +1,13 @@
 import type { PropsWithChildren } from "react";
 import { Footer, Nav } from "components";
 import styles from "./Layout.module.scss";
-
-const defaultNavItems = [
-  {
-    label: "My Ballot",
-    href: "/ballot",
-  },
-  {
-    label: "Voting Guides",
-    href: "/voting-guides",
-  },
-  {
-    label: "Politicians",
-    href: "/politicians",
-  },
-];
+import { useTranslation } from "next-i18next";
 
 function Layout({
   mobileNavTitle,
   showNavLogoOnMobile = true,
   hasVotingGuide = false,
-  navItems = defaultNavItems,
+  navItems,
   hideFooter = false,
   children,
 }: PropsWithChildren<{
@@ -34,12 +20,27 @@ function Layout({
   }[];
   hideFooter?: boolean;
 }>) {
+  const { t } = useTranslation("common");
+  const defaultNavItems = [
+    {
+      label: t("my-ballot"),
+      href: "/ballot",
+    },
+    {
+      label: t("voting-guides"),
+      href: "/voting-guides",
+    },
+    {
+      label: t("politicians"),
+      href: "/politicians",
+    },
+  ];
   return (
     <div className={styles.app}>
       <Nav
         mobileNavTitle={mobileNavTitle}
         showLogoOnMobile={showNavLogoOnMobile}
-        navItems={navItems}
+        navItems={navItems || defaultNavItems}
         hasVotingGuide={hasVotingGuide}
       />
       <main className={styles.content}>{children}</main>

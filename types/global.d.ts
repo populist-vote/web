@@ -20,3 +20,5 @@ declare module "@tanstack/react-table" {
 type Nullable<T> = { [K in keyof T]: T[K] | null };
 
 type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;
+
+export type SupportedLocale = "en" | "es" | "so" | "hmn";

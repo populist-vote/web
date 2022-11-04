@@ -584,6 +584,20 @@ type OrganizationAssets {
   thumbnailImage400: String
 }
 
+type OrganizationPoliticianNoteResult {
+  createdAt: DateTime!
+  electionId: ID!
+  id: ID!
+  issueTagIds: [ID!]!
+  issueTags: [IssueTagResult!]!
+  notes: JSON!
+  organization: OrganizationResult!
+  organizationId: ID!
+  politician: PoliticianResult!
+  politicianId: ID!
+  updatedAt: DateTime!
+}
+
 type OrganizationResult {
   assets: OrganizationAssets!
   description: String
@@ -595,6 +609,7 @@ type OrganizationResult {
   instagramUrl: String
   issueTags: [IssueTagResult!]!
   name: String!
+  politicianNotes(electionId: ID!): [OrganizationPoliticianNoteResult!]!
   slug: String!
   taxClassification: String
   thumbnailImageUrl: String

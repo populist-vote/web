@@ -227,7 +227,10 @@
   width: calc(10rem - 1.25rem);
   margin: 0 1rem;
   display: flex;
+  gap: 0.5rem;
   flex-direction: column;
+  justify-content: center;
+  text-align: center;
   align-items: center;
 }
 
