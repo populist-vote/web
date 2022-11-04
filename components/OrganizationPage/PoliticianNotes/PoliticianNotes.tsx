@@ -136,6 +136,7 @@ function PoliticianNotes() {
             void i18n.changeLanguage(e.target.value);
             void router.push(router.asPath, router.asPath, {
               locale: e.target.value,
+              scroll: false,
             });
           }}
           value={i18n.language}
