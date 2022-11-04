@@ -29,7 +29,7 @@
 
   @include for-tablet-up {
     position: fixed;
-    width: 15rem;
+    width: 12rem;
     height: 100vh;
   }
 
@@ -133,7 +133,7 @@
     justify-content: space-between;
     flex-grow: 1;
     height: 100%;
-    width: 15rem;
+    width: 12rem;
     padding-bottom: 3rem;
 
     ul {
