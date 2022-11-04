@@ -1,7 +1,6 @@
 @import "styles/mixins/media";
 @import "styles/variables/colors";
 @import "styles/layout/containers";
-@import "styles/modules/page.module";
 
 $election-info-width: 1150px;
 $box-height: 14rem;
@@ -43,11 +42,6 @@ $box-height: 14rem;
       justify-content: flex-start;
       display: inline-flex;
       align-items: center;
-
-      :last-child {
-        margin: auto;
-        overflow: visible;
-      }
     }
   }
 }
