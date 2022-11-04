@@ -12,6 +12,10 @@ import {
 
 import styles from "./OrganizationPage.module.scss";
 import { ORGANIZATION_FALLBACK_IMAGE_400_URL } from "utils/constants";
+import { NextParsedUrlQuery } from "next/dist/server/request-meta";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { SupportedLocale } from "types/global";
+import nextI18nextConfig from "next-i18next.config";
 
 function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   const { query } = useRouter();
@@ -71,8 +75,13 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
 
 export default OrganizationPage;
 
+interface Params extends NextParsedUrlQuery {
+  slug: string;
+}
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug } = ctx.params as { slug: string };
+  const { locale, params } = ctx;
+  const { slug } = params as Params;
 
   const queryClient = new QueryClient();
 
@@ -90,6 +99,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       dehydratedState: state,
       mobileNavTitle: data?.organizationBySlug?.name,
       title: data?.organizationBySlug?.name,
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 };
