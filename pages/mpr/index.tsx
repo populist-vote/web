@@ -59,7 +59,7 @@ function MPRElectionPage() {
   const handleSmsSubscribe = async (phone: string) => {
     try {
       const res = await fetch(
-        `https://app.groundsource.co/surveys/sms/textsms/?MessageSid=1&To=%2B18338704111&From=%2B${phone.replaceAll(
+        `https://app.groundsource.co/surveys/sms/textsms/?MessageSid=1&To=%2B18554600137&From=%2B${phone.replaceAll(
           "-",
           ""
         )}&Body=ELECTION&ant=True`,
