@@ -9,6 +9,9 @@ fragment organizationFields on OrganizationResult {
     thumbnailImage400
   }
   websiteUrl
+  twitterUrl
+  facebookUrl
+  instagramUrl
   issueTags {
     id
     name

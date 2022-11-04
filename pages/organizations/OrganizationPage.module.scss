@@ -1,6 +1,11 @@
 @import "styles/variables/colors";
 @import "styles/mixins/media";
 
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
 .orgLogo {
   margin: 0;
 }
@@ -29,5 +34,18 @@
   @include for-tablet-portrait-down {
     margin-right: 1rem;
     margin-left: 1rem;
+  }
+}
+
+.socialLinks {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  svg {
+    font-size: 1.5rem;
+    color: $blue;
   }
 }
