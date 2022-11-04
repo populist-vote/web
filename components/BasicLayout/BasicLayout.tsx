@@ -14,7 +14,7 @@ function BasicLayout({
 }: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
   const { pathname, query } = useRouter();
   const user = useAuth({ redirect: false });
-  const { t } = useTranslation(["common", "auth"]);
+  const { t } = useTranslation(["auth", "common"]);
 
   return (
     <div className={styles.container}>
