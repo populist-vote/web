@@ -16,9 +16,10 @@
     display: grid;
     gap: 2rem;
     border-radius: 30px;
-    min-width: 80%;
 
     @include for-tablet-up {
+      width: 100%;
+      max-width: 1100px;
       grid-template-columns: 1fr 2fr;
     }
   }
@@ -44,6 +45,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  padding-right: 1rem;
   border-right: 1px solid $blue-dark;
 
   @include for-tablet-down {
@@ -102,7 +104,6 @@
   width: auto;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  gap: 1rem;
 
   @include for-tablet-up {
     flex-direction: row;
@@ -117,6 +118,31 @@
 
     &:first-child {
       margin-top: 0;
+    }
+  }
+
+  .noteCandidate {
+    display: flex;
+    height: fit-content;
+
+    @include for-tablet-down {
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 1rem;
+    }
+
+    .sideText {
+      color: $blue;
+      font-family: $font-primary;
+      letter-spacing: 0.05em;
+      writing-mode: tb-rl; /* For backward compatability */
+      writing-mode: vertical-rl;
+      transform: rotate(180deg); /* so text reads from bottom up */
+      font-size: 0.75em;
+      width: 15px;
+      text-transform: uppercase;
+      align-self: center;
+      margin-right: -1rem;
     }
   }
 }

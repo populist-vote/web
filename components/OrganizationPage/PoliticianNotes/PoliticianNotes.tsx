@@ -21,9 +21,15 @@ interface PoliticianNoteProps {
 
 function PoliticianNote({ politician, notes }: PoliticianNoteProps) {
   const { i18n } = useTranslation();
+  console.log(politician);
   return (
     <div className={styles.noteContainer}>
-      <Candidate itemId={politician.slug as string} candidate={politician} />
+      <div className={styles.noteCandidate}>
+        {politician.id === politician?.upcomingRace?.office?.incumbent?.id && (
+          <span className={styles.sideText}>INCUMBENT</span>
+        )}
+        <Candidate itemId={politician.slug as string} candidate={politician} />
+      </div>
       <div>
         <ReactMarkdown>
           {notes[i18n.language as keyof typeof notes] ||
