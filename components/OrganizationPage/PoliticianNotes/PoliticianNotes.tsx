@@ -100,7 +100,7 @@ function PoliticianNotes() {
     [notes, selectedOfficeSlug, selectedIssueSlug]
   );
 
-  if (!filteredNotes) return null;
+  if (filteredNotes.length < 1) return null;
 
   if (notesQuery.isLoading || electionQuery.isLoading)
     return (
