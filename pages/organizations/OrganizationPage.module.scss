@@ -30,3 +30,12 @@
     margin-left: 1rem;
   }
 }
+
+.votingGuideIssues {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  background-color: #002b41bf;
+  border-radius: 30px;
+  padding: 40px;
+}
