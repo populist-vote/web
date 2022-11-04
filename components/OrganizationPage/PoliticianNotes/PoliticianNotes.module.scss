@@ -1,5 +1,6 @@
 @import "../../../styles/variables/colors.scss";
 @import "../../../styles/variables/fonts.scss";
+@import "../../../styles/mixins/media.scss";
 @import "styles/modules/page.module";
 
 .container {
@@ -14,14 +15,27 @@
     border: 1px solid $blue-dark;
     display: grid;
     gap: 2rem;
-    grid-template-columns: 1fr 2fr;
     border-radius: 30px;
+    min-width: 80%;
+
+    @include for-tablet-up {
+      grid-template-columns: 1fr 2fr;
+    }
   }
 
   .optionsContainer {
     display: flex;
-    flex-direction: row;
     gap: 1.5rem;
+
+    @include for-tablet-down {
+      flex-direction: column;
+    }
+  }
+}
+
+.issuesSelect {
+  @include for-tablet-up {
+    display: none;
   }
 }
 
@@ -31,6 +45,11 @@
   justify-content: center;
   width: 100%;
   border-right: 1px solid $blue-dark;
+
+  @include for-tablet-down {
+    display: none;
+    width: 0;
+  }
 
   .issuesContent {
     display: flex;
@@ -78,11 +97,16 @@
 
 .noteContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   width: auto;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  gap: 1rem;
+
+  @include for-tablet-up {
+    flex-direction: row;
+  }
 
   &:not(:last-child) {
     border-bottom: 1px solid $blue-dark;

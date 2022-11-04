@@ -6,15 +6,11 @@ import {
   useElectionBySlugQuery,
   useOrganizationPoliticianNotesQuery,
 } from "generated";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import {
-  DEFAULT_LANGUAGE,
-  Language,
-  LocalizedNote,
-  LANGUAGES,
-} from "utils/constants";
+import { Language, LocalizedNote, LANGUAGES } from "utils/constants";
 import styles from "./PoliticianNotes.module.scss";
 
 interface PoliticianNoteProps {
@@ -23,13 +19,15 @@ interface PoliticianNoteProps {
   language: Language;
 }
 
-function PoliticianNote({ politician, notes, language }: PoliticianNoteProps) {
+function PoliticianNote({ politician, notes }: PoliticianNoteProps) {
+  const { i18n } = useTranslation();
   return (
     <div className={styles.noteContainer}>
       <Candidate itemId={politician.slug as string} candidate={politician} />
       <div>
         <ReactMarkdown>
-          {notes[language as keyof typeof notes] || ""}
+          {notes[i18n.language as keyof typeof notes] ||
+            "No translation available."}
         </ReactMarkdown>
       </div>
     </div>
@@ -37,18 +35,18 @@ function PoliticianNote({ politician, notes, language }: PoliticianNoteProps) {
 }
 
 function PoliticianNotes() {
+  const router = useRouter();
+  const slug = router.query.slug as string;
+  const { i18n } = useTranslation();
   const electionQuery = useElectionBySlugQuery({
     slug: "general-election-2022",
   });
   const electionId = electionQuery.data?.electionBySlug.id as string;
-  const { query } = useRouter();
-  const slug = query.slug as string;
   const notesQuery = useOrganizationPoliticianNotesQuery(
     { slug, electionId },
     { enabled: !!electionId }
   );
 
-  const [language, setLanguage] = useState<Language>(DEFAULT_LANGUAGE);
   const notes = useMemo(
     () => notesQuery.data?.organizationBySlug.politicianNotes || [],
     [notesQuery]
@@ -98,12 +96,9 @@ function PoliticianNotes() {
         )
         .filter((note) =>
           note.issueTags.map((t) => t.slug).includes(selectedIssueSlug)
-        )
-        .filter((note) => !!note.notes[language]),
-    [notes, selectedOfficeSlug, selectedIssueSlug, language]
+        ),
+    [notes, selectedOfficeSlug, selectedIssueSlug]
   );
-
-  console.log(filteredNotes);
 
   if (notesQuery.isLoading || electionQuery.isLoading)
     return (
@@ -124,9 +119,24 @@ function PoliticianNotes() {
             label: office?.name as string,
           }))}
         />
+        <div className={styles.issuesSelect}>
+          <Select
+            onChange={(e) => setSelectedIssueSlug(e.target.value)}
+            value={selectedIssueSlug}
+            options={uniqueIssueTags.map((tag) => ({
+              value: tag.slug,
+              label: tag.name,
+            }))}
+          />
+        </div>
         <Select
-          onChange={(e) => setLanguage(e.target.value as Language)}
-          value={language}
+          onChange={(e) => {
+            void i18n.changeLanguage(e.target.value);
+            void router.push(router.asPath, router.asPath, {
+              locale: e.target.value,
+            });
+          }}
+          value={i18n.language}
           options={LANGUAGES.map((l) => ({
             value: l.code,
             label: l.display,
@@ -154,13 +164,13 @@ function PoliticianNotes() {
             </ul>
           </div>
         </div>
-        <div>
+        <div className={styles.noteContent}>
           {filteredNotes.map((note) => (
             <PoliticianNote
               key={note.id}
               politician={note.politician as Partial<PoliticianResult>}
               notes={note.notes}
-              language={language}
+              language={i18n.language}
             />
           ))}
         </div>
