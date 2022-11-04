@@ -1,11 +1,11 @@
 import { Candidate } from "components";
-import { Language, LanguageNote } from "utils/constants";
+import { Language, LocalizedNote } from "utils/constants";
 import { PoliticianResult } from "generated";
 
 interface PoliticianNoteProps {
   politician: Partial<PoliticianResult>;
   itemId: string;
-  note: LanguageNote;
+  note: LocalizedNote;
   language: Language;
 }
 
@@ -18,7 +18,7 @@ const PoliticianNote = ({
   return (
     <>
       <Candidate itemId={itemId} candidate={politician} />
-      <p>{note[language] || "No Note"}</p>
+      <p>{note[language as keyof typeof note] || "No Note"}</p>
     </>
   );
 };

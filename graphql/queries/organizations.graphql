@@ -26,11 +26,23 @@ query OrganizationBySlug($slug: String!) {
 query OrganizationPoliticianNotes($slug: String!, $electionId: ID!) {
   organizationBySlug(slug: $slug) {
     politicianNotes(electionId: $electionId) {
+      id
       notes
       politician {
+        id
         slug
         fullName
-        id
+        party
+        assets {
+          thumbnailImage160
+          thumbnailImage400
+        }
+        upcomingRace {
+          office {
+            slug
+            name
+          }
+        }
       }
       issueTags {
         name

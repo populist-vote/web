@@ -1,11 +1,8 @@
-// import { i18n } from "next-i18next.config";
-// export const DEFAULT_LANGUAGE = i18n.defaultLocale;
-// export type Language = typeof i18n.locales[number];
+import { i18n } from "next-i18next.config";
+export const DEFAULT_LANGUAGE = i18n.defaultLocale;
+export type Language = typeof i18n.locales[number];
 
-//These are temporary until it can be automated (typescript doesn't like the above defs)
-export const DEFAULT_LANGUAGE = "en";
-export type Language = "en" | "es" | "so" | "hmn";
-export interface LanguageNote {
+export interface LocalizedNote {
   en?: string;
   es?: string;
   so?: string;
@@ -17,7 +14,7 @@ export interface LanguageCode {
   display: string;
 }
 
-export const Languages: LanguageCode[] = [
+export const LANGUAGES: LanguageCode[] = [
   { code: "en", display: "English" },
   { code: "es", display: "Spanish" },
   { code: "so", display: "Somali" },
