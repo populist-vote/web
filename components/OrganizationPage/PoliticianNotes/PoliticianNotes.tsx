@@ -63,6 +63,8 @@ function PoliticianNotes() {
     [notes]
   );
 
+  console.log(uniqueOffices);
+
   const [selectedOfficeSlug, setSelectedOfficeSlug] = useState<string>(
     uniqueOffices[0]?.slug as string
   );
@@ -100,7 +102,7 @@ function PoliticianNotes() {
     [notes, selectedOfficeSlug, selectedIssueSlug]
   );
 
-  if (filteredNotes.length < 1) return null;
+  if (slug !== "mpr-news") return null;
 
   if (notesQuery.isLoading || electionQuery.isLoading)
     return (
@@ -118,7 +120,7 @@ function PoliticianNotes() {
           value={selectedOfficeSlug}
           options={uniqueOffices.map((office) => ({
             value: office?.slug as string,
-            label: office?.name as string,
+            label: (office?.name || office?.title) as string,
           }))}
         />
         <div className={styles.issuesSelect}>
@@ -168,6 +170,9 @@ function PoliticianNotes() {
           </div>
         </div>
         <div className={styles.noteContent}>
+          {filteredNotes.length === 0 && (
+            <p>No guides for the selected filters.</p>
+          )}
           {filteredNotes.map((note) => (
             <PoliticianNote
               key={note.id}
