@@ -21,7 +21,6 @@ interface PoliticianNoteProps {
 
 function PoliticianNote({ politician, notes }: PoliticianNoteProps) {
   const { i18n } = useTranslation();
-  console.log(politician);
   return (
     <div className={styles.noteContainer}>
       <div className={styles.noteCandidate}>
@@ -69,8 +68,6 @@ function PoliticianNotes() {
     [notes]
   );
 
-  console.log(uniqueOffices);
-
   const [selectedOfficeSlug, setSelectedOfficeSlug] = useState<string>(
     uniqueOffices[0]?.slug as string
   );
@@ -96,18 +93,38 @@ function PoliticianNotes() {
     setSelectedOfficeSlug(uniqueOffices[0]?.slug as string);
   }, [uniqueIssueTags, uniqueOffices]);
 
+  const notesByOffice = useMemo(
+    () =>
+      notes.filter(
+        (note) =>
+          note.politician.upcomingRace?.office?.slug === selectedOfficeSlug
+      ),
+    [notes, selectedOfficeSlug]
+  );
+
   const filteredNotes = useMemo(
     () =>
-      notes
-        .filter(
-          (note) =>
-            note.politician.upcomingRace?.office?.slug === selectedOfficeSlug
-        )
-        .filter((note) =>
-          note.issueTags.map((t) => t.slug).includes(selectedIssueSlug)
-        ),
-    [notes, selectedOfficeSlug, selectedIssueSlug]
+      notesByOffice.filter((note) =>
+        note.issueTags.map((t) => t.slug).includes(selectedIssueSlug)
+      ),
+    [selectedIssueSlug, notesByOffice]
   );
+
+  const filteredIssues = useMemo(
+    () =>
+      uniqueIssueTags.filter((tag) =>
+        notesByOffice
+          .flatMap((note) => note.issueTags.map((t) => t.slug))
+          .includes(tag.slug)
+      ),
+    [notesByOffice, uniqueIssueTags]
+  );
+
+  useEffect(() => {
+    if (!filteredIssues.map((t) => t.slug).includes(selectedIssueSlug)) {
+      setSelectedIssueSlug(filteredIssues[0]?.slug as string);
+    }
+  }, [filteredIssues, selectedIssueSlug]);
 
   if (slug !== "mpr-news") return null;
 
@@ -163,7 +180,7 @@ function PoliticianNotes() {
           <div className={styles.issuesContent}>
             <h2>Issues</h2>
             <ul>
-              {uniqueIssueTags.map((tag) => (
+              {filteredIssues.map((tag) => (
                 <li key={tag.id}>
                   <button
                     className={styles.issueButton}
