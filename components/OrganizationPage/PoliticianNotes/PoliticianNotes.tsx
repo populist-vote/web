@@ -79,6 +79,7 @@ function PoliticianNotes() {
     () =>
       notes
         .flatMap((note) => note.issueTags)
+
         .filter(
           (value, index, self) =>
             index === self.findIndex((t) => t.slug === value.slug)
@@ -126,7 +127,9 @@ function PoliticianNotes() {
           value={selectedOfficeSlug}
           options={uniqueOffices.map((office) => ({
             value: office?.slug as string,
-            label: (office?.name || office?.title) as string,
+            label: `${office?.name || office?.title} - ${
+              office?.subtitleShort
+            }` as string,
           }))}
         />
         <div className={styles.issuesSelect}>
