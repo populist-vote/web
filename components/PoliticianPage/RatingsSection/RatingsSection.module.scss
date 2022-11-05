@@ -5,6 +5,13 @@
 }
 
 .ratingContainer {
+  
+  .avatarName {
+    margin-top: 0.5rem;
+    font-weight: 300;
+    line-height: 1.4em;
+  }
+
   &:hover .avatarName {
     color: $blue-text;
     transition: color 0.25s ease-in-out;

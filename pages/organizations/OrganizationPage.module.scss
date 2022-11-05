@@ -20,10 +20,11 @@
 .divider {
   width: 100%;
   margin: 3rem 0;
-  border-bottom: 1px solid $blue-darker;
+  border-bottom: 1px solid $blue-dark;
 
   @include for-tablet-down {
     margin: 2rem 0;
+    border-bottom: 1px solid $blue-darker;
   }
 }
 
