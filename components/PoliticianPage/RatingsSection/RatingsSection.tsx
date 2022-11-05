@@ -38,10 +38,17 @@ function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
             style={{
               background: `${
                 ratingPercent > 80
-                  ? "var(--green)"
+                  ? "var(--green-support)"
                   : ratingPercent > 50
                   ? "var(--yellow)"
                   : "var(--red)"
+              }`,
+              color: `${
+                ratingPercent > 80
+                  ? "var(--white)"
+                  : ratingPercent > 50
+                  ? "var(--blue-darkest)"
+                  : "var(--white)"
               }`,
             }}
           >

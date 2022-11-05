@@ -21,6 +21,8 @@
   font-weight: 600;
   justify-content: center;
   text-align: center;
+  line-height: 1em;
+  padding-top: 1px;
 }
 
 .badgeWrapper {
@@ -119,4 +121,5 @@
 
 .avatarLink {
   cursor: pointer;
+  line-height: 0.5em;
 }
