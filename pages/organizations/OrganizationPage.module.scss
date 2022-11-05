@@ -1,5 +1,6 @@
 @import "styles/variables/colors";
 @import "styles/mixins/media";
+@import "styles/modules/page.module";
 
 .container {
   max-width: 1100px;
@@ -18,18 +19,22 @@
 
 .divider {
   width: 100%;
-  margin-top: 2rem;
+  margin: 3rem 0;
   border-bottom: 1px solid $blue-darker;
+
+  @include for-tablet-down {
+    margin: 2rem 0;
+  }
 }
 
 .mainTitle {
   font-weight: 600;
   text-align: center;
+  margin-top: 1rem !important;
 }
 
 .descriptionText {
-  margin-left: 3rem;
-  margin-right: 3rem;
+  margin: 1rem 0;
 
   @include for-tablet-portrait-down {
     margin-right: 1rem;
@@ -43,6 +48,11 @@
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
+  margin-top: 2rem;
+
+  @include for-tablet-down {
+    margin-top: 1rem;
+  }
 
   svg {
     font-size: 1.5rem;

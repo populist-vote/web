@@ -7,6 +7,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  
+  @include for-tablet-down {
+    padding-top:1.5rem;
+  }
+
 
   .content {
     margin: 3rem 1rem;
@@ -27,9 +32,11 @@
   .optionsContainer {
     display: flex;
     gap: 1.5rem;
+    margin-top: 2rem;
 
     @include for-tablet-down {
       flex-direction: column;
+      margin-top: 1rem;
     }
   }
 }
