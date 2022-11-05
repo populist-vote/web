@@ -17,9 +17,10 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-
+  border-top: solid 1px $blue-darker;
+  
   @include for-tablet-up {
-    padding: 2.5rem 0;
+    padding: 0rem 0;
     border-top: solid 1px $blue-dark;
 
     section {
@@ -42,9 +43,12 @@
 }
 
 .committees {
+  border-top: solid 1px $blue-dark !important;
+  border-bottom: solid 1px $blue-dark;
+
   @include for-tablet-down {
-    border-top: solid 1px $blue-darker;
-    border-left: solid 1px $blue-darker;
+    border-top: solid 1px $blue-darker !important;
+    border-bottom: solid 1px $blue-darker;
   }
 }
 

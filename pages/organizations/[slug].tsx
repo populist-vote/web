@@ -19,6 +19,8 @@ import nextI18nextConfig from "next-i18next.config";
 import { PoliticianNotes } from "components/OrganizationPage/PoliticianNotes/PoliticianNotes";
 import { useMediaQuery } from "hooks/useMediaQuery";
 
+import { ColoredSection } from "components/ColoredSection/ColoredSection";
+
 function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   const isSmallScreen = useMediaQuery("(max-width: 968px)");
   const { query } = useRouter();
@@ -145,10 +147,10 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
             )}
           </div>
         </section>
-        <div className={styles.divider} />
-        <section>
+        
+        <ColoredSection color="var(--blue)">
           <PoliticianNotes />
-        </section>
+        </ColoredSection>
       </div>
     </Layout>
   );

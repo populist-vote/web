@@ -120,7 +120,7 @@ function PoliticianNotes() {
 
   return (
     <div className={styles.container}>
-      <h2>Voting Guides</h2>
+      <h2 className={styles.gradientHeader}>Voting Guides</h2>
       <div className={styles.optionsContainer}>
         <Select
           onChange={(e) => setSelectedOfficeSlug(e.target.value)}
