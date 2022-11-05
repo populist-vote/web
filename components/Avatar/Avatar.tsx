@@ -444,8 +444,8 @@ function getPartyColors(
       };
     case PoliticalParty.Libertarian:
       return {
-        background: "var(--yellow-dark)",
-        text: "var(--blue-darkest)",
+        background: "var(--yellow)",
+        text: "var(--grey-darkest)",
       };
     case PoliticalParty.AmericanConstitution:
       return {
@@ -469,13 +469,13 @@ function getPartyColors(
       };
     case PoliticalParty.SocialistWorkers:
       return {
-        background: "var(--salmon)",
-        text: "var(--blue-darkest)",
+        background: "var(--red)",
+        text: "var(--white)",
       };
     default:
       return {
-        background: "var(--violet)",
-        text: "var(--grey-darkest)",
+        background: "var(--purple)",
+        text: "var(--white)",
       };
   }
 }
