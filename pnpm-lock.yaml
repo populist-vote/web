@@ -6,7 +6,7 @@ specifiers:
   '@graphql-codegen/cli': ^2.13.11
   '@graphql-codegen/typescript': ^2.8.1
   '@graphql-codegen/typescript-operations': ^2.5.6
-  '@graphql-codegen/typescript-react-query': ^4.0.4
+  '@graphql-codegen/typescript-react-query': ^4.0.5
   '@next/swc-linux-x64-gnu': 12.1.6
   '@playwright/test': ^1.27.1
   '@szhsin/react-menu': ^3.0.2
@@ -83,7 +83,7 @@ devDependencies:
   '@graphql-codegen/cli': 2.13.11_5r3mmcyz2qxsj6cwjz753kl35e
   '@graphql-codegen/typescript': 2.8.1_graphql@16.6.0
   '@graphql-codegen/typescript-operations': 2.5.6_graphql@16.6.0
-  '@graphql-codegen/typescript-react-query': 4.0.4_graphql@16.6.0
+  '@graphql-codegen/typescript-react-query': 4.0.5_graphql@16.6.0
   '@playwright/test': 1.27.1
   '@types/node': 18.11.9
   '@types/react': 18.0.24
@@ -1507,8 +1507,8 @@ packages:
       - supports-color
     dev: true
 
-  /@graphql-codegen/typescript-react-query/4.0.4_graphql@16.6.0:
-    resolution: {integrity: sha512-BByA95JJijnJWJXDRXSz7GnG/cHUwToQxG6VEtb4E3nyZhmAppWl1TXUPMFSHSrUg+fqClAv+Y+DgZ0Fqb22QQ==}
+  /@graphql-codegen/typescript-react-query/4.0.5_graphql@16.6.0:
+    resolution: {integrity: sha512-zg0bKtaeyE1Jym7CAXhnNSvXuV3qqF+tuMbM2xhjn9ZTZY0UB2ae743lZkLUEY382KL2NpuyNh8rr1ngNRbk/Q==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
@@ -3399,6 +3399,7 @@ packages:
     engines: {node: '>=12.13'}
     dependencies:
       is-what: 4.1.7
+    dev: false
 
   /core-js-compat/3.25.5:
     resolution: {integrity: sha512-ovcyhs2DEBUIE0MGEKHP4olCUW/XYte3Vroyxuh38rD1wAO4dHohsovUC4eAOuzFxE6b+RXvBU3UZ9o0YhUTkA==}
@@ -4938,6 +4939,7 @@ packages:
   /is-what/4.1.7:
     resolution: {integrity: sha512-DBVOQNiPKnGMxRMLIYSwERAS5MVY1B7xYiGnpgctsOFvVDz9f9PFXXxMcTOHuoqYp4NK9qFYQaIC1NRRxLMpBQ==}
     engines: {node: '>=12.13'}
+    dev: false
 
   /is-windows/1.0.2:
     resolution: {integrity: sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==}
@@ -6566,6 +6568,7 @@ packages:
 
   /remove-accents/0.4.2:
     resolution: {integrity: sha1-CkPTqq4egNuRngeuJUsoXZ4ce7U=}
+    dev: false
 
   /remove-trailing-separator/1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}

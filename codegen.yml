@@ -17,6 +17,7 @@ generates:
           content: "/* eslint-disable @typescript-eslint/no-explicit-any */"
 
     config:
+      addInfiniteQuery: true
       pureMagicComment: true
       exposeQueryKeys: true
       exposeDocument: true

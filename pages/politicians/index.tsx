@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import { useInfinitePoliticianIndexQuery } from "generated";
 import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
 
