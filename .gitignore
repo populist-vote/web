@@ -32,7 +32,7 @@ yarn-error.log*
 *.code-workspace
 
 # Generated 
-generated.ts
+# generated.ts
 
 # PWA / Workbox Files
 **/public/workbox-*.js
