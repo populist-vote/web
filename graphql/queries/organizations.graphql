@@ -45,6 +45,7 @@ query OrganizationPoliticianNotes($slug: String!, $electionId: ID!) {
             slug
             name
             title
+            subtitleShort
             incumbent {
               id
             }
