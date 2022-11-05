@@ -17,7 +17,6 @@ import { useMemo, useState } from "react";
 import { useQueryClient } from "react-query";
 import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
-import Link from "next/link";
 
 import { default as clsx } from "clsx";
 
@@ -199,31 +198,29 @@ function Race({
             )}
 
             <div className={styles.avatarContainer}>
-              <Link href={politicianLink}>
-                <PartyAvatar
-                  size={80}
-                  hasIconMenu
-                  isEndorsement={isEndorsing}
-                  iconSize="1.25rem"
-                  hasNote={hasNote}
-                  iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
-                  handleEndorseCandidate={() => endorseCandidate(politician.id)}
-                  handleUnendorseCandidate={() =>
-                    unendorseCandidate(politician.id)
-                  }
-                  handleAddNote={() => handleAddNoteClick(politician)}
-                  party={politician?.party as PoliticalParty}
-                  src={politician?.thumbnailImageUrl as string}
-                  alt={politician.fullName}
-                  readOnly={!isGuideOwner}
-                  href={politicianLink}
-                  labelLeft={labelLeftProps}
-                  opaque={isOpaque}
-                />
-                <span className={clsx(styles.link, styles.avatarName)}>
-                  {politician.fullName}
-                </span>
-              </Link>
+              <PartyAvatar
+                size={80}
+                hasIconMenu
+                isEndorsement={isEndorsing}
+                iconSize="1.25rem"
+                hasNote={hasNote}
+                iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
+                handleEndorseCandidate={() => endorseCandidate(politician.id)}
+                handleUnendorseCandidate={() =>
+                  unendorseCandidate(politician.id)
+                }
+                handleAddNote={() => handleAddNoteClick(politician)}
+                party={politician?.party as PoliticalParty}
+                src={politician?.thumbnailImageUrl as string}
+                alt={politician.fullName}
+                readOnly={!isGuideOwner}
+                href={politicianLink}
+                labelLeft={labelLeftProps}
+                opaque={isOpaque}
+              />
+              <span className={clsx(styles.link, styles.avatarName)}>
+                {politician.fullName}
+              </span>
             </div>
 
             {politician.id == incumbentId && candidates?.length > 1 && (
