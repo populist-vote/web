@@ -111,7 +111,7 @@ function MPRElectionPage() {
           what's on your ballot and create your own personalized voting guide to
           share with others.
         </p>
-        <p className={styles.cta}>
+        <p className={styles.cta1}>
           <Link href="/ballot" passHref>
             <Button
               variant="primary"
@@ -139,8 +139,8 @@ function MPRElectionPage() {
             Capitol View newsletter.
           </a>
         </p>
-        <p>Be sure to check out MPR's Voting guides for these key races.</p>
-        <p className={styles.cta}>
+        <p><span className={styles.bold}>Be sure to check out MPR's Voting guides for these key races.</span></p>
+        <p className={styles.cta2}>
           <Link href="/organizations/mpr-news" passHref>
             <Button
               variant="primary"
@@ -150,11 +150,11 @@ function MPRElectionPage() {
                 <OrganizationAvatar
                   src="https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/organization-thumbnails/mpr-news-160.jpg"
                   alt="MPR"
-                  size={50}
+                  size={60}
                 />
               }
               iconPosition="before"
-              style={{ padding: "1rem 1.5rem", borderRadius: "100px" }}
+              style={{ padding: "0.5rem 1.5rem 0.5rem 0.5rem", borderRadius: "100px" }}
             ></Button>
           </Link>
         </p>
@@ -230,10 +230,12 @@ function MPRElectionPage() {
                 style={{ minWidth: "14rem" }}
               />
             </form>
-            <small>
+            <p>
+              <span className={styles.smallText}>
               Text STOP to quit receiving messages at any time. Standard message
               rates apply.
-            </small>
+              </span>
+            </p>
           </section>
         </>
       )}

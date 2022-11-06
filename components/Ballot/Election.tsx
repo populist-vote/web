@@ -71,7 +71,7 @@ function Election({
             <Button
               variant="primary"
               size="large"
-              label="Colorado Statewide Ballot Measures"
+              label="Colorado Ballot Measures"
             />
           </div>
         </a>

@@ -13,11 +13,11 @@
   }
 
   p:last-child {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     margin-bottom: 4rem;
 
     @include for-tablet-up {
-      margin-top: 1.5rem;
+      margin-top: 2rem;
       margin-bottom: 5rem;
     }
   }
@@ -63,7 +63,7 @@
   }
 }
 
-.cta {
+.cta1 {
   margin-top: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid $blue-dark;
@@ -71,6 +71,25 @@
   @include for-tablet-up {
     margin-top: 2rem;
     padding-bottom: 2.5rem;
+  }
+
+  span {
+    margin-left: 0.5rem;
+  }
+}
+
+.cta2 {
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid $blue-dark;
+
+  @include for-tablet-up {
+    margin-top: 2rem;
+    padding-bottom: 2.5rem;
+  }
+
+  span {
+    margin-left: 0.5rem;
   }
 }
 
@@ -83,11 +102,12 @@
   }
 
   p {
-    color: $blue-text;
+    color: $white;
   }
 
-  small {
-    color: $blue-text;
+  .smallText {
+    font-size: $text-xs;
+    color: $blue-lighter;
   }
 }
 
@@ -100,3 +120,9 @@ form.smsForm {
   align-items: center;
   max-width: 36rem;
 }
+
+.bold {
+  font-weight: 500;
+  font-style: italic;
+}
+
