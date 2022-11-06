@@ -6,6 +6,7 @@ import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { useTranslation } from "next-i18next";
+import { Role } from "generated";
 
 export async function getServerSideProps({
   locale,
@@ -28,6 +29,8 @@ function HomePage() {
   const user = useAuth({ redirect: false });
   const userId = user?.id;
   const { t } = useTranslation("common");
+
+  console.log(user);
 
   const [isBetaVisible, setIsBetaVisible] = useState(
     localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`) !==
@@ -63,6 +66,9 @@ function HomePage() {
             className="myLegislators"
             label={t("browse-politicians")}
           />
+          {user?.role === Role.Superuser && (
+            <HomePageButton href="/admin" className="admin" label={"Admin"} />
+          )}
         </div>
       )}
     </BasicLayout>

@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config";
 import { SupportedLocale } from "types/global";
+import { OrganizationAvatar } from "components/Avatar/Avatar";
 
 export async function getServerSideProps({
   locale,
@@ -137,6 +138,25 @@ function MPRElectionPage() {
           >
             Capitol View newsletter.
           </a>
+        </p>
+        <p>Be sure to check out MPR's Voting guides for these key races.</p>
+        <p className={styles.cta}>
+          <Link href="/organizations/mpr-news" passHref>
+            <Button
+              variant="primary"
+              size="large"
+              label="Voting Guides"
+              icon={
+                <OrganizationAvatar
+                  src="https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/organization-thumbnails/mpr-news-160.jpg"
+                  alt="MPR"
+                  size={50}
+                />
+              }
+              iconPosition="before"
+              style={{ padding: "1rem 1.5rem", borderRadius: "100px" }}
+            ></Button>
+          </Link>
         </p>
       </div>
 

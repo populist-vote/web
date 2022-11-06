@@ -6,7 +6,7 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <p className={styles.copyright}>
-        &#169; {new Date().getFullYear()} Populist. &nbsp;Made in Colorado.
+        &#169; {new Date().getFullYear()} Populist. &nbsp; 🇺🇸 Made in the USA.
       </p>
       <ul className={styles.links}>
         <li>

@@ -11,6 +11,10 @@ const adminNavItems = [
     label: "Home",
     href: "/home",
   },
+  {
+    label: "Admin",
+    href: "/admin",
+  },
 ];
 
 const AdminPanel: NextPage = () => {
