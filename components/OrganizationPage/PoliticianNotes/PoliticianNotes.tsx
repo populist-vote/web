@@ -64,7 +64,20 @@ function PoliticianNotes() {
         .filter(
           (value, index, self) =>
             index === self.findIndex((o) => o?.slug === value?.slug)
-        ),
+        )
+        .sort((a, b) => {
+          if (a?.priority && b?.priority) {
+            return a.priority > b.priority ? 1 : -1;
+          }
+          return 0;
+        })
+        .sort((a, b) => {
+          if (a?.slug && b?.slug) {
+            return a.slug > b.slug ? 1 : -1;
+          }
+          return 0;
+        })
+        .sort((a, _b) => (a?.name == "Governor" ? -1 : 1)),
     [notes]
   );
 

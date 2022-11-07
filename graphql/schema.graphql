@@ -563,6 +563,7 @@ type OfficeResult {
   name: String
   officeType: String
   politicalScope: PoliticalScope!
+  priority: Int
   schoolDistrict: String
   seat: String
   slug: String!
