@@ -115,9 +115,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       referer,
       votingGuideId,
       dehydratedState: state,
-      mobileNavTitle: data?.politicianBySlug.fullName,
-      title: data?.politicianBySlug.fullName,
-      description: `Check out ${data?.politicianBySlug.fullName}'s voting record, financial data, and more on Populist.`,
+      mobileNavTitle: data?.politicianBySlug?.fullName,
+      title: data?.politicianBySlug?.fullName,
+      description: `Check out ${data?.politicianBySlug?.fullName}'s voting record, financial data, and more on Populist.`,
       ...(await serverSideTranslations(
         locale as SupportedLocale,
         ["auth", "common"],

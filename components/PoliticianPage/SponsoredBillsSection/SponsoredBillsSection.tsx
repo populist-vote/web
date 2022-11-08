@@ -16,7 +16,7 @@ function SponsoredBillsSection() {
     slug: query.slug as string,
   });
 
-  const sponsoredBills = data?.politicianBySlug.sponsoredBills;
+  const sponsoredBills = data?.politicianBySlug?.sponsoredBills;
   if (isLoading) return <LoaderFlag />;
   if (
     sponsoredBills &&
