@@ -30,8 +30,6 @@ function HomePage() {
   const userId = user?.id;
   const { t } = useTranslation("common");
 
-  console.log(user);
-
   const [isBetaVisible, setIsBetaVisible] = useState(
     localStorage.getItem(`${BETA_NOTICE_VISIBLE}-${userId || "incognito"}`) !==
       "false"

@@ -746,6 +746,7 @@ type PoliticianResult {
   tiktokUrl: String
   twitterUrl: String
   upcomingRace: RaceResult
+  upcomingRaceId: ID
   votes(raceId: UUID!): Int
   votesmartCandidateBio: GetCandidateBioResponse
   votesmartCandidateId: Int
@@ -854,7 +855,7 @@ type Query {
     """Search by organization name"""
     search: OrganizationSearch
   ): OrganizationResultConnection!
-  politicianBySlug(slug: String!): PoliticianResult!
+  politicianBySlug(slug: String!): PoliticianResult
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
@@ -1295,6 +1296,7 @@ input UpsertPoliticianInput {
   thumbnailImageUrl: String
   tiktokUrl: String
   twitterUrl: String
+  upcomingRaceId: UUID
   votesmartCandidateBio: JSON
   votesmartCandidateId: Int
   votesmartCandidateRatings: JSON
