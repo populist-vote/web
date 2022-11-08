@@ -63,7 +63,7 @@ function MPRElectionPage() {
         `https://app.groundsource.co/surveys/sms/textsms/?MessageSid=1&To=%2B18554600137&From=%2B${phone.replaceAll(
           "-",
           ""
-        )}&Body=ELECTION&ant=True`,
+        )}&Body=2022election&ant=false`,
         {
           method: "GET",
         }
@@ -139,7 +139,11 @@ function MPRElectionPage() {
             Capitol View newsletter.
           </a>
         </p>
-        <p><span className={styles.bold}>Be sure to check out MPR's Voting guides for these key races.</span></p>
+        <p>
+          <span className={styles.bold}>
+            Be sure to check out MPR's Voting guides for these key races.
+          </span>
+        </p>
         <p className={styles.cta2}>
           <Link href="/organizations/mpr-news" passHref>
             <Button
@@ -154,7 +158,10 @@ function MPRElectionPage() {
                 />
               }
               iconPosition="before"
-              style={{ padding: "0.5rem 1.5rem 0.5rem 0.5rem", borderRadius: "100px" }}
+              style={{
+                padding: "0.5rem 1.5rem 0.5rem 0.5rem",
+                borderRadius: "100px",
+              }}
             ></Button>
           </Link>
         </p>
@@ -232,8 +239,8 @@ function MPRElectionPage() {
             </form>
             <p>
               <span className={styles.smallText}>
-              Text STOP to quit receiving messages at any time. Standard message
-              rates apply.
+                Text STOP to quit receiving messages at any time. Standard
+                message rates apply.
               </span>
             </p>
           </section>
