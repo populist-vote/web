@@ -183,7 +183,7 @@ function Race({
         const labelLeftProps = {
           text: votePercentage ? `${votePercentage}%` : null,
           background: "var(--grey-lighter)",
-          color: "var(--grey-darker)",
+          color: "var(--grey-darkest)",
         };
 
         const isOpaque =
