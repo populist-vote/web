@@ -137,11 +137,26 @@ function Race({
         b.party !== PoliticalParty.Republican)
         ? -1
         : 1;
+
+    const electionResultsSortFn = (
+      a: PoliticianResult,
+      b: PoliticianResult
+    ) => {
+      const votePercentageA =
+        results.votesByCandidate.find((c) => c.candidateId === a.id)
+          ?.votePercentage || 0;
+      const votePercentageB =
+        results.votesByCandidate.find((c) => c.candidateId === b.id)
+          ?.votePercentage || 0;
+      return votePercentageA > votePercentageB ? -1 : 1;
+    };
+
     return candidates
       ?.sort(randomizeFn)
       .sort(partySortFn)
-      .sort(incumbentSortFn);
-  }, [candidates, incumbentId]);
+      .sort(incumbentSortFn)
+      .sort(electionResultsSortFn);
+  }, [candidates, incumbentId, results.votesByCandidate]);
 
   const $raceContent = (
     <>
