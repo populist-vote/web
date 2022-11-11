@@ -36,7 +36,7 @@ fragment raceFields on RaceResult {
       votePercentage
     }
     totalVotes
-    winner {
+    winners {
       id
     }
   }

@@ -916,7 +916,7 @@ type RaceResult {
 type RaceResultsResult {
   totalVotes: Int
   votesByCandidate: [RaceCandidateResult!]!
-  winner: PoliticianResult
+  winners: [PoliticianResult!]
 }
 
 enum RaceType {
@@ -1228,7 +1228,6 @@ input UpsertOfficeInput {
   electionScope: ElectionScope
   hospitalDistrict: String
   id: UUID
-  incumbentId: UUID
   municipality: String
   name: String
   officeType: String
@@ -1319,7 +1318,7 @@ input UpsertRaceInput {
   state: State
   title: String
   totalVotes: Int
-  winnerId: UUID
+  winnerIds: [UUID!]
 }
 
 input UpsertVotingGuideCandidateInput {

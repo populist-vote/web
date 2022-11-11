@@ -201,10 +201,9 @@ function Race({
           color: "var(--grey-darkest)",
         };
 
-        const isOpaque =
-          results.winner && results?.winner?.id !== politician.id
-            ? true
-            : false;
+        const isOpaque = !results?.winners
+          ?.map((w) => w.id)
+          .includes(politician.id);
 
         return (
           <div className={styles.flexBetween} key={politician.id}>
