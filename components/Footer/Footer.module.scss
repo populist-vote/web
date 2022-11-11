@@ -2,13 +2,13 @@
 @import "styles/variables/fonts";
 @import "styles/mixins/media";
 
-$font-size: 0.85em;
+$font-size: 0.8em;
 
 .footer {
   width: 100%;
   grid-area: footer;
   margin-top: 3rem;
-  padding: 0 1.5rem;
+  padding: 0 4rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -75,6 +75,7 @@ $font-size: 0.85em;
     gap: 2rem;
 
     @include for-tablet-up {
+      font-size: 0.9em;
       min-width: 25%;
       justify-content: left;
     }
