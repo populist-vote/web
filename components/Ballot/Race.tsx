@@ -19,6 +19,7 @@ import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
 
 import { default as clsx } from "clsx";
+import { FaCheckCircle, FaCircle } from "react-icons/fa";
 
 interface EditVotingGuideCandidate {
   candidateId: string;
@@ -195,15 +196,23 @@ function Race({
           (c) => c.candidateId === politician.id
         )?.votePercentage;
 
+        const isWinner = results?.winners
+          ?.map((w) => w.id)
+          .includes(politician.id);
+
+        const isOpaque = !isWinner;
+
         const labelLeftProps = {
           text: votePercentage ? `${votePercentage}%` : null,
           background: "var(--grey-lighter)",
           color: "var(--grey-darkest)",
+          icon: isWinner ? (
+            <span className={styles.iconStack}>
+              <FaCircle color="black" />
+              <FaCheckCircle color="var(--green-support)" />
+            </span>
+          ) : null,
         };
-
-        const isOpaque = !results?.winners
-          ?.map((w) => w.id)
-          .includes(politician.id);
 
         return (
           <div className={styles.flexBetween} key={politician.id}>

@@ -95,10 +95,11 @@ interface LabelLeftProps {
   color?: string;
   background?: string;
   text: string | null;
+  icon?: React.ReactNode;
 }
 
 function LabelLeft(props: LabelLeftProps): JSX.Element | null {
-  const { text, color, background } = props;
+  const { text, color, background, icon } = props;
 
   const styleVars: CSSProperties & {
     "--color": string | undefined;
@@ -112,6 +113,7 @@ function LabelLeft(props: LabelLeftProps): JSX.Element | null {
 
   return (
     <div className={styles.labelLeftWrapper} style={styleVars}>
+      {!!icon && icon}
       <span className={styles.labelText}>{text}</span>
     </div>
   );
