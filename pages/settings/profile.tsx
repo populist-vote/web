@@ -698,7 +698,7 @@ export const ProfilePage: NextPage = () => {
 
   return (
     <Layout mobileNavTitle="My Account">
-      <FlagSection hideFlagForMobile title="My Profile">
+      <FlagSection hideFlagForMobile label="My Profile">
         <div className={profileStyles.profile}>
           <ProfilePhotoSection
             profilePictureUrl={profilePictureUrl as string}

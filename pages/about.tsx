@@ -93,7 +93,7 @@ const About: NextPage = () => {
         </div>
 
         <div className={styles.contentContainer}>
-          <FlagSection title={"About"} hideFlagForMobile={true}>
+          <FlagSection label="About" hideFlagForMobile={true}>
             <div className={styles.content}>
               <h1>We’re re-imagining the future of our democracy.</h1>
               <p>

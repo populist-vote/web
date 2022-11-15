@@ -172,7 +172,7 @@ function MPRElectionPage() {
       ) : (
         <>
           {races?.state && (
-            <RaceSection races={races.state} color="yellow" title="State" />
+            <RaceSection races={races.state} color="yellow" label="State" />
           )}
           <div className={styles.mprBody}>
             <p>
@@ -204,7 +204,7 @@ function MPRElectionPage() {
             </p>
           </div>
           {races?.federal && (
-            <RaceSection races={races.federal} color="aqua" title="Federal" />
+            <RaceSection races={races.federal} color="aqua" label="Federal" />
           )}
           <section className={styles.smsSection}>
             <h2>Sign up for SMS election results</h2>

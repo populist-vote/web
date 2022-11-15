@@ -5,7 +5,7 @@ import clsx from "clsx";
 export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
 
 interface FlagSectionProps {
-  title: string;
+  label: string;
   children: React.ReactNode;
   color?: FlagColor;
   hideFlagForMobile?: boolean;
@@ -13,7 +13,7 @@ interface FlagSectionProps {
 }
 
 function FlagSection(props: FlagSectionProps): JSX.Element {
-  const { title, children, color, hideFlagForMobile = false } = props;
+  const { label, children, color, hideFlagForMobile = false } = props;
   const styleClasses = clsx(styles.container, {
     [styles.hideFlagForMobile as string]: hideFlagForMobile,
     ...(!!color ? { [styles[color] as string]: true } : {}),
@@ -21,7 +21,7 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
   return (
     <section className={styleClasses} {...props}>
       <header className={styles.header}>
-        <span className={styles.sectionTitle}>{title}</span>
+        <span className={styles.sectionTitle}>{label}</span>
       </header>
       <div className={styles.content}>{children}</div>
     </section>

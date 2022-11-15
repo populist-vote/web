@@ -15,7 +15,7 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
       {Object.keys(federalRacesGroupedByOffice).length > 0 && (
         <RaceSection
           races={federalRacesGroupedByOffice}
-          title="Federal"
+          label="Federal"
           color="aqua"
         />
       )}
@@ -23,7 +23,7 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
       {Object.keys(stateRacesGroupedByOffice).length > 0 && (
         <RaceSection
           races={stateRacesGroupedByOffice}
-          title="State"
+          label="State"
           color="yellow"
         />
       )}
@@ -31,7 +31,7 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
       {Object.keys(localRacesGroupedByOffice).length > 0 && (
         <RaceSection
           races={localRacesGroupedByOffice}
-          title="Local"
+          label="Local"
           color="salmon"
         />
       )}
@@ -39,7 +39,7 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
       {Object.keys(judicialRacesGroupedByOffice).length > 0 && (
         <RaceSection
           races={judicialRacesGroupedByOffice}
-          title="Judicial"
+          label="Judicial"
           color="violet"
         />
       )}

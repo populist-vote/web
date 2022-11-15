@@ -3,13 +3,13 @@ import { RaceResult } from "generated";
 
 interface RaceSectionProps {
   races: Record<string, RaceResult[]>;
-  title: string;
+  label: string;
   color: FlagColor;
 }
 
-function RaceSection({ races, title, color }: RaceSectionProps) {
+function RaceSection({ races, label, color }: RaceSectionProps) {
   return (
-    <FlagSection {...{ title, color }}>
+    <FlagSection {...{ label, color }}>
       {Object.entries(races).map(([officeId, races]) => (
         <OfficeRaces
           key={officeId}

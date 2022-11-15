@@ -94,7 +94,7 @@ const PrivacyPolicy: NextPage = () => {
         </div>
 
         <div className={styles.contentContainer}>
-          <FlagSection title={"privacy policy"} hideFlagForMobile={true}>
+          <FlagSection label={"privacy policy"} hideFlagForMobile={true}>
             <div className={styles.content}>
               <h2>
                 At Populist we believe everyone has a right to own their data

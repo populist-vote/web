@@ -202,7 +202,7 @@ const VotingGuides: NextPage<{
           </div>
         )}
         {!showLoader && (
-          <FlagSection title="My Voting Guides">
+          <FlagSection label="My Voting Guides">
             {error && <small>Something went wrong...</small>}
             {userVotingGuides && (userVotingGuides?.length as number) < 1 && (
               <>
@@ -224,7 +224,7 @@ const VotingGuides: NextPage<{
 
       {!!savedGuides?.length && !savedGuidesQuery.isLoading && (
         <div className={styles.votingContainer}>
-          <FlagSection title="Other Guides">
+          <FlagSection label="Other Guides">
             {savedGuidesQuery.error && <small>Something went wrong...</small>}
 
             <div className={styles.otherGuidesContainer}>

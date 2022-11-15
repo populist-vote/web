@@ -94,7 +94,7 @@ const Faq: NextPage = () => {
 
         <div className={styles.contentContainer}>
           <FlagSection
-            title={"Frequently Asked Questions"}
+            label={"Frequently Asked Questions"}
             hideFlagForMobile={true}
           >
             <div className={styles.content}>
