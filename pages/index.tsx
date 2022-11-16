@@ -1,14 +1,14 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { NextPage } from "next";
-import Image from "next/legacy/image";
+import LegacyImage from "next/legacy/image";
+import Image from "next/image";
 import headerLogo from "public/images/LogoWithText.svg";
 import landing0 from "public/images/landing/politicianBrowser-new.webp";
-import landing0fallback from "public/images/landing/politicianBrowser-fallback.jpg";
 import landing1 from "public/images/landing/ballot.jpg";
 import landing2 from "public/images/landing/action.jpg";
 import landing3 from "public/images/landing/3.png";
 import landing4 from "public/images/landing/Connections.png";
-import { Avatar, Footer, ImageWithFallback, Button, MPRLogo } from "components";
+import { Avatar, Footer, Button, MPRLogo } from "components";
 import styles from "styles/modules/landing.module.scss";
 import clsx from "clsx";
 import Router from "next/router";
@@ -115,7 +115,7 @@ const Home: NextPage = () => {
         </div>
 
         <div id={styles["section1"]}>
-          <Image
+          <LegacyImage
             id="logo"
             src={headerLogo}
             width="555"
@@ -126,9 +126,8 @@ const Home: NextPage = () => {
 
         <div id={styles["section1c"]}>
           <div id={styles["s1ccol1"]}>
-            <ImageWithFallback
+            <Image
               src={landing0}
-              fallbackSrc={landing0fallback}
               alt="Politician browser on mobile"
               height={540}
               quality={50}
@@ -191,13 +190,13 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div id={styles["s1bcol2"]}>
-            <Image src={landing1} alt="My ballot on mobile" />
+            <LegacyImage src={landing1} alt="My ballot on mobile" />
           </div>
         </div>
 
         <div id={styles["section2"]}>
           <div id={styles["s2col1"]}>
-            <Image src={landing2} alt="desktop browser" />
+            <LegacyImage src={landing2} alt="desktop browser" />
           </div>
           <div id={styles["s2col2"]}>
             <div className={styles.contentwide}>
@@ -223,14 +222,17 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div id={styles["s3col2"]}>
-            <Image src={landing3} alt="transparency into our algorithms" />
+            <LegacyImage
+              src={landing3}
+              alt="transparency into our algorithms"
+            />
           </div>
         </div>
 
         <div id={styles["section4"]}>
           <div id={styles["s4row1"]}>
             <div className={styles.contentwide2}>
-              <Image
+              <LegacyImage
                 src={landing4}
                 alt="people becoming involved in government"
               />

@@ -30,6 +30,7 @@ function Footer() {
           {" "}
           <a
             href="https://www.facebook.com/populist.us"
+            aria-label="Facebook"
             rel="noreferrer"
             target="_blank"
           >
@@ -41,6 +42,7 @@ function Footer() {
           {" "}
           <a
             href="https://twitter.com/populist_us"
+            aria-label="Twitter"
             rel="noreferrer"
             target="_blank"
           >
@@ -52,6 +54,7 @@ function Footer() {
           {" "}
           <a
             href="https://www.instagram.com/populist.us/"
+            aria-label="Instagram"
             rel="noreferrer"
             target="_blank"
           >
