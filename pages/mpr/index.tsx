@@ -176,31 +176,16 @@ function MPRElectionPage() {
           )}
           <div className={styles.mprBody}>
             <p>
-              Early voting is open now until November 8.{" "}
-              <a
-                href="https://www.sos.state.mn.us/elections-voting/other-ways-to-vote/vote-early-by-mail/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Request a mail-in ballot
-              </a>{" "}
-              or find out where to vote{" "}
-              <a
-                href="https://pollfinder.sos.state.mn.us/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                here
-              </a>{" "}
-              — if you aren’t registered to vote, you can{" "}
+              Voting ended on November 8—if you aren’t registered to vote, you
+              can{" "}
               <a
                 href="https://mnvotes.sos.state.mn.us/VoterRegistration/VoterRegistrationMain.aspx"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                register online
+                register online{" "}
               </a>
-              .
+              to participate in the next election.
             </p>
           </div>
           {races?.federal && (
