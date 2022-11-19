@@ -38,18 +38,21 @@ function EmailStep() {
     },
   });
 
-  const { refetch: validateEmailAvailable, isLoading } =
-    useValidateEmailAvailableQuery(
-      {
-        email: loginFormState.email,
-      },
-      // Only want to run this on form submission
-      {
-        retry: false,
-        refetchOnWindowFocus: false,
-        enabled: false,
-      }
-    );
+  const {
+    refetch: validateEmailAvailable,
+    isLoading: isValidateEmailLoading,
+    fetchStatus: validateEmailFetchStatus,
+  } = useValidateEmailAvailableQuery(
+    {
+      email: loginFormState.email,
+    },
+    // Only want to run this on form submission
+    {
+      retry: false,
+      refetchOnWindowFocus: false,
+      enabled: false,
+    }
+  );
 
   const {
     data: passwordEntropyData = {
@@ -60,6 +63,7 @@ function EmailStep() {
       },
     },
     isLoading: isEntropyCalcLoading,
+    fetchStatus: passwordEntropyFetchStatus,
   } = useValidatePasswordEntropyQuery(
     {
       password: debouncedPassword,
@@ -187,18 +191,24 @@ function EmailStep() {
               score={score}
               message={message}
               length={loginFormState.password.length}
-              isLoading={isEntropyCalcLoading}
+              isLoading={
+                isEntropyCalcLoading && passwordEntropyFetchStatus != "idle"
+              }
             />
           </div>
           <Button
             variant="primary"
             type="submit"
             label={
-              isLoading
+              isValidateEmailLoading && validateEmailFetchStatus != "idle"
                 ? t("loading", { ns: "common" })
                 : t("continue", { ns: "common" })
             }
-            disabled={isLoading || isEntropyCalcLoading || !isPasswordValid}
+            disabled={
+              (isValidateEmailLoading && validateEmailFetchStatus != "idle") ||
+              (isEntropyCalcLoading && passwordEntropyFetchStatus != "idle") ||
+              !isPasswordValid
+            }
             size="large"
           />
           <small className={styles.formError}>{errors?.email?.message}</small>

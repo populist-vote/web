@@ -1,7 +1,10 @@
-import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { useState } from "react";
-import { ReactQueryDevtools } from "react-query/devtools";
 import "styles/main.scss";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";
@@ -11,6 +14,7 @@ import "components/Scroller/Scroller.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
 import { appWithTranslation } from "next-i18next";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function Populist({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -40,7 +44,7 @@ function Populist({ Component, pageProps }: AppProps) {
           <AuthProvider>
             <Component {...pageProps} />
             <ToastContainer theme="dark" />
-            <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
+            <ReactQueryDevtools initialIsOpen={false} />
           </AuthProvider>
         </Hydrate>
       </QueryClientProvider>

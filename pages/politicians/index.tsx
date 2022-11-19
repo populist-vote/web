@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import { usePoliticianIndexQuery } from "generated";
 import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
 
@@ -11,7 +11,6 @@ import {
   PoliticalParty,
   PoliticalScope,
   State,
-  useInfinitePoliticianIndexQuery,
 } from "../../generated";
 import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
@@ -22,6 +21,7 @@ import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianF
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "types/global";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 const PAGE_SIZE = 20;
 
@@ -105,9 +105,9 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfinitePoliticianIndexQuery(
-    "cursor",
-    {
+  } = useInfiniteQuery(
+    ["politicianIndex", debouncedSearchQuery, scope, chamber, state],
+    usePoliticianIndexQuery.fetcher({
       pageSize: PAGE_SIZE,
       filter: {
         query: debouncedSearchQuery || null,
@@ -115,14 +115,11 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
         politicalScope: scope as PoliticalScope,
         chambers: chamber as Chambers,
       },
-    },
+    }),
     {
-      queryKey: `politicianIndex-${debouncedSearchQuery}-${scope}-${chamber}-${state}`,
       getNextPageParam: (lastPage) => {
         if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
-        return {
-          cursor: lastPage.politicians.pageInfo.endCursor,
-        };
+        return lastPage.politicians.pageInfo.endCursor;
       },
     }
   );
@@ -158,40 +155,45 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
           <PoliticianIndexFilters query={props.query} />
         </header>
         <div>
-          {isLoading && (
-            <div className={styles.center}>
-              <LoaderFlag />
-            </div>
-          )}
-          {error && (
-            <h4>Something went wrong fetching politician records...</h4>
-          )}
-          <div>
-            {data?.pages.map((page) =>
-              page.politicians.edges
-                ?.map((edge) => edge?.node as PoliticianResult)
-                .map((politician: PoliticianResult) => (
-                  <PoliticianRow politician={politician} key={politician.id} />
-                ))
+          <>
+            {isLoading && (
+              <div className={styles.center}>
+                <LoaderFlag />
+              </div>
             )}
-          </div>
-          {hasNextPage && (
-            <>
-              <button
-                className={styles.wideButton}
-                style={{ margin: "1rem 0 0 " }}
-                ref={loadMoreRef}
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-              >
-                {isFetchingNextPage
-                  ? "Loading more..."
-                  : hasNextPage
-                  ? "Load More"
-                  : "Nothing more to load"}
-              </button>
-            </>
-          )}
+            {error && (
+              <h4>Something went wrong fetching politician records...</h4>
+            )}
+            <div>
+              {data?.pages.map((page) =>
+                page.politicians.edges
+                  ?.map((edge) => edge?.node as PoliticianResult)
+                  .map((politician: PoliticianResult) => (
+                    <PoliticianRow
+                      politician={politician}
+                      key={politician.id}
+                    />
+                  ))
+              )}
+            </div>
+            {hasNextPage && (
+              <>
+                <button
+                  className={styles.wideButton}
+                  style={{ margin: "1rem 0 0 " }}
+                  ref={loadMoreRef}
+                  onClick={() => fetchNextPage()}
+                  disabled={isFetchingNextPage}
+                >
+                  {isFetchingNextPage
+                    ? "Loading more..."
+                    : hasNextPage
+                    ? "Load More"
+                    : "Nothing more to load"}
+                </button>
+              </>
+            )}
+          </>
         </div>
       </div>
     </Layout>

@@ -29,7 +29,7 @@ import {
 } from "generated";
 import { PasswordEntropyMeter } from "components";
 import states from "utils/states";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useDropzone, FileWithPath } from "react-dropzone";
 import { toast } from "react-toastify";
 import { PasswordInput } from "components/Auth/PasswordInput";
@@ -452,6 +452,7 @@ const PasswordSection = () => {
       },
     },
     isLoading: isEntropyCalcLoading,
+    fetchStatus: passwordEntropyFetchStatus,
   } = useValidatePasswordEntropyQuery(
     {
       password: debouncedPassword,
@@ -550,7 +551,9 @@ const PasswordSection = () => {
               score={score}
               message={message}
               length={getValues("newPassword").length}
-              isLoading={isEntropyCalcLoading}
+              isLoading={
+                isEntropyCalcLoading && passwordEntropyFetchStatus !== "idle"
+              }
             />
           )}
           <Button
@@ -677,7 +680,11 @@ const ProfilePhotoSection = ({
 
 export const ProfilePage: NextPage = () => {
   const user = useAuth({ redirectTo: "/login?next=settings/profile" });
-  const { data: { userProfile } = {}, isLoading } = useUserProfileQuery(
+  const {
+    data: { userProfile } = {},
+    isLoading,
+    fetchStatus,
+  } = useUserProfileQuery(
     {
       userId: user?.id,
     },
@@ -685,7 +692,7 @@ export const ProfilePage: NextPage = () => {
       enabled: !!user?.id,
     }
   );
-  if (isLoading) return <LoaderFlag />;
+  if (isLoading && fetchStatus !== "idle") return <LoaderFlag />;
   if (!userProfile) return null;
   const {
     address = {},

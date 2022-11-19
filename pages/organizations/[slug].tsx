@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { dehydrate, QueryClient } from "react-query";
 import { FaFacebook, FaGlobe, FaInstagram, FaTwitter } from "react-icons/fa";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 import { Avatar, Layout, LoaderFlag, IssueTags, Button } from "components";
 

@@ -201,10 +201,8 @@
 }
 
 .center {
-  min-height: 18rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  place-items: center;
 }
 
 .rowItem {

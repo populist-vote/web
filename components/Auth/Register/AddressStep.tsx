@@ -13,7 +13,7 @@ import textInputStyles from "../../TextInput/TextInput.module.scss";
 import { updateAction } from "pages/register";
 import states from "utils/states";
 import { useEffect } from "react";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "components/Button/Button";
 import { useTranslation } from "next-i18next";
 
