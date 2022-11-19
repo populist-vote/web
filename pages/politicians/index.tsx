@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useInfinitePoliticianIndexQuery } from "generated";
+import { usePoliticianIndexQuery } from "generated";
 import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
 
@@ -21,6 +21,7 @@ import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianF
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "types/global";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 const PAGE_SIZE = 20;
 
@@ -104,9 +105,9 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfinitePoliticianIndexQuery(
-    "cursor",
-    {
+  } = useInfiniteQuery(
+    ["politicianIndex", debouncedSearchQuery, scope, chamber, state],
+    usePoliticianIndexQuery.fetcher({
       pageSize: PAGE_SIZE,
       filter: {
         query: debouncedSearchQuery || null,
@@ -114,20 +115,11 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
         politicalScope: scope as PoliticalScope,
         chambers: chamber as Chambers,
       },
-    },
+    }),
     {
-      queryKey: [
-        "politicianIndex",
-        debouncedSearchQuery,
-        scope,
-        chamber,
-        state,
-      ],
       getNextPageParam: (lastPage) => {
         if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
-        return {
-          cursor: lastPage.politicians.pageInfo.endCursor,
-        };
+        return lastPage.politicians.pageInfo.endCursor;
       },
     }
   );

@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   useQuery,
-  useInfiniteQuery,
   useMutation,
   UseQueryOptions,
-  UseInfiniteQueryOptions,
   UseMutationOptions,
 } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
@@ -802,6 +800,7 @@ export type OfficeResult = {
   name?: Maybe<Scalars["String"]>;
   officeType?: Maybe<Scalars["String"]>;
   politicalScope: PoliticalScope;
+  priority?: Maybe<Scalars["Int"]>;
   schoolDistrict?: Maybe<Scalars["String"]>;
   seat?: Maybe<Scalars["String"]>;
   slug: Scalars["String"];
@@ -989,6 +988,7 @@ export type PoliticianResult = {
   tiktokUrl?: Maybe<Scalars["String"]>;
   twitterUrl?: Maybe<Scalars["String"]>;
   upcomingRace?: Maybe<RaceResult>;
+  upcomingRaceId?: Maybe<Scalars["ID"]>;
   votes?: Maybe<Scalars["Int"]>;
   votesmartCandidateBio?: Maybe<GetCandidateBioResponse>;
   votesmartCandidateId?: Maybe<Scalars["Int"]>;
@@ -1072,7 +1072,7 @@ export type Query = {
   offices: Array<OfficeResult>;
   organizationBySlug: OrganizationResult;
   organizations: OrganizationResultConnection;
-  politicianBySlug: PoliticianResult;
+  politicianBySlug?: Maybe<PoliticianResult>;
   politicians: PoliticianResultConnection;
   raceById: RaceResult;
   raceBySlug: RaceResult;
@@ -1244,7 +1244,7 @@ export type RaceResultsResult = {
   __typename?: "RaceResultsResult";
   totalVotes?: Maybe<Scalars["Int"]>;
   votesByCandidate: Array<RaceCandidateResult>;
-  winner?: Maybe<PoliticianResult>;
+  winners?: Maybe<Array<PoliticianResult>>;
 };
 
 export enum RaceType {
@@ -1555,7 +1555,6 @@ export type UpsertOfficeInput = {
   electionScope?: InputMaybe<ElectionScope>;
   hospitalDistrict?: InputMaybe<Scalars["String"]>;
   id?: InputMaybe<Scalars["UUID"]>;
-  incumbentId?: InputMaybe<Scalars["UUID"]>;
   municipality?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
   officeType?: InputMaybe<Scalars["String"]>;
@@ -1623,6 +1622,7 @@ export type UpsertPoliticianInput = {
   thumbnailImageUrl?: InputMaybe<Scalars["String"]>;
   tiktokUrl?: InputMaybe<Scalars["String"]>;
   twitterUrl?: InputMaybe<Scalars["String"]>;
+  upcomingRaceId?: InputMaybe<Scalars["UUID"]>;
   votesmartCandidateBio?: InputMaybe<Scalars["JSON"]>;
   votesmartCandidateId?: InputMaybe<Scalars["Int"]>;
   votesmartCandidateRatings?: InputMaybe<Scalars["JSON"]>;
@@ -1645,7 +1645,7 @@ export type UpsertRaceInput = {
   state?: InputMaybe<State>;
   title?: InputMaybe<Scalars["String"]>;
   totalVotes?: InputMaybe<Scalars["Int"]>;
-  winnerId?: InputMaybe<Scalars["UUID"]>;
+  winnerIds?: InputMaybe<Array<Scalars["UUID"]>>;
 };
 
 export type UpsertVotingGuideCandidateInput = {
@@ -2052,7 +2052,7 @@ export type RaceFieldsFragment = {
       votes?: number | null;
       votePercentage?: number | null;
     }>;
-    winner?: { __typename?: "PoliticianResult"; id: string } | null;
+    winners?: Array<{ __typename?: "PoliticianResult"; id: string }> | null;
   };
 };
 
@@ -2131,7 +2131,7 @@ export type ElectionByIdQuery = {
           votes?: number | null;
           votePercentage?: number | null;
         }>;
-        winner?: { __typename?: "PoliticianResult"; id: string } | null;
+        winners?: Array<{ __typename?: "PoliticianResult"; id: string }> | null;
       };
     }>;
   };
@@ -2194,7 +2194,7 @@ export type ElectionVotingGuideRacesQuery = {
           votes?: number | null;
           votePercentage?: number | null;
         }>;
-        winner?: { __typename?: "PoliticianResult"; id: string } | null;
+        winners?: Array<{ __typename?: "PoliticianResult"; id: string }> | null;
       };
     }>;
   };
@@ -2266,7 +2266,7 @@ export type MprFeaturedRacesQuery = {
         votes?: number | null;
         votePercentage?: number | null;
       }>;
-      winner?: { __typename?: "PoliticianResult"; id: string } | null;
+      winners?: Array<{ __typename?: "PoliticianResult"; id: string }> | null;
     };
   }>;
 };
@@ -2373,6 +2373,8 @@ export type OrganizationPoliticianNotesQuery = {
             slug: string;
             name?: string | null;
             title: string;
+            subtitleShort?: string | null;
+            priority?: number | null;
             incumbent?: { __typename?: "PoliticianResult"; id: string } | null;
           };
         } | null;
@@ -2641,7 +2643,7 @@ export type PoliticianBasicInfoQueryVariables = Exact<{
 
 export type PoliticianBasicInfoQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     id: string;
     fullName: string;
@@ -2679,7 +2681,7 @@ export type PoliticianBasicInfoQuery = {
       __typename?: "PoliticianAssets";
       thumbnailImage400?: string | null;
     };
-  };
+  } | null;
 };
 
 export type PoliticianBioQueryVariables = Exact<{
@@ -2688,11 +2690,11 @@ export type PoliticianBioQueryVariables = Exact<{
 
 export type PoliticianBioQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     biography?: string | null;
     biographySource?: string | null;
-  };
+  } | null;
 };
 
 export type PoliticianCurrentOfficeQueryVariables = Exact<{
@@ -2701,7 +2703,7 @@ export type PoliticianCurrentOfficeQueryVariables = Exact<{
 
 export type PoliticianCurrentOfficeQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     officeId?: string | null;
     currentOffice?: {
@@ -2714,7 +2716,7 @@ export type PoliticianCurrentOfficeQuery = {
       districtType?: District | null;
       municipality?: string | null;
     } | null;
-  };
+  } | null;
 };
 
 export type PoliticianElectionInfoQueryVariables = Exact<{
@@ -2723,7 +2725,7 @@ export type PoliticianElectionInfoQueryVariables = Exact<{
 
 export type PoliticianElectionInfoQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     id: string;
     upcomingRace?: {
@@ -2754,7 +2756,7 @@ export type PoliticianElectionInfoQuery = {
         party?: PoliticalParty | null;
       }>;
     } | null;
-  };
+  } | null;
 };
 
 export type PoliticianEndorsementsQueryVariables = Exact<{
@@ -2763,7 +2765,7 @@ export type PoliticianEndorsementsQueryVariables = Exact<{
 
 export type PoliticianEndorsementsQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     endorsements: {
       __typename?: "Endorsements";
@@ -2808,7 +2810,7 @@ export type PoliticianEndorsementsQuery = {
         } | null;
       }>;
     };
-  };
+  } | null;
 };
 
 export type PoliticianSponsoredBillsQueryVariables = Exact<{
@@ -2817,7 +2819,7 @@ export type PoliticianSponsoredBillsQueryVariables = Exact<{
 
 export type PoliticianSponsoredBillsQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     sponsoredBills: {
       __typename?: "BillResultConnection";
@@ -2832,7 +2834,7 @@ export type PoliticianSponsoredBillsQuery = {
         };
       }>;
     };
-  };
+  } | null;
 };
 
 export type PoliticianRatingsQueryVariables = Exact<{
@@ -2841,7 +2843,7 @@ export type PoliticianRatingsQueryVariables = Exact<{
 
 export type PoliticianRatingsQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     ratings: {
       __typename?: "RatingResultConnection";
@@ -2863,7 +2865,7 @@ export type PoliticianRatingsQuery = {
         };
       }>;
     };
-  };
+  } | null;
 };
 
 export type PoliticianFinancialsQueryVariables = Exact<{
@@ -2872,7 +2874,7 @@ export type PoliticianFinancialsQueryVariables = Exact<{
 
 export type PoliticianFinancialsQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     donationsByIndustry?: {
       __typename?: "DonationsByIndustry";
@@ -2897,7 +2899,7 @@ export type PoliticianFinancialsQuery = {
       source: string;
       lastUpdated: any;
     } | null;
-  };
+  } | null;
 };
 
 export type PoliticianBySlugQueryVariables = Exact<{
@@ -2906,7 +2908,7 @@ export type PoliticianBySlugQueryVariables = Exact<{
 
 export type PoliticianBySlugQuery = {
   __typename?: "Query";
-  politicianBySlug: {
+  politicianBySlug?: {
     __typename?: "PoliticianResult";
     id: string;
     fullName: string;
@@ -3061,7 +3063,7 @@ export type PoliticianBySlugQuery = {
         };
       }>;
     };
-  };
+  } | null;
 };
 
 export type GuideFieldsFragment = {
@@ -3253,7 +3255,7 @@ export const RaceFieldsFragmentDoc = /*#__PURE__*/ `
       votePercentage
     }
     totalVotes
-    winner {
+    winners {
       id
     }
   }
@@ -3528,30 +3530,6 @@ useValidateEmailAvailableQuery.document = ValidateEmailAvailableDocument;
 useValidateEmailAvailableQuery.getKey = (
   variables: ValidateEmailAvailableQueryVariables
 ) => ["ValidateEmailAvailable", variables];
-export const useInfiniteValidateEmailAvailableQuery = <
-  TData = ValidateEmailAvailableQuery,
-  TError = unknown
->(
-  pageParamKey: keyof ValidateEmailAvailableQueryVariables,
-  variables: ValidateEmailAvailableQueryVariables,
-  options?: UseInfiniteQueryOptions<ValidateEmailAvailableQuery, TError, TData>
-) =>
-  useInfiniteQuery<ValidateEmailAvailableQuery, TError, TData>(
-    ["ValidateEmailAvailable.infinite", variables],
-    (metaData) =>
-      fetcher<
-        ValidateEmailAvailableQuery,
-        ValidateEmailAvailableQueryVariables
-      >(ValidateEmailAvailableDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfiniteValidateEmailAvailableQuery.getKey = (
-  variables: ValidateEmailAvailableQueryVariables
-) => ["ValidateEmailAvailable.infinite", variables];
 useValidateEmailAvailableQuery.fetcher = (
   variables: ValidateEmailAvailableQueryVariables
 ) =>
@@ -3588,30 +3566,6 @@ useValidatePasswordEntropyQuery.document = ValidatePasswordEntropyDocument;
 useValidatePasswordEntropyQuery.getKey = (
   variables: ValidatePasswordEntropyQueryVariables
 ) => ["ValidatePasswordEntropy", variables];
-export const useInfiniteValidatePasswordEntropyQuery = <
-  TData = ValidatePasswordEntropyQuery,
-  TError = unknown
->(
-  pageParamKey: keyof ValidatePasswordEntropyQueryVariables,
-  variables: ValidatePasswordEntropyQueryVariables,
-  options?: UseInfiniteQueryOptions<ValidatePasswordEntropyQuery, TError, TData>
-) =>
-  useInfiniteQuery<ValidatePasswordEntropyQuery, TError, TData>(
-    ["ValidatePasswordEntropy.infinite", variables],
-    (metaData) =>
-      fetcher<
-        ValidatePasswordEntropyQuery,
-        ValidatePasswordEntropyQueryVariables
-      >(ValidatePasswordEntropyDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfiniteValidatePasswordEntropyQuery.getKey = (
-  variables: ValidatePasswordEntropyQueryVariables
-) => ["ValidatePasswordEntropy.infinite", variables];
 useValidatePasswordEntropyQuery.fetcher = (
   variables: ValidatePasswordEntropyQueryVariables
 ) =>
@@ -3658,33 +3612,6 @@ useCurrentUserQuery.document = CurrentUserDocument;
 
 useCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) =>
   variables === undefined ? ["CurrentUser"] : ["CurrentUser", variables];
-export const useInfiniteCurrentUserQuery = <
-  TData = CurrentUserQuery,
-  TError = unknown
->(
-  pageParamKey: keyof CurrentUserQueryVariables,
-  variables?: CurrentUserQueryVariables,
-  options?: UseInfiniteQueryOptions<CurrentUserQuery, TError, TData>
-) =>
-  useInfiniteQuery<CurrentUserQuery, TError, TData>(
-    variables === undefined
-      ? ["CurrentUser.infinite"]
-      : ["CurrentUser.infinite", variables],
-    (metaData) =>
-      fetcher<CurrentUserQuery, CurrentUserQueryVariables>(
-        CurrentUserDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteCurrentUserQuery.getKey = (variables?: CurrentUserQueryVariables) =>
-  variables === undefined
-    ? ["CurrentUser.infinite"]
-    : ["CurrentUser.infinite", variables];
 useCurrentUserQuery.fetcher = (variables?: CurrentUserQueryVariables) =>
   fetcher<CurrentUserQuery, CurrentUserQueryVariables>(
     CurrentUserDocument,
@@ -3938,31 +3865,6 @@ useUserProfileQuery.document = UserProfileDocument;
 
 useUserProfileQuery.getKey = (variables: UserProfileQueryVariables) => [
   "UserProfile",
-  variables,
-];
-export const useInfiniteUserProfileQuery = <
-  TData = UserProfileQuery,
-  TError = unknown
->(
-  pageParamKey: keyof UserProfileQueryVariables,
-  variables: UserProfileQueryVariables,
-  options?: UseInfiniteQueryOptions<UserProfileQuery, TError, TData>
-) =>
-  useInfiniteQuery<UserProfileQuery, TError, TData>(
-    ["UserProfile.infinite", variables],
-    (metaData) =>
-      fetcher<UserProfileQuery, UserProfileQueryVariables>(
-        UserProfileDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteUserProfileQuery.getKey = (variables: UserProfileQueryVariables) => [
-  "UserProfile.infinite",
   variables,
 ];
 useUserProfileQuery.fetcher = (variables: UserProfileQueryVariables) =>
@@ -4446,35 +4348,6 @@ useUserCountByStateQuery.getKey = (
   variables === undefined
     ? ["UserCountByState"]
     : ["UserCountByState", variables];
-export const useInfiniteUserCountByStateQuery = <
-  TData = UserCountByStateQuery,
-  TError = unknown
->(
-  pageParamKey: keyof UserCountByStateQueryVariables,
-  variables?: UserCountByStateQueryVariables,
-  options?: UseInfiniteQueryOptions<UserCountByStateQuery, TError, TData>
-) =>
-  useInfiniteQuery<UserCountByStateQuery, TError, TData>(
-    variables === undefined
-      ? ["UserCountByState.infinite"]
-      : ["UserCountByState.infinite", variables],
-    (metaData) =>
-      fetcher<UserCountByStateQuery, UserCountByStateQueryVariables>(
-        UserCountByStateDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteUserCountByStateQuery.getKey = (
-  variables?: UserCountByStateQueryVariables
-) =>
-  variables === undefined
-    ? ["UserCountByState.infinite"]
-    : ["UserCountByState.infinite", variables];
 useUserCountByStateQuery.fetcher = (
   variables?: UserCountByStateQueryVariables
 ) =>
@@ -4506,30 +4379,6 @@ useElectionsQuery.document = ElectionsDocument;
 
 useElectionsQuery.getKey = (variables?: ElectionsQueryVariables) =>
   variables === undefined ? ["Elections"] : ["Elections", variables];
-export const useInfiniteElectionsQuery = <
-  TData = ElectionsQuery,
-  TError = unknown
->(
-  pageParamKey: keyof ElectionsQueryVariables,
-  variables?: ElectionsQueryVariables,
-  options?: UseInfiniteQueryOptions<ElectionsQuery, TError, TData>
-) =>
-  useInfiniteQuery<ElectionsQuery, TError, TData>(
-    variables === undefined
-      ? ["Elections.infinite"]
-      : ["Elections.infinite", variables],
-    (metaData) =>
-      fetcher<ElectionsQuery, ElectionsQueryVariables>(ElectionsDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfiniteElectionsQuery.getKey = (variables?: ElectionsQueryVariables) =>
-  variables === undefined
-    ? ["Elections.infinite"]
-    : ["Elections.infinite", variables];
 useElectionsQuery.fetcher = (variables?: ElectionsQueryVariables) =>
   fetcher<ElectionsQuery, ElectionsQueryVariables>(
     ElectionsDocument,
@@ -4567,30 +4416,6 @@ useElectionByIdQuery.getKey = (variables: ElectionByIdQueryVariables) => [
   "ElectionById",
   variables,
 ];
-export const useInfiniteElectionByIdQuery = <
-  TData = ElectionByIdQuery,
-  TError = unknown
->(
-  pageParamKey: keyof ElectionByIdQueryVariables,
-  variables: ElectionByIdQueryVariables,
-  options?: UseInfiniteQueryOptions<ElectionByIdQuery, TError, TData>
-) =>
-  useInfiniteQuery<ElectionByIdQuery, TError, TData>(
-    ["ElectionById.infinite", variables],
-    (metaData) =>
-      fetcher<ElectionByIdQuery, ElectionByIdQueryVariables>(
-        ElectionByIdDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteElectionByIdQuery.getKey = (
-  variables: ElectionByIdQueryVariables
-) => ["ElectionById.infinite", variables];
 useElectionByIdQuery.fetcher = (variables: ElectionByIdQueryVariables) =>
   fetcher<ElectionByIdQuery, ElectionByIdQueryVariables>(
     ElectionByIdDocument,
@@ -4627,34 +4452,6 @@ useElectionVotingGuideRacesQuery.document = ElectionVotingGuideRacesDocument;
 useElectionVotingGuideRacesQuery.getKey = (
   variables: ElectionVotingGuideRacesQueryVariables
 ) => ["ElectionVotingGuideRaces", variables];
-export const useInfiniteElectionVotingGuideRacesQuery = <
-  TData = ElectionVotingGuideRacesQuery,
-  TError = unknown
->(
-  pageParamKey: keyof ElectionVotingGuideRacesQueryVariables,
-  variables: ElectionVotingGuideRacesQueryVariables,
-  options?: UseInfiniteQueryOptions<
-    ElectionVotingGuideRacesQuery,
-    TError,
-    TData
-  >
-) =>
-  useInfiniteQuery<ElectionVotingGuideRacesQuery, TError, TData>(
-    ["ElectionVotingGuideRaces.infinite", variables],
-    (metaData) =>
-      fetcher<
-        ElectionVotingGuideRacesQuery,
-        ElectionVotingGuideRacesQueryVariables
-      >(ElectionVotingGuideRacesDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfiniteElectionVotingGuideRacesQuery.getKey = (
-  variables: ElectionVotingGuideRacesQueryVariables
-) => ["ElectionVotingGuideRaces.infinite", variables];
 useElectionVotingGuideRacesQuery.fetcher = (
   variables: ElectionVotingGuideRacesQueryVariables
 ) =>
@@ -4691,28 +4488,6 @@ useBillBySlugQuery.document = BillBySlugDocument;
 
 useBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => [
   "BillBySlug",
-  variables,
-];
-export const useInfiniteBillBySlugQuery = <
-  TData = BillBySlugQuery,
-  TError = unknown
->(
-  pageParamKey: keyof BillBySlugQueryVariables,
-  variables: BillBySlugQueryVariables,
-  options?: UseInfiniteQueryOptions<BillBySlugQuery, TError, TData>
-) =>
-  useInfiniteQuery<BillBySlugQuery, TError, TData>(
-    ["BillBySlug.infinite", variables],
-    (metaData) =>
-      fetcher<BillBySlugQuery, BillBySlugQueryVariables>(BillBySlugDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfiniteBillBySlugQuery.getKey = (variables: BillBySlugQueryVariables) => [
-  "BillBySlug.infinite",
   variables,
 ];
 useBillBySlugQuery.fetcher = (variables: BillBySlugQueryVariables) =>
@@ -4754,35 +4529,6 @@ useMprFeaturedRacesQuery.getKey = (
   variables === undefined
     ? ["MPRFeaturedRaces"]
     : ["MPRFeaturedRaces", variables];
-export const useInfiniteMprFeaturedRacesQuery = <
-  TData = MprFeaturedRacesQuery,
-  TError = unknown
->(
-  pageParamKey: keyof MprFeaturedRacesQueryVariables,
-  variables?: MprFeaturedRacesQueryVariables,
-  options?: UseInfiniteQueryOptions<MprFeaturedRacesQuery, TError, TData>
-) =>
-  useInfiniteQuery<MprFeaturedRacesQuery, TError, TData>(
-    variables === undefined
-      ? ["MPRFeaturedRaces.infinite"]
-      : ["MPRFeaturedRaces.infinite", variables],
-    (metaData) =>
-      fetcher<MprFeaturedRacesQuery, MprFeaturedRacesQueryVariables>(
-        MprFeaturedRacesDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteMprFeaturedRacesQuery.getKey = (
-  variables?: MprFeaturedRacesQueryVariables
-) =>
-  variables === undefined
-    ? ["MPRFeaturedRaces.infinite"]
-    : ["MPRFeaturedRaces.infinite", variables];
 useMprFeaturedRacesQuery.fetcher = (
   variables?: MprFeaturedRacesQueryVariables
 ) =>
@@ -4820,30 +4566,6 @@ useElectionBySlugQuery.getKey = (variables: ElectionBySlugQueryVariables) => [
   "ElectionBySlug",
   variables,
 ];
-export const useInfiniteElectionBySlugQuery = <
-  TData = ElectionBySlugQuery,
-  TError = unknown
->(
-  pageParamKey: keyof ElectionBySlugQueryVariables,
-  variables: ElectionBySlugQueryVariables,
-  options?: UseInfiniteQueryOptions<ElectionBySlugQuery, TError, TData>
-) =>
-  useInfiniteQuery<ElectionBySlugQuery, TError, TData>(
-    ["ElectionBySlug.infinite", variables],
-    (metaData) =>
-      fetcher<ElectionBySlugQuery, ElectionBySlugQueryVariables>(
-        ElectionBySlugDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteElectionBySlugQuery.getKey = (
-  variables: ElectionBySlugQueryVariables
-) => ["ElectionBySlug.infinite", variables];
 useElectionBySlugQuery.fetcher = (variables: ElectionBySlugQueryVariables) =>
   fetcher<ElectionBySlugQuery, ElectionBySlugQueryVariables>(
     ElectionBySlugDocument,
@@ -4876,30 +4598,6 @@ useOrganizationBySlugQuery.document = OrganizationBySlugDocument;
 useOrganizationBySlugQuery.getKey = (
   variables: OrganizationBySlugQueryVariables
 ) => ["OrganizationBySlug", variables];
-export const useInfiniteOrganizationBySlugQuery = <
-  TData = OrganizationBySlugQuery,
-  TError = unknown
->(
-  pageParamKey: keyof OrganizationBySlugQueryVariables,
-  variables: OrganizationBySlugQueryVariables,
-  options?: UseInfiniteQueryOptions<OrganizationBySlugQuery, TError, TData>
-) =>
-  useInfiniteQuery<OrganizationBySlugQuery, TError, TData>(
-    ["OrganizationBySlug.infinite", variables],
-    (metaData) =>
-      fetcher<OrganizationBySlugQuery, OrganizationBySlugQueryVariables>(
-        OrganizationBySlugDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteOrganizationBySlugQuery.getKey = (
-  variables: OrganizationBySlugQueryVariables
-) => ["OrganizationBySlug.infinite", variables];
 useOrganizationBySlugQuery.fetcher = (
   variables: OrganizationBySlugQueryVariables
 ) =>
@@ -4927,6 +4625,8 @@ export const OrganizationPoliticianNotesDocument = /*#__PURE__*/ `
             slug
             name
             title
+            subtitleShort
+            priority
             incumbent {
               id
             }
@@ -4963,34 +4663,6 @@ useOrganizationPoliticianNotesQuery.document =
 useOrganizationPoliticianNotesQuery.getKey = (
   variables: OrganizationPoliticianNotesQueryVariables
 ) => ["OrganizationPoliticianNotes", variables];
-export const useInfiniteOrganizationPoliticianNotesQuery = <
-  TData = OrganizationPoliticianNotesQuery,
-  TError = unknown
->(
-  pageParamKey: keyof OrganizationPoliticianNotesQueryVariables,
-  variables: OrganizationPoliticianNotesQueryVariables,
-  options?: UseInfiniteQueryOptions<
-    OrganizationPoliticianNotesQuery,
-    TError,
-    TData
-  >
-) =>
-  useInfiniteQuery<OrganizationPoliticianNotesQuery, TError, TData>(
-    ["OrganizationPoliticianNotes.infinite", variables],
-    (metaData) =>
-      fetcher<
-        OrganizationPoliticianNotesQuery,
-        OrganizationPoliticianNotesQueryVariables
-      >(OrganizationPoliticianNotesDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfiniteOrganizationPoliticianNotesQuery.getKey = (
-  variables: OrganizationPoliticianNotesQueryVariables
-) => ["OrganizationPoliticianNotes.infinite", variables];
 useOrganizationPoliticianNotesQuery.fetcher = (
   variables: OrganizationPoliticianNotesQueryVariables
 ) =>
@@ -5053,35 +4725,6 @@ usePoliticianIndexQuery.getKey = (variables?: PoliticianIndexQueryVariables) =>
   variables === undefined
     ? ["PoliticianIndex"]
     : ["PoliticianIndex", variables];
-export const useInfinitePoliticianIndexQuery = <
-  TData = PoliticianIndexQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianIndexQueryVariables,
-  variables?: PoliticianIndexQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianIndexQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianIndexQuery, TError, TData>(
-    variables === undefined
-      ? ["PoliticianIndex.infinite"]
-      : ["PoliticianIndex.infinite", variables],
-    (metaData) =>
-      fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(
-        PoliticianIndexDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfinitePoliticianIndexQuery.getKey = (
-  variables?: PoliticianIndexQueryVariables
-) =>
-  variables === undefined
-    ? ["PoliticianIndex.infinite"]
-    : ["PoliticianIndex.infinite", variables];
 usePoliticianIndexQuery.fetcher = (variables?: PoliticianIndexQueryVariables) =>
   fetcher<PoliticianIndexQuery, PoliticianIndexQueryVariables>(
     PoliticianIndexDocument,
@@ -5114,30 +4757,6 @@ usePoliticianBasicInfoQuery.document = PoliticianBasicInfoDocument;
 usePoliticianBasicInfoQuery.getKey = (
   variables: PoliticianBasicInfoQueryVariables
 ) => ["PoliticianBasicInfo", variables];
-export const useInfinitePoliticianBasicInfoQuery = <
-  TData = PoliticianBasicInfoQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianBasicInfoQueryVariables,
-  variables: PoliticianBasicInfoQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianBasicInfoQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianBasicInfoQuery, TError, TData>(
-    ["PoliticianBasicInfo.infinite", variables],
-    (metaData) =>
-      fetcher<PoliticianBasicInfoQuery, PoliticianBasicInfoQueryVariables>(
-        PoliticianBasicInfoDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfinitePoliticianBasicInfoQuery.getKey = (
-  variables: PoliticianBasicInfoQueryVariables
-) => ["PoliticianBasicInfo.infinite", variables];
 usePoliticianBasicInfoQuery.fetcher = (
   variables: PoliticianBasicInfoQueryVariables
 ) =>
@@ -5173,30 +4792,6 @@ usePoliticianBioQuery.getKey = (variables: PoliticianBioQueryVariables) => [
   "PoliticianBio",
   variables,
 ];
-export const useInfinitePoliticianBioQuery = <
-  TData = PoliticianBioQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianBioQueryVariables,
-  variables: PoliticianBioQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianBioQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianBioQuery, TError, TData>(
-    ["PoliticianBio.infinite", variables],
-    (metaData) =>
-      fetcher<PoliticianBioQuery, PoliticianBioQueryVariables>(
-        PoliticianBioDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfinitePoliticianBioQuery.getKey = (
-  variables: PoliticianBioQueryVariables
-) => ["PoliticianBio.infinite", variables];
 usePoliticianBioQuery.fetcher = (variables: PoliticianBioQueryVariables) =>
   fetcher<PoliticianBioQuery, PoliticianBioQueryVariables>(
     PoliticianBioDocument,
@@ -5229,30 +4824,6 @@ usePoliticianCurrentOfficeQuery.document = PoliticianCurrentOfficeDocument;
 usePoliticianCurrentOfficeQuery.getKey = (
   variables: PoliticianCurrentOfficeQueryVariables
 ) => ["PoliticianCurrentOffice", variables];
-export const useInfinitePoliticianCurrentOfficeQuery = <
-  TData = PoliticianCurrentOfficeQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianCurrentOfficeQueryVariables,
-  variables: PoliticianCurrentOfficeQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianCurrentOfficeQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianCurrentOfficeQuery, TError, TData>(
-    ["PoliticianCurrentOffice.infinite", variables],
-    (metaData) =>
-      fetcher<
-        PoliticianCurrentOfficeQuery,
-        PoliticianCurrentOfficeQueryVariables
-      >(PoliticianCurrentOfficeDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfinitePoliticianCurrentOfficeQuery.getKey = (
-  variables: PoliticianCurrentOfficeQueryVariables
-) => ["PoliticianCurrentOffice.infinite", variables];
 usePoliticianCurrentOfficeQuery.fetcher = (
   variables: PoliticianCurrentOfficeQueryVariables
 ) =>
@@ -5287,30 +4858,6 @@ usePoliticianElectionInfoQuery.document = PoliticianElectionInfoDocument;
 usePoliticianElectionInfoQuery.getKey = (
   variables: PoliticianElectionInfoQueryVariables
 ) => ["PoliticianElectionInfo", variables];
-export const useInfinitePoliticianElectionInfoQuery = <
-  TData = PoliticianElectionInfoQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianElectionInfoQueryVariables,
-  variables: PoliticianElectionInfoQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianElectionInfoQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianElectionInfoQuery, TError, TData>(
-    ["PoliticianElectionInfo.infinite", variables],
-    (metaData) =>
-      fetcher<
-        PoliticianElectionInfoQuery,
-        PoliticianElectionInfoQueryVariables
-      >(PoliticianElectionInfoDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfinitePoliticianElectionInfoQuery.getKey = (
-  variables: PoliticianElectionInfoQueryVariables
-) => ["PoliticianElectionInfo.infinite", variables];
 usePoliticianElectionInfoQuery.fetcher = (
   variables: PoliticianElectionInfoQueryVariables
 ) =>
@@ -5345,30 +4892,6 @@ usePoliticianEndorsementsQuery.document = PoliticianEndorsementsDocument;
 usePoliticianEndorsementsQuery.getKey = (
   variables: PoliticianEndorsementsQueryVariables
 ) => ["PoliticianEndorsements", variables];
-export const useInfinitePoliticianEndorsementsQuery = <
-  TData = PoliticianEndorsementsQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianEndorsementsQueryVariables,
-  variables: PoliticianEndorsementsQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianEndorsementsQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianEndorsementsQuery, TError, TData>(
-    ["PoliticianEndorsements.infinite", variables],
-    (metaData) =>
-      fetcher<
-        PoliticianEndorsementsQuery,
-        PoliticianEndorsementsQueryVariables
-      >(PoliticianEndorsementsDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfinitePoliticianEndorsementsQuery.getKey = (
-  variables: PoliticianEndorsementsQueryVariables
-) => ["PoliticianEndorsements.infinite", variables];
 usePoliticianEndorsementsQuery.fetcher = (
   variables: PoliticianEndorsementsQueryVariables
 ) =>
@@ -5403,34 +4926,6 @@ usePoliticianSponsoredBillsQuery.document = PoliticianSponsoredBillsDocument;
 usePoliticianSponsoredBillsQuery.getKey = (
   variables: PoliticianSponsoredBillsQueryVariables
 ) => ["PoliticianSponsoredBills", variables];
-export const useInfinitePoliticianSponsoredBillsQuery = <
-  TData = PoliticianSponsoredBillsQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianSponsoredBillsQueryVariables,
-  variables: PoliticianSponsoredBillsQueryVariables,
-  options?: UseInfiniteQueryOptions<
-    PoliticianSponsoredBillsQuery,
-    TError,
-    TData
-  >
-) =>
-  useInfiniteQuery<PoliticianSponsoredBillsQuery, TError, TData>(
-    ["PoliticianSponsoredBills.infinite", variables],
-    (metaData) =>
-      fetcher<
-        PoliticianSponsoredBillsQuery,
-        PoliticianSponsoredBillsQueryVariables
-      >(PoliticianSponsoredBillsDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfinitePoliticianSponsoredBillsQuery.getKey = (
-  variables: PoliticianSponsoredBillsQueryVariables
-) => ["PoliticianSponsoredBills.infinite", variables];
 usePoliticianSponsoredBillsQuery.fetcher = (
   variables: PoliticianSponsoredBillsQueryVariables
 ) =>
@@ -5465,30 +4960,6 @@ usePoliticianRatingsQuery.document = PoliticianRatingsDocument;
 usePoliticianRatingsQuery.getKey = (
   variables: PoliticianRatingsQueryVariables
 ) => ["PoliticianRatings", variables];
-export const useInfinitePoliticianRatingsQuery = <
-  TData = PoliticianRatingsQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianRatingsQueryVariables,
-  variables: PoliticianRatingsQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianRatingsQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianRatingsQuery, TError, TData>(
-    ["PoliticianRatings.infinite", variables],
-    (metaData) =>
-      fetcher<PoliticianRatingsQuery, PoliticianRatingsQueryVariables>(
-        PoliticianRatingsDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfinitePoliticianRatingsQuery.getKey = (
-  variables: PoliticianRatingsQueryVariables
-) => ["PoliticianRatings.infinite", variables];
 usePoliticianRatingsQuery.fetcher = (
   variables: PoliticianRatingsQueryVariables
 ) =>
@@ -5523,30 +4994,6 @@ usePoliticianFinancialsQuery.document = PoliticianFinancialsDocument;
 usePoliticianFinancialsQuery.getKey = (
   variables: PoliticianFinancialsQueryVariables
 ) => ["PoliticianFinancials", variables];
-export const useInfinitePoliticianFinancialsQuery = <
-  TData = PoliticianFinancialsQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianFinancialsQueryVariables,
-  variables: PoliticianFinancialsQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianFinancialsQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianFinancialsQuery, TError, TData>(
-    ["PoliticianFinancials.infinite", variables],
-    (metaData) =>
-      fetcher<PoliticianFinancialsQuery, PoliticianFinancialsQueryVariables>(
-        PoliticianFinancialsDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfinitePoliticianFinancialsQuery.getKey = (
-  variables: PoliticianFinancialsQueryVariables
-) => ["PoliticianFinancials.infinite", variables];
 usePoliticianFinancialsQuery.fetcher = (
   variables: PoliticianFinancialsQueryVariables
 ) =>
@@ -5593,30 +5040,6 @@ usePoliticianBySlugQuery.document = PoliticianBySlugDocument;
 usePoliticianBySlugQuery.getKey = (
   variables: PoliticianBySlugQueryVariables
 ) => ["PoliticianBySlug", variables];
-export const useInfinitePoliticianBySlugQuery = <
-  TData = PoliticianBySlugQuery,
-  TError = unknown
->(
-  pageParamKey: keyof PoliticianBySlugQueryVariables,
-  variables: PoliticianBySlugQueryVariables,
-  options?: UseInfiniteQueryOptions<PoliticianBySlugQuery, TError, TData>
-) =>
-  useInfiniteQuery<PoliticianBySlugQuery, TError, TData>(
-    ["PoliticianBySlug.infinite", variables],
-    (metaData) =>
-      fetcher<PoliticianBySlugQuery, PoliticianBySlugQueryVariables>(
-        PoliticianBySlugDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfinitePoliticianBySlugQuery.getKey = (
-  variables: PoliticianBySlugQueryVariables
-) => ["PoliticianBySlug.infinite", variables];
 usePoliticianBySlugQuery.fetcher = (
   variables: PoliticianBySlugQueryVariables
 ) =>
@@ -5652,30 +5075,6 @@ useVotingGuideByIdQuery.getKey = (variables: VotingGuideByIdQueryVariables) => [
   "VotingGuideById",
   variables,
 ];
-export const useInfiniteVotingGuideByIdQuery = <
-  TData = VotingGuideByIdQuery,
-  TError = unknown
->(
-  pageParamKey: keyof VotingGuideByIdQueryVariables,
-  variables: VotingGuideByIdQueryVariables,
-  options?: UseInfiniteQueryOptions<VotingGuideByIdQuery, TError, TData>
-) =>
-  useInfiniteQuery<VotingGuideByIdQuery, TError, TData>(
-    ["VotingGuideById.infinite", variables],
-    (metaData) =>
-      fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
-        VotingGuideByIdDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteVotingGuideByIdQuery.getKey = (
-  variables: VotingGuideByIdQueryVariables
-) => ["VotingGuideById.infinite", variables];
 useVotingGuideByIdQuery.fetcher = (variables: VotingGuideByIdQueryVariables) =>
   fetcher<VotingGuideByIdQuery, VotingGuideByIdQueryVariables>(
     VotingGuideByIdDocument,
@@ -5708,30 +5107,6 @@ useVotingGuidesByUserIdQuery.document = VotingGuidesByUserIdDocument;
 useVotingGuidesByUserIdQuery.getKey = (
   variables: VotingGuidesByUserIdQueryVariables
 ) => ["VotingGuidesByUserId", variables];
-export const useInfiniteVotingGuidesByUserIdQuery = <
-  TData = VotingGuidesByUserIdQuery,
-  TError = unknown
->(
-  pageParamKey: keyof VotingGuidesByUserIdQueryVariables,
-  variables: VotingGuidesByUserIdQueryVariables,
-  options?: UseInfiniteQueryOptions<VotingGuidesByUserIdQuery, TError, TData>
-) =>
-  useInfiniteQuery<VotingGuidesByUserIdQuery, TError, TData>(
-    ["VotingGuidesByUserId.infinite", variables],
-    (metaData) =>
-      fetcher<VotingGuidesByUserIdQuery, VotingGuidesByUserIdQueryVariables>(
-        VotingGuidesByUserIdDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteVotingGuidesByUserIdQuery.getKey = (
-  variables: VotingGuidesByUserIdQueryVariables
-) => ["VotingGuidesByUserId.infinite", variables];
 useVotingGuidesByUserIdQuery.fetcher = (
   variables: VotingGuidesByUserIdQueryVariables
 ) =>
@@ -5767,34 +5142,6 @@ useElectionVotingGuideByUserIdQuery.document =
 useElectionVotingGuideByUserIdQuery.getKey = (
   variables: ElectionVotingGuideByUserIdQueryVariables
 ) => ["ElectionVotingGuideByUserId", variables];
-export const useInfiniteElectionVotingGuideByUserIdQuery = <
-  TData = ElectionVotingGuideByUserIdQuery,
-  TError = unknown
->(
-  pageParamKey: keyof ElectionVotingGuideByUserIdQueryVariables,
-  variables: ElectionVotingGuideByUserIdQueryVariables,
-  options?: UseInfiniteQueryOptions<
-    ElectionVotingGuideByUserIdQuery,
-    TError,
-    TData
-  >
-) =>
-  useInfiniteQuery<ElectionVotingGuideByUserIdQuery, TError, TData>(
-    ["ElectionVotingGuideByUserId.infinite", variables],
-    (metaData) =>
-      fetcher<
-        ElectionVotingGuideByUserIdQuery,
-        ElectionVotingGuideByUserIdQueryVariables
-      >(ElectionVotingGuideByUserIdDocument, {
-        ...variables,
-        ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-      })(),
-    options
-  );
-
-useInfiniteElectionVotingGuideByUserIdQuery.getKey = (
-  variables: ElectionVotingGuideByUserIdQueryVariables
-) => ["ElectionVotingGuideByUserId.infinite", variables];
 useElectionVotingGuideByUserIdQuery.fetcher = (
   variables: ElectionVotingGuideByUserIdQueryVariables
 ) =>
@@ -5829,30 +5176,6 @@ useVotingGuidesByIdsQuery.document = VotingGuidesByIdsDocument;
 useVotingGuidesByIdsQuery.getKey = (
   variables: VotingGuidesByIdsQueryVariables
 ) => ["VotingGuidesByIds", variables];
-export const useInfiniteVotingGuidesByIdsQuery = <
-  TData = VotingGuidesByIdsQuery,
-  TError = unknown
->(
-  pageParamKey: keyof VotingGuidesByIdsQueryVariables,
-  variables: VotingGuidesByIdsQueryVariables,
-  options?: UseInfiniteQueryOptions<VotingGuidesByIdsQuery, TError, TData>
-) =>
-  useInfiniteQuery<VotingGuidesByIdsQuery, TError, TData>(
-    ["VotingGuidesByIds.infinite", variables],
-    (metaData) =>
-      fetcher<VotingGuidesByIdsQuery, VotingGuidesByIdsQueryVariables>(
-        VotingGuidesByIdsDocument,
-        {
-          ...variables,
-          ...(metaData.pageParam ? { [pageParamKey]: metaData.pageParam } : {}),
-        }
-      )(),
-    options
-  );
-
-useInfiniteVotingGuidesByIdsQuery.getKey = (
-  variables: VotingGuidesByIdsQueryVariables
-) => ["VotingGuidesByIds.infinite", variables];
 useVotingGuidesByIdsQuery.fetcher = (
   variables: VotingGuidesByIdsQueryVariables
 ) =>
