@@ -161,7 +161,7 @@ const VotingGuides: NextPage<{
   const election = useMemo(
     () =>
       data?.votingGuidesByUserId.find(
-        (g: VotingGuideResult) => g.electionId === selectedElectionId
+        (g) => g.electionId === selectedElectionId
       )?.election as ElectionResult,
     [data, selectedElectionId]
   );
@@ -169,7 +169,7 @@ const VotingGuides: NextPage<{
   const userVotingGuides = useMemo(
     () =>
       data?.votingGuidesByUserId.filter(
-        (g: VotingGuideResult) => g.electionId === selectedElectionId
+        (g) => g.electionId === selectedElectionId
       ),
     [data, selectedElectionId]
   );
@@ -177,7 +177,7 @@ const VotingGuides: NextPage<{
   const savedGuides = useMemo(
     () =>
       savedGuidesQuery.data?.votingGuidesByIds.filter(
-        (g: VotingGuideResult) => g.electionId === selectedElectionId
+        (g) => g.electionId === selectedElectionId
       ) as VotingGuideResult[],
     [savedGuidesQuery.data, selectedElectionId]
   );
@@ -211,7 +211,7 @@ const VotingGuides: NextPage<{
                 </>
               )}
               <div className={styles.guidesContainer}>
-                {userVotingGuides?.map((guide: VotingGuideResult) => (
+                {userVotingGuides?.map((guide) => (
                   <VotingGuideCard
                     guide={guide as Partial<VotingGuideResult>}
                     key={guide.id}
