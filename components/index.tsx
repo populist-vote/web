@@ -19,6 +19,7 @@ import { HomePageButton } from "./HomePageButton/HomePageButton";
 import { ImageWithFallback } from "./ImageWithFallback/ImageWithFallback";
 import { IssueTags } from "./IssueTags/IssueTags";
 import { Layout } from "./Layout/Layout";
+import { LegislationStatusBox } from "./LegislationStatus/LegislationStatusBox";
 import { LoaderFlag } from "./LoaderFlag/LoaderFlag";
 import { Logo, LogoBeta, LogoBetaDesktop, LogoText } from "./Logo";
 import { MPRLogo } from "./MPRLogo/MPRLogo";
@@ -57,6 +58,7 @@ export {
   ImageWithFallback,
   IssueTags,
   Layout,
+  LegislationStatusBox,
   LoaderFlag,
   Logo,
   LogoBeta,

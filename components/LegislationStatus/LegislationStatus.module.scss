@@ -1,0 +1,42 @@
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
+
+.legislationStatusContainer {
+  outline: 1px solid var(--box-color);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 30px;
+
+  h1 {
+    font-family: $font-primary;
+    font-weight: $weight-normal;
+    font-size: 1.5rem;
+    line-height: 1.25rem;
+    text-align: center;
+    padding: 2rem 1rem;
+    opacity: 1;
+  }
+  h3 {
+    color: var(--box-color);
+    font-family: $font-primary;
+    font-weight: $weight-light;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    text-align: center;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+}
+
+.legislationStatusContainer::before {
+  content: "";
+  background-color: var(--box-color);
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  z-index: -1;
+}
