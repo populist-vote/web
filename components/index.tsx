@@ -4,6 +4,7 @@ import { BasicLayout } from "./BasicLayout/BasicLayout";
 import { BetaNotice } from "./BetaNotice/BetaNotice";
 import { BillCard } from "./BillCard/BillCard";
 import { Button } from "./Button/Button";
+import { ColoredSection } from "./ColoredSection/ColoredSection";
 import { EditVotingGuideCandidate } from "./Ballot/Race";
 import {
   ElectionInfoSection,
@@ -45,6 +46,7 @@ export {
   BillCard,
   Button,
   Candidate,
+  ColoredSection,
   ElectionInfoSection,
   ElectionSelector,
   FieldSet,
