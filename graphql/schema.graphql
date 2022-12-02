@@ -265,21 +265,6 @@ input CreateBallotMeasureInput {
   title: String!
 }
 
-input CreateBillInput {
-  arguments: [CreateArgumentInput!]
-  billNumber: String!
-  description: String
-  fullTextUrl: String
-  legiscanBillId: Int
-  legiscanData: JSON
-  legislationStatus: LegislationStatus!
-  officialSummary: String
-  populistSummary: String
-  slug: String
-  title: String!
-  votesmartBillId: Int
-}
-
 input CreateOrConnectIssueTagInput {
   connect: [String!]
   create: [UpsertIssueTagInput!]
@@ -481,7 +466,6 @@ type Mutation {
   beginUserRegistration(input: BeginUserRegistrationInput!): LoginResult!
   confirmUserEmail(confirmationToken: String!): Boolean!
   createBallotMeasure(electionId: UUID!, input: CreateBallotMeasureInput!): BallotMeasureResult!
-  createBill(input: CreateBillInput!): BillResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
   deleteAccountByEmail(email: String!): ID!
@@ -505,12 +489,12 @@ type Mutation {
   updateAddress(address: AddressInput!): AddressResult!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
   updateBallotMeasure(id: String!, input: UpdateBallotMeasureInput!): BallotMeasureResult!
-  updateBill(id: String, input: UpdateBillInput!, legiscanBillId: Int): BillResult!
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updateUsername(username: String!): UpdateUsernameResult!
   uploadProfilePicture(file: Upload!): String!
+  upsertBill(input: UpsertBillInput!): BillResult!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
@@ -1167,20 +1151,6 @@ input UpdateBallotMeasureInput {
   title: String
 }
 
-input UpdateBillInput {
-  arguments: [CreateArgumentInput!]
-  billNumber: String!
-  description: String
-  fullTextUrl: String
-  legiscanBillId: Int
-  legiscanData: JSON
-  legislationStatus: LegislationStatus
-  officialSummary: String
-  populistSummary: String
-  slug: String
-  title: String
-}
-
 type UpdateEmailResult {
   email: String!
 }
@@ -1200,6 +1170,29 @@ type UpdateUsernameResult {
 }
 
 scalar Upload
+
+input UpsertBillInput {
+  arguments: [CreateArgumentInput!]
+  billNumber: String!
+  description: String
+  fullTextUrl: String
+  history: JSON
+  id: UUID
+  legiscanBillId: Int
+  legiscanCommittee: String
+  legiscanCommitteeId: Int
+  legiscanData: JSON
+  legiscanLastAction: String
+  legiscanLastActionDate: NaiveDate
+  legiscanSessionId: Int
+  legislationStatus: LegislationStatus!
+  officialSummary: String
+  populistSummary: String
+  slug: String
+  state: State
+  title: String
+  votesmartBillId: Int
+}
 
 input UpsertElectionInput {
   description: String
