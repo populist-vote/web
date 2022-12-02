@@ -1,6 +1,11 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { Layout, LoaderFlag, ColoredSection } from "components";
+import {
+  Layout,
+  LoaderFlag,
+  ColoredSection,
+  LegislationStatusBox,
+} from "components";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
@@ -36,9 +41,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
         <div className={styles.billContainer}>
           <p className={styles.codeName}>{bill?.billNumber}</p>
           <h1>{bill?.title}</h1>
-          <span className={styles.statusPill}>
-            {bill.legislationStatus?.replace("_", " ")}
-          </span>
+          <LegislationStatusBox status={bill.legislationStatus} />
 
           {summary && (
             <section className={styles.center}>
@@ -57,7 +60,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
               </a>
             )}
           </section>
-          <h2 className={styles.gradientHeader}>Arguments</h2>
+          {/* <h2 className={styles.gradientHeader}>Arguments</h2> */}
         </div>
       </ColoredSection>
     </Layout>
