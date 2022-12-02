@@ -1,0 +1,31 @@
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
+@import "styles/modules/page.module.scss";
+
+.billContainer {
+  min-width: 296px;
+  max-width: 496px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+
+  .codeName {
+    font-family: $font-primary;
+    font-weight: $weight-light;
+    font-size: 1rem;
+    line-height: 150%;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
+  h1 {
+    font-family: $font-primary;
+    font-weight: $weight-mediumbold;
+    font-size: 2.25rem;
+    line-height: 38px;
+    text-align: center;
+  }
+}

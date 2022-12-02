@@ -1,10 +1,10 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { Layout, LoaderFlag } from "components";
+import { Layout, LoaderFlag, ColoredSection } from "components";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
-import styles from "styles/modules/page.module.scss";
+import styles from "./BillBySlug.module.scss";
 import layoutStyles from "../../components/BasicLayout/BasicLayout.module.scss";
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
@@ -31,32 +31,35 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   if (!bill) return null;
   return (
-    <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
-      <div className={styles.container}>
-        <section className={styles.center}>
+    <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
+      <ColoredSection color="var(--blue-dark)">
+        <div className={styles.billContainer}>
+          <p className={styles.codeName}>{bill?.billNumber}</p>
           <h1>{bill?.title}</h1>
           <span className={styles.statusPill}>
             {bill.legislationStatus?.replace("_", " ")}
           </span>
-        </section>
-        {summary && (
-          <section className={styles.center}>
-            <h2>Summary</h2>
-            <p>{summary}</p>
-          </section>
-        )}
-        <section className={styles.center}>
-          {bill?.fullTextUrl && (
-            <a
-              href={bill?.fullTextUrl}
-              className={layoutStyles.textLink}
-              style={{ textTransform: "uppercase" }}
-            >
-              View full text
-            </a>
+
+          {summary && (
+            <section className={styles.center}>
+              <h2>Summary</h2>
+              <p>{summary}</p>
+            </section>
           )}
-        </section>
-      </div>
+          <section className={styles.center}>
+            {bill?.fullTextUrl && (
+              <a
+                href={bill?.fullTextUrl}
+                className={layoutStyles.textLink}
+                style={{ textTransform: "uppercase" }}
+              >
+                View full text
+              </a>
+            )}
+          </section>
+          <h2 className={styles.gradientHeader}>Arguments</h2>
+        </div>
+      </ColoredSection>
     </Layout>
   );
 };
