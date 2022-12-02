@@ -6,14 +6,30 @@ $font-secondary: "proxima_nova", helvetica, arial, sans-serif;
 $weight-light: 300;
 $weight-normal: 400;
 $weight-semibold: 500;
+$weight-mediumbold: 600;
 $weight-bold: 700;
 
 // font sizes
-$text-xxs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio)));
+$text-xxs: calc(
+  1em /
+    (
+      var(--text-scale-ratio) * var(--text-scale-ratio) *
+        var(--text-scale-ratio)
+    )
+);
 $text-xs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio)));
 $text-sm: calc(1em / var(--text-scale-ratio));
 $text-md: calc(1em * var(--text-scale-ratio));
 $text-lg: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio));
-$text-xl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
-$text-xxl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
-$text-xxxl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
+$text-xl: calc(
+  1em * var(--text-scale-ratio) * var(--text-scale-ratio) *
+    var(--text-scale-ratio)
+);
+$text-xxl: calc(
+  1em * var(--text-scale-ratio) * var(--text-scale-ratio) *
+    var(--text-scale-ratio) * var(--text-scale-ratio)
+);
+$text-xxxl: calc(
+  1em * var(--text-scale-ratio) * var(--text-scale-ratio) *
+    var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio)
+);
