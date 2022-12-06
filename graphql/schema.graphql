@@ -82,7 +82,7 @@ enum AuthorType {
 }
 
 type BallotMeasureResult {
-  arguments: [BallotMeasureResult!]!
+  arguments: [ArgumentResult!]!
   ballotMeasureCode: String!
   ballotState: State!
   definitions: String!
@@ -90,6 +90,7 @@ type BallotMeasureResult {
   electionId: ID!
   fullTextUrl: String
   id: ID!
+  issueTags: [IssueTagResult!]!
   legislationStatus: LegislationStatus!
   measureType: String!
   officialSummary: String
@@ -154,12 +155,14 @@ type BillResult {
   fullTextUrl: String
   history: JSON!
   id: ID!
+  issueTags: [IssueTagResult!]!
   legiscanBillId: Int
   legiscanData: Bill!
   legislationStatus: LegislationStatus!
   officialSummary: String
   populistSummary: String
   slug: String!
+  sponsors: [PoliticianResult!]!
   title: String!
 }
 
@@ -229,7 +232,9 @@ type Candidate {
 }
 
 enum Chamber {
+  ASSEMBLY
   HOUSE
+  LEGISLATURE
   SENATE
 }
 
@@ -1173,7 +1178,10 @@ scalar Upload
 
 input UpsertBillInput {
   arguments: [CreateArgumentInput!]
+  attributes: JSON
   billNumber: String!
+  billType: String
+  chamber: Chamber
   description: String
   fullTextUrl: String
   history: JSON
@@ -1187,6 +1195,7 @@ input UpsertBillInput {
   legiscanSessionId: Int
   legislationStatus: LegislationStatus!
   officialSummary: String
+  politicalScope: PoliticalScope
   populistSummary: String
   slug: String
   state: State
