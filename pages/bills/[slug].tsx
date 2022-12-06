@@ -1,5 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
+// import dynamic from "next/dynamic";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
@@ -20,6 +21,10 @@ import styles from "./BillBySlug.module.scss";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
+
+// const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
+//   ssr: false,
+// });
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -46,59 +51,61 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
 
   if (!bill) return null;
   return (
-    <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
-      <ColoredSection color="var(--blue-dark)">
-        <div className={styles.billContainer}>
-          <header>
-            <h3>{bill?.billNumber}</h3>
-            <h1>{bill?.title}</h1>
-            {bill?.issueTags && <IssueTags tags={bill.issueTags} />}
-          </header>
+    <>
+      <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
+        <ColoredSection color="var(--blue-dark)">
+          <div className={styles.billContainer}>
+            <header>
+              <h3>{bill?.billNumber}</h3>
+              <h1>{bill?.title}</h1>
+              {bill?.issueTags && <IssueTags tags={bill.issueTags} />}
+            </header>
 
-          <LegislationStatusBox status={bill.legislationStatus} />
+            <LegislationStatusBox status={bill.legislationStatus} />
 
-          {summary && (
-            <section className={styles.center}>
-              <ReactMarkdown>{summary}</ReactMarkdown>
-            </section>
-          )}
+            {summary && (
+              <section className={styles.center}>
+                <ReactMarkdown>{summary}</ReactMarkdown>
+              </section>
+            )}
 
-          {bill?.fullTextUrl && (
-            <a
-              className={styles.buttonWrapper}
-              href={bill?.fullTextUrl}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <Button
-                variant="secondary"
-                size="medium"
-                label="Full text"
-                width="10rem"
-              />
-            </a>
-          )}
+            {bill?.fullTextUrl && (
+              <a
+                className={styles.buttonWrapper}
+                href={bill?.fullTextUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Button
+                  variant="secondary"
+                  size="medium"
+                  label="Full text"
+                  width="10rem"
+                />
+              </a>
+            )}
 
-          {bill?.sponsors && bill.sponsors.length > 0 && (
-            <>
-              <h2 className={styles.gradientHeader}>Sponsors</h2>
-              <div className={styles.sponsorsWrapper}>
-                {bill.sponsors.map((sponsor) => (
-                  <Candidate
-                    key={sponsor.id}
-                    itemId={sponsor.id}
-                    candidate={sponsor as PoliticianResult}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-        <div className={styles.supportOpposeWrapper}>
-          <SupportOppose />
-        </div>
-      </ColoredSection>
-    </Layout>
+            {bill?.sponsors && bill.sponsors.length > 0 && (
+              <>
+                <h2 className={styles.gradientHeader}>Sponsors</h2>
+                <div className={styles.sponsorsWrapper}>
+                  {bill.sponsors.map((sponsor) => (
+                    <Candidate
+                      key={sponsor.id}
+                      itemId={sponsor.id}
+                      candidate={sponsor as PoliticianResult}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </ColoredSection>
+      </Layout>
+      <div className={styles.supportOpposeWrapper}>
+        <SupportOppose />
+      </div>
+    </>
   );
 };
 
