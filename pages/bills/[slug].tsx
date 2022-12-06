@@ -17,6 +17,9 @@ import {
 
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
 import styles from "./BillBySlug.module.scss";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -107,6 +110,7 @@ interface Params extends NextParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { slug } = ctx.params as Params;
+  const locale = ctx.locale as SupportedLocale;
 
   const queryClient = new QueryClient();
 
@@ -123,6 +127,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       dehydratedState: state,
       mobileNavTitle: data.billBySlug?.billNumber,
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 };
