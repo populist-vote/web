@@ -71,7 +71,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
                 variant="secondary"
                 size="medium"
                 label="Full text"
-                fixedWidth="10rem"
+                width="10rem"
               />
             </a>
           )}
