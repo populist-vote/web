@@ -40,9 +40,22 @@
 }
 
 .action {
+  cursor: pointer;
+  border: none;
   height: 10rem;
   flex-grow: 1;
   border-top: 5px solid var(--action-color);
+  color: $white;
+  outline: none;
+  margin: 0;
+  width: 100%;
+  padding: 0;
+  :focus {
+    outline: none;
+  }
+  :active {
+    outline: none;
+  }
 }
 
 .actionInner {

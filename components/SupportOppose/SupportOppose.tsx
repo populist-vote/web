@@ -46,11 +46,11 @@ function SupportOpposeAction({
   };
 
   return (
-    <div className={styles.action} style={styleVars}>
+    <button className={styles.action} style={styleVars} onClick={toggle}>
       <div className={styles.actionInner}>
         <div className={styles.votesContainer}>
           <span className={styles.iconWrapper}>
-            <Icon onClick={toggle} size="1.825rem" />
+            <Icon size="1.825rem" />
           </span>
           <span className={styles.votes}>{votes}</span>
         </div>
@@ -58,7 +58,7 @@ function SupportOpposeAction({
           {type === ArgumentPosition.Support ? "Support" : "Oppose"}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
