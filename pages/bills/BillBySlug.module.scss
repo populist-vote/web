@@ -9,11 +9,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 1rem 0;
 
   > header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-bottom: 2px solid $blue-dark;
-    margin-bottom: 2rem;
+    margin: 2rem;
+    padding-bottom: 1rem;
 
     > h3 {
       font-family: $font-primary;
@@ -33,4 +37,21 @@
       text-align: center;
     }
   }
+}
+
+.buttonWrapper {
+  margin-bottom: 3rem;
+}
+
+.supportOpposeWrapper {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.sponsorsWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

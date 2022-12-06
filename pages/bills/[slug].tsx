@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
+import { IssueTags, Candidate } from "components";
+import { PoliticianResult } from "generated";
 
 import {
   Layout,
@@ -39,8 +41,6 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   const summary =
     bill?.description || bill?.populistSummary || bill?.officialSummary;
 
-  console.log("bill", bill);
-
   if (!bill) return null;
   return (
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
@@ -49,6 +49,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
           <header>
             <h3>{bill?.billNumber}</h3>
             <h1>{bill?.title}</h1>
+            {bill?.issueTags && <IssueTags tags={bill.issueTags} />}
           </header>
 
           <LegislationStatusBox status={bill.legislationStatus} />
@@ -61,6 +62,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
 
           {bill?.fullTextUrl && (
             <a
+              className={styles.buttonWrapper}
               href={bill?.fullTextUrl}
               rel="noopener noreferrer"
               target="_blank"
@@ -74,10 +76,24 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             </a>
           )}
 
-          <SupportOppose />
-
-          {/* <h2 className={styles.gradientHeader}>Arguments</h2> */}
+          {bill?.sponsors && bill.sponsors.length > 0 && (
+            <>
+              <h2 className={styles.gradientHeader}>Sponsors</h2>
+              <div className={styles.sponsorsWrapper}>
+                {bill.sponsors.map((sponsor) => (
+                  <Candidate
+                    key={sponsor.id}
+                    itemId={sponsor.id}
+                    candidate={sponsor as PoliticianResult}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
+        <footer className={styles.supportOpposeWrapper}>
+          <SupportOppose />
+        </footer>
       </ColoredSection>
     </Layout>
   );
