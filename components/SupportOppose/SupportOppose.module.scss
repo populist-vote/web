@@ -24,7 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.5rem;
+  margin: 0.75rem;
 }
 
 .votesContainer {
@@ -34,8 +34,9 @@
 }
 
 .votes {
+  font-family: $font-primary;
   font-size: 1.625rem;
-  font-weight: $weight-bold;
+  font-weight: $weight-semibold;
 }
 
 .action {
@@ -55,6 +56,7 @@
 }
 
 .actionText {
+  font-family: $font-primary;
   font-size: 0.875rem;
   text-transform: uppercase;
 }
