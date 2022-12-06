@@ -3,14 +3,13 @@ import { FaCheck, FaTimes } from "react-icons/fa";
 import { getRandomInt, getRandomBool } from "utils/numbers";
 import { addAlphaToHexColor } from "utils/strings";
 import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
+import { ArgumentPosition } from "generated";
 import styles from "./SupportOppose.module.scss";
 
 /** This section will pull from generated.ts when we have data */
 
-type SupportOpposeType = "support" | "oppose";
-
 interface SupportOpposeActionProps {
-  type: SupportOpposeType;
+  type: ArgumentPosition;
   selected?: boolean;
   votes: number;
   toggle: () => void;
@@ -22,11 +21,11 @@ function SupportOpposeAction({
   votes,
   toggle,
 }: SupportOpposeActionProps) {
-  const Icon = type === "support" ? FaCheck : FaTimes;
+  const Icon = type === ArgumentPosition.Support ? FaCheck : FaTimes;
 
   const style = useDocumentBaseStyle();
 
-  const color = type === "support" ? "--green-support" : "--red";
+  const color = type === ArgumentPosition.Support ? "--green-support" : "--red";
   const rawColor = useMemo(() => style.getPropertyValue(color), [color, style]);
 
   const styleVars: CSSProperties & {
@@ -37,7 +36,10 @@ function SupportOpposeAction({
   } = {
     [`--action-color`]: `var(${color})`,
     [`--action-background-color`]: selected
-      ? addAlphaToHexColor(rawColor, type === "support" ? 0.1 : 0.2)
+      ? addAlphaToHexColor(
+          rawColor,
+          type === ArgumentPosition.Support ? 0.1 : 0.2
+        )
       : "none",
     [`--icon-background-color`]: selected ? `var(${color})` : "none",
     [`--icon-border-color`]: selected ? `var(${color})` : "var(--blue)",
@@ -53,7 +55,7 @@ function SupportOpposeAction({
           <span className={styles.votes}>{votes}</span>
         </div>
         <div className={styles.actionText}>
-          {type === "support" ? "Support" : "Oppose"}
+          {type === ArgumentPosition.Support ? "Support" : "Oppose"}
         </div>
       </div>
     </div>
@@ -63,19 +65,23 @@ function SupportOpposeAction({
 function SupportOppose() {
   const [supportVotes, setSupportVotes] = useState(getRandomInt(400));
   const [opposeVotes, setOpposeVotes] = useState(getRandomInt(400));
-  const [selected, setSelected] = useState<SupportOpposeType | null>(
-    getRandomBool() ? (getRandomBool() ? "support" : "oppose") : null
+  const [selected, setSelected] = useState<ArgumentPosition | null>(
+    getRandomBool()
+      ? getRandomBool()
+        ? ArgumentPosition.Support
+        : ArgumentPosition.Oppose
+      : null
   );
 
   const toggleSupport = useCallback(() => {
     if (selected === null) {
-      setSelected("support");
+      setSelected(ArgumentPosition.Support);
       setSupportVotes(supportVotes + 1);
-    } else if (selected === "support") {
+    } else if (selected === ArgumentPosition.Support) {
       setSelected(null);
       setSupportVotes(supportVotes - 1);
-    } else if (selected === "oppose") {
-      setSelected("support");
+    } else if (selected === ArgumentPosition.Oppose) {
+      setSelected(ArgumentPosition.Support);
       setOpposeVotes(opposeVotes - 1);
       setSupportVotes(supportVotes + 1);
     }
@@ -83,13 +89,13 @@ function SupportOppose() {
 
   const toggleOppose = useCallback(() => {
     if (selected === null) {
-      setSelected("oppose");
+      setSelected(ArgumentPosition.Oppose);
       setOpposeVotes(opposeVotes + 1);
-    } else if (selected === "oppose") {
+    } else if (selected === ArgumentPosition.Oppose) {
       setSelected(null);
       setOpposeVotes(opposeVotes - 1);
-    } else if (selected === "support") {
-      setSelected("oppose");
+    } else if (selected === ArgumentPosition.Support) {
+      setSelected(ArgumentPosition.Oppose);
       setOpposeVotes(opposeVotes + 1);
       setSupportVotes(supportVotes - 1);
     }
@@ -98,14 +104,14 @@ function SupportOppose() {
   return (
     <div className={styles.container}>
       <SupportOpposeAction
-        type="support"
-        selected={selected === "support"}
+        type={ArgumentPosition.Support}
+        selected={selected === ArgumentPosition.Support}
         votes={supportVotes}
         toggle={toggleSupport}
       />
       <SupportOpposeAction
-        type="oppose"
-        selected={selected === "oppose"}
+        type={ArgumentPosition.Oppose}
+        selected={selected === ArgumentPosition.Oppose}
         votes={opposeVotes}
         toggle={toggleOppose}
       />
