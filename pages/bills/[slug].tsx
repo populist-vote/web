@@ -91,9 +91,9 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             </>
           )}
         </div>
-        <footer className={styles.supportOpposeWrapper}>
+        <div className={styles.supportOpposeWrapper}>
           <SupportOppose />
-        </footer>
+        </div>
       </ColoredSection>
     </Layout>
   );
