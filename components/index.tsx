@@ -31,6 +31,7 @@ import { PoliticianNote } from "./PoliticianNote/PoliticianNote";
 import { RaceSection } from "./Races/RaceSection";
 import { SEO } from "./SEO/SEO";
 import { Spacer } from "./Spacer/Spacer";
+import { SupportOppose } from "./SupportOppose/SupportOppose";
 import { TextInput } from "./TextInput/TextInput";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
@@ -74,6 +75,7 @@ export {
   RaceSection,
   SEO,
   Spacer,
+  SupportOppose,
   TextInput,
   VerticalDivider,
   VotingGuideNav,

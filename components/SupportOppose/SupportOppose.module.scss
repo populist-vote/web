@@ -1,0 +1,60 @@
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
+
+.container {
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  > :first-child {
+    background-color: $blue-darker;
+  }
+  > :last-child {
+    background-color: $blue-dark;
+  }
+}
+
+.iconWrapper {
+  border: 1px solid var(--icon-border-color);
+  background-color: var(--icon-background-color);
+  width: 3.125rem;
+  height: 3.125rem;
+  border-radius: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.votesContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.votes {
+  font-size: 1.625rem;
+  font-weight: $weight-bold;
+}
+
+.action {
+  height: 10rem;
+  flex-grow: 1;
+  border-top: 5px solid var(--action-color);
+}
+
+.actionInner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--action-background-color);
+  height: 100%;
+  width: 100%;
+}
+
+.actionText {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
