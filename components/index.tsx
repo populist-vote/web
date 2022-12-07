@@ -4,6 +4,7 @@ import { BasicLayout } from "./BasicLayout/BasicLayout";
 import { BetaNotice } from "./BetaNotice/BetaNotice";
 import { BillCard } from "./BillCard/BillCard";
 import { Button } from "./Button/Button";
+import { ColoredSection } from "./ColoredSection/ColoredSection";
 import { EditVotingGuideCandidate } from "./Ballot/Race";
 import {
   ElectionInfoSection,
@@ -18,6 +19,7 @@ import { HomePageButton } from "./HomePageButton/HomePageButton";
 import { ImageWithFallback } from "./ImageWithFallback/ImageWithFallback";
 import { IssueTags } from "./IssueTags/IssueTags";
 import { Layout } from "./Layout/Layout";
+import { LegislationStatusBox } from "./LegislationStatus/LegislationStatusBox";
 import { LoaderFlag } from "./LoaderFlag/LoaderFlag";
 import { Logo, LogoBeta, LogoBetaDesktop, LogoText } from "./Logo";
 import { MPRLogo } from "./MPRLogo/MPRLogo";
@@ -29,6 +31,7 @@ import { PoliticianNote } from "./PoliticianNote/PoliticianNote";
 import { RaceSection } from "./Races/RaceSection";
 import { SEO } from "./SEO/SEO";
 import { Spacer } from "./Spacer/Spacer";
+import { SupportOppose } from "./SupportOppose/SupportOppose";
 import { TextInput } from "./TextInput/TextInput";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
@@ -45,6 +48,7 @@ export {
   BillCard,
   Button,
   Candidate,
+  ColoredSection,
   ElectionInfoSection,
   ElectionSelector,
   FieldSet,
@@ -55,6 +59,7 @@ export {
   ImageWithFallback,
   IssueTags,
   Layout,
+  LegislationStatusBox,
   LoaderFlag,
   Logo,
   LogoBeta,
@@ -70,6 +75,7 @@ export {
   RaceSection,
   SEO,
   Spacer,
+  SupportOppose,
   TextInput,
   VerticalDivider,
   VotingGuideNav,

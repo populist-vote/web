@@ -1,6 +1,6 @@
-import styles from "./Button.module.scss";
-import type { PropsWithChildren, ReactNode } from "react";
+import type { PropsWithChildren, ReactNode, CSSProperties } from "react";
 import { default as clsx } from "clsx";
+import styles from "./Button.module.scss";
 
 type ButtonVariant = "primary" | "secondary" | "text";
 
@@ -23,10 +23,13 @@ function Button({
   theme = "blue",
   variant = "primary",
   type = "submit",
+  width = "inherit",
   ...props
 }: PropsWithChildren<{
   /** Sets the disabled state of a button */
   disabled?: boolean;
+  /** Set optional fixed width of button */
+  width?: string;
   /** Set to true to hide labels for icon only buttons or if label should or if label is different from button text */
   hideLabel?: boolean;
   id?: string;
@@ -57,6 +60,14 @@ function Button({
   const labelCx = clsx(styles.buttonLabel, {
     [styles.sr as string]: hideLabel,
   });
+  const styleVars: CSSProperties & {
+    "--button-width": string | undefined;
+  } = {
+    [`--button-width`]: width,
+  };
+
+  const style = (props.style as object) || {};
+
   return (
     <button
       id={id}
@@ -64,6 +75,7 @@ function Button({
       onClick={onClick}
       className={cx}
       type={type}
+      style={{ ...style, ...styleVars }}
       {...props}
     >
       {iconPosition === "before" && icon}

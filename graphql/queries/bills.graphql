@@ -7,5 +7,23 @@ query BillBySlug($slug: String!) {
     officialSummary
     populistSummary
     fullTextUrl
+    issueTags {
+      id
+      name
+      slug
+    }
+    sponsors {
+      id
+      slug
+      party
+      thumbnailImageUrl
+      fullName
+      currentOffice {
+        id
+        officeType
+        state
+        district
+      }
+    }
   }
 }

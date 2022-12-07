@@ -1,0 +1,57 @@
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
+@import "styles/modules/page.module.scss";
+
+.billContainer {
+  min-width: 296px;
+  max-width: 496px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid $blue-dark;
+    margin: 2rem;
+    padding-bottom: 1rem;
+
+    > h3 {
+      font-family: $font-primary;
+      font-weight: $weight-light;
+      font-size: 1rem;
+      line-height: 150%;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 0;
+    }
+
+    > h1 {
+      font-family: $font-primary;
+      font-weight: $weight-semibold;
+      font-size: 2rem;
+      line-height: 38px;
+      text-align: center;
+    }
+  }
+}
+
+.buttonWrapper {
+  margin-bottom: 3rem;
+}
+
+.supportOpposeWrapper {
+  width: 100%;
+  position: sticky;
+  bottom: 0rem;
+  height: 7rem;
+}
+
+.sponsorsWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

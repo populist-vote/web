@@ -1,11 +1,30 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { Layout, LoaderFlag } from "components";
+// import dynamic from "next/dynamic";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
+import ReactMarkdown from "react-markdown";
+import { IssueTags, Candidate } from "components";
+import { PoliticianResult } from "generated";
+
+import {
+  Layout,
+  LoaderFlag,
+  ColoredSection,
+  LegislationStatusBox,
+  Button,
+  SupportOppose,
+} from "components";
+
 import { BillBySlugQuery, useBillBySlugQuery } from "generated";
-import styles from "styles/modules/page.module.scss";
-import layoutStyles from "../../components/BasicLayout/BasicLayout.module.scss";
+import styles from "./BillBySlug.module.scss";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
+
+// const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
+//   ssr: false,
+// });
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -27,37 +46,66 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   if (error) return <>Error: {error}</>;
 
   const bill = data?.billBySlug;
-  const summary = bill?.populistSummary || bill?.description;
+  const summary =
+    bill?.description || bill?.populistSummary || bill?.officialSummary;
 
   if (!bill) return null;
   return (
-    <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={false}>
-      <div className={styles.container}>
-        <section className={styles.center}>
-          <h1>{bill?.title}</h1>
-          <span className={styles.statusPill}>
-            {bill.legislationStatus?.replace("_", " ")}
-          </span>
-        </section>
-        {summary && (
-          <section className={styles.center}>
-            <h2>Summary</h2>
-            <p>{summary}</p>
-          </section>
-        )}
-        <section className={styles.center}>
-          {bill?.fullTextUrl && (
-            <a
-              href={bill?.fullTextUrl}
-              className={layoutStyles.textLink}
-              style={{ textTransform: "uppercase" }}
-            >
-              View full text
-            </a>
-          )}
-        </section>
+    <>
+      <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
+        <ColoredSection color="var(--blue-dark)">
+          <div className={styles.billContainer}>
+            <header>
+              <h3>{bill?.billNumber}</h3>
+              <h1>{bill?.title}</h1>
+              {bill?.issueTags && <IssueTags tags={bill.issueTags} />}
+            </header>
+
+            <LegislationStatusBox status={bill.legislationStatus} />
+
+            {summary && (
+              <section className={styles.center}>
+                <ReactMarkdown>{summary}</ReactMarkdown>
+              </section>
+            )}
+
+            {bill?.fullTextUrl && (
+              <a
+                className={styles.buttonWrapper}
+                href={bill?.fullTextUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Button
+                  variant="secondary"
+                  size="medium"
+                  label="Full text"
+                  width="10rem"
+                />
+              </a>
+            )}
+
+            {bill?.sponsors && bill.sponsors.length > 0 && (
+              <>
+                <h2 className={styles.gradientHeader}>Sponsors</h2>
+                <div className={styles.sponsorsWrapper}>
+                  {bill.sponsors.map((sponsor) => (
+                    <Candidate
+                      key={sponsor.id}
+                      itemId={sponsor.id}
+                      candidate={sponsor as PoliticianResult}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </ColoredSection>
+      </Layout>
+      <div className={styles.supportOpposeWrapper}>
+        <SupportOppose />
       </div>
-    </Layout>
+    </>
   );
 };
 
@@ -69,6 +117,7 @@ interface Params extends NextParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { slug } = ctx.params as Params;
+  const locale = ctx.locale as SupportedLocale;
 
   const queryClient = new QueryClient();
 
@@ -85,6 +134,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       dehydratedState: state,
       mobileNavTitle: data.billBySlug?.billNumber,
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 };
