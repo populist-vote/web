@@ -3,21 +3,24 @@
 @import "styles/modules/page.module.scss";
 
 .billContainer {
-  min-width: 296px;
-  max-width: 496px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  section {
+    padding: 0 0.5rem;
+  }
 
   > header {
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-bottom: 2px solid $blue-dark;
-    margin: 2rem;
-    padding-bottom: 1rem;
 
     > h3 {
       font-family: $font-primary;
@@ -37,21 +40,59 @@
       text-align: center;
     }
   }
+
+  .committeesSection,
+  .statusSection {
+    height: 100%;
+    width: 100%;
+    margin: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .statusAndCommitteesSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 2px solid $blue-dark;
+
+    h4 {
+      margin-top: 0;
+    }
+
+    .committeesSection {
+      padding-top: 1.5rem;
+      border-top: 2px solid $blue-dark;
+    }
+
+    @include for-tablet-up {
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 100%;
+
+      .committeesSection {
+        padding-top: 0;
+        border-top: none;
+        border-left: 2px solid $blue-dark;
+        height: 100%;
+      }
+    }
+  }
 }
 
 .buttonWrapper {
   margin-bottom: 3rem;
 }
 
-.supportOpposeWrapper {
-  width: 100%;
-  position: sticky;
-  bottom: 0rem;
-  height: 7rem;
-}
-
 .sponsorsWrapper {
+  padding: 1.125rem;
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  justify-content: center;
+  overflow: scroll;
 }

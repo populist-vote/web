@@ -148,22 +148,38 @@ type Bill {
   votes: [Vote!]!
 }
 
+input BillFilter {
+  billNumber: String
+  legislationStatus: LegislationStatus
+  query: String
+  slug: String
+  state: State
+  title: String
+}
+
 type BillResult {
   arguments: [ArgumentResult!]!
   billNumber: String!
+  billType: BillType!
+  chamber: Chamber
   description: String
   fullTextUrl: String
   history: JSON!
   id: ID!
   issueTags: [IssueTagResult!]!
   legiscanBillId: Int
+  legiscanCommitteeName: String
   legiscanData: Bill!
   legislationStatus: LegislationStatus!
   officialSummary: String
+  politicalScope: PoliticalScope!
   populistSummary: String
+  publicVotes: PublicVotes!
   slug: String!
   sponsors: [PoliticianResult!]!
+  state: State
   title: String!
+  votesmartBillId: Int
 }
 
 type BillResultConnection {
@@ -189,11 +205,32 @@ type BillResultEdge {
   node: BillResult!
 }
 
-input BillSearch {
-  billNumber: String
-  legislationStatus: LegislationStatus
-  slug: String
-  title: String
+enum BillType {
+  """New Hampshire"""
+  ADDRESS
+
+  """Most states have these types"""
+  BILL
+
+  """DC City Council"""
+  CEREMONIAL_RESOLUTION
+  CONCURRENT_MEMORIAL
+  CONCURRENT_RESOLUTION
+  CONCURRENT_STUDY_REQUEST
+  CONSTITUTIONAL_AMENDMENT
+  EXECUTIVE_ORDER
+  JOINT_MEMORIAL
+
+  """Some states have these types"""
+  JOINT_RESOLUTION
+  JOINT_SESSION_RESOLUTION
+  MEMORIAL
+  NONE
+  PROCLAMATION
+  REMONSTRATION
+  REPEAL_BILL
+  RESOLUTION
+  STUDY_REQUEST
 }
 
 type Calendar {
@@ -500,6 +537,7 @@ type Mutation {
   updateUsername(username: String!): UpdateUsernameResult!
   uploadProfilePicture(file: Upload!): String!
   upsertBill(input: UpsertBillInput!): BillResult!
+  upsertBillPublicVote(billId: ID!, position: ArgumentPosition!, userId: ID!): PublicVotes!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
@@ -778,6 +816,12 @@ type Progress {
   event: Int!
 }
 
+type PublicVotes {
+  neutral: Int
+  oppose: Int
+  support: Int
+}
+
 type Query {
   allBallotMeasures: [BallotMeasureResult!]!
   allIssueTags: [IssueTagResult!]!
@@ -785,16 +829,9 @@ type Query {
     """Search by voteStatus, name, or slug"""
     search: BallotMeasureSearch!
   ): [BallotMeasureResult!]!
+  billById(id: String!): BillResult
   billBySlug(slug: String!): BillResult
-  bills(
-    after: String
-    before: String
-    first: Int
-    last: Int
-
-    """Search by voteStatus, title, or slug"""
-    search: BillSearch! = {billNumber: null, legislationStatus: null, slug: null, title: null}
-  ): BillResultConnection!
+  bills(after: String, before: String, filter: BillFilter, first: Int, last: Int): BillResultConnection!
 
   """
   Provides current user based on JWT found in client's access_token cookie

@@ -4,13 +4,12 @@ import { useRouter } from "next/router";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
-import { IssueTags, Candidate } from "components";
+import { IssueTags, Candidate, FlagSection } from "components";
 import { PoliticianResult } from "generated";
 
 import {
   Layout,
   LoaderFlag,
-  ColoredSection,
   LegislationStatusBox,
   Button,
   SupportOppose,
@@ -21,10 +20,7 @@ import styles from "./BillBySlug.module.scss";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
-
-// const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-//   ssr: false,
-// });
+import { CommitteeTag } from "components/PoliticianPage/CommitteesSection/CommitteesSection";
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
@@ -53,7 +49,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   return (
     <>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
-        <ColoredSection color="var(--blue-dark)">
+        <FlagSection label="placeholder session info" hideFlagForMobile>
           <div className={styles.billContainer}>
             <header>
               <h3>{bill?.billNumber}</h3>
@@ -61,7 +57,18 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
               {bill?.issueTags && <IssueTags tags={bill.issueTags} />}
             </header>
 
-            <LegislationStatusBox status={bill.legislationStatus} />
+            <section className={styles.statusAndCommitteesSection}>
+              <div className={styles.statusSection}>
+                <h4>Status</h4>
+                <LegislationStatusBox status={bill.legislationStatus} />
+              </div>
+              {bill?.legiscanCommitteeName && (
+                <div className={styles.committeesSection}>
+                  <h4>Committee</h4>
+                  <CommitteeTag tag={{ text: bill.legiscanCommitteeName }} />
+                </div>
+              )}
+            </section>
 
             {summary && (
               <section className={styles.center}>
@@ -100,11 +107,10 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
               </>
             )}
           </div>
-        </ColoredSection>
+        </FlagSection>
       </Layout>
-      <div className={styles.supportOpposeWrapper}>
-        <SupportOppose />
-      </div>
+
+      <SupportOppose />
     </>
   );
 };
