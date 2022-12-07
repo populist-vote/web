@@ -27,9 +27,7 @@ function SupportOpposeAction({
   toggle,
 }: SupportOpposeActionProps) {
   const Icon = type === ArgumentPosition.Support ? FaCheck : FaTimes;
-
   const style = useDocumentBaseStyle();
-
   const color = type === ArgumentPosition.Support ? "--green-support" : "--red";
   const rawColor = useMemo(() => style.getPropertyValue(color), [color, style]);
 
@@ -82,6 +80,7 @@ function SupportOppose({
   const router = useRouter();
   const queryKey = useBillBySlugQuery.getKey({ slug: billSlug });
   const user = useAuth({ redirect: false });
+
   const queryClient = useQueryClient();
   const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({
     onMutate: async (variables) => {
@@ -118,7 +117,10 @@ function SupportOppose({
       upsertPublicVotesMutation.mutate({
         billId,
         userId: user.id,
-        position: ArgumentPosition.Support,
+        position:
+          usersVote === ArgumentPosition.Support
+            ? ArgumentPosition.Neutral
+            : ArgumentPosition.Support,
       });
     }
   };
@@ -129,7 +131,10 @@ function SupportOppose({
       upsertPublicVotesMutation.mutate({
         billId,
         userId: user.id,
-        position: ArgumentPosition.Oppose,
+        position:
+          usersVote === ArgumentPosition.Oppose
+            ? ArgumentPosition.Neutral
+            : ArgumentPosition.Oppose,
       });
     }
   };

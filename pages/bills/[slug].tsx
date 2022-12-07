@@ -29,13 +29,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { query } = useRouter();
   const slug = query.slug as string;
 
-  const { data, isLoading, error } = useBillBySlugQuery(
-    { slug },
-    {
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    }
-  );
+  const { data, isLoading, error } = useBillBySlugQuery({ slug });
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <>Error: {error}</>;
