@@ -96,6 +96,8 @@
 
   @include for-tablet-up {
     padding: 1.5rem 2rem;
+    flex-direction: row-reverse;
+    gap: 1rem;
   }
 }
 
