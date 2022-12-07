@@ -1,17 +1,34 @@
 @import "styles/variables/fonts";
 @import "styles/variables/colors";
+@import "styles/mixins/media";
 
 .container {
   width: 100%;
-  height: 100%;
+  min-width: max-content;
+  height: 7rem;
   display: flex;
   flex-direction: row;
+  position: sticky;
+  bottom: 0;
 
   > :first-child {
     background-color: $blue-darker;
   }
   > :last-child {
     background-color: $blue-dark;
+  }
+
+  @include for-tablet-up {
+    height: auto;
+    width: auto;
+    position: absolute;
+    bottom: auto;
+    top: 0;
+    right: 0;
+    z-index: 25;
+    margin-right: 5%;
+    margin-top: 0;
+    justify-content: flex-end;
   }
 }
 
@@ -25,6 +42,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 0.75rem;
+  box-sizing: border-box;
 }
 
 .votesContainer {
@@ -55,6 +73,15 @@
   :active {
     outline: none;
   }
+
+  @include for-tablet-up {
+    &:first-child {
+      border-radius: 0 0 0 50px;
+    }
+    &:last-child {
+      border-radius: 0 0 50px;
+    }
+  }
 }
 
 .actionInner {
@@ -65,6 +92,11 @@
   background-color: var(--action-background-color);
   height: 100%;
   width: 100%;
+  border-radius: inherit;
+
+  @include for-tablet-up {
+    padding: 1.5rem 2rem;
+  }
 }
 
 .actionText {

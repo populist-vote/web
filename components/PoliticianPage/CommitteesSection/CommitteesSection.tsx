@@ -11,9 +11,9 @@ const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
 
 type TagType = {
   text: string;
-  fullText: string;
-  isChair: boolean;
-  isSubCommittee: boolean;
+  fullText?: string;
+  isChair?: boolean;
+  isSubCommittee?: boolean;
 };
 
 function CommitteeTagPage({ tags }: { tags: Array<TagType>; itemId: string }) {
@@ -26,7 +26,7 @@ function CommitteeTagPage({ tags }: { tags: Array<TagType>; itemId: string }) {
   );
 }
 
-function CommitteeTag({ tag }: { tag: TagType }) {
+export function CommitteeTag({ tag }: { tag: TagType }) {
   return (
     <div className={styles.tag} title={tag.fullText}>
       {tag.isChair && <FaChair color="var(--blue)" />}
