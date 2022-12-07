@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-// import dynamic from "next/dynamic";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
@@ -30,13 +29,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   const { query } = useRouter();
   const slug = query.slug as string;
 
-  const { data, isLoading, error } = useBillBySlugQuery(
-    { slug },
-    {
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    }
-  );
+  const { data, isLoading, error } = useBillBySlugQuery({ slug });
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <>Error: {error}</>;
@@ -110,7 +103,12 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
         </FlagSection>
       </Layout>
 
-      <SupportOppose />
+      <SupportOppose
+        billId={bill?.id}
+        billSlug={bill?.slug}
+        publicVotes={bill?.publicVotes}
+        usersVote={bill?.usersVote}
+      />
     </>
   );
 };
@@ -136,10 +134,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const data = state.queries[0]?.state.data as BillBySlugQuery;
 
   return {
-    notFound: state.queries.length === 0,
+    notFound: state.queries.length === 0 || !data?.billBySlug,
     props: {
       dehydratedState: state,
-      mobileNavTitle: data.billBySlug?.billNumber,
+      mobileNavTitle: data?.billBySlug?.billNumber,
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],

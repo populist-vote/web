@@ -179,6 +179,7 @@ type BillResult {
   sponsors: [PoliticianResult!]!
   state: State
   title: String!
+  usersVote: ArgumentPosition
   votesmartBillId: Int
 }
 

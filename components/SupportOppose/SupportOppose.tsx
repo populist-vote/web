@@ -1,12 +1,17 @@
-import { useMemo, useCallback, useState, CSSProperties } from "react";
+import { useMemo, CSSProperties } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { getRandomInt, getRandomBool } from "utils/numbers";
 import { addAlphaToHexColor } from "utils/strings";
 import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
-import { ArgumentPosition } from "generated";
+import {
+  ArgumentPosition,
+  PublicVotes,
+  useBillBySlugQuery,
+  useUpsertBillPublicVoteMutation,
+} from "generated";
 import styles from "./SupportOppose.module.scss";
-
-/** This section will pull from generated.ts when we have data */
+import { useAuth } from "hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 interface SupportOpposeActionProps {
   type: ArgumentPosition;
@@ -22,9 +27,7 @@ function SupportOpposeAction({
   toggle,
 }: SupportOpposeActionProps) {
   const Icon = type === ArgumentPosition.Support ? FaCheck : FaTimes;
-
   const style = useDocumentBaseStyle();
-
   const color = type === ArgumentPosition.Support ? "--green-support" : "--red";
   const rawColor = useMemo(() => style.getPropertyValue(color), [color, style]);
 
@@ -62,57 +65,92 @@ function SupportOpposeAction({
   );
 }
 
-function SupportOppose() {
-  const [supportVotes, setSupportVotes] = useState(getRandomInt(400));
-  const [opposeVotes, setOpposeVotes] = useState(getRandomInt(400));
-  const [selected, setSelected] = useState<ArgumentPosition | null>(
-    getRandomBool()
-      ? getRandomBool()
-        ? ArgumentPosition.Support
-        : ArgumentPosition.Oppose
-      : null
-  );
+function SupportOppose({
+  billId,
+  billSlug,
+  publicVotes,
+  usersVote,
+}: {
+  billId: string;
+  billSlug: string;
+  publicVotes: PublicVotes;
+  usersVote: ArgumentPosition | null | undefined;
+}) {
+  const { support: supportVotes, oppose: opposeVotes } = publicVotes;
+  const router = useRouter();
+  const queryKey = useBillBySlugQuery.getKey({ slug: billSlug });
+  const user = useAuth({ redirect: false });
 
-  const toggleSupport = useCallback(() => {
-    if (selected === null) {
-      setSelected(ArgumentPosition.Support);
-      setSupportVotes(supportVotes + 1);
-    } else if (selected === ArgumentPosition.Support) {
-      setSelected(null);
-      setSupportVotes(supportVotes - 1);
-    } else if (selected === ArgumentPosition.Oppose) {
-      setSelected(ArgumentPosition.Support);
-      setOpposeVotes(opposeVotes - 1);
-      setSupportVotes(supportVotes + 1);
-    }
-  }, [opposeVotes, selected, supportVotes]);
+  const queryClient = useQueryClient();
+  const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries(queryKey);
+      const previousValue = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData(queryKey, (oldData: any) => {
+        const newPublicVotes = {
+          ...oldData?.publicVotes,
+          [variables.position.toLowerCase()]:
+            oldData.billBySlug.publicVotes[variables.position.toLowerCase()] +
+            1,
+          [usersVote as string]:
+            oldData.billBySlug.publicVotes[usersVote as string] - 1,
+        };
+        return {
+          ...oldData,
+          publicVotes: newPublicVotes,
+          usersVote: variables.position,
+        };
+      });
+      return { previousValue };
+    },
+    onError: (_err, _variables, context) => {
+      queryClient.setQueryData(queryKey, context?.previousValue);
+    },
+    onSettled: () => {
+      void queryClient.invalidateQueries(queryKey);
+    },
+  });
 
-  const toggleOppose = useCallback(() => {
-    if (selected === null) {
-      setSelected(ArgumentPosition.Oppose);
-      setOpposeVotes(opposeVotes + 1);
-    } else if (selected === ArgumentPosition.Oppose) {
-      setSelected(null);
-      setOpposeVotes(opposeVotes - 1);
-    } else if (selected === ArgumentPosition.Support) {
-      setSelected(ArgumentPosition.Oppose);
-      setOpposeVotes(opposeVotes + 1);
-      setSupportVotes(supportVotes - 1);
+  const toggleSupport = () => {
+    if (!user) void router.push("/login");
+    if (user) {
+      upsertPublicVotesMutation.mutate({
+        billId,
+        userId: user.id,
+        position:
+          usersVote === ArgumentPosition.Support
+            ? ArgumentPosition.Neutral
+            : ArgumentPosition.Support,
+      });
     }
-  }, [opposeVotes, selected, supportVotes]);
+  };
+
+  const toggleOppose = () => {
+    if (!user) void router.push("/login");
+    if (user) {
+      upsertPublicVotesMutation.mutate({
+        billId,
+        userId: user.id,
+        position:
+          usersVote === ArgumentPosition.Oppose
+            ? ArgumentPosition.Neutral
+            : ArgumentPosition.Oppose,
+      });
+    }
+  };
 
   return (
     <div className={styles.container}>
       <SupportOpposeAction
         type={ArgumentPosition.Support}
-        selected={selected === ArgumentPosition.Support}
-        votes={supportVotes}
+        selected={usersVote === ArgumentPosition.Support}
+        votes={supportVotes as number}
         toggle={toggleSupport}
       />
       <SupportOpposeAction
         type={ArgumentPosition.Oppose}
-        selected={selected === ArgumentPosition.Oppose}
-        votes={opposeVotes}
+        selected={usersVote === ArgumentPosition.Oppose}
+        votes={opposeVotes as number}
         toggle={toggleOppose}
       />
     </div>

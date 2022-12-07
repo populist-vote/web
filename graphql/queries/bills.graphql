@@ -1,5 +1,7 @@
 query BillBySlug($slug: String!) {
   billBySlug(slug: $slug) {
+    id
+    slug
     title
     description
     billNumber
@@ -26,5 +28,19 @@ query BillBySlug($slug: String!) {
         district
       }
     }
+    publicVotes {
+      support
+      neutral
+      oppose
+    }
+    usersVote
+  }
+}
+
+mutation UpsertBillPublicVote($billId: ID!, $userId: ID!, $position: ArgumentPosition!) {
+  upsertBillPublicVote(billId: $billId, userId: $userId, position: $position) {
+    support
+    neutral
+    oppose
   }
 }
