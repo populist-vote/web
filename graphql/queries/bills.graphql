@@ -1,3 +1,39 @@
+query BillIndex(
+  $pageSize: Int
+  $cursor: String
+  $filter: BillFilter
+) {
+  bills(
+    first: $pageSize
+    after: $cursor
+    filter: $filter
+  ) {
+    edges {
+      node {
+        id
+        slug
+        title
+        legislationStatus
+        billNumber
+        issueTags {
+          id
+          slug
+          name
+        }
+        publicVotes {
+          support
+          oppose
+        }
+      }
+    }
+    totalCount
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
 query BillBySlug($slug: String!) {
   billBySlug(slug: $slug) {
     id

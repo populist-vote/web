@@ -107,15 +107,17 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
     isFetchingNextPage,
   } = useInfiniteQuery(
     ["politicianIndex", debouncedSearchQuery, scope, chamber, state],
-    usePoliticianIndexQuery.fetcher({
-      pageSize: PAGE_SIZE,
-      filter: {
-        query: debouncedSearchQuery || null,
-        homeState: state as State,
-        politicalScope: scope as PoliticalScope,
-        chambers: chamber as Chambers,
-      },
-    }),
+    ({ pageParam }) =>
+      usePoliticianIndexQuery.fetcher({
+        pageSize: PAGE_SIZE,
+        cursor: pageParam,
+        filter: {
+          query: debouncedSearchQuery || null,
+          homeState: state as State,
+          politicalScope: scope as PoliticalScope,
+          chambers: chamber as Chambers,
+        },
+      })(),
     {
       getNextPageParam: (lastPage) => {
         if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
@@ -180,7 +182,7 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
               <>
                 <button
                   className={styles.wideButton}
-                  style={{ margin: "1rem 0 0 " }}
+                  style={{ margin: "1rem 0 0" }}
                   ref={loadMoreRef}
                   onClick={() => fetchNextPage()}
                   disabled={isFetchingNextPage}
