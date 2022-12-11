@@ -31,6 +31,12 @@
   }
 }
 
+.scrollSnap {
+  @include scroll-snap;
+
+  overflow: scroll;
+}
+
 .avatarContainer {
   display: flex;
   flex-direction: column;
