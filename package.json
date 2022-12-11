@@ -29,7 +29,6 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.36.1",
-    "react-horizontal-scrolling-menu": "^2.7.0",
     "react-icons": "^4.3.1",
     "react-markdown": "^8.0.3",
     "react-table": "^7.8.0",
@@ -40,7 +39,7 @@
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@graphql-codegen/add": "^3.2.1",
-    "@graphql-codegen/cli": "^2.13.11",
+    "@graphql-codegen/cli": "^2.16.1",
     "@graphql-codegen/typescript": "^2.8.1",
     "@graphql-codegen/typescript-operations": "^2.5.6",
     "@graphql-codegen/typescript-react-query": "^4.0.5",

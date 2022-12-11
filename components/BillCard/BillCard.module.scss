@@ -11,54 +11,55 @@
   color: $grey-darkest;
   display: flex;
   flex-direction: column;
-  height: 14rem;
-  margin: 0 1.125rem;
-  padding: 0 2rem;
+  justify-content: space-between;
   width: calc(100vw - 2rem);
   max-width: 23rem;
+  height: 16rem;
+
+  .header {
+    border-radius: 15px 15px 0 0;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: $grey-lighter;
+    padding: 0.75rem 1rem;
+
+    strong {
+      font-size: 15px;
+      font-weight: 600px;
+    }
+  }
 
   .cardContent {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    height: 100%;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-
-    > * {
-      font-family: $font-secondary !important;
-    }
-
-    h1.billNumber {
-      font-size: $text-lg;
-      font-weight: 600;
-      text-decoration: 1px dotted underline;
-      text-underline-offset: 0.3em;
-      margin: 0;
-    }
-
-    h2.billTitle {
+    padding: 1rem;
+    .title {
+      text-align: center;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       color: $grey-darkest;
       display: -webkit-box;
-      font-size: $text-sm;
-      line-height: 1.5em;
-      overflow: hidden;
-      text-decoration: 1px dotted underline;
-      text-transform: none;
-      text-underline-offset: 0.3em;
-    }
-
-    .statusPill {
-      background: $grey-lightest;
-      border-radius: 30px;
+      font-size: $text-xl;
       font-weight: 600;
-      margin-top: 0.75rem;
-      padding: 10px;
-      text-transform: capitalize;
-      width: 100%;
+      overflow: hidden;
+    }
+    .tags {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .footer {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    justify-self: flex-end;
+    width: 100%;
+    border-radius: 0 0 15px 15px;
+
+    .votes {
+      display: flex;
+      gap: 1rem;
     }
   }
 }

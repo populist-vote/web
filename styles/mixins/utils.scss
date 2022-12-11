@@ -27,3 +27,12 @@
   align-items: center;
   gap: $gap;
 }
+
+@mixin scroll-snap {
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+
+  > * {
+    scroll-snap-align: center;
+  }
+}

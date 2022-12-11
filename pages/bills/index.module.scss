@@ -1,0 +1,49 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/mixins/media";
+@import "styles/modules/page.module";
+@import "styles/layout/containers";
+
+.container {
+  section {
+    border-bottom: 1px solid $blue;
+    padding: 1.5rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+      margin: 0 0 1rem;
+    }
+  }
+
+  .filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+
+    select {
+      max-width: 12rem;
+    }
+  }
+
+  section.billsSection {
+    padding: 1.5rem 0;
+
+    .billResults {
+      display: flex;
+      flex-direction: row;
+      overflow: scroll;
+      gap: 1rem;
+      padding: 0 1rem;
+
+      @include scroll-snap;
+    }
+  }
+}

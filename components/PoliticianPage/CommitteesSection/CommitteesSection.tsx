@@ -1,13 +1,8 @@
 import clsx from "clsx";
 import { GetCandidateBioResponse } from "generated";
-import dynamic from "next/dynamic";
 import { FaChair } from "react-icons/fa";
 import { GrTree } from "react-icons/gr";
 import styles from "./CommitteesSection.module.scss";
-
-const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-  ssr: false,
-});
 
 type TagType = {
   text: string;
@@ -79,16 +74,20 @@ function CommitteesSection({
   return (
     <section className={cx}>
       <h4 className={styles.subHeader}>Committees</h4>
-      <div className={styles.sectionContent}>
-        <Scroller onePageAtATime>
-          {tagPages.map((tagPage, index) => (
-            <CommitteeTagPage
-              tags={tagPage}
-              key={`tagPage-${index}`}
-              itemId={`tagPage-${index}`}
-            />
-          ))}
-        </Scroller>
+      <div
+        className={clsx(
+          styles.sectionContent,
+          styles.flexBetween,
+          styles.scrollSnap
+        )}
+      >
+        {tagPages.map((tagPage, index) => (
+          <CommitteeTagPage
+            tags={tagPage}
+            key={`tagPage-${index}`}
+            itemId={`tagPage-${index}`}
+          />
+        ))}
       </div>
     </section>
   );

@@ -1,28 +1,59 @@
 import Link from "next/link";
 import styles from "./BillCard.module.scss";
-import type { BillResult } from "generated";
+import { BillResult, LegislationStatus } from "generated";
+import { Badge } from "components/Badge/Badge";
+import { titleCase } from "utils/strings";
+import { getStatusInfo } from "utils/bill";
+import { FaCheckCircle, FaCircle } from "react-icons/fa";
+import { RiCloseCircleFill } from "react-icons/ri";
 
 function BillCard({
   bill,
-  itemId,
 }: {
   bill: Partial<BillResult>;
-  itemId: string;
+  [x: string]: unknown;
 }) {
+  const statusInfo = getStatusInfo(bill.legislationStatus as LegislationStatus);
+
   return (
-    <div className={styles.billPage} itemID={itemId}>
-      <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
-        <div className={styles.billCard}>
-          <div className={styles.cardContent}>
-            <h1 className={styles.billNumber}>{bill.billNumber}</h1>
-            <h2 className={styles.billTitle}>{bill.title}</h2>
-            <span className={styles.statusPill}>
-              {bill.legislationStatus?.replace("_", " ").toLowerCase()}
-            </span>
+    <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
+      <div className={styles.billCard}>
+        <header className={styles.header}>
+          <strong>{bill.billNumber}</strong>
+          <strong>2022</strong>
+        </header>
+        <div className={styles.cardContent}>
+          <h2 className={styles.title}>{bill.title}</h2>
+          <div className={styles.tags}>
+            {bill.issueTags?.map((tag) => (
+              <Badge key={tag.id}>{tag.name}</Badge>
+            ))}
           </div>
         </div>
-      </Link>
-    </div>
+        <footer className={styles.footer}>
+          <Badge
+            iconLeft={<FaCircle size={12} color={`var(${statusInfo.color})`} />}
+            color={statusInfo.color}
+          >
+            {titleCase(bill?.legislationStatus?.replaceAll("_", " ") as string)}
+          </Badge>
+          <div className={styles.votes}>
+            <Badge
+              iconLeft={
+                <FaCheckCircle size={18} color="var(--green-support)" />
+              }
+            >
+              {bill.publicVotes?.support ?? 0}
+            </Badge>
+            <Badge
+              iconLeft={<RiCloseCircleFill size={18} color="var(--red)" />}
+            >
+              {bill.publicVotes?.oppose ?? 0}
+            </Badge>
+          </div>
+        </footer>
+      </div>
+    </Link>
   );
 }
 

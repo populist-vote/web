@@ -1,12 +1,7 @@
 import clsx from "clsx";
 import { RaceResult } from "generated";
-import dynamic from "next/dynamic";
 import styles from "./Ballot.module.scss";
 import { Race } from "./Race";
-
-const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-  ssr: false,
-});
 
 // Races associated with a single office (to handle primaries)
 function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
@@ -38,17 +33,15 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
         </h3>
       </header>
 
-      <div className={`${styles.roundedCard}`}>
-        <Scroller hideControls>
-          {races.sort(raceSortFn).map((race) => (
-            <Race
-              race={race}
-              key={race.id}
-              itemId={race.id}
-              incumbentId={incumbentId}
-            />
-          ))}
-        </Scroller>
+      <div className={styles.roundedCard}>
+        {races.sort(raceSortFn).map((race) => (
+          <Race
+            race={race}
+            key={race.id}
+            itemId={race.id}
+            incumbentId={incumbentId}
+          />
+        ))}
       </div>
     </>
   );
