@@ -8,12 +8,7 @@ import {
 } from "../../../generated";
 import { dateString } from "utils/dates";
 import clsx from "clsx";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-
-const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-  ssr: false,
-});
 
 function Candidate({
   candidate,
@@ -86,19 +81,17 @@ function ElectionInfoSection() {
           {opponents.length == 0 ? (
             <h3>None</h3>
           ) : (
-            <Scroller hideControls>
-              {opponents.map(
-                (candidate: Partial<PoliticianResult> & { id: string }) => {
-                  return (
-                    <Candidate
-                      candidate={candidate}
-                      itemId={candidate.id}
-                      key={candidate.id}
-                    />
-                  );
-                }
-              )}
-            </Scroller>
+            opponents.map(
+              (candidate: Partial<PoliticianResult> & { id: string }) => {
+                return (
+                  <Candidate
+                    candidate={candidate}
+                    itemId={candidate.id}
+                    key={candidate.id}
+                  />
+                );
+              }
+            )
           )}
         </div>
       </div>

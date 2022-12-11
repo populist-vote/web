@@ -2,13 +2,8 @@ import clsx from "clsx";
 import { BillCard } from "components/BillCard/BillCard";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { BillResult, usePoliticianSponsoredBillsQuery } from "generated";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import styles from "./SponsoredBillsSection.module.scss";
-
-const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-  ssr: false,
-});
 
 function SponsoredBillsSection() {
   const { query } = useRouter();
@@ -28,20 +23,18 @@ function SponsoredBillsSection() {
     return (
       <section className={clsx(styles.center, styles.borderTop)}>
         <h4 className={styles.subHeader}>Sponsored Bills</h4>
-        <div className={styles.sectionContent}>
-          <Scroller>
-            {edges
-              .map((edge) => {
-                return (
-                  <BillCard
-                    bill={edge.node}
-                    key={edge.node.slug}
-                    itemId={edge.node.slug as string}
-                  />
-                );
-              })
-              .filter((x) => x)}
-          </Scroller>
+        <div
+          className={clsx(
+            styles.sectionContent,
+            styles.flexBetween,
+            styles.scrollSnap
+          )}
+        >
+          {edges
+            .map((edge) => {
+              return <BillCard bill={edge.node} key={edge.node.slug} />;
+            })
+            .filter((x) => x)}
         </div>
       </section>
     );

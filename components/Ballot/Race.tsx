@@ -29,7 +29,6 @@ interface EditVotingGuideCandidate {
 
 function Race({
   race,
-  itemId,
   incumbentId,
 }: {
   race: RaceResult;
@@ -256,13 +255,16 @@ function Race({
   );
 
   return (
-    <div itemID={itemId}>
+    <div>
       {raceType === RaceType.General ? (
-        <div className={styles.flexBetween}>{$raceContent}</div>
+        <div className={clsx(styles.raceContent, styles.scrollSnap)}>
+          {$raceContent}
+        </div>
       ) : (
         <FieldSet
           heading={raceType}
           color={party === PoliticalParty.Republican ? "red" : "blue"}
+          className={clsx(styles.raceContent, styles.scrollSnap)}
         >
           {$raceContent}
         </FieldSet>

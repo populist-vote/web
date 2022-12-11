@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { OrganizationAvatar, PartyAvatar } from "components/Avatar/Avatar";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
@@ -7,17 +8,12 @@ import {
   PoliticianResult,
   usePoliticianEndorsementsQuery,
 } from "generated";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
 import { computeShortOfficeTitle } from "utils/politician";
 import styles from "./EndorsementsSection.module.scss";
-
-const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-  ssr: false,
-});
 
 function OrganizationEndorsement({
   organization,
@@ -100,32 +96,40 @@ function EndorsementsSection() {
           <h4 className={`${styles.subHeader} ${styles.aqua}`}>
             Organizations
           </h4>
-          <div className={styles.sectionContent}>
-            <Scroller showTextButtons>
-              {endorsements?.organizations?.map((organization) => (
-                <OrganizationEndorsement
-                  organization={organization}
-                  key={organization.slug}
-                  itemId={organization.slug}
-                />
-              ))}
-            </Scroller>
+          <div
+            className={clsx(
+              styles.sectionContent,
+              styles.flexBetween,
+              styles.scrollSnap
+            )}
+          >
+            {endorsements?.organizations?.map((organization) => (
+              <OrganizationEndorsement
+                organization={organization}
+                key={organization.slug}
+                itemId={organization.slug}
+              />
+            ))}
           </div>
         </div>
       )}
       {endorsements?.politicians && endorsements?.politicians?.length > 0 && (
         <div className={styles.endorsementSection}>
           <h4 className={`${styles.subHeader} ${styles.aqua}`}>Individuals</h4>
-          <div className={styles.sectionContent}>
-            <Scroller showTextButtons>
-              {endorsements?.politicians?.map((politician) => (
-                <PoliticianEndorsement
-                  politician={politician as Partial<PoliticianResult>}
-                  key={politician.slug}
-                  itemId={politician.slug}
-                />
-              ))}
-            </Scroller>
+          <div
+            className={clsx(
+              styles.sectionContent,
+              styles.flexBetween,
+              styles.scrollSnap
+            )}
+          >
+            {endorsements?.politicians?.map((politician) => (
+              <PoliticianEndorsement
+                politician={politician as Partial<PoliticianResult>}
+                key={politician.slug}
+                itemId={politician.slug}
+              />
+            ))}
           </div>
         </div>
       )}

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
@@ -6,15 +7,10 @@ import {
   RatingResultEdge,
   usePoliticianRatingsQuery,
 } from "generated";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
 import styles from "./RatingsSection.module.scss";
-
-const Scroller = dynamic(() => import("components/Scroller/Scroller"), {
-  ssr: false,
-});
 
 function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
   const ratingPercent = parseInt(rating.vsRating.rating);
@@ -77,16 +73,20 @@ function RatingsSection() {
   return (
     <ColoredSection color="var(--yellow)">
       <h2 className={styles.gradientHeader}>Ratings</h2>
-      <div className={styles.sectionContent}>
-        <Scroller showTextButtons>
-          {ratings.map((edge: RatingResultEdge, i) => (
-            <RatingsItem
-              rating={edge.node}
-              key={`${edge.node.vsRating.ratingId}-${i}`}
-              itemId={`${edge.node.vsRating.ratingId}-${i}`}
-            />
-          ))}
-        </Scroller>
+      <div
+        className={clsx(
+          styles.sectionContent,
+          styles.flexBetween,
+          styles.scrollSnap
+        )}
+      >
+        {ratings.map((edge: RatingResultEdge, i) => (
+          <RatingsItem
+            rating={edge.node}
+            key={`${edge.node.vsRating.ratingId}-${i}`}
+            itemId={`${edge.node.vsRating.ratingId}-${i}`}
+          />
+        ))}
       </div>
     </ColoredSection>
   );
