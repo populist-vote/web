@@ -10,7 +10,7 @@
     background: transparent;
     color: $white;
     border-radius: 25px;
-    border: 2px solid $blue;
+    border: 2px solid var(--select-color);
     padding: 0.5rem 2rem 0.5rem 1.5rem;
     width: 100%;
     cursor: pointer;
@@ -28,7 +28,7 @@
 
   select + svg.chevron {
     font-size: 1em;
-    color: $blue;
+    color: var(--select-color);
     height: 1rem;
     width: 2rem;
     margin: 0;

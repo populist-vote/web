@@ -37,6 +37,7 @@ import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
 import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
 import { VotingGuideNav } from "./VotingGuide/VotingGuideNav/VotingGuideNav";
+import { Select } from "./Select/Select";
 
 export type { EditVotingGuideCandidate, FlagColor };
 
@@ -81,4 +82,5 @@ export {
   VotingGuideNav,
   VotingGuideNote,
   VotingGuideWelcome,
+  Select,
 };
