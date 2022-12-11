@@ -7,7 +7,12 @@ import { getStatusInfo } from "utils/bill";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 
-function BillCard({ bill }: { bill: Partial<BillResult>; itemId: string }) {
+function BillCard({
+  bill,
+}: {
+  bill: Partial<BillResult>;
+  [x: string]: unknown;
+}) {
   const statusInfo = getStatusInfo(bill.legislationStatus as LegislationStatus);
 
   return (

@@ -11,8 +11,10 @@
   color: $grey-darkest;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: calc(100vw - 2rem);
   max-width: 23rem;
+  height: 16rem;
 
   .header {
     border-radius: 15px 15px 0 0;
@@ -51,6 +53,7 @@
     padding: 0.5rem;
     display: flex;
     justify-content: space-between;
+    justify-self: flex-end;
     width: 100%;
     border-radius: 0 0 15px 15px;
 
