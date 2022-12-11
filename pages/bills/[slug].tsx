@@ -42,7 +42,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   return (
     <>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
-        <FlagSection label="placeholder session info" hideFlagForMobile>
+        <FlagSection label="placeholder session info" hideFlagForMobile={true}>
           <div className={styles.billContainer}>
             <header>
               <h3>{bill?.billNumber}</h3>
@@ -70,23 +70,25 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             )}
 
             {bill?.fullTextUrl && (
-              <a
-                className={styles.buttonWrapper}
-                href={bill?.fullTextUrl}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <Button
-                  variant="secondary"
-                  size="medium"
-                  label="Full text"
-                  width="10rem"
-                />
-              </a>
+              <section>
+                <a
+                  className={styles.buttonWrapper}
+                  href={bill?.fullTextUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <Button
+                    variant="secondary"
+                    size="medium"
+                    label="Full text"
+                    width="10rem"
+                  />
+                </a>
+              </section>
             )}
 
             {bill?.sponsors && bill.sponsors.length > 0 && (
-              <>
+              <section>
                 <h2 className={styles.gradientHeader}>Sponsors</h2>
                 <div className={styles.sponsorsWrapper}>
                   {bill.sponsors.map((sponsor) => (
@@ -97,7 +99,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
                     />
                   ))}
                 </div>
-              </>
+              </section>
             )}
           </div>
         </FlagSection>
