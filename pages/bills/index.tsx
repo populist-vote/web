@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { BillCard, Layout, LoaderFlag } from "components";
+import { BillCard, Button, Layout, LoaderFlag, Select } from "components";
 import {
   BillResult,
   LegislationStatus,
@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { SupportedLocale } from "types/global";
 import styles from "./index.module.scss";
+import clsx from "clsx";
 
 export async function getServerSideProps({
   locale,
@@ -102,45 +103,79 @@ function BillIndex(props: BillIndexProps) {
     return () => {
       observer.unobserve(el);
     };
-  }, [loadMoreRef.current, hasNextPage, isFetchingNextPage]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  // TDOD implement a resolver for this with LIMIT 10
+  const popularBills =
+    data?.pages
+      .flatMap((page) => page.bills.edges.map((edge) => edge.node))
+      .slice(0, 10) || [];
 
   return (
-    <Layout>
-      <>
-        <header className={styles.header}>
-          <h1>Bills</h1>
-        </header>
-        {isLoading && <LoaderFlag />}
-        {error && <div>Failed to load</div>}
-        <div className={styles.container}>
-          <div>
-            {data?.pages.map((page) =>
-              page.bills.edges
-                ?.map((edge) => edge?.node as BillResult)
-                .map((bill: BillResult) => (
-                  <BillCard bill={bill} itemId={bill.id} key={bill.id} />
-                ))
+    <Layout mobileNavTitle="Legislation">
+      <div className={styles.container}>
+        <>
+          {error && <div>Failed to load</div>}
+          <section className={styles.filters}>
+            <Select
+              onChange={(e) => {
+                if (e.target.value === "all") {
+                  const { state: _, ...newQuery } = query;
+                  void router.push({ query: newQuery });
+                } else {
+                  void router.push({
+                    query: { ...query, state: e.target.value },
+                  });
+                }
+              }}
+              value={state || "all"}
+              options={[
+                {
+                  value: "CO",
+                  label: "Colorado",
+                },
+                {
+                  value: "MN",
+                  label: "Minnesota",
+                },
+              ]}
+              color="yellow"
+            />
+          </section>
+          <section className={styles.header}>
+            <h2>How does legislation become law?</h2>
+            <p>
+              Cum sociis natoque penatibus et magnis dis parturient montes,
+              nascetur ridiculus mus.
+            </p>
+            <Button
+              variant="primary"
+              label="Learn More"
+              size="medium"
+              style={{ maxWidth: "fit-content" }}
+            />
+          </section>
+
+          <section className={styles.billsSection}>
+            <h2 className={styles.gradientHeader}>Popular Bills</h2>
+            {isLoading ? (
+              <LoaderFlag />
+            ) : (
+              <>
+                <div className={clsx(styles.billResults)}>
+                  {popularBills?.length > 0 ? (
+                    popularBills?.map((bill) => (
+                      <BillCard bill={bill as BillResult} key={bill.id} />
+                    ))
+                  ) : (
+                    <p>No Results</p>
+                  )}
+                </div>
+              </>
             )}
-          </div>
-          {hasNextPage && (
-            <>
-              <button
-                className={styles.wideButton}
-                style={{ margin: "1rem 0 0 " }}
-                ref={loadMoreRef}
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-              >
-                {isFetchingNextPage
-                  ? "Loading more..."
-                  : hasNextPage
-                  ? "Load More"
-                  : "Nothing more to load"}
-              </button>
-            </>
-          )}
-        </div>
-      </>
+          </section>
+        </>
+      </div>
     </Layout>
   );
 }
