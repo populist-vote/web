@@ -1,19 +1,25 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { BillCard, Button, Layout, LoaderFlag, Select } from "components";
 import {
   BillResult,
   LegislationStatus,
   State,
-  useBillIndexQuery,
+  usePopularBillsQuery,
 } from "generated";
 import useDebounce from "hooks/useDebounce";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
 import { SupportedLocale } from "types/global";
 import styles from "./index.module.scss";
 import clsx from "clsx";
+import { StickyButton } from "components/StickyButton/StickyButton";
+import { FaSearch } from "react-icons/fa";
+import { FiltersIcon } from "components/Icons";
+import {
+  BillFilters,
+  LegislationType,
+  PopularityFilter,
+} from "components/BillFilters/BillFilters";
 
 export async function getServerSideProps({
   locale,
@@ -34,82 +40,57 @@ export async function getServerSideProps({
   };
 }
 
-type BillIndexProps = {
+export type BillIndexProps = {
   query: {
     search: string;
     status: LegislationStatus;
     state: State;
+    year: "2022" | "2020";
+    popularity: PopularityFilter;
+    type: LegislationType;
+    showFilters: string;
   };
 };
-
-const PAGE_SIZE = 20;
 
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { state = null, status = null, search = null } = props.query || query;
+  const {
+    showFilters = "false",
+    state = null,
+    status = null,
+    search = null,
+  } = props.query || query;
+
+  const showFiltersParam = showFilters === "true";
 
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
     350
   );
 
-  const {
-    data,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery(
-    ["politicianIndex", debouncedSearchQuery, state, status],
-    ({ pageParam }) =>
-      useBillIndexQuery.fetcher({
-        pageSize: PAGE_SIZE,
-        cursor: pageParam,
-        filter: {
-          query: debouncedSearchQuery || null,
-          state: state as State,
-          legislationStatus: status,
-        },
-      })(),
+  const { data, isLoading, error } = usePopularBillsQuery(
     {
-      getNextPageParam: (lastPage) => {
-        if (!lastPage.bills.pageInfo.hasNextPage) return undefined;
-        return lastPage.bills.pageInfo.endCursor;
+      pageSize: 10,
+      filter: {
+        query: debouncedSearchQuery || null,
+        state: state as State,
+        legislationStatus: status,
       },
+    },
+    {
+      refetchOnWindowFocus: false,
     }
   );
 
-  const loadMoreRef = useRef(null);
+  const popularBills = data?.popularBills.edges.map((edge) => edge.node) || [];
 
-  // Handle infinite scroll
-  useEffect(() => {
-    if (!hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver((entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !isFetchingNextPage) {
-          void fetchNextPage();
-        }
-      })
+  if (showFiltersParam)
+    return (
+      <Layout mobileNavTitle="Legislation">
+        <BillFilters {...props} />
+      </Layout>
     );
-    const el = loadMoreRef && loadMoreRef.current;
-    if (!el) {
-      return;
-    }
-    observer.observe(el);
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  // TDOD implement a resolver for this with LIMIT 10
-  const popularBills =
-    data?.pages
-      .flatMap((page) => page.bills.edges.map((edge) => edge.node))
-      .slice(0, 10) || [];
 
   return (
     <Layout mobileNavTitle="Legislation">
@@ -168,7 +149,7 @@ function BillIndex(props: BillIndexProps) {
                       <BillCard bill={bill as BillResult} key={bill.id} />
                     ))
                   ) : (
-                    <p>No Results</p>
+                    <p className={styles.noResults}>No Results</p>
                   )}
                 </div>
               </>
@@ -176,6 +157,19 @@ function BillIndex(props: BillIndexProps) {
           </section>
         </>
       </div>
+      <StickyButton
+        position="left"
+        onClick={() =>
+          router.push({
+            query: { ...query, showFilters: true },
+          })
+        }
+      >
+        <FiltersIcon /> Filters
+      </StickyButton>
+      <StickyButton position="right">
+        <FaSearch color="var(--blue-lighter)" />
+      </StickyButton>
     </Layout>
   );
 }
