@@ -1,7 +1,7 @@
 import styles from "./Badge.module.scss";
 import { CSSProperties, PropsWithChildren, ReactNode } from "react";
 import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
-import { addAlphaToHexColor, getContrast } from "utils/strings";
+import { addAlphaToHexColor, getContrasting } from "utils/strings";
 import clsx from "clsx";
 
 interface BadgeProps {
@@ -31,7 +31,9 @@ function Badge({
     [`--background-color`]: colorVar
       ? addAlphaToHexColor(style.getPropertyValue(colorVar), 0.1)
       : "var(--grey-lightest)",
-    [`--text-color`]: getContrast(style.getPropertyValue(colorVar as string)),
+    [`--text-color`]: getContrasting(
+      style.getPropertyValue(colorVar as string)
+    ),
   };
 
   const cx = clsx(styles.container, {
