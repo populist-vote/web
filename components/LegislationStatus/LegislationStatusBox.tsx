@@ -12,14 +12,15 @@ interface LegislationStatusProps {
 function LegislationStatusBox({ status }: LegislationStatusProps) {
   const statusInfo = getStatusInfo(status);
   const style = useDocumentBaseStyle();
+  const colorVar = `--${statusInfo?.color}`;
 
   const styleVars: CSSProperties & {
     "--box-color": string;
     "--box-background-color": string;
   } = {
-    [`--box-color`]: `var(${statusInfo?.color})`,
+    [`--box-color`]: `var(${colorVar})`,
     [`--box-background-color`]: addAlphaToHexColor(
-      style.getPropertyValue(statusInfo?.color as string),
+      style.getPropertyValue(colorVar as string),
       0.1
     ),
   };
