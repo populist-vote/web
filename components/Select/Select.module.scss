@@ -7,10 +7,9 @@
   align-items: center;
 
   .pillSelect {
-    background: transparent;
+    background: var(--select-background-color);
     color: $white;
     border-radius: 25px;
-    border: 2px solid var(--select-color);
     padding: 0.5rem 2rem 0.5rem 1.5rem;
     width: 100%;
     cursor: pointer;
@@ -23,6 +22,10 @@
 
     @include for-tablet-up {
       width: fit-content;
+    }
+
+    &.border {
+      border: 2px solid var(--select-color);
     }
   }
 
