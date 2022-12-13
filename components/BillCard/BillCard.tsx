@@ -33,7 +33,7 @@ function BillCard({
         <footer className={styles.footer}>
           <Badge
             iconLeft={
-              <FaCircle size={12} color={`var(${statusInfo?.color})`} />
+              <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
             }
             color={statusInfo?.color}
           >
