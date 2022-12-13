@@ -19,4 +19,32 @@ function addAlphaToHexColor(color: string, opacity: number): string {
   return color + _opacity.toString(16).toUpperCase();
 }
 
-export { titleCase, kebabCase, addAlphaToHexColor };
+function getContrasting(hexcolor: string) {
+  // Remove any whitespace
+  hexcolor = hexcolor.replace(/\s/g, "");
+  // If a leading # is provided, remove it
+  if (hexcolor.slice(0, 1) === "#") {
+    hexcolor = hexcolor.slice(1);
+  }
+
+  // If a three-character hexcode, make six-character
+  if (hexcolor.length === 3) {
+    hexcolor = hexcolor
+      .split("")
+      .map((hex: string) => hex + hex)
+      .join("");
+  }
+
+  // Convert to RGB value
+  const r = parseInt(hexcolor.substring(0, 2), 16);
+  const g = parseInt(hexcolor.substring(2, 4), 16);
+  const b = parseInt(hexcolor.substring(4, 6), 16);
+
+  // Get YIQ ratio
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+
+  // Check contrast
+  return yiq >= 128 ? "var(--grey-darkest)" : "var(--white)";
+}
+
+export { titleCase, kebabCase, addAlphaToHexColor, getContrasting };
