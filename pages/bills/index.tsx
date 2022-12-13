@@ -1,10 +1,5 @@
 import { BillCard, Button, Layout, LoaderFlag, Select } from "components";
-import {
-  BillResult,
-  LegislationStatus,
-  State,
-  usePopularBillsQuery,
-} from "generated";
+import { BillResult, BillStatus, State, usePopularBillsQuery } from "generated";
 import useDebounce from "hooks/useDebounce";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -17,7 +12,6 @@ import { FaSearch } from "react-icons/fa";
 import { FiltersIcon } from "components/Icons";
 import {
   BillFilters,
-  LegislationType,
   PopularityFilter,
 } from "components/BillFilters/BillFilters";
 
@@ -43,11 +37,10 @@ export async function getServerSideProps({
 export type BillIndexProps = {
   query: {
     search: string;
-    status: LegislationStatus;
+    status: BillStatus;
     state: State;
     year: "2022" | "2020";
     popularity: PopularityFilter;
-    type: LegislationType;
     showFilters: string;
   };
 };
@@ -75,7 +68,7 @@ function BillIndex(props: BillIndexProps) {
       filter: {
         query: debouncedSearchQuery || null,
         state: state as State,
-        legislationStatus: status,
+        status,
       },
     },
     {

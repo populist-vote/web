@@ -1,7 +1,7 @@
 import { Badge } from "components/Badge/Badge";
 import { Button } from "components/Button/Button";
 import { Select } from "components/Select/Select";
-import { LegislationStatus } from "generated";
+import { BillStatus } from "generated";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
 import { ChangeEvent, useRef, useState } from "react";
@@ -10,13 +10,12 @@ import styles from "./BillFilters.module.scss";
 
 // TODO Replace with API values
 export type PopularityFilter = "mostPopular" | "mostSupported" | "mostOpposed";
-export type LegislationType = "bill" | "ballotMeasure";
 
 function BillFilters(props: BillIndexProps) {
   const router = useRouter();
   const query = router.query;
   const initialQueryRef = useRef(props.query || query);
-  const { search, popularity, year, type, status } = props.query || query;
+  const { search, popularity, year, status } = props.query || query;
   const [searchValue, setSearchValue] = useState<string | null>(search || "");
 
   const handlePopularityFilter = (value: PopularityFilter) => {
@@ -31,13 +30,7 @@ function BillFilters(props: BillIndexProps) {
     });
   };
 
-  const handleTypeFilter = (value: LegislationType) => {
-    void router.push({
-      query: { ...query, type: value },
-    });
-  };
-
-  const handleStatusFilter = (value: LegislationStatus) => {
+  const handleStatusFilter = (value: BillStatus) => {
     void router.push({
       query: { ...query, status: value },
     });
@@ -78,14 +71,12 @@ function BillFilters(props: BillIndexProps) {
             selected={popularity === "mostPopular"}
             onClick={() => handlePopularityFilter("mostPopular")}
           />
-
           <Badge
             color="green"
             label="Most Supported"
             selected={popularity === "mostSupported"}
             onClick={() => handlePopularityFilter("mostSupported")}
           />
-
           <Badge
             color="red"
             label="Most Opposed"
@@ -95,54 +86,37 @@ function BillFilters(props: BillIndexProps) {
         </div>
       </section>
       <section>
-        <h4>Type</h4>
-        <div className={styles.badgeGroup}>
-          <Badge
-            color="blue"
-            label="Legislation"
-            selected={type === "bill"}
-            onClick={() => handleTypeFilter("bill")}
-          />
-          <Badge
-            color="blue"
-            label="Ballot Measure"
-            selected={type === "ballotMeasure"}
-            onClick={() => handleTypeFilter("ballotMeasure")}
-          />
-        </div>
-      </section>
-      <section>
         <h4>Progress</h4>
         <div className={styles.badgeGroup}>
           <Badge
             color="violet"
             label="Introduced"
-            selected={status === LegislationStatus.Introduced}
-            onClick={() => handleStatusFilter(LegislationStatus.Introduced)}
+            selected={status === BillStatus.Introduced}
+            onClick={() => handleStatusFilter(BillStatus.Introduced)}
           />
           <Badge
             color="orange"
             label="In Consideration"
-            selected={status === LegislationStatus.PassedHouse}
-            onClick={() => handleStatusFilter(LegislationStatus.PassedHouse)}
+            selected={status === BillStatus.InConsideration}
+            onClick={() => handleStatusFilter(BillStatus.InConsideration)}
           />
           <Badge
             color="green"
             label="Became Law"
-            selected={status === LegislationStatus.BecameLaw}
-            onClick={() => handleStatusFilter(LegislationStatus.BecameLaw)}
+            selected={status === BillStatus.BecameLaw}
+            onClick={() => handleStatusFilter(BillStatus.BecameLaw)}
           />
           <Badge
             color="red"
             label="Failed"
-            selected={status === LegislationStatus.FailedHouse}
-            onClick={() => handleStatusFilter(LegislationStatus.FailedHouse)}
+            selected={status === BillStatus.Failed}
+            onClick={() => handleStatusFilter(BillStatus.Failed)}
           />
           <Badge
             color="red"
             label="Vetoed"
-            selected={status === LegislationStatus.Vetoed}
-            onClick={() => handleStatusFilter(LegislationStatus.Vetoed)}
+            selected={status === BillStatus.Vetoed}
+            onClick={() => handleStatusFilter(BillStatus.Vetoed)}
           />
         </div>
       </section>

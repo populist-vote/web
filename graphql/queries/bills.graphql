@@ -13,7 +13,7 @@ query BillIndex(
         id
         slug
         title
-        legislationStatus
+        status
         billNumber
         issueTags {
           id
@@ -49,7 +49,7 @@ query PopularBills(
         id
         slug
         title
-        legislationStatus
+        status
         billNumber
         issueTags {
           id
@@ -77,7 +77,7 @@ query BillBySlug($slug: String!) {
     title
     description
     billNumber
-    legislationStatus
+    status
     officialSummary
     populistSummary
     fullTextUrl

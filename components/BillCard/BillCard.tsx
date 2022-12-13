@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./BillCard.module.scss";
-import { BillResult, LegislationStatus } from "generated";
+import { BillResult, BillStatus } from "generated";
 import { Badge } from "components/Badge/Badge";
 import { titleCase } from "utils/strings";
 import { getStatusInfo } from "utils/bill";
@@ -13,7 +13,7 @@ function BillCard({
   bill: Partial<BillResult>;
   [x: string]: unknown;
 }) {
-  const statusInfo = getStatusInfo(bill.legislationStatus as LegislationStatus);
+  const statusInfo = getStatusInfo(bill.status as BillStatus);
 
   return (
     <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
@@ -32,10 +32,12 @@ function BillCard({
         </div>
         <footer className={styles.footer}>
           <Badge
-            iconLeft={<FaCircle size={12} color={`var(${statusInfo.color})`} />}
-            color={statusInfo.color}
+            iconLeft={
+              <FaCircle size={12} color={`var(${statusInfo?.color})`} />
+            }
+            color={statusInfo?.color}
           >
-            {titleCase(bill?.legislationStatus?.replaceAll("_", " ") as string)}
+            {titleCase(bill?.status?.replaceAll("_", " ") as string)}
           </Badge>
           <div className={styles.votes}>
             <Badge

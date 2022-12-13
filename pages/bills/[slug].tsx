@@ -53,7 +53,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             <section className={styles.statusAndCommitteesSection}>
               <div className={styles.statusSection}>
                 <h4>Status</h4>
-                <LegislationStatusBox status={bill.legislationStatus} />
+                <LegislationStatusBox status={bill.status} />
               </div>
               {bill?.legiscanCommitteeName && (
                 <div className={styles.committeesSection}>

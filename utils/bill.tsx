@@ -1,38 +1,34 @@
-import { LegislationStatus } from "generated";
+import { BallotMeasureStatus, BillStatus } from "generated";
 
-const getStatusInfo = (status: LegislationStatus) => {
+const getStatusInfo = (status: BillStatus | BallotMeasureStatus) => {
   switch (status) {
-    case LegislationStatus.BecameLaw:
+    case BillStatus.BecameLaw:
       return { text: "Became Law", subText: "", color: "--green" };
-    case LegislationStatus.FailedHouse:
+    case BallotMeasureStatus.BecameLaw:
+      return { text: "Became Law", subText: "", color: "--green" };
+    case BillStatus.Failed:
       return { text: "Failed", subText: "", color: "--red" };
-    case LegislationStatus.FailedSenate:
+    case BallotMeasureStatus.Failed:
       return { text: "Failed", subText: "", color: "--red" };
-    case LegislationStatus.Introduced:
+    case BillStatus.Introduced:
       return { text: "Introduced", subText: "", color: "--purple" };
-    case LegislationStatus.PassedHouse:
-      return {
-        text: "Passed House",
-        subText: "In Consideration",
-        color: "--orange",
-      };
-    case LegislationStatus.PassedSenate:
-      return {
-        text: "Passed Senate",
-        subText: "In Consideration",
-        color: "--orange",
-      };
-    case LegislationStatus.ResolvingDifferences:
-      return {
-        text: "Resolving Differences",
-        subText: "",
-        color: "--orange",
-      };
-    case LegislationStatus.SentToExecutive:
-      return { text: "Sent To Executive", subText: "", color: "--orange" };
-    case LegislationStatus.Unknown:
+    case BallotMeasureStatus.Introduced:
+      return { text: "Introduced", subText: "", color: "--purple" };
+    case BillStatus.InConsideration:
+      return { text: "In Consideration", subText: "", color: "--orange" };
+    case BallotMeasureStatus.InConsideration:
+      return { text: "In Consideration", subText: "", color: "--orange" };
+    case BallotMeasureStatus.Proposed:
+      return { text: "Proposed", subText: "", color: "--blue" };
+    case BallotMeasureStatus.GatheringSignatures:
+      return { text: "Gathering Signatures", subText: "", color: "--blue" };
+    case BallotMeasureStatus.OnTheBallot:
+      return { text: "On The Ballot", subText: "", color: "--blue" };
+    case BillStatus.Unknown:
       return { text: "Unknown", subText: "", color: "--grey" };
-    case LegislationStatus.Vetoed:
+    case BallotMeasureStatus.Unknown:
+      return { text: "Unknown", subText: "", color: "--grey" };
+    case BillStatus.Vetoed:
       return { text: "Vetoed", subText: "", color: "--red" };
   }
 };
