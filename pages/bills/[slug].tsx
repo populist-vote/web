@@ -39,9 +39,23 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
     bill?.description || bill?.populistSummary || bill?.officialSummary;
 
   if (!bill) return null;
+
+  const $supportOppose = (
+    <SupportOppose
+      billId={bill?.id}
+      billSlug={bill?.slug}
+      publicVotes={bill?.publicVotes}
+      usersVote={bill?.usersVote}
+    />
+  );
+
   return (
     <>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
+        <nav className={styles.pageHeader}>
+          <div>Hello</div>
+          <div>{$supportOppose}</div>
+        </nav>
         <FlagSection label="placeholder session info" hideFlagForMobile={true}>
           <div className={styles.billContainer}>
             <header>
@@ -104,13 +118,9 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
           </div>
         </FlagSection>
       </Layout>
-
-      <SupportOppose
-        billId={bill?.id}
-        billSlug={bill?.slug}
-        publicVotes={bill?.publicVotes}
-        usersVote={bill?.usersVote}
-      />
+      <footer className={styles.supportOpposeMobileContainer}>
+        {$supportOppose}
+      </footer>
     </>
   );
 };
