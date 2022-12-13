@@ -1,0 +1,52 @@
+@import "styles/variables/colors";
+
+.container {
+  section {
+    border-bottom: 1px solid $blue;
+    padding: 1.5rem 1rem;
+
+    h4 {
+      margin: 0 0 1.5rem;
+      text-align: center;
+    }
+  }
+
+  div.badgeGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+
+    > * {
+      flex-shrink: 0;
+    }
+  }
+
+  div.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    button {
+      flex-grow: 1;
+    }
+  }
+
+  .inputWithIcon {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-right: 0.75rem;
+    width: 100%;
+
+    input {
+      margin-right: -2rem;
+    }
+
+    input:focus + svg {
+      opacity: 0;
+    }
+  }
+}

@@ -91,19 +91,30 @@ type BallotMeasureResult {
   fullTextUrl: String
   id: ID!
   issueTags: [IssueTagResult!]!
-  legislationStatus: LegislationStatus!
   measureType: String!
   officialSummary: String
   populistSummary: String
   slug: String!
+  status: BallotMeasureStatus!
   title: String!
 }
 
 input BallotMeasureSearch {
   ballotState: State
-  legislationStatus: LegislationStatus
   slug: String
+  status: BallotMeasureStatus
   title: String
+}
+
+enum BallotMeasureStatus {
+  BECAME_LAW
+  FAILED
+  GATHERING_SIGNATURES
+  INTRODUCED
+  IN_CONSIDERATION
+  ON_THE_BALLOT
+  PROPOSED
+  UNKNOWN
 }
 
 input BeginUserRegistrationInput {
@@ -150,11 +161,12 @@ type Bill {
 
 input BillFilter {
   billNumber: String
-  legislationStatus: LegislationStatus
   query: String
   slug: String
   state: State
+  status: BillStatus
   title: String
+  year: Int
 }
 
 type BillResult {
@@ -170,7 +182,6 @@ type BillResult {
   legiscanBillId: Int
   legiscanCommitteeName: String
   legiscanData: Bill!
-  legislationStatus: LegislationStatus!
   officialSummary: String
   politicalScope: PoliticalScope!
   populistSummary: String
@@ -178,6 +189,7 @@ type BillResult {
   slug: String!
   sponsors: [PoliticianResult!]!
   state: State
+  status: BillStatus!
   title: String!
   usersVote: ArgumentPosition
   votesmartBillId: Int
@@ -204,6 +216,15 @@ type BillResultEdge {
 
   """The item at the end of the edge"""
   node: BillResult!
+}
+
+enum BillStatus {
+  BECAME_LAW
+  FAILED
+  INTRODUCED
+  IN_CONSIDERATION
+  UNKNOWN
+  VETOED
 }
 
 enum BillType {
@@ -291,20 +312,6 @@ input CreateArgumentInput {
   authorId: String!
   body: String
   position: ArgumentPosition!
-  title: String!
-}
-
-input CreateBallotMeasureInput {
-  ballotMeasureCode: String!
-  ballotState: State!
-  definitions: String!
-  description: String
-  fullTextUrl: String
-  legislationStatus: LegislationStatus!
-  measureType: String!
-  officialSummary: String
-  populistSummary: String
-  slug: String
   title: String!
 }
 
@@ -483,19 +490,6 @@ input IssueTagSearch {
 """A scalar that can represent any JSON value."""
 scalar JSON
 
-enum LegislationStatus {
-  BECAME_LAW
-  FAILED_HOUSE
-  FAILED_SENATE
-  INTRODUCED
-  PASSED_HOUSE
-  PASSED_SENATE
-  RESOLVING_DIFFERENCES
-  SENT_TO_EXECUTIVE
-  UNKNOWN
-  VETOED
-}
-
 input LoginInput {
   emailOrUsername: String!
   password: String!
@@ -508,7 +502,6 @@ type LoginResult {
 type Mutation {
   beginUserRegistration(input: BeginUserRegistrationInput!): LoginResult!
   confirmUserEmail(confirmationToken: String!): Boolean!
-  createBallotMeasure(electionId: UUID!, input: CreateBallotMeasureInput!): BallotMeasureResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
   deleteAccountByEmail(email: String!): ID!
@@ -531,12 +524,12 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): Boolean!
   updateAddress(address: AddressInput!): AddressResult!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
-  updateBallotMeasure(id: String!, input: UpdateBallotMeasureInput!): BallotMeasureResult!
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updateUsername(username: String!): UpdateUsernameResult!
   uploadProfilePicture(file: Upload!): String!
+  upsertBallotMeasure(electionId: UUID!, input: UpsertBallotMeasureInput!): BallotMeasureResult!
   upsertBill(input: UpsertBillInput!): BillResult!
   upsertBillPublicVote(billId: ID!, position: ArgumentPosition!, userId: ID!): PublicVotes!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
@@ -884,6 +877,7 @@ type Query {
   ): OrganizationResultConnection!
   politicianBySlug(slug: String!): PoliticianResult
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
+  popularBills(after: String, before: String, filter: BillFilter, first: Int, last: Int): BillResultConnection!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(filter: RaceFilter): [RaceResult!]!
@@ -1180,20 +1174,6 @@ input UpdateArgumentInput {
   title: String
 }
 
-input UpdateBallotMeasureInput {
-  ballotMeasureCode: String
-  ballotState: State
-  definitions: String
-  description: String
-  fullTextUrl: String
-  legislationStatus: LegislationStatus
-  measureType: String
-  officialSummary: String
-  populistSummary: String
-  slug: String
-  title: String
-}
-
 type UpdateEmailResult {
   email: String!
 }
@@ -1214,6 +1194,21 @@ type UpdateUsernameResult {
 
 scalar Upload
 
+input UpsertBallotMeasureInput {
+  ballotMeasureCode: String
+  ballotState: State
+  definitions: String
+  description: String
+  fullTextUrl: String
+  id: UUID
+  measureType: String
+  officialSummary: String
+  populistSummary: String
+  slug: String
+  status: BallotMeasureStatus
+  title: String
+}
+
 input UpsertBillInput {
   arguments: [CreateArgumentInput!]
   attributes: JSON
@@ -1231,12 +1226,12 @@ input UpsertBillInput {
   legiscanLastAction: String
   legiscanLastActionDate: NaiveDate
   legiscanSessionId: Int
-  legislationStatus: LegislationStatus!
   officialSummary: String
   politicalScope: PoliticalScope
   populistSummary: String
   slug: String
   state: State
+  status: BillStatus!
   title: String
   votesmartBillId: Int
 }

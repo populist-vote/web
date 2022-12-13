@@ -1,12 +1,12 @@
 import { CSSProperties } from "react";
-import { LegislationStatus } from "generated";
+import { BallotMeasureStatus, BillStatus } from "generated";
 import { addAlphaToHexColor } from "utils/strings";
 import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
 import styles from "./LegislationStatus.module.scss";
 import { getStatusInfo } from "utils/bill";
 
 interface LegislationStatusProps {
-  status: LegislationStatus;
+  status: BillStatus | BallotMeasureStatus;
 }
 
 function LegislationStatusBox({ status }: LegislationStatusProps) {
@@ -17,9 +17,9 @@ function LegislationStatusBox({ status }: LegislationStatusProps) {
     "--box-color": string;
     "--box-background-color": string;
   } = {
-    [`--box-color`]: `var(${statusInfo.color})`,
+    [`--box-color`]: `var(${statusInfo?.color})`,
     [`--box-background-color`]: addAlphaToHexColor(
-      style.getPropertyValue(statusInfo.color),
+      style.getPropertyValue(statusInfo?.color as string),
       0.1
     ),
   };
@@ -27,8 +27,8 @@ function LegislationStatusBox({ status }: LegislationStatusProps) {
   return (
     <div style={styleVars}>
       <div className={styles.legislationStatusContainer}>
-        {statusInfo.subText && <h3>{statusInfo.subText}</h3>}
-        <h1>{statusInfo.text}</h1>
+        {statusInfo?.subText && <h3>{statusInfo?.subText}</h3>}
+        <h1>{statusInfo?.text}</h1>
       </div>
     </div>
   );

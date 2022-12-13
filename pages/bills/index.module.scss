@@ -45,5 +45,16 @@
 
       @include scroll-snap;
     }
+
+    .noResults {
+      width: 100%;
+      text-align: center;
+      margin: 0;
+      padding: 1rem 0;
+      color: $blue;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: $text-md;
+    }
   }
 }

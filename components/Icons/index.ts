@@ -5,6 +5,7 @@ import StarGreyDarkerIcon from "./StarGreyDarkerIcon";
 import StarYellowDarkIcon from "./StarYellowDarkIcon";
 import LeftArrowIcon from "./LeftArrowIcon";
 import RightArrowIcon from "./RightArrowIcon";
+import FiltersIcon from "./FiltersIcon";
 
 export {
   NoteIcon,
@@ -14,4 +15,5 @@ export {
   StarYellowDarkIcon,
   LeftArrowIcon,
   RightArrowIcon,
+  FiltersIcon,
 };

@@ -1,30 +1,49 @@
 import styles from "./Badge.module.scss";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, PropsWithChildren, ReactNode } from "react";
 import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
-import { addAlphaToHexColor } from "utils/strings";
+import { addAlphaToHexColor, getContrasting } from "utils/strings";
+import clsx from "clsx";
 
 interface BadgeProps {
   color?: string;
   iconLeft?: ReactNode;
-  children: ReactNode;
+  label?: string;
+  selected?: boolean;
+  [key: string]: unknown;
 }
 
-function Badge({ color, iconLeft, children }: BadgeProps) {
+function Badge({
+  color,
+  iconLeft,
+  label,
+  selected,
+  children,
+  ...rest
+}: PropsWithChildren<BadgeProps>) {
   const style = useDocumentBaseStyle();
+  const colorVar = `--${color}`;
   const styleVars: CSSProperties & {
     "--color": string;
     "--background-color": string;
+    "--text-color": string;
   } = {
-    [`--color`]: color ? `var(${color})` : "var(--grey-lighter)",
-    [`--background-color`]: color
-      ? addAlphaToHexColor(style.getPropertyValue(color), 0.1)
+    [`--color`]: color ? `var(--${color})` : "var(--grey-lighter)",
+    [`--background-color`]: colorVar
+      ? addAlphaToHexColor(style.getPropertyValue(colorVar), 0.1)
       : "var(--grey-lightest)",
+    [`--text-color`]: getContrasting(
+      style.getPropertyValue(colorVar as string)
+    ),
   };
 
+  const cx = clsx(styles.container, {
+    [styles.selected as string]: selected,
+  });
+
   return (
-    <span style={styleVars} className={styles.container}>
+    <span style={styleVars} className={cx} {...rest}>
       {iconLeft}
-      {children}
+      {label || children}
     </span>
   );
 }
