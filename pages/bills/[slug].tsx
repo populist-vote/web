@@ -1,60 +1,88 @@
+import { useMemo, useCallback } from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
-import { IssueTags, Candidate, FlagSection } from "components";
-import { PoliticianResult } from "generated";
+import { BsChevronLeft } from "react-icons/bs";
 
 import {
+  IssueTags,
+  Candidate,
+  FlagSection,
   Layout,
   LoaderFlag,
   LegislationStatusBox,
   Button,
   SupportOppose,
 } from "components";
-
-import { BillBySlugQuery, useBillBySlugQuery } from "generated";
-import styles from "./BillBySlug.module.scss";
-import { SupportedLocale } from "types/global";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
 import { CommitteeTag } from "components/PoliticianPage/CommitteesSection/CommitteesSection";
+import { SupportedLocale } from "types/global";
+
+import {
+  PoliticianResult,
+  BillBySlugQuery,
+  useBillBySlugQuery,
+} from "generated";
+
+import styles from "./BillBySlug.module.scss";
 
 const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
   mobileNavTitle,
 }: {
   mobileNavTitle?: string;
 }) => {
-  const { query } = useRouter();
-  const slug = query.slug as string;
+  const router = useRouter();
+  const slug = router.query.slug as string;
 
   const { data, isLoading, error } = useBillBySlugQuery({ slug });
 
-  if (isLoading) return <LoaderFlag />;
-  if (error) return <>Error: {error}</>;
-
   const bill = data?.billBySlug;
+
   const summary =
     bill?.description || bill?.populistSummary || bill?.officialSummary;
 
-  if (!bill) return null;
-
-  const $supportOppose = (
-    <SupportOppose
-      billId={bill?.id}
-      billSlug={bill?.slug}
-      publicVotes={bill?.publicVotes}
-      usersVote={bill?.usersVote}
-    />
+  const $supportOppose = useMemo(
+    () =>
+      bill ? (
+        <SupportOppose
+          billId={bill?.id}
+          billSlug={bill?.slug}
+          publicVotes={bill?.publicVotes}
+          usersVote={bill?.usersVote}
+        />
+      ) : null,
+    [bill]
   );
+
+  const backAction = useCallback(() => {
+    const { referrer } = document;
+    if (
+      referrer === "" ||
+      new URL(referrer).origin !== window.location.origin
+    ) {
+      void router.push("/bills");
+    } else {
+      router.back();
+    }
+  }, [router]);
+
+  if (isLoading) return <LoaderFlag />;
+  if (error) return <>Error: {error}</>;
+  if (!bill) return null;
 
   return (
     <>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
         <nav className={styles.pageHeader}>
-          <div>Hello</div>
-          <div>{$supportOppose}</div>
+          <button className={styles.backLink} onClick={backAction}>
+            <BsChevronLeft size={"1.875rem"} /> <span>{bill.billNumber}</span>
+          </button>
+          <div className={styles.supportOpposeDesktopContainer}>
+            {$supportOppose}
+          </div>
         </nav>
         <FlagSection label="placeholder session info" hideFlagForMobile={true}>
           <div className={styles.billContainer}>
