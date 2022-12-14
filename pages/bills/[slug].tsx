@@ -112,7 +112,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             )}
 
             {bill?.fullTextUrl && (
-              <section>
+              <section className={styles.center}>
                 <a
                   className={styles.buttonWrapper}
                   href={bill?.fullTextUrl}
