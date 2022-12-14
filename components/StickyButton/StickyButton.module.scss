@@ -5,6 +5,10 @@
   bottom: 30px;
   z-index: 1000;
 
+  @include for-tablet-landscape-up {
+    display: none;
+  }
+
   button {
     background: $blue-dark;
     color: $white;
