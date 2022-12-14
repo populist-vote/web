@@ -1,9 +1,14 @@
 @import "styles/variables/colors";
+@import "styles/mixins/media";
 
 .container {
   position: fixed;
   bottom: 30px;
   z-index: 1000;
+
+  @include for-tablet-landscape-up {
+    display: none;
+  }
 
   button {
     background: $blue-dark;
