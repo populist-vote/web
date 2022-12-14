@@ -7,6 +7,7 @@
     "declaration-colon-newline-after": null,
     "rule-empty-line-before": null,
     "alpha-value-notation": null,
+    "color-function-notation": null,
     "indentation": 2
 
   }
