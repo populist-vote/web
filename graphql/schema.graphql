@@ -186,6 +186,7 @@ type BillResult {
   politicalScope: PoliticalScope!
   populistSummary: String
   publicVotes: PublicVotes!
+  session: SessionResult!
   slug: String!
   sponsors: [PoliticianResult!]!
   state: State
@@ -1031,6 +1032,15 @@ type Session {
   special: Int!
   yearEnd: Int!
   yearStart: Int!
+}
+
+type SessionResult {
+  congressName: String!
+  description: String!
+  endDate: NaiveDate
+  name: String!
+  startDate: NaiveDate
+  state: State
 }
 
 type Sponsor {

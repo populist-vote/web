@@ -2,6 +2,51 @@
 @import "styles/variables/colors";
 @import "styles/modules/page.module.scss";
 @import "styles/layout/containers";
+@import "styles/mixins/media";
+@import "styles/mixins/utils";
+
+.pageHeader {
+  display: none;
+
+  @include for-tablet-up {
+    position: sticky;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 0 3rem;
+    margin: -12rem -6rem 6rem;
+    z-index: 100;
+    background: linear-gradient(
+      180deg,
+      $blue-darkest 75%,
+      rgba(0, 33, 53, 0) 100%
+    );
+    background-position: center bottom;
+  }
+}
+
+.backLink {
+  @include override-button-styles;
+  span {
+    font-family: $font-primary;
+    font-size: 1.375rem;
+    text-transform: uppercase;
+    margin-left: 1rem;
+  }
+
+  cursor: pointer;
+  color: $white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.supportOpposeDesktopContainer {
+  height: 5rem;
+}
 
 .billContainer {
   display: flex;
@@ -23,6 +68,7 @@
     justify-content: center;
     align-items: center;
     border-bottom: 2px solid $blue-dark;
+    padding-bottom: 1rem;
 
     > h3 {
       font-family: $font-primary;
@@ -84,12 +130,13 @@
       }
     }
   }
+
   .sponsorsWrapper {
     display: flex;
     flex-direction: row;
     overflow: scroll;
     gap: 1rem;
-    padding: 0 1rem;
+    padding: 1.5rem;
     max-width: 100vw;
 
     @include scroll-snap;
@@ -98,4 +145,14 @@
 
 .buttonWrapper {
   margin-bottom: 3rem;
+}
+
+.supportOpposeMobileContainer {
+  height: 7rem;
+  position: sticky;
+  bottom: 0;
+
+  @include for-tablet-up {
+    display: none;
+  }
 }
