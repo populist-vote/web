@@ -1,6 +1,7 @@
 @import "styles/variables/fonts";
 @import "styles/variables/colors";
 @import "styles/mixins/media";
+@import "styles/mixins/utils";
 
 .container {
   width: 100%;
@@ -43,21 +44,14 @@
 }
 
 .action {
+  @include override-button-styles;
+
   cursor: pointer;
-  border: none;
   flex-grow: 1;
   border-top: 5px solid var(--action-color);
   color: $white;
   outline: none;
-  margin: 0;
   width: 100%;
-  padding: 0;
-  :focus {
-    outline: none;
-  }
-  :active {
-    outline: none;
-  }
 
   @include for-tablet-up {
     &:first-child {
