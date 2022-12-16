@@ -58,7 +58,7 @@
 
   section,
   header {
-    padding: 1.5rem 0.5rem;
+    padding: 1.5rem 0;
     width: 100%;
   }
 
@@ -142,10 +142,6 @@
 
     @include scroll-snap;
   }
-}
-
-.buttonWrapper {
-  margin-bottom: 3rem;
 }
 
 .supportOpposeMobileContainer {

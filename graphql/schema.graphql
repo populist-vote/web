@@ -186,7 +186,8 @@ type BillResult {
   politicalScope: PoliticalScope!
   populistSummary: String
   publicVotes: PublicVotes!
-  session: SessionResult!
+  session: SessionResult
+  sessionId: ID
   slug: String!
   sponsors: [PoliticianResult!]!
   state: State
@@ -1239,6 +1240,7 @@ input UpsertBillInput {
   officialSummary: String
   politicalScope: PoliticalScope
   populistSummary: String
+  sessionId: UUID!
   slug: String
   state: State
   status: BillStatus!

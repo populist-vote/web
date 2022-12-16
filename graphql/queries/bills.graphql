@@ -10,20 +10,7 @@ query BillIndex(
   ) {
     edges {
       node {
-        id
-        slug
-        title
-        status
-        billNumber
-        issueTags {
-          id
-          slug
-          name
-        }
-        publicVotes {
-          support
-          oppose
-        }
+        ...BillFields
       }
     }
     totalCount
@@ -46,20 +33,7 @@ query PopularBills(
   ) {
     edges {
       node {
-        id
-        slug
-        title
-        status
-        billNumber
-        issueTags {
-          id
-          slug
-          name
-        }
-        publicVotes {
-          support
-          oppose
-        }
+        ...BillFields
       }
     }
     totalCount
@@ -100,6 +74,11 @@ query BillBySlug($slug: String!) {
         district
       }
     }
+    session {
+      name 
+      startDate
+      endDate
+    }
     publicVotes {
       support
       neutral
@@ -114,5 +93,27 @@ mutation UpsertBillPublicVote($billId: ID!, $userId: ID!, $position: ArgumentPos
     support
     neutral
     oppose
+  }
+}
+
+fragment BillFields on BillResult {
+  id
+  slug
+  title
+  status
+  billNumber
+  issueTags {
+    id
+    slug
+    name
+  }
+  publicVotes {
+    support
+    oppose
+  }
+  session {
+    name 
+    startDate
+    endDate
   }
 }

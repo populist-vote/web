@@ -6,6 +6,7 @@ import { titleCase } from "utils/strings";
 import { getStatusInfo } from "utils/bill";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
+import { getYear } from "utils/dates";
 
 function BillCard({
   bill,
@@ -20,7 +21,7 @@ function BillCard({
       <div className={styles.billCard}>
         <header className={styles.header}>
           <strong>{bill.billNumber}</strong>
-          <strong>2022</strong>
+          <strong>{getYear(bill.session?.endDate)}</strong>
         </header>
         <div className={styles.cardContent}>
           <h2 className={styles.title}>{bill.title}</h2>

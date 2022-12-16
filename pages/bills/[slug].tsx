@@ -84,7 +84,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             {$supportOppose}
           </div>
         </nav>
-        <FlagSection label="placeholder session info" hideFlagForMobile={true}>
+        <FlagSection label={bill.session.name} hideFlagForMobile={true}>
           <div className={styles.billContainer}>
             <header>
               <h3>{bill?.billNumber}</h3>
@@ -114,7 +114,6 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             {bill?.fullTextUrl && (
               <section className={styles.center}>
                 <a
-                  className={styles.buttonWrapper}
                   href={bill?.fullTextUrl}
                   rel="noopener noreferrer"
                   target="_blank"
