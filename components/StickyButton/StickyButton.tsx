@@ -4,7 +4,7 @@ import styles from "./StickyButton.module.scss";
 
 interface StickyButtonProps {
   position: "left" | "right";
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 function StickyButton({

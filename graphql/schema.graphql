@@ -160,12 +160,10 @@ type Bill {
 }
 
 input BillFilter {
-  billNumber: String
+  politicalScope: PoliticalScope
   query: String
-  slug: String
   state: State
   status: BillStatus
-  title: String
   year: Int
 }
 
@@ -218,6 +216,10 @@ type BillResultEdge {
 
   """The item at the end of the edge"""
   node: BillResult!
+}
+
+input BillSort {
+  popularity: PopularitySort
 }
 
 enum BillStatus {
@@ -807,6 +809,12 @@ type PoliticianResultEdge {
   node: PoliticianResult!
 }
 
+enum PopularitySort {
+  MOST_OPPOSED
+  MOST_POPULAR
+  MOST_SUPPORTED
+}
+
 type Progress {
   date: String!
   event: Int!
@@ -827,7 +835,7 @@ type Query {
   ): [BallotMeasureResult!]!
   billById(id: String!): BillResult
   billBySlug(slug: String!): BillResult
-  bills(after: String, before: String, filter: BillFilter, first: Int, last: Int): BillResultConnection!
+  bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
 
   """
   Provides current user based on JWT found in client's access_token cookie

@@ -1,24 +1,22 @@
 import { Badge } from "components/Badge/Badge";
 import { Button } from "components/Button/Button";
 import { Select } from "components/Select/Select";
-import { BillStatus } from "generated";
+import { BillStatus, PopularitySort } from "generated";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useLayoutEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./BillFilters.module.scss";
-
-// TODO Replace with API values
-export type PopularityFilter = "mostPopular" | "mostSupported" | "mostOpposed";
 
 function BillFilters(props: BillIndexProps) {
   const router = useRouter();
   const query = router.query;
   const initialQueryRef = useRef(props.query || query);
-  const { search, popularity, year, status } = props.query || query;
+  const { search, popularity, year, status, shouldFocusSearch } =
+    props.query || query;
   const [searchValue, setSearchValue] = useState<string | null>(search || "");
 
-  const handlePopularityFilter = (value: PopularityFilter) => {
+  const handlePopularitySort = (value: PopularitySort) => {
     void router.push({
       query: { ...query, popularity: value },
     });
@@ -38,7 +36,11 @@ function BillFilters(props: BillIndexProps) {
 
   const handleCancel = () => {
     void router.push({
-      query: { ...initialQueryRef.current, showFilters: "false" },
+      query: {
+        ...initialQueryRef.current,
+        showFilters: "false",
+        shouldFocusSearch: false,
+      },
     });
   };
 
@@ -47,6 +49,13 @@ function BillFilters(props: BillIndexProps) {
       query: { ...query, showFilters: "false" },
     });
   };
+
+  const searchRef = useRef<HTMLInputElement>(null);
+  useLayoutEffect(() => {
+    if (shouldFocusSearch === "true") {
+      searchRef?.current?.focus();
+    }
+  }, [shouldFocusSearch]);
 
   return (
     <div className={styles.container}>
@@ -68,20 +77,20 @@ function BillFilters(props: BillIndexProps) {
           <Badge
             color="blue"
             label="Most Popular"
-            selected={popularity === "mostPopular"}
-            onClick={() => handlePopularityFilter("mostPopular")}
+            selected={popularity === PopularitySort.MostPopular}
+            onClick={() => handlePopularitySort(PopularitySort.MostPopular)}
           />
           <Badge
             color="green"
             label="Most Supported"
-            selected={popularity === "mostSupported"}
-            onClick={() => handlePopularityFilter("mostSupported")}
+            selected={popularity === PopularitySort.MostSupported}
+            onClick={() => handlePopularitySort(PopularitySort.MostSupported)}
           />
           <Badge
             color="red"
             label="Most Opposed"
-            selected={popularity === "mostOpposed"}
-            onClick={() => handlePopularityFilter("mostOpposed")}
+            selected={popularity === PopularitySort.MostOpposed}
+            onClick={() => handlePopularitySort(PopularitySort.MostOpposed)}
           />
         </div>
       </section>
@@ -138,6 +147,7 @@ function BillFilters(props: BillIndexProps) {
         <div className={styles.inputWithIcon}>
           <input
             placeholder="Search"
+            ref={searchRef}
             onChange={(e) => {
               setSearchValue(e.target.value);
               void router.push({ query: { ...query, search: e.target.value } });

@@ -84,7 +84,7 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             {$supportOppose}
           </div>
         </nav>
-        <FlagSection label={bill.session.name} hideFlagForMobile={true}>
+        <FlagSection label={bill?.session?.name ?? ""} hideFlagForMobile={true}>
           <div className={styles.billContainer}>
             <header>
               <h3>{bill?.billNumber}</h3>
