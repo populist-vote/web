@@ -1,7 +1,12 @@
 import { PoliticalScope } from "generated";
 import styles from "./MobileTabs.module.scss";
 
-function MobileTabs({ value, handleChange }) {
+interface MobileTabsProps {
+  value: PoliticalScope;
+  handleChange: (value: PoliticalScope) => void;
+}
+
+function MobileTabs({ value, handleChange }: MobileTabsProps) {
   return (
     <div className={styles.container}>
       <button

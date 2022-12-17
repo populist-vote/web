@@ -168,6 +168,10 @@ fragment SponsoredBills on PoliticianResult {
         billNumber
         title
         status
+        session {
+          startDate
+          endDate
+        }
       }
     }
   }

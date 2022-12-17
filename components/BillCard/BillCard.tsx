@@ -16,6 +16,8 @@ function BillCard({
 }) {
   const statusInfo = getStatusInfo(bill.status as BillStatus);
 
+  console.log({ bill });
+
   return (
     <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
       <div className={styles.billCard}>
