@@ -147,6 +147,8 @@
   height: 7rem;
   position: sticky;
   bottom: 0;
+  width: 100%;
+  grid-area: actions;
 
   @include for-tablet-up {
     display: none;

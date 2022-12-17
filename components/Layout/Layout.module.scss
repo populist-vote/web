@@ -11,8 +11,9 @@
     "nav"
     "subnav"
     "content"
-    "footer";
-  grid-template-rows: auto 10fr auto;
+    "footer"
+    "actions";
+  grid-template-rows: auto 10fr auto auto;
 
   @include for-tablet-up {
     grid-template-columns: 12rem 5fr;
