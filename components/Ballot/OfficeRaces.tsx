@@ -24,6 +24,8 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
     styles[color]
   );
 
+  const cardCx = clsx(styles.roundedCard, styles.flex);
+
   return (
     <>
       <header className={headerCx}>
@@ -33,7 +35,7 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
         </h3>
       </header>
 
-      <div className={styles.roundedCard}>
+      <div className={cardCx}>
         {races.sort(raceSortFn).map((race) => (
           <Race
             race={race}

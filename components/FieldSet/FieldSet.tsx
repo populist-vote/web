@@ -1,19 +1,20 @@
 import styles from "./FieldSet.module.scss";
 import { ReactNode } from "react";
+import clsx from "clsx";
 
 interface FieldSetProps {
   heading: string;
   color?: "red" | "blue";
   children: ReactNode;
-  [x: string]: unknown;
+  className?: string;
 }
 
-function FieldSet({ heading, color, children, ...rest }: FieldSetProps) {
+function FieldSet({ heading, color, children, className }: FieldSetProps) {
+  const cx = clsx(styles.container, className, {
+    [styles[color as string] as string]: color,
+  });
   return (
-    <fieldset
-      className={`${color && styles[color]} ${styles.container} `}
-      {...rest}
-    >
+    <fieldset className={cx}>
       <legend>{heading}</legend>
       <div className={styles.flexBetween}>{children}</div>
     </fieldset>

@@ -30,6 +30,11 @@
   margin-top: 0.9rem;
 }
 
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
 .flexBetween {
   @include flex-between(0.5rem);
 
