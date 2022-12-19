@@ -43,28 +43,28 @@ function FinancialsSection() {
 
       {!!donationsSummary && (
         <>
-          <p className={styles.flexBetween}>
+          <p className={styles.dotSpread}>
             <span>Total Raised</span>
             <span className={styles.dots} />
             <span className={styles.white}>
               {formatCurrency(donationsSummary?.totalRaised as number)}
             </span>
           </p>
-          <p className={styles.flexBetween}>
+          <p className={styles.dotSpread}>
             <span>Spent</span>
             <span className={styles.dots} />
             <span className={styles.white}>
               {formatCurrency(donationsSummary?.spent as number)}
             </span>
           </p>
-          <p className={styles.flexBetween}>
+          <p className={styles.dotSpread}>
             <span>Cash on Hand</span>
             <span className={styles.dots} />
             <span className={styles.white}>
               {formatCurrency(donationsSummary?.cashOnHand as number)}
             </span>
           </p>
-          <p className={styles.flexBetween}>
+          <p className={styles.dotSpread}>
             <span>Debt</span>
             <span className={styles.dots} />
             <span className={styles.white}>

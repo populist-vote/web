@@ -80,28 +80,28 @@ function BasicInfoSection({
     <section className={cx}>
       <h4 className={styles.subHeader}>Basic Info</h4>
       {!!termStart && (
-        <p className={styles.flexBetween}>
+        <p className={styles.dotSpread}>
           <span>Assumed Office</span>
           <span className={styles.dots} />
           <span>{termStart}</span>
         </p>
       )}
       {!!termEnd && (
-        <p className={styles.flexBetween}>
+        <p className={styles.dotSpread}>
           <span>Term Ends</span>
           <span className={styles.dots} />
           <span>{termEnd}</span>
         </p>
       )}
       {!!yearsInPublicOffice && (
-        <p className={styles.flexBetween}>
+        <p className={styles.dotSpread}>
           <span>Years in Public Office</span>
           <span className={styles.dots} />
           <span>{yearsInPublicOffice}</span>
         </p>
       )}
       {raceWins != null && raceLosses != null && (
-        <p className={styles.flexBetween}>
+        <p className={styles.dotSpread}>
           <span>Elections Won / Lost</span>
           <span className={styles.dots} />
           <span>
@@ -110,7 +110,7 @@ function BasicInfoSection({
         </p>
       )}
       {!!age && (
-        <p className={styles.flexBetween}>
+        <p className={styles.dotSpread}>
           <span>Age</span>
           <span className={styles.dots} />
           <span>{age}</span>

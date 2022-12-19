@@ -170,6 +170,12 @@
 .flexBetween {
   display: inline-flex;
   justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dotSpread {
+  display: inline-flex;
+  justify-content: space-between;
   align-items: baseline;
   width: 100%;
   gap: 0.5rem;

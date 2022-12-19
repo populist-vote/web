@@ -28,7 +28,7 @@ const AdminPanel: NextPage = () => {
     <Layout navItems={adminNavItems} hideFooter>
       <div className={styles.adminContainer}>
         <div className={clsx(styles.adminBox)}>
-          <div className={styles.flexBetween}>
+          <div className={styles.dotSpread}>
             <span className={styles.itemHeader}>Total Users</span>
             <span className={styles.dots} />
             <h1>{totalUserCount?.userCount}</h1>
@@ -38,7 +38,7 @@ const AdminPanel: NextPage = () => {
             <span className={styles.dots} />
             <h2>{coUserCount?.userCount}</h2>
           </div>
-          <div className={styles.flexBetween}>
+          <div className={styles.dotSpread}>
             <span className={styles.itemHeader}>Minnesota</span>
             <span className={styles.dots} />
             <h2>{mnUserCount?.userCount}</h2>

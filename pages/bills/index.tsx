@@ -134,7 +134,10 @@ function BillIndex(props: BillIndexProps) {
           <FaSearch color="var(--blue-lighter)" />
         </StickyButton>
       </div>
-      <MobileTabs value={scope} handleChange={handleScopeFilter} />
+      <MobileTabs
+        value={scope as PoliticalScope}
+        handleChange={handleScopeFilter}
+      />
     </Layout>
   );
 }
