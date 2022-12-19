@@ -33,7 +33,7 @@ const AdminPanel: NextPage = () => {
             <span className={styles.dots} />
             <h1>{totalUserCount?.userCount}</h1>
           </div>
-          <div className={styles.flexBetween}>
+          <div className={styles.dotSpread}>
             <span className={styles.itemHeader}>Colorado</span>
             <span className={styles.dots} />
             <h2>{coUserCount?.userCount}</h2>
