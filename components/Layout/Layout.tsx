@@ -34,10 +34,6 @@ function Layout({
       label: t("politicians"),
       href: "/politicians",
     },
-    {
-      label: t("bills"),
-      href: "/bills",
-    },
   ];
   return (
     <div className={styles.app}>
