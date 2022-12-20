@@ -25,6 +25,7 @@
   text-align: center;
   padding: 1.5rem;
   min-width: 10rem;
+  overflow: scroll;
 
   h1 {
     font-weight: 400;
@@ -33,8 +34,6 @@
 
 .scrollSnap {
   @include scroll-snap;
-
-  overflow: scroll;
 }
 
 .avatarContainer {

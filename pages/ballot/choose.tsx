@@ -44,7 +44,7 @@ function ChooseAdventure() {
             <Button label="Enter your address" size="large" variant="primary" />
           </div>
         </Link>
-        <div className={styles.verticalDivider}>
+        <div className={styles.divider}>
           <div className={styles.centerElement}>OR</div>
         </div>
         <div className={clsx(styles.roundedCard, styles.flex)}>

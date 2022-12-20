@@ -6,6 +6,7 @@
   border-radius: 20px;
   border: 1px solid $blue;
   padding: 1rem;
+  height: 100%;
 
   .flexBetween {
     @include flex-between(1rem);
@@ -20,7 +21,7 @@
   }
 
   legend {
-    position: relative;
+    padding: 0 0.5rem;
     margin: auto;
     font-family: $font-primary;
     text-transform: uppercase;
