@@ -23,19 +23,15 @@ function Layout({
   const { t } = useTranslation("common");
   const defaultNavItems = [
     {
-      label: t("my-ballot"),
+      label: t("elections"),
       href: "/ballot",
-    },
-    {
-      label: t("voting-guides"),
-      href: "/voting-guides",
     },
     {
       label: t("politicians"),
       href: "/politicians",
     },
     {
-      label: t("bills"),
+      label: t("legislation"),
       href: "/bills",
     },
   ];
