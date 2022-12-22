@@ -1,0 +1,33 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/mixins/media";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  list-style: none;
+  gap: 1rem;
+  border-bottom: 1px solid $blue-dark;
+
+  li {
+    padding: 1rem;
+    text-transform: uppercase;
+    font-size: $text-md;
+    font-family: $font-primary;
+    &.selected {
+      border-bottom: 2px solid $yellow;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      color: $white;
+      text-transform: uppercase;
+      padding: 0;
+    }
+  }
+}

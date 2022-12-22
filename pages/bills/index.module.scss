@@ -33,6 +33,12 @@
     }
   }
 
+  .mobileOnly {
+    @include for-tablet-landscape-up {
+      display: none;
+    }
+  }
+
   section.billsSection {
     padding: 1.5rem 0;
 

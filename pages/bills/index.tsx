@@ -11,6 +11,8 @@ import { FiltersIcon } from "components/Icons";
 import { BillFilters } from "components/BillFilters/BillFilters";
 import { PopularBills } from "components/PopularBills/PopularBills";
 import { MobileTabs } from "components/MobileTabs/MobileTabs";
+import { TopNav } from "components/TopNav/TopNav";
+import clsx from "clsx";
 
 export async function getServerSideProps({
   locale,
@@ -54,9 +56,12 @@ function BillIndex(props: BillIndexProps) {
   const showFiltersParam = showFilters === "true";
 
   const handleScopeFilter = (scope: PoliticalScope) => {
-    void router.push({
-      query: { ...query, scope },
-    });
+    if (scope === PoliticalScope.Federal) {
+      const { state: _, ...newQuery } = query;
+      void router.push({ query: { ...newQuery, scope } });
+    } else {
+      void router.push({ query: { ...query, scope } });
+    }
   };
 
   if (showFiltersParam)
@@ -68,9 +73,10 @@ function BillIndex(props: BillIndexProps) {
 
   return (
     <Layout mobileNavTitle="Legislation">
+      <TopNav />
       <div className={styles.container}>
         {scope == PoliticalScope.State && (
-          <section className={styles.filters}>
+          <section className={clsx(styles.filters, styles.mobileOnly)}>
             <Select
               onChange={(e) => {
                 if (e.target.value === "all") {

@@ -5,13 +5,13 @@
 .container {
   display: flex;
   align-items: center;
+  border-radius: 25px;
 
-  .pillSelect {
+  .select {
     background: var(--select-background-color);
     color: $white;
-    border-radius: 25px;
-    padding: 0.5rem 2rem 0.5rem 1.5rem;
     width: 100%;
+    padding: 0.5rem 2rem 0.5rem 1.5rem;
     cursor: pointer;
     font-size: $text-xl;
     text-align: center;
@@ -19,14 +19,27 @@
     -moz-appearance: none;
     -o-appearance: none;
     appearance: none;
+    border: none;
 
     @include for-tablet-up {
       width: fit-content;
     }
+  }
 
-    &.border {
-      border: 2px solid var(--select-color);
+  &.uppercase {
+    select {
+      font-size: $text-md;
+      text-transform: uppercase;
+      padding: 0 2rem 0 0;
     }
+
+    option {
+      text-transform: none;
+    }
+  }
+
+  &.border {
+    border: 2px solid var(--select-color);
   }
 
   select + svg.chevron {

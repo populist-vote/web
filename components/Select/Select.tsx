@@ -11,6 +11,7 @@ type SelectProps = {
   backgroundColor?: "transparent" | "blue" | "aqua" | "violet" | "salmon";
   border?: "none" | "solid";
   borderColor?: "transparent" | "blue" | "aqua" | "violet" | "salmon";
+  uppercase?: boolean;
   [key: string]: unknown;
 };
 
@@ -21,6 +22,7 @@ function Select({
   color = "white",
   backgroundColor = "transparent",
   border = "none",
+  uppercase = false,
   ...props
 }: SelectProps) {
   const styleVars: CSSProperties & {
@@ -33,12 +35,13 @@ function Select({
 
   const cx = clsx(styles.container, {
     [styles.border as string]: border === "solid",
+    [styles.uppercase as string]: uppercase,
   });
 
   return (
     <div style={styleVars} className={cx}>
       <select
-        className={styles.pillSelect}
+        className={styles.select}
         onChange={onChange}
         value={value}
         {...props}
