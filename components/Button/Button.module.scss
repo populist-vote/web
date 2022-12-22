@@ -110,6 +110,7 @@ $small-size: 1.825rem;
 
   &:hover {
     background-color: $colorDarker;
+    color: $colorDarkest;
   }
 
   &:focus {
@@ -202,6 +203,17 @@ $small-size: 1.825rem;
     #ffd70f,
     $white,
     $dark-brown
+  );
+}
+
+.yellow.secondary {
+  @include secondary(
+    $yellow,
+    $yellow-dark,
+    $yellow,
+    $blue-darker,
+    $white,
+    $yellow-dark
   );
 }
 

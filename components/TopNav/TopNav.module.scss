@@ -11,13 +11,25 @@
   gap: 1rem;
   border-bottom: 1px solid $blue-dark;
 
+  @include for-tablet-portrait-down {
+    display: none;
+  }
+
   li {
     padding: 1rem;
     text-transform: uppercase;
     font-size: $text-md;
     font-family: $font-primary;
+    width: 12rem;
+    text-align: center;
+    height: 3.5rem;
+
     &.selected {
       border-bottom: 2px solid $yellow;
+
+      &.aqua {
+        border-bottom: 2px solid $aqua;
+      }
     }
 
     button {

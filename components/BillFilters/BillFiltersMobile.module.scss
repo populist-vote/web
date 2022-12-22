@@ -1,6 +1,11 @@
 @import "styles/variables/colors";
+@import "styles/mixins/media";
 
 .container {
+  @include for-tablet-portrait-up {
+    display: none;
+  }
+
   section {
     border-bottom: 1px solid $blue;
     padding: 1.5rem 1rem;

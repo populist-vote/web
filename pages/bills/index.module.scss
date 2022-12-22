@@ -5,9 +5,18 @@
 @import "styles/layout/containers";
 
 .container {
-  section {
-    border-bottom: 1px solid $blue;
-    padding: 1.5rem 1rem;
+  .desktopOnly {
+    @include for-tablet-portrait-down {
+      display: none;
+    }
+  }
+
+  .flex {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 1rem;
   }
 
   .header {

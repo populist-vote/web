@@ -9,7 +9,7 @@
 
   .select {
     background: var(--select-background-color);
-    color: $white;
+    color: var(--select-text-color);
     width: 100%;
     padding: 0.5rem 2rem 0.5rem 1.5rem;
     cursor: pointer;
@@ -20,6 +20,8 @@
     -o-appearance: none;
     appearance: none;
     border: none;
+    border-radius: 25px;
+    height: auto;
 
     @include for-tablet-up {
       width: fit-content;
@@ -28,9 +30,10 @@
 
   &.uppercase {
     select {
-      font-size: $text-md;
+      font-size: $text-sm;
       text-transform: uppercase;
-      padding: 0 2rem 0 0;
+      margin: 0;
+      padding: 0 2rem 0 1.5rem;
     }
 
     option {
@@ -39,12 +42,12 @@
   }
 
   &.border {
-    border: 2px solid var(--select-color);
+    border: 2px solid var(--select-accent-color);
   }
 
   select + svg.chevron {
     font-size: 1em;
-    color: var(--select-color);
+    color: var(--select-accent-color);
     height: 1rem;
     width: 2rem;
     margin: 0;

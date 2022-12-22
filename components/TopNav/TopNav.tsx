@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Select } from "components/Select/Select";
 import { PoliticalScope } from "generated";
 import { useRouter } from "next/router";
@@ -35,7 +36,7 @@ function TopNav() {
               });
             }
           }}
-          value={state}
+          value={state as string}
           options={[
             {
               value: "CO",
@@ -46,11 +47,17 @@ function TopNav() {
               label: "Minnesota",
             },
           ]}
-          color="yellow"
+          accentColor="yellow"
           uppercase
         />
       </li>
-      <li className={scope === PoliticalScope.Federal ? styles.selected : ""}>
+      <li
+        className={
+          scope === PoliticalScope.Federal
+            ? clsx(styles.selected, styles.aqua)
+            : ""
+        }
+      >
         <button onClick={() => handleScopeFilter(PoliticalScope.Federal)}>
           Federal
         </button>

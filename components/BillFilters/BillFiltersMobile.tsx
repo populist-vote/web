@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
 import { ChangeEvent, useLayoutEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import styles from "./BillFilters.module.scss";
+import styles from "./BillFiltersMobile.module.scss";
 
-function BillFilters(props: BillIndexProps) {
+function BillFiltersMobile(props: BillIndexProps) {
   const router = useRouter();
   const query = router.query;
   const initialQueryRef = useRef(props.query || query);
@@ -161,4 +161,4 @@ function BillFilters(props: BillIndexProps) {
   );
 }
 
-export { BillFilters };
+export { BillFiltersMobile };

@@ -1,4 +1,4 @@
-import { Button, Layout, Select } from "components";
+import { Button, Layout } from "components";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -8,11 +8,15 @@ import styles from "./index.module.scss";
 import { StickyButton } from "components/StickyButton/StickyButton";
 import { FaSearch } from "react-icons/fa";
 import { FiltersIcon } from "components/Icons";
-import { BillFilters } from "components/BillFilters/BillFilters";
+import { BillFiltersDesktop } from "components/BillFilters/BillFiltersDesktop";
 import { PopularBills } from "components/PopularBills/PopularBills";
 import { MobileTabs } from "components/MobileTabs/MobileTabs";
 import { TopNav } from "components/TopNav/TopNav";
-import clsx from "clsx";
+import { Box } from "components/Box/Box";
+import { AiOutlineSearch } from "react-icons/ai";
+import { useState } from "react";
+import { BillFiltersMobile } from "components/BillFilters/BillFiltersMobile";
+import { useMediaQuery } from "hooks/useMediaQuery";
 
 export async function getServerSideProps({
   locale,
@@ -42,6 +46,7 @@ export type BillIndexProps = {
     scope: PoliticalScope;
     state: State;
     year: "2022" | "2020";
+    issue: string;
     popularity: PopularitySort;
     showFilters: string;
   };
@@ -50,9 +55,10 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { scope = PoliticalScope.Federal } = query;
-  const { showFilters = "false", state = null } = props.query || query;
-
+  const { scope = PoliticalScope.Federal, search } = query;
+  const { showFilters = "false" } = props.query || query;
+  const isMobile = useMediaQuery("(max-width: 640px)");
+  const [searchValue, setSearchValue] = useState(search);
   const showFiltersParam = showFilters === "true";
 
   const handleScopeFilter = (scope: PoliticalScope) => {
@@ -64,10 +70,10 @@ function BillIndex(props: BillIndexProps) {
     }
   };
 
-  if (showFiltersParam)
+  if (showFiltersParam && isMobile)
     return (
       <Layout mobileNavTitle="Legislation">
-        <BillFilters {...props} />
+        <BillFiltersMobile {...props} />
       </Layout>
     );
 
@@ -75,34 +81,48 @@ function BillIndex(props: BillIndexProps) {
     <Layout mobileNavTitle="Legislation">
       <TopNav />
       <div className={styles.container}>
-        {scope == PoliticalScope.State && (
-          <section className={clsx(styles.filters, styles.mobileOnly)}>
-            <Select
-              onChange={(e) => {
-                if (e.target.value === "all") {
-                  const { state: _, ...newQuery } = query;
-                  void router.push({ query: newQuery });
-                } else {
-                  void router.push({
-                    query: { ...query, state: e.target.value },
-                  });
-                }
-              }}
-              value={state || "all"}
-              options={[
-                {
-                  value: "CO",
-                  label: "Colorado",
-                },
-                {
-                  value: "MN",
-                  label: "Minnesota",
-                },
-              ]}
-              color="yellow"
-            />
-          </section>
-        )}
+        <section>
+          <div className={styles.desktopOnly}>
+            <Box>
+              <div className={styles.flex}>
+                <div className={styles.inputWithIcon}>
+                  <input
+                    placeholder="Search"
+                    onChange={(e) => {
+                      setSearchValue(e.target.value);
+                      void router.push({
+                        query: { ...query, search: e.target.value },
+                      });
+                    }}
+                    value={searchValue || ""}
+                  ></input>
+                  <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
+                </div>
+                <Button
+                  variant={showFiltersParam ? "primary" : "secondary"}
+                  theme="yellow"
+                  label="Filters"
+                  size="medium"
+                  onClick={() =>
+                    router.push({
+                      query: {
+                        ...query,
+                        showFilters: showFiltersParam ? false : true,
+                      },
+                    })
+                  }
+                />
+                <Button
+                  variant="secondary"
+                  theme="yellow"
+                  label="Clear"
+                  size="medium"
+                />
+              </div>
+              {showFiltersParam && <BillFiltersDesktop {...props} />}
+            </Box>
+          </div>
+        </section>
         <section className={styles.header}>
           <h2>How does legislation become law?</h2>
           <p>

@@ -7,11 +7,33 @@ type SelectProps = {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   value: string;
   options: { value: string; label: string }[];
-  color?: "white" | "yellow" | "blue" | "aqua" | "violet" | "salmon";
-  backgroundColor?: "transparent" | "blue" | "aqua" | "violet" | "salmon";
+  textColor?:
+    | "white"
+    | "yellow"
+    | "blue"
+    | "blue-dark"
+    | "aqua"
+    | "violet"
+    | "salmon";
+  accentColor?:
+    | "white"
+    | "yellow"
+    | "blue"
+    | "blue-dark"
+    | "aqua"
+    | "violet"
+    | "salmon";
+  backgroundColor?:
+    | "transparent"
+    | "blue"
+    | "aqua"
+    | "violet"
+    | "salmon"
+    | "yellow";
   border?: "none" | "solid";
   borderColor?: "transparent" | "blue" | "aqua" | "violet" | "salmon";
   uppercase?: boolean;
+  placeholder?: string;
   [key: string]: unknown;
 };
 
@@ -20,17 +42,21 @@ function Select({
   value,
   options,
   color = "white",
+  accentColor,
   backgroundColor = "transparent",
   border = "none",
   uppercase = false,
+  placeholder,
   ...props
 }: SelectProps) {
   const styleVars: CSSProperties & {
-    "--select-color": string;
+    "--select-text-color": string;
+    "--select-accent-color": string;
     "--select-background-color": string;
   } = {
-    [`--select-color`]: `var(--${color})`,
-    [`--select-background-color`]: `var(--${backgroundColor}-light)`,
+    [`--select-text-color`]: `var(--${color})`,
+    [`--select-accent-color`]: `var(--${accentColor || color})`,
+    [`--select-background-color`]: `var(--${backgroundColor})`,
   };
 
   const cx = clsx(styles.container, {
@@ -46,6 +72,11 @@ function Select({
         value={value}
         {...props}
       >
+        {placeholder && (
+          <option value="" disabled selected hidden>
+            {placeholder}
+          </option>
+        )}
         {options.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}

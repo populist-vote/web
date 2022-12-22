@@ -2,6 +2,7 @@
 @import "styles/mixins/utils";
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
+@import "styles/layout/containers";
 
 .app {
   height: 100%;
@@ -176,22 +177,6 @@
     gap: 0.5rem;
     padding: 1rem;
     border-bottom: 1px solid $blue-dark;
-  }
-
-  .inputWithIcon {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin-right: 0.75rem;
-    width: 100%;
-
-    input {
-      margin-right: -2rem;
-    }
-
-    input:focus + svg {
-      opacity: 0;
-    }
   }
 
   .desktopOnly {
