@@ -5,48 +5,55 @@ import {
   BillResult,
   PoliticalScope,
   State,
-  usePopularBillsQuery,
+  useBillIndexQuery,
 } from "generated";
 import useDebounce from "hooks/useDebounce";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
 import styles from "../../pages/bills/BillIndex.module.scss";
 
-function PopularBills(props: BillIndexProps) {
+function BillResults(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
   const {
     state = null,
     status = null,
     search = null,
+    year = null,
     scope = PoliticalScope.Federal,
   } = props.query || query;
+
+  const shouldFetchBillResults = !!search || !!state || !!status || !!year;
 
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
     350
   );
 
-  const { data, isLoading, error } = usePopularBillsQuery(
+  const { data, isLoading, error } = useBillIndexQuery(
     {
       pageSize: 10,
       filter: {
         query: debouncedSearchQuery || null,
         state: state as State,
         politicalScope: scope,
+        year: parseInt(year as string),
         status,
       },
     },
     {
       refetchOnWindowFocus: false,
+      enabled: shouldFetchBillResults,
     }
   );
 
-  const popularBills = data?.popularBills.edges.map((edge) => edge.node) || [];
+  const billResults = data?.bills.edges.map((edge) => edge.node) || [];
+
+  if (!shouldFetchBillResults) return null;
 
   return (
     <section className={styles.billsSection}>
-      <h2 className={styles.gradientHeader}>Popular Bills</h2>
+      <h2 className={styles.gradientHeader}>Search Results</h2>
       {isLoading ? (
         <LoaderFlag />
       ) : error ? (
@@ -54,8 +61,8 @@ function PopularBills(props: BillIndexProps) {
       ) : (
         <>
           <div className={clsx(styles.billResults)}>
-            {popularBills?.length > 0 ? (
-              popularBills?.map((bill) => (
+            {billResults?.length > 0 ? (
+              billResults?.map((bill) => (
                 <BillCard bill={bill as BillResult} key={bill.id} />
               ))
             ) : (
@@ -68,4 +75,4 @@ function PopularBills(props: BillIndexProps) {
   );
 }
 
-export { PopularBills };
+export { BillResults };

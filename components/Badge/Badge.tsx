@@ -9,6 +9,7 @@ interface BadgeProps {
   iconLeft?: ReactNode;
   label?: string;
   selected?: boolean;
+  clickable?: boolean;
   [key: string]: unknown;
 }
 
@@ -17,7 +18,9 @@ function Badge({
   iconLeft,
   label,
   selected,
+  clickable,
   children,
+
   ...rest
 }: PropsWithChildren<BadgeProps>) {
   const style = useDocumentBaseStyle();
@@ -38,6 +41,7 @@ function Badge({
 
   const cx = clsx(styles.container, {
     [styles.selected as string]: selected,
+    [styles.clickable as string]: clickable,
   });
 
   return (

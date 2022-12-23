@@ -16,4 +16,8 @@
     background-color: var(--color);
     color: var(--text-color);
   }
+
+  &.clickable {
+    cursor: pointer;
+  }
 }

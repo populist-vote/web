@@ -6,6 +6,8 @@
 
 .container {
   .desktopOnly {
+    width: 100%;
+
     @include for-tablet-portrait-down {
       display: none;
     }
@@ -19,15 +21,21 @@
     gap: 1rem;
   }
 
-  .header {
+  section.header {
+    padding: 1rem;
+    width: 100%;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+    button {
+      margin: auto;
+    }
 
     h2 {
       margin: 0 0 1rem;
+    }
+
+    @include for-tablet-portrait-up {
+      padding: 0;
     }
   }
 
@@ -43,7 +51,7 @@
   }
 
   .mobileOnly {
-    @include for-tablet-landscape-up {
+    @include for-tablet-portrait-up {
       display: none;
     }
   }
@@ -54,7 +62,7 @@
     .billResults {
       display: flex;
       flex-direction: row;
-      overflow: scroll;
+      overflow-y: hidden;
       gap: 1rem;
       padding: 0 1rem;
 

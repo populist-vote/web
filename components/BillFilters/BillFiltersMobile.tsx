@@ -2,60 +2,34 @@ import { Badge } from "components/Badge/Badge";
 import { Button } from "components/Button/Button";
 import { Select } from "components/Select/Select";
 import { BillStatus, PopularitySort } from "generated";
+import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
-import { ChangeEvent, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./BillFiltersMobile.module.scss";
 
 function BillFiltersMobile(props: BillIndexProps) {
   const router = useRouter();
   const query = router.query;
-  const initialQueryRef = useRef(props.query || query);
-  const { search, popularity, year, status, shouldFocusSearch } =
-    props.query || query;
-  const [searchValue, setSearchValue] = useState<string | null>(search || "");
+  const { popularity, year, status, shouldFocusSearch } = props.query || query;
 
-  const handlePopularitySort = (value: PopularitySort) => {
-    void router.push({
-      query: { ...query, popularity: value },
-    });
-  };
+  const {
+    searchRef,
+    searchValue,
+    setSearchValue,
+    handlePopularitySort,
+    handleYearFilter,
+    handleStatusFilter,
+    handleCancel,
+    handleApplyFilters,
+  } = useBillFilters();
 
-  const handleYearFilter = (e: ChangeEvent<HTMLSelectElement>) => {
-    void router.push({
-      query: { ...query, year: e.target.value },
-    });
-  };
-
-  const handleStatusFilter = (value: BillStatus) => {
-    void router.push({
-      query: { ...query, status: value },
-    });
-  };
-
-  const handleCancel = () => {
-    void router.push({
-      query: {
-        ...initialQueryRef.current,
-        showFilters: "false",
-        shouldFocusSearch: false,
-      },
-    });
-  };
-
-  const handleApplyFilters = () => {
-    void router.push({
-      query: { ...query, showFilters: "false" },
-    });
-  };
-
-  const searchRef = useRef<HTMLInputElement>(null);
   useLayoutEffect(() => {
     if (shouldFocusSearch === "true") {
       searchRef?.current?.focus();
     }
-  }, [shouldFocusSearch]);
+  }, [shouldFocusSearch, searchRef]);
 
   return (
     <div className={styles.container}>

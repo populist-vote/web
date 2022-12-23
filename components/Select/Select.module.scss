@@ -22,10 +22,6 @@
     border: none;
     border-radius: 25px;
     height: auto;
-
-    @include for-tablet-up {
-      width: fit-content;
-    }
   }
 
   &.uppercase {

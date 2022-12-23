@@ -4,7 +4,6 @@ import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { SupportedLocale } from "types/global";
-import styles from "./index.module.scss";
 import { StickyButton } from "components/StickyButton/StickyButton";
 import { FaSearch } from "react-icons/fa";
 import { FiltersIcon } from "components/Icons";
@@ -17,6 +16,9 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useState } from "react";
 import { BillFiltersMobile } from "components/BillFilters/BillFiltersMobile";
 import { useMediaQuery } from "hooks/useMediaQuery";
+import { useBillFilters } from "hooks/useBillFilters";
+import styles from "./BillIndex.module.scss";
+import { BillResults } from "components/BillResults/BillResults";
 
 export async function getServerSideProps({
   locale,
@@ -37,19 +39,20 @@ export async function getServerSideProps({
   };
 }
 
-// TODO implement state machine for these
+export interface BillFiltersParams {
+  search: string;
+  shouldFocusSearch: string;
+  status: BillStatus;
+  scope: PoliticalScope;
+  state: State;
+  year: "2022" | "2020";
+  issue: string;
+  popularity: PopularitySort;
+  showFilters: string;
+}
+
 export type BillIndexProps = {
-  query: {
-    search: string;
-    shouldFocusSearch: string;
-    status: BillStatus;
-    scope: PoliticalScope;
-    state: State;
-    year: "2022" | "2020";
-    issue: string;
-    popularity: PopularitySort;
-    showFilters: string;
-  };
+  query: BillFiltersParams;
 };
 
 function BillIndex(props: BillIndexProps) {
@@ -61,14 +64,7 @@ function BillIndex(props: BillIndexProps) {
   const [searchValue, setSearchValue] = useState(search);
   const showFiltersParam = showFilters === "true";
 
-  const handleScopeFilter = (scope: PoliticalScope) => {
-    if (scope === PoliticalScope.Federal) {
-      const { state: _, ...newQuery } = query;
-      void router.push({ query: { ...newQuery, scope } });
-    } else {
-      void router.push({ query: { ...query, scope } });
-    }
-  };
+  const { handleScopeFilter } = useBillFilters();
 
   if (showFiltersParam && isMobile)
     return (
@@ -78,16 +74,16 @@ function BillIndex(props: BillIndexProps) {
     );
 
   return (
-    <Layout mobileNavTitle="Legislation">
+    <Layout mobileNavTitle="Legislation" hideFooter>
       <TopNav />
       <div className={styles.container}>
-        <section>
-          <div className={styles.desktopOnly}>
+        <div className={styles.desktopOnly}>
+          <section>
             <Box>
               <div className={styles.flex}>
                 <div className={styles.inputWithIcon}>
                   <input
-                    placeholder="Search"
+                    placeholder="Search for legislation"
                     onChange={(e) => {
                       setSearchValue(e.target.value);
                       void router.push({
@@ -121,21 +117,24 @@ function BillIndex(props: BillIndexProps) {
               </div>
               {showFiltersParam && <BillFiltersDesktop {...props} />}
             </Box>
-          </div>
-        </section>
+          </section>
+        </div>
         <section className={styles.header}>
-          <h2>How does legislation become law?</h2>
-          <p>
-            Cum sociis natoque penatibus et magnis dis parturient montes,
-            nascetur ridiculus mus.
-          </p>
-          <Button
-            variant="primary"
-            label="Learn More"
-            size="medium"
-            style={{ maxWidth: "fit-content" }}
-          />
+          <Box>
+            <h2>How does a bill become law?</h2>
+            <p>
+              Cum sociis natoque penatibus et magnis dis parturient montes,
+              nascetur ridiculus mus.
+            </p>
+            <Button
+              variant="primary"
+              label="Learn More"
+              size="medium"
+              style={{ maxWidth: "fit-content" }}
+            />
+          </Box>
         </section>
+        <BillResults {...props} />
         <PopularBills {...props} />
       </div>
       <div>
