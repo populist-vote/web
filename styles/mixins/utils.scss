@@ -29,7 +29,7 @@
 }
 
 @mixin scroll-snap {
-  overflow: auto;
+  overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
 

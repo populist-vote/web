@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Select } from "components/Select/Select";
-import { PoliticalScope } from "generated";
+import { PoliticalScope, State } from "generated";
 import { useRouter } from "next/router";
 import styles from "./MobileTabs.module.scss";
 
@@ -31,22 +31,26 @@ function MobileTabs({ value, handleChange }: MobileTabsProps) {
             ? clsx(styles.selected, styles.yellow)
             : ""
         }
-        onClick={(e) => e.preventDefault()}
+        onClick={() => handleChange(PoliticalScope.State)}
       >
         <Select
+          onSelected={(value: State) => {
+            void router.push({
+              query: {
+                ...query,
+                state: value,
+                scope: PoliticalScope.State,
+              },
+            });
+          }}
           onChange={(e) => {
-            if (e.target.value === "all") {
-              const { state: _, ...newQuery } = query;
-              void router.push({ query: newQuery });
-            } else {
-              void router.push({
-                query: {
-                  ...query,
-                  state: e.target.value,
-                  scope: PoliticalScope.State,
-                },
-              });
-            }
+            void router.push({
+              query: {
+                ...query,
+                state: e.target.value,
+                scope: PoliticalScope.State,
+              },
+            });
           }}
           value={state as string}
           options={[

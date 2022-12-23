@@ -39,6 +39,10 @@
     }
   }
 
+  section:last-child {
+    margin-bottom: 15vh;
+  }
+
   .filters {
     display: flex;
     justify-content: center;
