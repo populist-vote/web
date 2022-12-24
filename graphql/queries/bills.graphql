@@ -117,3 +117,20 @@ fragment BillFields on BillResult {
     endDate
   }
 }
+
+query BillIssueTags {
+    billIssueTags {
+        id
+        name
+        description
+        slug
+    }
+}
+
+query BillCommittees {
+    billCommittees {
+        id
+        slug
+        name
+    }
+}

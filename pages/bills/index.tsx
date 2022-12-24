@@ -45,8 +45,9 @@ export interface BillFiltersParams {
   status: BillStatus;
   scope: PoliticalScope;
   state: State;
-  year: "2022" | "2020";
+  year: "2022" | "2021" | "2020";
   issue: string;
+  committee: string;
   popularity: PopularitySort;
   showFilters: string;
 }

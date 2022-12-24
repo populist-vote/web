@@ -1,12 +1,12 @@
 import { BillStatus, PoliticalScope, PopularitySort } from "generated";
 import { useRouter } from "next/router";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useLayoutEffect, useRef, useState } from "react";
 
 function useBillFilters() {
   const router = useRouter();
   const query = router.query;
   const initialQueryRef = useRef(query);
-  const { search, popularity, status } = query;
+  const { search, popularity, status, shouldFocusSearch } = query;
   const [searchValue, setSearchValue] = useState<string | null>(
     (search as string) || ""
   );
@@ -87,6 +87,18 @@ function useBillFilters() {
     );
   };
 
+  const handleCommitteeFilter = (e: ChangeEvent<HTMLSelectElement>) => {
+    void router.push(
+      {
+        query: { ...query, committee: e.target.value },
+      },
+      undefined,
+      {
+        scroll: false,
+      }
+    );
+  };
+
   const handleCancel = () => {
     void router.push(
       {
@@ -115,12 +127,19 @@ function useBillFilters() {
     );
   };
 
+  useLayoutEffect(() => {
+    if (shouldFocusSearch === "true") {
+      searchRef?.current?.focus();
+    }
+  }, [shouldFocusSearch, searchRef]);
+
   return {
     handleScopeFilter,
     handlePopularitySort,
     handleYearFilter,
     handleStatusFilter,
     handleIssueTagFilter,
+    handleCommitteeFilter,
     handleCancel,
     handleApplyFilters,
     searchRef,

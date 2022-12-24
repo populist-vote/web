@@ -1,35 +1,54 @@
 import clsx from "clsx";
 import { Badge } from "components/Badge/Badge";
 import { Select } from "components/Select/Select";
-import { BillStatus, PopularitySort } from "generated";
+import {
+  BillStatus,
+  PopularitySort,
+  useBillCommitteesQuery,
+  useBillIssueTagsQuery,
+} from "generated";
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
-import { useLayoutEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./BillFiltersDesktop.module.scss";
 
 function BillFiltersDesktop(props: BillIndexProps) {
   const router = useRouter();
   const query = router.query;
-  const { popularity, year, issue, status, shouldFocusSearch } =
-    props.query || query;
+  const { popularity, year, issue, committee, status } = props.query || query;
 
   const {
-    searchRef,
     searchValue,
     setSearchValue,
     handleYearFilter,
     handleIssueTagFilter,
+    handleCommitteeFilter,
     handleStatusFilter,
     handlePopularitySort,
   } = useBillFilters();
 
-  useLayoutEffect(() => {
-    if (shouldFocusSearch === "true") {
-      searchRef?.current?.focus();
-    }
-  }, [shouldFocusSearch, searchRef]);
+  const {
+    data: { billIssueTags } = {},
+    isLoading: tagsLoading,
+    error: tagsError,
+  } = useBillIssueTagsQuery();
+  const {
+    data: { billCommittees } = {},
+    isLoading: committeesLoading,
+    error: committeesError,
+  } = useBillCommitteesQuery();
+
+  const hasBillIssues =
+    !tagsLoading && billIssueTags && billIssueTags?.length > 0;
+
+  const hasBillCommittees =
+    !committeesLoading && billCommittees && billCommittees?.length > 0;
+
+  const errors = [tagsError, committeesError].filter(Boolean);
+
+  if (errors.length > 0)
+    return <div>Something went wrong loading legislation filters</div>;
 
   return (
     <div className={styles.container}>
@@ -47,33 +66,40 @@ function BillFiltersDesktop(props: BillIndexProps) {
             ]}
           />
         </section>
-        <section className={styles.flex}>
-          <h4>Issue</h4>
-          <Select
-            color="blue-dark"
-            backgroundColor="yellow"
-            onChange={handleIssueTagFilter}
-            value={issue}
-            placeholder="Select an issue"
-            options={[
-              { value: "health-care", label: "Health Care" },
-              { value: "abortion", label: "Abortion" },
-            ]}
-          />
-        </section>
-        <section className={styles.flex}>
-          <h4>Committee</h4>
-          <Select
-            color="blue-dark"
-            backgroundColor="yellow"
-            onChange={handleYearFilter}
-            value={year}
-            options={[
-              { value: "2022", label: "2022" },
-              { value: "2020", label: "2020" },
-            ]}
-          />
-        </section>
+        {hasBillIssues && (
+          <section className={styles.flex}>
+            <h4>Issue</h4>
+            <Select
+              color={!!issue ? "blue-dark" : "yellow"}
+              border="solid"
+              backgroundColor={!!issue ? "yellow" : "transparent"}
+              value={issue}
+              onChange={handleIssueTagFilter}
+              placeholder="Select an issue"
+              options={billIssueTags.map((issue) => ({
+                value: issue.slug,
+                label: issue.name,
+              }))}
+            />
+          </section>
+        )}
+        {hasBillCommittees && (
+          <section className={styles.flex}>
+            <h4>Issue</h4>
+            <Select
+              color={!!committee ? "blue-dark" : "yellow"}
+              border="solid"
+              backgroundColor={!!committee ? "yellow" : "transparent"}
+              value={committee}
+              onChange={handleCommitteeFilter}
+              placeholder="Select a committee"
+              options={billCommittees.map((committee) => ({
+                value: committee.id,
+                label: committee.slug,
+              }))}
+            />
+          </section>
+        )}
       </div>
 
       <div className={styles.row}>

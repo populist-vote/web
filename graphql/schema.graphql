@@ -307,6 +307,16 @@ enum Chambers {
   SENATE
 }
 
+type CommitteeResult {
+  chairId: ID
+  description: String!
+  id: ID!
+  legiscanCommitteeId: Int
+  name: String!
+  slug: String!
+  state: State
+}
+
 input Coordinates {
   latitude: Float!
   longitude: Float!
@@ -835,6 +845,12 @@ type Query {
   ): [BallotMeasureResult!]!
   billById(id: String!): BillResult
   billBySlug(slug: String!): BillResult
+
+  """Returns all committees that have an associated bill"""
+  billCommittees: [CommitteeResult!]!
+
+  """Returns all issue tags that have an associated bill"""
+  billIssueTags: [IssueTagResult!]!
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
 
   """

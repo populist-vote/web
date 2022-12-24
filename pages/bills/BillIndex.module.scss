@@ -13,6 +13,10 @@
     }
   }
 
+  @include for-tablet-portrait-down {
+    margin-bottom: 15vh;
+  }
+
   .flex {
     width: 100%;
     display: flex;
@@ -39,7 +43,7 @@
     }
   }
 
-  section:last-child {
+  main:last-child {
     margin-bottom: 15vh;
   }
 
