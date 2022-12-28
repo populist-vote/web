@@ -152,9 +152,15 @@ function BillIndex(props: BillIndexProps) {
         <StickyButton
           position="right"
           onClick={() =>
-            router.push({
-              query: { ...query, showFilters: true, shouldFocusSearch: true },
-            })
+            router.push(
+              {
+                query: { ...query, showFilters: true, shouldFocusSearch: true },
+              },
+              undefined,
+              {
+                scroll: false,
+              }
+            )
           }
         >
           <FaSearch color="var(--blue-lighter)" />
