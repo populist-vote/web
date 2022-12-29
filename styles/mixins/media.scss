@@ -25,6 +25,12 @@ $desktop-max: 1440px;
   }
 }
 
+@mixin for-tablet-landscape-down {
+  @media (max-width: $desktop-breakpoint) {
+    @content;
+  }
+}
+
 // anything greater than tablet breakpoint
 @mixin for-tablet-landscape-up {
   @media (min-width: $tablet-breakpoint) {
