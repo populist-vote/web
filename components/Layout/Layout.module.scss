@@ -210,7 +210,7 @@
     color: $blue-text;
   }
 
-  @include for-tablet-up {
+  @include for-tablet-portrait-up {
     display: grid;
     grid-template-columns: 1fr 15fr;
   }
@@ -224,7 +224,7 @@
       color: $blue-text;
     }
 
-    @include for-tablet-up {
+    @include for-tablet-portrait-up {
       display: grid;
       grid-template-columns: 8fr 4fr 4fr;
       width: 100%;

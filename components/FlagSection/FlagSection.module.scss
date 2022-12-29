@@ -94,7 +94,7 @@
 }
 
 .hideFlagForMobile {
-  @include for-tablet-portrait-down {
+  @include for-tablet-landscape-down {
     header {
       display: none;
     }

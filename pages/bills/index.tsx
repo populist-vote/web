@@ -61,7 +61,7 @@ function BillIndex(props: BillIndexProps) {
   const { query } = router;
   const { scope = PoliticalScope.Federal, search } = query;
   const { showFilters = "false" } = props.query || query;
-  const isMobile = useMediaQuery("(max-width: 640px)");
+  const isMobile = useMediaQuery("(max-width: 896px)");
   const [searchValue, setSearchValue] = useState(search);
   const showFiltersParam = showFilters === "true";
 
@@ -147,7 +147,7 @@ function BillIndex(props: BillIndexProps) {
             })
           }
         >
-          <FiltersIcon /> Filters
+          <FiltersIcon size={25} /> Filters
         </StickyButton>
         <StickyButton
           position="right"
@@ -163,7 +163,7 @@ function BillIndex(props: BillIndexProps) {
             )
           }
         >
-          <FaSearch color="var(--blue-lighter)" />
+          <FaSearch color="var(--blue-lighter)" size={25} />
         </StickyButton>
       </div>
       <MobileTabs
