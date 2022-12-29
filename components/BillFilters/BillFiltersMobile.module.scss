@@ -2,7 +2,7 @@
 @import "styles/mixins/media";
 
 .container {
-  @include for-tablet-portrait-up {
+  @include for-tablet-landscape-up {
     display: none;
   }
 

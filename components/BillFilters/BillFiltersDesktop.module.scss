@@ -9,7 +9,7 @@
   border-top: 1px solid $blue;
   margin-top: 1.5rem;
 
-  @include for-tablet-portrait-down {
+  @include for-tablet-landscape-down {
     display: none;
   }
 
