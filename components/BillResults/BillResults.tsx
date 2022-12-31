@@ -21,9 +21,11 @@ function BillResults(props: BillIndexProps) {
     search = null,
     year = null,
     scope = PoliticalScope.Federal,
+    popularity = null,
   } = props.query || query;
 
-  const shouldFetchBillResults = !!search || !!state || !!status || !!year;
+  const shouldFetchBillResults =
+    !!search || !!state || !!status || !!year || !!popularity;
 
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
@@ -39,6 +41,9 @@ function BillResults(props: BillIndexProps) {
         politicalScope: scope,
         year: parseInt(year as string),
         status,
+      },
+      sort: {
+        popularity,
       },
     },
     {

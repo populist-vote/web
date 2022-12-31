@@ -2,11 +2,13 @@ query BillIndex(
   $pageSize: Int
   $cursor: String
   $filter: BillFilter
+  $sort: BillSort
 ) {
   bills(
     first: $pageSize
     after: $cursor
     filter: $filter
+    sort: $sort
   ) {
     edges {
       node {

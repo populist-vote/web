@@ -64,6 +64,11 @@ function HomePage() {
             className="myLegislators"
             label={t("browse-politicians")}
           />
+          <HomePageButton
+            href="/bills"
+            className="admin"
+            label={t("legislation")}
+          />
           {user?.role === Role.Superuser && (
             <HomePageButton href="/admin" className="admin" label={"Admin"} />
           )}
