@@ -17,7 +17,7 @@ test('User registration flow works as expected', async ({ page }) => {
   await page.locator('[placeholder="City"]').press('Tab');
   await page.locator('select[name="address\\.state"]').selectOption('CO');
   await page.locator('[placeholder="Postal Code"]').fill('80305');
-  await page.locator('text=Complete Registration').click();
+  await page.getByRole("button", { name: "Complete Registration" }).click();
   await expect(page).toHaveURL(`${process.env.PLAYWRIGHT_TEST_BASE_URL}/home`);
   await page.locator('text=We’re still in beta.').click();
   await page.locator('button:has-text("Continue")').click();
