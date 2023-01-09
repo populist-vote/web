@@ -1,3 +1,5 @@
+/* stylelint-disable max-line-length */
+
 // font families
 $font-primary: "commuters_sans", sans-serif;
 $font-secondary: "proxima_nova", helvetica, arial, sans-serif;
@@ -9,26 +11,11 @@ $weight-semibold: 500;
 $weight-bold: 700;
 
 // font sizes
-$text-xxs: calc(
-  1em /
-    (
-      var(--text-scale-ratio) * var(--text-scale-ratio) *
-        var(--text-scale-ratio)
-    )
-);
+$text-xxs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio)));
 $text-xs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio)));
 $text-sm: calc(1em / var(--text-scale-ratio));
 $text-md: calc(1em * var(--text-scale-ratio));
 $text-lg: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio));
-$text-xl: calc(
-  1em * var(--text-scale-ratio) * var(--text-scale-ratio) *
-    var(--text-scale-ratio)
-);
-$text-xxl: calc(
-  1em * var(--text-scale-ratio) * var(--text-scale-ratio) *
-    var(--text-scale-ratio) * var(--text-scale-ratio)
-);
-$text-xxxl: calc(
-  1em * var(--text-scale-ratio) * var(--text-scale-ratio) *
-    var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio)
-);
+$text-xl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
+$text-xxl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
+$text-xxxl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));

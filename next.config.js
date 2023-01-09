@@ -25,6 +25,7 @@ const nextConfig = {
   env: {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     GRAPHQL_SCHEMA_PATH: process.env.GRAPHQL_SCHEMA_PATH,
+    POPULIST_API_KEY: process.env.POPULIST_API_KEY,
   }
 };
 

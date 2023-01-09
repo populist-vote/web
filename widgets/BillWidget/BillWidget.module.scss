@@ -3,13 +3,11 @@
 .billCard {
   border: 1px solid $grey;
   background: $grey-lighter;
-  height: fit-content;
-  min-width: 512px;
+  max-width: none;
+  width: 512px;
+  height: 550px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
 
   a {
     width: auto;
@@ -22,6 +20,9 @@
   }
 
   .cardContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 0 1rem;
     > * {
       padding: 1.5rem;
@@ -54,4 +55,29 @@
   .footer {
     padding: 1rem;
   }
+}
+
+.error {
+  color: $red;
+  font-size: $text-md;
+  font-weight: 500;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.branding {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.poweredBy {
+  font-size: 13px;
+  font-style: italic;
+  color: $grey;
 }

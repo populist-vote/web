@@ -1,29 +1,23 @@
-import {
-  useQuery,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { Button, PartyAvatar } from "components";
+import { useQuery } from "@tanstack/react-query";
+import { Button, LoaderFlag, PartyAvatar } from "components";
 import { Badge } from "components/Badge/Badge";
+import { LogoTextDark } from "components/Logo";
 import {
   BillStatus,
   IssueTagResult,
   PoliticalParty,
   PoliticianResult,
 } from "generated";
-import { FaCheckCircle, FaCircle } from "react-icons/fa";
+import { FaCheckCircle, FaCircle, FaExclamationCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
 import { titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 
-const queryClient = new QueryClient();
-
-function BillWidget({ apiKey }: { apiKey: string }) {
-  const billId = "1c3262b1-ba29-430c-a294-beedddfb7070";
+function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
   const { data, isLoading } = useQuery(["bill", billId], () => {
-    return fetch(`https://api.staging.populist.us`, {
+    return fetch(`https://api.staging.populist.us/graphql`, {
       method: "POST",
       body: JSON.stringify({
         query: `
@@ -82,8 +76,26 @@ function BillWidget({ apiKey }: { apiKey: string }) {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.billCard}>
+        <LoaderFlag />
+      </div>
+    );
   }
+
+  if (data.errors)
+    return (
+      <div
+        className={styles.billCard}
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        {data.errors.map((error: { message: string }) => (
+          <div key={error.message} className={styles.error}>
+            <FaExclamationCircle /> {error.message}
+          </div>
+        ))}
+      </div>
+    );
 
   const bill = data?.data?.billById;
 
@@ -163,17 +175,14 @@ function BillWidget({ apiKey }: { apiKey: string }) {
             {bill.publicVotes?.oppose ?? 0}
           </Badge>
         </div>
+
+        <div className={styles.branding}>
+          <span className={styles.poweredBy}>Powered by</span>
+          <LogoTextDark />
+        </div>
       </footer>
     </div>
   );
 }
 
-function Main() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BillWidget apiKey={process.env.POPULIST_API_KEY as string} />
-    </QueryClientProvider>
-  );
-}
-
-export { Main as BillWidget };
+export { BillWidget };
