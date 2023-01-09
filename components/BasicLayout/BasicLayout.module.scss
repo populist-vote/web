@@ -26,8 +26,6 @@
 
   button {
     margin-top: 1.5rem;
-
-    min-width: 75%;
   }
 
   .header {
@@ -45,7 +43,7 @@
   }
 
   main {
-    height: calc(100vh - 7.5rem);
+    min-height: calc(100vh - 7.5rem);
     max-width: 48rem;
     display: flex;
     flex-direction: column;

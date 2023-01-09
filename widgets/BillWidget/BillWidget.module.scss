@@ -1,0 +1,57 @@
+@import "../../components/BillCard/BillCard.module.scss";
+
+.billCard {
+  border: 1px solid $grey;
+  background: $grey-lighter;
+  height: fit-content;
+  min-width: 512px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .header {
+    background: $grey-light;
+  }
+
+  .cardContent {
+    padding: 0 1rem;
+    > * {
+      padding: 1.5rem;
+    }
+
+    h2,
+    h4 {
+      margin: 0 0 1.5rem;
+    }
+
+    h4 {
+      font-size: $text-sm;
+      font-weight: 500;
+    }
+
+    .sponsors {
+      border-top: 1px solid $grey;
+      border-bottom: 1px solid $grey;
+    }
+  }
+
+  .description {
+    p {
+      font-size: $text-md;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
+  .footer {
+    padding: 1rem;
+  }
+}

@@ -102,10 +102,10 @@ $small-size: 1.825rem;
   $colorDarkest,
   $colorLight,
   $colorLighter,
-  $textColor: $white
+  $textColor
 ) {
   border-color: $color;
-  background-color: $colorDarkest;
+  background-color: transparent;
   color: $textColor;
 
   &:hover {
@@ -187,7 +187,8 @@ $small-size: 1.825rem;
     $blue-darker,
     $blue-darkest,
     $blue-light,
-    $blue-lighter
+    $blue-lighter,
+    $white
   );
 }
 
@@ -213,7 +214,8 @@ $small-size: 1.825rem;
     $yellow,
     $blue-darker,
     $white,
-    $yellow-dark
+    $yellow-dark,
+    $dark-brown
   );
 }
 
@@ -222,7 +224,7 @@ $small-size: 1.825rem;
 }
 
 .red.secondary {
-  @include secondary($red, $red, $red, transparent, $red, $white);
+  @include secondary($red, $red, $red, transparent, $red, $white, $red);
 }
 
 .aqua.primary {

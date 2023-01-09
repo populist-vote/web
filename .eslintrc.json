@@ -22,7 +22,6 @@
     ],
     "react/no-unescaped-entities": "off",
     "semi": "error",
-    // Ignore no-unused-vars if prefixed with underscore
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

@@ -46,12 +46,12 @@ function BillCard({
                 <FaCheckCircle size={18} color="var(--green-support)" />
               }
             >
-              {bill.publicVotes?.support ?? 0}
+              {bill?.publicVotes?.support ?? 0}
             </Badge>
             <Badge
               iconLeft={<RiCloseCircleFill size={18} color="var(--red)" />}
             >
-              {bill.publicVotes?.oppose ?? 0}
+              {bill?.publicVotes?.oppose ?? 0}
             </Badge>
           </div>
         </footer>
