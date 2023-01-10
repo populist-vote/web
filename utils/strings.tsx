@@ -47,4 +47,14 @@ function getContrasting(hexcolor: string) {
   return yiq >= 128 ? "var(--grey-darkest)" : "var(--white)";
 }
 
-export { titleCase, kebabCase, addAlphaToHexColor, getContrasting };
+function splitAtDigitAndJoin(str: string): string {
+  return str.split(/(\d.*)/, 2).join(" ");
+}
+
+export {
+  titleCase,
+  kebabCase,
+  addAlphaToHexColor,
+  getContrasting,
+  splitAtDigitAndJoin,
+};

@@ -1,13 +1,19 @@
 @import "../../components/BillCard/BillCard.module.scss";
+@import "../../components/Button/Button.module.scss";
 
 .billCard {
   border: 1px solid $grey;
   background: $grey-lighter;
   max-width: none;
   width: 512px;
-  height: 550px;
+  height: fit-content;
   text-align: center;
   margin: 0;
+
+  header,
+  section:not(:last-child) {
+    border-bottom: 1px solid $grey;
+  }
 
   a {
     width: auto;
@@ -23,6 +29,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 0 1rem;
     > * {
       padding: 1.5rem;

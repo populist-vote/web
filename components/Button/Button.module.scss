@@ -24,6 +24,21 @@
   }
 }
 
+.blueSecondary {
+  background-color: $blue-light;
+  color: $blue-dark;
+  border-color: $blue-dark;
+  &:hover {
+    background-color: $blue-dark;
+    color: $white;
+  }
+  &:disabled {
+    background-color: $blue-light;
+    color: $blue-dark;
+    border-color: $blue-dark;
+  }
+}
+
 .buttonLabel {
   display: inline-flex;
   justify-content: center;

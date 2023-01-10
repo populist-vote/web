@@ -12,7 +12,7 @@ import { FaCheckCircle, FaCircle, FaExclamationCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
-import { titleCase } from "utils/strings";
+import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 
 function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
@@ -28,6 +28,7 @@ function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
 							title
 							description
 							billNumber
+              state
 							status
 							officialSummary
 							populistSummary
@@ -108,10 +109,12 @@ function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
   return (
     <div className={styles.billCard}>
       <header className={styles.header}>
-        <strong>{bill.billNumber}</strong>
+        <strong>
+          {bill.state || "U.S."} - {splitAtDigitAndJoin(bill.billNumber)}
+        </strong>
         <strong>{getYear(bill.session?.endDate)}</strong>
       </header>
-      <div className={styles.cardContent}>
+      <section className={styles.cardContent}>
         <div>
           <h2 className={styles.title}>{bill.title}</h2>
           <div className={styles.tags}>
@@ -134,24 +137,26 @@ function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
             />
           </a>
         </div>
-        <div className={styles.sponsors}>
-          <h4>Sponsors</h4>
-          {bill.sponsors?.map((sponsor: Partial<PoliticianResult>) => (
-            <div key={sponsor.id} className={styles.sponsor}>
-              <PartyAvatar
-                party={sponsor?.party as PoliticalParty}
-                src={sponsor?.thumbnailImageUrl as string}
-                alt={sponsor?.fullName as string}
-                size={80}
-              />
-              <div className={styles.sponsorInfo}>
-                <strong>{sponsor.fullName}</strong>
-                <span>{sponsor.currentOffice?.officeType}</span>
+        {bill.sponsors?.length > 0 && (
+          <section className={styles.sponsors}>
+            <h4>Sponsors</h4>
+            {bill.sponsors?.map((sponsor: Partial<PoliticianResult>) => (
+              <div key={sponsor.id} className={styles.sponsor}>
+                <PartyAvatar
+                  party={sponsor?.party as PoliticalParty}
+                  src={sponsor?.thumbnailImageUrl as string}
+                  alt={sponsor?.fullName as string}
+                  size={80}
+                />
+                <div className={styles.sponsorInfo}>
+                  <strong>{sponsor.fullName}</strong>
+                  <span>{sponsor.currentOffice?.officeType}</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </section>
+        )}
+      </section>
       <footer className={styles.footer}>
         <Badge
           iconLeft={

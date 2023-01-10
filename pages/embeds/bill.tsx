@@ -10,6 +10,7 @@ export async function getServerSideProps({
   query: NextParsedUrlQuery;
 }) {
   return {
+    notFound: !query.apiKey || !query.billId,
     props: {
       apiKey: query.apiKey || process.env.NEXT_PUBLIC_API_KEY,
       billId: query.billId,

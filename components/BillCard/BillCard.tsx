@@ -2,7 +2,7 @@ import Link from "next/link";
 import styles from "./BillCard.module.scss";
 import { BillResult, BillStatus } from "generated";
 import { Badge } from "components/Badge/Badge";
-import { titleCase } from "utils/strings";
+import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import { getStatusInfo } from "utils/bill";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
@@ -20,7 +20,10 @@ function BillCard({
     <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
       <div className={styles.billCard}>
         <header className={styles.header}>
-          <strong>{bill.billNumber}</strong>
+          <strong>
+            {bill.state || "U.S."} -{" "}
+            {splitAtDigitAndJoin(bill?.billNumber || "")}
+          </strong>
           <strong>{getYear(bill.session?.endDate)}</strong>
         </header>
         <div className={styles.cardContent}>

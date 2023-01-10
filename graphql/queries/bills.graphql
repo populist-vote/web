@@ -54,6 +54,7 @@ query BillBySlug($slug: String!) {
     description
     billNumber
     status
+    state
     officialSummary
     populistSummary
     fullTextUrl
@@ -103,6 +104,7 @@ fragment BillFields on BillResult {
   slug
   title
   status
+  state
   billNumber
   issueTags {
     id
