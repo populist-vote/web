@@ -50,16 +50,19 @@ function ChooseAdventure() {
         <div className={clsx(styles.roundedCard, styles.flex)}>
           <h2>Browse by state</h2>
           <p>Browse elections and candidate information</p>
-          <Link href="/politicians?state=CO" passHref>
-            <div className={clsx(styles.stateButton, styles.aquaButton)}>
-              Colorado
-            </div>
+          <Link
+            href="/politicians?state=CO"
+            passHref
+            className={clsx(styles.stateButton, styles.aquaButton)}
+          >
+            Colorado
           </Link>
 
-          <Link href="/politicians?state=MN" passHref>
-            <div className={clsx(styles.stateButton, styles.violetButton)}>
-              Minnesota
-            </div>
+          <Link
+            href="/politicians?state=MN"
+            className={clsx(styles.stateButton, styles.violetButton)}
+          >
+            Minnesota
           </Link>
         </div>
       </div>

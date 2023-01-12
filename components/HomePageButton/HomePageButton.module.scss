@@ -1,7 +1,7 @@
 @import "styles/variables/fonts";
 @import "styles/variables/colors";
 
-.container {
+a.container {
   min-width: 75vw;
   background-repeat: no-repeat;
   border-radius: 8px;
@@ -16,10 +16,19 @@
   color: $white;
   cursor: pointer;
   text-transform: none;
+  border: none;
 
   &:hover {
     filter: brightness(1.15);
     transition: ease-in-out 0.3s;
+    color: $white;
+  }
+
+  &:active {
+    filter: brightness(1);
+    transition: ease-in-out 0.3s;
+    transform: scale3d(0.95, 0.95, 1);
+    color: $salmon;
   }
 
   &.myBallot {

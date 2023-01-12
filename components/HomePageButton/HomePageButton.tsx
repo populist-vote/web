@@ -12,8 +12,8 @@ function HomePageButton({
   label: string;
 }) {
   return (
-    <Link href={href} passHref>
-      <div className={clsx(styles.container, styles[className])}>{label}</div>
+    <Link href={href} className={clsx(styles.container, styles[className])}>
+      {label}
     </Link>
   );
 }
