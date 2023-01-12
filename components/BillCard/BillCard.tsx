@@ -24,7 +24,7 @@ function BillCard({
             {bill.state || "U.S."} -{" "}
             {splitAtDigitAndJoin(bill?.billNumber || "")}
           </strong>
-          <strong>{getYear(bill.session?.endDate)}</strong>
+          <strong>{getYear(bill.session?.startDate)}</strong>
         </header>
         <div className={styles.cardContent}>
           <h2 className={styles.title}>{bill.title}</h2>
