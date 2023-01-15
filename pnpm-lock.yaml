@@ -5,8 +5,10 @@ importers:
   .:
     specifiers:
       husky: ^8.0.1
+      lint-staged: ^13.1.0
     devDependencies:
       husky: 8.0.3
+      lint-staged: 13.1.0
 
   app:
     specifiers:
@@ -36,7 +38,6 @@ importers:
       eslint-config-prettier: ^8.5.0
       eslint-plugin-jsx-a11y: ^6.6.1
       graphql: ^16.5.0
-      lint-staged: ^13.0.3
       little-state-machine: ^4.2.3
       next: 13.1.2
       next-i18next: 13.0.3
@@ -105,7 +106,6 @@ importers:
       eslint-config-next: 13.1.2_iukboom6ndih5an6iafl45j2fe
       eslint-config-prettier: 8.6.0_eslint@8.31.0
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.31.0
-      lint-staged: 13.1.0
       prettier: 2.8.3
       stylelint: 14.16.1
       stylelint-config-standard-scss: 6.1.0_w5gtdy6oq4ictd5o4eu6befejy
