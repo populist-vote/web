@@ -4,10 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install",
-    "dev": "cd app && next dev",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.+(ts|tsx)\""
   },
   "keywords": [],

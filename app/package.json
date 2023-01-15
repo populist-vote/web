@@ -10,7 +10,8 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"**/*.+(ts|tsx)\"",
     "prebuild": "dotenv -c production -- graphql-codegen",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@szhsin/react-menu": "^3.0.2",
