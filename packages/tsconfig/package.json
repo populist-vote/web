@@ -1,16 +1,16 @@
 {
-  "name": "web",
+  "name": "tsconfig",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install",
-    "dev": "cd app && next dev"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "husky": "^8.0.1"
+    "@tsconfig/recommended": "^1.0.1",
+    "@tsconfig/next-strictest": "^1.0.0"
   }
 }
