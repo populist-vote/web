@@ -9,7 +9,10 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**"],
       "env": [
-        "GRAPHQL_SCHEMA_PATH"
+        "GRAPHQL_SCHEMA_PATH",
+        "NODE_ENV",
+        "GOOGLE_ANALYTICS_ID",
+        "NEXT_PUBLIC_API_KEY"
       ]
     },
     "test": {

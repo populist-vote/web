@@ -9,7 +9,7 @@ module.exports = {
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["./app/tsconfig.json", "./packages/*/tsconfig.json"]
+    project: ["./tsconfig.json", "./*/tsconfig.json"]
   },
   plugins: ["jsx-a11y"],
   rules: {
@@ -32,7 +32,8 @@ module.exports = {
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "@typescript-eslint/ban-ts-comment": "warn"
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
   },
   globals: {
     "JSX": "readonly"
