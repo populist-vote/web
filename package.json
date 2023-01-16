@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "format": "prettier --write \"**/*.+(ts|tsx)\""
+    "format": "prettier --write \"**/*.+(ts|tsx)\"",
+    "dev": "turbo run dev"
   },
   "keywords": [],
   "author": "",
