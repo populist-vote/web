@@ -37,7 +37,7 @@ import useDebounce from "hooks/useDebounce";
 import { NextPage } from "next";
 import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "utils/next-i18next.config";
+import nextI18nextConfig from "next-i18next.config";
 
 type NameSectionProps = {
   firstName: string;

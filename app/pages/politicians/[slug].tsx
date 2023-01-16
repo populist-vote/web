@@ -24,7 +24,7 @@ import { EndorsementsSection } from "components/PoliticianPage/EndorsementsSecti
 import { RatingsSection } from "components/PoliticianPage/RatingsSection/RatingsSection";
 import { BioSection } from "components/PoliticianPage/BioSection/BioSection";
 import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/FinancialsSection";
-import nextI18NextConfig from "utils/next-i18next.config";
+import nextI18NextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "global";
 

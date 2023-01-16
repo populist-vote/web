@@ -15,7 +15,7 @@ import { ORGANIZATION_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "global";
-import nextI18NextConfig from "utils/next-i18next.config";
+import nextI18NextConfig from "next-i18next.config";
 import { PoliticianNotes } from "components/OrganizationPage/PoliticianNotes/PoliticianNotes";
 import { useMediaQuery } from "hooks/useMediaQuery";
 

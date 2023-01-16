@@ -18,7 +18,7 @@ import useDebounce from "hooks/useDebounce";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { GetServerSideProps, NextPage } from "next";
 import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianFilters";
-import nextI18NextConfig from "utils/next-i18next.config";
+import nextI18NextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "global";
 import { useInfiniteQuery } from "@tanstack/react-query";

@@ -1,6 +1,6 @@
 import { LogIn } from "components/Auth/LogIn/LogIn";
 import type { NextPage } from "next";
-import nextI18NextConfig from "utils/next-i18next.config";
+import nextI18NextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "global";
 

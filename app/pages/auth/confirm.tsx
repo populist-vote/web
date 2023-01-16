@@ -9,7 +9,7 @@ import Link from "next/link";
 import { LoaderFlag } from "components";
 import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "utils/next-i18next.config";
+import nextI18NextConfig from "next-i18next.config";
 
 export async function getServerSideProps({
   locale,
