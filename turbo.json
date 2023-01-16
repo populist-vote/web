@@ -6,7 +6,8 @@
       "persistent": true
     },
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": [".next/**"]
     },
     "test": {
         "dependsOn": ["build"],
