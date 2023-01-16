@@ -15,6 +15,7 @@
     "eslint-config-prettier": "latest",
     "eslint-plugin-react": "latest",
     "eslint-config-turbo": "latest",
-    "eslint-plugin-jsx-a11y": "latest"
+    "eslint-plugin-jsx-a11y": "latest",
+    "@typescript-eslint/eslint-plugin": "latest"
   }
 }
