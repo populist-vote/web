@@ -1,4 +1,4 @@
-import { i18n } from "../../next-i18next.config";
+import { i18n } from "./next-i18next.config";
 export const DEFAULT_LANGUAGE = i18n.defaultLocale;
 export type Language = (typeof i18n.locales)[number];
 

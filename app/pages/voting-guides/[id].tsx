@@ -8,7 +8,7 @@ import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { GetServerSideProps } from "next";
-import nextI18NextConfig from "../../../next-i18next.config";
+import nextI18NextConfig from "utils/next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";

@@ -5,7 +5,7 @@ import {
   PopularitySort,
   State,
 } from "graphql-codegen/generated";
-import nextI18NextConfig from "../../../next-i18next.config";
+import nextI18NextConfig from "utils/next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { SupportedLocale } from "global";

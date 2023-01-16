@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Button, Layout } from "components";
 import { useAuth } from "hooks/useAuth";
-import nextI18NextConfig from "../../../next-i18next.config";
+import nextI18NextConfig from "utils/next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { useRouter } from "next/router";

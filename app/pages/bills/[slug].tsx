@@ -3,7 +3,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../../next-i18next.config";
+import nextI18NextConfig from "utils/next-i18next.config";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { BsChevronLeft } from "react-icons/bs";

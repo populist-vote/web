@@ -9,7 +9,7 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import { SupportedLocale } from "global";
-import nextI18NextConfig from "../../next-i18next.config";
+import nextI18NextConfig from "utils/next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({
