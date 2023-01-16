@@ -7,7 +7,7 @@ import styles from "components/Auth/Auth.module.scss";
 import layoutStyles from "components/BasicLayout/BasicLayout.module.scss";
 import Link from "next/link";
 import { LoaderFlag } from "components";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 

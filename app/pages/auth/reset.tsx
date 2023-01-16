@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { RequestResetForm } from "components/Auth/RequestResetForm";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 

@@ -35,7 +35,7 @@ import { toast } from "react-toastify";
 import { PasswordInput } from "components/Auth/PasswordInput";
 import useDebounce from "hooks/useDebounce";
 import { NextPage } from "next";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 

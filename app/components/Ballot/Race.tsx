@@ -16,7 +16,7 @@ import { useVotingGuide } from "hooks/useVotingGuide";
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import styles from "./Ballot.module.scss";
-import { AtLeast } from "types/global";
+import { AtLeast } from "global";
 
 import { default as clsx } from "clsx";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";

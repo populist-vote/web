@@ -11,6 +11,6 @@
   "license": "ISC",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
-    "@tsconfig/next-strictest": "^1.0.0"
+    "@tsconfig/next": "^1.0.0"
   }
 }

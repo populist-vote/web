@@ -1,4 +1,4 @@
-import { AddressInput } from "../../app/generated";
+import { AddressInput } from "./generated";
 import "little-state-machine";
 
 declare module "little-state-machine" {
@@ -7,7 +7,6 @@ declare module "little-state-machine" {
       email: string;
       password: string;
       address: AddressInput;
-      test: string;
     };
   }
 }

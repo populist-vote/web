@@ -62,9 +62,9 @@ function LogIn() {
             >
               <input
                 type="text"
-                placeholder={t("email-or-username")}
+                placeholder={t("email-or-username") as string}
                 {...register("emailOrUsername", {
-                  required: t("email-or-username-is-required"),
+                  required: t("email-or-username-is-required") as string,
                 })}
               />
             </div>
@@ -76,7 +76,7 @@ function LogIn() {
               <PasswordInput
                 name="password"
                 register={register}
-                rules={{ required: t("password-is-required") }}
+                rules={{ required: t("password-is-required") as string }}
                 autoComplete="current-password"
               />
             </div>

@@ -3,7 +3,7 @@ import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import { StickyButton } from "components/StickyButton/StickyButton";
 import { FaSearch } from "react-icons/fa";
 import { FiltersIcon } from "components/Icons";

@@ -28,7 +28,7 @@ export function VotingGuideProvider({
 }: PropsWithChildren<{
   votingGuideId: string;
 }>) {
-  const { data: { currentUser = {} } = {} } = useCurrentUserQuery();
+  const { data: { currentUser } = {} } = useCurrentUserQuery();
   const { data } = useVotingGuideByIdQuery(
     { id: votingGuideId },
     {

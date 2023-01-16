@@ -80,7 +80,7 @@ function AddressStep() {
           >
             <input
               type="text"
-              placeholder={t("street-address")}
+              placeholder={t("street-address") as string}
               {...register("address.line1", {
                 required: "Address line 1 is required",
               })}
@@ -100,7 +100,7 @@ function AddressStep() {
           >
             <input
               type="text"
-              placeholder={t("apartment-line")}
+              placeholder={t("apartment-line") as string}
               {...register("address.line2")}
             />
           </div>
@@ -111,7 +111,7 @@ function AddressStep() {
           >
             <input
               type="text"
-              placeholder={t("city")}
+              placeholder={t("city") as string}
               {...register("address.city", {
                 required: "City is required",
               })}
@@ -148,7 +148,7 @@ function AddressStep() {
             >
               <input
                 type="text"
-                placeholder={t("postal-code")}
+                placeholder={t("postal-code") as string}
                 {...register("address.postalCode", {
                   required: "Postal code is required",
                 })}

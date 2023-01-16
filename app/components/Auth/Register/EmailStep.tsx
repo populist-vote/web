@@ -152,10 +152,10 @@ function EmailStep() {
           >
             <input
               type="email"
-              placeholder={t("email")}
+              placeholder={t("email") as string}
               aria-invalid={errors.email ? "true" : "false"}
               {...register("email", {
-                required: t("email-is-required"),
+                required: t("email-is-required") as string,
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                   message: t("invalid-email"),
@@ -173,11 +173,11 @@ function EmailStep() {
           >
             <PasswordInput
               name="password"
-              placeholder={t("password")}
+              placeholder={t("password") as string}
               aria-invalid={errors.password ? "true" : "false"}
               register={register}
               rules={{
-                required: t("password-is-required"),
+                required: t("password-is-required") as string,
                 validate: () => isPasswordValid,
               }}
               autoComplete="new-password"
@@ -211,9 +211,11 @@ function EmailStep() {
             }
             size="large"
           />
-          <small className={styles.formError}>{errors?.email?.message}</small>
           <small className={styles.formError}>
-            {errors?.password?.message}
+            {errors?.email?.message as string}
+          </small>
+          <small className={styles.formError}>
+            {errors?.password?.message as string}
           </small>
         </form>
       </div>

@@ -14,7 +14,7 @@ import styles from "./OrganizationPage.module.scss";
 import { ORGANIZATION_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import nextI18nextConfig from "next-i18next.config";
 import { PoliticianNotes } from "components/OrganizationPage/PoliticianNotes/PoliticianNotes";
 import { useMediaQuery } from "hooks/useMediaQuery";
@@ -147,7 +147,7 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
             )}
           </div>
         </section>
-        
+
         <ColoredSection color="var(--blue)">
           <PoliticianNotes />
         </ColoredSection>

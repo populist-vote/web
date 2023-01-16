@@ -1,16 +1,18 @@
-{
-  "extends": [
+module.exports = {
+  extends: [
+    "next",
+    "turbo",
     "prettier",
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": ["./app/tsconfig.json", "./packages/*/tsconfig.json"]
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: ["./app/tsconfig.json", "./packages/*/tsconfig.json"]
   },
-  "plugins": ["jsx-a11y"],
-  "rules": {
+  plugins: ["jsx-a11y"],
+  rules: {
     "no-console": "warn",
     "object-curly-spacing": ["error", "always"],
     "key-spacing": ["error", { "beforeColon": false }],
@@ -32,14 +34,15 @@
     ],
     "@typescript-eslint/ban-ts-comment": "warn"
   },
-  "globals": {
+  globals: {
     "JSX": "readonly"
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "ignorePatterns": [
+  ignorePatterns: [
     "generated.ts",
     "next.config.js",
     "next-i18next.config.js",
     "public/*"
   ]
 }
+
+

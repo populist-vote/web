@@ -5,7 +5,7 @@ import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import styles from "./choose.module.scss";
 
 export async function getServerSideProps({

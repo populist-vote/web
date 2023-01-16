@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import styles from "styles/modules/page.module.scss";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 
 export default function VotingGuidePage() {
   const user = useAuth({ redirect: false });

@@ -19,7 +19,7 @@ import {
   SupportOppose,
 } from "components";
 import { CommitteeTag } from "components/PoliticianPage/CommitteesSection/CommitteesSection";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 
 import {
   PoliticianResult,

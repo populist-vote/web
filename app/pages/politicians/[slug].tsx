@@ -26,7 +26,7 @@ import { BioSection } from "components/PoliticianPage/BioSection/BioSection";
 import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/FinancialsSection";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 
 function PoliticianPage({
   slug,

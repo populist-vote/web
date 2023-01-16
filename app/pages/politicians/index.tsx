@@ -20,7 +20,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianFilters";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const PAGE_SIZE = 20;

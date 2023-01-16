@@ -9,7 +9,7 @@ import {
 import usePortal from "hooks/usePortal";
 import { useForm } from "react-hook-form";
 import { useVotingGuide } from "hooks/useVotingGuide";
-import { AtLeast } from "types/global";
+import { AtLeast } from "global";
 import type { EditVotingGuideCandidate } from "components";
 import { useQueryClient } from "@tanstack/react-query";
 

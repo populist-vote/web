@@ -7,7 +7,7 @@ import {
 import { EmailStep } from "components/Auth/Register/EmailStep";
 import { BasicLayout, LoaderFlag } from "components";
 import { useRouter } from "next/router";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 

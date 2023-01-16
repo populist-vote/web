@@ -1,3 +1,6 @@
 {
-    "extends": "@tsconfig/next-strictest/tsconfig.json"
+    "extends": "@tsconfig/next/tsconfig.json",
+    "compilerOptions": {
+      "target": "es6"
+    }
 }

@@ -16,7 +16,7 @@ import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
 import useDeviceInfo from "hooks/useDeviceInfo";
-import { SupportedLocale } from "types/global";
+import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { useTranslation } from "next-i18next";

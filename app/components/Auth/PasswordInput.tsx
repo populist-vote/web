@@ -28,7 +28,7 @@ function PasswordInput(props: PasswordInputProps) {
         )
       }
       type={passwordInputType}
-      placeholder={t("password")}
+      placeholder={t("password") as string}
       {...props}
     />
   );
