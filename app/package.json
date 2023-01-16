@@ -6,7 +6,7 @@
     "dev": "next dev -p 3030",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint && tsc --noEmit",
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"**/*.+(ts|tsx)\"",
     "prebuild": "dotenv -c production -- graphql-codegen",
