@@ -7,7 +7,7 @@ import {
   IssueTagResult,
   PoliticalParty,
   PoliticianResult,
-} from "generated";
+} from "graphql-codegen/generated";
 import { FaCheckCircle, FaCircle, FaExclamationCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { getStatusInfo } from "utils/bill";

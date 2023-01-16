@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { usePoliticianIndexQuery } from "generated";
+import { usePoliticianIndexQuery } from "graphql-codegen/generated";
 import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
 
@@ -11,14 +11,14 @@ import {
   PoliticalParty,
   PoliticalScope,
   State,
-} from "../../generated";
-import type { PoliticianResult } from "../../generated";
+} from "graphql-codegen/generated";
+import type { PoliticianResult } from "graphql-codegen/generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { GetServerSideProps, NextPage } from "next";
 import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianFilters";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "global";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -213,7 +213,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       ...(await serverSideTranslations(
         locale as SupportedLocale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

@@ -1,5 +1,8 @@
 import { BasicLayout, Button } from "components";
-import { useCurrentUserQuery, useLogInMutation } from "generated";
+import {
+  useCurrentUserQuery,
+  useLogInMutation,
+} from "graphql-codegen/generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -35,7 +38,6 @@ function LogIn() {
       }),
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitForm = (data: any) => {
     login.mutate(data);
   };

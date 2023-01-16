@@ -7,7 +7,7 @@ import styles from "./Auth.module.scss";
 import {
   useResetPasswordMutation,
   useValidatePasswordEntropyQuery,
-} from "../../generated";
+} from "graphql-codegen/generated";
 import { PasswordEntropyMeter } from "./Register/PasswordEntropyMeter/PasswordEntropyMeter";
 import useDebounce from "hooks/useDebounce";
 import { PasswordInput } from "./PasswordInput";

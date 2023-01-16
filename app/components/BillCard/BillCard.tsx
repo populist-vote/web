@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./BillCard.module.scss";
-import { BillResult, BillStatus } from "generated";
+import { BillResult, BillStatus } from "graphql-codegen/generated";
 import { Badge } from "components/Badge/Badge";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import { getStatusInfo } from "utils/bill";

@@ -1,6 +1,6 @@
 import { Candidate } from "components";
 import { Language, LocalizedNote } from "utils/constants";
-import { PoliticianResult } from "generated";
+import { PoliticianResult } from "graphql-codegen/generated";
 
 interface PoliticianNoteProps {
   politician: Partial<PoliticianResult>;

@@ -1,4 +1,4 @@
 
 > utils@1.0.0 lint /Users/wiley/populist/web/packages/utils
-> eslint
+> eslint && tsc --noEmit
 

@@ -33,6 +33,7 @@ importers:
       dotenv-cli: ^6.0.0
       eslint-config-custom: workspace:*
       graphql: ^16.5.0
+      graphql-codegen: workspace:*
       little-state-machine: ^4.2.3
       next: 13.1.2
       next-i18next: 13.0.3
@@ -42,7 +43,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-dropzone: ^14.2.2
-      react-hook-form: ^7.36.1
+      react-hook-form: ^7.42.1
       react-icons: ^4.3.1
       react-markdown: ^8.0.3
       react-table: ^7.8.0
@@ -52,7 +53,7 @@ importers:
       stylelint-config-standard-scss: ^6.0.0
       ts-node: ^10.9.1
       tsconfig: workspace:*
-      typescript: ^4.8.4
+      typescript: ^4.9.3
       typescript-plugin-css-modules: ^4.1.1
       utils: workspace:*
       webpack: ^5.74.0
@@ -71,7 +72,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-dropzone: 14.2.3_react@18.2.0
-      react-hook-form: 7.42.0_react@18.2.0
+      react-hook-form: 7.42.1_react@18.2.0
       react-icons: 4.7.1_react@18.2.0
       react-markdown: 8.0.4_bbvjflvjoibwhtpmedigb26h6y
       react-table: 7.8.0_react@18.2.0
@@ -95,6 +96,7 @@ importers:
       cosmiconfig-toml-loader: 1.0.0
       dotenv-cli: 6.0.0
       eslint-config-custom: link:../packages/eslint-config-custom
+      graphql-codegen: link:../packages/graphql-codegen
       prettier: 2.8.3
       stylelint: 14.16.1
       stylelint-config-standard-scss: 6.1.0_w5gtdy6oq4ictd5o4eu6befejy
@@ -122,6 +124,15 @@ importers:
       eslint-plugin-jsx-a11y: 6.7.1_eslint@8.32.0
       eslint-plugin-react: 7.32.0_eslint@8.32.0
 
+  packages/graphql-codegen:
+    specifiers:
+      '@tanstack/react-query': 4.14.1
+      '@types/node': 18.11.9
+    dependencies:
+      '@tanstack/react-query': 4.14.1_react@18.2.0
+    devDependencies:
+      '@types/node': 18.11.9
+
   packages/tsconfig:
     specifiers:
       '@tsconfig/next': ^1.0.0
@@ -132,11 +143,19 @@ importers:
 
   packages/utils:
     specifiers:
+      '@types/node': 18.11.9
+      '@types/react': 18.0.24
       eslint-config-custom: workspace:*
+      graphql-codegen: workspace:*
       tsconfig: workspace:*
+      typescript: ^4.9.3
     devDependencies:
+      '@types/node': 18.11.9
+      '@types/react': 18.0.24
       eslint-config-custom: link:../eslint-config-custom
+      graphql-codegen: link:../graphql-codegen
       tsconfig: link:../tsconfig
+      typescript: 4.9.4
 
 packages:
 
@@ -2349,6 +2368,10 @@ packages:
       remove-accents: 0.4.2
     dev: false
 
+  /@tanstack/query-core/4.14.1:
+    resolution: {integrity: sha512-mUejKoFDe4NZB8jQJR1uuAl6IwvkUpOD2m8NcuTVPOu0pcxeeFPdrnHaljwOEFPtlqXoiiIIQGYy6whjCMN+iQ==}
+    dev: false
+
   /@tanstack/query-core/4.22.0:
     resolution: {integrity: sha512-OeLyBKBQoT265f5G9biReijeP8mBxNFwY7ZUu1dKL+YzqpG5q5z7J/N1eT8aWyKuhyDTiUHuKm5l+oIVzbtrjw==}
     dev: false
@@ -2365,6 +2388,23 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       superjson: 1.12.1
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/react-query/4.14.1_react@18.2.0:
+    resolution: {integrity: sha512-cRgNzigw4GSPwGlTEkXi8hi/xgUnSEt9jCkiC8oAT3PEIdsQ50onZcpXd+JNJcZk2RTh8KM1fGyWz6xYLiY8bg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 4.14.1
+      react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
@@ -6892,8 +6932,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-hook-form/7.42.0_react@18.2.0:
-    resolution: {integrity: sha512-XDEjSUZmT68FOSv2FaD3XlN1sa2HB9vIQ9SVKsogGrHUY43o2aANQDC9LgHa4zusqCMKLG3qitpTcEhpYWHBFw==}
+  /react-hook-form/7.42.1_react@18.2.0:
+    resolution: {integrity: sha512-2UIGqwMZksd5HS55crTT1ATLTr0rAI4jS7yVuqTaoRVDhY2Qc4IyjskCmpnmdYqUNOYFy04vW253tb2JRVh+IQ==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18

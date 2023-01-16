@@ -11,7 +11,7 @@ import {
   RaceType,
   useUpsertVotingGuideCandidateMutation,
   VotingGuideByIdQuery,
-} from "../../generated";
+} from "graphql-codegen/generated";
 import { useVotingGuide } from "hooks/useVotingGuide";
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";

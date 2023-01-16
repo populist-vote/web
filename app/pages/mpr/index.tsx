@@ -8,14 +8,17 @@ import {
   Button,
   TextInput,
 } from "components";
-import { useMprFeaturedRacesQuery, RaceResult } from "generated";
+import {
+  useMprFeaturedRacesQuery,
+  RaceResult,
+} from "graphql-codegen/generated";
 import styles from "./MPRElectionPage.module.scss";
 import { splitRaces } from "utils/data";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18NextConfig from "../../next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { SupportedLocale } from "global";
 import { OrganizationAvatar } from "components/Avatar/Avatar";
 

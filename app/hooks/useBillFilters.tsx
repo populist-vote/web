@@ -1,4 +1,8 @@
-import { BillStatus, PoliticalScope, PopularitySort } from "generated";
+import {
+  BillStatus,
+  PoliticalScope,
+  PopularitySort,
+} from "graphql-codegen/generated";
 import { useRouter } from "next/router";
 import { ChangeEvent, useLayoutEffect, useRef, useState } from "react";
 

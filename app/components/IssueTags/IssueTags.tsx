@@ -1,4 +1,4 @@
-import { IssueTagResult } from "generated";
+import { IssueTagResult } from "graphql-codegen/generated";
 import styles from "./IssueTags.module.scss";
 
 interface IssueTagProps extends Partial<IssueTagResult> {

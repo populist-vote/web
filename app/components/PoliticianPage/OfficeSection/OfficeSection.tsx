@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import { usePoliticianCurrentOfficeQuery } from "generated";
+import { usePoliticianCurrentOfficeQuery } from "graphql-codegen/generated";
 import { useRouter } from "next/router";
 import styles from "./OfficeSection.module.scss";
 

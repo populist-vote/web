@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Button } from "components/Button/Button";
-import { PoliticianResult } from "generated";
+import { PoliticianResult } from "graphql-codegen/generated";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import {
   FaFacebook,

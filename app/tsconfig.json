@@ -4,10 +4,6 @@
     "baseUrl": ".",
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": [
-    "."
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": [".", "../packages/config/next-i18next.config.js"],
+  "exclude": ["node_modules"]
 }

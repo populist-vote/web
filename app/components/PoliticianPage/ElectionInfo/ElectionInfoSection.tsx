@@ -5,7 +5,7 @@ import {
   PoliticalParty,
   PoliticianResult,
   usePoliticianElectionInfoQuery,
-} from "../../../generated";
+} from "graphql-codegen/generated";
 import { dateString } from "utils/dates";
 import clsx from "clsx";
 import { useRouter } from "next/router";

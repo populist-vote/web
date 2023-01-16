@@ -3,7 +3,7 @@ import {
   useCurrentUserQuery,
   useVotingGuideByIdQuery,
   VotingGuideResult,
-} from "../generated";
+} from "graphql-codegen/generated";
 import { createContext, useContext } from "react";
 import type { PropsWithChildren } from "react";
 

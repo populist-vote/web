@@ -1,11 +1,14 @@
 import { Button, Layout, LoaderFlag, VotingGuideNav } from "components";
 import { Election } from "components/Ballot/Election";
-import { useVotingGuideByIdQuery, VotingGuideByIdQuery } from "generated";
+import {
+  useVotingGuideByIdQuery,
+  VotingGuideByIdQuery,
+} from "graphql-codegen/generated";
 import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { GetServerSideProps } from "next";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import Link from "next/link";
@@ -102,7 +105,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       ...(await serverSideTranslations(
         locale as SupportedLocale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

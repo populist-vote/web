@@ -1,4 +1,4 @@
-import { ElectionResult } from "generated";
+import { ElectionResult } from "graphql-codegen/generated";
 import { LeftArrowIcon, RightArrowIcon } from "components/Icons";
 import { dateString } from "utils/dates";
 import styles from "./ElectionSelector.module.scss";

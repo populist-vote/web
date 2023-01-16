@@ -1,5 +1,5 @@
 import { FlagSection, FlagColor, OfficeRaces } from "components";
-import { RaceResult } from "generated";
+import { RaceResult } from "graphql-codegen/generated";
 
 interface RaceSectionProps {
   races: Record<string, RaceResult[]>;

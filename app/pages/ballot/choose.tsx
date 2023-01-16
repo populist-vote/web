@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Button, Layout } from "components";
 import { useAuth } from "hooks/useAuth";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

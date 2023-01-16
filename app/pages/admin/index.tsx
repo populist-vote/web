@@ -2,7 +2,11 @@
 import type { NextPage } from "next";
 import { Layout } from "components";
 import { useAuth } from "hooks/useAuth";
-import { Role, State, useUserCountByStateQuery } from "generated";
+import {
+  Role,
+  State,
+  useUserCountByStateQuery,
+} from "graphql-codegen/generated";
 import styles from "./admin.module.scss";
 import clsx from "clsx";
 

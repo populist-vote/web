@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Select } from "components/Select/Select";
-import { PoliticalScope, State } from "generated";
+import { PoliticalScope, State } from "graphql-codegen/generated";
 import { useRouter } from "next/router";
 import styles from "./MobileTabs.module.scss";
 

@@ -2,7 +2,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Table } from "components/Table/Table";
-import { Sector, usePoliticianFinancialsQuery } from "generated";
+import {
+  Sector,
+  usePoliticianFinancialsQuery,
+} from "graphql-codegen/generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";

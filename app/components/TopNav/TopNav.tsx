@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Select } from "components/Select/Select";
-import { PoliticalScope } from "generated";
+import { PoliticalScope } from "graphql-codegen/generated";
 import { useRouter } from "next/router";
 import styles from "./TopNav.module.scss";
 

@@ -1,4 +1,4 @@
-import { ElectionResult } from "generated";
+import { ElectionResult } from "graphql-codegen/generated";
 import styles from "./Ballot.module.scss";
 import { dateString } from "utils/dates";
 

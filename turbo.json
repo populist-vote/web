@@ -7,12 +7,17 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**"]
+      "outputs": [".next/**"],
+      "env": [
+        "GRAPHQL_SCHEMA_PATH"
+      ]
     },
     "test": {
         "dependsOn": ["build"],
         "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
     },
-    "lint": {}
+    "lint": {
+      "dependsOn": [".lintstagedrc.js"]
+    }
   }
 }

@@ -5,7 +5,7 @@ import {
   State,
   useElectionByIdQuery,
   useElectionVotingGuideRacesQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import { ElectionRaces } from "./BallotRaces";
 import { ElectionHeader } from "./ElectionHeader";
 import styles from "./Ballot.module.scss";

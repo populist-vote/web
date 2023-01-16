@@ -5,7 +5,7 @@ import {
   PoliticalParty,
   PoliticianResult,
   useDeleteVotingGuideCandidateNoteMutation,
-} from "../../../generated";
+} from "graphql-codegen/generated";
 import usePortal from "hooks/usePortal";
 import { useForm } from "react-hook-form";
 import { useVotingGuide } from "hooks/useVotingGuide";

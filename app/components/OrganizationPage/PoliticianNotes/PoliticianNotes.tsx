@@ -5,7 +5,7 @@ import {
   PoliticianResult,
   useElectionBySlugQuery,
   useOrganizationPoliticianNotesQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";

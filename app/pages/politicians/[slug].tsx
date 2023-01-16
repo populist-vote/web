@@ -14,7 +14,7 @@ import {
   PoliticianBasicInfoQuery,
   PoliticianResult,
   usePoliticianBasicInfoQuery,
-} from "../../generated";
+} from "graphql-codegen/generated";
 import styles from "./PoliticianPage.module.scss";
 import { OfficeSection } from "components/PoliticianPage/OfficeSection/OfficeSection";
 import { BasicInfoSection } from "components/PoliticianPage/BasicInfoSection/BasicInfoSection";
@@ -24,7 +24,7 @@ import { EndorsementsSection } from "components/PoliticianPage/EndorsementsSecti
 import { RatingsSection } from "components/PoliticianPage/RatingsSection/RatingsSection";
 import { BioSection } from "components/PoliticianPage/BioSection/BioSection";
 import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/FinancialsSection";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "global";
 
@@ -121,7 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       ...(await serverSideTranslations(
         locale as SupportedLocale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

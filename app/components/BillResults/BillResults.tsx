@@ -6,7 +6,7 @@ import {
   PoliticalScope,
   State,
   useBillIndexQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import useDebounce from "hooks/useDebounce";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";

@@ -3,7 +3,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { BsChevronLeft } from "react-icons/bs";
@@ -25,7 +25,7 @@ import {
   PoliticianResult,
   BillBySlugQuery,
   useBillBySlugQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 
 import styles from "./BillBySlug.module.scss";
 
@@ -180,7 +180,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

@@ -6,7 +6,7 @@ import {
   RatingResult,
   RatingResultEdge,
   usePoliticianRatingsQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";

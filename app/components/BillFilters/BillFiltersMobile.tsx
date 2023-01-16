@@ -1,7 +1,7 @@
 import { Badge } from "components/Badge/Badge";
 import { Button } from "components/Button/Button";
 import { Select } from "components/Select/Select";
-import { BillStatus, PopularitySort } from "generated";
+import { BillStatus, PopularitySort } from "graphql-codegen/generated";
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";

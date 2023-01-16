@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { GetCandidateBioResponse } from "generated";
+import { GetCandidateBioResponse } from "graphql-codegen/generated";
 import { FaChair } from "react-icons/fa";
 import { GrTree } from "react-icons/gr";
 import styles from "./CommitteesSection.module.scss";

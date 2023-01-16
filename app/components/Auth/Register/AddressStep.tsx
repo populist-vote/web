@@ -3,7 +3,7 @@ import {
   BeginUserRegistrationInput,
   useBeginUserRegistrationMutation,
   useCurrentUserQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import { useStateMachine } from "little-state-machine";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,7 +32,7 @@ function AddressStep() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm({
+  } = useForm<{ address: AddressInput }>({
     defaultValues: {
       address: loginFormState?.address,
     },

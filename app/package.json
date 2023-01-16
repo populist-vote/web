@@ -27,7 +27,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.2",
-    "react-hook-form": "^7.36.1",
+    "react-hook-form": "^7.42.1",
     "react-icons": "^4.3.1",
     "react-markdown": "^8.0.3",
     "react-table": "^7.8.0",
@@ -54,10 +54,11 @@
     "stylelint-config-standard-scss": "^6.0.0",
     "ts-node": "^10.9.1",
     "tsconfig": "workspace:*",
-    "typescript": "^4.8.4",
+    "typescript": "^4.9.3",
     "typescript-plugin-css-modules": "^4.1.1",
     "utils": "workspace:*",
-    "eslint-config-custom": "workspace:*"
+    "eslint-config-custom": "workspace:*",
+    "graphql-codegen": "workspace:*"
   },
   "graphql": {
     "schema": "https://api.staging.populist.us/"

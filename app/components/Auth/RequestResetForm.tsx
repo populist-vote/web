@@ -1,5 +1,5 @@
 import { BasicLayout, Button } from "components";
-import { useRequestPasswordResetMutation } from "generated";
+import { useRequestPasswordResetMutation } from "graphql-codegen/generated";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

@@ -1,7 +1,7 @@
 import {
   useValidateEmailAvailableQuery,
   useValidatePasswordEntropyQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import { useStateMachine } from "little-state-machine";
 import { useForm } from "react-hook-form";
 import { updateAction } from "pages/register";

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { RaceResult } from "generated";
+import { RaceResult } from "graphql-codegen/generated";
 import styles from "./Ballot.module.scss";
 import { Race } from "./Race";
 

@@ -1,7 +1,7 @@
 import { BasicLayout } from "components";
 import { AddressStep } from "components/Auth/Register/AddressStep";
 import { StateMachineProvider } from "little-state-machine";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "global";
 
@@ -16,7 +16,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

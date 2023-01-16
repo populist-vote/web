@@ -3,13 +3,13 @@ import {
   BeginUserRegistrationInput,
   State,
   useCurrentUserQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import { EmailStep } from "components/Auth/Register/EmailStep";
 import { BasicLayout, LoaderFlag } from "components";
 import { useRouter } from "next/router";
 import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 
 export const updateAction = (
   state: { loginFormState: BeginUserRegistrationInput },
@@ -35,7 +35,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

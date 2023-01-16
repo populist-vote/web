@@ -1,7 +1,7 @@
 import { AiFillCaretDown, AiOutlineSearch } from "react-icons/ai";
 import { Spacer } from "components";
 import styles from "components/Layout/Layout.module.scss";
-import { Chambers, PoliticalScope, State } from "../../generated";
+import { Chambers, PoliticalScope, State } from "graphql-codegen/generated";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { PoliticianIndexProps } from "pages/politicians";

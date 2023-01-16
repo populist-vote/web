@@ -4,9 +4,9 @@ import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
 import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../next-i18next.config";
 import { useTranslation } from "next-i18next";
-import { Role } from "generated";
+import { Role } from "graphql-codegen/generated";
 
 export async function getServerSideProps({
   locale,
@@ -19,7 +19,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

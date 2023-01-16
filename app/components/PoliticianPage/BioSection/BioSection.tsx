@@ -1,7 +1,7 @@
 import { Button } from "components/Button/Button";
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import { usePoliticianBioQuery } from "generated";
+import { usePoliticianBioQuery } from "graphql-codegen/generated";
 import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import styles from "./BioSection.module.scss";

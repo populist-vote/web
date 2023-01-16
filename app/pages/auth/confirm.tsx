@@ -1,5 +1,5 @@
 import { BasicLayout } from "components";
-import { useConfirmUserEmailMutation } from "generated";
+import { useConfirmUserEmailMutation } from "graphql-codegen/generated";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import { LoaderFlag } from "components";
 import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 
 export async function getServerSideProps({
   locale,
@@ -22,7 +22,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

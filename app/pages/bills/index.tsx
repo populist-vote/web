@@ -1,6 +1,11 @@
 import { Button, Layout } from "components";
-import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
-import nextI18nextConfig from "next-i18next.config";
+import {
+  BillStatus,
+  PoliticalScope,
+  PopularitySort,
+  State,
+} from "graphql-codegen/generated";
+import nextI18NextConfig from "../../../next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { SupportedLocale } from "global";
@@ -33,7 +38,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["common", "auth"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

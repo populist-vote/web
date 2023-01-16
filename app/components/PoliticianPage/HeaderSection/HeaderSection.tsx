@@ -9,7 +9,7 @@ import {
   PoliticalParty,
   PoliticianResult,
   useUpsertVotingGuideCandidateMutation,
-} from "../../../generated";
+} from "graphql-codegen/generated";
 import styles from "./HeaderSection.module.scss";
 
 enum NoteState {

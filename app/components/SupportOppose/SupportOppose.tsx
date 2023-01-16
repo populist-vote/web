@@ -7,7 +7,7 @@ import {
   PublicVotes,
   useBillBySlugQuery,
   useUpsertBillPublicVoteMutation,
-} from "../../generated";
+} from "graphql-codegen/generated";
 import styles from "./SupportOppose.module.scss";
 import { useAuth } from "hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";

@@ -6,7 +6,7 @@ import {
   PopularitySort,
   useBillCommitteesQuery,
   useBillIssueTagsQuery,
-} from "generated";
+} from "graphql-codegen/generated";
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";

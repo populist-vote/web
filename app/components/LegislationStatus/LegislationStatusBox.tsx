@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { BallotMeasureStatus, BillStatus } from "generated";
+import { BallotMeasureStatus, BillStatus } from "graphql-codegen/generated";
 import { addAlphaToHexColor } from "utils/strings";
 import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
 import styles from "./LegislationStatus.module.scss";

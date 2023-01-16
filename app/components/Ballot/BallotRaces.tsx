@@ -1,5 +1,5 @@
 import { RaceSection } from "components";
-import { RaceResult } from "generated";
+import { RaceResult } from "graphql-codegen/generated";
 import { splitRaces } from "utils/data";
 
 function ElectionRaces({ races }: { races: RaceResult[] }) {

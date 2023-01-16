@@ -21,12 +21,12 @@ import {
   useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
   useUpsertVotingGuideMutation,
-} from "generated";
+} from "graphql-codegen/generated";
 
 import styles from "components/Layout/Layout.module.scss";
 import { SupportedLocale } from "global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
+import nextI18NextConfig from "../../../next-i18next.config";
 
 export default function BallotPage() {
   const user = useAuth({ redirectTo: `/ballot/choose` });
@@ -154,7 +154,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18NextConfig
       )),
     },
   };

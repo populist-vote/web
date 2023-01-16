@@ -1,4 +1,8 @@
-import { AuthTokenResult, Role, useCurrentUserQuery } from "../generated";
+import {
+  AuthTokenResult,
+  Role,
+  useCurrentUserQuery,
+} from "graphql-codegen/generated";
 import Router from "next/router";
 import { createContext, ReactNode, useContext, useEffect } from "react";
 

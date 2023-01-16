@@ -1,7 +1,10 @@
 import clsx from "clsx";
 import { BillCard } from "components/BillCard/BillCard";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import { BillResult, usePoliticianSponsoredBillsQuery } from "generated";
+import {
+  BillResult,
+  usePoliticianSponsoredBillsQuery,
+} from "graphql-codegen/generated";
 import { useRouter } from "next/router";
 import styles from "./SponsoredBillsSection.module.scss";
 
