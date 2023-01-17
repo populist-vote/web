@@ -1,0 +1,23 @@
+{
+  "name": "config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-config-turbo": "latest",
+    "eslint-plugin-jsx-a11y": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@tsconfig/recommended": "^1.0.1",
+    "@tsconfig/next": "^1.0.0"
+  }
+}

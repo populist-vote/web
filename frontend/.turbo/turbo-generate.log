@@ -1,0 +1,75 @@
+
+> app@ generate /Users/wiley/populist/web/frontend
+> dotenv -c local -- graphql-codegen
+
+(node:35767) ExperimentalWarning: stream/web is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[STARTED] Parse Configuration
+[SUCCESS] Parse Configuration
+[STARTED] Generate outputs
+[STARTED] Generate to ./graphql/schema.graphql
+[STARTED] Generate to ./generated.ts
+[STARTED] Load GraphQL schemas
+[STARTED] Load GraphQL schemas
+[FAILED] 
+[FAILED]         Failed to load schema from undefined:
+[FAILED] 
+[FAILED]         
+[FAILED]       Unable to find any GraphQL type definitions for the following pointers:
+[FAILED]         
+[FAILED]           - undefined
+[FAILED]           
+[FAILED]         Error: 
+[FAILED]       Unable to find any GraphQL type definitions for the following pointers:
+[FAILED]         
+[FAILED]           - undefined
+[FAILED]           
+[FAILED]     at prepareResult (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-tools+load@7.8.0_graphql@16.6.0/node_modules/@graphql-tools/load/cjs/load-typedefs.js:93:15)
+[FAILED]     at loadTypedefs (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-tools+load@7.8.0_graphql@16.6.0/node_modules/@graphql-tools/load/cjs/load-typedefs.js:43:20)
+[FAILED]     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[FAILED]     at async loadSchema (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-tools+load@7.8.0_graphql@16.6.0/node_modules/@graphql-tools/load/cjs/schema.js:15:21)
+[FAILED]     at async loadSchema (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-codegen+cli@2.16.4_cz6zcm5xika3wmvhgdj7rygldy/node_modules/@graphql-codegen/cli/cjs/load.js:36:24)
+[FAILED]     at async /Users/wiley/populist/web/node_modules/.pnpm/@graphql-codegen+cli@2.16.4_cz6zcm5xika3wmvhgdj7rygldy/node_modules/@graphql-codegen/cli/cjs/codegen.js:190:69
+[FAILED] 
+[FAILED]         GraphQL Code Generator supports:
+[FAILED]           - ES Modules and CommonJS exports (export as default or named export "schema")
+[FAILED]           - Introspection JSON File
+[FAILED]           - URL of GraphQL endpoint
+[FAILED]           - Multiple files with type definitions (glob expression)
+[FAILED]           - String in config file
+[FAILED] 
+[FAILED]         Try to use one of above options and run codegen again.
+[FAILED] 
+[FAILED]       
+[FAILED] 
+[FAILED]         Failed to load schema from undefined:
+[FAILED] 
+[FAILED]         
+[FAILED]       Unable to find any GraphQL type definitions for the following pointers:
+[FAILED]         
+[FAILED]           - undefined
+[FAILED]           
+[FAILED]         Error: 
+[FAILED]       Unable to find any GraphQL type definitions for the following pointers:
+[FAILED]         
+[FAILED]           - undefined
+[FAILED]           
+[FAILED]     at prepareResult (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-tools+load@7.8.0_graphql@16.6.0/node_modules/@graphql-tools/load/cjs/load-typedefs.js:93:15)
+[FAILED]     at loadTypedefs (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-tools+load@7.8.0_graphql@16.6.0/node_modules/@graphql-tools/load/cjs/load-typedefs.js:43:20)
+[FAILED]     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+[FAILED]     at async loadSchema (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-tools+load@7.8.0_graphql@16.6.0/node_modules/@graphql-tools/load/cjs/schema.js:15:21)
+[FAILED]     at async loadSchema (/Users/wiley/populist/web/node_modules/.pnpm/@graphql-codegen+cli@2.16.4_cz6zcm5xika3wmvhgdj7rygldy/node_modules/@graphql-codegen/cli/cjs/load.js:36:24)
+[FAILED]     at async /Users/wiley/populist/web/node_modules/.pnpm/@graphql-codegen+cli@2.16.4_cz6zcm5xika3wmvhgdj7rygldy/node_modules/@graphql-codegen/cli/cjs/codegen.js:190:69
+[FAILED] 
+[FAILED]         GraphQL Code Generator supports:
+[FAILED]           - ES Modules and CommonJS exports (export as default or named export "schema")
+[FAILED]           - Introspection JSON File
+[FAILED]           - URL of GraphQL endpoint
+[FAILED]           - Multiple files with type definitions (glob expression)
+[FAILED]           - String in config file
+[FAILED] 
+[FAILED]         Try to use one of above options and run codegen again.
+[FAILED] 
+[FAILED]       
+[SUCCESS] Generate outputs
+ ELIFECYCLE  Command failed with exit code 1.

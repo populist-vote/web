@@ -1,4 +1,4 @@
-import { BallotMeasureStatus, BillStatus } from "../graphql-codegen/generated";
+import { BallotMeasureStatus, BillStatus } from "../../generated";
 
 interface StatusInfo {
   text: string;

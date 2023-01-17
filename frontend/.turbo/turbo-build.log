@@ -1,0 +1,45 @@
+
+> app@ prebuild /Users/wiley/populist/web/frontend
+> dotenv -c production -- graphql-codegen
+
+(node:42451) ExperimentalWarning: stream/web is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[STARTED] Parse Configuration
+[SUCCESS] Parse Configuration
+[STARTED] Generate outputs
+[STARTED] Generate to ./graphql/schema.graphql
+[STARTED] Generate to ./generated.ts
+[STARTED] Load GraphQL schemas
+[STARTED] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[STARTED] Load GraphQL documents
+[STARTED] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[STARTED] Generate
+[STARTED] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate to ./graphql/schema.graphql
+[SUCCESS] Generate to ./generated.ts
+[SUCCESS] Generate outputs
+
+> app@ build /Users/wiley/populist/web/frontend
+> next build
+
+info  - Loaded env from /Users/wiley/populist/web/frontend/.env.local
+info  - Linting and checking validity of types...
+Failed to compile.
+
+../generated.ts:7:8
+Type error: Cannot find module '@tanstack/react-query' or its corresponding type declarations.
+
+[0m [90m  5 | [39m  [33mUseQueryOptions[39m[33m,[39m[0m
+[0m [90m  6 | [39m  [33mUseMutationOptions[39m[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m  7 | [39m} [36mfrom[39m [32m"@tanstack/react-query"[39m[33m;[39m[0m
+[0m [90m    | [39m       [31m[1m^[22m[39m[0m
+[0m [90m  8 | [39m[36mexport[39m type [33mMaybe[39m[33m<[39m[33mT[39m[33m>[39m [33m=[39m [33mT[39m [33m|[39m [36mnull[39m[33m;[39m[0m
+[0m [90m  9 | [39m[36mexport[39m type [33mInputMaybe[39m[33m<[39m[33mT[39m[33m>[39m [33m=[39m [33mMaybe[39m[33m<[39m[33mT[39m[33m>[39m[33m;[39m[0m
+[0m [90m 10 | [39m[36mexport[39m type [33mExact[39m[33m<[39m[33mT[39m [36mextends[39m { [key[33m:[39m string][33m:[39m unknown }[33m>[39m [33m=[39m {[0m
+ ELIFECYCLE  Command failed with exit code 1.

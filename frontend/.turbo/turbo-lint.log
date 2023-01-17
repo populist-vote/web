@@ -1,0 +1,5 @@
+
+> app@ lint /Users/wiley/populist/web/frontend
+> eslint && tsc --noEmit
+
+ ELIFECYCLE  Command failed.

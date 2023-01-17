@@ -1,9 +1,0 @@
-{
-  "extends": "tsconfig/next.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "noPropertyAccessFromIndexSignature": false
-  },
-  "include": [".", "next-i18next.config.js"],
-  "exclude": ["node_modules"]
-}

@@ -19,6 +19,8 @@
         "dependsOn": ["build"],
         "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
     },
-    "lint": {}
-  }
+    "lint": {},
+    "generate": {}
+  },
+  "globalDependencies": [".env"]
 }

@@ -1,4 +1,4 @@
-import { PoliticianResult } from "graphql-codegen/generated";
+import { PoliticianResult } from "../../generated";
 
 const computeShortOfficeTitle = (politician: Partial<PoliticianResult>) => {
   const districtDisplay = (includePrefix: boolean, includeDash: boolean) => {

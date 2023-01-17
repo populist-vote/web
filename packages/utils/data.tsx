@@ -1,4 +1,4 @@
-import { PoliticalScope, RaceResult } from "graphql-codegen/generated";
+import { PoliticalScope, RaceResult } from "../../generated";
 
 export const groupBy = <T, K extends keyof any>(
   list: T[],

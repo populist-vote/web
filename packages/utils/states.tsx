@@ -1,4 +1,4 @@
-import { State } from "graphql-codegen/generated";
+import { State } from "../../generated";
 
 // Uses State type from API so that we are always in sync with supported states
 // TODO: use some [keyof] typescript magic instead of manually listing states here

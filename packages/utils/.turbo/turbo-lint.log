@@ -2,3 +2,5 @@
 > utils@1.0.0 lint /Users/wiley/populist/web/packages/utils
 > eslint && tsc --noEmit
 
+data.tsx(1,44): error TS2307: Cannot find module 'generated' or its corresponding type declarations.
+ ELIFECYCLE  Command failed with exit code 2.
