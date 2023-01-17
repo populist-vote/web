@@ -3,3 +3,8 @@ node_modules
 .vercel
 
 .env
+.env.local
+.next
+tsconfig.tsbuildinfo
+public/sw.js
+public/workbox-*.js
