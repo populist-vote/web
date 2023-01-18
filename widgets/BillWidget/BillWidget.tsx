@@ -107,7 +107,7 @@ function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
   const statusInfo = getStatusInfo(bill?.status as BillStatus);
 
   return (
-    <div className={styles.billCard}>
+    <div className={styles.billCard} data-test-id="populist-bill-widget">
       <header className={styles.header}>
         <strong>
           {bill.state || "U.S."} - {splitAtDigitAndJoin(bill.billNumber)}

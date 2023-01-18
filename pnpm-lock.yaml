@@ -8,7 +8,7 @@ specifiers:
   '@graphql-codegen/typescript-operations': ^2.5.6
   '@graphql-codegen/typescript-react-query': ^4.0.5
   '@next/swc-linux-x64-gnu': 12.1.6
-  '@playwright/test': ^1.28.0
+  '@playwright/test': ^1.29.2
   '@szhsin/react-menu': ^3.0.2
   '@tanstack/react-query': ^4.14.1
   '@tanstack/react-query-devtools': ^4.14.1
@@ -82,7 +82,7 @@ devDependencies:
   '@graphql-codegen/typescript': 2.8.1_graphql@16.6.0
   '@graphql-codegen/typescript-operations': 2.5.6_graphql@16.6.0
   '@graphql-codegen/typescript-react-query': 4.0.5_graphql@16.6.0
-  '@playwright/test': 1.28.0
+  '@playwright/test': 1.29.2
   '@types/node': 18.11.9
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
@@ -2219,13 +2219,13 @@ packages:
       webcrypto-core: 1.7.5
     dev: true
 
-  /@playwright/test/1.28.0:
-    resolution: {integrity: sha512-vrHs5DFTPwYox5SGKq/7TDn/S4q6RA1zArd7uhO6EyP9hj3XgZBBM12ktMbnDQNxh/fL1IUKsTNLxihmsU38lQ==}
+  /@playwright/test/1.29.2:
+    resolution: {integrity: sha512-+3/GPwOgcoF0xLz/opTnahel1/y42PdcgZ4hs+BZGIUjtmEFSXGg+nFoaH3NSmuc7a6GSFwXDJ5L7VXpqzigNg==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.11.9
-      playwright-core: 1.28.0
+      playwright-core: 1.29.2
     dev: true
 
   /@rollup/plugin-babel/5.3.1_vyv4jbhmcriklval33ak5sngky:
@@ -6282,8 +6282,8 @@ packages:
     dependencies:
       find-up: 4.1.0
 
-  /playwright-core/1.28.0:
-    resolution: {integrity: sha512-nJLknd28kPBiCNTbqpu6Wmkrh63OEqJSFw9xOfL9qxfNwody7h6/L3O2dZoWQ6Oxcm0VOHjWmGiCUGkc0X3VZA==}
+  /playwright-core/1.29.2:
+    resolution: {integrity: sha512-94QXm4PMgFoHAhlCuoWyaBYKb92yOcGVHdQLoxQ7Wjlc7Flg4aC/jbFW7xMR52OfXMVkWicue4WXE7QEegbIRA==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
