@@ -70,5 +70,3 @@
     existingContainer.appendChild(iframeElement);
   }
 })();
-
-export default undefined;

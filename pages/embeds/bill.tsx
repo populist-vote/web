@@ -13,7 +13,7 @@ export async function getServerSideProps({
   return {
     notFound: !query.apiKey || !query.billId,
     props: {
-      apiKey: query.apiKey || process.env.NEXT_PUBLIC_API_KEY,
+      apiKey: query.apiKey,
       billId: query.billId,
     },
   };

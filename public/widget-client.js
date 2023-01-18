@@ -1,5 +1,3 @@
-"use strict";
-exports.__esModule = true;
 (function () {
     var script = document.currentScript;
     var populistOrigin = new URL(script.src).origin;
@@ -52,4 +50,3 @@ exports.__esModule = true;
         existingContainer.appendChild(iframeElement);
     }
 })();
-exports["default"] = undefined;
