@@ -69,6 +69,7 @@ type ArgumentResult {
 type AuthTokenResult {
   email: String!
   id: ID!
+  organizationId: ID
   role: Role!
   userProfile: UserResult!
   username: String!
@@ -346,6 +347,7 @@ input CreateOrConnectPoliticianInput {
 
 input CreateUserInput {
   email: String!
+  organizationId: UUID
   password: String!
   role: Role
   username: String!

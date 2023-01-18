@@ -28,7 +28,7 @@ export async function getServerSideProps({
 }
 
 function ChooseAdventure() {
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
   const router = useRouter();
   if (user) void router.push("/ballot");
   return (

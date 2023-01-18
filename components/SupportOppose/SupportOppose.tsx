@@ -79,7 +79,7 @@ function SupportOppose({
   const { support: supportVotes, oppose: opposeVotes } = publicVotes;
   const router = useRouter();
   const queryKey = useBillBySlugQuery.getKey({ slug: billSlug });
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
 
   const queryClient = useQueryClient();
   const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({

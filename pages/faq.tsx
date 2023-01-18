@@ -29,7 +29,7 @@ export async function getServerSideProps({
 }
 
 const Faq: NextPage = () => {
-  const user = useAuth({ redirectTo: "/faq" });
+  const { user } = useAuth({ redirectTo: "/faq" });
   const { isMobile } = useDeviceInfo();
 
   return (

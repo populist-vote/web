@@ -679,7 +679,7 @@ const ProfilePhotoSection = ({
 };
 
 export const ProfilePage: NextPage = () => {
-  const user = useAuth({ redirectTo: "/login?next=settings/profile" });
+  const { user } = useAuth({ redirectTo: "/login?next=settings/profile" });
   const {
     data: { userProfile } = {},
     isLoading,

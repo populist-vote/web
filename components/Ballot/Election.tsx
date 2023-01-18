@@ -42,7 +42,7 @@ function Election({
     }
   );
 
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
   const isColoradan = user?.userProfile?.address?.state == State.Co;
 
   const isLoading =

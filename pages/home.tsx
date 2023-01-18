@@ -26,7 +26,7 @@ export async function getServerSideProps({
 }
 
 function HomePage() {
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
   const userId = user?.id;
   const { t } = useTranslation("common");
 

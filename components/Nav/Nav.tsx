@@ -27,7 +27,7 @@ function Nav({
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
   const { asPath, pathname } = useRouter();
-  const user = useAuth({ redirectTo: asPath });
+  const { user } = useAuth({ redirectTo: asPath });
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const { t } = useTranslation(["auth", "common"]);
 

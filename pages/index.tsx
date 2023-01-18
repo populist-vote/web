@@ -38,7 +38,7 @@ export async function getServerSideProps({
 }
 
 const Home: NextPage = () => {
-  const user = useAuth({ redirectTo: "/" });
+  const { user } = useAuth({ redirectTo: "/" });
   const { isMobile } = useDeviceInfo();
   const { t } = useTranslation(["auth", "common"]);
 

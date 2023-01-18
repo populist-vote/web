@@ -16,7 +16,7 @@ import styles from "styles/modules/page.module.scss";
 import { SupportedLocale } from "types/global";
 
 export default function VotingGuidePage() {
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
   const { id } = useRouter().query;
   const votingGuideId = id as string;
   const { data, error, isLoading } = useVotingGuideByIdQuery({

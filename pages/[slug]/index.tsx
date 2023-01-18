@@ -1,4 +1,6 @@
 import { Layout } from "components";
+import { useOrganizationIdBySlugQuery } from "generated";
+import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
@@ -28,7 +30,17 @@ function Dashboard({ slug }: { slug: string }) {
   const router = useRouter();
   const navItems = dashboardNavItems(router);
 
-  return (
+  const orgIdQuery = useOrganizationIdBySlugQuery({
+    slug,
+  });
+
+  const { isLoading } = useAuth({
+    organizationId: orgIdQuery.data?.organizationBySlug?.id,
+  });
+
+  return isLoading ? (
+    <div />
+  ) : (
     <Layout navItems={navItems}>
       <h1>Dashboard</h1>
       <p>Slug: {slug}</p>

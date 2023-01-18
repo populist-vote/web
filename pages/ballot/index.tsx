@@ -29,7 +29,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 
 export default function BallotPage() {
-  const user = useAuth({ redirectTo: `/ballot/choose` });
+  const { user } = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
 
   const createVotingGuide = useUpsertVotingGuideMutation({

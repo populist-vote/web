@@ -135,7 +135,7 @@ const VotingGuideCard = ({
 const VotingGuides: NextPage<{
   mobileNavTitle?: string;
 }> = ({ mobileNavTitle }) => {
-  const user = useAuth({ redirectTo: "/login?next=voting-guides" });
+  const { user } = useAuth({ redirectTo: "/login?next=voting-guides" });
 
   const { data, isLoading, error } = useVotingGuidesByUserIdQuery(
     {
