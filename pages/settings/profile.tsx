@@ -59,7 +59,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
       reset(updateFirstAndLastName as NameSectionProps);
       queryClient
         .invalidateQueries(useCurrentUserQuery.getKey())
-        .catch((err) => console.error(err));
+        .catch((err) => toast.error(err));
     },
   });
   const { isValid, isDirty } = formState;
@@ -246,7 +246,7 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
       reset(updateAddress);
       queryClient
         .resetQueries(["ElectionById", useCurrentUserQuery.getKey()])
-        .catch((err) => console.error(err));
+        .catch((err) => toast.error(err));
       void toast.success("Address updated successfully");
     },
     onError: (error) => {
@@ -605,9 +605,9 @@ const ProfilePhotoSection = ({
       .then(() => {
         queryClient
           .invalidateQueries(useUserProfileQuery.getKey({ userId }))
-          .catch((err) => console.error(err));
+          .catch((err) => toast.error(err));
       })
-      .catch((error) => console.error(error))
+      .catch((error) => toast.error(error))
       .finally(() => setUploading(false));
   };
 
@@ -634,7 +634,7 @@ const ProfilePhotoSection = ({
     onSuccess: () => {
       queryClient
         .invalidateQueries(useUserProfileQuery.getKey({ userId }))
-        .catch((err) => console.error(err));
+        .catch((err) => toast.error(err));
     },
   });
 

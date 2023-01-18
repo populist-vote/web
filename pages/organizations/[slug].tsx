@@ -20,6 +20,7 @@ import { PoliticianNotes } from "components/OrganizationPage/PoliticianNotes/Pol
 import { useMediaQuery } from "hooks/useMediaQuery";
 
 import { ColoredSection } from "components/ColoredSection/ColoredSection";
+import { toast } from "react-toastify";
 
 function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   const isSmallScreen = useMediaQuery("(max-width: 968px)");
@@ -30,7 +31,7 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   if (isLoading) return <LoaderFlag />;
 
   if (error) {
-    console.error("Organization Error", error);
+    toast.error(`Error fetching organization data: ${error}`);
     return (
       <p>
         Organization Query Error. Please reload. <br />
@@ -147,7 +148,7 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
             )}
           </div>
         </section>
-        
+
         <ColoredSection color="var(--blue)">
           <PoliticianNotes />
         </ColoredSection>

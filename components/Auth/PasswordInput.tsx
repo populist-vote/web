@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 
-type PasswordInputProps = TextInputProps<any>;
+type PasswordInputProps = TextInputProps<{ password: string }>;
 
 function PasswordInput(props: PasswordInputProps) {
   const [passwordInputType, setPasswordInputType] = useState<

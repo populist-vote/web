@@ -11,6 +11,7 @@ import {
   useUpsertVotingGuideCandidateMutation,
 } from "generated";
 import styles from "./HeaderSection.module.scss";
+import { toast } from "react-toastify";
 
 enum NoteState {
   View,
@@ -84,7 +85,7 @@ function HeaderSection({
       {
         onSuccess: () => {
           invalidateVotingGuideQuery().catch((err) =>
-            console.error("Problem invalidating query", err)
+            toast.error(`Problem invalidating query: ${err}`)
           );
           if (onSuccess) onSuccess();
         },

@@ -1,5 +1,6 @@
 import { PoliticalScope, RaceResult } from "generated";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const groupBy = <T, K extends keyof any>(
   list: T[],
   getKey: (item: T) => K

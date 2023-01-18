@@ -97,7 +97,7 @@ $small-size: 1.825rem;
     cursor: not-allowed;
   }
 
-  &:not(.iconOnlyButton):not([disabled]) {
+  &:not(.iconOnlyButton, [disabled]) {
     svg {
       color: $blue-darkest;
     }
@@ -264,14 +264,14 @@ $small-size: 1.825rem;
   width: $size;
 }
 
-.large {
-  font-size: 1.125rem;
-  line-height: 1.375rem;
-  min-height: $large-size;
-  padding: 0 2rem;
+.small {
+  font-size: 0.8125rem;
+  line-height: 1rem;
+  min-height: $small-size;
+  padding: 0 0.75rem;
 
   &.iconOnlyButton {
-    @include iconButton($large-size);
+    @include iconButton($small-size);
   }
 }
 
@@ -286,14 +286,14 @@ $small-size: 1.825rem;
   }
 }
 
-.small {
-  font-size: 0.8125rem;
-  line-height: 1rem;
-  min-height: $small-size;
-  padding: 0 0.75rem;
+.large {
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+  min-height: $large-size;
+  padding: 0 2rem;
 
   &.iconOnlyButton {
-    @include iconButton($small-size);
+    @include iconButton($large-size);
   }
 }
 

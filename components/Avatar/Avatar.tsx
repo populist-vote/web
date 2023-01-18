@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ImageWithFallback, NoteIcon } from "components";
 import React, { useMemo, CSSProperties, EventHandler } from "react";
 import { FaPlus } from "react-icons/fa";

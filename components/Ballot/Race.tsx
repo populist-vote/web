@@ -43,8 +43,7 @@ function Race({
     queryClient.invalidateQueries(queryKey);
 
   const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation({
-    // @ts-ignore - this is tricky to type properly
-    onMutate: async (newVotingGuideCandidate: EditVotingGuideCandidate) => {
+    onMutate: async (newVotingGuideCandidate) => {
       await queryClient.cancelQueries(queryKey);
       const previousVotingGuide =
         queryClient.getQueryData<VotingGuideByIdQuery>(queryKey);
@@ -52,7 +51,6 @@ function Race({
       if (previousVotingGuide) {
         queryClient.setQueryData<VotingGuideByIdQuery>(
           queryKey,
-          // @ts-ignore
           (oldGuideQuery) => {
             if (oldGuideQuery) {
               const optimisticNewGuide = {

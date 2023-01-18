@@ -5,8 +5,8 @@
   const params: Record<string, string> = {};
 
   params.billId = attributes.billId as string;
-  params.apiKey =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMmQ3YjRhOS00M2JjLTQwNzYtOTAxYi05NTkyODFmMDdhODEiLCJ1c2VybmFtZSI6InN1cGVyYWRtaW4iLCJlbWFpbCI6ImluZm9AcG9wdWxpc3QudXMiLCJyb2xlIjoic3VwZXJ1c2VyIiwiZXhwIjoxNjgzMzkzNDcwfQ.M4-1_UMHMn6wooC-SS3wmCF9R6KbJnMjDCkLDplTmrk";
+  params.apiKey = attributes.apiKey as string;
+
   const url = new URL(location.href);
   const cleanedLocation = url.toString();
   const existingContainer = document.querySelector(".populist");
@@ -15,7 +15,7 @@
     params.origin = `${cleanedLocation}#${id}`;
   }
 
-  // Set up iframe src and loading attribute
+  // Compute embed source URL and loading attribute
   const src = `${populistOrigin}/embeds/${"bill"}?${new URLSearchParams(
     params
   )}`;
@@ -46,6 +46,7 @@
   .populist, .populist-frame {
     width: 100%;
     min-height: 600px;
+    background: transparent;
   }
   .populist-frame {
     border: none;
@@ -68,7 +69,6 @@
     while (existingContainer.firstChild) existingContainer.firstChild.remove();
     existingContainer.appendChild(iframeElement);
   }
-  // const suggestion = `Please consider reporting this error at https://github.com/giscus/giscus/issues/new.`;
 })();
 
-export {};
+export default undefined;
