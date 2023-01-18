@@ -46,3 +46,5 @@ generated.ts
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+.eslintcache
