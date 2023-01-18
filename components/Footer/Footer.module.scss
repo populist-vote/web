@@ -49,6 +49,7 @@ $font-size: 0.85em;
 
   .links {
     align-self: center;
+
     @include for-tablet-up {
       min-width: 25%;
     }
@@ -61,6 +62,7 @@ $font-size: 0.85em;
       color: $blue-light;
       transition: ease-in-out 0.3s all;
     }
+
     @include for-tablet-up {
       justify-content: right;
     }

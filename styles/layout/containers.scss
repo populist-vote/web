@@ -17,6 +17,13 @@
   }
 }
 
+.iconStack {
+  display: grid;
+  svg {
+    grid-area: 1 / 1;
+  }
+}
+
 .inputWithIcon {
   display: flex;
   align-items: center;
@@ -90,12 +97,5 @@
       color: $blue-text;
       text-decoration: dotted underline;
     }
-  }
-}
-
-.iconStack {
-  display: grid;
-  svg {
-    grid-area: 1 / 1;
   }
 }

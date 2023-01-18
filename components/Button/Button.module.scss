@@ -143,7 +143,7 @@ $small-size: 1.825rem;
     cursor: not-allowed;
   }
 
-  &:not(.iconOnlyButton):not([disabled]) {
+  &:not(.iconOnlyButton, [disabled]) {
     svg {
       color: $blue;
     }
@@ -156,7 +156,7 @@ $small-size: 1.825rem;
   }
 }
 
-@mixin textOnly($color, $colorLighter, $colorDark, $textColor) {
+@mixin text-only($color, $colorLighter, $colorDark, $textColor) {
   border: none;
   text-decoration: 1px dotted underline;
   text-underline-offset: 0.3em;
@@ -208,7 +208,7 @@ $small-size: 1.825rem;
 }
 
 .blue.text {
-  @include textOnly($blue, $blue-lighter, $blue-dark, $blue-text);
+  @include text-only($blue, $blue-lighter, $blue-dark, $blue-text);
 }
 
 .yellow.primary {
@@ -258,7 +258,7 @@ $small-size: 1.825rem;
   );
 }
 
-@mixin iconButton($size) {
+@mixin icon-button($size) {
   border-radius: $size;
   height: $size;
   width: $size;
@@ -271,7 +271,7 @@ $small-size: 1.825rem;
   padding: 0 0.75rem;
 
   &.iconOnlyButton {
-    @include iconButton($small-size);
+    @include icon-button($small-size);
   }
 }
 
@@ -282,7 +282,7 @@ $small-size: 1.825rem;
   padding: 0 1rem;
 
   &.iconOnlyButton {
-    @include iconButton($medium-size);
+    @include icon-button($medium-size);
   }
 }
 
@@ -293,7 +293,7 @@ $small-size: 1.825rem;
   padding: 0 2rem;
 
   &.iconOnlyButton {
-    @include iconButton($large-size);
+    @include icon-button($large-size);
   }
 }
 
