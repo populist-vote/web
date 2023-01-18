@@ -48,3 +48,4 @@ generated.ts
 /playwright/.cache/
 
 .eslintcache
+pages/embeds/embed-test.tsx
