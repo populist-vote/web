@@ -67,6 +67,10 @@ function BillIndex(props: BillIndexProps) {
 
   const { handleScopeFilter } = useBillFilters();
 
+  const hasFiltersApplied =
+    Object.keys(query).filter((q) => q !== "showFilters").length > 0 &&
+    Object.values(query).some((value) => value !== "");
+
   if (showFiltersParam && isMobile)
     return (
       <Layout mobileNavTitle="Legislation">
@@ -96,7 +100,11 @@ function BillIndex(props: BillIndexProps) {
                   <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
                 </div>
                 <Button
-                  variant={showFiltersParam ? "primary" : "secondary"}
+                  variant={
+                    showFiltersParam || hasFiltersApplied
+                      ? "primary"
+                      : "secondary"
+                  }
                   theme="yellow"
                   label="Filters"
                   size="medium"
@@ -111,7 +119,8 @@ function BillIndex(props: BillIndexProps) {
                 />
                 <Button
                   variant="secondary"
-                  theme="yellow"
+                  theme={"yellow"}
+                  disabled={!hasFiltersApplied}
                   label="Clear"
                   size="medium"
                 />

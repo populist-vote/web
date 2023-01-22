@@ -68,6 +68,7 @@ $small-size: 1.825rem;
   // active background color + disabled border
   $colorDarker,
   // disabled background color
+  $colorDarkest: "black",
   $colorLight,
   // hover background color
   $colorLighter: $blue-lighter,
@@ -79,6 +80,7 @@ $small-size: 1.825rem;
 
   &:hover {
     background: $colorLight;
+    color: $colorDarkest;
   }
 
   &:focus {
@@ -88,6 +90,7 @@ $small-size: 1.825rem;
   &:active {
     background: $colorDark;
     border-color: $color;
+    color: $colorDarkest;
   }
 
   &:disabled {
@@ -125,7 +128,7 @@ $small-size: 1.825rem;
 
   &:hover {
     background-color: $colorDarker;
-    color: $colorLighter;
+    color: $colorDarkest;
   }
 
   &:focus {
@@ -137,9 +140,9 @@ $small-size: 1.825rem;
   }
 
   &:disabled {
-    background: $colorDarkest;
-    border-color: $colorDark;
-    color: $color;
+    background: transparent;
+    border-color: $blue-dark;
+    color: $blue-dark;
     cursor: not-allowed;
   }
 
@@ -216,9 +219,10 @@ $small-size: 1.825rem;
     $yellow,
     $yellow-dark,
     $yellow-dark,
+    $blue-darkest,
     #ffd70f,
-    $white,
-    $dark-brown
+    $dark-brown,
+    $blue-darkest
   );
 }
 
@@ -230,7 +234,7 @@ $small-size: 1.825rem;
     $blue-darker,
     $white,
     $yellow-dark,
-    $dark-brown
+    $yellow
   );
 }
 
