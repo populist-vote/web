@@ -13,6 +13,7 @@
   justify-content: center;
   gap: 0.375rem;
   width: var(--button-width);
+  transition: all 0.2s ease-in-out;
   svg {
     font-size: 1.2em;
   }
@@ -128,7 +129,7 @@ $small-size: 1.825rem;
 
   &:hover {
     background-color: $colorDarker;
-    color: $colorDarkest;
+    color: $colorLight;
   }
 
   &:focus {
@@ -192,6 +193,7 @@ $small-size: 1.825rem;
   @include primary(
     $blue,
     $blue-dark,
+    $blue-darker,
     $blue-darkest,
     $blue-light,
     $blue-lighter
