@@ -1,5 +1,5 @@
-import { Layout } from "components";
-import { useOrganizationIdBySlugQuery } from "generated";
+import { Layout, LoaderFlag } from "components";
+import { useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -28,18 +28,29 @@ export async function getServerSideProps({
 
 function Dashboard({ slug }: { slug: string }) {
   const router = useRouter();
-  const navItems = dashboardNavItems(router);
+  const navItems = dashboardNavItems(slug);
 
-  const orgIdQuery = useOrganizationIdBySlugQuery({
-    slug,
-  });
+  const organizationQuery = useOrganizationBySlugQuery(
+    {
+      slug,
+    },
+    {
+      onError: () => void router.push("/404"),
+      onSuccess: (data) => {
+        if (!data.organizationBySlug) {
+          void router.push("/404");
+        }
+      },
+      retry: false,
+    }
+  );
 
   const { isLoading, user } = useAuth({
-    organizationId: orgIdQuery.data?.organizationBySlug?.id,
+    organizationId: organizationQuery.data?.organizationBySlug?.id,
   });
 
-  return isLoading || !user ? (
-    <div />
+  return organizationQuery.isLoading || isLoading || !user ? (
+    <LoaderFlag />
   ) : (
     <Layout navItems={navItems}>
       <h1>Dashboard</h1>

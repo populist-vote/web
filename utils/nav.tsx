@@ -1,22 +1,16 @@
-import { NextRouter } from "next/router";
-
-function dashboardNavItems(router: NextRouter) {
+function dashboardNavItems(basePath: string) {
   return [
     {
       label: "Dashboard",
-      href: `${router.asPath}/dashboard`,
+      href: `/${basePath}/dashboard`,
     },
     {
       label: "Embeds",
-      href: `${router.asPath}/embeds`,
-    },
-    {
-      label: "Polls",
-      href: `${router.asPath}/polls`,
+      href: `/${basePath}/embeds`,
     },
     {
       label: "Audience",
-      href: `${router.asPath}/audience`,
+      href: `/${basePath}/audience`,
     },
   ];
 }

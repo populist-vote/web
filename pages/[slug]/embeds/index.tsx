@@ -6,12 +6,15 @@ import { SupportedLocale } from "types/global";
 import { dashboardNavItems } from "utils/nav";
 
 export async function getServerSideProps({
+  query,
   locale,
 }: {
+  query: { slug: string };
   locale: SupportedLocale;
 }) {
   return {
     props: {
+      slug: query.slug,
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
@@ -21,9 +24,9 @@ export async function getServerSideProps({
   };
 }
 
-function EmbedsIndex() {
+function EmbedsIndex({ slug }: { slug: string }) {
   const router = useRouter();
-  const navItems = dashboardNavItems(router);
+  const navItems = dashboardNavItems(slug);
   return (
     <Layout navItems={navItems}>
       <h2>Embeds</h2>

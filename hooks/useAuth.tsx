@@ -46,6 +46,8 @@ export function useAuth({
         void Router.push(redirectTo);
       }
 
+      setIsLoading(false);
+
       switch (user.role) {
         case Role.Superuser:
           return;
@@ -59,7 +61,8 @@ export function useAuth({
           void Router.push(redirectTo);
       }
     }
-    setIsLoading(false);
+
+    return () => setIsLoading(false);
   }, [user, redirectTo, minRole, redirect, organizationId]);
 
   return { user, isLoading };
