@@ -34,11 +34,11 @@ function Dashboard({ slug }: { slug: string }) {
     slug,
   });
 
-  const { isLoading } = useAuth({
+  const { isLoading, user } = useAuth({
     organizationId: orgIdQuery.data?.organizationBySlug?.id,
   });
 
-  return isLoading ? (
+  return isLoading || !user ? (
     <div />
   ) : (
     <Layout navItems={navItems}>

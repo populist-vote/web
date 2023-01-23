@@ -236,11 +236,14 @@ const EmailSection = ({ email }: { email: string }) => {
 
 const AddressSection = ({ address }: { address: AddressResult }) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, formState, reset, setError } =
+  const { register, handleSubmit, formState, reset, setError, watch } =
     useForm<AddressResult>({
       mode: "onChange",
       defaultValues: address,
     });
+
+  const state = watch("state");
+
   const updateAddressMutation = useUpdateAddressMutation({
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
@@ -316,7 +319,11 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
               >
                 <option value="">State</option>
                 {Object.entries(states).map(([key, value]) => (
-                  <option key={key} value={key} label={value}>
+                  <option
+                    key={key}
+                    value={key}
+                    label={state === key ? state : value}
+                  >
                     {value}
                   </option>
                 ))}

@@ -31,6 +31,11 @@
     width: 100%;
     appearance: none;
     -webkit-appearance: none;
+    font-size: 19px;
+    letter-spacing: 0.2px;
+    line-height: 24px;
+    min-height: 56px;
+    padding: 15px 24px;
 
     .selectWrapper {
       position: relative;

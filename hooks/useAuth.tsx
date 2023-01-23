@@ -21,20 +21,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth(
-  {
-    redirectTo = "/login",
-    minRole = Role.Basic,
-    organizationId = null,
-    redirect = true,
-  }: {
-    redirectTo?: string;
-    minRole?: Role;
-    organizationId?: null | string;
-    redirect?: boolean;
-  } = {},
-  deps: any[] = []
-) {
+export function useAuth({
+  redirectTo = "/login",
+  minRole = Role.Basic,
+  organizationId = null,
+  redirect = true,
+}: {
+  redirectTo?: string;
+  minRole?: Role;
+  organizationId?: null | string;
+  redirect?: boolean;
+} = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const user = useContext(AuthContext);
 
@@ -63,7 +60,7 @@ export function useAuth(
       }
     }
     setIsLoading(false);
-  }, [user, redirectTo, minRole, redirect, organizationId, ...deps]);
+  }, [user, redirectTo, minRole, redirect, organizationId]);
 
   return { user, isLoading };
 }
