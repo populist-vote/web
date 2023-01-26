@@ -5,17 +5,25 @@
 .container {
   display: flex;
   flex-direction: row;
-  justify-content: left;
-  align-items: center;
-  list-style: none;
-  gap: 1rem;
+  justify-content: space-between;
   border-bottom: 1px solid $blue-dark;
 
   @include for-tablet-portrait-down {
     display: none;
   }
 
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    gap: 1rem;
+    margin: 0;
+  }
+
   li {
+    list-style: none;
     padding: 1rem;
     text-transform: uppercase;
     font-size: $text-md;
@@ -24,7 +32,7 @@
     text-align: center;
     height: 3.5rem;
 
-    &.selected {
+    &[data-selected="true"] {
       border-bottom: 2px solid $yellow;
 
       &.aqua {

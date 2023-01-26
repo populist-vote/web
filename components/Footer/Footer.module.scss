@@ -5,6 +5,8 @@
 $font-size: 0.85em;
 
 .footer {
+  border-top: 1px solid $blue-dark;
+  background-color: #001624;
   width: 100%;
   grid-area: footer;
   margin-top: 3rem;

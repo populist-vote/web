@@ -1,4 +1,5 @@
-import { Layout, LoaderFlag } from "components";
+import { Button, Layout, LoaderFlag } from "components";
+import { TopNav } from "components/TopNav/TopNav";
 import { useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
@@ -53,7 +54,18 @@ function Dashboard({ slug }: { slug: string }) {
     <LoaderFlag />
   ) : (
     <Layout navItems={navItems}>
-      <h1>Dashboard</h1>
+      <TopNav>
+        <li data-selected={true}>Dashboard</li>
+        <div>
+          <Button
+            variant="primary"
+            theme="yellow"
+            size="medium"
+            onClick={() => void router.push("/")}
+            label="New Embed"
+          />
+        </div>
+      </TopNav>
       <p>Slug: {slug}</p>
     </Layout>
   );

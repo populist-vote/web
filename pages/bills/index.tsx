@@ -1,4 +1,4 @@
-import { Button, Layout } from "components";
+import { Button, Layout, Select } from "components";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -19,6 +19,7 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
 import styles from "./BillIndex.module.scss";
 import { BillResults } from "components/BillResults/BillResults";
+import clsx from "clsx";
 
 export async function getServerSideProps({
   locale,
@@ -59,12 +60,11 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { scope = PoliticalScope.Federal, search } = query;
+  const { scope = PoliticalScope.Federal, search, state } = query;
   const { showFilters = "false" } = props.query || query;
   const isMobile = useMediaQuery("(max-width: 896px)");
   const [searchValue, setSearchValue] = useState(search);
   const showFiltersParam = showFilters === "true";
-
   const { handleScopeFilter } = useBillFilters();
 
   const hasFiltersApplied =
@@ -80,7 +80,54 @@ function BillIndex(props: BillIndexProps) {
 
   return (
     <Layout mobileNavTitle="Legislation" hideFooter>
-      <TopNav />
+      <TopNav>
+        <ul>
+          <li
+            className={scope !== PoliticalScope.Federal ? styles.selected : ""}
+          >
+            <Select
+              onChange={(e) => {
+                if (e.target.value === "all") {
+                  const { state: _, ...newQuery } = query;
+                  void router.push({ query: newQuery });
+                } else {
+                  void router.push({
+                    query: {
+                      ...query,
+                      state: e.target.value,
+                      scope: PoliticalScope.State,
+                    },
+                  });
+                }
+              }}
+              value={state as string}
+              options={[
+                {
+                  value: "CO",
+                  label: "Colorado",
+                },
+                {
+                  value: "MN",
+                  label: "Minnesota",
+                },
+              ]}
+              accentColor="yellow"
+              uppercase
+            />
+          </li>
+          <li
+            className={
+              scope === PoliticalScope.Federal
+                ? clsx(styles.selected, styles.aqua)
+                : ""
+            }
+          >
+            <button onClick={() => handleScopeFilter(PoliticalScope.Federal)}>
+              Federal
+            </button>
+          </li>
+        </ul>
+      </TopNav>
       <div className={styles.container}>
         <div className={styles.desktopOnly}>
           <section>
@@ -123,6 +170,10 @@ function BillIndex(props: BillIndexProps) {
                   disabled={!hasFiltersApplied}
                   label="Clear"
                   size="medium"
+                  onClick={() => {
+                    setSearchValue("");
+                    void router.replace("/bills", undefined, { shallow: true });
+                  }}
                 />
               </div>
               {showFiltersParam && <BillFiltersDesktop {...props} />}
