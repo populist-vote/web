@@ -26,6 +26,7 @@ specifiers:
   eslint-config-prettier: ^8.5.0
   eslint-plugin-jsx-a11y: ^6.6.1
   graphql: ^16.5.0
+  highlight.js: ^11.7.0
   husky: ^8.0.1
   lint-staged: ^13.0.3
   little-state-machine: ^4.2.3
@@ -56,6 +57,7 @@ dependencies:
   '@tanstack/react-table': 8.5.15_biqbaboplfbrettd7655fr4n2y
   clsx: 1.2.1
   graphql: 16.6.0
+  highlight.js: 11.7.0
   little-state-machine: 4.8.0_react@18.2.0
   next: 13.0.0_mk5yftg2men2cn3ayx4t7ddtvy
   next-i18next: 12.1.0_r5sq4deac3rmm2d5onhwvomqve
@@ -4667,6 +4669,11 @@ packages:
       capital-case: 1.0.4
       tslib: 2.4.0
     dev: true
+
+  /highlight.js/11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
+    engines: {node: '>=12.0.0'}
+    dev: false
 
   /hoist-non-react-statics/3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}

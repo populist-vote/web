@@ -13,6 +13,7 @@
   header,
   section:not(:last-child) {
     border-bottom: 1px solid $grey;
+    width: 100%;
   }
 
   a {

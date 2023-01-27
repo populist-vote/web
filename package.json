@@ -21,6 +21,7 @@
     "@tanstack/react-table": "^8.5.5",
     "clsx": "^1.2.1",
     "graphql": "^16.5.0",
+    "highlight.js": "^11.7.0",
     "little-state-machine": "^4.2.3",
     "next": "13.0.0",
     "next-i18next": "12.1.0",

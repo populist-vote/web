@@ -1,0 +1,9 @@
+@import "styles/layout/containers";
+
+.flex {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 1rem;
+}

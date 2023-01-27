@@ -9,6 +9,7 @@ import "styles/main.scss";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "highlight.js/styles/atom-one-dark.css";
 import "styles/vendor/toast.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
@@ -21,6 +22,8 @@ function Populist({ Component, pageProps }: AppProps) {
   return (
     <>
       <SEO {...pageProps} />
+      <link rel="stylesheet"></link>
+
       {process.env.NODE_ENV === "production" &&
         process.env.GOOGLE_ANALYTICS_ID && (
           <>

@@ -1,10 +1,12 @@
 import { Button, Layout, LoaderFlag } from "components";
+import { DashboardContent } from "components/Dashboard/Dashboard";
 import { TopNav } from "components/TopNav/TopNav";
 import { useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
+import { BillFiltersParams } from "pages/bills";
 import { SupportedLocale } from "types/global";
 import { dashboardNavItems } from "utils/nav";
 
@@ -12,7 +14,7 @@ export async function getServerSideProps({
   query,
   locale,
 }: {
-  query: { slug: string };
+  query: { slug: string } & BillFiltersParams;
   locale: SupportedLocale;
 }) {
   return {
@@ -27,7 +29,7 @@ export async function getServerSideProps({
   };
 }
 
-function Dashboard({ slug }: { slug: string }) {
+function Dashboard({ slug, query }: { slug: string; query: any }) {
   const router = useRouter();
   const navItems = dashboardNavItems(slug);
 
@@ -66,7 +68,7 @@ function Dashboard({ slug }: { slug: string }) {
           />
         </div>
       </TopNav>
-      <p>Slug: {slug}</p>
+      <DashboardContent query={query} />
     </Layout>
   );
 }

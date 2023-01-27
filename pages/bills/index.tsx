@@ -7,19 +7,17 @@ import { SupportedLocale } from "types/global";
 import { StickyButton } from "components/StickyButton/StickyButton";
 import { FaSearch } from "react-icons/fa";
 import { FiltersIcon } from "components/Icons";
-import { BillFiltersDesktop } from "components/BillFilters/BillFiltersDesktop";
 import { PopularBills } from "components/PopularBills/PopularBills";
 import { MobileTabs } from "components/MobileTabs/MobileTabs";
 import { TopNav } from "components/TopNav/TopNav";
 import { Box } from "components/Box/Box";
-import { AiOutlineSearch } from "react-icons/ai";
-import { useState } from "react";
 import { BillFiltersMobile } from "components/BillFilters/BillFiltersMobile";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
 import styles from "./BillIndex.module.scss";
 import { BillResults } from "components/BillResults/BillResults";
 import clsx from "clsx";
+import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
 
 export async function getServerSideProps({
   locale,
@@ -46,7 +44,7 @@ export interface BillFiltersParams {
   status: BillStatus;
   scope: PoliticalScope;
   state: State;
-  year: "2022" | "2021" | "2020";
+  year: "2023" | "2022" | "2021" | "2020";
   issue: string;
   committee: string;
   popularity: PopularitySort;
@@ -60,16 +58,12 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { scope = PoliticalScope.Federal, search, state } = query;
+  const { scope = PoliticalScope.Federal, state } = query;
   const { showFilters = "false" } = props.query || query;
   const isMobile = useMediaQuery("(max-width: 896px)");
-  const [searchValue, setSearchValue] = useState(search);
+
   const showFiltersParam = showFilters === "true";
   const { handleScopeFilter } = useBillFilters();
-
-  const hasFiltersApplied =
-    Object.keys(query).filter((q) => q !== "showFilters").length > 0 &&
-    Object.values(query).some((value) => value !== "");
 
   if (showFiltersParam && isMobile)
     return (
@@ -131,53 +125,7 @@ function BillIndex(props: BillIndexProps) {
       <div className={styles.container}>
         <div className={styles.desktopOnly}>
           <section>
-            <Box>
-              <div className={styles.flex}>
-                <div className={styles.inputWithIcon}>
-                  <input
-                    placeholder="Search for legislation"
-                    onChange={(e) => {
-                      setSearchValue(e.target.value);
-                      void router.push({
-                        query: { ...query, search: e.target.value },
-                      });
-                    }}
-                    value={searchValue || ""}
-                  ></input>
-                  <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
-                </div>
-                <Button
-                  variant={
-                    showFiltersParam || hasFiltersApplied
-                      ? "primary"
-                      : "secondary"
-                  }
-                  theme="yellow"
-                  label="Filters"
-                  size="medium"
-                  onClick={() =>
-                    router.push({
-                      query: {
-                        ...query,
-                        showFilters: showFiltersParam ? false : true,
-                      },
-                    })
-                  }
-                />
-                <Button
-                  variant="secondary"
-                  theme={"yellow"}
-                  disabled={!hasFiltersApplied}
-                  label="Clear"
-                  size="medium"
-                  onClick={() => {
-                    setSearchValue("");
-                    void router.replace("/bills", undefined, { shallow: true });
-                  }}
-                />
-              </div>
-              {showFiltersParam && <BillFiltersDesktop {...props} />}
-            </Box>
+            <BillSearchAndFilters {...props} />
           </section>
         </div>
         <section className={styles.header}>

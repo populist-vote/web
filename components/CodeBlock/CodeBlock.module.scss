@@ -1,0 +1,32 @@
+@import "styles/variables/colors";
+
+.container {
+  background-color: #011d2e;
+  border-radius: 5px;
+
+  .actions {
+    border-radius: 5px 5px 0 0;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #001624;
+
+    small {
+      color: $blue-text;
+    }
+  }
+
+  pre,
+  code {
+    border-radius: 0 0 5px 5px;
+    background-color: #011d2e;
+    font-family: Monaco, monospace;
+    font-size: 0.9em;
+    letter-spacing: -0.05em;
+    word-break: normal;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
