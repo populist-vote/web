@@ -17,8 +17,9 @@ export function BillSearchAndFilters(props: BillSearchAndFiltersProps) {
   const { search, showFilters = "false" } = query;
   const [searchValue, setSearchValue] = useState(search);
   const hasFiltersApplied =
-    Object.keys(query).filter((q) => q !== "showFilters").length > 0 &&
-    Object.values(query).some((value) => value !== "");
+    Object.keys(query).filter((q) => q !== "showFilters" && q !== "slug")
+      .length > 0 && Object.values(query).some((value) => value !== "");
+
   const showFiltersParam = showFilters === "true";
 
   return (
@@ -61,7 +62,14 @@ export function BillSearchAndFilters(props: BillSearchAndFiltersProps) {
           size="medium"
           onClick={() => {
             setSearchValue("");
-            void router.replace("/bills", undefined, { shallow: true });
+            void router.replace(
+              {
+                pathname: router.pathname,
+                query: router.query.slug ? { slug: router.query.slug } : null,
+              },
+              undefined,
+              { shallow: true }
+            );
           }}
         />
       </div>

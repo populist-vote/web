@@ -460,6 +460,17 @@ input ElectionSearchInput {
   title: String
 }
 
+type EmbedResult {
+  attributes: JSON!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  name: String!
+  organizationId: ID!
+  populistUrl: String!
+  updatedAt: DateTime!
+}
+
 type Endorsements {
   organizations: [OrganizationResult!]!
   politicians: [PoliticianResult!]!
@@ -549,6 +560,7 @@ type Mutation {
   upsertBill(input: UpsertBillInput!): BillResult!
   upsertBillPublicVote(billId: ID!, position: ArgumentPosition!, userId: ID!): PublicVotes!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
+  upsertEmbed(input: UpsertEmbedInput!): EmbedResult!
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
   upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
@@ -875,6 +887,7 @@ type Query {
     search: ElectionSearchInput
   ): [ElectionResult!]!
   electionsByUserState: [ElectionResult!]!
+  embedsByOrganization(organizationId: ID!): [EmbedResult!]!
 
   """Returns `true` to indicate the GraphQL server is reachable"""
   health: Boolean!
@@ -893,6 +906,7 @@ type Query {
     """Search by office title or state"""
     search: OfficeSearch
   ): [OfficeResult!]!
+  organizationById(id: ID!): OrganizationResult!
   organizationBySlug(slug: String!): OrganizationResult!
   organizations(
     after: String
@@ -1283,6 +1297,15 @@ input UpsertElectionInput {
   slug: String
   state: State
   title: String
+}
+
+input UpsertEmbedInput {
+  attributes: JSON!
+  description: String
+  id: UUID
+  name: String!
+  organizationId: UUID!
+  populistUrl: String!
 }
 
 input UpsertIssueTagInput {

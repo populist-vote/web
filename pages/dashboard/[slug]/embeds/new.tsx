@@ -1,9 +1,10 @@
-import { Layout, TextInput } from "components";
+import { Layout } from "components";
+import { EmbedPage } from "components/EmbedPage/EmbedPage";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useForm } from "react-hook-form";
+import { BillFiltersParams } from "pages/bills";
 import { SupportedLocale } from "types/global";
-import { dashboardNavItems } from "utils/nav";
+import { DashboardTopNav } from "..";
 
 export async function getServerSideProps({
   query,
@@ -14,7 +15,7 @@ export async function getServerSideProps({
 }) {
   return {
     props: {
-      slug: query.slug,
+      query,
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
@@ -24,23 +25,13 @@ export async function getServerSideProps({
   };
 }
 
-function EmbedsNew({ slug }: { slug: string }) {
-  const navItems = dashboardNavItems(slug);
-  const { register } = useForm();
+function EmbedsNew(props: { query: BillFiltersParams }) {
   return (
-    <Layout navItems={navItems}>
+    <Layout>
+      <DashboardTopNav />
       <h2>New Embed</h2>
-      <form>
-        <TextInput
-          name="name"
-          id="name"
-          label="Name"
-          placeholder={"Name"}
-          size="medium"
-          hideLabel
-          register={register}
-        />
-      </form>
+
+      <EmbedPage {...props} />
     </Layout>
   );
 }

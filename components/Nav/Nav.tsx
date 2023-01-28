@@ -10,6 +10,7 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
+import { useOrganizationByIdQuery } from "generated";
 
 function Nav({
   mobileNavTitle,
@@ -31,6 +32,17 @@ function Nav({
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const { t } = useTranslation(["auth", "common"]);
 
+  const { data } = useOrganizationByIdQuery(
+    {
+      id: user?.organizationId || "",
+    },
+    {
+      enabled: !!user?.organizationId,
+    }
+  );
+
+  const organization = data?.organizationById;
+
   useScrollPosition(
     ({
       prevPos,
@@ -40,7 +52,7 @@ function Nav({
       currPos: { y: number };
     }) => {
       if (!isSmallScreen) return;
-      // hack because safari thinks its cool to have a bouncy effect and allow scroll position to exceed 0
+      // hack because safari thinks its cool to have a bouncy effect and allow scroll position < 0
       let prevPosY = prevPos.y;
       if (prevPosY > 0) {
         prevPosY = 0;
@@ -130,22 +142,40 @@ function Nav({
             })}
           </ul>
           {user ? (
-            <Link href="/settings/profile" passHref>
-              <div className={styles.avatar}>
-                <Avatar
-                  src={
-                    user?.userProfile.profilePictureUrl ||
-                    PERSON_FALLBACK_IMAGE_URL
-                  }
-                  alt="profile picture"
-                  size={80}
-                  borderColor={
-                    pathname.includes("/settings/profile") ? "var(--aqua" : ""
-                  }
-                  borderWidth="3px"
-                />
+            <div>
+              {organization && (
+                <Link href={`/dashboard/${organization.slug}`}>
+                  <li
+                    className={clsx(styles.navItem, {
+                      [styles.active as string]:
+                        pathname.includes("/dashboard"),
+                    })}
+                  >
+                    {organization.name}
+                  </li>
+                </Link>
+              )}
+              <div className={styles.flexColumn}>
+                <Link href="/settings/profile" passHref>
+                  <div className={styles.avatar}>
+                    <Avatar
+                      src={
+                        user?.userProfile.profilePictureUrl ||
+                        PERSON_FALLBACK_IMAGE_URL
+                      }
+                      alt="profile picture"
+                      size={80}
+                      borderColor={
+                        pathname.includes("/settings/profile")
+                          ? "var(--aqua"
+                          : ""
+                      }
+                      borderWidth="3px"
+                    />
+                  </div>
+                </Link>
               </div>
-            </Link>
+            </div>
           ) : (
             <div className={styles.flexColumn}>
               <Link href="/register">

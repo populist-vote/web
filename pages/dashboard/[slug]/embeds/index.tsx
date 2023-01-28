@@ -1,9 +1,9 @@
-import { Button, Layout } from "components";
+import { Layout } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
+
 import { SupportedLocale } from "types/global";
-import { dashboardNavItems } from "utils/nav";
+import { DashboardTopNav } from "..";
 
 export async function getServerSideProps({
   query,
@@ -24,18 +24,25 @@ export async function getServerSideProps({
   };
 }
 
-function EmbedsIndex({ slug }: { slug: string }) {
-  const router = useRouter();
-  const navItems = dashboardNavItems(slug);
+function EmbedsIndex() {
+  // TODO query for embedsByOrganizationSlug here
+
+  const embeds = [];
+
   return (
-    <Layout navItems={navItems}>
-      <h2>Embeds</h2>
-      <Button
-        variant="primary"
-        size="medium"
-        onClick={() => router.push(`${router.asPath}/new`)}
-        label="New Embed"
-      />
+    <Layout>
+      <DashboardTopNav />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+        }}
+      >
+        {embeds.length === 0 && <small>You don't have any embeds yet.</small>}
+      </div>
     </Layout>
   );
 }

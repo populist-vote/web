@@ -24,13 +24,28 @@
 
   li {
     list-style: none;
-    padding: 1rem;
     text-transform: uppercase;
     font-size: $text-md;
     font-family: $font-primary;
     width: 12rem;
     text-align: center;
     height: 3.5rem;
+
+    a {
+      display: block;
+      color: $white !important;
+      text-decoration: none;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      width: 100%;
+
+      &:hover {
+        background-color: $black-alpha-3;
+      }
+    }
 
     &[data-selected="true"] {
       border-bottom: 2px solid $yellow;

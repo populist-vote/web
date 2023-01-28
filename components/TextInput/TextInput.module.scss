@@ -60,6 +60,12 @@
       min-height: 40px;
       padding: 10px 18px;
     }
+
+    label {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 0.25rem;
+    }
   }
 
   &.medium {
@@ -69,6 +75,12 @@
       line-height: 24px;
       min-height: 48px;
       padding: 12px 20px;
+    }
+
+    label {
+      font-size: 17px;
+      line-height: 24px;
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -80,6 +92,13 @@
       line-height: 24px;
       min-height: 56px;
       padding: 15px 24px;
+    }
+
+    label {
+      font-size: 19px;
+      letter-spacing: 0.2px;
+      line-height: 24px;
+      margin-bottom: 0.5rem;
     }
   }
 

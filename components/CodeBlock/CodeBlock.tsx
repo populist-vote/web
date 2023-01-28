@@ -15,7 +15,7 @@ function CodeBlock({ text }: { text: string }) {
   };
 
   useEffect(() => {
-    hljs.initHighlighting();
+    hljs.highlightAll();
   }, []);
 
   return (
