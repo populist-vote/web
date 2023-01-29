@@ -34,7 +34,7 @@ function MobileTabs({ value, handleChange }: MobileTabsProps) {
         onClick={() => handleChange(PoliticalScope.State)}
       >
         <Select
-          onSelected={(value: State) => {
+          onSelect={(value: State) => {
             void router.push({
               query: {
                 ...query,

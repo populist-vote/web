@@ -55,31 +55,6 @@
       display: none;
     }
   }
-
-  section.billsSection {
-    padding: 1.5rem 0;
-
-    .billResults {
-      display: flex;
-      flex-direction: row;
-      overflow-y: hidden;
-      gap: 1rem;
-      padding: 0 1rem;
-
-      @include scroll-snap;
-    }
-
-    .noResults {
-      width: 100%;
-      text-align: center;
-      margin: 0;
-      padding: 1rem 0;
-      color: $blue;
-      text-transform: uppercase;
-      font-weight: 400;
-      font-size: $text-md;
-    }
-  }
 }
 
 .selected {

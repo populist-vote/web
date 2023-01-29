@@ -1,21 +1,24 @@
 import { Layout, LoaderFlag } from "components";
+import { EmbedPage } from "components/EmbedPage/EmbedPage";
 import { useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { SupportedLocale } from "types/global";
+import { DashboardTopNav } from "..";
 
 export async function getServerSideProps({
   query,
   locale,
 }: {
-  query: { slug: string };
+  query: { slug: string; id: string };
   locale: SupportedLocale;
 }) {
   return {
     props: {
       slug: query.slug,
+      id: query.id,
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
@@ -25,7 +28,7 @@ export async function getServerSideProps({
   };
 }
 
-function Audience({ slug }: { slug: string }) {
+function EmbedById({ slug, id }: { slug: string; id: string }) {
   const router = useRouter();
   const organizationQuery = useOrganizationBySlugQuery(
     {
@@ -50,9 +53,11 @@ function Audience({ slug }: { slug: string }) {
     <LoaderFlag />
   ) : (
     <Layout>
-      <h1>Audience</h1>
+      <DashboardTopNav />
+      <h2>Embed</h2>
+      <EmbedPage slug={slug} id={id} />
     </Layout>
   );
 }
 
-export default Audience;
+export default EmbedById;

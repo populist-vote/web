@@ -1,8 +1,8 @@
 import { Layout } from "components";
-import { EmbedPage } from "components/EmbedPage/EmbedPage";
+import { Box } from "components/Box/Box";
+import { EmbedForm } from "components/EmbedForm/EmbedForm";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { BillFiltersParams } from "pages/bills";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "..";
 
@@ -15,7 +15,7 @@ export async function getServerSideProps({
 }) {
   return {
     props: {
-      query,
+      slug: query.slug,
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
@@ -25,13 +25,14 @@ export async function getServerSideProps({
   };
 }
 
-function EmbedsNew(props: { query: BillFiltersParams }) {
+function EmbedsNew({ slug }: { slug: string }) {
   return (
     <Layout>
       <DashboardTopNav />
       <h2>New Embed</h2>
-
-      <EmbedPage {...props} />
+      <Box width="50%">
+        <EmbedForm slug={slug} embed={null} />
+      </Box>
     </Layout>
   );
 }

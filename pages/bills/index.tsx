@@ -18,6 +18,7 @@ import styles from "./BillIndex.module.scss";
 import { BillResults } from "components/BillResults/BillResults";
 import clsx from "clsx";
 import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
+import Link from "next/link";
 
 export async function getServerSideProps({
   locale,
@@ -116,9 +117,17 @@ function BillIndex(props: BillIndexProps) {
                 : ""
             }
           >
-            <button onClick={() => handleScopeFilter(PoliticalScope.Federal)}>
+            <Link
+              href={{
+                pathname: "/bills",
+                query: {
+                  ...query,
+                  scope: PoliticalScope.Federal,
+                },
+              }}
+            >
               Federal
-            </button>
+            </Link>
           </li>
         </ul>
       </TopNav>

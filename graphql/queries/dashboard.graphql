@@ -1,0 +1,23 @@
+query EmbedsByOrganization($id: ID!) {
+  embedsByOrganization(organizationId: $id) {
+    id
+    name
+    description
+    populistUrl
+    attributes
+    createdAt
+    updatedAt
+  }
+}
+
+query EmbedById($id: ID!) {
+  embedById(id: $id) {
+    id
+    name
+    description
+    populistUrl
+    attributes
+    createdAt
+    updatedAt
+  }
+}
