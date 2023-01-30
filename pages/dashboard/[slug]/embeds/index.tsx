@@ -77,7 +77,9 @@ function EmbedsIndex({ slug }: { slug: string }) {
               <p style={{ color: "white", fontSize: "16px" }}>
                 {embed.description}
               </p>
-              <Link href={embed.populistUrl}>Visit URL</Link>
+              <div>
+                <Link href={embed.populistUrl}>Visit URL</Link>
+              </div>
             </Box>
           </Link>
         ))}

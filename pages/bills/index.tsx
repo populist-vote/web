@@ -152,7 +152,7 @@ function BillIndex(props: BillIndexProps) {
             />
           </Box>
         </section>
-        <BillResults {...props} />
+        <BillResults query={props.query} />
         <PopularBills {...props} />
       </div>
       <div>
