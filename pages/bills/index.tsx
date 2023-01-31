@@ -143,7 +143,7 @@ function BillIndex(props: BillIndexProps) {
       <div className={styles.container}>
         <div className={styles.desktopOnly}>
           <section>
-            <BillSearchAndFilters {...props} />
+            <BillSearchAndFilters />
           </section>
         </div>
         <section className={styles.header}>
@@ -161,7 +161,7 @@ function BillIndex(props: BillIndexProps) {
             />
           </Box>
         </section>
-        <BillResults query={props.query} />
+        <BillResults />
         <PopularBills {...props} />
       </div>
       <div>

@@ -1,20 +1,16 @@
 import { Box } from "components/Box/Box";
 import { Button } from "components/Button/Button";
+import { Select } from "components/Select/Select";
 import { useRouter } from "next/router";
-import { BillFiltersParams } from "pages/bills";
 import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BillFiltersDesktop } from "./BillFiltersDesktop";
 import styles from "./BillSearchAndFilters.module.scss";
 
-interface BillSearchAndFiltersProps {
-  query: BillFiltersParams;
-}
-
-export function BillSearchAndFilters(props: BillSearchAndFiltersProps) {
+export function BillSearchAndFilters() {
   const router = useRouter();
   const { query } = router;
-  const { search, showFilters = "false" } = query;
+  const { search, showFilters = "false", state } = query;
   const [searchValue, setSearchValue] = useState(search);
   const hasFiltersApplied =
     Object.keys(query).filter((q) => q !== "showFilters" && q !== "slug")
@@ -38,6 +34,20 @@ export function BillSearchAndFilters(props: BillSearchAndFiltersProps) {
           ></input>
           <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
         </div>
+        <Select
+          border="solid"
+          accentColor="yellow"
+          value={state as string}
+          options={[
+            { value: "CO", label: "Colorado" },
+            { value: "MN", label: "Minnesota" },
+          ]}
+          onChange={(e) => {
+            void router.push({
+              query: { ...query, state: e.target.value },
+            });
+          }}
+        />
         <Button
           variant={
             showFiltersParam || hasFiltersApplied ? "primary" : "secondary"
@@ -73,7 +83,7 @@ export function BillSearchAndFilters(props: BillSearchAndFiltersProps) {
           }}
         />
       </div>
-      {showFiltersParam && <BillFiltersDesktop {...props} />}
+      {showFiltersParam && <BillFiltersDesktop />}
     </Box>
   );
 }

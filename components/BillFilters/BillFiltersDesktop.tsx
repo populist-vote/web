@@ -9,13 +9,12 @@ import {
 } from "generated";
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
-import { BillIndexProps } from "pages/bills";
 import styles from "./BillFiltersDesktop.module.scss";
 
-function BillFiltersDesktop(props: BillIndexProps) {
+function BillFiltersDesktop() {
   const router = useRouter();
   const query = router.query;
-  const { popularity, year, issue, committee, status } = props.query || query;
+  const { popularity, year, issue, committee, status } = query || {};
 
   const {
     handleYearFilter,
@@ -56,7 +55,7 @@ function BillFiltersDesktop(props: BillIndexProps) {
             color="blue-dark"
             backgroundColor="yellow"
             onChange={handleYearFilter}
-            value={year}
+            value={year as string}
             options={[
               { value: "2022", label: "2022" },
               { value: "2020", label: "2020" },
@@ -70,7 +69,7 @@ function BillFiltersDesktop(props: BillIndexProps) {
               color={!!issue ? "blue-dark" : "yellow"}
               border="solid"
               backgroundColor={!!issue ? "yellow" : "transparent"}
-              value={issue}
+              value={issue as string}
               onChange={handleIssueTagFilter}
               placeholder="Select an issue"
               options={billIssueTags.map((issue) => ({
@@ -87,7 +86,7 @@ function BillFiltersDesktop(props: BillIndexProps) {
               color={!!committee ? "blue-dark" : "yellow"}
               border="solid"
               backgroundColor={!!committee ? "yellow" : "transparent"}
-              value={committee}
+              value={committee as string}
               onChange={handleCommitteeFilter}
               placeholder="Select a committee"
               options={billCommittees.map((committee) => ({

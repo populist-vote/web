@@ -2,7 +2,7 @@ import type { PropsWithChildren, ReactNode, CSSProperties } from "react";
 import { default as clsx } from "clsx";
 import styles from "./Button.module.scss";
 
-type ButtonVariant = "primary" | "secondary" | "text";
+type ButtonVariant = "primary" | "secondary" | "text" | "super";
 
 type ButtonTheme = "blue" | "yellow" | "red" | "aqua";
 

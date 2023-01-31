@@ -2,16 +2,17 @@ import { BillCard } from "components/BillCard/BillCard";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import {
   BillResult,
+  BillStatus,
   PoliticalScope,
+  PopularitySort,
   State,
   useBillIndexQuery,
 } from "generated";
 import useDebounce from "hooks/useDebounce";
 import { useRouter } from "next/router";
-import { BillIndexProps } from "pages/bills";
 import styles from "./BillResults.module.scss";
 
-function BillResults(props: BillIndexProps) {
+function BillResults() {
   const router = useRouter();
   const { query } = router;
   const {
@@ -21,7 +22,7 @@ function BillResults(props: BillIndexProps) {
     year = null,
     scope = PoliticalScope.Federal,
     popularity = null,
-  } = props.query || query;
+  } = query;
 
   const shouldFetchBillResults =
     !!search || !!state || !!status || !!year || !!popularity;
@@ -37,12 +38,12 @@ function BillResults(props: BillIndexProps) {
       filter: {
         query: debouncedSearchQuery || null,
         state: state as State,
-        politicalScope: scope,
+        politicalScope: scope as PoliticalScope,
         year: parseInt(year as string),
-        status,
+        status: status as BillStatus,
       },
       sort: {
-        popularity,
+        popularity: popularity as PopularitySort,
       },
     },
     {

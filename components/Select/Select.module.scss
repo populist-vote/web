@@ -6,16 +6,14 @@
   display: flex;
   align-items: center;
   border-radius: 25px;
-  width: 100%;
   height: auto;
 
   .select {
     background: var(--select-background-color);
     color: var(--select-text-color);
-    width: 100%;
+    width: fit-content;
     padding: 0.5rem 2rem 0.5rem 1.5rem;
     cursor: pointer;
-    font-size: $text-xl;
     text-align: center;
     -webkit-appearance: none;
     -moz-appearance: none;

@@ -14,7 +14,8 @@ type SelectProps = {
     | "blue-dark"
     | "aqua"
     | "violet"
-    | "salmon";
+    | "salmon"
+    | "yellow";
   accentColor?:
     | "white"
     | "yellow"
@@ -31,7 +32,6 @@ type SelectProps = {
     | "salmon"
     | "yellow";
   border?: "none" | "solid";
-  borderColor?: "transparent" | "blue" | "aqua" | "violet" | "salmon";
   uppercase?: boolean;
   placeholder?: string;
   [key: string]: unknown;

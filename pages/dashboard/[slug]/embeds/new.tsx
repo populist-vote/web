@@ -1,8 +1,8 @@
-import { Layout } from "components";
+import { Button, Layout } from "components";
 import { Box } from "components/Box/Box";
-import { EmbedForm } from "components/EmbedForm/EmbedForm";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "..";
@@ -29,9 +29,26 @@ export async function getServerSideProps({
 function EmbedsNew({ slug }: { slug: string }) {
   return (
     <>
-      <h2>New Embed</h2>
       <Box width="50%">
-        <EmbedForm slug={slug} embed={null} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            alignContent: "center",
+          }}
+        >
+          <h2>New Embed</h2>
+          <p style={{ fontSize: "16px" }}>
+            Select the type of content you'd like to embed.
+          </p>
+          <Link
+            href="/dashboard/[slug]/embeds/legislation"
+            as={`/dashboard/${slug}/embeds/legislation`}
+          >
+            <Button variant="super" size="large" label="Legislation" />
+          </Link>
+        </div>
       </Box>
     </>
   );
@@ -40,7 +57,17 @@ function EmbedsNew({ slug }: { slug: string }) {
 EmbedsNew.getLayout = (page: ReactNode) => (
   <Layout>
     <DashboardTopNav />
-    {page}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      {page}
+    </div>
   </Layout>
 );
 
