@@ -1,5 +1,5 @@
 import { AuthTokenResult, Role, useCurrentUserQuery } from "../generated";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import {
   createContext,
   ReactNode,
@@ -34,35 +34,40 @@ export function useAuth({
 } = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const user = useContext(AuthContext);
+  const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
-    if (redirect && !user) {
-      void Router.push(redirectTo);
-    }
 
-    if (user) {
-      if (organizationId && user.organizationId !== organizationId) {
-        void Router.push(redirectTo);
+    const handleRedirect = async () => {
+      if (redirect) {
+        if (!user) await router.push(redirectTo);
+
+        if (user) {
+          if (organizationId && user.organizationId !== organizationId) {
+            await router.push(redirectTo);
+          }
+          setIsLoading(false);
+          switch (user.role) {
+            case Role.Superuser:
+              return;
+            case Role.Staff:
+              if (minRole === Role.Staff) return;
+            case Role.Premium:
+              if (minRole === Role.Premium) return;
+            case Role.Basic:
+              if (minRole === Role.Basic) return;
+            default:
+              await router.push(redirectTo);
+          }
+        }
       }
+    };
 
-      setIsLoading(false);
-
-      switch (user.role) {
-        case Role.Superuser:
-          return;
-        case Role.Staff:
-          if (minRole === Role.Staff) return;
-        case Role.Premium:
-          if (minRole === Role.Premium) return;
-        case Role.Basic:
-          if (minRole === Role.Basic) return;
-        default:
-          void Router.push(redirectTo);
-      }
-    }
+    handleRedirect().finally(() => setIsLoading(false));
 
     return () => setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, redirectTo, minRole, redirect, organizationId]);
 
   return { user, isLoading };

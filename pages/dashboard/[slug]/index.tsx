@@ -51,11 +51,12 @@ function Dashboard({ slug }: { slug: string }) {
     }
   );
 
-  const { isLoading, user } = useAuth({
+  const { isLoading } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
+    redirectTo: `/login?next=/dashboard/${slug}`,
   });
 
-  return organizationQuery.isLoading || isLoading || !user ? (
+  return organizationQuery.isLoading || isLoading ? (
     <LoaderFlag />
   ) : (
     <Box>
