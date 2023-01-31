@@ -26,18 +26,19 @@
   li {
     list-style: none;
     text-transform: uppercase;
-    font-size: $text-sm;
     font-family: $font-primary;
     width: auto;
     height: 3rem;
     text-align: center;
     box-sizing: border-box;
 
-    a {
+    a,
+    select {
       color: $white !important;
+      font-size: $text-sm !important;
       text-decoration: none;
       padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
+      border-radius: 0.5rem !important;
       transition: background-color 0.3s ease;
       cursor: pointer;
       width: 100%;

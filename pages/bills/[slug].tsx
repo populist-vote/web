@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from "react";
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -29,11 +29,39 @@ import {
 
 import styles from "./BillBySlug.module.scss";
 
-const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
-  mobileNavTitle,
-}: {
-  mobileNavTitle?: string;
-}) => {
+interface Params extends NextParsedUrlQuery {
+  slug: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { slug } = ctx.params as Params;
+  const locale = ctx.locale as SupportedLocale;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    useBillBySlugQuery.getKey({ slug }),
+    useBillBySlugQuery.fetcher({ slug })
+  );
+  const state = dehydrate(queryClient);
+
+  const data = state.queries[0]?.state.data as BillBySlugQuery;
+
+  return {
+    notFound: state.queries.length === 0 || !data?.billBySlug,
+    props: {
+      dehydratedState: state,
+      mobileNavTitle: data?.billBySlug?.billNumber,
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+};
+
+function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
   const router = useRouter();
   const slug = router.query.slug as string;
 
@@ -84,7 +112,11 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
             {$supportOppose}
           </div>
         </nav>
-        <FlagSection label={bill?.session?.name ?? ""} hideFlagForMobile={true}>
+        <FlagSection
+          label={bill?.session?.name ?? ""}
+          hideFlagForMobile
+          style={{ marginTop: "9rem" }}
+        >
           <div className={styles.billContainer}>
             <header>
               <h3>{bill?.billNumber}</h3>
@@ -150,38 +182,6 @@ const BillPage: NextPage<{ mobileNavTitle?: string }> = ({
       </footer>
     </>
   );
-};
-
-export default BillPage;
-
-interface Params extends NextParsedUrlQuery {
-  slug: string;
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug } = ctx.params as Params;
-  const locale = ctx.locale as SupportedLocale;
-
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(
-    useBillBySlugQuery.getKey({ slug }),
-    useBillBySlugQuery.fetcher({ slug })
-  );
-  const state = dehydrate(queryClient);
-
-  const data = state.queries[0]?.state.data as BillBySlugQuery;
-
-  return {
-    notFound: state.queries.length === 0 || !data?.billBySlug,
-    props: {
-      dehydratedState: state,
-      mobileNavTitle: data?.billBySlug?.billNumber,
-      ...(await serverSideTranslations(
-        locale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-};
+export default BillPage;

@@ -9,17 +9,18 @@ interface FlagSectionProps {
   children: React.ReactNode;
   color?: FlagColor;
   hideFlagForMobile?: boolean;
-  [x: string]: unknown;
+  style?: React.CSSProperties;
 }
 
 function FlagSection(props: FlagSectionProps): JSX.Element {
-  const { label, children, color, hideFlagForMobile = false } = props;
+  const { label, children, color, hideFlagForMobile = false, style } = props;
   const styleClasses = clsx(styles.container, {
     [styles.hideFlagForMobile as string]: hideFlagForMobile,
     ...(!!color ? { [styles[color] as string]: true } : {}),
   });
+
   return (
-    <section className={styleClasses} {...props}>
+    <section style={style} className={styleClasses}>
       <header className={styles.header}>
         <span className={styles.sectionTitle}>{label}</span>
       </header>

@@ -25,21 +25,6 @@
   }
 }
 
-.blueSecondary {
-  background-color: $blue-light;
-  color: $blue-dark;
-  border-color: $blue-dark;
-  &:hover {
-    background-color: $blue-dark;
-    color: $white;
-  }
-  &:disabled {
-    background-color: $blue-light;
-    color: $blue-dark;
-    border-color: $blue-dark;
-  }
-}
-
 .buttonLabel {
   display: inline-flex;
   justify-content: center;
@@ -198,6 +183,11 @@ $small-size: 1.825rem;
     $blue-light,
     $blue-lighter
   );
+
+  &:hover {
+    background: $blue-light;
+    color: $white;
+  }
 }
 
 .blue.secondary {
@@ -210,6 +200,11 @@ $small-size: 1.825rem;
     $blue-lighter,
     $white
   );
+
+  &:hover {
+    background: $blue;
+    color: $white;
+  }
 }
 
 .blue.text {

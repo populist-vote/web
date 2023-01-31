@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Router, { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, ReactNode, useState } from "react";
 import {
   Avatar,
   Button,
@@ -34,7 +34,6 @@ import { useDropzone, FileWithPath } from "react-dropzone";
 import { toast } from "react-toastify";
 import { PasswordInput } from "components/Auth/PasswordInput";
 import useDebounce from "hooks/useDebounce";
-import { NextPage } from "next";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
@@ -685,7 +684,24 @@ const ProfilePhotoSection = ({
   );
 };
 
-export const ProfilePage: NextPage = () => {
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      title: "Profile",
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+}
+
+function ProfilePage() {
   const { user } = useAuth({ redirectTo: "/login?next=settings/profile" });
   const {
     data: { userProfile } = {},
@@ -711,44 +727,27 @@ export const ProfilePage: NextPage = () => {
   } = userProfile;
 
   return (
-    <Layout mobileNavTitle="My Account">
-      <FlagSection hideFlagForMobile={true} label="My Profile">
-        <div className={profileStyles.profile}>
-          <ProfilePhotoSection
-            profilePictureUrl={profilePictureUrl as string}
-            userId={user.id}
-          />
-          <NameSection
-            firstName={firstName as string}
-            lastName={lastName as string}
-          />
-          <UsernameSection username={username as string} />
-          <AddressSection address={address as AddressResult} />
-          <EmailSection email={email} />
-          <PasswordSection />
-          <SignOutSection />
-          <DeleteAccountSection />
-        </div>
-      </FlagSection>
-    </Layout>
+    <FlagSection hideFlagForMobile={true} label="My Profile">
+      <div className={profileStyles.profile}>
+        <ProfilePhotoSection
+          profilePictureUrl={profilePictureUrl as string}
+          userId={user.id}
+        />
+        <NameSection
+          firstName={firstName as string}
+          lastName={lastName as string}
+        />
+        <UsernameSection username={username as string} />
+        <AddressSection address={address as AddressResult} />
+        <EmailSection email={email} />
+        <PasswordSection />
+        <SignOutSection />
+        <DeleteAccountSection />
+      </div>
+    </FlagSection>
   );
-};
+}
+
+ProfilePage.getLayout = (page: ReactNode) => <Layout>{page}</Layout>;
 
 export default ProfilePage;
-
-export async function getServerSideProps({
-  locale,
-}: {
-  locale: SupportedLocale;
-}) {
-  return {
-    props: {
-      title: "Profile",
-      ...(await serverSideTranslations(
-        locale as SupportedLocale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-}

@@ -19,6 +19,7 @@ import { BillResults } from "components/BillResults/BillResults";
 import clsx from "clsx";
 import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 export async function getServerSideProps({
   locale,
@@ -74,7 +75,7 @@ function BillIndex(props: BillIndexProps) {
     );
 
   return (
-    <Layout mobileNavTitle="Legislation" hideFooter>
+    <>
       <TopNav>
         <ul>
           <li
@@ -95,6 +96,14 @@ function BillIndex(props: BillIndexProps) {
                   });
                 }
               }}
+              onClick={() =>
+                void router.push({
+                  query: {
+                    ...query,
+                    scope: PoliticalScope.State,
+                  },
+                })
+              }
               value={state as string}
               options={[
                 {
@@ -187,8 +196,14 @@ function BillIndex(props: BillIndexProps) {
         value={scope as PoliticalScope}
         handleChange={handleScopeFilter}
       />
-    </Layout>
+    </>
   );
 }
+
+BillIndex.getLayout = (page: ReactNode) => (
+  <Layout mobileNavTitle="Legislation" hideFooter>
+    {page}
+  </Layout>
+);
 
 export default BillIndex;
