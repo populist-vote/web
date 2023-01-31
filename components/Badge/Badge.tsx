@@ -6,6 +6,8 @@ import clsx from "clsx";
 
 interface BadgeProps {
   color?: string;
+  textColor?: string;
+  size?: "small" | "medium" | "large";
   iconLeft?: ReactNode;
   label?: string;
   selected?: boolean;
@@ -15,6 +17,8 @@ interface BadgeProps {
 
 function Badge({
   color,
+  textColor,
+  size = "medium",
   iconLeft,
   label,
   selected,
@@ -25,6 +29,7 @@ function Badge({
 }: PropsWithChildren<BadgeProps>) {
   const style = useDocumentBaseStyle();
   const colorVar = `--${color}`;
+  const textColorVar = `--${textColor}`;
   const styleVars: CSSProperties & {
     "--color": string;
     "--background-color": string;
@@ -35,11 +40,11 @@ function Badge({
       ? addAlphaToHexColor(style.getPropertyValue(colorVar), 0.1)
       : "var(--grey-lightest)",
     [`--text-color`]: getContrasting(
-      style.getPropertyValue(colorVar as string)
+      style.getPropertyValue(textColorVar as string)
     ),
   };
 
-  const cx = clsx(styles.container, {
+  const cx = clsx(styles.container, styles[size as string], {
     [styles.selected as string]: selected,
     [styles.clickable as string]: clickable,
   });

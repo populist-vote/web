@@ -4,8 +4,8 @@
 
 .container {
   width: 100%;
-  background: rgba(142 234 120 / 0.05);
-  border: 1px solid rgba(142 234 120 / 0.1);
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
   border-radius: 30px;
   padding: 1rem 1.5rem;
   color: white;
@@ -26,8 +26,15 @@
     border-bottom: 1px solid #8eea7820;
   }
 
-  tr:not(:last-child) {
-    border-bottom: 1px solid #8eea7820;
+  tbody {
+    tr {
+      &:hover {
+        background: $black-alpha-3;
+      }
+    }
+    tr:not(:last-child) {
+      border-bottom: 1px solid var(--border-color);
+    }
   }
 
   th,
@@ -36,12 +43,12 @@
   }
 
   td:first-child {
-    color: $green;
+    color: var(--text-color);
     font-weight: 300;
   }
 
   td:not(:first-child) {
-    color: $green;
+    color: var(--text-color);
     font-weight: 500;
   }
 

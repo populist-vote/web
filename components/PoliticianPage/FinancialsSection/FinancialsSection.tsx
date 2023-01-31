@@ -90,6 +90,7 @@ function FinancialsSection() {
           </h3>
 
           <Table
+            theme="green"
             data={donationsByIndustry?.sectors || []}
             columns={columns}
             initialState={{

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -14,11 +14,14 @@ import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
 import { Button } from "components/Button/Button";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
+type TableTheme = "blue" | "green";
+
 type TableProps<T extends object> = {
   data: T[];
   columns: ColumnDef<T>[];
   initialState: InitialTableState;
   metaRight?: React.ReactNode;
+  theme?: TableTheme;
 };
 
 function Table<T extends object>({
@@ -26,6 +29,7 @@ function Table<T extends object>({
   columns,
   initialState,
   metaRight,
+  theme = "blue",
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
     initialState.sorting || []
@@ -44,6 +48,49 @@ function Table<T extends object>({
     getPaginationRowModel: getPaginationRowModel(),
     debugTable: true,
   });
+
+  const backgroundColor = () => {
+    switch (theme) {
+      case "blue":
+        return "var(--blue-darker)";
+      case "green":
+        return "rgba(142 234 120 / 0.05)";
+      default:
+        return "var(--blue)";
+    }
+  };
+
+  const textColor = () => {
+    switch (theme) {
+      case "blue":
+        return "var(--yellow)";
+      case "green":
+        return "var(--green)";
+      default:
+        return "var(--blue-dark)";
+    }
+  };
+
+  const styleVars: CSSProperties & {
+    "--background-color": string;
+    "--border-color": string;
+    "--text-color": string;
+  } = {
+    [`--background-color`]: backgroundColor(),
+    [`--border-color`]: "var(--blue-dark)",
+    [`--text-color`]: textColor(),
+  };
+
+  const indexColors = () => {
+    switch (theme) {
+      case "blue":
+        return { selected: "var(--blue)", unselected: "var(--blue-dark)" };
+      case "green":
+        return { selected: "var(--green)", unselected: "var(--green-dark)" };
+      default:
+        return { selected: "var(--blue)", unselected: "var(--blue-dark)" };
+    }
+  };
 
   const PageIndex = () => {
     return (
@@ -70,8 +117,8 @@ function Table<T extends object>({
               key={i}
               color={
                 i === table.getState().pagination.pageIndex
-                  ? "var(--green)"
-                  : "var(--blue-dark)"
+                  ? indexColors().selected
+                  : indexColors().unselected
               }
               onClick={() => table.setPageIndex(i)}
             />
@@ -100,14 +147,20 @@ function Table<T extends object>({
     <>
       <PageIndex />
 
-      <div className={styles.container}>
+      <div className={styles.container} style={styleVars}>
         <table>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <th key={header.id} colSpan={header.colSpan}>
+                    <th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize(),
+                      }}
+                    >
                       {header.isPlaceholder ? null : (
                         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                         <div
@@ -123,8 +176,8 @@ function Table<T extends object>({
                             header.getContext()
                           )}
                           {{
-                            asc: <AiFillCaretUp color="var(--green)" />,
-                            desc: <AiFillCaretDown color="var(--green)" />,
+                            asc: <AiFillCaretUp color={textColor()} />,
+                            desc: <AiFillCaretDown color={textColor()} />,
                           }[header.column.getIsSorted() as string] ?? null}
                         </div>
                       )}
