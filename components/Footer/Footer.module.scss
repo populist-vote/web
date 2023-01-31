@@ -13,7 +13,7 @@ $font-size: 0.85em;
   padding: 0 1.5rem;
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: column-reverse;
 
   @include for-tablet-up {
     flex-direction: row;
@@ -41,6 +41,7 @@ $font-size: 0.85em;
       font-size: $font-size;
 
       a {
+        display: flex;
         color: $blue-light;
         &:hover {
           color: $blue-lighter;

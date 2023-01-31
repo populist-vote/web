@@ -76,7 +76,7 @@ function EmbedForm({
           marginTop: "1rem",
         }}
       >
-        <Button type="submit" variant="primary" size="large" label="Save" />
+        <Button type="submit" variant="primary" size="medium" label="Save" />
       </div>
     </form>
   );

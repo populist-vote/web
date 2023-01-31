@@ -1,10 +1,12 @@
 import { Layout, LoaderFlag } from "components";
+import { Box } from "components/Box/Box";
 import { useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { SupportedLocale } from "types/global";
+import { DashboardTopNav } from ".";
 
 export async function getServerSideProps({
   query,
@@ -50,7 +52,28 @@ function Audience({ slug }: { slug: string }) {
     <LoaderFlag />
   ) : (
     <Layout>
-      <h1>Audience</h1>
+      <DashboardTopNav />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "1.5rem 0",
+        }}
+      >
+        <Box>
+          <h3 style={{ marginTop: 0 }}>
+            Audience engagement metrics for{" "}
+            {organizationQuery.data?.organizationBySlug.name}
+          </h3>
+          <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
+            - Table with searchable list of audience members (for embedded polls
+            and questions)
+          </p>
+          <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
+            - Graphs about engagement metrics
+          </p>
+        </Box>
+      </div>
     </Layout>
   );
 }

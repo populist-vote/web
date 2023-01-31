@@ -9,7 +9,11 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+
+  header,
+  nav {
+    padding: 1rem;
+  }
 
   a {
     color: $white;

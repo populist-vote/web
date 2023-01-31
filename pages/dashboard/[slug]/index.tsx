@@ -113,6 +113,20 @@ export function DashboardTopNav() {
             Embeds
           </Link>
         </li>
+        <li
+          data-selected={new RegExp(`/dashboard/${slug}/audience`).test(
+            router.asPath
+          )}
+        >
+          <Link
+            href={{
+              pathname: "/dashboard/[slug]/audience",
+              query: { slug },
+            }}
+          >
+            Audience
+          </Link>
+        </li>
       </ul>
       <div>
         <Link

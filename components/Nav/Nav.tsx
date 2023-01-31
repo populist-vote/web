@@ -129,31 +129,29 @@ function Nav({
                 (href === "/voting-guides" && hasVotingGuide);
 
               return (
-                <Link href={href} key={href}>
-                  <li
-                    className={`${styles.navItem} ${
-                      isNavItemActive && styles.active
-                    }`}
-                  >
-                    {label}
-                  </li>
-                </Link>
+                <li
+                  className={`${styles.navItem} ${
+                    isNavItemActive && styles.active
+                  }`}
+                  key={href}
+                >
+                  <Link href={href}>{label}</Link>
+                </li>
               );
             })}
           </ul>
           {user ? (
             <div>
               {organization && (
-                <Link href={`/dashboard/${organization.slug}`}>
-                  <li
-                    className={clsx(styles.navItem, {
-                      [styles.active as string]:
-                        pathname.includes("/dashboard"),
-                    })}
-                  >
+                <li
+                  className={clsx(styles.navItem, {
+                    [styles.active as string]: pathname.includes("/dashboard"),
+                  })}
+                >
+                  <Link href={`/dashboard/${organization.slug}`}>
                     {organization.name}
-                  </li>
-                </Link>
+                  </Link>
+                </li>
               )}
               <div className={styles.flexColumn}>
                 <Link href="/settings/profile" passHref>
