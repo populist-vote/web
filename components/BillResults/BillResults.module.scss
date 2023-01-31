@@ -1,0 +1,39 @@
+@import "styles/layout/containers";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
+section.billsSection {
+  padding: 1.5rem 1rem;
+
+  h2 {
+    margin-top: 0;
+  }
+
+  .billResults {
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+    gap: 1rem;
+
+    @include scroll-snap;
+
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 6px,
+      black calc(100% - 12px),
+      transparent 100%
+    );
+  }
+
+  .noResults {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 1rem 0;
+    color: $blue;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: $text-md;
+  }
+}

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { usePoliticianIndexQuery } from "generated";
@@ -16,12 +16,29 @@ import type { PoliticianResult } from "../../generated";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import useDebounce from "hooks/useDebounce";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianFilters";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "types/global";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { locale } = ctx;
+  return {
+    props: {
+      title: "Politician Browser",
+      description:
+        "Find information on your government representatives like voting histories, endorsements, and financial data.",
+      ...ctx.query,
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+};
 
 const PAGE_SIZE = 20;
 
@@ -81,9 +98,7 @@ export type PoliticianIndexProps = {
   };
 };
 
-const PoliticianIndex: NextPage<PoliticianIndexProps> = (
-  props: PoliticianIndexProps
-) => {
+function PoliticianIndex(props: PoliticianIndexProps) {
   const router = useRouter();
   const { query } = router;
   const {
@@ -151,72 +166,52 @@ const PoliticianIndex: NextPage<PoliticianIndexProps> = (
   }, [loadMoreRef.current, hasNextPage, isFetchingNextPage]);
 
   return (
-    <Layout>
+    <div>
+      <header>
+        <PoliticianIndexFilters query={props.query} />
+      </header>
       <div>
-        <header>
-          <PoliticianIndexFilters query={props.query} />
-        </header>
-        <div>
-          <>
-            {isLoading && (
-              <div className={styles.center}>
-                <LoaderFlag />
-              </div>
-            )}
-            {error && (
-              <h4>Something went wrong fetching politician records...</h4>
-            )}
-            <div>
-              {data?.pages.map((page) =>
-                page.politicians.edges
-                  ?.map((edge) => edge?.node as PoliticianResult)
-                  .map((politician: PoliticianResult) => (
-                    <PoliticianRow
-                      politician={politician}
-                      key={politician.id}
-                    />
-                  ))
-              )}
+        <>
+          {isLoading && (
+            <div className={styles.center}>
+              <LoaderFlag />
             </div>
-            {hasNextPage && (
-              <>
-                <button
-                  className={styles.wideButton}
-                  style={{ margin: "1rem 0 0" }}
-                  ref={loadMoreRef}
-                  onClick={() => fetchNextPage()}
-                  disabled={isFetchingNextPage}
-                >
-                  {isFetchingNextPage
-                    ? "Loading more..."
-                    : hasNextPage
-                    ? "Load More"
-                    : "Nothing more to load"}
-                </button>
-              </>
+          )}
+          {error && (
+            <h4>Something went wrong fetching politician records...</h4>
+          )}
+          <div>
+            {data?.pages.map((page) =>
+              page.politicians.edges
+                ?.map((edge) => edge?.node as PoliticianResult)
+                .map((politician: PoliticianResult) => (
+                  <PoliticianRow politician={politician} key={politician.id} />
+                ))
             )}
-          </>
-        </div>
+          </div>
+          {hasNextPage && (
+            <>
+              <button
+                className={styles.wideButton}
+                style={{ margin: "1rem 0 0" }}
+                ref={loadMoreRef}
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+              >
+                {isFetchingNextPage
+                  ? "Loading more..."
+                  : hasNextPage
+                  ? "Load More"
+                  : "Nothing more to load"}
+              </button>
+            </>
+          )}
+        </>
       </div>
-    </Layout>
+    </div>
   );
-};
+}
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { locale } = ctx;
-  return {
-    props: {
-      title: "Politician Browser",
-      description:
-        "Find information on your government representatives like voting histories, endorsements, and financial data.",
-      ...ctx.query,
-      ...(await serverSideTranslations(
-        locale as SupportedLocale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-};
+PoliticianIndex.getLayout = (page: ReactNode) => <Layout>{page}</Layout>;
 
 export default PoliticianIndex;

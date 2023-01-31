@@ -18,9 +18,9 @@
   flex-wrap: wrap;
   width: 100%;
   border-top: solid 1px $blue-darker;
-  
+
   @include for-tablet-up {
-    padding: 0rem 0;
+    padding: 0;
     border-top: solid 1px $blue-dark;
 
     section {

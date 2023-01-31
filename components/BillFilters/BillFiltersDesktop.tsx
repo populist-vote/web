@@ -10,7 +10,6 @@ import {
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
-import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./BillFiltersDesktop.module.scss";
 
 function BillFiltersDesktop(props: BillIndexProps) {
@@ -19,8 +18,6 @@ function BillFiltersDesktop(props: BillIndexProps) {
   const { popularity, year, issue, committee, status } = props.query || query;
 
   const {
-    searchValue,
-    setSearchValue,
     handleYearFilter,
     handleIssueTagFilter,
     handleCommitteeFilter,
@@ -170,28 +167,6 @@ function BillFiltersDesktop(props: BillIndexProps) {
               onClick={() => handlePopularitySort(PopularitySort.MostOpposed)}
             />
           </div>
-        </section>
-      </div>
-
-      <div className={styles.row}>
-        <section className={styles.flex}>
-          <h4>Sponsor</h4>
-          <div className={styles.inputWithIcon}>
-            <input
-              placeholder="Search for politicians"
-              onChange={(e) => {
-                setSearchValue(e.target.value);
-                void router.push({
-                  query: { ...query, search: e.target.value },
-                });
-              }}
-              value={searchValue || ""}
-            ></input>
-            <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
-          </div>
-        </section>
-        <section className={styles.flex}>
-          <h4>RESULTS</h4>
         </section>
       </div>
     </div>

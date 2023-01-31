@@ -5,26 +5,54 @@
 .container {
   display: flex;
   flex-direction: row;
-  justify-content: left;
-  align-items: center;
-  list-style: none;
-  gap: 1rem;
+  justify-content: space-between;
   border-bottom: 1px solid $blue-dark;
 
   @include for-tablet-portrait-down {
     display: none;
   }
 
-  li {
-    padding: 1rem;
-    text-transform: uppercase;
-    font-size: $text-md;
-    font-family: $font-primary;
-    width: 12rem;
-    text-align: center;
-    height: 3.5rem;
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    gap: 1rem;
+    margin: 0;
+    padding-inline-start: 0;
+  }
 
-    &.selected {
+  li {
+    list-style: none;
+    text-transform: uppercase;
+    font-family: $font-primary;
+    width: auto;
+    height: 3rem;
+    text-align: center;
+    box-sizing: border-box;
+
+    a,
+    select {
+      color: $white !important;
+      font-size: $text-sm !important;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem !important;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+
+      &:hover {
+        background-color: $black-alpha-3;
+      }
+    }
+
+    &[data-selected="true"] {
       border-bottom: 2px solid $yellow;
 
       &.aqua {

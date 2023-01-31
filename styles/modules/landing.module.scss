@@ -1,3 +1,5 @@
+/* stylelint-disable selector-id-pattern */
+/* stylelint-disable selector-class-pattern */
 @import "styles/mixins/media";
 @import "styles/variables/colors";
 @import "styles/modules/nav.module";
@@ -94,7 +96,7 @@
   }
 
   div.contentwide3 {
-    padding: 80px 80px 130px 80px;
+    padding: 80px 80px 130px;
     max-width: 1160px;
   }
 

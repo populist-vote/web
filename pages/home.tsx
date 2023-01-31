@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { BasicLayout, HomePageButton, BetaNotice } from "components";
 import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
@@ -26,7 +26,7 @@ export async function getServerSideProps({
 }
 
 function HomePage() {
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
   const userId = user?.id;
   const { t } = useTranslation("common");
 
@@ -43,39 +43,39 @@ function HomePage() {
     );
   };
 
-  return (
-    <BasicLayout showAuthButtons>
-      {isBetaVisible ? (
-        <BetaNotice onContinue={handleBetaDismissal} />
-      ) : (
-        <div>
-          <HomePageButton
-            href={user ? "/ballot" : "/ballot/choose"}
-            className="myBallot"
-            label={t("my-ballot")}
-          />
-          <HomePageButton
-            href={user ? "/voting-guides" : "/login?next=/voting-guides"}
-            className="votingGuides"
-            label={t("voting-guides")}
-          />
-          <HomePageButton
-            href="/politicians"
-            className="myLegislators"
-            label={t("browse-politicians")}
-          />
-          <HomePageButton
-            href="/bills"
-            className="admin"
-            label={t("legislation")}
-          />
-          {user?.role === Role.Superuser && (
-            <HomePageButton href="/admin" className="admin" label={"Admin"} />
-          )}
-        </div>
+  return isBetaVisible ? (
+    <BetaNotice onContinue={handleBetaDismissal} />
+  ) : (
+    <div>
+      <HomePageButton
+        href={user ? "/ballot" : "/ballot/choose"}
+        className="myBallot"
+        label={t("my-ballot")}
+      />
+      <HomePageButton
+        href={user ? "/voting-guides" : "/login?next=/voting-guides"}
+        className="votingGuides"
+        label={t("voting-guides")}
+      />
+      <HomePageButton
+        href="/politicians"
+        className="myLegislators"
+        label={t("browse-politicians")}
+      />
+      <HomePageButton
+        href="/bills"
+        className="legislation"
+        label={t("legislation")}
+      />
+      {user?.role === Role.Superuser && (
+        <HomePageButton href="/admin" className="admin" label={"Admin"} />
       )}
-    </BasicLayout>
+    </div>
   );
 }
+
+HomePage.getLayout = (page: ReactNode) => (
+  <BasicLayout showAuthButtons>{page}</BasicLayout>
+);
 
 export default HomePage;

@@ -1,7 +1,7 @@
 import { BasicLayout, Button } from "components";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../Auth/Auth.module.scss";
 import {
@@ -73,84 +73,79 @@ function ResetPasswordForm() {
 
   if (isSuccess)
     return (
-      <BasicLayout>
-        <div className={styles.container}>
-          <h1>Your password has been reset</h1>
-          <Link href={"/login"} passHref>
-            <Button label="Login" size="large" variant="primary" theme="blue" />
-          </Link>
-        </div>
-      </BasicLayout>
+      <div className={styles.container}>
+        <h1>Your password has been reset</h1>
+        <Link href={"/login"} passHref>
+          <Button label="Login" size="large" variant="primary" theme="blue" />
+        </Link>
+      </div>
     );
 
   return (
-    <BasicLayout>
-      <div className={styles.container}>
-        <h1 className="title">Change your password</h1>
-        <p>
-          With current technologies, a ten character alphanumeric password takes
-          around 5 years to crack.
-        </p>
-        <div className={styles.formWrapper}>
-          <form onSubmit={handleSubmit(submitForm)}>
-            <div
-              className={`${styles.inputWrapper} ${
-                errors.password && styles.invalid
-              }`}
-            >
-              <PasswordInput
-                name="password"
-                placeholder="Password"
-                register={register}
-                rules={{
-                  required: "Password is required",
-                  validate: () => isPasswordValid,
-                }}
-                autoComplete="new-password"
-                onChange={async (e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div
-              className={`${styles.inputWrapper} ${
-                errors.confirmPassword && styles.invalid
-              }`}
-            >
-              <PasswordInput
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                register={register}
-                autoComplete="new-password"
-                rules={{
-                  required: "Confirm password is required",
-                  validate: (value: string) =>
-                    value === getValues("password") || "Passwords do not match",
-                }}
-              />
-            </div>
-            <PasswordEntropyMeter
-              valid={isPasswordValid}
-              score={score}
-              message={message}
-              length={password.length}
-              isLoading={isEntropyCalcLoading && fetchStatus != "idle"}
+    <div className={styles.container}>
+      <h1 className="title">Change your password</h1>
+      <p>
+        With current technologies, a ten character alphanumeric password takes
+        around 5 years to crack.
+      </p>
+      <div className={styles.formWrapper}>
+        <form onSubmit={handleSubmit(submitForm)}>
+          <div
+            className={`${styles.inputWrapper} ${
+              errors.password && styles.invalid
+            }`}
+          >
+            <PasswordInput
+              name="password"
+              placeholder="Password"
+              register={register}
+              rules={{
+                required: "Password is required",
+                validate: () => isPasswordValid,
+              }}
+              autoComplete="new-password"
+              onChange={async (e) => setPassword(e.target.value)}
             />
-            <Button
-              label="Submit"
-              size="large"
-              variant="primary"
-              theme="blue"
+          </div>
+          <div
+            className={`${styles.inputWrapper} ${
+              errors.confirmPassword && styles.invalid
+            }`}
+          >
+            <PasswordInput
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              register={register}
+              autoComplete="new-password"
+              rules={{
+                required: "Confirm password is required",
+                validate: (value: string) =>
+                  value === getValues("password") || "Passwords do not match",
+              }}
             />
-            <br />
-            {Object.entries(errors).map(([key, value]) => (
-              <small key={key} className={styles.formError}>
-                {value.message}
-              </small>
-            ))}
-          </form>
-        </div>
+          </div>
+          <PasswordEntropyMeter
+            valid={isPasswordValid}
+            score={score}
+            message={message}
+            length={password.length}
+            isLoading={isEntropyCalcLoading && fetchStatus != "idle"}
+          />
+          <Button label="Submit" size="large" variant="primary" theme="blue" />
+          <br />
+          {Object.entries(errors).map(([key, value]) => (
+            <small key={key} className={styles.formError}>
+              {value.message}
+            </small>
+          ))}
+        </form>
       </div>
-    </BasicLayout>
+    </div>
   );
 }
+
+ResetPasswordForm.getLayout = (page: ReactNode) => (
+  <BasicLayout>{page}</BasicLayout>
+);
 
 export { ResetPasswordForm };

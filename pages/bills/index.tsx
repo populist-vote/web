@@ -1,4 +1,4 @@
-import { Button, Layout } from "components";
+import { Button, Layout, Select } from "components";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -7,18 +7,19 @@ import { SupportedLocale } from "types/global";
 import { StickyButton } from "components/StickyButton/StickyButton";
 import { FaSearch } from "react-icons/fa";
 import { FiltersIcon } from "components/Icons";
-import { BillFiltersDesktop } from "components/BillFilters/BillFiltersDesktop";
 import { PopularBills } from "components/PopularBills/PopularBills";
 import { MobileTabs } from "components/MobileTabs/MobileTabs";
 import { TopNav } from "components/TopNav/TopNav";
 import { Box } from "components/Box/Box";
-import { AiOutlineSearch } from "react-icons/ai";
-import { useState } from "react";
 import { BillFiltersMobile } from "components/BillFilters/BillFiltersMobile";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
 import styles from "./BillIndex.module.scss";
 import { BillResults } from "components/BillResults/BillResults";
+import clsx from "clsx";
+import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
+import Link from "next/link";
+import { ReactNode } from "react";
 
 export async function getServerSideProps({
   locale,
@@ -45,7 +46,7 @@ export interface BillFiltersParams {
   status: BillStatus;
   scope: PoliticalScope;
   state: State;
-  year: "2022" | "2021" | "2020";
+  year: "2023" | "2022" | "2021" | "2020";
   issue: string;
   committee: string;
   popularity: PopularitySort;
@@ -59,12 +60,11 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { scope = PoliticalScope.Federal, search } = query;
+  const { scope = PoliticalScope.Federal, state } = query;
   const { showFilters = "false" } = props.query || query;
   const isMobile = useMediaQuery("(max-width: 896px)");
-  const [searchValue, setSearchValue] = useState(search);
-  const showFiltersParam = showFilters === "true";
 
+  const showFiltersParam = showFilters === "true";
   const { handleScopeFilter } = useBillFilters();
 
   if (showFiltersParam && isMobile)
@@ -75,49 +75,75 @@ function BillIndex(props: BillIndexProps) {
     );
 
   return (
-    <Layout mobileNavTitle="Legislation" hideFooter>
-      <TopNav />
+    <>
+      <TopNav>
+        <ul>
+          <li
+            className={scope !== PoliticalScope.Federal ? styles.selected : ""}
+          >
+            <Select
+              onChange={(e) => {
+                if (e.target.value === "all") {
+                  const { state: _, ...newQuery } = query;
+                  void router.push({ query: newQuery });
+                } else {
+                  void router.push({
+                    query: {
+                      ...query,
+                      state: e.target.value,
+                      scope: PoliticalScope.State,
+                    },
+                  });
+                }
+              }}
+              onClick={() =>
+                void router.push({
+                  query: {
+                    ...query,
+                    scope: PoliticalScope.State,
+                  },
+                })
+              }
+              value={state as string}
+              options={[
+                {
+                  value: "CO",
+                  label: "Colorado",
+                },
+                {
+                  value: "MN",
+                  label: "Minnesota",
+                },
+              ]}
+              accentColor="yellow"
+              uppercase
+            />
+          </li>
+          <li
+            className={
+              scope === PoliticalScope.Federal
+                ? clsx(styles.selected, styles.aqua)
+                : ""
+            }
+          >
+            <Link
+              href={{
+                pathname: "/bills",
+                query: {
+                  ...query,
+                  scope: PoliticalScope.Federal,
+                },
+              }}
+            >
+              Federal
+            </Link>
+          </li>
+        </ul>
+      </TopNav>
       <div className={styles.container}>
         <div className={styles.desktopOnly}>
           <section>
-            <Box>
-              <div className={styles.flex}>
-                <div className={styles.inputWithIcon}>
-                  <input
-                    placeholder="Search for legislation"
-                    onChange={(e) => {
-                      setSearchValue(e.target.value);
-                      void router.push({
-                        query: { ...query, search: e.target.value },
-                      });
-                    }}
-                    value={searchValue || ""}
-                  ></input>
-                  <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
-                </div>
-                <Button
-                  variant={showFiltersParam ? "primary" : "secondary"}
-                  theme="yellow"
-                  label="Filters"
-                  size="medium"
-                  onClick={() =>
-                    router.push({
-                      query: {
-                        ...query,
-                        showFilters: showFiltersParam ? false : true,
-                      },
-                    })
-                  }
-                />
-                <Button
-                  variant="secondary"
-                  theme="yellow"
-                  label="Clear"
-                  size="medium"
-                />
-              </div>
-              {showFiltersParam && <BillFiltersDesktop {...props} />}
-            </Box>
+            <BillSearchAndFilters {...props} />
           </section>
         </div>
         <section className={styles.header}>
@@ -135,7 +161,7 @@ function BillIndex(props: BillIndexProps) {
             />
           </Box>
         </section>
-        <BillResults {...props} />
+        <BillResults query={props.query} />
         <PopularBills {...props} />
       </div>
       <div>
@@ -170,8 +196,14 @@ function BillIndex(props: BillIndexProps) {
         value={scope as PoliticalScope}
         handleChange={handleScopeFilter}
       />
-    </Layout>
+    </>
   );
 }
+
+BillIndex.getLayout = (page: ReactNode) => (
+  <Layout mobileNavTitle="Legislation" hideFooter>
+    {page}
+  </Layout>
+);
 
 export default BillIndex;

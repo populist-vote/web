@@ -10,7 +10,7 @@ import {
 import useDebounce from "hooks/useDebounce";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
-import styles from "../../pages/bills/BillIndex.module.scss";
+import styles from "../BillResults/BillResults.module.scss";
 
 function PopularBills(props: BillIndexProps) {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Router, { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, ReactNode, useState } from "react";
 import {
   Avatar,
   Button,
@@ -34,7 +34,6 @@ import { useDropzone, FileWithPath } from "react-dropzone";
 import { toast } from "react-toastify";
 import { PasswordInput } from "components/Auth/PasswordInput";
 import useDebounce from "hooks/useDebounce";
-import { NextPage } from "next";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
@@ -59,7 +58,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
       reset(updateFirstAndLastName as NameSectionProps);
       queryClient
         .invalidateQueries(useCurrentUserQuery.getKey())
-        .catch((err) => console.error(err));
+        .catch((err) => toast.error(err));
     },
   });
   const { isValid, isDirty } = formState;
@@ -236,17 +235,20 @@ const EmailSection = ({ email }: { email: string }) => {
 
 const AddressSection = ({ address }: { address: AddressResult }) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, formState, reset, setError } =
+  const { register, handleSubmit, formState, reset, setError, watch } =
     useForm<AddressResult>({
       mode: "onChange",
       defaultValues: address,
     });
+
+  const state = watch("state");
+
   const updateAddressMutation = useUpdateAddressMutation({
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
       queryClient
         .resetQueries(["ElectionById", useCurrentUserQuery.getKey()])
-        .catch((err) => console.error(err));
+        .catch((err) => toast.error(err));
       void toast.success("Address updated successfully");
     },
     onError: (error) => {
@@ -316,7 +318,11 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
               >
                 <option value="">State</option>
                 {Object.entries(states).map(([key, value]) => (
-                  <option key={key} value={key} label={value}>
+                  <option
+                    key={key}
+                    value={key}
+                    label={state === key ? state : value}
+                  >
                     {value}
                   </option>
                 ))}
@@ -605,9 +611,9 @@ const ProfilePhotoSection = ({
       .then(() => {
         queryClient
           .invalidateQueries(useUserProfileQuery.getKey({ userId }))
-          .catch((err) => console.error(err));
+          .catch((err) => toast.error(err));
       })
-      .catch((error) => console.error(error))
+      .catch((error) => toast.error(error))
       .finally(() => setUploading(false));
   };
 
@@ -634,7 +640,7 @@ const ProfilePhotoSection = ({
     onSuccess: () => {
       queryClient
         .invalidateQueries(useUserProfileQuery.getKey({ userId }))
-        .catch((err) => console.error(err));
+        .catch((err) => toast.error(err));
     },
   });
 
@@ -678,8 +684,25 @@ const ProfilePhotoSection = ({
   );
 };
 
-export const ProfilePage: NextPage = () => {
-  const user = useAuth({ redirectTo: "/login?next=settings/profile" });
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      title: "Profile",
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+}
+
+function ProfilePage() {
+  const { user } = useAuth({ redirectTo: "/login?next=settings/profile" });
   const {
     data: { userProfile } = {},
     isLoading,
@@ -704,44 +727,27 @@ export const ProfilePage: NextPage = () => {
   } = userProfile;
 
   return (
-    <Layout mobileNavTitle="My Account">
-      <FlagSection hideFlagForMobile={true} label="My Profile">
-        <div className={profileStyles.profile}>
-          <ProfilePhotoSection
-            profilePictureUrl={profilePictureUrl as string}
-            userId={user.id}
-          />
-          <NameSection
-            firstName={firstName as string}
-            lastName={lastName as string}
-          />
-          <UsernameSection username={username as string} />
-          <AddressSection address={address as AddressResult} />
-          <EmailSection email={email} />
-          <PasswordSection />
-          <SignOutSection />
-          <DeleteAccountSection />
-        </div>
-      </FlagSection>
-    </Layout>
+    <FlagSection hideFlagForMobile={true} label="My Profile">
+      <div className={profileStyles.profile}>
+        <ProfilePhotoSection
+          profilePictureUrl={profilePictureUrl as string}
+          userId={user.id}
+        />
+        <NameSection
+          firstName={firstName as string}
+          lastName={lastName as string}
+        />
+        <UsernameSection username={username as string} />
+        <AddressSection address={address as AddressResult} />
+        <EmailSection email={email} />
+        <PasswordSection />
+        <SignOutSection />
+        <DeleteAccountSection />
+      </div>
+    </FlagSection>
   );
-};
+}
+
+ProfilePage.getLayout = (page: ReactNode) => <Layout>{page}</Layout>;
 
 export default ProfilePage;
-
-export async function getServerSideProps({
-  locale,
-}: {
-  locale: SupportedLocale;
-}) {
-  return {
-    props: {
-      title: "Profile",
-      ...(await serverSideTranslations(
-        locale as SupportedLocale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-}

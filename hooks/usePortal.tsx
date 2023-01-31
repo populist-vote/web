@@ -27,7 +27,7 @@ const usePortal = (
       parentElement.appendChild(el);
     }
     setElSnapshot(el);
-  }, []);
+  }, [id, getContainer]);
 
   return elSnapshot;
 };

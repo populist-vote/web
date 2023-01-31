@@ -137,7 +137,7 @@
   p {
     font-size: $text-md;
     padding: 0 1rem;
-    
+
     &:first-child {
       margin-top: 0;
     }
@@ -145,7 +145,7 @@
     &:last-child {
       margin-bottom: 2rem;
     }
-    
+
     @include for-tablet-up {
       padding: 0;
 
@@ -163,7 +163,7 @@
     @include for-tablet-down {
       justify-content: center;
       gap: 0;
-      margin: 0.5rem 0 1.5rem 0;
+      margin: 0.5rem 0 1.5rem;
     }
 
     .sideText {

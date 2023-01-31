@@ -1,4 +1,4 @@
-import { BasicLayout, Button } from "components";
+import { Button } from "components";
 import { useCurrentUserQuery, useLogInMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -50,57 +50,55 @@ function LogIn() {
   }
 
   return (
-    <BasicLayout hideFooter>
-      <div className={styles.container}>
-        <h2 className={styles.signInTitle}>{message}</h2>
-        <div className={styles.formWrapper}>
-          <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
-            <div
-              className={`${styles.inputWrapper} ${
-                errors.emailOrUsername && styles.invalid
-              }`}
-            >
-              <input
-                type="text"
-                placeholder={t("email-or-username")}
-                {...register("emailOrUsername", {
-                  required: t("email-or-username-is-required"),
-                })}
-              />
-            </div>
-            <div
-              className={`${styles.inputWrapper} ${
-                errors.password && styles.invalid
-              }`}
-            >
-              <PasswordInput
-                name="password"
-                register={register}
-                rules={{ required: t("password-is-required") }}
-                autoComplete="current-password"
-              />
-            </div>
-            <Button
-              label={
-                login.isLoading ? t("loading", { ns: "common" }) : t("sign-in")
-              }
-              size="large"
-              variant="primary"
-              theme="blue"
+    <div className={styles.container}>
+      <h2 className={styles.signInTitle}>{message}</h2>
+      <div className={styles.formWrapper}>
+        <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
+          <div
+            className={`${styles.inputWrapper} ${
+              errors.emailOrUsername && styles.invalid
+            }`}
+          >
+            <input
+              type="text"
+              placeholder={t("email-or-username")}
+              {...register("emailOrUsername", {
+                required: t("email-or-username-is-required"),
+              })}
             />
+          </div>
+          <div
+            className={`${styles.inputWrapper} ${
+              errors.password && styles.invalid
+            }`}
+          >
+            <PasswordInput
+              name="password"
+              register={register}
+              rules={{ required: t("password-is-required") }}
+              autoComplete="current-password"
+            />
+          </div>
+          <Button
+            label={
+              login.isLoading ? t("loading", { ns: "common" }) : t("sign-in")
+            }
+            size="large"
+            variant="primary"
+            theme="blue"
+          />
 
-            <br />
-            <Link href="/auth/reset" passHref>
-              <small className={layoutStyles.textLink}>
-                {t("forgot-your-password")}
-              </small>
-            </Link>
-            <br />
-            <small className={styles.formError}>{loginError}</small>
-          </form>
-        </div>
+          <br />
+          <Link href="/auth/reset" passHref>
+            <small className={layoutStyles.textLink}>
+              {t("forgot-your-password")}
+            </small>
+          </Link>
+          <br />
+          <small className={styles.formError}>{loginError}</small>
+        </form>
       </div>
-    </BasicLayout>
+    </div>
   );
 }
 

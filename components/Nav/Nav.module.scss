@@ -147,23 +147,37 @@
 
   .navItem {
     font-family: $font-primary;
-    color: $text-primary;
     background-color: $background-secondary;
     text-align: center;
     font-size: 1.25rem;
     list-style: none;
     width: 100%;
-    padding: 1rem;
+    margin: 1.25rem 0;
     cursor: pointer;
 
-    :hover {
-      color: $salmon;
+    a {
+      color: $text-primary;
       transition: ease-in-out 0.3s;
+      display: block;
+      text-decoration: none;
+      padding: 0.75rem;
+      margin: 0 0.75rem;
+      border-radius: 0.5rem;
+
+      &:hover {
+        background-color: $black-alpha-3;
+      }
     }
 
     &.active {
       color: $white;
       background-color: $blue-dark;
+
+      a:hover {
+        background-color: $blue-dark;
+        color: $white;
+        cursor: default;
+      }
     }
   }
 }

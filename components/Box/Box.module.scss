@@ -4,10 +4,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  width: var(--box-width);
   padding: 2rem;
   background-color: $blue-darker;
   border-radius: 30px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+
+  &:hover {
+    box-shadow: var(--box-hover-shadow);
+  }
 }

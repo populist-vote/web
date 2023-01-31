@@ -1,8 +1,7 @@
 import { BasicLayout } from "components";
 import { useConfirmUserEmailMutation } from "generated";
-import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import styles from "components/Auth/Auth.module.scss";
 import layoutStyles from "components/BasicLayout/BasicLayout.module.scss";
 import Link from "next/link";
@@ -28,7 +27,7 @@ export async function getServerSideProps({
   };
 }
 
-const ConfirmEmail: NextPage = () => {
+function ConfirmEmail() {
   const { query } = useRouter();
   const { token } = query;
   const mutation = useConfirmUserEmailMutation();
@@ -37,16 +36,11 @@ const ConfirmEmail: NextPage = () => {
     mutation.mutate({ token: token as string });
   }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (mutation.isLoading)
-    return (
-      <BasicLayout hideFooter>
-        <LoaderFlag />
-      </BasicLayout>
-    );
+  if (mutation.isLoading) return <LoaderFlag />;
 
   if (!mutation.isSuccess)
     return (
-      <BasicLayout>
+      <div>
         <h1>Whoops!</h1>
         <div
           className={styles.formWrapper}
@@ -70,20 +64,22 @@ const ConfirmEmail: NextPage = () => {
             <button>LOG IN NOW</button>
           </Link>
         </div>
-      </BasicLayout>
+      </div>
     );
 
   return (
-    <BasicLayout hideFooter>
-      <div className={styles.container}>
-        <h1>Congratulations, your account has been confirmed!</h1>
-        <p>We're excited to have you.</p>
-        <Link href="/login" passHref>
-          <button>LOG IN NOW</button>
-        </Link>
-      </div>
-    </BasicLayout>
+    <div className={styles.container}>
+      <h1>Congratulations, your account has been confirmed!</h1>
+      <p>We're excited to have you.</p>
+      <Link href="/login" passHref>
+        <button>LOG IN NOW</button>
+      </Link>
+    </div>
   );
-};
+}
+
+ConfirmEmail.getLayout = (page: ReactNode) => (
+  <BasicLayout hideFooter>{page}</BasicLayout>
+);
 
 export default ConfirmEmail;

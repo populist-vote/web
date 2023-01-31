@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PasswordInputProps = TextInputProps<any>;
 
 function PasswordInput(props: PasswordInputProps) {

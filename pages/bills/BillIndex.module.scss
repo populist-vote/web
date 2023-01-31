@@ -17,14 +17,6 @@
     margin-bottom: 15vh;
   }
 
-  .flex {
-    width: 100%;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    gap: 1rem;
-  }
-
   section.header {
     padding: 1rem;
     width: 100%;
@@ -63,29 +55,12 @@
       display: none;
     }
   }
+}
 
-  section.billsSection {
-    padding: 1.5rem 0;
+.selected {
+  border-bottom: 2px solid $yellow;
 
-    .billResults {
-      display: flex;
-      flex-direction: row;
-      overflow-y: hidden;
-      gap: 1rem;
-      padding: 0 1rem;
-
-      @include scroll-snap;
-    }
-
-    .noResults {
-      width: 100%;
-      text-align: center;
-      margin: 0;
-      padding: 1rem 0;
-      color: $blue;
-      text-transform: uppercase;
-      font-weight: 400;
-      font-size: $text-md;
-    }
+  &.aqua {
+    border-bottom: 2px solid $aqua;
   }
 }

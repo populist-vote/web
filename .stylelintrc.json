@@ -10,5 +10,6 @@
     "color-function-notation": null,
     "indentation": 2
 
-  }
+  },
+  "ignoreFiles": ["./styles/base/_normalize.scss"]
 }

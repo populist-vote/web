@@ -19,7 +19,7 @@
   h4 {
     font-size: 1.25em;
     margin-top: 1rem;
-    margin-bottom: 0rem;
+    margin-bottom: 0;
 
     @include for-tablet-up {
       font-size: 1.875em;
@@ -53,6 +53,7 @@
 
 .guidesContainer {
   padding: 0 1rem 1.5rem;
+
   @include for-tablet-up {
     padding: 0;
     margin-top: 2rem;
@@ -69,6 +70,7 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
+
   // border-top: 1px solid $white;
 
   background: $blue-darker;
@@ -76,14 +78,13 @@
   border-radius: 30px;
   margin: 1rem 0;
   width: 100%;
-
   min-width: 0;
 
   @include for-tablet-up {
     background: $blue-darker;
     border: 1px solid $blue-dark;
     border-radius: 30px;
-    margin: 1.5rem 0 1.5rem;
+    margin: 1.5rem 0;
   }
 }
 
@@ -93,6 +94,7 @@
   flex-basis: auto;
   width: auto;
   gap: 0.75rem;
+
   @include for-tablet-up {
     flex-direction: row;
     gap: 1rem;
@@ -101,6 +103,7 @@
 
 .deleteButton {
   @include override-button-styles;
+
   color: $blue-dark;
   cursor: pointer;
   :hover {

@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 1rem;
 
   .inputWithIcon {
     position: relative;
@@ -28,12 +29,14 @@
     background-color: #fff;
     border: none;
     color: #1f1f30;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
     font-size: 19px;
     letter-spacing: 0.2px;
     line-height: 24px;
+    min-height: 56px;
     padding: 15px 24px;
-    width: 100%;
-    -webkit-appearance: none;
 
     .selectWrapper {
       position: relative;
@@ -47,6 +50,56 @@
 
     &:placeholder {
       color: #666;
+    }
+  }
+
+  &.small {
+    input,
+    select {
+      font-size: 14px;
+      line-height: 18px;
+      min-height: 40px;
+      padding: 10px 18px;
+    }
+
+    label {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  &.medium {
+    input,
+    select {
+      font-size: 17px;
+      line-height: 24px;
+      min-height: 48px;
+      padding: 12px 20px;
+    }
+
+    label {
+      font-size: 17px;
+      line-height: 24px;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &.large {
+    input,
+    select {
+      font-size: 19px;
+      letter-spacing: 0.2px;
+      line-height: 24px;
+      min-height: 56px;
+      padding: 15px 24px;
+    }
+
+    label {
+      font-size: 19px;
+      letter-spacing: 0.2px;
+      line-height: 24px;
+      margin-bottom: 0.5rem;
     }
   }
 

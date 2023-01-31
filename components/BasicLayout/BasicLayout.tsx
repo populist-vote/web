@@ -13,7 +13,7 @@ function BasicLayout({
   showAuthButtons = false,
 }: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
   const { pathname, query } = useRouter();
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
   const { t } = useTranslation(["auth", "common"]);
 
   return (

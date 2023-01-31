@@ -1,0 +1,23 @@
+@import "../../components/BillCard/BillCard.module.scss";
+@import "../../components/Button/Button.module.scss";
+
+.billCard {
+  border: 1px solid $grey;
+  background: $grey-lighter;
+  max-width: none;
+  width: 512px;
+  height: fit-content;
+  text-align: center;
+  margin: 0;
+}
+
+.error {
+  color: $red;
+  font-size: $text-md;
+  font-weight: 500;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}

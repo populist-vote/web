@@ -5,13 +5,15 @@
 $font-size: 0.85em;
 
 .footer {
+  border-top: 1px solid $blue-dark;
+  background-color: #001624;
   width: 100%;
   grid-area: footer;
   margin-top: 3rem;
   padding: 0 1.5rem;
   display: flex;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: column-reverse;
 
   @include for-tablet-up {
     flex-direction: row;
@@ -39,6 +41,7 @@ $font-size: 0.85em;
       font-size: $font-size;
 
       a {
+        display: flex;
         color: $blue-light;
         &:hover {
           color: $blue-lighter;
@@ -49,6 +52,7 @@ $font-size: 0.85em;
 
   .links {
     align-self: center;
+
     @include for-tablet-up {
       min-width: 25%;
     }
@@ -61,6 +65,7 @@ $font-size: 0.85em;
       color: $blue-light;
       transition: ease-in-out 0.3s all;
     }
+
     @include for-tablet-up {
       justify-content: right;
     }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { SAVED_GUIDES_LOCAL_STORAGE } from "utils/constants";
 
 export const getGuideStorageKey = (userId: string) =>
@@ -9,7 +10,7 @@ function getGuideIds(userId: string) {
     try {
       return localStorage.getItem(getGuideStorageKey(userId));
     } catch (err) {
-      console.error("Problem reading localStorage", err);
+      toast.error(`Problem reading localStorage: ${err}`);
       return undefined;
     }
   })();
@@ -19,10 +20,8 @@ function getGuideIds(userId: string) {
     try {
       return JSON.parse(rawSavedGuideIds || "[]") || [];
     } catch (err) {
-      console.error(
-        "Problem parsing shared guides, resetting saved guides in local storage...",
-        { rawSavedGuideIds },
-        err
+      toast.error(
+        "Problem parsing shared guides, resetting saved guides in local storage..."
       );
       localStorage.removeItem(getGuideStorageKey(userId));
       return [];

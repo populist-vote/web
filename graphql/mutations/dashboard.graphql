@@ -1,0 +1,11 @@
+mutation UpsertEmbed($input: UpsertEmbedInput!) {
+  upsertEmbed(input: $input) {
+    id
+    organizationId
+    name
+    attributes
+    createdAt
+    updatedAt
+    populistUrl
+  }
+}

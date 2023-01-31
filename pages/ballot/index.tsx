@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { dehydrate, QueryClient, useQueryClient } from "@tanstack/react-query";
 
 import { Election } from "components/Ballot/Election";
@@ -28,8 +28,43 @@ import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 
-export default function BallotPage() {
-  const user = useAuth({ redirectTo: `/ballot/choose` });
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  const queryClient = new QueryClient();
+
+  /* 
+    This is currently the only place useElectionsQuery is being used, 
+    now that everything is in the hook.
+    Just want to note in case it causes server side issues.
+  */
+  await queryClient.prefetchQuery(
+    useElectionsQuery.getKey(),
+    useElectionsQuery.fetcher()
+  );
+
+  const state = dehydrate(queryClient);
+
+  return {
+    props: {
+      dehydratedState: state,
+      mobileNavTitle: "My Ballot",
+      title: "My Ballot",
+      description:
+        "Find information on your government representatives like voting histories, endorsements, and financial data.",
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+}
+
+function BallotPage() {
+  const { user } = useAuth({ redirectTo: `/ballot/choose` });
   const queryClient = useQueryClient();
 
   const createVotingGuide = useUpsertVotingGuideMutation({
@@ -71,8 +106,6 @@ export default function BallotPage() {
   const userGuideId = userVotingGuideQuery.data?.electionVotingGuideByUserId
     ?.id as string;
 
-  const flagLabel = "My Ballot";
-
   const [isWelcomeVisible, setIsWelcomeVisible] = useState(
     localStorage.getItem(VOTING_GUIDE_WELCOME_VISIBLE) !== "false"
   );
@@ -91,7 +124,7 @@ export default function BallotPage() {
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
-        <Layout mobileNavTitle={flagLabel} showNavLogoOnMobile>
+        <div>
           {isSuccess && (
             <>
               <ElectionSelector
@@ -119,43 +152,16 @@ export default function BallotPage() {
               </VotingGuideProvider>
             </>
           )}
-        </Layout>
+        </div>
       )}
     </>
   );
 }
 
-export async function getServerSideProps({
-  locale,
-}: {
-  locale: SupportedLocale;
-}) {
-  const queryClient = new QueryClient();
+BallotPage.getLayout = (page: ReactNode) => (
+  <Layout mobileNavTitle={"My Ballot"} showNavLogoOnMobile>
+    {page}
+  </Layout>
+);
 
-  /* 
-    This is currently the only place useElectionsQuery is being used, 
-    now that everything is in the hook.
-    Just want to note in case it causes server side issues.
-  */
-  await queryClient.prefetchQuery(
-    useElectionsQuery.getKey(),
-    useElectionsQuery.fetcher()
-  );
-
-  const state = dehydrate(queryClient);
-
-  return {
-    props: {
-      dehydratedState: state,
-      mobileNavTitle: "My Ballot",
-      title: "My Ballot",
-      description:
-        "Find information on your government representatives like voting histories, endorsements, and financial data.",
-      ...(await serverSideTranslations(
-        locale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-}
+export default BallotPage;

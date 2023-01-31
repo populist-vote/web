@@ -79,13 +79,14 @@ function SupportOppose({
   const { support: supportVotes, oppose: opposeVotes } = publicVotes;
   const router = useRouter();
   const queryKey = useBillBySlugQuery.getKey({ slug: billSlug });
-  const user = useAuth({ redirect: false });
+  const { user } = useAuth({ redirect: false });
 
   const queryClient = useQueryClient();
   const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({
     onMutate: async (variables) => {
       await queryClient.cancelQueries(queryKey);
       const previousValue = queryClient.getQueryData(queryKey);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       queryClient.setQueryData(queryKey, (oldData: any) => {
         const newPublicVotes = {
           ...oldData?.publicVotes,

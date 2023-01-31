@@ -9,9 +9,14 @@ import {
 } from "react-hook-form";
 import { ReactNode } from "react";
 
+type TextInputSize = "small" | "medium" | "large";
+
+type TextInputType = "text" | "password" | "email" | "tel";
+
 export type TextInputProps<TFormValues extends FieldValues> = {
   id?: string;
   name: Path<TFormValues>;
+  size?: TextInputSize;
   errors?: boolean | string[] | string;
   label?: string;
   hideLabel?: boolean;
@@ -20,7 +25,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   placeholder?: string;
   register?: UseFormRegister<TFormValues>;
   rules?: RegisterOptions;
-  type?: "text" | "password" | "email" | "tel";
+  type?: TextInputType;
   icon?: ReactNode;
   [x: string]: unknown;
 };
@@ -28,6 +33,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
 function TextInput<TFormValues extends Record<string, unknown>>({
   id,
   name,
+  size = "large",
   errors = false,
   label,
   hideLabel,
@@ -39,9 +45,11 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || "input";
-  const inputClasses = clsx(styles.inputContainer, {
+
+  const inputClasses = clsx(styles.inputContainer, styles[size as string], {
     [styles.hideLabel as string]: hideLabel,
   });
+
   const hasErrors = Array.isArray(errors)
     ? errors.length > 0
     : typeof errors === "string"

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { BillCard } from "components/BillCard/BillCard";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import {
@@ -10,7 +9,7 @@ import {
 import useDebounce from "hooks/useDebounce";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
-import styles from "../../pages/bills/BillIndex.module.scss";
+import styles from "./BillResults.module.scss";
 
 function BillResults(props: BillIndexProps) {
   const router = useRouter();
@@ -64,17 +63,15 @@ function BillResults(props: BillIndexProps) {
       ) : error ? (
         <span>{error.toString()}</span>
       ) : (
-        <>
-          <div className={clsx(styles.billResults)}>
-            {billResults?.length > 0 ? (
-              billResults?.map((bill) => (
-                <BillCard bill={bill as BillResult} key={bill.id} />
-              ))
-            ) : (
-              <p className={styles.noResults}>No Results</p>
-            )}
-          </div>
-        </>
+        <div className={styles.billResults}>
+          {billResults?.length > 0 ? (
+            billResults?.map((bill) => (
+              <BillCard bill={bill as BillResult} key={bill.id} />
+            ))
+          ) : (
+            <p className={styles.noResults}>No Results</p>
+          )}
+        </div>
       )}
     </section>
   );

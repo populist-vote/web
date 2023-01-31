@@ -69,7 +69,7 @@ const VotingGuideCard = ({
             }
           )
         )
-        .catch((err) => console.error("Problem copying to clipboard", err));
+        .catch((err) => toast.error("Problem copying to clipboard", err));
     } else {
       navigator.clipboard
         .writeText(url)
@@ -81,7 +81,7 @@ const VotingGuideCard = ({
             }
           )
         )
-        .catch((err) => console.error("Problem copying to clipboard", err));
+        .catch((err) => toast.error("Problem copying to clipboard", err));
     }
   };
 
@@ -135,7 +135,7 @@ const VotingGuideCard = ({
 const VotingGuides: NextPage<{
   mobileNavTitle?: string;
 }> = ({ mobileNavTitle }) => {
-  const user = useAuth({ redirectTo: "/login?next=voting-guides" });
+  const { user } = useAuth({ redirectTo: "/login?next=voting-guides" });
 
   const { data, isLoading, error } = useVotingGuidesByUserIdQuery(
     {

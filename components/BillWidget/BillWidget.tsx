@@ -1,105 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
-import { Button, LoaderFlag, PartyAvatar } from "components";
+import { Button, PartyAvatar } from "components";
 import { Badge } from "components/Badge/Badge";
 import { LogoTextDark } from "components/Logo";
 import {
+  BillResult,
   BillStatus,
   IssueTagResult,
   PoliticalParty,
   PoliticianResult,
 } from "generated";
-import { FaCheckCircle, FaCircle, FaExclamationCircle } from "react-icons/fa";
+import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 
-function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
-  const { data, isLoading } = useQuery(["bill", billId], () => {
-    return fetch(`https://api.staging.populist.us/graphql`, {
-      method: "POST",
-      body: JSON.stringify({
-        query: `
-          query BillById($billId: String!)  {
-            billById(id: $billId) {
-            	id
-							slug
-							title
-							description
-							billNumber
-              state
-							status
-							officialSummary
-							populistSummary
-							fullTextUrl
-							legiscanCommitteeName
-							issueTags {
-                id
-                name
-                slug
-							}
-							sponsors {
-                id
-                slug
-                party
-                thumbnailImageUrl
-                fullName
-                currentOffice {
-                    id
-                    officeType
-                    state
-                    district
-                }
-							}
-							session {
-                name 
-                startDate
-                endDate
-							}
-							publicVotes {
-                support
-                neutral
-                oppose
-							}
-            }
-          }
-        `,
-        variables: {
-          billId,
-        },
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-    }).then((res) => res.json());
-  });
-
-  if (isLoading) {
-    return (
-      <div className={styles.billCard}>
-        <LoaderFlag />
-      </div>
-    );
-  }
-
-  if (data.errors)
-    return (
-      <div
-        className={styles.billCard}
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        {data.errors.map((error: { message: string }) => (
-          <div key={error.message} className={styles.error}>
-            <FaExclamationCircle /> {error.message}
-          </div>
-        ))}
-      </div>
-    );
-
-  const bill = data?.data?.billById;
-
+function BillWidget({ bill }: { bill: BillResult }) {
   if (!bill) {
     return <div>Bill not found</div>;
   }
@@ -107,7 +23,7 @@ function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
   const statusInfo = getStatusInfo(bill?.status as BillStatus);
 
   return (
-    <div className={styles.billCard}>
+    <div className={styles.billCard} data-test-id="populist-bill-widget">
       <header className={styles.header}>
         <strong>
           {bill.state || "U.S."} - {splitAtDigitAndJoin(bill.billNumber)}
@@ -125,7 +41,7 @@ function BillWidget({ apiKey, billId }: { apiKey: string; billId: string }) {
           <div className={styles.description}>
             <p>{bill.description}</p>
           </div>
-          <a href={bill.fullTextUrl} target="_blank" rel="noreferrer">
+          <a href={bill.fullTextUrl as string} target="_blank" rel="noreferrer">
             <Button
               variant="secondary"
               size="medium"
