@@ -64,7 +64,7 @@ function HomePage() {
       />
       <HomePageButton
         href="/bills"
-        className="admin"
+        className="legislation"
         label={t("legislation")}
       />
       {user?.role === Role.Superuser && (
