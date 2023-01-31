@@ -9,6 +9,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { BillFiltersParams } from "pages/bills";
 import { SupportedLocale } from "types/global";
+import { MdSpaceDashboard } from "react-icons/md";
+import { BiCodeBlock } from "react-icons/bi";
+import { IoPeopleCircleSharp } from "react-icons/io5";
 
 export async function getServerSideProps({
   query,
@@ -96,7 +99,7 @@ export function DashboardTopNav() {
               query: { slug },
             }}
           >
-            Dashboard
+            <MdSpaceDashboard /> Dashboard
           </Link>
         </li>
         <li
@@ -110,7 +113,7 @@ export function DashboardTopNav() {
               query: { slug },
             }}
           >
-            Embeds
+            <BiCodeBlock /> Embeds
           </Link>
         </li>
         <li
@@ -124,6 +127,7 @@ export function DashboardTopNav() {
               query: { slug },
             }}
           >
+            <IoPeopleCircleSharp />
             Audience
           </Link>
         </li>

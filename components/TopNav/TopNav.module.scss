@@ -20,19 +20,19 @@
     list-style: none;
     gap: 1rem;
     margin: 0;
+    padding-inline-start: 0;
   }
 
   li {
     list-style: none;
     text-transform: uppercase;
-    font-size: $text-md;
+    font-size: $text-sm;
     font-family: $font-primary;
-    width: 12rem;
+    width: auto;
+    height: auto;
     text-align: center;
-    height: 3.5rem;
 
     a {
-      display: block;
       color: $white !important;
       text-decoration: none;
       padding: 0.75rem;
@@ -41,6 +41,10 @@
       transition: background-color 0.3s ease;
       cursor: pointer;
       width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
 
       &:hover {
         background-color: $black-alpha-3;
