@@ -1,7 +1,7 @@
 import { BasicLayout, Button } from "components";
 import { useRequestPasswordResetMutation } from "generated";
 import Link from "next/link";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../Auth/Auth.module.scss";
 
@@ -40,56 +40,54 @@ function RequestResetForm() {
 
   if (isSuccess)
     return (
-      <BasicLayout>
-        <div className={styles.container}>
-          <h1>Check your email</h1>
-          <p>We've sent you instructions on how to reset your password.</p>
-          <Link href={"/login"} passHref>
-            <Button label="Login" size="large" variant="primary" theme="blue" />
-          </Link>
-        </div>
-      </BasicLayout>
+      <div className={styles.container}>
+        <h1>Check your email</h1>
+        <p>We've sent you instructions on how to reset your password.</p>
+        <Link href={"/login"} passHref>
+          <Button label="Login" size="large" variant="primary" theme="blue" />
+        </Link>
+      </div>
     );
 
   return (
-    <BasicLayout>
-      <div className={styles.container}>
-        <h1 className="title">Reset your password</h1>
-        <p>Please enter the email address associated with your account.</p>
-        <div className={styles.formWrapper}>
-          <form onSubmit={handleSubmit(submitForm)}>
-            <div
-              className={`${styles.inputWrapper} ${
-                errors.email && styles.invalid
-              }`}
-            >
-              <input
-                type="email"
-                placeholder="Email"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })}
-              />
-              <small className={styles.inputError}>
-                {errors.email?.message}
-              </small>
-            </div>
-            <Button
-              label={isLoading ? "Loading..." : "Submit"}
-              size="large"
-              variant="primary"
-              theme="blue"
-              disabled={isLoading}
+    <div className={styles.container}>
+      <h1 className="title">Reset your password</h1>
+      <p>Please enter the email address associated with your account.</p>
+      <div className={styles.formWrapper}>
+        <form onSubmit={handleSubmit(submitForm)}>
+          <div
+            className={`${styles.inputWrapper} ${
+              errors.email && styles.invalid
+            }`}
+          >
+            <input
+              type="email"
+              placeholder="Email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
             />
-          </form>
-        </div>
+            <small className={styles.inputError}>{errors.email?.message}</small>
+          </div>
+          <Button
+            label={isLoading ? "Loading..." : "Submit"}
+            size="large"
+            variant="primary"
+            theme="blue"
+            disabled={isLoading}
+          />
+        </form>
       </div>
-    </BasicLayout>
+    </div>
   );
 }
+
+RequestResetForm.getLayout = (page: ReactNode) => (
+  <BasicLayout>{page}</BasicLayout>
+);
 
 export { RequestResetForm };

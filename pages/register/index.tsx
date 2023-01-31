@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
+import { ReactNode } from "react";
 
 export const updateAction = (
   state: { loginFormState: BeginUserRegistrationInput },
@@ -66,11 +67,13 @@ function Register() {
 
   return (
     <StateMachineProvider>
-      <BasicLayout hideFooter>
-        <EmailStep />
-      </BasicLayout>
+      <EmailStep />
     </StateMachineProvider>
   );
 }
+
+Register.getLayout = (page: ReactNode) => (
+  <BasicLayout hideFooter>{page}</BasicLayout>
+);
 
 export default Register;

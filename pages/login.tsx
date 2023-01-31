@@ -1,7 +1,8 @@
+import { BasicLayout } from "components";
 import { LogIn } from "components/Auth/LogIn/LogIn";
-import type { NextPage } from "next";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 
 export async function getServerSideProps({
@@ -21,8 +22,12 @@ export async function getServerSideProps({
   };
 }
 
-export const LogInPage: NextPage = () => {
+function LoginPage() {
   return <LogIn />;
-};
+}
 
-export default LogInPage;
+LoginPage.getLayout = (page: ReactNode) => (
+  <BasicLayout hideFooter>{page}</BasicLayout>
+);
+
+export default LoginPage;

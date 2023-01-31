@@ -4,7 +4,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
-import { useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import "styles/main.scss";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";
@@ -15,9 +15,21 @@ import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
 import { appWithTranslation } from "next-i18next";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { NextPage } from "next";
 
-function Populist({ Component, pageProps }: AppProps) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function Populist({ Component, pageProps }: AppPropsWithLayout) {
   const [queryClient] = useState(() => new QueryClient());
+
+  const getLayout = Component.getLayout || ((page: ReactElement) => page);
 
   return (
     <>
@@ -44,7 +56,7 @@ function Populist({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <AuthProvider>
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
             <ToastContainer theme="dark" />
             <ReactQueryDevtools initialIsOpen={false} />
           </AuthProvider>

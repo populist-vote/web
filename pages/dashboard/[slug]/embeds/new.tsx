@@ -3,6 +3,7 @@ import { Box } from "components/Box/Box";
 import { EmbedForm } from "components/EmbedForm/EmbedForm";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "..";
 
@@ -27,14 +28,20 @@ export async function getServerSideProps({
 
 function EmbedsNew({ slug }: { slug: string }) {
   return (
-    <Layout>
-      <DashboardTopNav />
+    <>
       <h2>New Embed</h2>
       <Box width="50%">
         <EmbedForm slug={slug} embed={null} />
       </Box>
-    </Layout>
+    </>
   );
 }
+
+EmbedsNew.getLayout = (page: ReactNode) => (
+  <Layout>
+    <DashboardTopNav />
+    {page}
+  </Layout>
+);
 
 export default EmbedsNew;

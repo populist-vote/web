@@ -12,6 +12,7 @@ import { SupportedLocale } from "types/global";
 import { MdSpaceDashboard } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
 import { IoPeopleCircleSharp } from "react-icons/io5";
+import { ReactNode } from "react";
 
 export async function getServerSideProps({
   query,
@@ -57,32 +58,21 @@ function Dashboard({ slug }: { slug: string }) {
   return organizationQuery.isLoading || isLoading || !user ? (
     <LoaderFlag />
   ) : (
-    <Layout>
-      <DashboardTopNav />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "1.5rem 0",
-        }}
-      >
-        <Box>
-          <h3 style={{ marginTop: 0 }}>
-            Welcome to your new dashboard,{" "}
-            {organizationQuery.data?.organizationBySlug.name}
-          </h3>
-          <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-            From here, you'll be able to create and edit your embedded content,
-            gain insights from your active embeds, and browse through our
-            database of bills, politicians and more.
-          </p>
-          <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-            If you have any questions, please reach out to us at{" "}
-            <a href="mailto:info@populist.us">info@populist.us</a>
-          </p>
-        </Box>
-      </div>
-    </Layout>
+    <Box>
+      <h3 style={{ marginTop: 0 }}>
+        Welcome to your new dashboard,{" "}
+        {organizationQuery.data?.organizationBySlug.name}
+      </h3>
+      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
+        From here, you'll be able to create and edit your embedded content, gain
+        insights from your active embeds, and browse through our database of
+        bills, politicians and more.
+      </p>
+      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
+        If you have any questions, please reach out to us at{" "}
+        <a href="mailto:info@populist.us">info@populist.us</a>
+      </p>
+    </Box>
   );
 }
 
@@ -151,4 +141,18 @@ export function DashboardTopNav() {
   );
 }
 
+Dashboard.getLayout = (page: ReactNode) => (
+  <Layout>
+    <DashboardTopNav />
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        padding: "1.5rem 0",
+      }}
+    >
+      {page}
+    </div>
+  </Layout>
+);
 export default Dashboard;

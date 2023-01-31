@@ -5,6 +5,7 @@ import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
+import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "..";
 
@@ -52,12 +53,18 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   return organizationQuery.isLoading || isLoading || !user ? (
     <LoaderFlag />
   ) : (
-    <Layout>
-      <DashboardTopNav />
+    <>
       <h2>Embed</h2>
       <EmbedPage slug={slug} id={id} />
-    </Layout>
+    </>
   );
 }
+
+EmbedById.getLayout = (page: ReactNode) => (
+  <Layout>
+    <DashboardTopNav />
+    {page}
+  </Layout>
+);
 
 export default EmbedById;
