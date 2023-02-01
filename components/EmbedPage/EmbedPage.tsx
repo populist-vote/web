@@ -33,7 +33,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
 
   const text = `
     <script
-      src={"populist.us/widget-client.js"}
+      src="populist.us/widget-client.js"
       data-embed-id="${id}"
       data-bill-id="${billId}"
       data-api-key={process.env.POPULIST_API_KEY}
@@ -44,7 +44,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
 
   return (
     <div className={styles.content}>
-      <div className={clsx(styles.options, styles.contextBox)}>
+      <div className={clsx(styles.options)}>
         <h3>Options</h3>
         <Box>
           <EmbedForm slug={slug} embed={data?.embedById as EmbedResult} />
@@ -58,7 +58,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
           <BillWidgetSkeleton />
         )}
       </div>
-      <div className={clsx(styles.embedCode, styles.contextBox)}>
+      <div className={clsx(styles.embedCode)}>
         <Box>
           <h4>Embed Code</h4>
           <CodeBlock text={text} />
