@@ -103,35 +103,35 @@ function BillFiltersDesktop() {
           <h4>Progress</h4>
           <div className={styles.badgeGroup}>
             <Badge
-              color="violet"
+              theme="violet"
               clickable
               label="Introduced"
               selected={status === BillStatus.Introduced}
               onClick={() => handleStatusFilter(BillStatus.Introduced)}
             />
             <Badge
-              color="orange"
+              theme="orange"
               clickable
               label="In Consideration"
               selected={status === BillStatus.InConsideration}
               onClick={() => handleStatusFilter(BillStatus.InConsideration)}
             />
             <Badge
-              color="green"
+              theme="green"
               clickable
               label="Became Law"
               selected={status === BillStatus.BecameLaw}
               onClick={() => handleStatusFilter(BillStatus.BecameLaw)}
             />
             <Badge
-              color="red"
+              theme="red"
               clickable
               label="Failed"
               selected={status === BillStatus.Failed}
               onClick={() => handleStatusFilter(BillStatus.Failed)}
             />
             <Badge
-              color="red"
+              theme="red"
               clickable
               label="Vetoed"
               selected={status === BillStatus.Vetoed}
@@ -146,21 +146,21 @@ function BillFiltersDesktop() {
           <div className={styles.badgeGroup}>
             <Badge
               clickable
-              color="blue"
+              theme="blue"
               label="Most Popular"
               selected={popularity === PopularitySort.MostPopular}
               onClick={() => handlePopularitySort(PopularitySort.MostPopular)}
             />
             <Badge
               clickable
-              color="green"
+              theme="green"
               label="Most Supported"
               selected={popularity === PopularitySort.MostSupported}
               onClick={() => handlePopularitySort(PopularitySort.MostSupported)}
             />
             <Badge
               clickable
-              color="red"
+              theme="red"
               label="Most Opposed"
               selected={popularity === PopularitySort.MostOpposed}
               onClick={() => handlePopularitySort(PopularitySort.MostOpposed)}

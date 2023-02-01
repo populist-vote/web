@@ -1,56 +1,36 @@
 import styles from "./Badge.module.scss";
-import { CSSProperties, PropsWithChildren, ReactNode } from "react";
-import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
-import { addAlphaToHexColor, getContrasting } from "utils/strings";
+import { PropsWithChildren, ReactNode } from "react";
 import clsx from "clsx";
 
 interface BadgeProps {
-  color?: string;
-  textColor?: string;
+  theme?: "blue" | "green" | "red" | "yellow" | "grey" | "violet" | "orange";
   size?: "small" | "medium" | "large";
   iconLeft?: ReactNode;
   label?: string;
   selected?: boolean;
   clickable?: boolean;
-  [key: string]: unknown;
+  [x: string]: any;
 }
 
 function Badge({
-  color,
-  textColor,
+  theme = "grey",
   size = "medium",
   iconLeft,
   label,
   selected,
   clickable,
   children,
-
   ...rest
 }: PropsWithChildren<BadgeProps>) {
-  const style = useDocumentBaseStyle();
-  const colorVar = `--${color}`;
-  const textColorVar = `--${textColor}`;
-  const styleVars: CSSProperties & {
-    "--color": string;
-    "--background-color": string;
-    "--text-color": string;
-  } = {
-    [`--color`]: color ? `var(--${color})` : "var(--grey-lighter)",
-    [`--background-color`]: colorVar
-      ? addAlphaToHexColor(style.getPropertyValue(colorVar), 0.1)
-      : "var(--grey-lightest)",
-    [`--text-color`]: getContrasting(
-      style.getPropertyValue(textColorVar as string)
-    ),
-  };
-
   const cx = clsx(styles.container, styles[size as string], {
     [styles.selected as string]: selected,
     [styles.clickable as string]: clickable,
+    [styles[theme as string] as string]: theme,
   });
 
   return (
-    <span style={styleVars} className={cx} {...rest}>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+    <span className={cx} {...rest}>
       {iconLeft}
       {label || children}
     </span>

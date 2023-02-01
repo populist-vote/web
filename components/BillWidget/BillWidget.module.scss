@@ -1,5 +1,6 @@
 @import "../../components/BillCard/BillCard.module.scss";
 @import "../../components/Button/Button.module.scss";
+@import "styles/layout/containers";
 
 .billCard {
   border: 1px solid $grey;
@@ -49,6 +50,16 @@
     .sponsors {
       border-top: 1px solid $grey;
       width: 100%;
+
+      .sponsorsScroller {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: flex-start;
+        align-items: center;
+
+        @include scroll-snap;
+      }
     }
   }
 

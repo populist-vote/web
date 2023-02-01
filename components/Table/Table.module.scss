@@ -9,6 +9,7 @@
   border-radius: 30px;
   padding: 1rem 1.5rem;
   color: white;
+  overflow: auto;
 
   table {
     border-collapse: collapse;
@@ -23,14 +24,15 @@
     color: $white;
     font-weight: bold;
     font-family: $font-secondary;
-    border-bottom: 1px solid #8eea7820;
+    border-bottom: 1px solid var(--border-color);
   }
 
   tbody {
-    tr {
-      &:hover {
-        background: $black-alpha-3;
-      }
+    tr.selected {
+      background: var(--hover-color);
+    }
+    tr:hover {
+      background: $black-alpha-3;
     }
     tr:not(:last-child) {
       border-bottom: 1px solid var(--border-color);
@@ -39,7 +41,7 @@
 
   th,
   td {
-    padding: 0.5rem 0;
+    padding: 0.75rem;
   }
 
   td:first-child {
@@ -65,11 +67,6 @@
       font-size: 0.75rem;
       font-weight: 300;
       color: $salmon;
-
-      &:hover {
-        background: rgba(142 234 120 / 0.1);
-        transition: ease-in-out all 0.25s;
-      }
     }
 
     small {

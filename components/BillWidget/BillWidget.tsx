@@ -35,7 +35,9 @@ function BillWidget({ bill }: { bill: BillResult }) {
           <h2 className={styles.title}>{bill.title}</h2>
           <div className={styles.tags}>
             {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
-              <Badge key={tag.id}>{tag.name}</Badge>
+              <Badge theme="grey" key={tag.id}>
+                {tag.name}
+              </Badge>
             ))}
           </div>
           <div className={styles.description}>
@@ -56,20 +58,22 @@ function BillWidget({ bill }: { bill: BillResult }) {
         {bill.sponsors?.length > 0 && (
           <section className={styles.sponsors}>
             <h4>Sponsors</h4>
-            {bill.sponsors?.map((sponsor: Partial<PoliticianResult>) => (
-              <div key={sponsor.id} className={styles.sponsor}>
-                <PartyAvatar
-                  party={sponsor?.party as PoliticalParty}
-                  src={sponsor?.thumbnailImageUrl as string}
-                  alt={sponsor?.fullName as string}
-                  size={80}
-                />
-                <div className={styles.sponsorInfo}>
-                  <strong>{sponsor.fullName}</strong>
-                  <span>{sponsor.currentOffice?.officeType}</span>
+            <div className={styles.sponsorsScroller}>
+              {bill.sponsors?.map((sponsor: Partial<PoliticianResult>) => (
+                <div key={sponsor.id} className={styles.sponsor}>
+                  <PartyAvatar
+                    party={sponsor?.party as PoliticalParty}
+                    src={sponsor?.thumbnailImageUrl as string}
+                    alt={sponsor?.fullName as string}
+                    size={80}
+                  />
+                  <div className={styles.sponsorInfo}>
+                    <strong>{sponsor.fullName}</strong>
+                    <span>{sponsor.currentOffice?.officeType}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </section>
         )}
       </section>

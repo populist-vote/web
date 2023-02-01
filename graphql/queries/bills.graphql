@@ -91,6 +91,51 @@ query BillBySlug($slug: String!) {
   }
 }
 
+query BillById($id: String!) {
+  billById(id: $id) {
+    id
+    slug
+    title
+    description
+    billNumber
+    status
+    state
+    officialSummary
+    populistSummary
+    fullTextUrl
+    legiscanCommitteeName
+    issueTags {
+      id
+      name
+      slug
+    }
+    sponsors {
+      id
+      slug
+      party
+      thumbnailImageUrl
+      fullName
+      currentOffice {
+        id
+        officeType
+        state
+        district
+      }
+    }
+    session {
+      name 
+      startDate
+      endDate
+    }
+    publicVotes {
+      support
+      neutral
+      oppose
+    }
+    usersVote
+  }
+}
+
 mutation UpsertBillPublicVote($billId: ID!, $userId: ID!, $position: ArgumentPosition!) {
   upsertBillPublicVote(billId: $billId, userId: $userId, position: $position) {
     support

@@ -36,7 +36,7 @@ function BillFiltersMobile(props: BillIndexProps) {
       <section>
         <h4>Year</h4>
         <Select
-          backgroundColor="blue"
+          backgroundtheme="blue"
           onChange={handleYearFilter}
           value={year}
           options={[
@@ -50,19 +50,19 @@ function BillFiltersMobile(props: BillIndexProps) {
         <h4>Sort by Popularity</h4>
         <div className={styles.badgeGroup}>
           <Badge
-            color="blue"
+            theme="blue"
             label="Most Popular"
             selected={popularity === PopularitySort.MostPopular}
             onClick={() => handlePopularitySort(PopularitySort.MostPopular)}
           />
           <Badge
-            color="green"
+            theme="green"
             label="Most Supported"
             selected={popularity === PopularitySort.MostSupported}
             onClick={() => handlePopularitySort(PopularitySort.MostSupported)}
           />
           <Badge
-            color="red"
+            theme="red"
             label="Most Opposed"
             selected={popularity === PopularitySort.MostOpposed}
             onClick={() => handlePopularitySort(PopularitySort.MostOpposed)}
@@ -73,31 +73,31 @@ function BillFiltersMobile(props: BillIndexProps) {
         <h4>Progress</h4>
         <div className={styles.badgeGroup}>
           <Badge
-            color="violet"
+            theme="violet"
             label="Introduced"
             selected={status === BillStatus.Introduced}
             onClick={() => handleStatusFilter(BillStatus.Introduced)}
           />
           <Badge
-            color="orange"
+            theme="orange"
             label="In Consideration"
             selected={status === BillStatus.InConsideration}
             onClick={() => handleStatusFilter(BillStatus.InConsideration)}
           />
           <Badge
-            color="green"
+            theme="green"
             label="Became Law"
             selected={status === BillStatus.BecameLaw}
             onClick={() => handleStatusFilter(BillStatus.BecameLaw)}
           />
           <Badge
-            color="red"
+            theme="red"
             label="Failed"
             selected={status === BillStatus.Failed}
             onClick={() => handleStatusFilter(BillStatus.Failed)}
           />
           <Badge
-            color="red"
+            theme="red"
             label="Vetoed"
             selected={status === BillStatus.Vetoed}
             onClick={() => handleStatusFilter(BillStatus.Vetoed)}

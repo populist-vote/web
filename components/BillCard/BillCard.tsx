@@ -39,7 +39,7 @@ function BillCard({
             iconLeft={
               <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
             }
-            color={statusInfo?.color}
+            theme={statusInfo?.color}
           >
             {titleCase(bill?.status?.replaceAll("_", " ") as string)}
           </Badge>

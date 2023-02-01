@@ -201,7 +201,7 @@ $small-size: 1.825rem;
     $white
   );
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: $blue;
     color: $white;
   }

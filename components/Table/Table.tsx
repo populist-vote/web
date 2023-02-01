@@ -8,13 +8,27 @@ import {
   SortingState,
   getPaginationRowModel,
   InitialTableState,
+  Row,
 } from "@tanstack/react-table";
 import styles from "./Table.module.scss";
 import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
 import { Button } from "components/Button/Button";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import clsx from "clsx";
+import { BillResult } from "generated";
 
 type TableTheme = "blue" | "green";
+
+interface TableThemeColors {
+  background: string;
+  color: string;
+  hover: string;
+  border: string;
+  index: {
+    selected: string;
+    unselected: string;
+  };
+}
 
 type TableProps<T extends object> = {
   data: T[];
@@ -22,6 +36,8 @@ type TableProps<T extends object> = {
   initialState: InitialTableState;
   metaRight?: React.ReactNode;
   theme?: TableTheme;
+  onRowClick?: (row: Row<T>) => void;
+  selectedRowId?: string;
 };
 
 function Table<T extends object>({
@@ -30,6 +46,8 @@ function Table<T extends object>({
   initialState,
   metaRight,
   theme = "blue",
+  onRowClick,
+  selectedRowId,
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
     initialState.sorting || []
@@ -49,25 +67,31 @@ function Table<T extends object>({
     debugTable: true,
   });
 
-  const backgroundColor = () => {
+  // This has a runtime cost, should ultimately move this into SCSS file and handle using theme classes
+  const getTheme = (): TableThemeColors => {
     switch (theme) {
       case "blue":
-        return "var(--blue-darker)";
+        return {
+          background: "var(--blue-darker)",
+          color: "var(--yellow)",
+          hover: "rgba(255, 228, 92, 0.05)",
+          border: "var(--blue-dark)",
+          index: {
+            selected: "var(--blue)",
+            unselected: "var(--blue-dark)",
+          },
+        };
       case "green":
-        return "rgba(142 234 120 / 0.05)";
-      default:
-        return "var(--blue)";
-    }
-  };
-
-  const textColor = () => {
-    switch (theme) {
-      case "blue":
-        return "var(--yellow)";
-      case "green":
-        return "var(--green)";
-      default:
-        return "var(--blue-dark)";
+        return {
+          background: "rgba(142 234 120 / 0.05)",
+          color: "var(--green)",
+          hover: "rgba(142 234 120 / 0.1)",
+          border: "var(--green-dark)",
+          index: {
+            selected: "var(--green)",
+            unselected: "var(--green-dark)",
+          },
+        };
     }
   };
 
@@ -75,21 +99,12 @@ function Table<T extends object>({
     "--background-color": string;
     "--border-color": string;
     "--text-color": string;
+    "--hover-color": string;
   } = {
-    [`--background-color`]: backgroundColor(),
-    [`--border-color`]: "var(--blue-dark)",
-    [`--text-color`]: textColor(),
-  };
-
-  const indexColors = () => {
-    switch (theme) {
-      case "blue":
-        return { selected: "var(--blue)", unselected: "var(--blue-dark)" };
-      case "green":
-        return { selected: "var(--green)", unselected: "var(--green-dark)" };
-      default:
-        return { selected: "var(--blue)", unselected: "var(--blue-dark)" };
-    }
+    [`--background-color`]: getTheme().background,
+    [`--border-color`]: getTheme().border,
+    [`--text-color`]: getTheme().color,
+    [`--hover-color`]: getTheme().hover,
   };
 
   const PageIndex = () => {
@@ -117,8 +132,8 @@ function Table<T extends object>({
               key={i}
               color={
                 i === table.getState().pagination.pageIndex
-                  ? indexColors().selected
-                  : indexColors().unselected
+                  ? getTheme().index.selected
+                  : getTheme().index.unselected
               }
               onClick={() => table.setPageIndex(i)}
             />
@@ -176,8 +191,8 @@ function Table<T extends object>({
                             header.getContext()
                           )}
                           {{
-                            asc: <AiFillCaretUp color={textColor()} />,
-                            desc: <AiFillCaretDown color={textColor()} />,
+                            asc: <AiFillCaretUp color={getTheme().color} />,
+                            desc: <AiFillCaretDown color={getTheme().color} />,
                           }[header.column.getIsSorted() as string] ?? null}
                         </div>
                       )}
@@ -188,25 +203,29 @@ function Table<T extends object>({
             ))}
           </thead>
           <tbody>
-            {table
-              .getRowModel()
-              .rows // .rows.slice(0, 10)
-              .map((row) => {
-                return (
-                  <tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <td key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
+            {table.getRowModel().rows.map((row) => {
+              return (
+                <tr
+                  key={row.id}
+                  onClick={() => onRowClick?.(row)}
+                  className={clsx({
+                    [styles.selected as string]:
+                      (row.original as BillResult).id === selectedRowId,
+                  })}
+                >
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className={styles.tableMeta}>

@@ -14,15 +14,18 @@ import {
   PopularitySort,
   State,
   useBillIndexQuery,
+  useUpsertEmbedMutation,
 } from "generated";
 import useDebounce from "hooks/useDebounce";
 import { Table } from "components/Table/Table";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import { getStatusInfo } from "utils/bill";
 import { Badge } from "components/Badge/Badge";
 import { FaCircle } from "react-icons/fa";
 import { titleCase } from "utils/strings";
 import { getYear } from "utils/dates";
+import { useAuth } from "hooks/useAuth";
+import { toast } from "react-toastify";
 
 export async function getServerSideProps({
   query,
@@ -44,9 +47,56 @@ export async function getServerSideProps({
 }
 
 function EmbedsLegislation() {
+  const router = useRouter();
+  const { query } = router;
+  const { slug, selected } = query;
+  const { user } = useAuth({ redirect: false });
+  const upsertEmbed = useUpsertEmbedMutation();
+  const handleCreateEmbed = () => {
+    upsertEmbed.mutate(
+      {
+        input: {
+          name: "Legislation Embed",
+          populistUrl: "https://populist.us",
+          organizationId: user.organizationId as string,
+          attributes: {
+            billId: selected as string,
+          },
+        },
+      },
+      {
+        onSuccess: (data) => {
+          toast("Embed saved!", { type: "success", position: "bottom-right" });
+          void router.push(
+            `/dashboard/${slug}/embeds/${data.upsertEmbed.id}`,
+            undefined,
+            {
+              shallow: true,
+            }
+          );
+        },
+      }
+    );
+  };
+
   return (
     <>
-      <h1>New Legislation Embed</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h1>New Legislation Embed</h1>
+        <Button
+          size="large"
+          variant="secondary"
+          label="Create Embed"
+          disabled={!selected}
+          onClick={handleCreateEmbed}
+        />
+      </div>
       <p>Search and select legislation to embed on your page.</p>
       <BillSearchAndFilters />
       <BillResultsTable />
@@ -73,6 +123,7 @@ function BillResultsTable() {
     year = null,
     scope = PoliticalScope.Federal,
     popularity = null,
+    selected = null,
   } = query;
 
   const shouldFetchBillResults =
@@ -112,7 +163,7 @@ function BillResultsTable() {
       {
         accessorKey: "billNumber",
         header: "Leg. Code",
-        size: 100,
+        size: 80,
       },
       {
         accessorKey: "title",
@@ -123,7 +174,7 @@ function BillResultsTable() {
         accessorKey: "session.startDate",
         header: "Year",
         cell: (info) => getYear(info.getValue() as string),
-        size: 100,
+        size: 60,
       },
       {
         accessorKey: "status",
@@ -136,7 +187,7 @@ function BillResultsTable() {
               iconLeft={
                 <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
               }
-              color={statusInfo?.color}
+              theme={statusInfo?.color}
             >
               {titleCase(
                 (info.getValue() as string).replaceAll("_", " ") as string
@@ -155,15 +206,21 @@ function BillResultsTable() {
             </Badge>
           )),
       },
-      {
-        cell: (_info) => (
-          <Button variant="primary" size="small" label="Create Embed" />
-        ),
-        header: "Actions",
-      },
     ],
     []
   );
+
+  const onRowClick = (row: Row<BillResult>) => {
+    void router.push(
+      {
+        query: { ...query, selected: row.original.id },
+      },
+      undefined,
+      {
+        scroll: false,
+      }
+    );
+  };
 
   if (!shouldFetchBillResults) return null;
 
@@ -176,6 +233,8 @@ function BillResultsTable() {
           pageSize: 7,
         },
       }}
+      onRowClick={onRowClick}
+      selectedRowId={selected as string}
     />
   );
 }
