@@ -55,7 +55,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
         {billId ? (
           <BillWidget bill={billData?.billById as BillResult} />
         ) : (
-          <BillWidgetSkeleton />
+          <BillWidgetSkeleton embedId={id} slug={slug} />
         )}
       </div>
       <div className={clsx(styles.embedCode)}>

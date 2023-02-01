@@ -69,7 +69,6 @@ function BillWidget({ bill }: { bill: BillResult }) {
                   />
                   <div className={styles.sponsorInfo}>
                     <strong>{sponsor.fullName}</strong>
-                    <span>{sponsor.currentOffice?.officeType}</span>
                   </div>
                 </div>
               ))}

@@ -80,7 +80,7 @@ $small-size: 1.825rem;
   }
 
   &.grey {
-    background: rgba(143, 143, 143, 0.1);
+    background: $grey-light;
     color: $grey-darkest;
     border: 1px solid $grey-dark;
 

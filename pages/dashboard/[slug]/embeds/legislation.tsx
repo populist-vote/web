@@ -49,13 +49,17 @@ export async function getServerSideProps({
 function EmbedsLegislation() {
   const router = useRouter();
   const { query } = router;
-  const { slug, selected } = query;
+  const { slug, selected, embedId } = query;
   const { user } = useAuth({ redirect: false });
   const upsertEmbed = useUpsertEmbedMutation();
+
+  const isEmbedCreated = !!embedId;
+
   const handleCreateEmbed = () => {
     upsertEmbed.mutate(
       {
         input: {
+          id: embedId as string,
           name: "Legislation Embed",
           populistUrl: "https://populist.us",
           organizationId: user.organizationId as string,
@@ -88,12 +92,12 @@ function EmbedsLegislation() {
           alignItems: "center",
         }}
       >
-        <h1>New Legislation Embed</h1>
+        <h1>{isEmbedCreated ? "Edit" : "New"} Legislation Embed</h1>
         <Button
           size="large"
           variant="secondary"
-          label="Create Embed"
-          disabled={!selected}
+          label={isEmbedCreated ? "Save Embed" : "Create Embed"}
+          disabled={!selected && !isEmbedCreated}
           onClick={handleCreateEmbed}
         />
       </div>
