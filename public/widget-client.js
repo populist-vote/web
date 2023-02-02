@@ -4,7 +4,6 @@
     var attributes = script.dataset;
     var params = {};
     params.billId = attributes.billId;
-    params.apiKey = attributes.apiKey;
     var url = new URL(location.href);
     var cleanedLocation = url.toString();
     var existingContainer = document.querySelector(".populist");
@@ -35,7 +34,7 @@
     // Create default style and prepend as <head>'s first child to make override possible.
     var style = document.getElementById("populist-css") || document.createElement("style");
     style.id = "populist-css";
-    style.textContent = "\n  .populist, .populist-frame {\n    width: 100%;\n    min-height: 600px;\n    background: transparent;\n  }\n  .populist-frame {\n    border: none;\n    color-scheme: light dark;\n  }\n  .populist-frame--loading {\n    opacity: 0;\n  }\n";
+    style.textContent = "\n  .populist, .populist-frame {\n    width: 100%;\n    min-height: auto;\n    background: transparent;\n  }\n  .populist-frame {\n    border: none;\n    color-scheme: light dark;\n  }\n  .populist-frame--loading {\n    opacity: 0;\n  }\n";
     document.head.prepend(style);
     // Insert iframe element
     if (!existingContainer) {

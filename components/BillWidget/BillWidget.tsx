@@ -1,4 +1,4 @@
-import { Button, PartyAvatar } from "components";
+import { Button, LoaderFlag, PartyAvatar } from "components";
 import { Badge } from "components/Badge/Badge";
 import { LogoTextDark } from "components/Logo";
 import {
@@ -7,6 +7,7 @@ import {
   IssueTagResult,
   PoliticalParty,
   PoliticianResult,
+  useBillByIdQuery,
 } from "generated";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
@@ -15,12 +16,13 @@ import { getYear } from "utils/dates";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 
-function BillWidget({ bill }: { bill: BillResult }) {
-  if (!bill) {
-    return <div>Bill not found</div>;
-  }
-
+function BillWidget({ billId }: { billId: string }) {
+  const { data, isLoading, error } = useBillByIdQuery({ id: billId });
+  const bill = data?.billById as BillResult;
   const statusInfo = getStatusInfo(bill?.status as BillStatus);
+
+  if (isLoading) return <LoaderFlag />;
+  if (error) return <div>Something went wrong loading this bill.</div>;
 
   return (
     <div className={styles.billCard} data-test-id="populist-bill-widget">

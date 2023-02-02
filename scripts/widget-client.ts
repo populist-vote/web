@@ -5,7 +5,6 @@
   const params: Record<string, string> = {};
 
   params.billId = attributes.billId as string;
-  params.apiKey = attributes.apiKey as string;
 
   const url = new URL(location.href);
   const cleanedLocation = url.toString();
@@ -45,7 +44,7 @@
   style.textContent = `
   .populist, .populist-frame {
     width: 100%;
-    min-height: 600px;
+    min-height: auto;
     background: transparent;
   }
   .populist-frame {

@@ -5,12 +5,7 @@ import { Box } from "components/Box/Box";
 import { CodeBlock } from "components/CodeBlock/CodeBlock";
 import { EmbedForm } from "components/EmbedForm/EmbedForm";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import {
-  BillResult,
-  EmbedResult,
-  useBillByIdQuery,
-  useEmbedByIdQuery,
-} from "generated";
+import { EmbedResult, useEmbedByIdQuery } from "generated";
 import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
 
@@ -27,16 +22,12 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   );
 
   const billId = data?.embedById?.attributes?.billId as string;
-  const { data: billData } = useBillByIdQuery({
-    id: billId,
-  });
 
   const text = `
     <script
-      src="populist.us/widget-client.js"
+      src="localhost:3030/widget-client.js"
       data-embed-id="${id}"
       data-bill-id="${billId}"
-      data-api-key={process.env.POPULIST_API_KEY}
       />
     `;
 
@@ -53,7 +44,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
       <div className={clsx(styles.preview)}>
         <h3>Preview</h3>
         {billId ? (
-          <BillWidget bill={billData?.billById as BillResult} />
+          <BillWidget billId={billId} />
         ) : (
           <BillWidgetSkeleton embedId={id} slug={slug} />
         )}
