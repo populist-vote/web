@@ -1,10 +1,8 @@
-@mixin clamp-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+@mixin clamp-ellipsis($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
   -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @mixin dropshadow {

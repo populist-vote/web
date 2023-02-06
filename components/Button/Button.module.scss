@@ -327,4 +327,9 @@ $small-size: 1.825rem;
   &:hover {
     background-color: $blue;
   }
+
+  &:disabled {
+    background-color: $black-alpha-3;
+    cursor: not-allowed;
+  }
 }

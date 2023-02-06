@@ -43,8 +43,8 @@
   style.id = "populist-css";
   style.textContent = `
   .populist, .populist-frame {
-    width: 100%;
-    min-height: auto;
+    width: 512px;
+    height: 756px;
     background: transparent;
   }
   .populist-frame {

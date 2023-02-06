@@ -2,10 +2,14 @@ import Script from "next/script";
 
 function EmbedTest() {
   return (
-    <Script
-      src="/widget-client.js"
-      data-bill-id="d5e625f3-12a0-4e31-9a6f-2d8b82f1f788"
-    />
+    <div>
+      <h1> Test</h1>
+      <Script
+        src="http://localhost:3030/widget-client.js"
+        data-embed-id="e7073a30-e8d8-44df-9528-9089c279ffe7"
+        data-bill-id="489caafa-402e-4df3-8a44-f623b256055c"
+      />
+    </div>
   );
 }
 

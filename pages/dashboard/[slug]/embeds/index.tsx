@@ -1,4 +1,4 @@
-import { Layout, LoaderFlag } from "components";
+import { BillCard, Button, Layout, LoaderFlag } from "components";
 import { Box } from "components/Box/Box";
 import { useEmbedsByOrganizationQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
@@ -7,6 +7,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { toast } from "react-toastify";
+import { getRelativeTimeString } from "utils/dates";
 
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "..";
@@ -31,10 +32,10 @@ export async function getServerSideProps({
 }
 
 function EmbedsIndex({ slug }: { slug: string }) {
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const { data, isLoading } = useEmbedsByOrganizationQuery(
     {
-      id: user.organizationId as string,
+      id: user?.organizationId as string,
     },
     {
       onError: (error) => {
@@ -63,23 +64,77 @@ function EmbedsIndex({ slug }: { slug: string }) {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
+        // gridTemplateColumns: "repeat(3, 1fr)",
         gap: "1rem",
-        marginTop: "1rem",
+        marginTop: "1.5rem",
       }}
     >
       {embeds?.map((embed) => (
-        <Link key={embed.id} href={`/dashboard/${slug}/embeds/${embed.id}`}>
-          <Box isLink>
-            <h3 style={{ margin: 0, color: "white" }}>{embed.name}</h3>
-            <p style={{ color: "white", fontSize: "16px" }}>
-              {embed.description}
-            </p>
+        // <Link key={embed.id} href={`/dashboard/${slug}/embeds/${embed.id}`}>
+        <Box key={embed.id} padding="1.25rem">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              flexDirection: "row",
+            }}
+          >
             <div>
-              <Link href={embed.populistUrl}>Visit URL</Link>
+              <BillCard billId={embed.attributes?.billId as string} />
             </div>
-          </Box>
-        </Link>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <div style={{ textAlign: "right" }}>
+                <p
+                  style={{
+                    color: "white",
+                    fontSize: "16px",
+                    margin: "0 0 0.5rem 0",
+                  }}
+                >
+                  Last updated{" "}
+                  {getRelativeTimeString(new Date(embed.updatedAt))}
+                </p>
+                <p
+                  style={{
+                    margin: 0,
+                    color: "var(--blue-text)",
+                    fontSize: "16px",
+                  }}
+                >
+                  {embed.name}
+                </p>
+                <p style={{ color: "white", fontSize: "16px" }}>
+                  {embed.description}
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "1rem",
+                }}
+              >
+                <Link href={`/dashboard/${slug}/embeds/${embed.id}`}>
+                  <Button variant="secondary" size="medium" label="Edit" />
+                </Link>
+                <Button
+                  variant="secondary"
+                  size="medium"
+                  label="Copy Embed Code"
+                />
+              </div>
+            </div>
+          </div>
+        </Box>
+        // </Link>
       ))}
     </div>
   );

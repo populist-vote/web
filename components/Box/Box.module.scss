@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   width: var(--box-width);
-  padding: 2rem;
+  padding: var(--box-padding);
   background-color: $blue-darker;
   border-radius: 30px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
@@ -21,6 +21,7 @@
   }
 
   &:hover {
+    transition: ease-in-out 0.2s;
     box-shadow: var(--box-hover-shadow);
   }
 }

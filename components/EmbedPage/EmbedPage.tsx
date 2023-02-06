@@ -25,7 +25,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
 
   const text = `
     <script
-      src="localhost:3030/widget-client.js"
+      src="${window.location.host}/widget-client.js"
       data-embed-id="${id}"
       data-bill-id="${billId}"
       />

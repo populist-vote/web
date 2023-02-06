@@ -48,6 +48,20 @@ function EmbedsNew({ slug }: { slug: string }) {
           >
             <Button variant="super" size="large" label="Legislation" />
           </Link>
+          <br />
+          <Button
+            variant="super"
+            size="large"
+            label="Politician (coming soon)"
+            disabled
+          />
+          <br />
+          <Button
+            variant="super"
+            size="large"
+            label="Poll (coming soon)"
+            disabled
+          />
         </div>
       </Box>
     </>

@@ -91,7 +91,7 @@ query BillBySlug($slug: String!) {
   }
 }
 
-query BillById($id: String!) {
+query BillById($id: ID!) {
   billById(id: $id) {
     id
     slug

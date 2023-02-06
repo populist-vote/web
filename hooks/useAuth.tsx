@@ -44,7 +44,7 @@ export function useAuth({
         if (!user) await router.push(redirectTo);
 
         if (user) {
-          if (organizationId && user.organizationId !== organizationId) {
+          if (organizationId && user?.organizationId !== organizationId) {
             await router.push(redirectTo);
           }
           setIsLoading(false);

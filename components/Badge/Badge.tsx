@@ -9,6 +9,7 @@ interface BadgeProps {
   label?: string;
   selected?: boolean;
   clickable?: boolean;
+  lightBackground?: boolean;
   [x: string]: any;
 }
 
@@ -19,11 +20,13 @@ function Badge({
   label,
   selected,
   clickable,
+  lightBackground = false,
   children,
   ...rest
 }: PropsWithChildren<BadgeProps>) {
   const cx = clsx(styles.container, styles[size as string], {
     [styles.selected as string]: selected,
+    [styles.lightBackground as string]: lightBackground,
     [styles.clickable as string]: clickable,
     [styles[theme as string] as string]: theme,
   });

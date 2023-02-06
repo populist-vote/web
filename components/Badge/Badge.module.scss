@@ -48,8 +48,8 @@ $small-size: 1.825rem;
   }
 
   &.green {
-    background: rgba(143, 216, 171, 0.1);
-    border: 1px solid $green;
+    background: rgba(143, 216, 171, 0.2);
+    border: 1px solid $green-support;
     color: $white;
 
     &.selected {
@@ -80,7 +80,7 @@ $small-size: 1.825rem;
   }
 
   &.grey {
-    background: $grey-light;
+    background: $grey-lightest;
     color: $grey-darkest;
     border: 1px solid $grey-dark;
 
@@ -92,6 +92,10 @@ $small-size: 1.825rem;
 
   &.clickable {
     cursor: pointer;
+  }
+
+  &.lightBackground {
+    color: $grey-darkest;
   }
 
   &.small {

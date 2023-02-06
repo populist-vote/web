@@ -22,7 +22,7 @@ type TableTheme = "blue" | "green";
 interface TableThemeColors {
   background: string;
   color: string;
-  hover: string;
+  selectedRow: string;
   border: string;
   index: {
     selected: string;
@@ -74,7 +74,7 @@ function Table<T extends object>({
         return {
           background: "var(--blue-darker)",
           color: "var(--yellow)",
-          hover: "rgba(255, 228, 92, 0.05)",
+          selectedRow: "rgba(255, 228, 92, 0.05)",
           border: "var(--blue-dark)",
           index: {
             selected: "var(--blue)",
@@ -85,7 +85,7 @@ function Table<T extends object>({
         return {
           background: "rgba(142 234 120 / 0.05)",
           color: "var(--green)",
-          hover: "rgba(142 234 120 / 0.1)",
+          selectedRow: "rgba(142 234 120 / 0.1)",
           border: "var(--green-dark)",
           index: {
             selected: "var(--green)",
@@ -99,12 +99,12 @@ function Table<T extends object>({
     "--background-color": string;
     "--border-color": string;
     "--text-color": string;
-    "--hover-color": string;
+    "--selected-row-color": string;
   } = {
     [`--background-color`]: getTheme().background,
     [`--border-color`]: getTheme().border,
     [`--text-color`]: getTheme().color,
-    [`--hover-color`]: getTheme().hover,
+    [`--selected-row-color`]: getTheme().selectedRow,
   };
 
   const PageIndex = () => {

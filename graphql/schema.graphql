@@ -463,12 +463,16 @@ input ElectionSearchInput {
 type EmbedResult {
   attributes: JSON!
   createdAt: DateTime!
+  createdBy: UserResult!
+  createdById: ID!
   description: String
   id: ID!
   name: String!
   organizationId: ID!
   populistUrl: String!
   updatedAt: DateTime!
+  updatedBy: UserResult!
+  updatedById: ID!
 }
 
 type Endorsements {
@@ -857,7 +861,7 @@ type Query {
     """Search by voteStatus, name, or slug"""
     search: BallotMeasureSearch!
   ): [BallotMeasureResult!]!
-  billById(id: String!): BillResult
+  billById(id: ID!): BillResult
   billBySlug(slug: String!): BillResult
 
   """Returns all committees that have an associated bill"""
@@ -1301,12 +1305,12 @@ input UpsertElectionInput {
 }
 
 input UpsertEmbedInput {
-  attributes: JSON!
+  attributes: JSON
   description: String
   id: UUID
-  name: String!
-  organizationId: UUID!
-  populistUrl: String!
+  name: String
+  organizationId: UUID
+  populistUrl: String
 }
 
 input UpsertIssueTagInput {

@@ -62,7 +62,7 @@ function EmbedsLegislation() {
           id: embedId as string,
           name: "Legislation Embed",
           populistUrl: "https://populist.us",
-          organizationId: user.organizationId as string,
+          organizationId: user?.organizationId as string,
           attributes: {
             billId: selected as string,
           },

@@ -33,8 +33,8 @@ function EmbedForm({
           ...data,
           id: embed?.id,
           populistUrl: "https://populist.us",
-          organizationId: user.organizationId as string,
-          attributes: {},
+          organizationId: user?.organizationId as string,
+          attributes: embed?.attributes,
         },
       },
       {
@@ -47,6 +47,9 @@ function EmbedForm({
               shallow: true,
             }
           );
+        },
+        onError: (error) => {
+          toast((error as Error).message, { type: "error" });
         },
       }
     );

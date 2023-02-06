@@ -14,7 +14,7 @@
   justify-content: space-between;
   width: calc(100vw - 2rem);
   max-width: 23rem;
-  height: 16rem;
+  height: 15rem;
 
   .header {
     border-radius: 15px 15px 0 0;
@@ -40,7 +40,8 @@
       -webkit-line-clamp: 2;
       color: $grey-darkest;
       display: -webkit-box;
-      font-size: $text-xl;
+      font-size: $text-lg;
+      margin-bottom: 1rem;
       font-weight: 600;
       overflow: hidden;
     }

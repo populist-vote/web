@@ -30,14 +30,14 @@ function BillWidget({ billId }: { billId: string }) {
         <strong>
           {bill.state || "U.S."} - {splitAtDigitAndJoin(bill.billNumber)}
         </strong>
-        <strong>{getYear(bill.session?.endDate)}</strong>
+        <strong>{getYear(bill.session?.startDate)}</strong>
       </header>
       <section className={styles.cardContent}>
         <div>
           <h2 className={styles.title}>{bill.title}</h2>
           <div className={styles.tags}>
             {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
-              <Badge theme="grey" key={tag.id}>
+              <Badge theme="grey" key={tag.id} lightBackground>
                 {tag.name}
               </Badge>
             ))}
@@ -78,30 +78,30 @@ function BillWidget({ billId }: { billId: string }) {
           </section>
         )}
       </section>
-      <footer className={styles.footer}>
+      <div className={styles.info}>
         <Badge
           iconLeft={
             <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
           }
-          color={statusInfo?.color}
+          theme={statusInfo?.color}
+          lightBackground
         >
           {titleCase(bill.status?.replaceAll("_", " ") as string)}
         </Badge>
         <div className={styles.votes}>
-          <Badge
-            color="grey-dark"
-            iconLeft={<FaCheckCircle size={18} color="var(--green-support)" />}
-          >
+          <Badge>
+            SUPPORT
+            <FaCheckCircle size={18} color="var(--green-support)" />
             {bill.publicVotes?.support ?? 0}
           </Badge>
-          <Badge
-            color="grey-dark"
-            iconLeft={<RiCloseCircleFill size={18} color="var(--red)" />}
-          >
-            {bill.publicVotes?.oppose ?? 0}
+          <Badge>
+            OPPOSE
+            <RiCloseCircleFill size={18} color="var(--red)" />
+            {bill.publicVotes?.oppose ?? 0}{" "}
           </Badge>
         </div>
-
+      </div>
+      <footer className={styles.footer}>
         <div className={styles.branding}>
           <span className={styles.poweredBy}>Powered by</span>
           <LogoTextDark />
