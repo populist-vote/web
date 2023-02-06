@@ -5,9 +5,9 @@ function EmbedTest() {
     <div>
       <h1> Test</h1>
       <Script
-        src="http://localhost:3030/widget-client.js"
-        data-embed-id="e7073a30-e8d8-44df-9528-9089c279ffe7"
-        data-bill-id="489caafa-402e-4df3-8a44-f623b256055c"
+        src="https://staging.populist.us/widget-client.js"
+        data-embed-id="a5d864b8-6780-4c4d-a731-398c1553a326"
+        data-bill-id="4a7e7075-a093-4b9b-adff-62111ce52ce2"
       />
     </div>
   );
