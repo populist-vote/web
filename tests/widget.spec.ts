@@ -11,5 +11,5 @@ test("Widget script successfully renders a widget", async ({ page }) => {
       .getByTestId("populist-bill-widget")
       .getByRole("heading")
       .nth(0)
-  ).toHaveText("Grindstone River dam removal local approval requirement");
+  ).toHaveText("Commuter rail and intercity passenger rail moratorium repeal");
 });

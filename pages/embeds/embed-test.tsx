@@ -3,7 +3,6 @@ import Script from "next/script";
 function EmbedTest() {
   return (
     <div>
-      <h1> Test</h1>
       <Script
         src="https://staging.populist.us/widget-client.js"
         data-embed-id="a5d864b8-6780-4c4d-a731-398c1553a326"
