@@ -100,7 +100,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
             />
           </div>
           <Button
-            disabled={!isDirty || !isValid}
+            disabled={!isDirty || !isValid || updateNameMutation.isLoading}
             variant="secondary"
             size="large"
             theme="blue"
@@ -162,7 +162,7 @@ const UsernameSection = ({ username }: { username: string }) => {
             }}
           />
           <Button
-            disabled={!isDirty || !isValid}
+            disabled={!isDirty || !isValid || updateUsernameMutation.isLoading}
             variant="secondary"
             size="large"
             theme="blue"
@@ -220,7 +220,7 @@ const EmailSection = ({ email }: { email: string }) => {
             }}
           />
           <Button
-            disabled={!isDirty || !isValid}
+            disabled={!isDirty || !isValid || updateEmailMutation.isLoading}
             variant="secondary"
             size="large"
             theme="blue"
@@ -233,7 +233,13 @@ const EmailSection = ({ email }: { email: string }) => {
   );
 };
 
-const AddressSection = ({ address }: { address: AddressResult }) => {
+const AddressSection = ({
+  address,
+  userId,
+}: {
+  address: AddressResult;
+  userId: string;
+}) => {
   const queryClient = useQueryClient();
   const { register, handleSubmit, formState, reset, setError, watch } =
     useForm<AddressResult>({
@@ -247,7 +253,11 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
       queryClient
-        .resetQueries(["ElectionById", useCurrentUserQuery.getKey()])
+        .invalidateQueries([
+          "ElectionById",
+          useCurrentUserQuery.getKey(),
+          useUserProfileQuery.getKey({ userId }),
+        ])
         .catch((err) => toast.error(err));
       void toast.success("Address updated successfully");
     },
@@ -349,11 +359,13 @@ const AddressSection = ({ address }: { address: AddressResult }) => {
             />
           </div>
           <Button
-            disabled={!isDirty || !isValid}
+            disabled={!isDirty || !isValid || updateAddressMutation.isLoading}
             variant="secondary"
             size="large"
             theme="blue"
-            label="Save"
+            label={
+              updateAddressMutation.isLoading ? "Saving address..." : "Save"
+            }
             type="submit"
           />
         </div>
@@ -375,6 +387,7 @@ const SignOutSection = () => {
       <h2>Sign out</h2>
       <div className={profileStyles.signOutSection}>
         <Button
+          isDisabled={logOutMutation.isLoading}
           variant="secondary"
           size="large"
           theme="blue"
@@ -424,7 +437,9 @@ const DeleteAccountSection = () => {
           size="large"
           theme="blue"
           label="Delete"
-          disabled={!deleteConfirmationChecked}
+          disabled={
+            !deleteConfirmationChecked || deleteAccountMutation.isLoading
+          }
           onClick={handleDeleteAccount}
         />
       </div>
@@ -738,7 +753,7 @@ function ProfilePage() {
           lastName={lastName as string}
         />
         <UsernameSection username={username as string} />
-        <AddressSection address={address as AddressResult} />
+        <AddressSection address={address as AddressResult} userId={user.id} />
         <EmailSection email={email} />
         <PasswordSection />
         <SignOutSection />
