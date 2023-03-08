@@ -73,7 +73,7 @@ function Election({
   return (
     <>
       <ElectionHeader election={election as Partial<ElectionResult>} />
-      {isColoradan && (
+      {isColoradan && election?.slug === "general-election-2022" && (
         <a href="https://measures.populist.us/colorado">
           <div className={styles.ballotMeasuresButton}>
             <Button

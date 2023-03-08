@@ -44,6 +44,7 @@ fragment raceFields on RaceResult {
 
 fragment electionFields on ElectionResult {
   id
+  slug
   title
   description
   electionDate
