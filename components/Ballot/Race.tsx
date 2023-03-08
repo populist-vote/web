@@ -197,7 +197,7 @@ function Race({
           ?.map((w) => w.id)
           .includes(politician.id);
 
-        const isOpaque = !isWinner;
+        const isOpaque = !!results.winners && !isWinner;
 
         const labelLeftProps = {
           text: votePercentage ? `${votePercentage}%` : null,
