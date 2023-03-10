@@ -7,20 +7,40 @@ import { getStatusInfo } from "utils/bill";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { getYear } from "utils/dates";
+import { ReactNode } from "react";
 
 interface BillCardWithBill {
+  isLink?: boolean;
   bill: Partial<BillResult>;
   billId?: never;
 }
 
 interface BillCardWithBillId {
+  isLink?: boolean;
   billId: string;
   bill?: never;
 }
 
 type BillCardProps = BillCardWithBill | BillCardWithBillId;
 
-function BillCard({ bill, billId }: BillCardProps) {
+function LinkWrapper({
+  children,
+  href,
+  isLink = true,
+}: {
+  children: ReactNode;
+  href: string;
+  isLink?: boolean;
+}) {
+  if (!isLink) return <>{children}</>;
+  return (
+    <Link href={href} passHref>
+      {children}
+    </Link>
+  );
+}
+
+function BillCard({ bill, billId, isLink = true }: BillCardProps) {
   const { data } = useBillByIdQuery(
     {
       id: billId as string,
@@ -37,7 +57,7 @@ function BillCard({ bill, billId }: BillCardProps) {
   const statusInfo = getStatusInfo(bill.status as BillStatus);
 
   return (
-    <Link href={`/bills/${bill.slug}`} key={bill.slug} passHref>
+    <LinkWrapper href={`/bills/${bill.slug}`} key={bill.slug} isLink={isLink}>
       <div className={styles.billCard}>
         <header className={styles.header}>
           <strong>
@@ -82,7 +102,7 @@ function BillCard({ bill, billId }: BillCardProps) {
           </div>
         </footer>
       </div>
-    </Link>
+    </LinkWrapper>
   );
 }
 
