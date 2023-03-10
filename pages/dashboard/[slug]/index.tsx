@@ -11,7 +11,6 @@ import { BillFiltersParams } from "pages/bills";
 import { SupportedLocale } from "types/global";
 import { MdSpaceDashboard } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
-import { IoPeopleCircleSharp } from "react-icons/io5";
 import { ReactNode } from "react";
 
 export async function getServerSideProps({
@@ -105,21 +104,6 @@ export function DashboardTopNav() {
             }}
           >
             <BiCodeBlock /> Embeds
-          </Link>
-        </li>
-        <li
-          data-selected={new RegExp(`/dashboard/${slug}/audience`).test(
-            router.asPath
-          )}
-        >
-          <Link
-            href={{
-              pathname: "/dashboard/[slug]/audience",
-              query: { slug },
-            }}
-          >
-            <IoPeopleCircleSharp />
-            Audience
           </Link>
         </li>
       </ul>
