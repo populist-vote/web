@@ -1,4 +1,4 @@
-import { Button, Layout, Select } from "components";
+import { Layout, Select } from "components";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -10,7 +10,6 @@ import { FiltersIcon } from "components/Icons";
 import { PopularBills } from "components/PopularBills/PopularBills";
 import { MobileTabs } from "components/MobileTabs/MobileTabs";
 import { TopNav } from "components/TopNav/TopNav";
-import { Box } from "components/Box/Box";
 import { BillFiltersMobile } from "components/BillFilters/BillFiltersMobile";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
@@ -146,21 +145,6 @@ function BillIndex(props: BillIndexProps) {
             <BillSearchAndFilters />
           </section>
         </div>
-        <section className={styles.header}>
-          <Box>
-            <h2>How does a bill become law?</h2>
-            <p>
-              Cum sociis natoque penatibus et magnis dis parturient montes,
-              nascetur ridiculus mus.
-            </p>
-            <Button
-              variant="primary"
-              label="Learn More"
-              size="medium"
-              style={{ maxWidth: "fit-content" }}
-            />
-          </Box>
-        </section>
         <BillResults />
         <PopularBills {...props} />
       </div>

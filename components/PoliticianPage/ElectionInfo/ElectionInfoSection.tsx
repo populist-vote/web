@@ -79,7 +79,7 @@ function ElectionInfoSection() {
         </h4>
         <div className={`${styles.roundedCard} ${styles.boxOpponent}`}>
           {opponents.length == 0 ? (
-            <h3>None</h3>
+            <h3 style={{ justifySelf: "center", width: "100%" }}>None</h3>
           ) : (
             opponents.map(
               (candidate: Partial<PoliticianResult> & { id: string }) => {
