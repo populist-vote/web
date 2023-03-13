@@ -125,7 +125,7 @@ function BillResultsTable() {
     status = null,
     search = null,
     year = null,
-    scope = PoliticalScope.Federal,
+    scope = null,
     popularity = null,
     selected = null,
   } = query;
@@ -215,13 +215,14 @@ function BillResultsTable() {
   );
 
   const onRowClick = (row: Row<BillResult>) => {
-    void router.push(
+    void router.replace(
       {
         query: { ...query, selected: row.original.id },
       },
       undefined,
       {
         scroll: false,
+        shallow: true,
       }
     );
   };

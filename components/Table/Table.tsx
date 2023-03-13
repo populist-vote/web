@@ -60,6 +60,7 @@ function Table<T extends object>({
       sorting,
     },
     initialState,
+    autoResetPageIndex: false,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

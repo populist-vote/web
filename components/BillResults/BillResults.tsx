@@ -20,7 +20,7 @@ function BillResults() {
     status = null,
     search = null,
     year = null,
-    scope = PoliticalScope.Federal,
+    scope = null,
     popularity = null,
   } = query;
 
