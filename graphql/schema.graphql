@@ -869,6 +869,9 @@ type Query {
 
   """Returns all issue tags that have an associated bill"""
   billIssueTags: [IssueTagResult!]!
+
+  """Returns all session years that have an associated bill"""
+  billYears: [Int!]!
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
 
   """

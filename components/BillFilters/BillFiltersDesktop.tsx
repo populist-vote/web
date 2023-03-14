@@ -6,6 +6,7 @@ import {
   PopularitySort,
   useBillCommitteesQuery,
   useBillIssueTagsQuery,
+  useBillYearsQuery,
 } from "generated";
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
@@ -34,6 +35,18 @@ function BillFiltersDesktop() {
     isLoading: committeesLoading,
     error: committeesError,
   } = useBillCommitteesQuery();
+  const {
+    data: { billYears } = {},
+    isLoading: yearsLoading,
+    error: yearsError,
+  } = useBillYearsQuery();
+
+  const billYearOptions = billYears
+    ?.sort((a, b) => b - a)
+    .map((year) => ({
+      value: year.toString(),
+      label: year.toString(),
+    }));
 
   const hasBillIssues =
     !tagsLoading && billIssueTags && billIssueTags?.length > 0;
@@ -49,19 +62,18 @@ function BillFiltersDesktop() {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
-        <section className={styles.flex}>
-          <h4>Year</h4>
-          <Select
-            color="blue-dark"
-            backgroundColor="yellow"
-            onChange={handleYearFilter}
-            value={year as string}
-            options={[
-              { value: "2022", label: "2022" },
-              { value: "2020", label: "2020" },
-            ]}
-          />
-        </section>
+        {!yearsLoading && !yearsError && (
+          <section className={styles.flex}>
+            <h4>Year</h4>
+            <Select
+              color="blue-dark"
+              backgroundColor="yellow"
+              onChange={handleYearFilter}
+              value={year as string}
+              options={billYearOptions || []}
+            />
+          </section>
+        )}
         {hasBillIssues && (
           <section className={styles.flex}>
             <h4>Issue</h4>

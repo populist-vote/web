@@ -176,6 +176,10 @@ query BillIssueTags {
     }
 }
 
+query BillYears {
+    billYears
+}
+
 query BillCommittees {
     billCommittees {
         id
