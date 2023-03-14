@@ -70,7 +70,7 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
   const bill = data?.billBySlug;
 
   const summary =
-    bill?.description || bill?.populistSummary || bill?.officialSummary;
+    bill?.populistSummary || bill?.description || bill?.officialSummary;
 
   const $supportOppose = useMemo(
     () =>
