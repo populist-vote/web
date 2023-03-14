@@ -52,7 +52,6 @@ function Dashboard({ slug }: { slug: string }) {
 
   const { isLoading } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
-    redirectTo: `/home`,
   });
 
   return organizationQuery.isLoading || isLoading ? (
