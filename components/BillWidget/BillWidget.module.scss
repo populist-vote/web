@@ -4,13 +4,12 @@
 @import "styles/mixins/utils";
 
 .billCard {
+  width: auto;
+  height: 36rem;
   border: 1px solid $grey;
   background: $grey-lighter;
-  max-width: none;
-  width: 512px;
-  height: auto;
   text-align: center;
-  margin: 0;
+  max-width: none;
 
   header,
   section:not(:last-child) {

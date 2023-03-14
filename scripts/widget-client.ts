@@ -43,10 +43,11 @@
   style.id = "populist-css";
   style.textContent = `
   .populist, .populist-frame {
-    width: 512px;
-    height: 756px;
-    background: transparent;
+    border-radius: 15px;
+    width: 100%;
+    height: 36rem;
   }
+
   .populist-frame {
     border: none;
     color-scheme: light dark;

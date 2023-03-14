@@ -24,6 +24,8 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   const billId = data?.embedById?.attributes?.billId as string;
 
   const text = `
+    <div className="populist" /> <!-- You can use this div to overide 
+                                      the style of the widget if desired -->
     <script
       src="${window.location.origin}/widget-client.js"
       data-embed-id="${id}"
