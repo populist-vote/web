@@ -185,7 +185,6 @@ function EmailStep() {
                 actions.updateAction({ password: e.target.value })
               }
             />
-            <br />
             <PasswordEntropyMeter
               valid={isPasswordValid}
               score={score}
