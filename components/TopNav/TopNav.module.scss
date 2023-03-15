@@ -55,8 +55,8 @@
     &[data-selected="true"] {
       border-bottom: 2px solid $yellow;
 
-      &.aqua {
-        border-bottom: 2px solid $aqua;
+      &[data-color="aqua"] {
+        border-color: $aqua;
       }
     }
 

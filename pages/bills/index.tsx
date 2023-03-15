@@ -15,10 +15,10 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
 import styles from "./BillIndex.module.scss";
 import { BillResults } from "components/BillResults/BillResults";
-import clsx from "clsx";
 import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
 import Link from "next/link";
 import { ReactNode } from "react";
+import clsx from "clsx";
 
 export async function getServerSideProps({
   locale,
@@ -97,11 +97,8 @@ function BillIndex(props: BillIndexProps) {
             </Link>
           </li>
           <li
-            className={
-              scope === PoliticalScope.Federal
-                ? clsx(styles.selected, styles.aqua)
-                : ""
-            }
+            data-selected={scope === PoliticalScope.Federal}
+            data-color="aqua"
           >
             <Link
               href={{
