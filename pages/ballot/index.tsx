@@ -1,5 +1,7 @@
 import { ReactNode, useState } from "react";
 import { dehydrate, QueryClient, useQueryClient } from "@tanstack/react-query";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
 
 import { Election } from "components/Ballot/Election";
 import {
@@ -7,6 +9,7 @@ import {
   LoaderFlag,
   VotingGuideWelcome,
   ElectionSelector,
+  TopNavElections,
 } from "components";
 
 import { useAuth } from "hooks/useAuth";
@@ -25,8 +28,6 @@ import {
 
 import styles from "components/Layout/Layout.module.scss";
 import { SupportedLocale } from "types/global";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
 
 export async function getServerSideProps({
   locale,
@@ -125,6 +126,7 @@ function BallotPage() {
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
         <div>
+          <TopNavElections selected="Ballot" />
           {isSuccess && (
             <>
               <ElectionSelector

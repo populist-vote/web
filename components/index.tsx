@@ -42,6 +42,7 @@ import { StickyButton } from "./StickyButton/StickyButton";
 import { SupportOppose } from "./SupportOppose/SupportOppose";
 import { TextInput } from "./TextInput/TextInput";
 import { TopNav } from "./TopNav/TopNav";
+import { TopNavElections } from "./TopNavElections/TopNavElections";
 import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
 import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
 import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
@@ -96,6 +97,7 @@ export {
   SupportOppose,
   TextInput,
   TopNav,
+  TopNavElections,
   VerticalDivider,
   VotingGuideNav,
   VotingGuideNote,

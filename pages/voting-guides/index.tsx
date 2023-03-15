@@ -16,6 +16,7 @@ import {
   Button,
   LoaderFlag,
   ElectionSelector,
+  TopNavElections,
 } from "components";
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
 import { useAuth } from "hooks/useAuth";
@@ -189,6 +190,7 @@ const VotingGuides: NextPage<{
 
   return (
     <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
+      <TopNavElections selected="VotingGuide" />
       <div className={styles.votingContainer}>
         <ElectionSelector
           elections={elections}
