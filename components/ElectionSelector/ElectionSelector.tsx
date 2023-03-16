@@ -1,8 +1,8 @@
 import { ElectionResult } from "generated";
 import { LeftArrowIcon, RightArrowIcon } from "components/Icons";
-import { dateString } from "utils/dates";
+// import { dateString } from "utils/dates";
 import styles from "./ElectionSelector.module.scss";
-import { useMediaQuery } from "hooks/useMediaQuery";
+// import { useMediaQuery } from "hooks/useMediaQuery";
 
 function ElectionSelector({
   elections = [],
@@ -23,7 +23,7 @@ function ElectionSelector({
   const hasNextElection =
     typeof elections[currentElectionIndex + 1] !== "undefined";
   const nextElection = elections[currentElectionIndex + 1];
-  const isSmallScreen = useMediaQuery("(max-width: 896px)");
+  // const isSmallScreen = useMediaQuery("(max-width: 896px)");
 
   if (elections.length <= 1) return null;
 
@@ -34,36 +34,17 @@ function ElectionSelector({
         onClick={() => setSelectedElectionId(previousElection?.id as string)}
       >
         <LeftArrowIcon />
-        {isSmallScreen ? (
-          <div className={styles.lastLabel}>
-            <h4>Last Vote</h4>
-          </div>
-        ) : (
-          hasPreviousElection &&
-          !hasNextElection && (
-            <div className={styles.lastLabel}>
-              <h4>Last Vote</h4>
-              <h3>{dateString(previousElection?.electionDate, true)}</h3>
-            </div>
-          )
-        )}
+        <div className={styles.lastLabel}>
+          <h4>Last Vote</h4>
+        </div>
       </button>
       <button
         disabled={!hasNextElection}
         onClick={() => setSelectedElectionId(nextElection?.id as string)}
       >
-        {isSmallScreen ? (
-          <div className={styles.nextLabel}>
-            <h4>Next Vote</h4>
-          </div>
-        ) : (
-          hasNextElection && (
-            <div className={styles.nextLabel}>
-              <h4>Next Vote</h4>
-              <h3>{dateString(nextElection?.electionDate, true)}</h3>
-            </div>
-          )
-        )}
+        <div className={styles.nextLabel}>
+          <h4>Next Vote</h4>
+        </div>
 
         <RightArrowIcon />
       </button>
