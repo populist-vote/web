@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { TopNav, ElectionSelector } from "components";
 import { useElections } from "hooks/useElections";
-
 import { ElectionResult } from "generated";
+import styles from "./TopNavElections.module.scss";
 
 type ElectionTab = "Ballot" | "VotingGuide";
 
@@ -17,12 +17,10 @@ function TopNavElections({
     data,
     isLoading,
     isSuccess,
-    error,
     selectedElectionId,
     setSelectedElectionId,
   } = useElections();
 
-  console.log({ showElectionSelector });
   return (
     <TopNav>
       <ul>
@@ -33,7 +31,8 @@ function TopNavElections({
           <Link href="/voting-guides">Voting Guides</Link>
         </li>
         {showElectionSelector && (
-          <li>
+          <li className={styles.electionSelector}>
+            {isLoading && "..."}
             {isSuccess && (
               <ElectionSelector
                 elections={

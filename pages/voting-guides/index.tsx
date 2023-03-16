@@ -15,7 +15,6 @@ import {
   FlagSection,
   Button,
   LoaderFlag,
-  ElectionSelector,
   TopNavElections,
 } from "components";
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
@@ -152,12 +151,7 @@ const VotingGuides: NextPage<{
     ids: savedGuideIds,
   });
 
-  const {
-    selectedElectionId,
-    setSelectedElectionId,
-    elections,
-    isLoading: isElectionsLoading,
-  } = useElections();
+  const { selectedElectionId, isLoading: isElectionsLoading } = useElections();
 
   const election = useMemo(
     () =>
@@ -195,7 +189,7 @@ const VotingGuides: NextPage<{
         {election && <ElectionHeader election={election} />}
         {showLoader && (
           <div className={styles.center}>
-            <LoaderFlag />{" "}
+            <LoaderFlag />
           </div>
         )}
         {!showLoader && (
