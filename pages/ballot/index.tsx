@@ -70,7 +70,10 @@ function BallotPage() {
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
   });
 
-  const { isLoading, isSuccess, error, selectedElectionId } = useElections();
+  const { isLoading, isSuccess, error, selectedElectionId, selectedElection } =
+    useElections();
+
+  console.log("id", selectedElectionId, "e.id", selectedElection?.id);
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {

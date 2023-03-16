@@ -36,15 +36,16 @@ export function useElections(initialSelectedElectionId?: string) {
   }, [initialSelectedElectionId, intialized, setInitialized]);
 
   useEffect(() => {
+    // If no initialSelectedElectionId is supplied, set to first election in list
     if (isSuccess && elections && !initialSelectedElectionId)
       setSelectedElectionId(elections[0]?.id);
   }, [isSuccess, elections, initialSelectedElectionId]);
 
-  const selectedElection = useMemo(
-    () =>
-      selectedElectionId ? data?.electionsByUser.find((e) => e.id) : undefined,
-    [selectedElectionId, data?.electionsByUser]
-  );
+  const selectedElection = useMemo(() => {
+    return selectedElectionId
+      ? data?.electionsByUser.find((e) => e.id)
+      : undefined;
+  }, [selectedElectionId, data?.electionsByUser]);
 
   return {
     selectedElectionId,
