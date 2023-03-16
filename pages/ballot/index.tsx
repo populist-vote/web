@@ -8,7 +8,6 @@ import {
   Layout,
   LoaderFlag,
   VotingGuideWelcome,
-  ElectionSelector,
   TopNavElections,
 } from "components";
 
@@ -19,7 +18,6 @@ import { useElections } from "hooks/useElections";
 import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
 
 import {
-  ElectionResult,
   ElectionVotingGuideByUserIdQuery,
   useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
@@ -72,14 +70,7 @@ function BallotPage() {
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
   });
 
-  const {
-    data,
-    isLoading,
-    isSuccess,
-    error,
-    selectedElectionId,
-    setSelectedElectionId,
-  } = useElections();
+  const { isLoading, isSuccess, error, selectedElectionId } = useElections();
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
@@ -126,15 +117,9 @@ function BallotPage() {
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
         <div>
-          <TopNavElections selected="Ballot" />
+          <TopNavElections selected="Ballot" showElectionSelector />
           {isSuccess && (
             <>
-              <ElectionSelector
-                elections={data?.electionsByUser as Partial<ElectionResult>[]}
-                selectedElectionId={selectedElectionId as string}
-                setSelectedElectionId={setSelectedElectionId}
-              />
-
               <VotingGuideProvider votingGuideId={userGuideId}>
                 {isLoading && (
                   <div className={styles.center}>

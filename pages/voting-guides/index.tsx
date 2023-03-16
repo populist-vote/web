@@ -190,13 +190,8 @@ const VotingGuides: NextPage<{
 
   return (
     <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
-      <TopNavElections selected="VotingGuide" />
+      <TopNavElections selected="VotingGuide" showElectionSelector />
       <div className={styles.votingContainer}>
-        <ElectionSelector
-          elections={elections}
-          selectedElectionId={selectedElectionId as string}
-          setSelectedElectionId={setSelectedElectionId}
-        />
         {election && <ElectionHeader election={election} />}
         {showLoader && (
           <div className={styles.center}>
