@@ -56,22 +56,30 @@ function EmbedForm({
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <TextInput
-        name="name"
-        id="name"
-        label="Name"
-        placeholder={"My Embed"}
-        size="small"
-        register={register}
-      />
-      <TextInput
-        name="description"
-        id="description"
-        label="Description"
-        placeholder={"Legislative poll on prop 13"}
-        size="small"
-        register={register}
-      />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <TextInput
+          name="name"
+          id="name"
+          label="Name"
+          placeholder={"My Embed"}
+          size="small"
+          register={register}
+        />
+        <TextInput
+          name="description"
+          id="description"
+          label="Description"
+          placeholder={"Legislative poll on prop 13"}
+          size="small"
+          register={register}
+        />
+      </div>
       <div
         style={{
           display: "flex",
