@@ -7,6 +7,7 @@
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid $blue-dark;
+  width: 100%;
 
   @include for-tablet-portrait-down {
     display: none;
@@ -15,12 +16,13 @@
   ul {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     list-style: none;
     gap: 1rem;
     margin: 0;
     padding-inline-start: 0;
+    width: 100%;
   }
 
   li {
