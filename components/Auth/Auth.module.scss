@@ -5,6 +5,7 @@
 .container {
   min-width: 296px;
   max-width: 496px;
+  margin: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,7 +40,7 @@
     margin-bottom: 0;
   }
 
-  h2.signInTitle {
+  h1.signInTitle {
     margin-bottom: 2rem;
   }
 

@@ -2,14 +2,14 @@
 @import "styles/variables/colors";
 
 a.container {
-  min-width: 75vw;
+  max-width: 768px;
   background-repeat: no-repeat;
-  border-radius: 8px;
+  border-radius: 15px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.75rem 0;
+  margin: 1.75rem 0;
   font-size: $text-xxl;
   font-family: $font-primary;
   font-weight: 500;
@@ -32,7 +32,7 @@ a.container {
   }
 
   &.myBallot {
-    background-image: url("../../public/images/BallotFlag.jpg");
+    background-image: url("../../public/images/ballot-button.jpg");
     background-position: center;
     background-size: cover;
     height: 150px;
@@ -40,7 +40,7 @@ a.container {
   }
 
   &.myLegislators {
-    background-image: url("../../public/images/LegislatorsBuilding.jpg");
+    background-image: url("../../public/images/politicians-button.jpg");
     background-color: $aqua-dark;
     background-size: cover;
     background-position: center;
@@ -49,7 +49,7 @@ a.container {
   }
 
   &.votingGuides {
-    background: url("../../public/images/VotingGuidesHands.jpg");
+    background: url("../../public/images/voting-guides-button.jpg");
     background-color: $violet-dark;
     background-size: cover;
     background-position: center;
@@ -58,11 +58,11 @@ a.container {
   }
 
   &.legislation {
-    background-image: url("../../public/images/Constitution.png");
+    background-image: url("../../public/images/legislation-button.jpg");
     background-color: $blue-dark;
     background-size: cover;
     background-position: center;
-    height: 150px;
+    height: 100px;
     transition: ease-in-out 0.3s;
   }
 

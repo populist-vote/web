@@ -51,7 +51,7 @@ function LogIn() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.signInTitle}>{message}</h2>
+      <h1 className={styles.signInTitle}>{message}</h1>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
           <div
@@ -86,6 +86,7 @@ function LogIn() {
             size="large"
             variant="primary"
             theme="blue"
+            disabled={login.isLoading}
           />
 
           <br />
