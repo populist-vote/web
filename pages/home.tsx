@@ -6,7 +6,6 @@ import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { useTranslation } from "next-i18next";
-import { Role } from "generated";
 
 export async function getServerSideProps({
   locale,
@@ -60,16 +59,13 @@ function HomePage() {
       <HomePageButton
         href="/politicians"
         className="myLegislators"
-        label={t("browse-politicians")}
+        label={t("politicians")}
       />
       <HomePageButton
         href="/bills"
         className="legislation"
         label={t("legislation")}
       />
-      {user?.role === Role.Superuser && (
-        <HomePageButton href="/admin" className="admin" label={"Admin"} />
-      )}
     </div>
   );
 }
