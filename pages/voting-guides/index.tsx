@@ -150,8 +150,8 @@ const VotingGuides: NextPage<{
   const savedGuidesQuery = useVotingGuidesByIdsQuery({
     ids: savedGuideIds,
   });
-
-  const { selectedElectionId, isLoading: isElectionsLoading } = useElections();
+  const electionData = useElections();
+  const { selectedElectionId, isLoading: isElectionsLoading } = electionData;
 
   const election = useMemo(
     () =>
@@ -184,7 +184,11 @@ const VotingGuides: NextPage<{
 
   return (
     <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
-      <TopNavElections selected="VotingGuide" showElectionSelector />
+      <TopNavElections
+        selected="VotingGuide"
+        showElectionSelector
+        electionData={electionData}
+      />
       <div className={styles.votingContainer}>
         {election && <ElectionHeader election={election} />}
         {showLoader && (

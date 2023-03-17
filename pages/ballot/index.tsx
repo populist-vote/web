@@ -70,10 +70,9 @@ function BallotPage() {
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
   });
 
-  const { isLoading, isSuccess, error, selectedElectionId, selectedElection } =
-    useElections();
+  const electionData = useElections();
 
-  console.log("id", selectedElectionId, "e.id", selectedElection?.id);
+  const { isLoading, isSuccess, error, selectedElectionId } = electionData;
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
@@ -120,7 +119,11 @@ function BallotPage() {
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
         <div>
-          <TopNavElections selected="Ballot" showElectionSelector />
+          <TopNavElections
+            selected="Ballot"
+            showElectionSelector
+            electionData={electionData}
+          />
           {isSuccess && (
             <>
               <VotingGuideProvider votingGuideId={userGuideId}>

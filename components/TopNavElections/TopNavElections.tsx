@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { TopNav, ElectionSelector } from "components";
-import { useElections } from "hooks/useElections";
+import { useElectionsOutput } from "hooks/useElections";
 import { ElectionResult } from "generated";
 import styles from "./TopNavElections.module.scss";
 
@@ -9,9 +9,11 @@ type ElectionTab = "Ballot" | "VotingGuide";
 function TopNavElections({
   selected,
   showElectionSelector = false,
+  electionData,
 }: {
   selected: ElectionTab;
   showElectionSelector?: boolean;
+  electionData?: useElectionsOutput;
 }) {
   const {
     data,
@@ -19,7 +21,7 @@ function TopNavElections({
     isSuccess,
     selectedElectionId,
     setSelectedElectionId,
-  } = useElections();
+  } = electionData || {};
 
   return (
     <TopNav>
@@ -33,7 +35,7 @@ function TopNavElections({
         {showElectionSelector && (
           <li className={styles.electionSelector}>
             {isLoading && "..."}
-            {isSuccess && (
+            {isSuccess && setSelectedElectionId && (
               <ElectionSelector
                 elections={
                   data?.electionsByUserState as Partial<ElectionResult>[]

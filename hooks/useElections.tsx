@@ -55,3 +55,5 @@ export function useElections(initialSelectedElectionId?: string) {
     ...electionsQuery,
   };
 }
+
+export type useElectionsOutput = ReturnType<typeof useElections>;
