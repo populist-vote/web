@@ -146,6 +146,22 @@
     }
   }
 
+  .logoNavItem {
+    cursor: pointer;
+    a {
+      color: $text-primary;
+      transition: ease-in-out 0.3s;
+      display: block;
+      text-decoration: none;
+      padding: 0.5rem 0 0.5rem 0;
+      border-radius: 0.5rem;
+
+      &:hover {
+        background-color: $white-alpha-2;
+      }
+    }
+  }
+
   .navItem {
     font-family: $font-primary;
     background-color: $background-secondary;

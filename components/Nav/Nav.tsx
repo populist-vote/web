@@ -119,13 +119,15 @@ function Nav({
       {/* ///////// Desktop nav ///////// */}
 
       <div className={styles.navContent}>
-        <Link href="/home" passHref>
-          <div className={styles.logoContainer}>
-            <Logo height={100} />
-          </div>
-        </Link>
         <div className={styles.items}>
           <ul>
+            <li className={styles.logoNavItem}>
+              <Link href="/home" passHref>
+                <div className={styles.logoContainer}>
+                  <Logo height={100} />
+                </div>
+              </Link>
+            </li>
             {navItems.map(({ label, href }) => {
               const isNavItemActive =
                 (pathname.includes(href) && !hasVotingGuide) ||
