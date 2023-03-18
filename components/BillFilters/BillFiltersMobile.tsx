@@ -1,7 +1,7 @@
 import { Badge } from "components/Badge/Badge";
 import { Button } from "components/Button/Button";
 import { Select } from "components/Select/Select";
-import { BillStatus, PopularitySort } from "generated";
+import { BillStatus, PopularitySort, useBillYearsQuery } from "generated";
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import { BillIndexProps } from "pages/bills";
@@ -25,6 +25,19 @@ function BillFiltersMobile(props: BillIndexProps) {
     handleApplyFilters,
   } = useBillFilters();
 
+  const {
+    data: { billYears } = {},
+    isLoading: yearsLoading,
+    error: yearsError,
+  } = useBillYearsQuery();
+
+  const billYearOptions = billYears
+    ?.sort((a, b) => b - a)
+    .map((year) => ({
+      value: year.toString(),
+      label: year.toString(),
+    }));
+
   useLayoutEffect(() => {
     if (shouldFocusSearch === "true") {
       searchRef?.current?.focus();
@@ -33,19 +46,19 @@ function BillFiltersMobile(props: BillIndexProps) {
 
   return (
     <div className={styles.container}>
-      <section>
-        <h4>Year</h4>
-        <Select
-          backgroundtheme="blue"
-          onChange={handleYearFilter}
-          value={year}
-          options={[
-            { value: "2022", label: "2022" },
-            { value: "2021", label: "2021" },
-            { value: "2020", label: "2020" },
-          ]}
-        />
-      </section>
+      {!yearsLoading && !yearsError && (
+        <section className={styles.flex}>
+          <h4>Year</h4>
+          <Select
+            color="blue-dark"
+            backgroundColor="yellow"
+            placeholder="Select Year"
+            onChange={handleYearFilter}
+            value={year as string}
+            options={billYearOptions || []}
+          />
+        </section>
+      )}
       <section>
         <h4>Sort by Popularity</h4>
         <div className={styles.badgeGroup}>
