@@ -1,7 +1,7 @@
 import { Button, Layout, LoaderFlag } from "components";
 import { Box } from "components/Box/Box";
 import { TopNav } from "components/TopNav/TopNav";
-import { useOrganizationBySlugQuery } from "generated";
+import { OrganizationResult, useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -32,6 +32,29 @@ export async function getServerSideProps({
   };
 }
 
+function DashboardContent({
+  organization,
+}: {
+  organization?: OrganizationResult;
+}) {
+  return (
+    <Box>
+      <h3 style={{ marginTop: 0 }}>
+        Welcome to your new dashboard, {organization?.name}
+      </h3>
+      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
+        From here, you'll be able to create and edit your embedded content, gain
+        insights from your active embeds, and browse through our database of
+        bills, politicians and more.
+      </p>
+      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
+        If you have any questions, please reach out to us at{" "}
+        <a href="mailto:info@populist.us">info@populist.us</a>
+      </p>
+    </Box>
+  );
+}
+
 function Dashboard({ slug }: { slug: string }) {
   const router = useRouter();
 
@@ -57,21 +80,11 @@ function Dashboard({ slug }: { slug: string }) {
   return organizationQuery.isLoading || isLoading ? (
     <LoaderFlag />
   ) : (
-    <Box>
-      <h3 style={{ marginTop: 0 }}>
-        Welcome to your new dashboard,{" "}
-        {organizationQuery.data?.organizationBySlug.name}
-      </h3>
-      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-        From here, you'll be able to create and edit your embedded content, gain
-        insights from your active embeds, and browse through our database of
-        bills, politicians and more.
-      </p>
-      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-        If you have any questions, please reach out to us at{" "}
-        <a href="mailto:info@populist.us">info@populist.us</a>
-      </p>
-    </Box>
+    <DashboardContent
+      organization={
+        organizationQuery.data?.organizationBySlug as OrganizationResult
+      }
+    />
   );
 }
 
