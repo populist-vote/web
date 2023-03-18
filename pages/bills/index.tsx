@@ -19,6 +19,7 @@ import clsx from "clsx";
 import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { useAuth } from "hooks/useAuth";
 
 export async function getServerSideProps({
   locale,
@@ -59,7 +60,8 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { scope = PoliticalScope.Federal, state } = query;
+  const { user } = useAuth();
+  const { scope, state = user?.userProfile?.address?.state } = query;
   const { showFilters = "false" } = props.query || query;
   const isMobile = useMediaQuery("(max-width: 896px)");
 
