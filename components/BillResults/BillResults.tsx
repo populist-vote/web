@@ -26,7 +26,7 @@ function BillResults() {
   } = query;
 
   const shouldFetchBillResults =
-    !!search || !!state || !!status || !!year || !!popularity;
+    !!search || !!state || !!status || !!year || !!popularity || !!issue;
 
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
