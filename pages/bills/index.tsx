@@ -1,4 +1,4 @@
-import { Layout, Select } from "components";
+import { Layout } from "components";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -19,7 +19,6 @@ import clsx from "clsx";
 import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { useAuth } from "hooks/useAuth";
 
 export async function getServerSideProps({
   locale,
@@ -60,8 +59,7 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { user } = useAuth();
-  const { scope, state = user?.userProfile?.address?.state } = query;
+  const { scope = PoliticalScope.State } = query;
   const { showFilters = "false" } = props.query || query;
   const isMobile = useMediaQuery("(max-width: 896px)");
 
@@ -80,45 +78,23 @@ function BillIndex(props: BillIndexProps) {
       <TopNav>
         <ul>
           <li
-            className={scope !== PoliticalScope.Federal ? styles.selected : ""}
+            className={
+              scope === PoliticalScope.State
+                ? clsx(styles.selected, styles.yellow)
+                : ""
+            }
           >
-            <Select
-              onChange={(e) => {
-                if (e.target.value === "all") {
-                  const { state: _, ...newQuery } = query;
-                  void router.push({ query: newQuery });
-                } else {
-                  void router.push({
-                    query: {
-                      ...query,
-                      state: e.target.value,
-                      scope: PoliticalScope.State,
-                    },
-                  });
-                }
+            <Link
+              href={{
+                pathname: "/bills",
+                query: {
+                  ...query,
+                  scope: PoliticalScope.State,
+                },
               }}
-              onClick={() =>
-                void router.push({
-                  query: {
-                    ...query,
-                    scope: PoliticalScope.State,
-                  },
-                })
-              }
-              value={state as string}
-              options={[
-                {
-                  value: "CO",
-                  label: "Colorado",
-                },
-                {
-                  value: "MN",
-                  label: "Minnesota",
-                },
-              ]}
-              accentColor="yellow"
-              uppercase
-            />
+            >
+              State
+            </Link>
           </li>
           <li
             className={

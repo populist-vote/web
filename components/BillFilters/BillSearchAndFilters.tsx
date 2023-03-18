@@ -1,6 +1,7 @@
 import { Box } from "components/Box/Box";
 import { Button } from "components/Button/Button";
 import { Select } from "components/Select/Select";
+import { PoliticalScope } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -46,17 +47,19 @@ export function BillSearchAndFilters() {
           ></input>
           <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
         </div>
-        <Select
-          border="solid"
-          accentColor="yellow"
-          value={state as string}
-          disabled={scope === "FEDERAL"}
-          options={[
-            { value: "CO", label: "Colorado" },
-            { value: "MN", label: "Minnesota" },
-          ]}
-          onChange={handleStateChange}
-        />
+        {scope !== PoliticalScope.Federal && (
+          <Select
+            border="solid"
+            accentColor="yellow"
+            value={state as string}
+            disabled={scope === "FEDERAL"}
+            options={[
+              { value: "CO", label: "Colorado" },
+              { value: "MN", label: "Minnesota" },
+            ]}
+            onChange={handleStateChange}
+          />
+        )}
         <Button
           variant={
             showFiltersParam || hasFiltersApplied ? "primary" : "secondary"
