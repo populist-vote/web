@@ -161,6 +161,7 @@ type Bill {
 }
 
 input BillFilter {
+  issueTag: String
   politicalScope: PoliticalScope
   query: String
   state: State

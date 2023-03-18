@@ -22,6 +22,7 @@ function BillResults() {
     year = null,
     scope = null,
     popularity = null,
+    issue = null,
   } = query;
 
   const shouldFetchBillResults =
@@ -41,6 +42,7 @@ function BillResults() {
         politicalScope: scope as PoliticalScope,
         year: parseInt(year as string),
         status: status as BillStatus,
+        issueTag: issue as string,
       },
       sort: {
         popularity: popularity as PopularitySort,

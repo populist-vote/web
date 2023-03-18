@@ -126,6 +126,7 @@ function BillResultsTable() {
     search = null,
     year = null,
     scope = null,
+    issue = null,
     popularity = null,
     selected = null,
   } = query;
@@ -147,6 +148,7 @@ function BillResultsTable() {
         politicalScope: scope as PoliticalScope,
         year: parseInt(year as string),
         status: status as BillStatus,
+        issueTag: issue as string,
       },
       sort: {
         popularity: popularity as PopularitySort,
