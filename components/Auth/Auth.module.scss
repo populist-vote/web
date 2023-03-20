@@ -3,13 +3,16 @@
 @import "styles/mixins/media";
 
 .container {
-  min-width: 296px;
-  max-width: 496px;
+  width: auto;
   margin: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  > * {
+    max-width: 496px;
+  }
 
   h1 {
     margin: 0;

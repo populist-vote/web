@@ -15,8 +15,8 @@ function LogIn() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid, isDirty },
+  } = useForm({ mode: "onChange" });
 
   const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -86,7 +86,7 @@ function LogIn() {
             size="large"
             variant="primary"
             theme="blue"
-            disabled={login.isLoading}
+            disabled={login.isLoading || !isDirty || !isValid}
           />
 
           <br />
