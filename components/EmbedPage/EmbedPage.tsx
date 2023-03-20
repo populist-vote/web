@@ -6,10 +6,12 @@ import { CodeBlock } from "components/CodeBlock/CodeBlock";
 import { EmbedForm } from "components/EmbedForm/EmbedForm";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { EmbedResult, useEmbedByIdQuery } from "generated";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
 
 function EmbedPage({ slug, id }: { slug: string; id: string }) {
+  const [language, setLanguage] = useState<"html" | "react">("html");
   const { data, isLoading } = useEmbedByIdQuery(
     {
       id,
@@ -23,8 +25,8 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
 
   const billId = data?.embedById?.attributes?.billId as string;
 
-  const text = `
-    <div className="populist" /> <!-- You can use this div to overide 
+  const htmlText = `
+    <div class="populist" /> <!-- You can use this div to overide 
                                       the style of the widget if desired -->
     <script
       src="${window.location.origin}/widget-client.js"
@@ -32,6 +34,27 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
       data-bill-id="${billId}"
       />
     `;
+
+  const reactText = `
+      useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "${window.location.origin}/widget-client.js";
+        script.async = true;
+        script.setAttribute("data-embed-id", "${id}");
+        script.setAttribute("data-bill-id", "${billId}");
+        document.body.appendChild(script);
+        return () => {
+          document.body.removeChild(script);
+        };
+      }, [])
+
+      return <div className="populist" />
+      `;
+
+  const snippets = {
+    html: htmlText,
+    react: reactText,
+  };
 
   if (isLoading) return <LoaderFlag />;
 
@@ -54,7 +77,11 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
       <div className={clsx(styles.embedCode)}>
         <Box>
           <h4>Embed Code</h4>
-          <CodeBlock text={text} />
+          <CodeBlock
+            language={language}
+            setLanguage={setLanguage}
+            snippets={snippets}
+          />
         </Box>
       </div>
     </div>

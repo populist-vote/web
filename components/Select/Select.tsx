@@ -10,6 +10,7 @@ type SelectProps = {
   textColor?:
     | "white"
     | "yellow"
+    | "blue-text"
     | "blue"
     | "blue-dark"
     | "aqua"
@@ -19,6 +20,7 @@ type SelectProps = {
   accentColor?:
     | "white"
     | "yellow"
+    | "blue-text"
     | "blue"
     | "blue-dark"
     | "aqua"
@@ -41,7 +43,7 @@ function Select({
   onChange,
   value,
   options,
-  color = "white",
+  textColor = "white",
   accentColor,
   backgroundColor = "transparent",
   border = "none",
@@ -54,8 +56,8 @@ function Select({
     "--select-accent-color": string;
     "--select-background-color": string;
   } = {
-    [`--select-text-color`]: `var(--${color})`,
-    [`--select-accent-color`]: `var(--${accentColor || color})`,
+    [`--select-text-color`]: `var(--${textColor})`,
+    [`--select-accent-color`]: `var(--${accentColor || textColor})`,
     [`--select-background-color`]: `var(--${backgroundColor})`,
   };
 
