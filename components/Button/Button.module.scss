@@ -240,7 +240,7 @@ $small-size: 1.825rem;
 }
 
 .red.secondary {
-  @include secondary($red, $red, $red, transparent, $red, $white, $red);
+  @include secondary($red, $red, $red, "transparent", $red, $white, $white);
 }
 
 .aqua.primary {
