@@ -9,7 +9,12 @@ import {
   PoliticianResult,
   useBillByIdQuery,
 } from "generated";
-import { FaCheckCircle, FaCircle, FaQuestionCircle, FaTimesCircle } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaCircle,
+  FaQuestionCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
@@ -36,7 +41,7 @@ function BillWidget({ billId }: { billId: string }) {
           <h2 className={styles.title}>{bill.title}</h2>
           <div className={styles.tags}>
             {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
-              <Badge size ="small" theme="grey" key={tag.id} lightBackground>
+              <Badge size="small" theme="grey" key={tag.id} lightBackground>
                 {tag.name}
               </Badge>
             ))}
@@ -91,24 +96,30 @@ function BillWidget({ billId }: { billId: string }) {
         )}
       </section>
       <div className={styles.info}>
-        
         <div className={styles.votes}>
-          <Badge size="small" font="primary" style={{ width: "100%", justifyContent: "center" }}>
-            
-              <FaCheckCircle size={18} color="var(--green-support)" />
-              SUPPORT –   
-              {bill.publicVotes?.support ?? 0}
-            
+          <Badge
+            size="small"
+            font="primary"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
+            <FaCheckCircle size={18} color="var(--green-support)" />
+            SUPPORT –{bill.publicVotes?.support ?? 0}
           </Badge>
-          <Badge size="small" font="primary" style={{ width: "100%", justifyContent: "center" }}>
+          <Badge
+            size="small"
+            font="primary"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
             <FaTimesCircle size={18} color="var(--red)" />
-            OPPOSE –
-            {bill.publicVotes?.oppose ?? 0}{" "}
+            OPPOSE –{bill.publicVotes?.oppose ?? 0}{" "}
           </Badge>
-          <Badge size="small" font="primary" style={{ width: "100%", justifyContent: "center" }}>
+          <Badge
+            size="small"
+            font="primary"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
             <FaQuestionCircle size={18} color="var(--orange)" />
-            UNDECIDED –
-            {bill.publicVotes?.oppose ?? 0}{" "}
+            UNDECIDED –{bill.publicVotes?.oppose ?? 0}{" "}
           </Badge>
         </div>
       </div>

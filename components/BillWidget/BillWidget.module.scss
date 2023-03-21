@@ -13,7 +13,6 @@
 
   header,
   section:not(:last-child) {
-    
     width: 100%;
   }
 
@@ -65,14 +64,13 @@
         gap: 1rem;
         justify-content: flex-start;
         align-items: top;
-        
+
         @include scroll-snap;
       }
     }
   }
 
   .description {
-    
     text-align: left;
     margin-bottom: 0.5rem;
   }
