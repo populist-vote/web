@@ -30,6 +30,9 @@ query OrganizationById($id: ID!) {
   organizationById(id: $id) {
     slug
     name
+    assets {
+      thumbnailImage160
+    }
   }
 }
 

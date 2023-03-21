@@ -5,7 +5,10 @@ import { useState } from "react";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useAuth } from "hooks/useAuth";
 import styles from "./Nav.module.scss";
-import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+import {
+  ORGANIZATION_FALLBACK_IMAGE_URL,
+  PERSON_FALLBACK_IMAGE_URL,
+} from "utils/constants";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
@@ -149,7 +152,20 @@ function Nav({
                   })}
                 >
                   <Link href={`/dashboard/${organization.slug}`}>
-                    {organization.name}
+                    <div className={styles.orgDashboardLink}>
+                      <Avatar
+                        src={
+                          organization.assets.thumbnailImage160 ||
+                          ORGANIZATION_FALLBACK_IMAGE_URL
+                        }
+                        alt="organization logo"
+                        size={36}
+                      />
+                      <div className={styles.stack}>
+                        <h5>{organization.name}</h5>
+                        <small>Dashboard</small>
+                      </div>
+                    </div>
                   </Link>
                 </li>
               )}
