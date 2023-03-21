@@ -45,7 +45,7 @@
   .populist, .populist-frame {
     border-radius: 15px;
     width: 100%;
-    height: 36rem;
+    height: 90rem;
   }
 
   .populist-frame {

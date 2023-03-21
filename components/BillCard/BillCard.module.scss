@@ -22,13 +22,14 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    background-color: $grey-lighter;
+    background-color: $grey-lightest;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid $grey-lighter;
 
     strong {
-      font-size: 15px;
-      font-weight: 600px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: $font-primary;
     }
   }
 
