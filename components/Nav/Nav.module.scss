@@ -146,22 +146,6 @@
     }
   }
 
-  .logoNavItem {
-    cursor: pointer;
-    a {
-      color: $text-primary;
-      transition: ease-in-out 0.3s;
-      display: block;
-      text-decoration: none;
-      padding: 0.5rem 0 0.5rem 0;
-      border-radius: 0.5rem;
-
-      &:hover {
-        background-color: $white-alpha-2;
-      }
-    }
-  }
-
   .navItem {
     font-family: $font-primary;
     background-color: $background-secondary;
@@ -172,17 +156,9 @@
     margin: 1.25rem 0;
     cursor: pointer;
 
-    a {
-      color: $text-primary;
-      transition: ease-in-out 0.3s;
-      display: block;
-      text-decoration: none;
-      padding: 0.75rem;
-      margin: 0 0.75rem;
-      border-radius: 0.5rem;
-
-      &:hover {
-        background-color: $white-alpha-2;
+    &.logoNavItem {
+      a {
+        padding: 0.5rem 0 0.5rem 0;
       }
     }
 
@@ -194,6 +170,18 @@
         background-color: $blue-dark;
         color: $white;
         cursor: default;
+      }
+    }
+
+    a {
+      color: $text-primary;
+      transition: ease-in-out 0.3s;
+      display: block;
+      text-decoration: none;
+      padding: 0.75rem;
+
+      &:hover {
+        background-color: $white-alpha-2;
       }
     }
   }
