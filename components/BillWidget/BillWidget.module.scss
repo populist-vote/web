@@ -78,11 +78,11 @@
   .description {
     text-align: left;
     margin-bottom: 1rem;
-    max-height: 100px;
+    max-height: 105px;
     overflow: scroll;
 
     p {
-      margin: 0;
+      margin: 0.5rem 0 1rem;
     }
   }
 
@@ -142,11 +142,35 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 1rem 0 1rem;
+  margin: 1rem 0 0.5rem;
 }
 
 .tags {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+}
+
+.overflowGradient {
+  position: relative;
+}
+
+.overflowGradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1rem;
+  background: linear-gradient($grey-lightest, rgba(238, 238, 238, 0));
+}
+
+.overflowGradient::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1rem;
+  background: linear-gradient(rgba(238, 238, 238, 0), $grey-lightest);
 }
