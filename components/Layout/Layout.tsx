@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { Footer, Nav } from "components";
+import { Footer, Nav, NavItem } from "components";
 import styles from "./Layout.module.scss";
 import { useTranslation } from "next-i18next";
 
@@ -14,10 +14,7 @@ function Layout({
   mobileNavTitle?: string;
   showNavLogoOnMobile?: boolean;
   hasVotingGuide?: boolean;
-  navItems?: {
-    label: string;
-    href: string;
-  }[];
+  navItems?: NavItem[];
   hideFooter?: boolean;
 }>) {
   const { t } = useTranslation("common");
@@ -25,6 +22,7 @@ function Layout({
     {
       label: t("elections"),
       href: "/ballot",
+      childPaths: ["/voting-guides"],
     },
     {
       label: t("politicians"),
@@ -34,7 +32,8 @@ function Layout({
       label: t("legislation"),
       href: "/bills",
     },
-  ];
+  ] as NavItem[];
+
   return (
     <div className={styles.app}>
       <Nav
