@@ -29,7 +29,7 @@ import { LoaderFlag } from "./LoaderFlag/LoaderFlag";
 import { Logo, LogoBeta, LogoBetaDesktop, LogoText } from "./Logo";
 import { MobileTabs } from "./MobileTabs/MobileTabs";
 import { MPRLogo } from "./MPRLogo/MPRLogo";
-import { Nav } from "./Nav/Nav";
+import { Nav, NavItem } from "./Nav/Nav";
 import NoteIcon from "./Icons/NoteIcon";
 import { OfficeRaces } from "./Ballot/OfficeRaces";
 import { PasswordEntropyMeter } from "./Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
@@ -49,7 +49,7 @@ import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
 import { VotingGuideNav } from "./VotingGuide/VotingGuideNav/VotingGuideNav";
 import { Select } from "./Select/Select";
 
-export type { EditVotingGuideCandidate, FlagColor };
+export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
 export {
   Avatar,
