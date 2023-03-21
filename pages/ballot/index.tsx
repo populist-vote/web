@@ -15,7 +15,10 @@ import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import { useElections } from "hooks/useElections";
 
-import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
+import {
+  VOTING_GUIDE_WELCOME_VISIBLE,
+  SELECTED_ELECTION,
+} from "utils/constants";
 
 import {
   ElectionVotingGuideByUserIdQuery,
@@ -24,8 +27,9 @@ import {
   useUpsertVotingGuideMutation,
 } from "generated";
 
-import styles from "components/Layout/Layout.module.scss";
 import { SupportedLocale } from "types/global";
+
+import styles from "components/Layout/Layout.module.scss";
 
 export async function getServerSideProps({
   locale,
@@ -70,7 +74,9 @@ function BallotPage() {
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
   });
 
-  const electionData = useElections();
+  const electionData = useElections(
+    sessionStorage.getItem(SELECTED_ELECTION) || undefined
+  );
 
   const { isLoading, isSuccess, error, selectedElectionId } = electionData;
 

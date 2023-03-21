@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { TopNav, ElectionSelector } from "components";
 import { useElectionsOutput } from "hooks/useElections";
+import { SELECTED_ELECTION } from "utils/constants";
 import { ElectionResult } from "generated";
 import styles from "./TopNavElections.module.scss";
 
@@ -41,7 +42,12 @@ function TopNavElections({
                   data?.electionsByUserState as Partial<ElectionResult>[]
                 }
                 selectedElectionId={selectedElectionId as string}
-                setSelectedElectionId={setSelectedElectionId}
+                setSelectedElectionId={(id: string) => {
+                  setSelectedElectionId(id);
+                  try {
+                    sessionStorage.setItem(SELECTED_ELECTION, id);
+                  } catch (e) {}
+                }}
               />
             )}
           </li>

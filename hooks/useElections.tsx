@@ -29,21 +29,31 @@ export function useElections(initialSelectedElectionId?: string) {
 
   useEffect(() => {
     // Initialize initialSelectedElectionId since it is asyncronous
-    if (!intialized && initialSelectedElectionId) {
-      setSelectedElectionId(initialSelectedElectionId);
+    if (!intialized && initialSelectedElectionId && elections) {
+      const initialSelectionValid =
+        elections.find((e) => e.id === initialSelectedElectionId) !== undefined;
+
+      if (initialSelectionValid) {
+        setSelectedElectionId(initialSelectedElectionId);
+      } else {
+        setSelectedElectionId(elections[0]?.id);
+      }
+
       setInitialized(true);
     }
-  }, [initialSelectedElectionId, intialized, setInitialized]);
+  }, [elections, initialSelectedElectionId, intialized, setInitialized]);
 
   useEffect(() => {
-    // If no initialSelectedElectionId is supplied, set to first election in list
-    if (isSuccess && elections && !initialSelectedElectionId)
+    // If no initialSelectedElectionId is supplied, set to first in list
+    if (isSuccess && elections && !initialSelectedElectionId) {
       setSelectedElectionId(elections[0]?.id);
+    }
   }, [isSuccess, elections, initialSelectedElectionId]);
 
   const selectedElection = useMemo(() => {
     return selectedElectionId
-      ? data?.electionsByUser.find((e) => e.id)
+      ? data?.electionsByUser.find((e) => e.id === selectedElectionId) !==
+          undefined
       : undefined;
   }, [selectedElectionId, data?.electionsByUser]);
 

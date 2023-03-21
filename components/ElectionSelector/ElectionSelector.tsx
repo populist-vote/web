@@ -1,8 +1,6 @@
 import { ElectionResult } from "generated";
 import { LeftArrowIcon, RightArrowIcon } from "components/Icons";
-// import { dateString } from "utils/dates";
 import styles from "./ElectionSelector.module.scss";
-// import { useMediaQuery } from "hooks/useMediaQuery";
 
 function ElectionSelector({
   elections = [],
@@ -23,7 +21,6 @@ function ElectionSelector({
   const hasNextElection =
     typeof elections[currentElectionIndex + 1] !== "undefined";
   const nextElection = elections[currentElectionIndex + 1];
-  // const isSmallScreen = useMediaQuery("(max-width: 896px)");
 
   if (elections.length <= 1) return null;
 
