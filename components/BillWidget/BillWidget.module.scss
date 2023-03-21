@@ -35,12 +35,17 @@
     align-items: center;
     padding: 0 1rem;
     > * {
-      padding: 1.5rem;
+      padding: 1.5rem 1rem;
+    }
+
+    .title {
+      margin-bottom: 1rem;
+      margin-top: 0;
+      line-height: 1.4em;
     }
 
     h2 {
       font-family: $font-secondary;
-      margin-top: 0;
     }
 
     h4 {
@@ -72,7 +77,13 @@
 
   .description {
     text-align: left;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    max-height: 100px;
+    overflow: scroll;
+
+    p {
+      margin: 0;
+    }
   }
 
   .info {
@@ -131,7 +142,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 1rem 0 0.5rem;
+  margin: 1rem 0 1rem;
 }
 
 .tags {
