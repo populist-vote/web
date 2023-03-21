@@ -15,19 +15,21 @@ import clsx from "clsx";
 import { useTranslation } from "next-i18next";
 import { useOrganizationByIdQuery } from "generated";
 
+export interface NavItem {
+  label: string;
+  href: string;
+  childPaths?: string[];
+}
+
 function Nav({
   mobileNavTitle,
   showLogoOnMobile,
-  hasVotingGuide,
   navItems,
 }: {
   mobileNavTitle?: string;
   showLogoOnMobile: boolean;
   hasVotingGuide?: boolean;
-  navItems: {
-    label: string;
-    href: string;
-  }[];
+  navItems: NavItem[];
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
   const { asPath, pathname } = useRouter();
@@ -121,17 +123,23 @@ function Nav({
       <div className={styles.navContent}>
         <div className={styles.items}>
           <ul>
-            <li className={styles.logoNavItem}>
+            <li
+              className={clsx(
+                styles.navItem,
+                styles.logoNavItem,
+                pathname.includes("/home") && styles.active
+              )}
+            >
               <Link href="/home" passHref>
                 <div className={styles.logoContainer}>
                   <Logo height={100} />
                 </div>
               </Link>
             </li>
-            {navItems.map(({ label, href }) => {
+            {navItems.map(({ label, href, childPaths }) => {
               const isNavItemActive =
-                (pathname.includes(href) && !hasVotingGuide) ||
-                (href === "/voting-guides" && hasVotingGuide);
+                pathname.includes(href) ||
+                (childPaths && childPaths.find((p) => pathname.includes(p)));
 
               return (
                 <li
