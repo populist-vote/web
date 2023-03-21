@@ -6,14 +6,14 @@
 .billCard {
   width: auto;
   height: auto;
-  border: 1px solid $grey;
-  background: $grey-lighter;
+  border: 1px solid $grey-light;
+  background: $grey-lightest;
   text-align: center;
   max-width: none;
 
   header,
   section:not(:last-child) {
-    border-bottom: 1px solid $grey;
+    
     width: 100%;
   }
 
@@ -24,7 +24,9 @@
   }
 
   .header {
-    background: $grey-light;
+    background: $grey-lighter;
+    font-family: $font-primary;
+    border-bottom: 1px solid $grey-light;
   }
 
   .cardContent {
@@ -37,14 +39,15 @@
       padding: 1.5rem;
     }
 
-    h2,
-    h4 {
-      margin: 0 0 1.5rem;
+    h2 {
+      font-family: $font-secondary;
+      margin-top: 0;
     }
 
     h4 {
       font-size: $text-sm !important;
       font-weight: 500;
+      margin: 0 0 1.5rem;
     }
 
     p {
@@ -52,7 +55,8 @@
     }
 
     .sponsors {
-      border-top: 1px solid $grey;
+      border-top: 1px solid $grey-light;
+      border-bottom: 1px solid $grey-light;
       width: 100%;
 
       .sponsorsScroller {
@@ -60,17 +64,17 @@
         flex-direction: row;
         gap: 1rem;
         justify-content: flex-start;
-        align-items: center;
-
+        align-items: top;
+        
         @include scroll-snap;
       }
     }
   }
 
   .description {
-    @include clamp-ellipsis(10);
-
-    margin-bottom: 0.75rem;
+    
+    text-align: left;
+    margin-bottom: 0.5rem;
   }
 
   .info {
@@ -82,8 +86,12 @@
 
     .votes {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       gap: 1rem;
+      margin-top: 1rem;
+      width: 100%;
     }
   }
 
@@ -91,7 +99,6 @@
     padding: 1rem;
     display: flex;
     flex-direction: row;
-    border-top: 1px solid $grey;
     justify-content: center;
   }
 }
@@ -119,4 +126,18 @@
   font-size: 13px;
   font-style: italic;
   color: $grey;
+}
+
+.status {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0 0.5rem;
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
 }

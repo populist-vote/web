@@ -5,6 +5,7 @@ import clsx from "clsx";
 interface BadgeProps {
   theme?: "blue" | "green" | "red" | "yellow" | "grey" | "violet" | "orange";
   size?: "small" | "medium" | "large";
+  font?: "primary" | "secondary";
   iconLeft?: ReactNode;
   label?: string;
   selected?: boolean;
@@ -16,6 +17,7 @@ interface BadgeProps {
 function Badge({
   theme = "grey",
   size = "medium",
+  font = "secondary",
   iconLeft,
   label,
   selected,
@@ -29,6 +31,7 @@ function Badge({
     [styles.lightBackground as string]: lightBackground,
     [styles.clickable as string]: clickable,
     [styles[theme as string] as string]: theme,
+    [styles[font as string] as string]: font,
   });
 
   return (

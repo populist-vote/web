@@ -16,7 +16,7 @@ function EmbedTest() {
     };
   }, []);
 
-  return <div className="populist" />;
+  return <div className="populist" style={{ maxWidth: "512px" }} />;
 }
 
 export default EmbedTest;

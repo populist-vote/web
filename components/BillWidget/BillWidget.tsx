@@ -9,8 +9,7 @@ import {
   PoliticianResult,
   useBillByIdQuery,
 } from "generated";
-import { FaCheckCircle, FaCircle } from "react-icons/fa";
-import { RiCloseCircleFill } from "react-icons/ri";
+import { FaCheckCircle, FaCircle, FaQuestionCircle, FaTimesCircle } from "react-icons/fa";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
@@ -37,21 +36,34 @@ function BillWidget({ billId }: { billId: string }) {
           <h2 className={styles.title}>{bill.title}</h2>
           <div className={styles.tags}>
             {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
-              <Badge theme="grey" key={tag.id} lightBackground>
+              <Badge size ="small" theme="grey" key={tag.id} lightBackground>
                 {tag.name}
               </Badge>
             ))}
           </div>
+          <div className={styles.status}>
+            <Badge
+              size="small"
+              font="primary"
+              iconLeft={
+                <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+              }
+              theme={statusInfo?.color}
+              lightBackground
+            >
+              {titleCase(bill.status?.replaceAll("_", " ") as string)}
+            </Badge>
+          </div>
           <div className={styles.description}>
-            <p>{bill.description}</p>
+            <p>{bill.populistSummary}</p>
           </div>
           <a href={bill.fullTextUrl as string} target="_blank" rel="noreferrer">
             <Button
               variant="secondary"
-              size="medium"
-              label="Read Full Text"
+              size="small"
+              label="Full Text"
               style={{
-                background: "var(--grey-lighter)",
+                background: "var(--grey-lightest)",
                 color: "var(--blue-dark)",
               }}
             />
@@ -79,24 +91,23 @@ function BillWidget({ billId }: { billId: string }) {
         )}
       </section>
       <div className={styles.info}>
-        <Badge
-          iconLeft={
-            <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
-          }
-          theme={statusInfo?.color}
-          lightBackground
-        >
-          {titleCase(bill.status?.replaceAll("_", " ") as string)}
-        </Badge>
+        
         <div className={styles.votes}>
-          <Badge>
-            SUPPORT
-            <FaCheckCircle size={18} color="var(--green-support)" />
-            {bill.publicVotes?.support ?? 0}
+          <Badge size="small" font="primary" style={{ width: "100%", justifyContent: "center" }}>
+            
+              <FaCheckCircle size={18} color="var(--green-support)" />
+              SUPPORT –   
+              {bill.publicVotes?.support ?? 0}
+            
           </Badge>
-          <Badge>
-            OPPOSE
-            <RiCloseCircleFill size={18} color="var(--red)" />
+          <Badge size="small" font="primary" style={{ width: "100%", justifyContent: "center" }}>
+            <FaTimesCircle size={18} color="var(--red)" />
+            OPPOSE –
+            {bill.publicVotes?.oppose ?? 0}{" "}
+          </Badge>
+          <Badge size="small" font="primary" style={{ width: "100%", justifyContent: "center" }}>
+            <FaQuestionCircle size={18} color="var(--orange)" />
+            UNDECIDED –
             {bill.publicVotes?.oppose ?? 0}{" "}
           </Badge>
         </div>
