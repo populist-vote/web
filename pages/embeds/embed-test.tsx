@@ -3,7 +3,7 @@ import { useEffect } from "react";
 function EmbedTest() {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "http://localhost:3030/widget-client.js";
+    script.src = `${window.location.origin}/widget-client.js`;
     script.async = true;
     script.setAttribute(
       "data-embed-id",
