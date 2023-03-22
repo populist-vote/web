@@ -16,8 +16,8 @@ function EndorsementsBar({ endorsements }: Props) {
 
   const numEndorsements = endorsements.length;
 
-  const democraticFr = (numDemocrats / numEndorsements) * 10;
-  const republicanFr = (numRepublicans / numEndorsements) * 10 > 1 ? 3 : 0;
+  const democraticFr = Math.ceil(numDemocrats / numEndorsements) * 10;
+  const republicanFr = Math.ceil(numRepublicans / numEndorsements) * 10;
 
   const styleVars = {
     "--democratic-fr": `${democraticFr}fr`,
