@@ -69,7 +69,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
       <div className={clsx(styles.preview)}>
         <h3>Preview</h3>
         {billId ? (
-          <BillWidget billId={billId} />
+          <BillWidget billId={billId} origin={window.location.origin} />
         ) : (
           <BillWidgetSkeleton embedId={id} slug={slug} />
         )}
