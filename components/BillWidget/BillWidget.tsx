@@ -54,8 +54,10 @@ function BillWidget({ billId }: { billId: string }) {
               {titleCase(bill.status?.replaceAll("_", " ") as string)}
             </Badge>
           </div>
-          <div className={styles.description}>
-            <p>{bill.populistSummary}</p>
+          <div className={styles.overflowGradient}>
+            <div className={styles.description}>
+              <p>{bill.populistSummary}</p>
+            </div>
           </div>
           <a href={bill.fullTextUrl as string} target="_blank" rel="noreferrer">
             <Button
