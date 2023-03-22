@@ -9,16 +9,32 @@ import {
   PoliticianResult,
   useBillByIdQuery,
 } from "generated";
+import { useEffect } from "react";
 import { FaCircle } from "react-icons/fa";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
+import { emitData, IResizeHeightMessage } from "utils/messages";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 
-function BillWidget({ billId }: { billId: string }) {
+function BillWidget({ billId, origin }: { billId: string; origin: string }) {
   const { data, isLoading, error } = useBillByIdQuery({ id: billId });
   const bill = data?.billById as BillResult;
   const statusInfo = getStatusInfo(bill?.status as BillStatus);
+
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      emitData<IResizeHeightMessage>(
+        { resizeHeight: entry.contentRect.height },
+        origin
+      );
+    });
+
+    observer.observe(document.querySelector("body") as HTMLBodyElement);
+    return () => observer.disconnect();
+  }, [origin]);
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this bill.</div>;

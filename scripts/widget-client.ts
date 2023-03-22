@@ -4,10 +4,12 @@
   const attributes = script.dataset;
   const params: Record<string, string> = {};
 
-  params.billId = attributes.billId as string;
-
   const url = new URL(location.href);
   const cleanedLocation = url.toString();
+
+  params.billId = attributes.billId as string;
+  params.origin = cleanedLocation;
+
   const existingContainer = document.querySelector(".populist");
   const id = existingContainer && existingContainer.id;
   if (id) {
@@ -45,7 +47,6 @@
   .populist, .populist-frame {
     border-radius: 15px;
     width: 100%;
-    height: 40rem;
   }
 
   .populist-frame {
@@ -69,4 +70,16 @@
     while (existingContainer.firstChild) existingContainer.firstChild.remove();
     existingContainer.appendChild(iframeElement);
   }
+
+  // Resize iframe by listening to messages
+  window.addEventListener("message", (event) => {
+    if (event.origin !== populistOrigin) return;
+    const { data } = event;
+    console.log("heeeredadfasdf", data);
+    if (!(typeof data === "object" && data.populist)) return;
+
+    if (data.populist.resizeHeight) {
+      iframeElement.style.height = `${data.populist.resizeHeight}px`;
+    }
+  });
 })();
