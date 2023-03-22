@@ -20,8 +20,8 @@ function EndorsementsBar({ endorsements }: Props) {
   const republicanFr = Math.ceil((numRepublicans / numEndorsements) * 10);
 
   const styleVars = {
-    "--democratic-fr": `${democraticFr}fr`,
-    "--republican-fr": `${republicanFr}fr`,
+    "--democratic-fr": democraticFr > 0 ? `${democraticFr}fr` : "",
+    "--republican-fr": republicanFr > 0 ? `${republicanFr}fr` : "",
   } as React.CSSProperties;
 
   return (
