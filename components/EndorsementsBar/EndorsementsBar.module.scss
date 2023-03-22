@@ -1,0 +1,29 @@
+@import "styles/variables/colors";
+
+.container {
+  border: 1px solid white;
+  border-radius: 25px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: var(--democratic-fr) var(--republican-fr);
+  height: 25px;
+
+  div {
+    color: white;
+    font-weight: bold;
+    font-size: calc(0.5em + 0.15vw);
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+
+    &.democratic {
+      background-color: $blue;
+    }
+
+    &.republican {
+      background-color: $red;
+    }
+  }
+}
