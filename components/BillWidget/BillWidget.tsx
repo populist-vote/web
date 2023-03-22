@@ -1,11 +1,11 @@
-import { Button, LoaderFlag, PartyAvatar } from "components";
+import { Button, LoaderFlag } from "components";
 import { Badge } from "components/Badge/Badge";
+import { EndorsementsBar } from "components/EndorsementsBar/EndorsementsBar";
 import { LogoTextDark } from "components/Logo";
 import {
   BillResult,
   BillStatus,
   IssueTagResult,
-  PoliticalParty,
   PoliticianResult,
   useBillByIdQuery,
 } from "generated";
@@ -59,7 +59,12 @@ function BillWidget({ billId }: { billId: string }) {
               <p>{bill.populistSummary}</p>
             </div>
           </div>
-          <a href={bill.fullTextUrl as string} target="_blank" rel="noreferrer">
+          <a
+            href={bill.fullTextUrl as string}
+            target="_blank"
+            rel="noreferrer"
+            style={{ width: "auto" }}
+          >
             <Button
               variant="secondary"
               size="small"
@@ -74,21 +79,9 @@ function BillWidget({ billId }: { billId: string }) {
         {bill.sponsors?.length > 0 && (
           <section className={styles.sponsors}>
             <h4>Sponsors</h4>
-            <div className={styles.sponsorsScroller}>
-              {bill.sponsors?.map((sponsor: Partial<PoliticianResult>) => (
-                <div key={sponsor.id} className={styles.sponsor}>
-                  <PartyAvatar
-                    party={sponsor?.party as PoliticalParty}
-                    src={sponsor?.thumbnailImageUrl as string}
-                    alt={sponsor?.fullName as string}
-                    size={80}
-                  />
-                  <div className={styles.sponsorInfo}>
-                    <strong>{sponsor.fullName}</strong>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <EndorsementsBar
+              endorsements={bill.sponsors as PoliticianResult[]}
+            />
           </section>
         )}
       </section>
