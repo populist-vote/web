@@ -27,10 +27,14 @@ function EndorsementsBar({ endorsements }: Props) {
   return (
     <div className={styles.container} style={styleVars}>
       {numDemocrats > 0 && (
-        <div className={styles.democratic}>{numDemocrats} Democratic</div>
+        <div className={styles.democratic}>
+          <span>{numDemocrats}</span>Democratic
+        </div>
       )}
       {numRepublicans > 0 && (
-        <div className={styles.republican}>{numRepublicans} Republican</div>
+        <div className={styles.republican}>
+          <span>{numRepublicans}</span>Republican
+        </div>
       )}
     </div>
   );

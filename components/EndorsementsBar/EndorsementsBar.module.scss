@@ -16,13 +16,16 @@
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
+    gap: 0.25rem;
 
     &.democratic {
       background-color: $blue;
+      min-width: 100px;
     }
 
     &.republican {
       background-color: $red;
+      min-width: 100px;
     }
   }
 }
