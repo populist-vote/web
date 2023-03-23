@@ -128,9 +128,7 @@ function BallotPage() {
           {isSuccess && (
             <>
               <ElectionSelector
-                elections={
-                  data?.electionsByUserState as Partial<ElectionResult>[]
-                }
+                elections={data?.electionsByUser as Partial<ElectionResult>[]}
                 selectedElectionId={selectedElectionId as string}
                 setSelectedElectionId={setSelectedElectionId}
               />

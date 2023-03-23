@@ -13,7 +13,7 @@ export function useElections(initialSelectedElectionId?: string) {
   const elections = useMemo(
     () =>
       data
-        ? [...(data?.electionsByUserState as ElectionResult[])].sort((a, b) => {
+        ? [...(data?.electionsByUser as ElectionResult[])].sort((a, b) => {
             const today = new Date();
             const distancea = Math.abs(
               today.getTime() - new Date(a.electionDate).getTime()
@@ -42,16 +42,14 @@ export function useElections(initialSelectedElectionId?: string) {
 
   const selectedElection = useMemo(
     () =>
-      selectedElectionId
-        ? data?.electionsByUserState.find((e) => e.id)
-        : undefined,
-    [selectedElectionId, data?.electionsByUserState]
+      selectedElectionId ? data?.electionsByUser.find((e) => e.id) : undefined,
+    [selectedElectionId, data?.electionsByUser]
   );
 
   return {
     selectedElectionId,
     setSelectedElectionId,
-    elections: data?.electionsByUserState as ElectionResult[],
+    elections: data?.electionsByUser as ElectionResult[],
     selectedElection,
     ...electionsQuery,
   };

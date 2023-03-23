@@ -894,7 +894,7 @@ type Query {
     """Search by slug or title"""
     search: ElectionSearchInput
   ): [ElectionResult!]!
-  electionsByUserState: [ElectionResult!]!
+  electionsByUser: [ElectionResult!]!
   embedById(id: ID!): EmbedResult!
   embedsByOrganization(organizationId: ID!): [EmbedResult!]!
 
@@ -1303,6 +1303,7 @@ input UpsertElectionInput {
   """Must use format YYYY-MM-DD"""
   electionDate: NaiveDate
   id: UUID
+  municipality: String
   slug: String
   state: State
   title: String
