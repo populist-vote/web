@@ -45,6 +45,7 @@ function ElectionInfoSection() {
   });
   const politicianId = data?.politicianBySlug?.id;
   const upcomingRace = data?.politicianBySlug?.upcomingRace;
+  const isPastElection = new Date(upcomingRace?.electionDate) < new Date();
 
   if (isLoading) return <LoaderFlag />;
 
@@ -60,14 +61,18 @@ function ElectionInfoSection() {
       style={{ borderTop: "1px solid var(--blue-dark)" }}
     >
       <div>
-        <h4 className={styles.subHeader}>Next Election</h4>
+        <h4 className={styles.subHeader}>
+          {isPastElection ? "Last Election" : "Next Election"}
+        </h4>
         <div className={`${styles.box} ${styles.roundedCard} `}>
           <h3>{upcomingRace?.raceType}</h3>
           <h2>{dateString(upcomingRace?.electionDate, true)}</h2>
         </div>
       </div>
       <div>
-        <h4 className={styles.subHeader}>Running For</h4>
+        <h4 className={styles.subHeader}>
+          {isPastElection ? "Ran For" : "Running For"}
+        </h4>
         <div className={`${styles.box} ${styles.roundedCard} `}>
           <h3>{upcomingRace?.office.subtitle}</h3>
           <h2>{upcomingRace?.office.name || upcomingRace?.office.title}</h2>
