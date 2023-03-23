@@ -82,7 +82,7 @@ function ElectionInfoSection() {
         <h4 className={styles.subHeader}>
           Opponent{opponents.length > 1 && "s"}
         </h4>
-        <div className={`${styles.roundedCard} ${styles.boxOpponent}`}>
+        <div className={clsx(styles.boxOpponent, styles.roundedCard)}>
           {opponents.length == 0 ? (
             <h3 style={{ justifySelf: "center", width: "100%" }}>None</h3>
           ) : (

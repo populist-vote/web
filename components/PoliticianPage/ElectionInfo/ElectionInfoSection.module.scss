@@ -27,15 +27,15 @@ $box-height: 14rem;
         margin-bottom: 0.8rem;
       }
     }
-
-    .boxOpponent {
-      height: $box-height;
-      overflow: scroll;
-      justify-content: flex-start;
-      display: inline-flex;
-      align-items: center;
-    }
   }
+}
+
+.boxOpponent {
+  height: $box-height;
+  overflow: scroll;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
 
 section.wrapper {
