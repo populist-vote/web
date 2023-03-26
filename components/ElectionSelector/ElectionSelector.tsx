@@ -13,8 +13,6 @@ function ElectionSelector({
   selectedElectionId: string;
   setSelectedElectionId: (electionId: string) => void;
 }) {
-  console.log("elections", elections);
-
   const currentElectionIndex = elections.findIndex(
     (e) => e.id === selectedElectionId
   );
