@@ -23,7 +23,7 @@ function BillWidgetPage({
   originHost: string;
 }) {
   const resolvedOrigin =
-    origin || (typeof location === "undefined" ? "" : location.href);
+    originHost || (typeof location === "undefined" ? "" : location.href);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {

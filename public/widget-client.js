@@ -54,7 +54,6 @@
         if (event.origin !== populistOrigin)
             return;
         var data = event.data;
-        console.log("heeeredadfasdf", data);
         if (!(typeof data === "object" && data.populist))
             return;
         if (data.populist.resizeHeight) {
