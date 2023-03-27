@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 function VotingGuideWelcome({ onClose }: { onClose: () => void }) {
   return (
     <>
-      <TopNavElections selected="VotingGuide" />
+      <TopNavElections selected="Ballot" />
       <div className={styles.container}>
         <section
           className={clsx(styles.center, VotingGuideWelcomeStyles.content)}
