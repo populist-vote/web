@@ -13,7 +13,7 @@ import {
 
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { useElections } from "hooks/useElections";
+import { useElections, useElectionsOutput } from "hooks/useElections";
 
 import {
   VOTING_GUIDE_WELCOME_VISIBLE,
@@ -124,34 +124,47 @@ function BallotPage() {
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
-        <div>
-          <TopNavElections
-            selected="Ballot"
-            showElectionSelector
-            electionData={electionData}
-          />
-          {isSuccess && (
-            <>
-              <VotingGuideProvider votingGuideId={userGuideId}>
-                {isLoading && (
-                  <div className={styles.center}>
-                    <LoaderFlag />
-                  </div>
-                )}
-                {error && (
-                  <h4>Something went wrong fetching your ballot data...</h4>
-                )}
-                {selectedElectionId && (
-                  <div data-testid="ballot-page">
-                    <Election electionId={selectedElectionId} />
-                  </div>
-                )}
-              </VotingGuideProvider>
-            </>
-          )}
-        </div>
+        <BallotContent electionData={electionData} userGuideId={userGuideId} />
       )}
     </>
+  );
+}
+
+function BallotContent({
+  electionData,
+  userGuideId,
+}: {
+  electionData: useElectionsOutput;
+  userGuideId: string;
+}) {
+  const { isLoading, isSuccess, error, selectedElectionId } = electionData;
+  return (
+    <div>
+      {isSuccess && (
+        <>
+          <VotingGuideProvider votingGuideId={userGuideId}>
+            <TopNavElections
+              selected="Ballot"
+              showElectionSelector
+              electionData={electionData}
+            />
+            {isLoading && (
+              <div className={styles.center}>
+                <LoaderFlag />
+              </div>
+            )}
+            {error && (
+              <h4>Something went wrong fetching your ballot data...</h4>
+            )}
+            {selectedElectionId && (
+              <div data-testid="ballot-page">
+                <Election electionId={selectedElectionId} />
+              </div>
+            )}
+          </VotingGuideProvider>
+        </>
+      )}
+    </div>
   );
 }
 
