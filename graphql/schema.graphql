@@ -181,7 +181,7 @@ type BillResult {
   issueTags: [IssueTagResult!]!
   legiscanBillId: Int
   legiscanCommitteeName: String
-  legiscanData: Bill!
+  legiscanData: Bill
   officialSummary: String
   politicalScope: PoliticalScope!
   populistSummary: String
