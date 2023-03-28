@@ -78,7 +78,7 @@ function BallotPage() {
     sessionStorage.getItem(SELECTED_ELECTION) || undefined
   );
 
-  const { isLoading, isSuccess, error, selectedElectionId } = electionData;
+  const { error, selectedElectionId } = electionData;
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
