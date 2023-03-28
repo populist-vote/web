@@ -29,7 +29,7 @@ import { LoaderFlag } from "./LoaderFlag/LoaderFlag";
 import { Logo, LogoBeta, LogoBetaDesktop, LogoText } from "./Logo";
 import { MobileTabs } from "./MobileTabs/MobileTabs";
 import { MPRLogo } from "./MPRLogo/MPRLogo";
-import { Nav, NavItem } from "./Nav/Nav";
+import { Nav, NavItem, DashboardLink } from "./Nav/Nav";
 import NoteIcon from "./Icons/NoteIcon";
 import { OfficeRaces } from "./Ballot/OfficeRaces";
 import { PasswordEntropyMeter } from "./Auth/Register/PasswordEntropyMeter/PasswordEntropyMeter";
@@ -65,6 +65,7 @@ export {
   Button,
   Candidate,
   ColoredSection,
+  DashboardLink,
   ElectionInfoSection,
   ElectionSelector,
   FieldSet,

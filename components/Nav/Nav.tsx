@@ -13,7 +13,11 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
-import { useOrganizationByIdQuery, AuthTokenResult } from "generated";
+import {
+  useOrganizationByIdQuery,
+  AuthTokenResult,
+  OrganizationResult,
+} from "generated";
 
 export interface NavItem {
   label: string;
@@ -63,10 +67,7 @@ function Nav({
 
   return (
     <nav className={navStyles}>
-      {/* ///////// Mobile Nav ///////// */}
       <MobileNav {...{ mobileNavTitle, showLogoOnMobile, user }} />
-
-      {/* ///////// Desktop nav ///////// */}
       <DesktopNav {...{ navItems, user }} />
     </nav>
   );
@@ -187,22 +188,9 @@ function DesktopNav({
                   [styles.active as string]: pathname.includes("/dashboard"),
                 })}
               >
-                <Link href={`/dashboard/${organization.slug}`}>
-                  <div className={styles.orgDashboardLink}>
-                    <Avatar
-                      src={
-                        organization.assets.thumbnailImage160 ||
-                        ORGANIZATION_FALLBACK_IMAGE_URL
-                      }
-                      alt="organization logo"
-                      size={36}
-                    />
-                    <div className={styles.stack}>
-                      <h5>{organization.name}</h5>
-                      <small>Dashboard</small>
-                    </div>
-                  </div>
-                </Link>
+                <DashboardLink
+                  organization={organization as OrganizationResult}
+                />
               </li>
             )}
             <div className={styles.flexColumn}>
@@ -239,4 +227,25 @@ function DesktopNav({
   );
 }
 
-export { Nav };
+function DashboardLink({ organization }: { organization: OrganizationResult }) {
+  return (
+    <Link href={`/dashboard/${organization.slug}`}>
+      <div className={styles.orgDashboardLink}>
+        <Avatar
+          src={
+            organization.assets.thumbnailImage160 ||
+            ORGANIZATION_FALLBACK_IMAGE_URL
+          }
+          alt="organization logo"
+          size={36}
+        />
+        <div className={styles.stack}>
+          <h5>{organization.name}</h5>
+          <small>Dashboard</small>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export { Nav, DashboardLink };
