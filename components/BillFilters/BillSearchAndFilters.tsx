@@ -12,7 +12,7 @@ import styles from "./BillSearchAndFilters.module.scss";
 export function BillSearchAndFilters() {
   const router = useRouter();
   const { query } = router;
-  const { user } = useAuth();
+  const { user } = useAuth({ redirect: false });
   const {
     search,
     showFilters = "false",
