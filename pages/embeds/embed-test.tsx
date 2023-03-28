@@ -23,7 +23,7 @@ function EmbedTest() {
       <hr style={{ margin: "2rem" }} />
       <div className="populist-06481be1-e1a4-4082-92c6-f8c46f28d802" />
       <Script
-        src="http://localhost:3030/widget-client.js"
+        src={`${window.location.origin}/widget-client.js`}
         data-embed-id="06481be1-e1a4-4082-92c6-f8c46f28d802"
         data-bill-id="91376f34-6f81-4006-ae34-82a7098236ab"
       />
