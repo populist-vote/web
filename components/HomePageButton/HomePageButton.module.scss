@@ -12,7 +12,7 @@ a.container {
   font-size: $text-xxl;
   font-family: $font-primary;
   font-weight: 500;
-  color: $white;
+  color: $white !important; //Layout module is overriding due to higher specificity
   cursor: pointer;
   text-transform: none;
   border: none;
