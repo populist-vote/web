@@ -1,11 +1,11 @@
 import { PoliticianResult } from "generated";
-import styles from "./EndorsementsBar.module.scss";
+import styles from "./SponsorsBar.module.scss";
 
 interface Props {
   endorsements: Partial<PoliticianResult>[];
 }
 
-function EndorsementsBar({ endorsements }: Props) {
+function SponsorsBar({ endorsements }: Props) {
   const numDemocrats = endorsements.filter((e) =>
     e.party?.includes("DEMOCRATIC")
   ).length;
@@ -40,4 +40,4 @@ function EndorsementsBar({ endorsements }: Props) {
   );
 }
 
-export { EndorsementsBar };
+export { SponsorsBar };

@@ -1,6 +1,6 @@
 import { Button, LoaderFlag } from "components";
 import { Badge } from "components/Badge/Badge";
-import { EndorsementsBar } from "components/EndorsementsBar/EndorsementsBar";
+import { SponsorsBar } from "components/SponsorsBar/SponsorsBar";
 import { LogoTextDark } from "components/Logo";
 import {
   BillResult,
@@ -95,16 +95,16 @@ function BillWidget({ billId, origin }: { billId: string; origin: string }) {
         {bill.sponsors?.length > 0 && (
           <section className={styles.sponsors}>
             <h4>Sponsors</h4>
-            <EndorsementsBar
-              endorsements={bill.sponsors as PoliticianResult[]}
-            />
+            <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />
           </section>
         )}
       </section>
       <footer className={styles.footer}>
         <div className={styles.branding}>
           <span className={styles.poweredBy}>Powered by</span>
-          <LogoTextDark />
+          <a href="https://populist.us" target="_blank" rel="noreferrer">
+            <LogoTextDark />
+          </a>
         </div>
       </footer>
     </div>
