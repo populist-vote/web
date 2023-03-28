@@ -13,7 +13,7 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
-import { useOrganizationByIdQuery } from "generated";
+import { useOrganizationByIdQuery, AuthTokenResult } from "generated";
 
 export interface NavItem {
   label: string;
@@ -28,25 +28,14 @@ function Nav({
 }: {
   mobileNavTitle?: string;
   showLogoOnMobile: boolean;
+  simpleHeaderOnMobile?: boolean;
   hasVotingGuide?: boolean;
   navItems: NavItem[];
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
-  const { asPath, pathname } = useRouter();
+  const { asPath } = useRouter();
   const { user } = useAuth({ redirectTo: asPath });
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
-  const { t } = useTranslation(["auth", "common"]);
-
-  const { data } = useOrganizationByIdQuery(
-    {
-      id: user?.organizationId || "",
-    },
-    {
-      enabled: !!user?.organizationId,
-    }
-  );
-
-  const organization = data?.organizationById;
 
   useScrollPosition(
     ({
@@ -75,148 +64,178 @@ function Nav({
   return (
     <nav className={navStyles}>
       {/* ///////// Mobile Nav ///////// */}
+      <MobileNav {...{ mobileNavTitle, showLogoOnMobile, user }} />
 
-      <div className={styles.mobileNav}>
-        <div className={styles.homeButton}>
-          <Link href="/home" passHref>
-            <div>
-              <FaHome size={"1.7rem"} color="var(--blue)" />
+      {/* ///////// Desktop nav ///////// */}
+      <DesktopNav {...{ navItems, user }} />
+    </nav>
+  );
+}
+
+function MobileNav({
+  mobileNavTitle,
+  showLogoOnMobile,
+  user,
+}: {
+  mobileNavTitle?: string;
+  showLogoOnMobile: boolean;
+  user: AuthTokenResult;
+}) {
+  return (
+    <div className={styles.mobileNav}>
+      <div className={styles.homeButton}>
+        <Link href="/home" passHref>
+          <div>
+            <FaHome size={"1.7rem"} color="var(--blue)" />
+          </div>
+        </Link>
+      </div>
+
+      <div className={styles.logoContainer}>
+        {showLogoOnMobile ? (
+          <>
+            <div className={styles.logoSizer}>
+              <LogoBeta />
+            </div>
+            <span className={styles.subTitle}>{mobileNavTitle}</span>
+          </>
+        ) : (
+          <>
+            <span className={styles.subTitleNoLogo}>{mobileNavTitle}</span>
+          </>
+        )}
+      </div>
+
+      {user && (
+        <div className={styles.avatar}>
+          <Link href="/settings/profile" passHref>
+            <div style={{ width: "35px" }}>
+              <Avatar
+                src={
+                  user.userProfile.profilePictureUrl ||
+                  PERSON_FALLBACK_IMAGE_URL
+                }
+                alt="profile picture"
+                size={35}
+              />
             </div>
           </Link>
         </div>
+      )}
+    </div>
+  );
+}
 
-        <div className={styles.logoContainer}>
-          {showLogoOnMobile ? (
-            <>
-              <div className={styles.logoSizer}>
-                <LogoBeta />
-              </div>
-              <span className={styles.subTitle}>{mobileNavTitle}</span>
-            </>
-          ) : (
-            <>
-              <span className={styles.subTitleNoLogo}>{mobileNavTitle}</span>
-            </>
-          )}
-        </div>
+function DesktopNav({
+  user,
+  navItems,
+}: {
+  user: AuthTokenResult;
+  navItems: NavItem[];
+}) {
+  const { t } = useTranslation(["auth", "common"]);
+  const { asPath, pathname } = useRouter();
+  const { data } = useOrganizationByIdQuery(
+    {
+      id: user?.organizationId || "",
+    },
+    {
+      enabled: !!user?.organizationId,
+    }
+  );
 
-        {user && (
-          <div className={styles.avatar}>
-            <Link href="/settings/profile" passHref>
-              <div style={{ width: "35px" }}>
-                <Avatar
-                  src={
-                    user.userProfile.profilePictureUrl ||
-                    PERSON_FALLBACK_IMAGE_URL
-                  }
-                  alt="profile picture"
-                  size={35}
-                />
+  const organization = data?.organizationById;
+  return (
+    <div className={styles.navContent}>
+      <div className={styles.items}>
+        <ul>
+          <li
+            className={clsx(
+              styles.navItem,
+              styles.logoNavItem,
+              pathname.includes("/home") && styles.active
+            )}
+          >
+            <Link href="/home" passHref>
+              <div className={styles.logoContainer}>
+                <Logo height={100} />
               </div>
+            </Link>
+          </li>
+          {navItems.map(({ label, href, childPaths }) => {
+            const isNavItemActive =
+              pathname.includes(href) ||
+              (childPaths && childPaths.find((p) => pathname.includes(p)));
+
+            return (
+              <li
+                className={`${styles.navItem} ${
+                  isNavItemActive && styles.active
+                }`}
+                key={href}
+              >
+                <Link href={href}>{label}</Link>
+              </li>
+            );
+          })}
+        </ul>
+        {user ? (
+          <div>
+            {organization && (
+              <li
+                className={clsx(styles.navItem, {
+                  [styles.active as string]: pathname.includes("/dashboard"),
+                })}
+              >
+                <Link href={`/dashboard/${organization.slug}`}>
+                  <div className={styles.orgDashboardLink}>
+                    <Avatar
+                      src={
+                        organization.assets.thumbnailImage160 ||
+                        ORGANIZATION_FALLBACK_IMAGE_URL
+                      }
+                      alt="organization logo"
+                      size={36}
+                    />
+                    <div className={styles.stack}>
+                      <h5>{organization.name}</h5>
+                      <small>Dashboard</small>
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            )}
+            <div className={styles.flexColumn}>
+              <Link href="/settings/profile" passHref>
+                <div className={styles.avatar}>
+                  <Avatar
+                    src={
+                      user?.userProfile.profilePictureUrl ||
+                      PERSON_FALLBACK_IMAGE_URL
+                    }
+                    alt="profile picture"
+                    size={80}
+                    borderColor={
+                      pathname.includes("/settings/profile") ? "var(--aqua" : ""
+                    }
+                    borderWidth="3px"
+                  />
+                </div>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.flexColumn}>
+            <Link href="/register">
+              <Button size="medium" variant="primary" label={t("register")} />
+            </Link>
+            <Link href={`/login?next=${asPath}`}>
+              <Button size="medium" variant="secondary" label={t("sign-in")} />
             </Link>
           </div>
         )}
       </div>
-
-      {/* ///////// Desktop nav ///////// */}
-
-      <div className={styles.navContent}>
-        <div className={styles.items}>
-          <ul>
-            <li
-              className={clsx(
-                styles.navItem,
-                styles.logoNavItem,
-                pathname.includes("/home") && styles.active
-              )}
-            >
-              <Link href="/home" passHref>
-                <div className={styles.logoContainer}>
-                  <Logo height={100} />
-                </div>
-              </Link>
-            </li>
-            {navItems.map(({ label, href, childPaths }) => {
-              const isNavItemActive =
-                pathname.includes(href) ||
-                (childPaths && childPaths.find((p) => pathname.includes(p)));
-
-              return (
-                <li
-                  className={`${styles.navItem} ${
-                    isNavItemActive && styles.active
-                  }`}
-                  key={href}
-                >
-                  <Link href={href}>{label}</Link>
-                </li>
-              );
-            })}
-          </ul>
-          {user ? (
-            <div>
-              {organization && (
-                <li
-                  className={clsx(styles.navItem, {
-                    [styles.active as string]: pathname.includes("/dashboard"),
-                  })}
-                >
-                  <Link href={`/dashboard/${organization.slug}`}>
-                    <div className={styles.orgDashboardLink}>
-                      <Avatar
-                        src={
-                          organization.assets.thumbnailImage160 ||
-                          ORGANIZATION_FALLBACK_IMAGE_URL
-                        }
-                        alt="organization logo"
-                        size={36}
-                      />
-                      <div className={styles.stack}>
-                        <h5>{organization.name}</h5>
-                        <small>Dashboard</small>
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              )}
-              <div className={styles.flexColumn}>
-                <Link href="/settings/profile" passHref>
-                  <div className={styles.avatar}>
-                    <Avatar
-                      src={
-                        user?.userProfile.profilePictureUrl ||
-                        PERSON_FALLBACK_IMAGE_URL
-                      }
-                      alt="profile picture"
-                      size={80}
-                      borderColor={
-                        pathname.includes("/settings/profile")
-                          ? "var(--aqua"
-                          : ""
-                      }
-                      borderWidth="3px"
-                    />
-                  </div>
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.flexColumn}>
-              <Link href="/register">
-                <Button size="medium" variant="primary" label={t("register")} />
-              </Link>
-              <Link href={`/login?next=${asPath}`}>
-                <Button
-                  size="medium"
-                  variant="secondary"
-                  label={t("sign-in")}
-                />
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-    </nav>
+    </div>
   );
 }
 
