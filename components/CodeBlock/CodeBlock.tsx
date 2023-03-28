@@ -3,7 +3,6 @@ import styles from "./CodeBlock.module.scss";
 import { toast } from "react-toastify";
 import hljs from "highlight.js";
 import { useEffect } from "react";
-import { Select } from "components/Select/Select";
 
 function CodeBlock({
   language,
@@ -34,15 +33,13 @@ function CodeBlock({
       <div className={styles.container}>
         <div className={styles.actions}>
           <small>
-            <Select
+            <select
               value={language}
-              textColor="blue-text"
-              options={[
-                { label: "HTML", value: "html" },
-                { label: "React", value: "react" },
-              ]}
               onChange={(e) => setLanguage(e.target.value as "html" | "react")}
-            />
+            >
+              <option value="html">HTML</option>
+              <option value="react">React</option>
+            </select>
           </small>
           <Button
             variant="primary"

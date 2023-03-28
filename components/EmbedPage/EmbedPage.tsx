@@ -28,6 +28,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   const htmlText = `
   <!-- Place this div where you want the widget to appear -->
   <div class="populist-${id}" />
+  
   <script
     src="${window.location.origin}/widget-client.js"
     data-embed-id="${id}"
@@ -51,6 +52,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
     document.body.appendChild(script);
     return () => document.body.removeChild(script);
   }, [])
+
   // Place this div where you want the widget to appear
   return <div className="populist-${id}" />
       `;

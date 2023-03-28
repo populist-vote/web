@@ -16,6 +16,13 @@
     small {
       color: $blue-text;
     }
+
+    select {
+      margin: 0;
+      background: none;
+      border: none;
+      color: $blue-text;
+    }
   }
 
   pre,
