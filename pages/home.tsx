@@ -77,6 +77,8 @@ function HomePage() {
   );
 }
 
-HomePage.getLayout = (page: ReactNode) => <BasicLayout>{page}</BasicLayout>;
+HomePage.getLayout = (page: ReactNode) => (
+  <BasicLayout showAuthButtons>{page}</BasicLayout>
+);
 
 export default HomePage;
