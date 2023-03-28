@@ -1,11 +1,19 @@
 import type { PropsWithChildren } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Footer, LogoBetaDesktop, AuthButtons, Avatar } from "components";
-import styles from "./BasicLayout.module.scss";
+import { useTranslation } from "next-i18next";
+
+import {
+  Footer,
+  LogoBetaDesktop,
+  AuthButtons,
+  Avatar,
+  DashboardLink,
+} from "components";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { useTranslation } from "next-i18next";
+import { OrganizationResult, useOrganizationByIdQuery } from "generated";
+import styles from "./BasicLayout.module.scss";
 
 function BasicLayout({
   children,
@@ -31,6 +39,17 @@ function BasicHeader() {
   const { pathname, query } = useRouter();
   const { t } = useTranslation(["auth", "common"]);
   const { user } = useAuth({ redirect: false });
+
+  const { data } = useOrganizationByIdQuery(
+    {
+      id: user?.organizationId || "",
+    },
+    {
+      enabled: !!user?.organizationId,
+    }
+  );
+
+  const organization = data?.organizationById;
 
   return (
     <header className={styles.header}>
@@ -67,17 +86,28 @@ function BasicHeader() {
       )}
 
       {user && (
-        <Link href="/settings/profile" passHref>
-          <div style={{ cursor: "pointer" }}>
-            <Avatar
-              src={
-                user?.userProfile.profilePictureUrl || PERSON_FALLBACK_IMAGE_URL
-              }
-              alt="profile picture"
-              size={35}
-            />
-          </div>
-        </Link>
+        <div className={styles.linkSection}>
+          {organization && (
+            <div className={styles.dashboardLink}>
+              <DashboardLink
+                organization={organization as OrganizationResult}
+              />
+            </div>
+          )}
+
+          <Link href="/settings/profile" passHref>
+            <div style={{ cursor: "pointer" }}>
+              <Avatar
+                src={
+                  user?.userProfile.profilePictureUrl ||
+                  PERSON_FALLBACK_IMAGE_URL
+                }
+                alt="profile picture"
+                size={35}
+              />
+            </div>
+          </Link>
+        </div>
       )}
     </header>
   );

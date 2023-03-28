@@ -62,3 +62,13 @@
 .auxButtonsDesktop {
   @include tablet-up-only;
 }
+
+.linkSection {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.dashboardLink {
+  @include tablet-up-only;
+}
