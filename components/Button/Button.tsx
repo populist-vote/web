@@ -24,6 +24,7 @@ function Button({
   variant = "primary",
   type = "submit",
   width = "inherit",
+  wrapText = false,
   ...props
 }: PropsWithChildren<{
   /** Sets the disabled state of a button */
@@ -41,6 +42,7 @@ function Button({
   label: string;
   /** Function to handle click events */
   onClick?: () => unknown | undefined;
+  wrapText?: boolean;
   size: ButtonSize;
   theme?: ButtonTheme;
   variant: ButtonVariant;
@@ -59,6 +61,7 @@ function Button({
   );
   const labelCx = clsx(styles.buttonLabel, {
     [styles.sr as string]: hideLabel,
+    [styles.noWrapText as string]: !wrapText,
   });
   const styleVars: CSSProperties & {
     "--button-width": string | undefined;

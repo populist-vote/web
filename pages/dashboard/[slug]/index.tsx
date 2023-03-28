@@ -131,6 +131,7 @@ export function DashboardTopNav() {
             size="medium"
             theme="yellow"
             label="New Embed"
+            wrapText={false}
           />
         </Link>
       </div>
