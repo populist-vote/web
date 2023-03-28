@@ -157,10 +157,22 @@
     margin: 1.25rem 0;
     cursor: pointer;
 
+    a {
+      color: $text-primary;
+      transition: ease-in-out 0.2s;
+      display: block;
+      text-decoration: none;
+      padding: 0.75rem;
+
+      &:hover {
+        background-color: $white-alpha-2;
+      }
+    }
+
     &.logoNavItem {
       margin-top: 0;
       a {
-        padding: 0.5rem 0 0.5rem 0;
+        padding: 0.5rem 0;
       }
     }
 
@@ -172,18 +184,6 @@
         background-color: $blue-dark;
         color: $white;
         cursor: default;
-      }
-    }
-
-    a {
-      color: $text-primary;
-      transition: ease-in-out 0.3s;
-      display: block;
-      text-decoration: none;
-      padding: 0.75rem;
-
-      &:hover {
-        background-color: $white-alpha-2;
       }
     }
   }
@@ -214,6 +214,7 @@
   align-items: center;
   font-size: 1.25rem;
   gap: 0.5rem;
+  text-transform: none;
 
   .stack {
     display: flex;

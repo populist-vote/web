@@ -22,11 +22,15 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.15s;
-
-    &:hover {
-      color: $blue;
-    }
   }
+
+  // .dashboardLink a {
+  //   text-transform: none;
+
+  //   &:hover {
+  //     color: $white;
+  //   }
+  // }
 
   .header {
     width: 100%;
@@ -70,5 +74,13 @@
 }
 
 .dashboardLink {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: ease-in-out 0.2s;
+
+  &:hover {
+    background-color: $white-alpha-3;
+  }
+
   @include tablet-up-only;
 }
