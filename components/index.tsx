@@ -1,6 +1,6 @@
 import { AuthButtons } from "./AuthButtons/AuthButtons";
 import { Avatar, PartyAvatar } from "./Avatar/Avatar";
-import { BasicLayout } from "./BasicLayout/BasicLayout";
+import { BasicLayout, BasicHeader } from "./BasicLayout/BasicLayout";
 import { BetaNotice } from "./BetaNotice/BetaNotice";
 import { BillCard } from "./BillCard/BillCard";
 import { BillFiltersDesktop } from "./BillFilters/BillFiltersDesktop";
@@ -55,6 +55,7 @@ export {
   Avatar,
   AuthButtons,
   BasicLayout,
+  BasicHeader,
   BetaNotice,
   BillCard,
   BillFiltersDesktop,
