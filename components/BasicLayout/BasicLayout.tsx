@@ -1,57 +1,100 @@
 import type { PropsWithChildren } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Footer, LogoBetaDesktop, AuthButtons, Avatar } from "components";
-import styles from "./BasicLayout.module.scss";
+import { useTranslation } from "next-i18next";
+
+import {
+  Footer,
+  LogoBetaDesktop,
+  AuthButtons,
+  Avatar,
+  DashboardLink,
+} from "components";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { useTranslation } from "next-i18next";
+import { OrganizationResult, useOrganizationByIdQuery } from "generated";
+import styles from "./BasicLayout.module.scss";
 
 function BasicLayout({
   children,
   hideFooter = false,
   showAuthButtons = false,
 }: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
-  const { pathname, query } = useRouter();
   const { user } = useAuth({ redirect: false });
-  const { t } = useTranslation(["auth", "common"]);
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <Link href="/" passHref>
-          <div style={{ width: "10rem", cursor: "pointer" }}>
-            <LogoBetaDesktop />
-          </div>
+      <BasicHeader />
+      <main className={styles.content}>
+        <div />
+        {children}
+        <div>{showAuthButtons && !user && <AuthButtons />}</div>
+      </main>
+      {hideFooter ? <footer /> : <Footer />}
+    </div>
+  );
+}
+
+function BasicHeader() {
+  const { pathname, query } = useRouter();
+  const { t } = useTranslation(["auth", "common"]);
+  const { user } = useAuth({ redirect: false });
+
+  const { data } = useOrganizationByIdQuery(
+    {
+      id: user?.organizationId || "",
+    },
+    {
+      enabled: !!user?.organizationId,
+    }
+  );
+
+  const organization = data?.organizationById;
+
+  return (
+    <header className={styles.header}>
+      <Link href="/" passHref>
+        <div style={{ width: "10rem", cursor: "pointer" }}>
+          <LogoBetaDesktop />
+        </div>
+      </Link>
+
+      {pathname === "/register" && (
+        <Link
+          href={{
+            pathname: "/login",
+            query,
+          }}
+          shallow
+          replace
+        >
+          {t("sign-in")}
         </Link>
+      )}
 
-        {pathname === "/register" && (
-          <Link
-            href={{
-              pathname: "/login",
-              query,
-            }}
-            shallow
-            replace
-          >
-            {t("sign-in")}
-          </Link>
-        )}
+      {pathname === "/login" && (
+        <Link
+          href={{
+            pathname: "/register",
+            query,
+          }}
+          shallow
+          replace
+        >
+          {t("get-started", { ns: "common" })}
+        </Link>
+      )}
 
-        {pathname === "/login" && (
-          <Link
-            href={{
-              pathname: "/register",
-              query,
-            }}
-            shallow
-            replace
-          >
-            {t("get-started", { ns: "common" })}
-          </Link>
-        )}
+      {user && (
+        <div className={styles.linkSection}>
+          {organization && pathname === "/home" && (
+            <div className={styles.dashboardLink}>
+              <DashboardLink
+                organization={organization as OrganizationResult}
+              />
+            </div>
+          )}
 
-        {user && (
           <Link href="/settings/profile" passHref>
             <div style={{ cursor: "pointer" }}>
               <Avatar
@@ -64,16 +107,10 @@ function BasicLayout({
               />
             </div>
           </Link>
-        )}
-      </header>
-      <main className={styles.content}>
-        <div />
-        {children}
-        <div>{showAuthButtons && !user && <AuthButtons />}</div>
-      </main>
-      {hideFooter ? <footer /> : <Footer />}
-    </div>
+        </div>
+      )}
+    </header>
   );
 }
 
-export { BasicLayout };
+export { BasicLayout, BasicHeader };

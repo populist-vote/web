@@ -1,24 +1,28 @@
 import { Layout } from "components";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
+import { ReactNode } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
-import { SupportedLocale } from "types/global";
-import { StickyButton } from "components/StickyButton/StickyButton";
 import { FaSearch } from "react-icons/fa";
-import { FiltersIcon } from "components/Icons";
-import { PopularBills } from "components/PopularBills/PopularBills";
-import { MobileTabs } from "components/MobileTabs/MobileTabs";
-import { TopNav } from "components/TopNav/TopNav";
-import { BillFiltersMobile } from "components/BillFilters/BillFiltersMobile";
+import { SupportedLocale } from "types/global";
+
+import {
+  StickyButton,
+  FiltersIcon,
+  PopularBills,
+  MobileTabs,
+  TopNav,
+  BillFiltersMobile,
+  BillResults,
+  BillSearchAndFilters,
+} from "components";
+
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
+
 import styles from "./BillIndex.module.scss";
-import { BillResults } from "components/BillResults/BillResults";
-import clsx from "clsx";
-import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
-import Link from "next/link";
-import { ReactNode } from "react";
 
 export async function getServerSideProps({
   locale,
@@ -78,11 +82,8 @@ function BillIndex(props: BillIndexProps) {
       <TopNav>
         <ul>
           <li
-            className={
-              scope === PoliticalScope.State
-                ? clsx(styles.selected, styles.yellow)
-                : ""
-            }
+            data-selected={scope === PoliticalScope.State}
+            data-color="yellow"
           >
             <Link
               href={{
@@ -97,11 +98,8 @@ function BillIndex(props: BillIndexProps) {
             </Link>
           </li>
           <li
-            className={
-              scope === PoliticalScope.Federal
-                ? clsx(styles.selected, styles.aqua)
-                : ""
-            }
+            data-selected={scope === PoliticalScope.Federal}
+            data-color="aqua"
           >
             <Link
               href={{
@@ -124,7 +122,7 @@ function BillIndex(props: BillIndexProps) {
           </section>
         </div>
         <BillResults />
-        <PopularBills {...props} />
+        <PopularBills />
       </div>
       <div>
         <StickyButton

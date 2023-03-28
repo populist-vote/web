@@ -1,32 +1,38 @@
 import { useMemo } from "react";
 import { NextPage } from "next";
 import Router from "next/router";
+import nextI18nextConfig from "next-i18next.config";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { toast } from "react-toastify";
 import { IoIosRemoveCircle } from "react-icons/io";
-import {
-  useVotingGuidesByUserIdQuery,
-  VotingGuideResult,
-  useVotingGuidesByIdsQuery,
-  ElectionResult,
-} from "generated";
+
 import {
   Layout,
   Avatar,
   FlagSection,
   Button,
   LoaderFlag,
-  ElectionSelector,
+  TopNavElections,
 } from "components";
+
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
+
 import { useAuth } from "hooks/useAuth";
 import { useSavedGuideIds } from "hooks/useSavedGuideIds";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import { useElections } from "hooks/useElections";
-import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
+
+import { PERSON_FALLBACK_IMAGE_URL, SELECTED_ELECTION } from "utils/constants";
+
 import styles from "./VotingGuides.module.scss";
 import { SupportedLocale } from "types/global";
-import nextI18nextConfig from "next-i18next.config";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import {
+  useVotingGuidesByUserIdQuery,
+  VotingGuideResult,
+  useVotingGuidesByIdsQuery,
+  ElectionResult,
+} from "generated";
 
 const VotingGuideCard = ({
   guide,
@@ -150,13 +156,10 @@ const VotingGuides: NextPage<{
   const savedGuidesQuery = useVotingGuidesByIdsQuery({
     ids: savedGuideIds,
   });
-
-  const {
-    selectedElectionId,
-    setSelectedElectionId,
-    elections,
-    isLoading: isElectionsLoading,
-  } = useElections();
+  const electionData = useElections(
+    sessionStorage.getItem(SELECTED_ELECTION) || undefined
+  );
+  const { selectedElectionId, isLoading: isElectionsLoading } = electionData;
 
   const election = useMemo(
     () =>
@@ -189,16 +192,16 @@ const VotingGuides: NextPage<{
 
   return (
     <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
+      <TopNavElections
+        selected="VotingGuide"
+        showElectionSelector
+        electionData={electionData}
+      />
       <div className={styles.votingContainer}>
-        <ElectionSelector
-          elections={elections}
-          selectedElectionId={selectedElectionId as string}
-          setSelectedElectionId={setSelectedElectionId}
-        />
         {election && <ElectionHeader election={election} />}
         {showLoader && (
           <div className={styles.center}>
-            <LoaderFlag />{" "}
+            <LoaderFlag />
           </div>
         )}
         {!showLoader && (

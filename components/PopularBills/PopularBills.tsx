@@ -1,41 +1,13 @@
 import clsx from "clsx";
 import { BillCard } from "components/BillCard/BillCard";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import {
-  BillResult,
-  PoliticalScope,
-  State,
-  usePopularBillsQuery,
-} from "generated";
-import useDebounce from "hooks/useDebounce";
-import { useRouter } from "next/router";
-import { BillIndexProps } from "pages/bills";
+import { BillResult, usePopularBillsQuery } from "generated";
 import styles from "../BillResults/BillResults.module.scss";
 
-function PopularBills(props: BillIndexProps) {
-  const router = useRouter();
-  const { query } = router;
-  const {
-    state = null,
-    status = null,
-    search = null,
-    scope = PoliticalScope.Federal,
-  } = props.query || query;
-
-  const debouncedSearchQuery = useDebounce<string | null>(
-    search as string,
-    350
-  );
-
+function PopularBills() {
   const { data, isLoading, error } = usePopularBillsQuery(
     {
       pageSize: 10,
-      filter: {
-        query: debouncedSearchQuery || null,
-        state: state as State,
-        politicalScope: scope,
-        status,
-      },
     },
     {
       refetchOnWindowFocus: false,

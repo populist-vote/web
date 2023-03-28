@@ -1,32 +1,35 @@
 import { ReactNode, useState } from "react";
 import { dehydrate, QueryClient, useQueryClient } from "@tanstack/react-query";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
 
 import { Election } from "components/Ballot/Election";
 import {
   Layout,
   LoaderFlag,
   VotingGuideWelcome,
-  ElectionSelector,
+  TopNavElections,
 } from "components";
 
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
-import { useElections } from "hooks/useElections";
-
-import { VOTING_GUIDE_WELCOME_VISIBLE } from "utils/constants";
+import { useElections, useElectionsOutput } from "hooks/useElections";
 
 import {
-  ElectionResult,
+  VOTING_GUIDE_WELCOME_VISIBLE,
+  SELECTED_ELECTION,
+} from "utils/constants";
+
+import {
   ElectionVotingGuideByUserIdQuery,
   useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
   useUpsertVotingGuideMutation,
 } from "generated";
 
-import styles from "components/Layout/Layout.module.scss";
 import { SupportedLocale } from "types/global";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nextConfig from "next-i18next.config";
+
+import styles from "components/Layout/Layout.module.scss";
 
 export async function getServerSideProps({
   locale,
@@ -71,14 +74,11 @@ function BallotPage() {
     onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
   });
 
-  const {
-    data,
-    isLoading,
-    isSuccess,
-    error,
-    selectedElectionId,
-    setSelectedElectionId,
-  } = useElections();
+  const electionData = useElections(
+    sessionStorage.getItem(SELECTED_ELECTION) || undefined
+  );
+
+  const { error, selectedElectionId } = electionData;
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
     {
@@ -124,35 +124,47 @@ function BallotPage() {
       {isWelcomeVisible ? (
         <VotingGuideWelcome onClose={handleWelcomeDismissal} />
       ) : (
-        <div>
-          {isSuccess && (
-            <>
-              <ElectionSelector
-                elections={data?.electionsByUser as Partial<ElectionResult>[]}
-                selectedElectionId={selectedElectionId as string}
-                setSelectedElectionId={setSelectedElectionId}
-              />
-
-              <VotingGuideProvider votingGuideId={userGuideId}>
-                {isLoading && (
-                  <div className={styles.center}>
-                    <LoaderFlag />
-                  </div>
-                )}
-                {error && (
-                  <h4>Something went wrong fetching your ballot data...</h4>
-                )}
-                {selectedElectionId && (
-                  <div data-testid="ballot-page">
-                    <Election electionId={selectedElectionId} />
-                  </div>
-                )}
-              </VotingGuideProvider>
-            </>
-          )}
-        </div>
+        <BallotContent electionData={electionData} userGuideId={userGuideId} />
       )}
     </>
+  );
+}
+
+function BallotContent({
+  electionData,
+  userGuideId,
+}: {
+  electionData: useElectionsOutput;
+  userGuideId: string;
+}) {
+  const { isLoading, isSuccess, error, selectedElectionId } = electionData;
+  return (
+    <div>
+      {isSuccess && (
+        <>
+          <VotingGuideProvider votingGuideId={userGuideId}>
+            <TopNavElections
+              selected="Ballot"
+              showElectionSelector
+              electionData={electionData}
+            />
+            {isLoading && (
+              <div className={styles.center}>
+                <LoaderFlag />
+              </div>
+            )}
+            {error && (
+              <h4>Something went wrong fetching your ballot data...</h4>
+            )}
+            {selectedElectionId && (
+              <div data-testid="ballot-page">
+                <Election electionId={selectedElectionId} />
+              </div>
+            )}
+          </VotingGuideProvider>
+        </>
+      )}
+    </div>
   );
 }
 

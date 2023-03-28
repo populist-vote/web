@@ -31,6 +31,10 @@
   align-items: center;
   margin-top: -1px;
 
+  &.noWrapText {
+    white-space: nowrap;
+  }
+
   &.sr {
     position: absolute;
     width: 1px;
