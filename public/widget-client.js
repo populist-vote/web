@@ -5,9 +5,11 @@
     var params = {};
     var url = new URL(location.href);
     var cleanedLocation = url.toString();
-    params.billId = attributes.billId;
+    params.billId = attributes.billId || "";
+    params.embedId = attributes.embedId || "";
     params.origin = cleanedLocation;
-    var existingContainer = document.querySelector(".populist");
+    var containerName = ".populist-".concat(params.embedId);
+    var existingContainer = document.querySelector(containerName);
     var id = existingContainer && existingContainer.id;
     if (id) {
         params.origin = "".concat(cleanedLocation, "#").concat(id);
@@ -35,12 +37,12 @@
     // Create default style and prepend as <head>'s first child to make override possible.
     var style = document.getElementById("populist-css") || document.createElement("style");
     style.id = "populist-css";
-    style.textContent = "\n  .populist, .populist-frame {\n    border-radius: 15px;\n    width: 100%;\n  }\n\n  .populist-frame {\n    border: none;\n    color-scheme: light dark;\n  }\n  .populist-frame--loading {\n    opacity: 0;\n  }\n";
+    style.textContent = "\n  ".concat(containerName, ", .populist-frame {\n    border-radius: 15px;\n    width: 100%;\n  }\n\n  .populist-frame {\n    border: none;\n    color-scheme: light dark;\n  }\n  .populist-frame--loading {\n    opacity: 0;\n  }\n");
     document.head.prepend(style);
     // Insert iframe element
     if (!existingContainer) {
         var iframeContainer = document.createElement("div");
-        iframeContainer.setAttribute("class", "populist");
+        iframeContainer.setAttribute("class", containerName);
         iframeContainer.appendChild(iframeElement);
         script.insertAdjacentElement("afterend", iframeContainer);
     }

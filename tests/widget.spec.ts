@@ -8,6 +8,7 @@ test("Widget script successfully renders a widget", async ({ page }) => {
   await expect(
     page
       .frameLocator('internal:attr=[title="Populist Widget"i]')
+      .first()
       .getByTestId("populist-bill-widget")
       .getByRole("heading")
       .nth(0)

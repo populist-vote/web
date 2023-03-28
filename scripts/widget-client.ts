@@ -7,10 +7,14 @@
   const url = new URL(location.href);
   const cleanedLocation = url.toString();
 
-  params.billId = attributes.billId as string;
+  params.billId = attributes.billId || "";
+  params.embedId = attributes.embedId || "";
   params.origin = cleanedLocation;
 
-  const existingContainer = document.querySelector(".populist");
+  const containerName = `.populist-${params.embedId}`;
+
+  const existingContainer = document.querySelector(containerName);
+
   const id = existingContainer && existingContainer.id;
   if (id) {
     params.origin = `${cleanedLocation}#${id}`;
@@ -44,7 +48,7 @@
     document.getElementById("populist-css") || document.createElement("style");
   style.id = "populist-css";
   style.textContent = `
-  .populist, .populist-frame {
+  ${containerName}, .populist-frame {
     border-radius: 15px;
     width: 100%;
   }
@@ -62,7 +66,7 @@
   // Insert iframe element
   if (!existingContainer) {
     const iframeContainer = document.createElement("div");
-    iframeContainer.setAttribute("class", "populist");
+    iframeContainer.setAttribute("class", containerName);
     iframeContainer.appendChild(iframeElement);
 
     script.insertAdjacentElement("afterend", iframeContainer);
