@@ -87,7 +87,7 @@ function BasicHeader() {
 
       {user && (
         <div className={styles.linkSection}>
-          {organization && (
+          {organization && pathname === "/home" && (
             <div className={styles.dashboardLink}>
               <DashboardLink
                 organization={organization as OrganizationResult}
