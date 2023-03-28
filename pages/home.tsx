@@ -3,7 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { useTranslation } from "next-i18next";
 
-import { Layout, HomePageButton, BetaNotice } from "components";
+import { BasicLayout, HomePageButton, BetaNotice } from "components";
 import { BETA_NOTICE_VISIBLE } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
 import { SupportedLocale } from "types/global";
@@ -77,6 +77,6 @@ function HomePage() {
   );
 }
 
-HomePage.getLayout = (page: ReactNode) => <Layout>{page}</Layout>;
+HomePage.getLayout = (page: ReactNode) => <BasicLayout>{page}</BasicLayout>;
 
 export default HomePage;
