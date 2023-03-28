@@ -10,4 +10,12 @@
   button {
     text-transform: uppercase;
   }
+
+  display: grid;
+  place-items: center;
+  height: 100%;
+
+  > div {
+    max-width: 768px;
+  }
 }
