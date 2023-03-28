@@ -71,14 +71,18 @@ function HomePage() {
   };
 
   return isBetaVisible ? (
-    <BetaNotice onContinue={handleBetaDismissal} />
+    <BasicLayout showAuthButtons={false}>
+      <BetaNotice onContinue={handleBetaDismissal} />
+    </BasicLayout>
   ) : (
-    <CitizenHome userLoggedIn={!!user} />
+    <BasicLayout showAuthButtons>
+      <CitizenHome userLoggedIn={!!user} />
+    </BasicLayout>
   );
 }
 
-HomePage.getLayout = (page: ReactNode) => (
-  <BasicLayout showAuthButtons>{page}</BasicLayout>
-);
+HomePage.getLayout = (page: ReactNode) => {
+  return page;
+};
 
 export default HomePage;
