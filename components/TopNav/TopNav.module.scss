@@ -60,6 +60,9 @@
       &[data-color="aqua"] {
         border-color: $aqua;
       }
+      &[data-color="yellow"] {
+        border-color: $yellow;
+      }
     }
 
     button {

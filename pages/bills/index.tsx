@@ -23,7 +23,6 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
 
 import styles from "./BillIndex.module.scss";
-import clsx from "clsx";
 
 export async function getServerSideProps({
   locale,
@@ -83,11 +82,8 @@ function BillIndex(props: BillIndexProps) {
       <TopNav>
         <ul>
           <li
-            className={
-              scope === PoliticalScope.State
-                ? clsx(styles.selected, styles.yellow)
-                : ""
-            }
+            data-selected={scope === PoliticalScope.State}
+            data-color="yellow"
           >
             <Link
               href={{
