@@ -26,8 +26,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   const billId = data?.embedById?.attributes?.billId as string;
 
   const htmlText = `
-    <div class="populist-${id}" /> <!-- You can use this div to overide 
-                                      the style of the widget if desired -->
+    <div class="populist-${id}" /> <!-- Place this where you want the widget to appear -->
     <script
       src="${window.location.origin}/widget-client.js"
       data-embed-id="${id}"
@@ -47,7 +46,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
           document.body.removeChild(script);
         };
       }, [])
-
+      // Place this div where you want the widget to appear
       return <div className="populist-${id}" />
       `;
 
