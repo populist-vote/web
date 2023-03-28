@@ -928,7 +928,7 @@ type Query {
   ): OrganizationResultConnection!
   politicianBySlug(slug: String!): PoliticianResult
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
-  popularBills(after: String, before: String, filter: BillFilter, first: Int, last: Int): BillResultConnection!
+  popularBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(filter: RaceFilter): [RaceResult!]!

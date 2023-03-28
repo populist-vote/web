@@ -26,12 +26,10 @@ query BillIndex(
 query PopularBills(
   $pageSize: Int
   $cursor: String
-  $filter: BillFilter
 ) {
   popularBills(
     first: $pageSize
     after: $cursor
-    filter: $filter
   ) {
     edges {
       node {

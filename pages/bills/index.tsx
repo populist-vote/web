@@ -122,7 +122,7 @@ function BillIndex(props: BillIndexProps) {
           </section>
         </div>
         <BillResults />
-        <PopularBills {...props} />
+        <PopularBills />
       </div>
       <div>
         <StickyButton
