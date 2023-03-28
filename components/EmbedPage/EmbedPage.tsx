@@ -26,7 +26,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   const billId = data?.embedById?.attributes?.billId as string;
 
   const htmlText = `
-    <div class="populist" /> <!-- You can use this div to overide 
+    <div class="populist-${id}" /> <!-- You can use this div to overide 
                                       the style of the widget if desired -->
     <script
       src="${window.location.origin}/widget-client.js"
@@ -48,7 +48,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
         };
       }, [])
 
-      return <div className="populist" />
+      return <div className="populist-${id}" />
       `;
 
   const snippets = {
