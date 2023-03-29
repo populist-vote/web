@@ -44,12 +44,9 @@ function Election({
 
   const { user } = useAuth({ redirect: false });
   const isColoradan = user?.userProfile?.address?.state == State.Co;
-
   const isLoading =
-    (electionQuery.isLoading && electionQuery.fetchStatus != "idle") ||
-    // https://github.com/TanStack/query/issues/3975
-    (electionVotingGuideRacesQuery.fetchStatus != "idle" &&
-      electionVotingGuideRacesQuery.isLoading);
+    electionQuery.isInitialLoading ||
+    electionVotingGuideRacesQuery.isInitialLoading;
   const isError =
     electionQuery.isError || electionVotingGuideRacesQuery.isError;
   const error = electionQuery.error || electionVotingGuideRacesQuery.error;
@@ -60,6 +57,7 @@ function Election({
         <LoaderFlag />
       </div>
     );
+
   if (isError) return <div>Error: {JSON.stringify(error)}</div>;
 
   const election =
@@ -69,6 +67,8 @@ function Election({
   const races =
     electionVotingGuideRacesQuery.data?.electionById.racesByVotingGuide ??
     (electionQuery?.data?.electionById?.racesByUserDistricts || []);
+
+  if (!election) return null;
 
   return (
     <>

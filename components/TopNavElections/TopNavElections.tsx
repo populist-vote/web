@@ -28,10 +28,14 @@ function TopNavElections({
     <TopNav>
       <ul>
         <li data-selected={selected === "Ballot"}>
-          <Link href="/ballot">My Ballot</Link>
+          <Link href="/ballot" shallow>
+            My Ballot
+          </Link>
         </li>
         <li data-selected={selected === "VotingGuide"}>
-          <Link href="/voting-guides">Voting Guides</Link>
+          <Link href="/voting-guides" shallow>
+            Voting Guides
+          </Link>
         </li>
         {showElectionSelector && (
           <li className={styles.electionSelector}>

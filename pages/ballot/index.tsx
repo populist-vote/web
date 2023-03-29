@@ -4,12 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 
 import { Election } from "components/Ballot/Election";
-import {
-  Layout,
-  LoaderFlag,
-  VotingGuideWelcome,
-  TopNavElections,
-} from "components";
+import { Layout, VotingGuideWelcome, TopNavElections } from "components";
 
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
@@ -28,8 +23,6 @@ import {
 } from "generated";
 
 import { SupportedLocale } from "types/global";
-
-import styles from "components/Layout/Layout.module.scss";
 
 export async function getServerSideProps({
   locale,
@@ -93,6 +86,7 @@ function BallotPage() {
             electionId: selectedElectionId as string,
           });
       },
+      staleTime: 60 * 1000,
     }
   );
 
@@ -137,7 +131,7 @@ function BallotContent({
   electionData: useElectionsOutput;
   userGuideId: string;
 }) {
-  const { isLoading, isSuccess, error, selectedElectionId } = electionData;
+  const { isSuccess, selectedElectionId } = electionData;
   return (
     <div>
       {isSuccess && (
@@ -148,19 +142,9 @@ function BallotContent({
               showElectionSelector
               electionData={electionData}
             />
-            {isLoading && (
-              <div className={styles.center}>
-                <LoaderFlag />
-              </div>
-            )}
-            {error && (
-              <h4>Something went wrong fetching your ballot data...</h4>
-            )}
-            {selectedElectionId && (
-              <div data-testid="ballot-page">
-                <Election electionId={selectedElectionId} />
-              </div>
-            )}
+            <div data-testid="ballot-page">
+              <Election electionId={selectedElectionId} />
+            </div>
           </VotingGuideProvider>
         </>
       )}

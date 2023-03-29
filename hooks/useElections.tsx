@@ -4,9 +4,7 @@ import { useElectionsQuery, ElectionResult } from "generated";
 export function useElections(initialSelectedElectionId?: string) {
   const electionsQuery = useElectionsQuery();
   const { data, isSuccess } = electionsQuery;
-  const [selectedElectionId, setSelectedElectionId] = useState<
-    string | undefined
-  >();
+  const [selectedElectionId, setSelectedElectionId] = useState<string>();
   const [intialized, setInitialized] = useState(false);
 
   // Sort by most current election - copy array to preserve chronological order
@@ -58,7 +56,7 @@ export function useElections(initialSelectedElectionId?: string) {
   }, [selectedElectionId, data?.electionsByUser]);
 
   return {
-    selectedElectionId,
+    selectedElectionId: selectedElectionId as string,
     setSelectedElectionId,
     elections: data?.electionsByUser as ElectionResult[],
     selectedElection,

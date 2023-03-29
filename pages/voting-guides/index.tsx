@@ -153,9 +153,15 @@ const VotingGuides: NextPage<{
   );
 
   const { savedGuideIds } = useSavedGuideIds(user?.id);
-  const savedGuidesQuery = useVotingGuidesByIdsQuery({
-    ids: savedGuideIds,
-  });
+  const savedGuidesQuery = useVotingGuidesByIdsQuery(
+    {
+      ids: savedGuideIds,
+    },
+    {
+      enabled: savedGuideIds.length > 0,
+      refetchOnMount: false,
+    }
+  );
   const electionData = useElections(
     sessionStorage.getItem(SELECTED_ELECTION) || undefined
   );
@@ -166,7 +172,7 @@ const VotingGuides: NextPage<{
       data?.votingGuidesByUserId.find(
         (g) => g.electionId === selectedElectionId
       )?.election as ElectionResult,
-    [data, selectedElectionId]
+    [data?.votingGuidesByUserId, selectedElectionId]
   );
 
   const userVotingGuides = useMemo(
@@ -185,10 +191,12 @@ const VotingGuides: NextPage<{
     [savedGuidesQuery.data, selectedElectionId]
   );
 
-  if (!user) return null;
+  if (!user || !election) return null;
 
   const showLoader =
-    isLoading || isElectionsLoading || savedGuidesQuery.isLoading;
+    isLoading ||
+    isElectionsLoading ||
+    (savedGuidesQuery.isLoading && savedGuidesQuery.fetchStatus !== "idle");
 
   return (
     <Layout mobileNavTitle={`${mobileNavTitle || "Voting Guides"}`}>
@@ -198,7 +206,7 @@ const VotingGuides: NextPage<{
         electionData={electionData}
       />
       <div className={styles.votingContainer}>
-        {election && <ElectionHeader election={election} />}
+        <ElectionHeader election={election} />
         {showLoader && (
           <div className={styles.center}>
             <LoaderFlag />
