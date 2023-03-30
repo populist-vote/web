@@ -27,9 +27,10 @@
   const loading = attributes.loading === "lazy" ? "lazy" : undefined;
 
   // Set up iframe element
-  const iframeElement = document.createElement(`iframe-${params.embedId}`);
+  const iframeElement = document.createElement("iframe");
   const iframeAttributes = {
     class: "populist-frame populist-frame--loading",
+    id: `populist-iframe-${params.embedId}`,
     title: "Populist Widget",
     scrolling: "no",
     allow: "clipboard-write",
