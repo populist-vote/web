@@ -21,6 +21,7 @@
     var iframeElement = document.createElement("iframe");
     var iframeAttributes = {
         "class": "populist-frame populist-frame--loading",
+        id: "populist-iframe-".concat(params.embedId),
         title: "Populist Widget",
         scrolling: "no",
         allow: "clipboard-write",
@@ -39,10 +40,11 @@
     style.id = "populist-css";
     style.textContent = "\n  ".concat(containerName, ", .populist-frame {\n    border-radius: 15px;\n    width: 100%;\n  }\n\n  .populist-frame {\n    border: none;\n    color-scheme: light dark;\n  }\n  .populist-frame--loading {\n    opacity: 0;\n  }\n");
     document.head.prepend(style);
-    // Insert iframe element
+    // Insert iframe element if none exists
     if (!existingContainer) {
         var iframeContainer = document.createElement("div");
         iframeContainer.setAttribute("class", containerName);
+        iframeContainer.setAttribute("id", "populist-iframe-".concat(params.embedId));
         iframeContainer.appendChild(iframeElement);
         script.insertAdjacentElement("afterend", iframeContainer);
     }
@@ -58,7 +60,8 @@
         var data = event.data;
         if (!(typeof data === "object" && data.populist))
             return;
-        if (data.populist.resizeHeight) {
+        if (data.populist.resizeHeight &&
+            params.embedId === data.populist.embedId) {
             iframeElement.style.height = "".concat(data.populist.resizeHeight, "px");
         }
     });

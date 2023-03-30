@@ -10,6 +10,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
     notFound: !query.billId,
     props: {
       billId: query.billId,
+      embedId: query.embedId,
       originHost,
     },
   };
