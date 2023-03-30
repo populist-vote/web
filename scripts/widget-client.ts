@@ -85,7 +85,7 @@
 
     if (data.populist.resizeHeight) {
       const targetIframe = document.getElementById(
-        `populist-iframe-${params.embedId}`
+        `populist-iframe-${data.populist.embedId}`
       );
       if (!targetIframe) return;
       targetIframe.style.height = `${data.populist.resizeHeight}px`;

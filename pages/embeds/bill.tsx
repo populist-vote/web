@@ -17,9 +17,11 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 
 function BillWidgetPage({
   billId,
+  embedId,
   originHost,
 }: {
   billId: string;
+  embedId: string;
   originHost: string;
 }) {
   const resolvedOrigin =
@@ -34,7 +36,9 @@ function BillWidgetPage({
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, [originHost]);
-  return <BillWidget billId={billId} origin={resolvedOrigin} />;
+  return (
+    <BillWidget billId={billId} embedId={embedId} origin={resolvedOrigin} />
+  );
 }
 
 BillWidgetPage.getLayout = (page: ReactNode) => (

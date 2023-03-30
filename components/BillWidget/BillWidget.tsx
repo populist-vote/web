@@ -17,7 +17,15 @@ import { emitData, IResizeHeightMessage } from "utils/messages";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 
-function BillWidget({ billId, origin }: { billId: string; origin: string }) {
+function BillWidget({
+  billId,
+  embedId,
+  origin,
+}: {
+  billId: string;
+  embedId: string;
+  origin: string;
+}) {
   const { data, isLoading, error } = useBillByIdQuery({ id: billId });
   const bill = data?.billById as BillResult;
   const statusInfo = getStatusInfo(bill?.status as BillStatus);
@@ -27,14 +35,14 @@ function BillWidget({ billId, origin }: { billId: string; origin: string }) {
       const entry = entries[0];
       if (!entry) return;
       emitData<IResizeHeightMessage>(
-        { resizeHeight: entry.contentRect.height },
+        { resizeHeight: entry.contentRect.height, embedId },
         origin
       );
     });
 
     observer.observe(document.querySelector("body") as HTMLBodyElement);
     return () => observer.disconnect();
-  }, [origin]);
+  }, [origin, embedId]);
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this bill.</div>;

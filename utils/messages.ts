@@ -4,6 +4,7 @@ export interface IMessage<T> {
 
 export interface IResizeHeightMessage {
   resizeHeight: number;
+  embedId: string;
 }
 
 export function emitData<T>(data: T, origin: string) {
