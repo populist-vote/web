@@ -84,7 +84,11 @@
     if (!(typeof data === "object" && data.populist)) return;
 
     if (data.populist.resizeHeight) {
-      iframeElement.style.height = `${data.populist.resizeHeight}px`;
+      const targetIframe = document.getElementById(
+        `populist-iframe-${params.embedId}`
+      );
+      if (!targetIframe) return;
+      targetIframe.style.height = `${data.populist.resizeHeight}px`;
     }
   });
 })();
