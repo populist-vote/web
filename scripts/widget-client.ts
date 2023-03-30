@@ -30,6 +30,7 @@
   const iframeElement = document.createElement("iframe");
   const iframeAttributes = {
     class: "populist-frame populist-frame--loading",
+    id: `populist-iframe-${params.embedId}`,
     title: "Populist Widget",
     scrolling: "no",
     allow: "clipboard-write",
