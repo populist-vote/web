@@ -64,10 +64,11 @@
 `;
   document.head.prepend(style);
 
-  // Insert iframe element
+  // Insert iframe element if none exists
   if (!existingContainer) {
     const iframeContainer = document.createElement("div");
     iframeContainer.setAttribute("class", containerName);
+    iframeContainer.setAttribute("id", `populist-iframe-${params.embedId}`);
     iframeContainer.appendChild(iframeElement);
 
     script.insertAdjacentElement("afterend", iframeContainer);
@@ -83,12 +84,11 @@
 
     if (!(typeof data === "object" && data.populist)) return;
 
-    if (data.populist.resizeHeight) {
-      const targetIframe = document.getElementById(
-        `populist-iframe-${data.populist.embedId}`
-      );
-      if (!targetIframe) return;
-      targetIframe.style.height = `${data.populist.resizeHeight}px`;
+    if (
+      data.populist.resizeHeight &&
+      params.embedId === data.populist.embedId
+    ) {
+      iframeElement.style.height = `${data.populist.resizeHeight}px`;
     }
   });
 })();
