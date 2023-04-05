@@ -131,6 +131,17 @@ query BillById($id: ID!) {
       oppose
     }
     usersVote
+    legiscanData {
+      votes {
+        yea
+        absent
+        nay
+        total
+        date
+        chamber
+        desc
+      }
+    }
   }
 }
 

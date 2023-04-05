@@ -78,6 +78,9 @@ function BillWidget({
               {titleCase(bill.status?.replaceAll("_", " ") as string)}
             </Badge>
           </div>
+          <div>
+            <pre>{JSON.stringify(bill.legiscanData?.votes)}</pre>
+          </div>
           <div className={styles.overflowGradient}>
             <div className={styles.description}>
               <p>{bill.populistSummary}</p>
@@ -90,11 +93,10 @@ function BillWidget({
             style={{ width: "auto" }}
           >
             <Button
-              variant="secondary"
+              variant="text"
               size="small"
               label="Full Text"
               style={{
-                background: "var(--grey-lightest)",
                 color: "var(--blue-dark)",
               }}
             />
@@ -114,6 +116,18 @@ function BillWidget({
             <LogoTextDark />
           </a>
         </div>
+        <a
+          href={`https://populist.us/bills/${bill.id}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Button
+            variant="secondary"
+            size="small"
+            label="Learn More"
+            theme="grey"
+          />
+        </a>
       </footer>
     </div>
   );

@@ -263,6 +263,30 @@ $small-size: 1.825rem;
   );
 }
 
+.grey.primary {
+  @include primary(
+    $grey-light,
+    $grey-dark,
+    $grey-darker,
+    $grey-darkest,
+    $grey-lighter,
+    $grey-lightest,
+    $grey-darkest
+  );
+}
+
+.grey.secondary {
+  @include secondary(
+    $grey-light,
+    $grey-dark,
+    $grey-light,
+    $grey-darkest,
+    $grey-lighter,
+    $grey-lightest,
+    $grey-darkest
+  );
+}
+
 @mixin icon-button($size) {
   border-radius: $size;
   height: $size;
@@ -274,6 +298,7 @@ $small-size: 1.825rem;
   line-height: 1rem;
   min-height: $small-size;
   padding: 0 0.75rem;
+  border: solid 1px transparent;
 
   &.iconOnlyButton {
     @include icon-button($small-size);
