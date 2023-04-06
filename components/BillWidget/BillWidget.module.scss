@@ -138,9 +138,18 @@
   color: $grey;
 }
 
-.status {
+.statusAndVotes {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 1rem 0 0.5rem;
