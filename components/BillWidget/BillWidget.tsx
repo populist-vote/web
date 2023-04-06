@@ -16,6 +16,7 @@ import { getYear } from "utils/dates";
 import { emitData, IResizeHeightMessage } from "utils/messages";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
+import { LastVoteSection } from "./LastVoteSection/LastVoteSection";
 
 function BillWidget({
   billId,
@@ -65,21 +66,22 @@ function BillWidget({
               </Badge>
             ))}
           </div>
-          <div className={styles.status}>
-            <Badge
-              size="small"
-              font="primary"
-              iconLeft={
-                <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
-              }
-              theme={statusInfo?.color}
-              lightBackground
-            >
-              {titleCase(bill.status?.replaceAll("_", " ") as string)}
-            </Badge>
-          </div>
-          <div>
-            <pre>{JSON.stringify(bill.legiscanData?.votes)}</pre>
+          <div className={styles.statusAndVotes}>
+            <div className={styles.status}>
+              <h4>Status</h4>
+              <Badge
+                size="small"
+                font="primary"
+                iconLeft={
+                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                }
+                theme={statusInfo?.color}
+                lightBackground
+              >
+                {titleCase(bill.status?.replaceAll("_", " ") as string)}
+              </Badge>
+            </div>
+            <LastVoteSection votes={bill.legiscanData?.votes || []} />
           </div>
           <div className={styles.overflowGradient}>
             <div className={styles.description}>
