@@ -28,12 +28,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
   }
 
   .vote {
-    display: grid;
-    grid-template-columns: auto auto;
-    width: auto;
-    gap: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    width: 50px;
   }
 }

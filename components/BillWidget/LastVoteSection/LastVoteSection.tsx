@@ -38,11 +38,11 @@ function LastVoteSection({ votes }: { votes: Bill["votes"] }) {
           />
           <div className={styles.votes}>
             <div className={styles.vote}>
-              <FaCheckCircle size={18} color="var(--green-support)" />
+              <FaCheckCircle size={12} color="var(--green-support)" />
               <span>{lastHouseVote?.yea}</span>
             </div>
             <div className={styles.vote}>
-              <RiCloseCircleFill size={18} color="var(--red)" />
+              <RiCloseCircleFill size={12} color="var(--red)" />
               <span>{lastHouseVote?.nay}</span>
             </div>
           </div>
@@ -70,11 +70,11 @@ function LastVoteSection({ votes }: { votes: Bill["votes"] }) {
           />
           <div className={styles.votes}>
             <div className={styles.vote}>
-              <FaCheckCircle size={18} color="var(--green-support)" />
+              <FaCheckCircle size={12} color="var(--green-support)" />
               <span>{lastSenateVote?.yea}</span>
             </div>
             <div className={styles.vote}>
-              <RiCloseCircleFill size={18} color="var(--red)" />
+              <RiCloseCircleFill size={12} color="var(--red)" />
               <span>{lastSenateVote?.nay}</span>
             </div>
           </div>
