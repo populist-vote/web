@@ -1,12 +1,13 @@
 @import "styles/variables/colors";
+@import "styles/variables/fonts";
 
 .container {
   border: 1px solid white;
-  border-radius: 25px;
+  border-radius: 10px;
   overflow: hidden;
   display: grid;
   grid-template-columns: var(--democratic-fr) var(--republican-fr);
-  height: 25px;
+  height: 12px;
 
   div {
     color: white;
@@ -28,4 +29,21 @@
       min-width: 100px;
     }
   }
+}
+
+.partyCountsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+  font-size: $text-xs;
+  font-weight: 500;
+}
+
+.democratLabel {
+  color: $blue;
+}
+
+.republicanLabel {
+  color: $red;
 }

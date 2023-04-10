@@ -1,14 +1,19 @@
+@import "styles/variables/colors";
+
 .container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  gap: 1.5rem;
-  border-bottom: 1px solid #e6e6e6;
 
-  h4 {
-    margin: 0 !important;
+  .chamberVote {
+    border-left: 1px solid $grey-light;
+    padding: 0 1rem;
+  }
+
+  .chamberVote:last-child {
+    padding-right: 0;
   }
 
   .pieChartContainer {
@@ -23,7 +28,7 @@
 
   .votes {
     grid-area: 1 / 1;
-    height: 100px;
+    height: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,5 +42,12 @@
     align-items: center;
     gap: 0.25rem;
     width: 40px;
+    font-size: 0.8em;
+    font-weight: 500;
+    padding: 1px;
+
+    span {
+      margin-top: 1px;
+    }
   }
 }

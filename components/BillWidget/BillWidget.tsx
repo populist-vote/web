@@ -10,7 +10,6 @@ import {
   useBillByIdQuery,
 } from "generated";
 import { useEffect } from "react";
-import { FaCircle } from "react-icons/fa";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
 import { emitData, IResizeHeightMessage } from "utils/messages";
@@ -66,23 +65,7 @@ function BillWidget({
               </Badge>
             ))}
           </div>
-          <div className={styles.statusAndVotes}>
-            <div className={styles.status}>
-              <h4>Status</h4>
-              <Badge
-                size="small"
-                font="primary"
-                iconLeft={
-                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
-                }
-                theme={statusInfo?.color}
-                lightBackground
-              >
-                {titleCase(bill.status?.replaceAll("_", " ") as string)}
-              </Badge>
-            </div>
-            <LastVoteSection votes={bill.legiscanData?.votes || []} />
-          </div>
+
           <div className={styles.overflowGradient}>
             <div className={styles.description}>
               <p>{bill.populistSummary}</p>
@@ -103,13 +86,29 @@ function BillWidget({
               }}
             />
           </a>
+          <div className={styles.statusAndVotesContainer}>
+            <div className={styles.statusContainer}>
+              <h4>Status</h4>
+              <div
+                className={styles.status}
+                style={{
+                  background: `var(--${statusInfo?.color})`,
+                }}
+              >
+                <div>
+                  {titleCase(bill.status?.replaceAll("_", " ") as string)}
+                </div>
+              </div>
+            </div>
+            <LastVoteSection votes={bill.legiscanData?.votes || []} />
+          </div>
+          {bill.sponsors?.length > 0 && (
+            <section className={styles.sponsors}>
+              <h4>Sponsors</h4>
+              <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />
+            </section>
+          )}
         </div>
-        {bill.sponsors?.length > 0 && (
-          <section className={styles.sponsors}>
-            <h4>Sponsors</h4>
-            <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />
-          </section>
-        )}
       </section>
       <footer className={styles.footer}>
         <div className={styles.branding}>
