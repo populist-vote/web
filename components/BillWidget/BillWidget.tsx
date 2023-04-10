@@ -44,11 +44,23 @@ function BillWidget({
     return () => observer.disconnect();
   }, [origin, embedId]);
 
+  const styleVars: React.CSSProperties & {
+    [`--status-background`]: string;
+    [`--status-border`]: string;
+  } = {
+    [`--status-background`]: `var(--${statusInfo?.background})`,
+    [`--status-border`]: `var(--${statusInfo?.color})`,
+  };
+
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this bill.</div>;
 
   return (
-    <div className={styles.billCard} data-test-id="populist-bill-widget">
+    <div
+      className={styles.billCard}
+      style={styleVars}
+      data-test-id="populist-bill-widget"
+    >
       <header className={styles.header}>
         <strong>
           {bill.state || "U.S."} - {splitAtDigitAndJoin(bill.billNumber)}
@@ -89,12 +101,7 @@ function BillWidget({
           <div className={styles.statusAndVotesContainer}>
             <div className={styles.statusContainer}>
               <h4>Status</h4>
-              <div
-                className={styles.status}
-                style={{
-                  background: `var(--${statusInfo?.color})`,
-                }}
-              >
+              <div className={styles.status}>
                 <div>
                   {titleCase(bill.status?.replaceAll("_", " ") as string)}
                 </div>
