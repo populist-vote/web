@@ -4,6 +4,7 @@ interface StatusInfo {
   text: string;
   subText: string;
   color: "green" | "red" | "violet" | "orange" | "blue" | "grey";
+  background?: string;
 }
 
 const getStatusInfo = (
@@ -11,33 +12,98 @@ const getStatusInfo = (
 ): StatusInfo => {
   switch (status) {
     case BillStatus.BecameLaw:
-      return { text: "Became Law", subText: "", color: "green" };
+      return {
+        text: "Became Law",
+        subText: "",
+        color: "green",
+        background: "green-alpha-1",
+      };
     case BallotMeasureStatus.BecameLaw:
-      return { text: "Became Law", subText: "", color: "green" };
+      return {
+        text: "Became Law",
+        subText: "",
+        color: "green",
+        background: "green-alpha-1",
+      };
     case BillStatus.Failed:
-      return { text: "Failed", subText: "", color: "red" };
+      return {
+        text: "Failed",
+        subText: "",
+        color: "red",
+        background: "red-alpha-1",
+      };
     case BallotMeasureStatus.Failed:
-      return { text: "Failed", subText: "", color: "red" };
+      return {
+        text: "Failed",
+        subText: "",
+        color: "red",
+        background: "red-alpha-1",
+      };
     case BillStatus.Introduced:
-      return { text: "Introduced", subText: "", color: "violet" };
+      return {
+        text: "Introduced",
+        subText: "",
+        color: "violet",
+        background: "violet-alpha-1",
+      };
     case BallotMeasureStatus.Introduced:
-      return { text: "Introduced", subText: "", color: "violet" };
+      return {
+        text: "Introduced",
+        subText: "",
+        color: "violet",
+        background: "violet-alpha-1",
+      };
     case BillStatus.InConsideration:
-      return { text: "In Consideration", subText: "", color: "orange" };
+      return {
+        text: "In Consideration",
+        subText: "",
+        color: "orange",
+        background: "orange-alpha-1",
+      };
     case BallotMeasureStatus.InConsideration:
-      return { text: "In Consideration", subText: "", color: "orange" };
+      return {
+        text: "In Consideration",
+        subText: "",
+        color: "orange",
+        background: "orange-alpha-1",
+      };
     case BallotMeasureStatus.Proposed:
-      return { text: "Proposed", subText: "", color: "blue" };
+      return {
+        text: "Proposed",
+        subText: "",
+        color: "blue",
+        background: "blue-alpha-1",
+      };
     case BallotMeasureStatus.GatheringSignatures:
-      return { text: "Gathering Signatures", subText: "", color: "blue" };
+      return {
+        text: "Gathering Signatures",
+        subText: "",
+        color: "blue",
+        background: "blue-alpha-1",
+      };
     case BallotMeasureStatus.OnTheBallot:
-      return { text: "On The Ballot", subText: "", color: "blue" };
+      return {
+        text: "On The Ballot",
+        subText: "",
+        color: "blue",
+        background: "blue-alpha-1",
+      };
     case BillStatus.Unknown:
-      return { text: "Unknown", subText: "", color: "grey" };
+      return {
+        text: "Unknown",
+        subText: "",
+        color: "grey",
+        background: "grey",
+      };
     case BallotMeasureStatus.Unknown:
       return { text: "Unknown", subText: "", color: "grey" };
     case BillStatus.Vetoed:
-      return { text: "Vetoed", subText: "", color: "red" };
+      return {
+        text: "Vetoed",
+        subText: "",
+        color: "red",
+        background: "red-alpha-1",
+      };
   }
 };
 

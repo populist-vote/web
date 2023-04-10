@@ -1,7 +1,5 @@
-import { useMemo, CSSProperties } from "react";
+import { CSSProperties } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { addAlphaToHexColor } from "utils/strings";
-import useDocumentBaseStyle from "hooks/useDocumentBaseStyle";
 import {
   ArgumentPosition,
   PublicVotes,
@@ -27,9 +25,7 @@ function SupportOpposeAction({
   toggle,
 }: SupportOpposeActionProps) {
   const Icon = type === ArgumentPosition.Support ? FaCheck : FaTimes;
-  const style = useDocumentBaseStyle();
   const color = type === ArgumentPosition.Support ? "--green-support" : "--red";
-  const rawColor = useMemo(() => style.getPropertyValue(color), [color, style]);
 
   const styleVars: CSSProperties & {
     "--action-color": string;
@@ -39,10 +35,7 @@ function SupportOpposeAction({
   } = {
     [`--action-color`]: `var(${color})`,
     [`--action-background-color`]: selected
-      ? addAlphaToHexColor(
-          rawColor,
-          type === ArgumentPosition.Support ? 0.1 : 0.2
-        )
+      ? `hsla(${color}, ${type === ArgumentPosition.Support ? 0.1 : 0.2})`
       : "none",
     [`--icon-background-color`]: selected ? `var(${color})` : "none",
     [`--icon-border-color`]: selected ? `var(${color})` : "var(--blue)",

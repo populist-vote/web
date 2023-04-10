@@ -110,7 +110,7 @@
   }
 
   .footer {
-    padding: 1.25rem 1.25rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -163,6 +163,8 @@
 }
 
 .status {
+  background: var(--status-background);
+  border: 1px solid var(--status-border);
   display: flex;
   height: 80px;
   justify-content: center;
