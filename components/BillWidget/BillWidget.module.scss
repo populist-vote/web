@@ -141,7 +141,7 @@
   color: $grey;
 }
 
-.statusAndVotes {
+.statusAndVotesContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -151,13 +151,26 @@
   border-top: 1px solid $grey-light;
 }
 
-.status {
+.statusContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: stretch;
   margin: 1rem 0 0.5rem;
   flex-grow: 1;
+  height: 100%;
+}
+
+.status {
+  display: flex;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-family: $font-primary;
+  font-size: $text-xs;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
 .tags {

@@ -10,7 +10,6 @@ import {
   useBillByIdQuery,
 } from "generated";
 import { useEffect } from "react";
-import { FaCircle } from "react-icons/fa";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
 import { emitData, IResizeHeightMessage } from "utils/messages";
@@ -87,20 +86,19 @@ function BillWidget({
               }}
             />
           </a>
-          <div className={styles.statusAndVotes}>
-            <div className={styles.status}>
+          <div className={styles.statusAndVotesContainer}>
+            <div className={styles.statusContainer}>
               <h4>Status</h4>
-              <Badge
-                size="small"
-                font="primary"
-                iconLeft={
-                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
-                }
-                theme={statusInfo?.color}
-                lightBackground
+              <div
+                className={styles.status}
+                style={{
+                  background: `var(--${statusInfo?.color})`,
+                }}
               >
-                {titleCase(bill.status?.replaceAll("_", " ") as string)}
-              </Badge>
+                <div>
+                  {titleCase(bill.status?.replaceAll("_", " ") as string)}
+                </div>
+              </div>
             </div>
             <LastVoteSection votes={bill.legiscanData?.votes || []} />
           </div>

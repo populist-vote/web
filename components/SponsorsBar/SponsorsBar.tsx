@@ -25,17 +25,19 @@ function SponsorsBar({ endorsements }: Props) {
   } as React.CSSProperties;
 
   return (
-    <div className={styles.container} style={styleVars}>
-      {numDemocrats > 0 && (
-        <div className={styles.democratic}>
-          <span>{numDemocrats}</span>Democratic
+    <div>
+      <div className={styles.partyCountsContainer}>
+        <div className={styles.democratLabel}>
+          <span>{numDemocrats} </span>Democrat
         </div>
-      )}
-      {numRepublicans > 0 && (
-        <div className={styles.republican}>
-          <span>{numRepublicans}</span>Republican
+        <div className={styles.republicanLabel}>
+          <span>{numRepublicans} </span>Republican
         </div>
-      )}
+      </div>
+      <div className={styles.container} style={styleVars}>
+        {numDemocrats > 0 && <div className={styles.democratic}></div>}
+        {numRepublicans > 0 && <div className={styles.republican}></div>}
+      </div>
     </div>
   );
 }
