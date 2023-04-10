@@ -118,7 +118,7 @@ function BillWidget({
           </a>
         </div>
         <a
-          href={`https://populist.us/bills/${bill.id}`}
+          href={`https://populist.us/bills/${bill.slug}`}
           target="_blank"
           rel="noreferrer"
         >
