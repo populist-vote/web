@@ -67,6 +67,7 @@ function BillFiltersDesktop() {
             <h4>Year</h4>
             <Select
               color="blue-dark"
+              textColor="blue-dark"
               backgroundColor="yellow"
               onChange={handleYearFilter}
               value={year as string}
