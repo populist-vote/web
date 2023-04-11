@@ -3,7 +3,14 @@ import { PropsWithChildren, ReactNode } from "react";
 import clsx from "clsx";
 
 interface BadgeProps {
-  theme?: "blue" | "green" | "red" | "yellow" | "grey" | "violet" | "orange";
+  theme?:
+    | "blue"
+    | "green-support"
+    | "red"
+    | "yellow"
+    | "grey"
+    | "violet"
+    | "orange";
   size?: "small" | "medium" | "large";
   font?: "primary" | "secondary";
   iconLeft?: ReactNode;

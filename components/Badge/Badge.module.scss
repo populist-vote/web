@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
 
@@ -56,7 +57,7 @@ $small-size: 1.825rem;
     }
   }
 
-  &.green {
+  &.green-support {
     background: rgba(143, 216, 171, 0.2);
     border: 1px solid $green-support;
     color: $white;

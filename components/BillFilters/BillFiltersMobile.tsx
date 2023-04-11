@@ -69,7 +69,7 @@ function BillFiltersMobile(props: BillIndexProps) {
             onClick={() => handlePopularitySort(PopularitySort.MostPopular)}
           />
           <Badge
-            theme="green"
+            theme="green-support"
             label="Most Supported"
             selected={popularity === PopularitySort.MostSupported}
             onClick={() => handlePopularitySort(PopularitySort.MostSupported)}
@@ -98,7 +98,7 @@ function BillFiltersMobile(props: BillIndexProps) {
             onClick={() => handleStatusFilter(BillStatus.InConsideration)}
           />
           <Badge
-            theme="green"
+            theme="green-support"
             label="Became Law"
             selected={status === BillStatus.BecameLaw}
             onClick={() => handleStatusFilter(BillStatus.BecameLaw)}

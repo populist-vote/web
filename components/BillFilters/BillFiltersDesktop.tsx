@@ -129,7 +129,7 @@ function BillFiltersDesktop() {
               onClick={() => handleStatusFilter(BillStatus.InConsideration)}
             />
             <Badge
-              theme="green"
+              theme="green-support"
               clickable
               label="Became Law"
               selected={status === BillStatus.BecameLaw}
@@ -165,7 +165,7 @@ function BillFiltersDesktop() {
             />
             <Badge
               clickable
-              theme="green"
+              theme="green-support"
               label="Most Supported"
               selected={popularity === PopularitySort.MostSupported}
               onClick={() => handlePopularitySort(PopularitySort.MostSupported)}

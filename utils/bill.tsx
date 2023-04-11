@@ -3,7 +3,7 @@ import { BallotMeasureStatus, BillStatus } from "generated";
 interface StatusInfo {
   text: string;
   subText: string;
-  color: "green" | "red" | "violet" | "orange" | "blue" | "grey";
+  color: "green-support" | "red" | "violet" | "orange" | "blue" | "grey";
   background?: string;
 }
 
@@ -15,14 +15,14 @@ const getStatusInfo = (
       return {
         text: "Became Law",
         subText: "",
-        color: "green",
+        color: "green-support",
         background: "green-alpha-1",
       };
     case BallotMeasureStatus.BecameLaw:
       return {
         text: "Became Law",
         subText: "",
-        color: "green",
+        color: "green-support",
         background: "green-alpha-1",
       };
     case BillStatus.Failed:
