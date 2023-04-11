@@ -27,12 +27,16 @@ function SponsorsBar({ endorsements }: Props) {
   return (
     <div>
       <div className={styles.partyCountsContainer}>
-        <div className={styles.democratLabel}>
-          <span>{numDemocrats} </span>Democrat
-        </div>
-        <div className={styles.republicanLabel}>
-          <span>{numRepublicans} </span>Republican
-        </div>
+        {numDemocrats > 0 && (
+          <div className={styles.democratLabel}>
+            <span>{numDemocrats} </span>Democrat
+          </div>
+        )}
+        {numRepublicans > 0 && (
+          <div className={styles.republicanLabel}>
+            <span>{numRepublicans} </span>Republican
+          </div>
+        )}
       </div>
       <div className={styles.container} style={styleVars}>
         {numDemocrats > 0 && <div className={styles.democratic}></div>}

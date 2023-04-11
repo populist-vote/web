@@ -44,6 +44,10 @@
   color: $blue;
 }
 
+.democratLabel:only-child {
+  margin: 0 auto;
+}
+
 .republicanLabel {
   color: $red;
 }

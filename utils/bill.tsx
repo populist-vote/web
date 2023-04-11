@@ -44,14 +44,14 @@ const getStatusInfo = (
         text: "Introduced",
         subText: "",
         color: "violet",
-        background: "violet-alpha-1",
+        background: "violet-alpha-2",
       };
     case BallotMeasureStatus.Introduced:
       return {
         text: "Introduced",
         subText: "",
         color: "violet",
-        background: "violet-alpha-1",
+        background: "violet-alpha-2",
       };
     case BillStatus.InConsideration:
       return {

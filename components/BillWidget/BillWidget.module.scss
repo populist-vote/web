@@ -37,13 +37,14 @@
     align-items: center;
     padding: 0;
     > * {
-      padding: 1.5rem 1.25rem 0;
+      padding: 1.5rem 1rem 0;
     }
 
     .title {
       margin-bottom: 0.5rem;
       margin-top: 0;
       line-height: 1.4em;
+      padding: 0 0.5rem;
     }
 
     h2 {
@@ -51,7 +52,7 @@
     }
 
     h4 {
-      font-size: $text-xs !important;
+      font-size: $text-xxs !important;
       font-weight: 500;
       margin: 0 0 0.75rem;
     }
@@ -64,7 +65,7 @@
       border-top: 1px solid $grey-light;
       border-bottom: 1px solid $grey-light;
       width: 100%;
-      padding: 1rem 0 1.25rem;
+      padding: 1rem 0.5rem 1.25rem;
 
       .sponsorsScroller {
         display: flex;
@@ -147,9 +148,10 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
-  gap: 0.5rem;
-  margin: 1rem 0 0.5rem;
+  gap: 0;
+  margin-top: 1rem;
   border-top: 1px solid $grey-light;
+  padding: 0 0.5rem 1rem;
 }
 
 .statusContainer {
@@ -157,7 +159,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  margin: 1rem 0 0.5rem;
+  margin-top: 1rem;
   flex-grow: 1;
   height: 100%;
 }
@@ -174,6 +176,8 @@
   font-size: $text-xs;
   text-transform: uppercase;
   font-weight: 500;
+  line-height: 1.3em;
+  padding: 1rem;
 }
 
 .tags {
@@ -184,7 +188,7 @@
 
 .overflowGradient {
   position: relative;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 
 .overflowGradient::before {
