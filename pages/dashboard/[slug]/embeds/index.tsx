@@ -1,16 +1,17 @@
-import { BillCard, Layout, LoaderFlag } from "components";
-import { Box } from "components/Box/Box";
-import { useEmbedsByOrganizationQuery } from "generated";
+import { Layout, LoaderFlag } from "components";
+import { EmbedResult, useEmbedsByOrganizationQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { toast } from "react-toastify";
 import { getRelativeTimeString } from "utils/dates";
 
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "..";
+import { Table } from "components/Table/Table";
+import { ColumnDef, Row } from "@tanstack/react-table";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps({
   query,
@@ -33,6 +34,7 @@ export async function getServerSideProps({
 
 function EmbedsIndex({ slug }: { slug: string }) {
   const { user } = useAuth();
+  const router = useRouter();
   const { data, isLoading } = useEmbedsByOrganizationQuery(
     {
       id: user?.organizationId as string,
@@ -44,7 +46,31 @@ function EmbedsIndex({ slug }: { slug: string }) {
     }
   );
 
-  const embeds = data?.embedsByOrganization;
+  const embeds = data?.embedsByOrganization as EmbedResult[];
+
+  const columns = useMemo<ColumnDef<EmbedResult>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Name",
+      },
+      {
+        accessorKey: "description",
+        header: "Description",
+      },
+      {
+        accessorKey: "updatedAt",
+        header: "Last Updated",
+        cell: (info) =>
+          getRelativeTimeString(new Date(info.getValue() as string)),
+        size: 50,
+      },
+    ],
+    []
+  );
+
+  const onRowClick = (row: Row<EmbedResult>) =>
+    router.push(`/dashboard/${slug}/embeds/${row.original.id}`);
 
   if (isLoading) return <LoaderFlag />;
 
@@ -61,67 +87,12 @@ function EmbedsIndex({ slug }: { slug: string }) {
       <small>You don't have any embeds yet.</small>
     </div>
   ) : (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(2, 1fr)",
-        gap: "1rem",
-        marginTop: "1.5rem",
-      }}
-    >
-      {embeds?.map((embed) => (
-        <Link key={embed.id} href={`/dashboard/${slug}/embeds/${embed.id}`}>
-          <Box key={embed.id} padding="1.25rem" isLink>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                flexDirection: "row",
-              }}
-            >
-              <BillCard
-                billId={embed.attributes?.billId as string}
-                isLink={false}
-              />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  flexDirection: "column",
-                  height: "100%",
-                }}
-              >
-                <div style={{ textAlign: "right" }}>
-                  <p
-                    style={{
-                      color: "white",
-                      fontSize: "16px",
-                      margin: "0 0 0.5rem 0",
-                    }}
-                  >
-                    Last updated{" "}
-                    {getRelativeTimeString(new Date(embed.updatedAt))}
-                  </p>
-                  <p
-                    style={{
-                      margin: 0,
-                      color: "var(--blue-text)",
-                      fontSize: "16px",
-                    }}
-                  >
-                    {embed.name}
-                  </p>
-                  <p style={{ color: "white", fontSize: "16px" }}>
-                    {embed.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Box>
-        </Link>
-      ))}
-    </div>
+    <Table
+      data={embeds || []}
+      columns={columns}
+      initialState={{}}
+      onRowClick={onRowClick}
+    />
   );
 }
 

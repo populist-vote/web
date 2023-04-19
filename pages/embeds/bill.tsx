@@ -1,4 +1,5 @@
 import { BillWidget } from "components/BillWidget/BillWidget";
+import { useEmbedByIdQuery } from "generated";
 import { GetServerSidePropsContext } from "next";
 import { ReactNode, useEffect } from "react";
 import { getOriginHost } from "utils/messages";
@@ -25,6 +26,12 @@ function BillWidgetPage({
   embedId: string;
   originHost: string;
 }) {
+  const { data, isLoading } = useEmbedByIdQuery({
+    id: embedId,
+  });
+
+  const renderOptions = data?.embedById?.attributes?.renderOptions || {};
+
   const resolvedOrigin =
     originHost || (typeof location === "undefined" ? "" : location.href);
 
@@ -37,8 +44,16 @@ function BillWidgetPage({
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
   }, [originHost]);
+
+  if (isLoading) return null;
+
   return (
-    <BillWidget billId={billId} embedId={embedId} origin={resolvedOrigin} />
+    <BillWidget
+      billId={billId}
+      embedId={embedId}
+      origin={resolvedOrigin}
+      renderOptions={renderOptions}
+    />
   );
 }
 
