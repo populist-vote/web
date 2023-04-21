@@ -17,14 +17,22 @@ import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 import { LastVoteSection } from "./LastVoteSection/LastVoteSection";
 
+interface BillWidgetRenderOptions {
+  issueTags: boolean;
+  summary: boolean;
+  sponsors: boolean;
+}
+
 function BillWidget({
   billId,
   embedId,
   origin,
+  renderOptions,
 }: {
   billId: string;
   embedId: string;
   origin: string;
+  renderOptions: BillWidgetRenderOptions;
 }) {
   const { data, isLoading, error } = useBillByIdQuery({ id: billId });
   const bill = data?.billById as BillResult;
@@ -70,19 +78,23 @@ function BillWidget({
       <section className={styles.cardContent}>
         <div>
           <h2 className={styles.title}>{bill.title}</h2>
-          <div className={styles.tags}>
-            {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
-              <Badge size="small" theme="grey" key={tag.id} lightBackground>
-                {tag.name}
-              </Badge>
-            ))}
-          </div>
-
-          <div className={styles.overflowGradient}>
-            <div className={styles.description}>
-              <p>{bill.populistSummary}</p>
+          {renderOptions?.issueTags && (
+            <div className={styles.tags}>
+              {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
+                <Badge size="small" theme="grey" key={tag.id} lightBackground>
+                  {tag.name}
+                </Badge>
+              ))}
             </div>
-          </div>
+          )}
+
+          {renderOptions?.summary && (
+            <div className={styles.overflowGradient}>
+              <div className={styles.description}>
+                <p>{bill.populistSummary}</p>
+              </div>
+            </div>
+          )}
           <a
             href={bill.fullTextUrl as string}
             target="_blank"
@@ -109,7 +121,7 @@ function BillWidget({
             </div>
             <LastVoteSection votes={bill.legiscanData?.votes || []} />
           </div>
-          {bill.sponsors?.length > 0 && (
+          {renderOptions?.sponsors && bill.sponsors?.length > 0 && (
             <section className={styles.sponsors}>
               <h4>Sponsors</h4>
               <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />

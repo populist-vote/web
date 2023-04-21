@@ -24,6 +24,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   );
 
   const billId = data?.embedById?.attributes?.billId as string;
+  const embed = data?.embedById as EmbedResult;
 
   const htmlText = `
   <!-- Place this div where you want the widget to appear -->
@@ -69,7 +70,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
       <div className={clsx(styles.options)}>
         <h3>Options</h3>
         <Box>
-          <EmbedForm slug={slug} embed={data?.embedById as EmbedResult} />
+          <EmbedForm slug={slug} embed={embed} />
         </Box>
       </div>
       <div className={clsx(styles.preview)}>
@@ -79,6 +80,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
             billId={billId}
             origin={window.location.origin}
             embedId={id}
+            renderOptions={embed.attributes.renderOptions}
           />
         ) : (
           <BillWidgetSkeleton embedId={id} slug={slug} />

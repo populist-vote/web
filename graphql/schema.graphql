@@ -381,6 +381,10 @@ type DeleteElectionResult {
   id: String!
 }
 
+type DeleteEmbedResult {
+  id: String!
+}
+
 type DeleteIssueTagResult {
   id: String!
 }
@@ -541,6 +545,7 @@ type Mutation {
   deleteBallotMeasure(id: String!): DeleteBallotMeasureResult!
   deleteBill(id: String!): DeleteBillResult!
   deleteElection(id: String!): DeleteElectionResult!
+  deleteEmbed(id: UUID!): DeleteEmbedResult!
   deleteIssueTag(id: String!): DeleteIssueTagResult!
   deleteOffice(id: String!): DeleteOfficeResult!
   deleteOrganization(id: String!): DeleteOrganizationResult!

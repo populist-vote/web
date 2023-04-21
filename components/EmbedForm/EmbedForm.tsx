@@ -1,14 +1,25 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "components/Button/Button";
+import { Checkbox } from "components/Checkbox/Checkbox";
 import { TextInput } from "components/TextInput/TextInput";
 import {
   EmbedResult,
   UpsertEmbedInput,
+  useEmbedByIdQuery,
   useUpsertEmbedMutation,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+
+type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
+  renderOptions: {
+    issueTags: boolean;
+    summary: boolean;
+    sponsors: boolean;
+  };
+};
 
 function EmbedForm({
   slug,
@@ -20,26 +31,41 @@ function EmbedForm({
   const router = useRouter();
   const { user } = useAuth({ redirect: false });
   const upsertEmbed = useUpsertEmbedMutation();
-  const { register, handleSubmit } = useForm<UpsertEmbedInput>({
+  const queryClient = useQueryClient();
+  // TODO: Extract the embed options for bills, politicians, etc into seperate form components
+  const { register, handleSubmit } = useForm<UpsertEmbedInputWithOptions>({
     defaultValues: {
       name: embed?.name,
       description: embed?.description,
+      renderOptions: {
+        issueTags: embed?.attributes?.renderOptions?.issueTags,
+        summary: embed?.attributes?.renderOptions?.summary,
+        sponsors: embed?.attributes?.renderOptions?.sponsors,
+      },
     },
   });
-  const onSubmit = (data: UpsertEmbedInput) => {
+  const onSubmit = (data: UpsertEmbedInputWithOptions) => {
     upsertEmbed.mutate(
       {
         input: {
-          ...data,
+          name: data.name,
+          description: data.description,
           id: embed?.id,
           populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
-          attributes: embed?.attributes,
+          attributes: {
+            ...embed?.attributes,
+            renderOptions: data.renderOptions,
+          },
         },
       },
       {
         onSuccess: (data) => {
+          // alert(JSON.stringify(data, null, 2));
           toast("Embed saved!", { type: "success", position: "bottom-right" });
+          void queryClient.invalidateQueries(
+            useEmbedByIdQuery.getKey({ id: router.query.id as string })
+          );
           void router.push(
             `/dashboard/${slug}/embeds/${data.upsertEmbed.id}`,
             undefined,
@@ -77,6 +103,32 @@ function EmbedForm({
           label="Description"
           placeholder={"Legislative poll on prop 13"}
           size="small"
+          register={register}
+        />
+        <div
+          style={{
+            width: "100%",
+            height: "1px",
+            borderTop: "1px solid var(--blue-dark)",
+            margin: "1rem 0",
+          }}
+        />
+        <Checkbox
+          id="issueTags"
+          name="renderOptions.issueTags"
+          label="Issue Tags"
+          register={register}
+        />
+        <Checkbox
+          id="Summary"
+          name="renderOptions.summary"
+          label="Summary"
+          register={register}
+        />
+        <Checkbox
+          id="Sponsors"
+          name="renderOptions.sponsors"
+          label="Sponsors"
           register={register}
         />
       </div>
