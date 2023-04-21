@@ -1,38 +1,16 @@
-import { Layout, LoaderFlag } from "components";
+import { LoaderFlag } from "components";
 import { EmbedResult, useEmbedsByOrganizationQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
-import nextI18nextConfig from "next-i18next.config";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ReactNode, useMemo } from "react";
+import { useMemo } from "react";
 import { toast } from "react-toastify";
 import { getRelativeTimeString } from "utils/dates";
-
-import { SupportedLocale } from "types/global";
-import { DashboardTopNav } from "..";
 import { Table } from "components/Table/Table";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useRouter } from "next/router";
+import { Badge } from "components/Badge/Badge";
+import Link from "next/link";
 
-export async function getServerSideProps({
-  query,
-  locale,
-}: {
-  query: { slug: string };
-  locale: SupportedLocale;
-}) {
-  return {
-    props: {
-      slug: query.slug,
-      ...(await serverSideTranslations(
-        locale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-}
-
-function EmbedsIndex({ slug }: { slug: string }) {
+function EmbedsIndex({ slug, title }: { slug: string; title: string }) {
   const { user } = useAuth();
   const router = useRouter();
   const { data, isLoading } = useEmbedsByOrganizationQuery(
@@ -87,20 +65,42 @@ function EmbedsIndex({ slug }: { slug: string }) {
       <small>You don't have any embeds yet.</small>
     </div>
   ) : (
-    <Table
-      data={embeds || []}
-      columns={columns}
-      initialState={{}}
-      onRowClick={onRowClick}
-    />
+    <>
+      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+        <Link href={`/dashboard/${slug}/embeds/legislation`}>
+          <Badge
+            theme="yellow"
+            clickable
+            label="Legislation"
+            selected={router.asPath.includes("/legislation")}
+          />
+        </Link>
+        <Link href={`/dashboard/${slug}/embeds/multi-legislation`}>
+          <Badge
+            theme="orange"
+            clickable
+            label="Multi Legislation"
+            selected={router.asPath.includes("/multi-legislation")}
+          />
+        </Link>
+        <Link href={`/dashboard/${slug}/embeds/politician`}>
+          <Badge
+            theme="aqua"
+            clickable
+            label="Politician"
+            selected={router.asPath.includes("/politician")}
+          />
+        </Link>
+      </div>
+      <h2>{title}</h2>
+      <Table
+        data={embeds || []}
+        columns={columns}
+        initialState={{}}
+        onRowClick={onRowClick}
+      />
+    </>
   );
 }
 
-EmbedsIndex.getLayout = (page: ReactNode) => (
-  <Layout>
-    <DashboardTopNav />
-    {page}
-  </Layout>
-);
-
-export default EmbedsIndex;
+export { EmbedsIndex };

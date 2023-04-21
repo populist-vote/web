@@ -10,7 +10,8 @@ interface BadgeProps {
     | "yellow"
     | "grey"
     | "violet"
-    | "orange";
+    | "orange"
+    | "aqua";
   size?: "small" | "medium" | "large";
   font?: "primary" | "secondary";
   iconLeft?: ReactNode;

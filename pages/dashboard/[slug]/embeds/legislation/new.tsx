@@ -3,7 +3,7 @@ import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilter
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useMemo } from "react";
 import { SupportedLocale } from "types/global";
-import { DashboardTopNav } from "..";
+import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
 import {

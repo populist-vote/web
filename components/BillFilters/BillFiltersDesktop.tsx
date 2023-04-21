@@ -66,7 +66,6 @@ function BillFiltersDesktop() {
           <section className={styles.flex}>
             <h4>Year</h4>
             <Select
-              color="blue-dark"
               textColor="blue-dark"
               backgroundColor="yellow"
               onChange={handleYearFilter}
@@ -79,7 +78,7 @@ function BillFiltersDesktop() {
           <section className={styles.flex}>
             <h4>Issue</h4>
             <Select
-              color={!!issue ? "blue-dark" : "yellow"}
+              textColor={!!issue ? "blue-dark" : "yellow"}
               border="solid"
               backgroundColor={!!issue ? "yellow" : "transparent"}
               value={issue as string}
@@ -96,7 +95,7 @@ function BillFiltersDesktop() {
           <section className={styles.flex}>
             <h4>Issue</h4>
             <Select
-              color={!!committee ? "blue-dark" : "yellow"}
+              textColor={!!committee ? "blue-dark" : "yellow"}
               border="solid"
               backgroundColor={!!committee ? "yellow" : "transparent"}
               value={committee as string}

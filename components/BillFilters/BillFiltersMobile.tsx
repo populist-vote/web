@@ -50,7 +50,7 @@ function BillFiltersMobile(props: BillIndexProps) {
         <section className={styles.flex}>
           <h4>Year</h4>
           <Select
-            color="blue-dark"
+            textColor="blue-dark"
             backgroundColor="yellow"
             placeholder="Select Year"
             onChange={handleYearFilter}
