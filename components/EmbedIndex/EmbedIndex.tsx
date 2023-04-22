@@ -1,18 +1,28 @@
 import { LoaderFlag } from "components";
 import { EmbedResult, useEmbedsByOrganizationQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
-import { useMemo } from "react";
 import { toast } from "react-toastify";
-import { getRelativeTimeString } from "utils/dates";
 import { Table } from "components/Table/Table";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useRouter } from "next/router";
 import { Badge } from "components/Badge/Badge";
 import Link from "next/link";
+import { useTheme } from "hooks/useTheme";
 
-function EmbedsIndex({ slug, title }: { slug: string; title: string }) {
+function EmbedIndex({
+  slug,
+  title,
+  embedType,
+  columns,
+}: {
+  slug: string;
+  title: string;
+  embedType: "legislation" | "multi-legislation" | "politician";
+  columns: ColumnDef<EmbedResult>[];
+}) {
   const { user } = useAuth();
   const router = useRouter();
+  const { theme } = useTheme();
   const { data, isLoading } = useEmbedsByOrganizationQuery(
     {
       id: user?.organizationId as string,
@@ -26,29 +36,8 @@ function EmbedsIndex({ slug, title }: { slug: string; title: string }) {
 
   const embeds = data?.embedsByOrganization as EmbedResult[];
 
-  const columns = useMemo<ColumnDef<EmbedResult>[]>(
-    () => [
-      {
-        accessorKey: "name",
-        header: "Name",
-      },
-      {
-        accessorKey: "description",
-        header: "Description",
-      },
-      {
-        accessorKey: "updatedAt",
-        header: "Last Updated",
-        cell: (info) =>
-          getRelativeTimeString(new Date(info.getValue() as string)),
-        size: 50,
-      },
-    ],
-    []
-  );
-
   const onRowClick = (row: Row<EmbedResult>) =>
-    router.push(`/dashboard/${slug}/embeds/${row.original.id}`);
+    router.push(`/dashboard/${slug}/embeds/${embedType}/${row.original.id}`);
 
   if (isLoading) return <LoaderFlag />;
 
@@ -98,9 +87,10 @@ function EmbedsIndex({ slug, title }: { slug: string; title: string }) {
         columns={columns}
         initialState={{}}
         onRowClick={onRowClick}
+        theme={theme}
       />
     </>
   );
 }
 
-export { EmbedsIndex };
+export { EmbedIndex };

@@ -48,7 +48,7 @@ import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
 import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
 import { VotingGuideNav } from "./VotingGuide/VotingGuideNav/VotingGuideNav";
 import { Select } from "./Select/Select";
-import { EmbedsIndex } from "./EmbedIndex/EmbedIndex";
+import { EmbedIndex } from "./EmbedIndex/EmbedIndex";
 
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
@@ -69,7 +69,7 @@ export {
   DashboardLink,
   ElectionInfoSection,
   ElectionSelector,
-  EmbedsIndex,
+  EmbedIndex,
   FieldSet,
   FiltersIcon,
   FlagSection,

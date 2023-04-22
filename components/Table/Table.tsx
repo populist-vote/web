@@ -1,4 +1,4 @@
- import { CSSProperties, useState } from "react";
+import { CSSProperties, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -17,7 +17,7 @@ import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import clsx from "clsx";
 import { BillResult } from "generated";
 
-type TableTheme = "blue" | "green";
+type TableTheme = "green" | "yellow" | "orange" | "aqua";
 
 interface TableThemeColors {
   background: string;
@@ -45,7 +45,7 @@ function Table<T extends object>({
   columns,
   initialState,
   metaRight,
-  theme = "blue",
+  theme = "yellow",
   onRowClick,
   selectedRowId,
 }: TableProps<T>) {
@@ -71,7 +71,7 @@ function Table<T extends object>({
   // This has a runtime cost, should ultimately move this into SCSS file and handle using theme classes
   const getTheme = (): TableThemeColors => {
     switch (theme) {
-      case "blue":
+      case "yellow":
         return {
           background: "var(--blue-darker)",
           color: "var(--yellow)",
@@ -91,6 +91,29 @@ function Table<T extends object>({
           index: {
             selected: "var(--green)",
             unselected: "var(--green-dark)",
+          },
+        };
+      case "orange":
+        return {
+          background: "var(--blue-darker)",
+          color: "var(--orange)",
+          selectedRow: "rgba(255, 228, 92, 0.05)",
+          border: "var(--blue-dark)",
+          index: {
+            selected: "var(--blue)",
+            unselected: "var(--blue-dark)",
+          },
+        };
+
+      case "aqua":
+        return {
+          background: "rgba(0 255 255 / 0.05)",
+          color: "var(--aqua)",
+          selectedRow: "rgba(255, 228, 92, 0.05)",
+          border: "var(--blue-dark)",
+          index: {
+            selected: "var(--blue)",
+            unselected: "var(--blue-dark)",
           },
         };
     }
@@ -230,7 +253,11 @@ function Table<T extends object>({
           </tbody>
         </table>
         <div className={styles.tableMeta}>
-          <small>{table.getRowModel().rows.length} Rows</small>
+          <small>
+            {table.getRowModel().rows.length} Rows, Page{" "}
+            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
+          </small>
           {metaRight}
         </div>
       </div>

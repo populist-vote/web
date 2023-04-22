@@ -247,10 +247,23 @@ $small-size: 1.825rem;
   @include secondary($red, $red, $red, "transparent", $red, $white, $white);
 }
 
+.orange.primary {
+  @include primary(
+    $orange,
+    $orange-dark,
+    $orange-darker,
+    $blue-darkest,
+    $orange-light,
+    $orange-lighter,
+    $blue-darkest
+  );
+}
+
 .aqua.primary {
   @include primary(
     $aqua,
     // background color + active border color
+    #2c6e6a,
     #2c6e6a,
     // active background color + disabled border
     $blue-darkest,

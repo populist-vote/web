@@ -12,6 +12,7 @@ import { SupportedLocale } from "types/global";
 import { MdSpaceDashboard } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
 import { ReactNode } from "react";
+import { useTheme } from "hooks/useTheme";
 
 export async function getServerSideProps({
   query,
@@ -90,11 +91,15 @@ function Dashboard({ slug }: { slug: string }) {
 
 export function DashboardTopNav() {
   const router = useRouter();
+  const { theme } = useTheme();
   const { slug } = router.query;
   return (
     <TopNav>
       <ul>
-        <li data-selected={router.asPath == `/dashboard/${slug}`}>
+        <li
+          data-selected={router.asPath == `/dashboard/${slug}`}
+          data-color={theme}
+        >
           <Link
             href={{
               pathname: "/dashboard/[slug]",
@@ -108,10 +113,11 @@ export function DashboardTopNav() {
           data-selected={new RegExp(`/dashboard/${slug}/embeds`).test(
             router.asPath
           )}
+          data-color={theme}
         >
           <Link
             href={{
-              pathname: "/dashboard/[slug]/embeds",
+              pathname: "/dashboard/[slug]/embeds/legislation",
               query: { slug },
             }}
           >
@@ -122,14 +128,14 @@ export function DashboardTopNav() {
       <div>
         <Link
           href={{
-            pathname: "/dashboard/[slug]/embeds/new",
+            pathname: "/dashboard/[slug]/embeds/legislation/new",
             query: { slug },
           }}
         >
           <Button
             variant="primary"
             size="medium"
-            theme="yellow"
+            theme={theme}
             label="New Embed"
             wrapText={false}
           />

@@ -467,6 +467,7 @@ input ElectionSearchInput {
 
 type EmbedResult {
   attributes: JSON!
+  bill: BillResult
   createdAt: DateTime!
   createdBy: UserResult!
   createdById: ID!
@@ -474,6 +475,7 @@ type EmbedResult {
   id: ID!
   name: String!
   organizationId: ID!
+  politician: PoliticianResult
   populistUrl: String!
   updatedAt: DateTime!
   updatedBy: UserResult!
