@@ -12,6 +12,11 @@
   text-align: center;
   max-width: none;
 
+  section {
+    padding: 0 0.75rem 1rem;
+    width: 100%;
+  }
+
   header,
   section:not(:last-child) {
     width: 100%;
@@ -36,20 +41,14 @@
     justify-content: center;
     align-items: center;
     padding: 0;
-    > * {
-      width: 100%;
-      padding: 1.5rem 1rem 0;
-    }
 
     .title {
-      margin-bottom: 0.5rem;
-      margin-top: 0;
       line-height: 1.4em;
-      padding: 0 0.5rem;
     }
 
     h2 {
       font-family: $font-secondary;
+      margin-bottom: 0 !important;
     }
 
     h4 {
@@ -79,16 +78,19 @@
     }
   }
 
-  .description {
-    text-align: left;
-    margin-top: 0.75rem;
-    margin-bottom: 0.25rem;
-    max-height: 100px;
-    overflow: scroll;
+  .summaryContainer {
+    padding-top: 0 !important;
 
-    p {
-      margin: 0.5rem 0;
-      line-height: 1.5em;
+    .description {
+      text-align: left;
+      margin-bottom: 0.25rem;
+      max-height: 100px;
+      overflow: scroll;
+
+      p {
+        margin: 0.5rem 0;
+        line-height: 1.5em;
+      }
     }
   }
 
@@ -111,7 +113,7 @@
   }
 
   .footer {
-    padding: 1.25rem;
+    padding: 0.75rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -150,9 +152,8 @@
   justify-content: space-around;
   align-items: flex-start;
   gap: 0;
-  margin-top: 1rem;
   border-top: 1px solid $grey-light;
-  padding: 0 0.5rem 1rem;
+  padding-top: 0 !important;
 }
 
 .statusContainer {

@@ -75,60 +75,65 @@ function BillWidget({
         </strong>
         <strong>{getYear(bill.session?.startDate)}</strong>
       </header>
-      <section className={styles.cardContent}>
-        <div>
+      <main className={styles.cardContent}>
+        <section>
           <h2 className={styles.title}>{bill.title}</h2>
-          {renderOptions?.issueTags && (
-            <div className={styles.tags}>
-              {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
-                <Badge size="small" theme="grey" key={tag.id} lightBackground>
-                  {tag.name}
-                </Badge>
-              ))}
-            </div>
-          )}
+        </section>
+        {renderOptions?.issueTags && !!bill.issueTags.length && (
+          <section className={styles.tags}>
+            {bill.issueTags?.map((tag: Partial<IssueTagResult>) => (
+              <Badge size="small" theme="grey" key={tag.id} lightBackground>
+                {tag.name}
+              </Badge>
+            ))}
+          </section>
+        )}
 
-          {renderOptions?.summary && (
-            <div className={styles.overflowGradient}>
-              <div className={styles.description}>
-                <p>{bill.populistSummary}</p>
-              </div>
-            </div>
-          )}
-          <a
-            href={bill.fullTextUrl as string}
-            target="_blank"
-            rel="noreferrer"
-            style={{ width: "auto" }}
-          >
-            <Button
-              variant="text"
-              size="small"
-              label="Full Text"
-              style={{
-                color: "var(--blue-dark)",
-              }}
-            />
-          </a>
-          <div className={styles.statusAndVotesContainer}>
-            <div className={styles.statusContainer}>
-              <h4>Status</h4>
-              <div className={styles.status}>
-                <div>
-                  {titleCase(bill.status?.replaceAll("_", " ") as string)}
+        {renderOptions?.summary && (
+          <section className={styles.summaryContainer}>
+            {bill.populistSummary && (
+              <div className={styles.overflowGradient}>
+                <div className={styles.description}>
+                  <p>{bill.populistSummary}</p>
                 </div>
               </div>
+            )}
+            <a
+              href={bill.fullTextUrl as string}
+              target="_blank"
+              rel="noreferrer"
+              style={{ width: "auto" }}
+            >
+              <Button
+                variant="text"
+                size="small"
+                label="Full Text"
+                style={{
+                  color: "var(--blue-dark)",
+                }}
+              />
+            </a>
+          </section>
+        )}
+
+        <section className={styles.statusAndVotesContainer}>
+          <div className={styles.statusContainer}>
+            <h4>Status</h4>
+            <div className={styles.status}>
+              <div>
+                {titleCase(bill.status?.replaceAll("_", " ") as string)}
+              </div>
             </div>
-            <LastVoteSection votes={bill.legiscanData?.votes || []} />
           </div>
-          {renderOptions?.sponsors && bill.sponsors?.length > 0 && (
-            <section className={styles.sponsors}>
-              <h4>Sponsors</h4>
-              <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />
-            </section>
-          )}
-        </div>
-      </section>
+          <LastVoteSection votes={bill.legiscanData?.votes || []} />
+        </section>
+        {renderOptions?.sponsors && bill.sponsors?.length > 0 && (
+          <section className={styles.sponsors}>
+            <h4>Sponsors</h4>
+            <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />
+          </section>
+        )}
+      </main>
       <footer className={styles.footer}>
         <div className={styles.branding}>
           <span className={styles.poweredBy}>Powered by</span>
