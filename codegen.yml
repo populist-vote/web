@@ -8,6 +8,8 @@ generates:
   ./graphql/schema.graphql:
     plugins:
       - schema-ast
+    config: 
+      includeDirectives: true
   ./generated.ts:
     plugins:
       - typescript

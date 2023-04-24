@@ -84,10 +84,18 @@ export function BillSearchAndFilters() {
           size="medium"
           onClick={() => {
             setSearchValue("");
+            const {
+              search: _search,
+              showFilters: _showFilters,
+              state: _state,
+              scope: _scope,
+              status: _status,
+              ...newQuery
+            } = query;
             void router.replace(
               {
                 pathname: router.pathname,
-                query: router.query.slug ? { slug: router.query.slug } : null,
+                query: newQuery,
               },
               undefined,
               { shallow: true }

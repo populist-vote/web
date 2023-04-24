@@ -4,14 +4,11 @@ type Theme = "yellow" | "aqua" | "orange";
 
 function useTheme(): { theme: Theme } {
   const router = useRouter();
-  const theme =
-    router.query["embed-type"] === "legislation"
-      ? "yellow"
-      : router.query["embed-type"] === "multi-legislation"
-      ? "orange"
-      : router.query["embed-type"] === "politician"
-      ? "aqua"
-      : "yellow";
+  const theme = router.asPath.includes("legislation")
+    ? "yellow"
+    : router.asPath.includes("politician")
+    ? "aqua"
+    : "yellow";
 
   return { theme };
 }

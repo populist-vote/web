@@ -5,23 +5,21 @@
     var params = {};
     var url = new URL(location.href);
     var cleanedLocation = url.toString();
-    params.billId = attributes.billId || "";
-    params.embedId = attributes.embedId || "";
     params.origin = cleanedLocation;
-    var containerName = ".populist-".concat(params.embedId);
+    var containerName = ".populist-".concat(attributes.embedId);
     var existingContainer = document.querySelector(containerName);
     var id = existingContainer && existingContainer.id;
     if (id) {
         params.origin = "".concat(cleanedLocation, "#").concat(id);
     }
     // Compute embed source URL and loading attribute
-    var src = "".concat(populistOrigin, "/embeds/").concat("bill", "?").concat(new URLSearchParams(params));
+    var src = "".concat(populistOrigin, "/embeds/").concat(attributes.embedId, "?").concat(new URLSearchParams(params));
     var loading = attributes.loading === "lazy" ? "lazy" : undefined;
     // Set up iframe element
     var iframeElement = document.createElement("iframe");
     var iframeAttributes = {
         "class": "populist-frame populist-frame--loading",
-        id: "populist-iframe-".concat(params.embedId),
+        id: "populist-iframe-".concat(attributes.embedId),
         title: "Populist Widget",
         scrolling: "no",
         allow: "clipboard-write",
@@ -44,7 +42,7 @@
     if (!existingContainer) {
         var iframeContainer = document.createElement("div");
         iframeContainer.setAttribute("class", containerName);
-        iframeContainer.setAttribute("id", "populist-iframe-".concat(params.embedId));
+        iframeContainer.setAttribute("id", "populist-iframe-".concat(attributes.embedId));
         iframeContainer.appendChild(iframeElement);
         script.insertAdjacentElement("afterend", iframeContainer);
     }
@@ -61,7 +59,7 @@
         if (!(typeof data === "object" && data.populist))
             return;
         if (data.populist.resizeHeight &&
-            params.embedId === data.populist.embedId) {
+            attributes.embedId === data.populist.embedId) {
             iframeElement.style.height = "".concat(data.populist.resizeHeight, "px");
         }
     });

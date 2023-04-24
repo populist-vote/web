@@ -34,4 +34,7 @@ fragment EmbedFields on EmbedResult {
         name
       }
     }
+    politician {
+      fullName
+    }
 }

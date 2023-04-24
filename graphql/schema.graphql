@@ -1,3 +1,9 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
 type AddressExtendedMNResult {
   countyCode: String
   countyCommissionerDistrict: String
@@ -200,13 +206,10 @@ type BillResult {
 type BillResultConnection {
   """A list of edges."""
   edges: [BillResultEdge!]!
-
   """A list of nodes."""
   nodes: [BillResult!]!
-
   """Information to aid in pagination."""
   pageInfo: PageInfo!
-
   """Total result set count"""
   totalCount: Int!
 }
@@ -215,7 +218,6 @@ type BillResultConnection {
 type BillResultEdge {
   """A cursor for use in pagination"""
   cursor: String!
-
   """The item at the end of the edge"""
   node: BillResult!
 }
@@ -236,10 +238,8 @@ enum BillStatus {
 enum BillType {
   """New Hampshire"""
   ADDRESS
-
   """Most states have these types"""
   BILL
-
   """DC City Council"""
   CEREMONIAL_RESOLUTION
   CONCURRENT_MEMORIAL
@@ -248,7 +248,6 @@ enum BillType {
   CONSTITUTIONAL_AMENDMENT
   EXECUTIVE_ORDER
   JOINT_MEMORIAL
-
   """Some states have these types"""
   JOINT_RESOLUTION
   JOINT_SESSION_RESOLUTION
@@ -442,7 +441,6 @@ type ElectionResult {
   electionDate: NaiveDate!
   id: ID!
   races: [RaceResult!]!
-
   """Show races relevant to the user based on their address"""
   racesByUserDistricts: [RaceResult!]!
   racesByVotingGuide(votingGuideId: ID!): [RaceResult!]!
@@ -683,13 +681,10 @@ type OrganizationResult {
 type OrganizationResultConnection {
   """A list of edges."""
   edges: [OrganizationResultEdge!]!
-
   """A list of nodes."""
   nodes: [OrganizationResult!]!
-
   """Information to aid in pagination."""
   pageInfo: PageInfo!
-
   """Total result set count"""
   totalCount: Int!
 }
@@ -698,7 +693,6 @@ type OrganizationResultConnection {
 type OrganizationResultEdge {
   """A cursor for use in pagination"""
   cursor: String!
-
   """The item at the end of the edge"""
   node: OrganizationResult!
 }
@@ -711,13 +705,10 @@ input OrganizationSearch {
 type PageInfo {
   """When paginating forwards, the cursor to continue."""
   endCursor: String
-
   """When paginating forwards, are there more items?"""
   hasNextPage: Boolean!
-
   """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
-
   """When paginating backwards, the cursor to continue."""
   startCursor: String
 }
@@ -797,7 +788,6 @@ type PoliticianResult {
   preferredName: String
   raceLosses: Int
   raceWins: Int
-
   """Leverages Votesmart ratings data for the time being"""
   ratings(after: String, before: String, first: Int, last: Int): RatingResultConnection!
   slug: String!
@@ -812,7 +802,6 @@ type PoliticianResult {
   votesmartCandidateBio: GetCandidateBioResponse
   votesmartCandidateId: Int
   votesmartCandidateRatings: [VsRating!]!
-
   """
   Calculates the total years a politician has been in office using
   the votesmart politicial experience array.  Does not take into account
@@ -825,13 +814,10 @@ type PoliticianResult {
 type PoliticianResultConnection {
   """A list of edges."""
   edges: [PoliticianResultEdge!]!
-
   """A list of nodes."""
   nodes: [PoliticianResult!]!
-
   """Information to aid in pagination."""
   pageInfo: PageInfo!
-
   """Total result set count"""
   totalCount: Int!
 }
@@ -840,7 +826,6 @@ type PoliticianResultConnection {
 type PoliticianResultEdge {
   """A cursor for use in pagination"""
   cursor: String!
-
   """The item at the end of the edge"""
   node: PoliticianResult!
 }
@@ -871,29 +856,23 @@ type Query {
   ): [BallotMeasureResult!]!
   billById(id: ID!): BillResult
   billBySlug(slug: String!): BillResult
-
   """Returns all committees that have an associated bill"""
   billCommittees: [CommitteeResult!]!
-
   """Returns all issue tags that have an associated bill"""
   billIssueTags: [IssueTagResult!]!
-
   """Returns all session years that have an associated bill"""
   billYears: [Int!]!
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
-
   """
   Provides current user based on JWT found in client's access_token cookie
   """
   currentUser: AuthTokenResult
   electionById(id: ID!): ElectionResult!
   electionBySlug(slug: String!): ElectionResult!
-
   """Returns a single voting guide for the given election and user"""
   electionVotingGuideByUserId(
     """Election ID"""
     electionId: ID!
-
     """User ID"""
     userId: ID!
   ): VotingGuideResult
@@ -904,7 +883,6 @@ type Query {
   electionsByUser: [ElectionResult!]!
   embedById(id: ID!): EmbedResult!
   embedsByOrganization(organizationId: ID!): [EmbedResult!]!
-
   """Returns `true` to indicate the GraphQL server is reachable"""
   health: Boolean!
   issueTagBySlug(
@@ -929,7 +907,6 @@ type Query {
     before: String
     first: Int
     last: Int
-
     """Search by organization name"""
     search: OrganizationSearch
   ): OrganizationResultConnection!
@@ -939,13 +916,10 @@ type Query {
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(filter: RaceFilter): [RaceResult!]!
-
   """Get all users"""
   userCount(filter: UserCountFilter): Int
-
   """Publicly accessible user information"""
   userProfile(userId: ID!): UserResult!
-
   """Validate that a user does not already exist with this email"""
   validateEmailAvailable(email: String!): Boolean!
   validatePasswordEntropy(password: String!): PasswordEntropyResult!
@@ -1011,13 +985,10 @@ type RatingResult {
 type RatingResultConnection {
   """A list of edges."""
   edges: [RatingResultEdge!]!
-
   """A list of nodes."""
   nodes: [RatingResult!]!
-
   """Information to aid in pagination."""
   pageInfo: PageInfo!
-
   """Total result set count"""
   totalCount: Int!
 }
@@ -1026,7 +997,6 @@ type RatingResultConnection {
 type RatingResultEdge {
   """A cursor for use in pagination"""
   cursor: String!
-
   """The item at the end of the edge"""
   node: RatingResult!
 }
@@ -1306,7 +1276,6 @@ input UpsertBillInput {
 
 input UpsertElectionInput {
   description: String
-
   """Must use format YYYY-MM-DD"""
   electionDate: NaiveDate
   id: UUID
@@ -1472,7 +1441,6 @@ type Vote {
   nay: Int!
   nv: Int!
   passed: Int!
-
   """
   This field is not returned from get_bill, but can be populated with a subsequent call to `get_roll_call`
   """

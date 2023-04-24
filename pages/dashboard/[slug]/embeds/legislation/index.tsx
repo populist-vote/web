@@ -1,4 +1,4 @@
-import { EmbedIndex, Layout } from "components";
+import { EmbedIndex, Layout, LoaderFlag } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useMemo } from "react";
@@ -10,10 +10,13 @@ import {
   EmbedResult,
   IssueTagResult,
   SessionResult,
+  useEmbedsByOrganizationQuery,
 } from "generated";
 import { Badge } from "components/Badge/Badge";
-import { titleCase } from "utils/strings";
 import { getRelativeTimeString } from "utils/dates";
+import { useAuth } from "hooks/useAuth";
+import { toast } from "react-toastify";
+import { BillStatusBadge } from "components/BillStatusBadge/BillStatusBadge";
 
 export async function getServerSideProps({
   query,
@@ -35,7 +38,18 @@ export async function getServerSideProps({
 }
 
 export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
-  const columns = useMemo<ColumnDef<EmbedResult>[]>(
+  const { user } = useAuth();
+  const { data, isLoading } = useEmbedsByOrganizationQuery(
+    {
+      id: user?.organizationId as string,
+    },
+    {
+      onError: (error) => {
+        toast((error as Error).message, { type: "error" });
+      },
+    }
+  );
+  const legislationColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {
         accessorKey: "bill.session",
@@ -77,27 +91,9 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
       {
         accessorKey: "bill.status",
         header: "Status",
-        cell: (info) => {
-          const status = info.getValue() as string;
-          return (
-            <Badge
-              size="small"
-              theme={
-                status === BillStatus.BecameLaw
-                  ? "green-support"
-                  : status === BillStatus.Failed
-                  ? "red"
-                  : status === BillStatus.InConsideration
-                  ? "orange"
-                  : status === BillStatus.Introduced
-                  ? "violet"
-                  : "yellow"
-              }
-            >
-              {titleCase(status.split("_").join(" "))}
-            </Badge>
-          );
-        },
+        cell: (info) => (
+          <BillStatusBadge status={info.getValue() as BillStatus} />
+        ),
       },
       {
         accessorKey: "createdAt",
@@ -116,11 +112,20 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
     ],
     []
   );
+
+  if (isLoading) return <LoaderFlag />;
+
+  const embeds = data?.embedsByOrganization as EmbedResult[];
+  const legislationEmbeds = embeds.filter(
+    (embed) => embed.attributes.embedType === "legislation"
+  );
+
   return (
     <EmbedIndex
       slug={slug}
-      title="Legislation Embeds"
-      columns={columns}
+      title={"Legislation Embeds"}
+      embeds={legislationEmbeds}
+      columns={legislationColumns}
       embedType="legislation"
     />
   );

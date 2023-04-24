@@ -49,6 +49,7 @@ import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
 import { VotingGuideNav } from "./VotingGuide/VotingGuideNav/VotingGuideNav";
 import { Select } from "./Select/Select";
 import { EmbedIndex } from "./EmbedIndex/EmbedIndex";
+import { PoliticianResultsTable } from "./PoliticianResultsTable/PoliticianResultsTable";
 
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
@@ -107,4 +108,5 @@ export {
   VotingGuideNote,
   VotingGuideWelcome,
   Select,
+  PoliticianResultsTable,
 };

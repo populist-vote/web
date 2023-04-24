@@ -1,35 +1,33 @@
 import { BillWidget } from "components/BillWidget/BillWidget";
 import { useEmbedByIdQuery } from "generated";
 import { GetServerSidePropsContext } from "next";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { getOriginHost } from "utils/messages";
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { originHost } = getOriginHost((query.origin as string) || "");
 
   return {
-    notFound: !query.billId,
     props: {
-      billId: query.billId,
-      embedId: query.embedId,
+      embedId: query.id,
       originHost,
     },
   };
 }
 
-function BillWidgetPage({
-  billId,
+function EmbedPage({
   embedId,
   originHost,
 }: {
-  billId: string;
   embedId: string;
   originHost: string;
 }) {
-  const { data, isLoading } = useEmbedByIdQuery({
+  const { data, error, isLoading } = useEmbedByIdQuery({
     id: embedId,
   });
 
+  const embedType = data?.embedById?.attributes?.embedType;
+  const billId = data?.embedById?.attributes?.billId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
 
   const resolvedOrigin =
@@ -46,26 +44,21 @@ function BillWidgetPage({
   }, [originHost]);
 
   if (isLoading) return null;
+  if (error) return <div>This embed does not exist</div>;
 
-  return (
-    <BillWidget
-      billId={billId}
-      embedId={embedId}
-      origin={resolvedOrigin}
-      renderOptions={renderOptions}
-    />
-  );
+  switch (embedType) {
+    case "legislation":
+      return (
+        <BillWidget
+          billId={billId}
+          embedId={embedId}
+          origin={resolvedOrigin}
+          renderOptions={renderOptions}
+        />
+      );
+    case "politician":
+      return <div>P</div>;
+  }
 }
 
-BillWidgetPage.getLayout = (page: ReactNode) => (
-  <div
-    style={{
-      marginInlineEnd: "auto",
-      marginInlineStart: "auto",
-    }}
-  >
-    {page}
-  </div>
-);
-
-export default BillWidgetPage;
+export default EmbedPage;

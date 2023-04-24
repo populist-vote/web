@@ -126,12 +126,7 @@ export function DashboardTopNav() {
         </li>
       </ul>
       <div>
-        <Link
-          href={{
-            pathname: "/dashboard/[slug]/embeds/legislation/new",
-            query: { slug },
-          }}
-        >
+        <Link href={`${router.asPath}/new`}>
           <Button
             variant="primary"
             size="medium"
