@@ -12,5 +12,5 @@ test("Widget script successfully renders a widget", async ({ page }) => {
       .getByTestId("populist-bill-widget")
       .getByRole("heading")
       .nth(0)
-  ).toHaveText("Changes to the Minnesota Indian Family Preservation Act");
+  ).toHaveText("Paid Sick and Safe Time");
 });
