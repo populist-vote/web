@@ -36,7 +36,8 @@ type SelectProps = {
   border?: "none" | "solid";
   uppercase?: boolean;
   placeholder?: string;
-  [key: string]: unknown;
+  disabled?: boolean;
+  onSelect?: any;
 };
 
 function Select({

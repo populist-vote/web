@@ -7,13 +7,16 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
-import { DashboardTopNav } from "..";
+import { DashboardTopNav } from "../..";
 
 export async function getServerSideProps({
   query,
   locale,
 }: {
-  query: { slug: string; id: string };
+  query: {
+    slug: string;
+    id: string;
+  };
   locale: SupportedLocale;
 }) {
   return {
@@ -55,7 +58,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   ) : (
     <>
       <h2>Embed</h2>
-      <EmbedPage slug={slug} id={id} />
+      <EmbedPage id={id} embedType="politician" />
     </>
   );
 }

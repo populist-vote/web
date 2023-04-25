@@ -43,8 +43,8 @@ function EmbedsNew({ slug }: { slug: string }) {
             Select the type of content you'd like to embed.
           </p>
           <Link
-            href="/dashboard/[slug]/embeds/legislation"
-            as={`/dashboard/${slug}/embeds/legislation`}
+            href="/dashboard/[slug]/embeds/legislation/new"
+            as={`/dashboard/${slug}/embeds/legislation/new`}
           >
             <Button variant="super" size="large" label="Legislation" />
           </Link>

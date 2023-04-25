@@ -70,7 +70,8 @@ $small-size: 1.825rem;
 
   &.yellow {
     background: rgba(255, 255, 143, 0.1);
-    color: $black;
+    color: $white;
+    border: 1px solid $yellow;
 
     &.selected {
       background: $yellow;
@@ -97,6 +98,17 @@ $small-size: 1.825rem;
     &.selected {
       background: $grey;
       color: $white;
+    }
+  }
+
+  &.aqua {
+    background: rgba(143, 216, 216, 0.1);
+    border: 1px solid $aqua;
+    color: $white;
+
+    &.selected {
+      background: $aqua;
+      color: $grey-darkest;
     }
   }
 

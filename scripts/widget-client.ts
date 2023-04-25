@@ -3,34 +3,28 @@
   const populistOrigin = new URL(script.src).origin;
   const attributes = script.dataset;
   const params: Record<string, string> = {};
-
   const url = new URL(location.href);
   const cleanedLocation = url.toString();
-
-  params.billId = attributes.billId || "";
-  params.embedId = attributes.embedId || "";
   params.origin = cleanedLocation;
 
-  const containerName = `.populist-${params.embedId}`;
-
+  const containerName = `.populist-${attributes.embedId}`;
   const existingContainer = document.querySelector(containerName);
-
   const id = existingContainer && existingContainer.id;
   if (id) {
     params.origin = `${cleanedLocation}#${id}`;
   }
 
   // Compute embed source URL and loading attribute
-  const src = `${populistOrigin}/embeds/${"bill"}?${new URLSearchParams(
-    params
-  )}`;
+  const src = `${populistOrigin}/embeds/${
+    attributes.embedId
+  }?${new URLSearchParams(params)}`;
   const loading = attributes.loading === "lazy" ? "lazy" : undefined;
 
   // Set up iframe element
   const iframeElement = document.createElement("iframe");
   const iframeAttributes = {
     class: "populist-frame populist-frame--loading",
-    id: `populist-iframe-${params.embedId}`,
+    id: `populist-iframe-${attributes.embedId}`,
     title: "Populist Widget",
     scrolling: "no",
     allow: "clipboard-write",
@@ -68,7 +62,7 @@
   if (!existingContainer) {
     const iframeContainer = document.createElement("div");
     iframeContainer.setAttribute("class", containerName);
-    iframeContainer.setAttribute("id", `populist-iframe-${params.embedId}`);
+    iframeContainer.setAttribute("id", `populist-iframe-${attributes.embedId}`);
     iframeContainer.appendChild(iframeElement);
 
     script.insertAdjacentElement("afterend", iframeContainer);
@@ -86,7 +80,7 @@
 
     if (
       data.populist.resizeHeight &&
-      params.embedId === data.populist.embedId
+      attributes.embedId === data.populist.embedId
     ) {
       iframeElement.style.height = `${data.populist.resizeHeight}px`;
     }

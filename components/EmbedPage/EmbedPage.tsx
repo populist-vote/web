@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { BillWidget } from "components/BillWidget/BillWidget";
-import { BillWidgetSkeleton } from "components/BillWidget/BillWidgetSkeleton";
 import { Box } from "components/Box/Box";
 import { CodeBlock } from "components/CodeBlock/CodeBlock";
 import { EmbedForm } from "components/EmbedForm/EmbedForm";
@@ -10,7 +9,13 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
 
-function EmbedPage({ slug, id }: { slug: string; id: string }) {
+function EmbedPage({
+  id,
+  embedType,
+}: {
+  id: string;
+  embedType: "legislation" | "politician";
+}) {
   const [language, setLanguage] = useState<"html" | "react">("html");
   const { data, isLoading } = useEmbedByIdQuery(
     {
@@ -24,6 +29,7 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   );
 
   const billId = data?.embedById?.attributes?.billId as string;
+  // const politicianId = data?.embedById?.attributes?.politicianId as string;
   const embed = data?.embedById as EmbedResult;
 
   const htmlText = `
@@ -33,7 +39,6 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
   <script
     src="${window.location.origin}/widget-client.js"
     data-embed-id="${id}"
-    data-bill-id="${billId}"
     />
     `;
 
@@ -45,10 +50,6 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
     script.setAttribute(
       "data-embed-id", 
       "${id}"
-    );
-    script.setAttribute(
-      "data-bill-id", 
-      "${billId}"
     );
     document.body.appendChild(script);
     return () => document.body.removeChild(script);
@@ -63,6 +64,24 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
     react: reactText,
   };
 
+  const renderPreviewByType = () => {
+    switch (embedType) {
+      case "legislation":
+        return (
+          <BillWidget
+            billId={billId}
+            origin={window.location.origin}
+            embedId={id}
+            renderOptions={embed.attributes.renderOptions}
+          />
+        );
+      case "politician":
+        return <div>Temp politician preview</div>;
+      default:
+        return <div>Temp default</div>;
+    }
+  };
+
   if (isLoading) return <LoaderFlag />;
 
   return (
@@ -70,21 +89,13 @@ function EmbedPage({ slug, id }: { slug: string; id: string }) {
       <div className={clsx(styles.options)}>
         <h3>Options</h3>
         <Box>
-          <EmbedForm slug={slug} embed={embed} />
+          <EmbedForm embed={embed} />
         </Box>
       </div>
       <div className={clsx(styles.preview)}>
         <h3>Preview</h3>
-        {billId ? (
-          <BillWidget
-            billId={billId}
-            origin={window.location.origin}
-            embedId={id}
-            renderOptions={embed.attributes.renderOptions}
-          />
-        ) : (
-          <BillWidgetSkeleton embedId={id} slug={slug} />
-        )}
+
+        {renderPreviewByType()}
       </div>
       <div className={clsx(styles.embedCode)}>
         <Box>

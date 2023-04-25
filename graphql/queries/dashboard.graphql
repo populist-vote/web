@@ -1,17 +1,16 @@
 query EmbedsByOrganization($id: ID!) {
   embedsByOrganization(organizationId: $id) {
-    id
-    name
-    description
-    populistUrl
-    attributes
-    createdAt
-    updatedAt
+    ...EmbedFields
   }
 }
 
 query EmbedById($id: ID!) {
   embedById(id: $id) {
+    ...EmbedFields
+  }
+}
+
+fragment EmbedFields on EmbedResult {
     id
     name
     description
@@ -19,5 +18,23 @@ query EmbedById($id: ID!) {
     attributes
     createdAt
     updatedAt
-  }
+    bill {
+      id
+      slug
+      title
+      billNumber
+      status
+      session {
+        name
+        state
+        startDate
+      }
+      issueTags {
+        slug
+        name
+      }
+    }
+    politician {
+      fullName
+    }
 }
