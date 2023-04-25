@@ -58,7 +58,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   ) : (
     <>
       <h2>Embed</h2>
-      <EmbedPage slug={slug} id={id} embedType="politician" />
+      <EmbedPage id={id} embedType="politician" />
     </>
   );
 }

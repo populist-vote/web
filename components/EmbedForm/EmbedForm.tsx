@@ -21,13 +21,7 @@ type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
   };
 };
 
-function EmbedForm({
-  slug,
-  embed,
-}: {
-  slug: string;
-  embed: EmbedResult | null;
-}) {
+function EmbedForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
   const { user } = useAuth({ redirect: false });
   const upsertEmbed = useUpsertEmbedMutation();
@@ -51,7 +45,7 @@ function EmbedForm({
           name: data.name,
           description: data.description,
           id: embed?.id,
-          populistUrl: "https://populist.us",
+          populistUrl: `${window.location.origin}/embed/${embed?.id}`,
           organizationId: user?.organizationId as string,
           attributes: {
             ...embed?.attributes,
@@ -60,18 +54,10 @@ function EmbedForm({
         },
       },
       {
-        onSuccess: (data) => {
-          // alert(JSON.stringify(data, null, 2));
+        onSuccess: () => {
           toast("Embed saved!", { type: "success", position: "bottom-right" });
           void queryClient.invalidateQueries(
             useEmbedByIdQuery.getKey({ id: router.query.id as string })
-          );
-          void router.push(
-            `/dashboard/${slug}/embeds/${data.upsertEmbed.id}`,
-            undefined,
-            {
-              shallow: true,
-            }
           );
         },
         onError: (error) => {

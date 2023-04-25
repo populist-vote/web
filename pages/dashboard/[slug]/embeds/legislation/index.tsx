@@ -17,6 +17,7 @@ import { getRelativeTimeString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { BillStatusBadge } from "components/BillStatusBadge/BillStatusBadge";
+import styles from "styles/modules/dashboard.module.scss";
 
 export async function getServerSideProps({
   query,
@@ -65,11 +66,15 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
       {
         accessorKey: "bill.billNumber",
         header: "Leg. Code",
-        size: 80,
+        size: 100,
       },
       {
         accessorKey: "bill.title",
         header: "Title",
+        // Render the cell with the title but truncate it when it exceeds two lines
+        cell: (info) => (
+          <span className={styles.elipsis}>{info.getValue() as string}</span>
+        ),
         size: 200,
       },
       {
@@ -107,7 +112,7 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
         header: "Last Updated",
         cell: (info) =>
           getRelativeTimeString(new Date(info.getValue() as string)),
-        size: 100,
+        size: 110,
       },
     ],
     []

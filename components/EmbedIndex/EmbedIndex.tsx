@@ -2,8 +2,8 @@ import { EmbedResult } from "generated";
 import { Table } from "components/Table/Table";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useRouter } from "next/router";
-import { Badge } from "components/Badge/Badge";
-import Link from "next/link";
+// import { Badge } from "components/Badge/Badge";
+// import Link from "next/link";
 import { useTheme } from "hooks/useTheme";
 
 function EmbedIndex({
@@ -26,7 +26,7 @@ function EmbedIndex({
     router.push(`/dashboard/${slug}/embeds/${embedType}/${row.original.id}`);
   return (
     <div>
-      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+      {/* <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
         <Link href={`/dashboard/${slug}/embeds/legislation`}>
           <Badge
             theme="yellow"
@@ -43,7 +43,7 @@ function EmbedIndex({
             selected={router.asPath.includes("/politician")}
           />
         </Link>
-      </div>
+      </div> */}
       <h2>{title}</h2>
       {embeds?.length === 0 ? (
         <div

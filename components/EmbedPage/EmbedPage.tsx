@@ -10,11 +10,9 @@ import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
 
 function EmbedPage({
-  slug,
   id,
   embedType,
 }: {
-  slug: string;
   id: string;
   embedType: "legislation" | "politician";
 }) {
@@ -91,7 +89,7 @@ function EmbedPage({
       <div className={clsx(styles.options)}>
         <h3>Options</h3>
         <Box>
-          <EmbedForm slug={slug} embed={embed} />
+          <EmbedForm embed={embed} />
         </Box>
       </div>
       <div className={clsx(styles.preview)}>
