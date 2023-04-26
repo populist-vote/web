@@ -1,21 +1,45 @@
 import { CSSProperties, useState } from "react";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-  SortingState,
-  getPaginationRowModel,
-  InitialTableState,
-  Row,
-} from "@tanstack/react-table";
+
 import styles from "./Table.module.scss";
 import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
 import { Button } from "components/Button/Button";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import clsx from "clsx";
 import { BillResult } from "generated";
+
+import {
+  useReactTable,
+  ColumnFiltersState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFacetedMinMaxValues,
+  getPaginationRowModel,
+  getSortedRowModel,
+  FilterFn,
+  ColumnDef,
+  flexRender,
+  InitialTableState,
+  Row,
+  SortingState,
+} from "@tanstack/react-table";
+
+import { rankItem } from "@tanstack/match-sorter-utils";
+import { useRouter } from "next/router";
+
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value);
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  });
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed;
+};
 
 type TableTheme = "green" | "yellow" | "orange" | "aqua";
 
@@ -38,6 +62,7 @@ type TableProps<T extends object> = {
   theme?: TableTheme;
   onRowClick?: (row: Row<T>) => void;
   selectedRowId?: string;
+  globalFilter?: string;
 };
 
 function Table<T extends object>({
@@ -53,11 +78,20 @@ function Table<T extends object>({
     initialState.sorting || []
   );
 
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const router = useRouter();
+  const { search } = router.query;
+
   const table = useReactTable({
     data,
     columns,
     state: {
       sorting,
+      columnFilters,
+      globalFilter: search,
+    },
+    filterFns: {
+      fuzzy: fuzzyFilter,
     },
     initialState,
     autoResetPageIndex: false,
@@ -65,7 +99,15 @@ function Table<T extends object>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    globalFilterFn: fuzzyFilter,
+    getFilteredRowModel: getFilteredRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getFacetedMinMaxValues: getFacetedMinMaxValues(),
     debugTable: true,
+    debugHeaders: true,
+    debugColumns: false,
   });
 
   // This has a runtime cost, should ultimately move this into SCSS file and handle using theme classes
@@ -185,7 +227,6 @@ function Table<T extends object>({
   return (
     <>
       <PageIndex />
-
       <div className={styles.container} style={styleVars}>
         <table>
           <thead>

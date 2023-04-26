@@ -1,5 +1,6 @@
 import { AddressInput } from "generated";
 import "little-state-machine";
+import { FilterFn } from "@tanstack/react-table";
 
 declare module "little-state-machine" {
   interface GlobalState {
@@ -14,6 +15,15 @@ declare module "little-state-machine" {
 declare module "@tanstack/react-table" {
   interface TableMeta {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+  }
+}
+
+declare module "@tanstack/table-core" {
+  interface FilterFns {
+    fuzzy: FilterFn<unknown>;
+  }
+  interface FilterMeta {
+    itemRank: RankingInfo;
   }
 }
 

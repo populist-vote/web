@@ -11,11 +11,21 @@ import {
 import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import styles from "./BillFiltersDesktop.module.scss";
+import { useAuth } from "hooks/useAuth";
 
 function BillFiltersDesktop() {
   const router = useRouter();
   const query = router.query;
-  const { popularity, year, issue, committee, status } = query || {};
+  const { user } = useAuth({ redirect: false });
+  const {
+    popularity,
+    year,
+    issue,
+    committee,
+    status,
+    state = user?.userProfile?.address?.state,
+    scope,
+  } = query || {};
 
   const {
     handleYearFilter,
@@ -54,6 +64,11 @@ function BillFiltersDesktop() {
   const hasBillCommittees =
     !committeesLoading && billCommittees && billCommittees?.length > 0;
 
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    router.push({
+      query: { ...query, state: e.target.value },
+    });
+
   const errors = [tagsError, committeesError].filter(Boolean);
 
   if (errors.length > 0)
@@ -62,6 +77,21 @@ function BillFiltersDesktop() {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
+        <section className={styles.flex}>
+          <h4>State</h4>
+          <Select
+            border="solid"
+            accentColor="yellow"
+            value={state as string}
+            disabled={scope === "FEDERAL"}
+            options={[
+              { value: "CO", label: "Colorado" },
+              { value: "MN", label: "Minnesota" },
+            ]}
+            onChange={handleStateChange}
+          />
+        </section>
+
         {!yearsLoading && !yearsError && (
           <section className={styles.flex}>
             <h4>Year</h4>
@@ -74,6 +104,7 @@ function BillFiltersDesktop() {
             />
           </section>
         )}
+
         {hasBillIssues && (
           <section className={styles.flex}>
             <h4>Issue</h4>

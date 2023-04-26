@@ -5,6 +5,10 @@ import { useRouter } from "next/router";
 // import { Badge } from "components/Badge/Badge";
 // import Link from "next/link";
 import { useTheme } from "hooks/useTheme";
+import { Box } from "components/Box/Box";
+import { useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai";
+import styles from "./EmbedIndex.module.scss";
 
 function EmbedIndex({
   slug,
@@ -21,6 +25,8 @@ function EmbedIndex({
 }) {
   const router = useRouter();
   const { theme } = useTheme();
+  const { search } = router.query;
+  const [searchValue, setSearchValue] = useState(search);
 
   const onRowClick = (row: Row<EmbedResult>) =>
     router.push(`/dashboard/${slug}/embeds/${embedType}/${row.original.id}`);
@@ -45,6 +51,21 @@ function EmbedIndex({
         </Link>
       </div> */}
       <h2>{title}</h2>
+      <Box>
+        <div className={styles.inputWithIcon}>
+          <input
+            placeholder="Search for embeds across all columns"
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+              void router.push({
+                query: { ...router.query, search: e.target.value },
+              });
+            }}
+            value={searchValue || ""}
+          ></input>
+          <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
+        </div>
+      </Box>
       {embeds?.length === 0 ? (
         <div
           style={{

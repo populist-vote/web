@@ -1,8 +1,5 @@
 import { Box } from "components/Box/Box";
 import { Button } from "components/Button/Button";
-import { Select } from "components/Select/Select";
-import { PoliticalScope } from "generated";
-import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -12,24 +9,13 @@ import styles from "./BillSearchAndFilters.module.scss";
 export function BillSearchAndFilters() {
   const router = useRouter();
   const { query } = router;
-  const { user } = useAuth({ redirect: false });
-  const {
-    search,
-    showFilters = "false",
-    state = user?.userProfile?.address?.state,
-    scope,
-  } = query;
+  const { search, showFilters = "false" } = query;
   const [searchValue, setSearchValue] = useState(search);
   const hasFiltersApplied =
     Object.keys(query).filter((q) => q !== "showFilters" && q !== "slug")
       .length > 0 && Object.values(query).some((value) => value !== "");
 
   const showFiltersParam = showFilters === "true";
-
-  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    router.push({
-      query: { ...query, state: e.target.value },
-    });
 
   return (
     <Box>
@@ -47,19 +33,6 @@ export function BillSearchAndFilters() {
           ></input>
           <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
         </div>
-        {scope !== PoliticalScope.Federal && (
-          <Select
-            border="solid"
-            accentColor="yellow"
-            value={state as string}
-            disabled={scope === "FEDERAL"}
-            options={[
-              { value: "CO", label: "Colorado" },
-              { value: "MN", label: "Minnesota" },
-            ]}
-            onChange={handleStateChange}
-          />
-        )}
         <Button
           variant={
             showFiltersParam || hasFiltersApplied ? "primary" : "secondary"
