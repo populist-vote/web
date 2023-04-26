@@ -57,9 +57,15 @@ function EmbedIndex({
             placeholder="Search for embeds across all columns"
             onChange={(e) => {
               setSearchValue(e.target.value);
-              void router.push({
-                query: { ...router.query, search: e.target.value },
-              });
+              if (e.target.value === "") {
+                const { search: _, ...newQuery } = router.query;
+                void router.push({
+                  query: newQuery,
+                });
+              } else
+                void router.push({
+                  query: { ...router.query, search: e.target.value },
+                });
             }}
             value={searchValue || ""}
           ></input>
