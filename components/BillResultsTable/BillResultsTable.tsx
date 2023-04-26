@@ -73,7 +73,7 @@ function BillResultsTable() {
       {
         accessorKey: "title",
         header: "Title",
-        size: 500,
+        size: 250,
       },
       {
         accessorKey: "session.startDate",
@@ -87,6 +87,7 @@ function BillResultsTable() {
         cell: (info) => (
           <BillStatusBadge status={info.getValue() as BillStatus} />
         ),
+        size: 120,
       },
       {
         accessorKey: "issueTags",
