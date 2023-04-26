@@ -4,10 +4,16 @@ import { Box } from "components/Box/Box";
 import { CodeBlock } from "components/CodeBlock/CodeBlock";
 import { EmbedForm } from "components/EmbedForm/EmbedForm";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import { EmbedResult, useEmbedByIdQuery } from "generated";
+import {
+  EmbedResult,
+  useDeleteEmbedMutation,
+  useEmbedByIdQuery,
+} from "generated";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
+import { Button } from "components/Button/Button";
+import { useRouter } from "next/router";
 
 function EmbedPage({
   id,
@@ -16,6 +22,7 @@ function EmbedPage({
   id: string;
   embedType: "legislation" | "politician";
 }) {
+  const router = useRouter();
   const [language, setLanguage] = useState<"html" | "react">("html");
   const { data, isLoading } = useEmbedByIdQuery(
     {
@@ -31,6 +38,26 @@ function EmbedPage({
   const billId = data?.embedById?.attributes?.billId as string;
   // const politicianId = data?.embedById?.attributes?.politicianId as string;
   const embed = data?.embedById as EmbedResult;
+
+  const deleteEmbedMutation = useDeleteEmbedMutation();
+
+  const handleDelete = () => {
+    confirm("Are you sure you want to delete this embed?") &&
+      deleteEmbedMutation.mutate(
+        {
+          id,
+        },
+        {
+          onSuccess: () => {
+            void router.push({
+              pathname: `/dashboard/[slug]/embeds/${embedType}`,
+              query: { slug: router.query.slug },
+            });
+            toast("Embed deleted", { type: "success" });
+          },
+        }
+      );
+  };
 
   const htmlText = `
   <!-- Place this div where you want the widget to appear -->
@@ -106,6 +133,15 @@ function EmbedPage({
             snippets={snippets}
           />
         </Box>
+      </div>
+      <div>
+        <Button
+          theme="red"
+          variant="secondary"
+          label="Delete Embed"
+          size="small"
+          onClick={handleDelete}
+        />
       </div>
     </div>
   );

@@ -126,7 +126,12 @@ export function DashboardTopNav() {
         </li>
       </ul>
       <div>
-        <Link href={`${router.asPath}/new`}>
+        <Link
+          href={{
+            pathname: `/dashboard/[slug]/embeds/new`,
+            query: { slug: router.query.slug },
+          }}
+        >
           <Button
             variant="primary"
             size="medium"

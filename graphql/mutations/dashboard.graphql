@@ -9,3 +9,9 @@ mutation UpsertEmbed($input: UpsertEmbedInput!) {
     populistUrl
   }
 }
+
+mutation DeleteEmbed($id: UUID!) {
+  deleteEmbed(id: $id) {
+    id
+  }
+}
