@@ -8,10 +8,14 @@ function LastVoteSection({ votes }: { votes: Bill["votes"] }) {
 
   const lastHouseVote = votes
     ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .find((vote) => vote.chamber === "H");
+    .filter((vote) => vote.chamber === "H")
+    .slice(-1)
+    .pop();
   const lastSenateVote = votes
     ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .find((vote) => vote.chamber === "S");
+    .filter((vote) => vote.chamber === "S")
+    .slice(-1)
+    .pop();
 
   return (
     <div className={styles.container}>
