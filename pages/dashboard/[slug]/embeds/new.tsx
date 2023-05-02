@@ -49,12 +49,12 @@ function EmbedsNew({ slug }: { slug: string }) {
             <Button variant="super" size="large" label="Legislation" />
           </Link>
           <br />
-          <Button
-            variant="super"
-            size="large"
-            label="Politician (coming soon)"
-            disabled
-          />
+          <Link
+            href="/dashboard/[slug]/embeds/politician/new"
+            as={`/dashboard/${slug}/embeds/politician/new`}
+          >
+            <Button variant="super" size="large" label="Politician" />
+          </Link>
           <br />
           <Button
             variant="super"

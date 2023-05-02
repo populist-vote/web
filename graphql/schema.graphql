@@ -910,6 +910,7 @@ type Query {
     """Search by organization name"""
     search: OrganizationSearch
   ): OrganizationResultConnection!
+  politicianById(id: ID!): PoliticianResult
   politicianBySlug(slug: String!): PoliticianResult
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
   popularBills(after: String, before: String, first: Int, last: Int): BillResultConnection!

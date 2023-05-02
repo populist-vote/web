@@ -282,3 +282,9 @@ query PoliticianBySlug($slug: String!) {
     ...Ratings
   }
 }
+
+query PoliticianEmbedById($id: ID!) {
+  politicianById(id: $id) {
+    ...BasicInfo
+  }
+}

@@ -1,6 +1,6 @@
 import { Button, Layout, PoliticianResultsTable } from "components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
@@ -8,6 +8,9 @@ import { useRouter } from "next/router";
 import { useUpsertEmbedMutation } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
+import { Box } from "components/Box/Box";
+import styles from "components/EmbedIndex/EmbedIndex.module.scss";
+import { AiOutlineSearch } from "react-icons/ai";
 
 export async function getServerSideProps({
   query,
@@ -34,6 +37,8 @@ function NewPoliticianEmbed() {
   const { slug, selected, embedId } = query;
   const { user } = useAuth({ redirect: false });
   const upsertEmbed = useUpsertEmbedMutation();
+  const { search } = router.query;
+  const [searchValue, setSearchValue] = useState(search);
 
   function handleCreateEmbed() {
     upsertEmbed.mutate(
@@ -82,6 +87,27 @@ function NewPoliticianEmbed() {
         />
       </div>
       <p>Search and select a politician to embed on your page.</p>
+      <Box>
+        <div className={styles.inputWithIcon}>
+          <input
+            placeholder="Search for politicians"
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+              if (e.target.value === "") {
+                const { search: _, ...newQuery } = router.query;
+                void router.push({
+                  query: newQuery,
+                });
+              } else
+                void router.push({
+                  query: { ...router.query, search: e.target.value },
+                });
+            }}
+            value={searchValue || ""}
+          ></input>
+          <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
+        </div>
+      </Box>
       <PoliticianResultsTable />
     </>
   );

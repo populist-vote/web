@@ -10,23 +10,58 @@ import {
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { UseFormRegister, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
-  renderOptions: {
-    issueTags: boolean;
-    summary: boolean;
-    sponsors: boolean;
-  };
+type BillRenderOptions = {
+  issueTags: boolean;
+  summary: boolean;
+  sponsors: boolean;
 };
+
+type PoliticianRenderOptions = {
+  bio: boolean;
+};
+
+type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
+  renderOptions: BillRenderOptions | PoliticianRenderOptions;
+};
+
+function BillEmbedOptionsForm({
+  register,
+}: {
+  register: UseFormRegister<UpsertEmbedInputWithOptions>;
+}) {
+  return (
+    <div>
+      <Checkbox
+        id="issueTags"
+        name="renderOptions.issueTags"
+        label="Issue Tags"
+        register={register}
+      />
+      <Checkbox
+        id="Summary"
+        name="renderOptions.summary"
+        label="Summary"
+        register={register}
+      />
+      <Checkbox
+        id="Sponsors"
+        name="renderOptions.sponsors"
+        label="Sponsors"
+        register={register}
+      />
+    </div>
+  );
+}
 
 function EmbedForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
   const { user } = useAuth({ redirect: false });
   const upsertEmbed = useUpsertEmbedMutation();
   const queryClient = useQueryClient();
-  // TODO: Extract the embed options for bills, politicians, etc into seperate form components
+
   const { register, handleSubmit } = useForm<UpsertEmbedInputWithOptions>({
     defaultValues: {
       name: embed?.name,
@@ -66,6 +101,18 @@ function EmbedForm({ embed }: { embed: EmbedResult | null }) {
       }
     );
   };
+
+  const renderOptions = () => {
+    switch (embed?.attributes?.embedType) {
+      case "legislation":
+        return <BillEmbedOptionsForm register={register} />;
+      case "politician":
+        return <div>Temp politician options</div>;
+      default:
+        return null;
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div
@@ -99,24 +146,7 @@ function EmbedForm({ embed }: { embed: EmbedResult | null }) {
             margin: "1rem 0",
           }}
         />
-        <Checkbox
-          id="issueTags"
-          name="renderOptions.issueTags"
-          label="Issue Tags"
-          register={register}
-        />
-        <Checkbox
-          id="Summary"
-          name="renderOptions.summary"
-          label="Summary"
-          register={register}
-        />
-        <Checkbox
-          id="Sponsors"
-          name="renderOptions.sponsors"
-          label="Sponsors"
-          register={register}
-        />
+        {renderOptions()}
       </div>
       <div
         style={{

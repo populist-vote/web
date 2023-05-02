@@ -9,6 +9,8 @@ import { Box } from "components/Box/Box";
 import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./EmbedIndex.module.scss";
+import Link from "next/link";
+import { Badge } from "components/Badge/Badge";
 
 function EmbedIndex({
   slug,
@@ -32,7 +34,7 @@ function EmbedIndex({
     router.push(`/dashboard/${slug}/embeds/${embedType}/${row.original.id}`);
   return (
     <div>
-      {/* <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
         <Link href={`/dashboard/${slug}/embeds/legislation`}>
           <Badge
             theme="yellow"
@@ -49,7 +51,7 @@ function EmbedIndex({
             selected={router.asPath.includes("/politician")}
           />
         </Link>
-      </div> */}
+      </div>
       <h2>{title}</h2>
       <Box>
         <div className={styles.inputWithIcon}>
