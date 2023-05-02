@@ -11,6 +11,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./EmbedIndex.module.scss";
 import Link from "next/link";
 import { Badge } from "components/Badge/Badge";
+import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 
 function EmbedIndex({
   slug,
@@ -32,6 +33,7 @@ function EmbedIndex({
 
   const onRowClick = (row: Row<EmbedResult>) =>
     router.push(`/dashboard/${slug}/embeds/${embedType}/${row.original.id}`);
+
   return (
     <div>
       <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
@@ -41,6 +43,9 @@ function EmbedIndex({
             clickable
             label="Legislation"
             selected={router.asPath.includes("/legislation")}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "legislation")
+            }
           />
         </Link>
         <Link href={`/dashboard/${slug}/embeds/politician`}>
@@ -49,6 +54,9 @@ function EmbedIndex({
             clickable
             label="Politician"
             selected={router.asPath.includes("/politician")}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
+            }
           />
         </Link>
       </div>

@@ -55,7 +55,10 @@ function EmbedPage({
               pathname: `/dashboard/[slug]/embeds/${embedType}`,
               query: { slug: router.query.slug },
             });
-            toast("Embed deleted", { type: "success" });
+            toast("Embed deleted", {
+              type: "success",
+              position: "bottom-right",
+            });
           },
         }
       );
