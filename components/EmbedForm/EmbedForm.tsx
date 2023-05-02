@@ -33,7 +33,13 @@ function BillEmbedOptionsForm({
   register: UseFormRegister<UpsertEmbedInputWithOptions>;
 }) {
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+    >
       <Checkbox
         id="issueTags"
         name="renderOptions.issueTags"
@@ -106,8 +112,6 @@ function EmbedForm({ embed }: { embed: EmbedResult | null }) {
     switch (embed?.attributes?.embedType) {
       case "legislation":
         return <BillEmbedOptionsForm register={register} />;
-      case "politician":
-        return <div>Temp politician options</div>;
       default:
         return null;
     }
