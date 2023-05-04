@@ -295,8 +295,11 @@ function Table<T extends object>({
         </table>
         <div className={styles.tableMeta}>
           <small>
-            {table.getRowModel().rows.length} Rows, Page{" "}
-            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getRowModel().rows.length +
+              " " +
+              "Row" +
+              `${table.getRowModel().rows.length > 1 ? "s," : ","}`}{" "}
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </small>
           {metaRight}

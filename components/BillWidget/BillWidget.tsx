@@ -9,13 +9,12 @@ import {
   PoliticianResult,
   useBillByIdQuery,
 } from "generated";
-import { useEffect } from "react";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
-import { emitData, IResizeHeightMessage } from "utils/messages";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 import { LastVoteSection } from "./LastVoteSection/LastVoteSection";
+import { useEmbedResizer } from "hooks/useEmbedResizer";
 
 interface BillWidgetRenderOptions {
   issueTags: boolean;
@@ -38,19 +37,7 @@ function BillWidget({
   const bill = data?.billById as BillResult;
   const statusInfo = getStatusInfo(bill?.status as BillStatus);
 
-  useEffect(() => {
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      if (!entry) return;
-      emitData<IResizeHeightMessage>(
-        { resizeHeight: entry.contentRect.height, embedId },
-        origin
-      );
-    });
-
-    observer.observe(document.querySelector("body") as HTMLBodyElement);
-    return () => observer.disconnect();
-  }, [origin, embedId]);
+  useEmbedResizer({ origin, embedId });
 
   const styleVars: React.CSSProperties & {
     [`--status-background`]: string;

@@ -8,6 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { EmbedResult, useEmbedsByOrganizationQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
+import { getRelativeTimeString } from "utils/dates";
 
 export async function getServerSideProps({
   query,
@@ -44,8 +45,22 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
     () => [
       {
         accessorKey: "politician.fullName",
-        header: "Name",
+        header: "Politician",
         size: 100,
+      },
+      {
+        accessorKey: "createdAt",
+        header: "Created",
+        cell: (info) =>
+          new Date(info.getValue() as string).toLocaleDateString(),
+        size: 100,
+      },
+      {
+        accessorKey: "updatedAt",
+        header: "Last Updated",
+        cell: (info) =>
+          getRelativeTimeString(new Date(info.getValue() as string)),
+        size: 110,
       },
     ],
     []

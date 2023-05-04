@@ -1,4 +1,5 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
+import { PartyAvatar } from "components/Avatar/Avatar";
 import { Table } from "components/Table/Table";
 import {
   PoliticalScope,
@@ -37,12 +38,33 @@ function PoliticianResultsTable() {
   const columns = useMemo<ColumnDef<PoliticianResult>[]>(
     () => [
       {
+        accessorKey: "thumbnailImageUrl",
+        header: "",
+        cell: (info) => (
+          <PartyAvatar
+            src={info.getValue() as string}
+            alt={info.row.getValue("fullName")}
+            party={info.row.getValue("party")}
+            size={50}
+          />
+        ),
+        size: 25,
+      },
+      {
         accessorKey: "fullName",
         header: "Name",
         size: 80,
       },
       {
-        accessorKey: "currentOffice.name",
+        accessorKey: "homeState",
+        header: "State",
+      },
+      {
+        accessorKey: "party",
+        header: "Party",
+      },
+      {
+        accessorKey: "currentOffice.title",
         header: "Office",
       },
     ],
@@ -70,7 +92,11 @@ function PoliticianResultsTable() {
         pagination: {
           pageSize: 10,
         },
+        columnVisibility: {
+          party: false,
+        },
       }}
+      theme="aqua"
       onRowClick={onRowClick}
       selectedRowId={selected as string}
     />

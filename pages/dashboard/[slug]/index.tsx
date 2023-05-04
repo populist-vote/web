@@ -13,6 +13,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
 import { ReactNode } from "react";
 import { useTheme } from "hooks/useTheme";
+import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 
 export async function getServerSideProps({
   query,
@@ -117,7 +118,9 @@ export function DashboardTopNav() {
         >
           <Link
             href={{
-              pathname: "/dashboard/[slug]/embeds/legislation",
+              pathname: `/dashboard/[slug]/embeds/${
+                localStorage.getItem(LAST_SELECTED_EMBED_TYPE) || "legislation"
+              }`,
               query: { slug },
             }}
           >
@@ -128,7 +131,11 @@ export function DashboardTopNav() {
       <div>
         <Link
           href={{
-            pathname: `/dashboard/[slug]/embeds/new`,
+            pathname: router.pathname.includes("legislation")
+              ? `/dashboard/[slug]/embeds/legislation/new`
+              : router.pathname.includes("politician")
+              ? `/dashboard/[slug]/embeds/politician/new`
+              : `/dashboard/[slug]/embeds/new`,
             query: { slug: router.query.slug },
           }}
         >

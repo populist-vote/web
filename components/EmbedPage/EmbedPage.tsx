@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
 import { Button } from "components/Button/Button";
 import { useRouter } from "next/router";
+import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 
 function EmbedPage({
   id,
@@ -36,6 +37,7 @@ function EmbedPage({
   );
 
   const billId = data?.embedById?.attributes?.billId as string;
+  const politicianId = data?.embedById?.attributes?.politicianId as string;
   // const politicianId = data?.embedById?.attributes?.politicianId as string;
   const embed = data?.embedById as EmbedResult;
 
@@ -53,7 +55,10 @@ function EmbedPage({
               pathname: `/dashboard/[slug]/embeds/${embedType}`,
               query: { slug: router.query.slug },
             });
-            toast("Embed deleted", { type: "success" });
+            toast("Embed deleted", {
+              type: "success",
+              position: "bottom-right",
+            });
           },
         }
       );
@@ -103,7 +108,14 @@ function EmbedPage({
           />
         );
       case "politician":
-        return <div>Temp politician preview</div>;
+        return (
+          <PoliticianWidget
+            politicianId={politicianId}
+            origin={window.location.origin}
+            embedId={id}
+            renderOptions={embed.attributes.renderOptions}
+          />
+        );
       default:
         return <div>Temp default</div>;
     }
