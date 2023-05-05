@@ -26,6 +26,15 @@ const nextConfig = {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     GRAPHQL_SCHEMA_PATH: process.env.GRAPHQL_SCHEMA_PATH,
     POPULIST_API_KEY: process.env.POPULIST_API_KEY,
+  },
+  redirects: async () => {
+    return [
+      {
+        source: '/dashboard/:slug/embeds',
+        destination: '/dashboard/:slug/embeds/legislation',
+        permanent: true,
+      },
+    ];
   }
 };
 
