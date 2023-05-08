@@ -8,6 +8,8 @@ function useTheme(): { theme: Theme } {
     ? "yellow"
     : router.asPath.includes("politician")
     ? "aqua"
+    : router.asPath.includes("question")
+    ? "orange"
     : "yellow";
 
   return { theme };

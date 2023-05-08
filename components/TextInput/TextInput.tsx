@@ -27,6 +27,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   rules?: RegisterOptions;
   type?: TextInputType;
   icon?: ReactNode;
+  textarea?: boolean;
   [x: string]: unknown;
 };
 
@@ -42,6 +43,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   register,
   rules,
   icon,
+  textarea = false,
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || "input";
@@ -68,14 +70,24 @@ function TextInput<TFormValues extends Record<string, unknown>>({
     <div className={inputClasses}>
       <label htmlFor={inputId}>{label}</label>
       <div className={styles.inputWithIcon}>
-        <input
-          id={inputId}
-          type={type}
-          placeholder={placeholder || ""}
-          aria-invalid={hasErrors}
-          {...(register && register(name, rules))}
-          {...rest}
-        />
+        {textarea ? (
+          <textarea
+            id={inputId}
+            placeholder={placeholder || ""}
+            aria-invalid={hasErrors}
+            {...(register && register(name, rules))}
+            {...rest}
+          />
+        ) : (
+          <input
+            id={inputId}
+            type={type}
+            placeholder={placeholder || ""}
+            aria-invalid={hasErrors}
+            {...(register && register(name, rules))}
+            {...rest}
+          />
+        )}
         {icon}
       </div>
 

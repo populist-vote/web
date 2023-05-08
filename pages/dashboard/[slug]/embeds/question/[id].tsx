@@ -16,7 +16,6 @@ export async function getServerSideProps({
   query: {
     slug: string;
     id: string;
-    embedType: "legislation" | "multi-legislation" | "politician";
   };
   locale: SupportedLocale;
 }) {
@@ -58,8 +57,8 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <LoaderFlag />
   ) : (
     <>
-      <h2>Legislation Embed</h2>
-      <EmbedPage id={id} embedType="legislation" />
+      <h2>Question Embed</h2>
+      <EmbedPage id={id} embedType="question" />
     </>
   );
 }

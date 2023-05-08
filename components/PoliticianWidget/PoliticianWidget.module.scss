@@ -1,21 +1,9 @@
 @import "styles/mixins/media";
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
+@import "styles/layout/containers";
 
-.container {
-  border-radius: 15px;
-  border: 1px solid $grey-light;
-  background: $grey-lighter;
-  box-sizing: border-box;
-  color: $grey-darkest;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.75rem;
-  width: auto;
-  height: auto;
-
+.widgetContainer {
   section {
     display: flex;
     flex-direction: column;

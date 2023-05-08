@@ -59,6 +59,25 @@
   @include scroll-snap;
 }
 
+.widgetContainer {
+  border-radius: 15px;
+  border: 1px solid $grey-light;
+  background: $grey-lighter;
+  box-sizing: border-box;
+  color: $grey-darkest;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+  height: auto;
+
+  main {
+    width: 100%;
+    padding: 1.75rem;
+  }
+}
+
 .avatarContainer {
   display: flex;
   flex-direction: column;

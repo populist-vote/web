@@ -1,4 +1,5 @@
 import { BillWidget } from "components/BillWidget/BillWidget";
+import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 import { useEmbedByIdQuery } from "generated";
 import { GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
@@ -28,6 +29,7 @@ function EmbedPage({
 
   const embedType = data?.embedById?.attributes?.embedType;
   const billId = data?.embedById?.attributes?.billId;
+  const politicianId = data?.embedById?.attributes?.politicianId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
 
   const resolvedOrigin =
@@ -57,7 +59,14 @@ function EmbedPage({
         />
       );
     case "politician":
-      return <div>P</div>;
+      return (
+        <PoliticianWidget
+          politicianId={politicianId}
+          embedId={embedId}
+          origin={resolvedOrigin}
+          renderOptions={renderOptions}
+        />
+      );
   }
 }
 

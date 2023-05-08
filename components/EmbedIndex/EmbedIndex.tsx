@@ -22,7 +22,7 @@ function EmbedIndex({
 }: {
   slug: string;
   title: string;
-  embedType: "legislation" | "multi-legislation" | "politician";
+  embedType: "legislation" | "multi-legislation" | "politician" | "question";
   embeds: EmbedResult[];
   columns: ColumnDef<EmbedResult>[];
 }) {
@@ -56,6 +56,17 @@ function EmbedIndex({
             selected={router.asPath.includes("/politician")}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
+            }
+          />
+        </Link>
+        <Link href={`/dashboard/${slug}/embeds/question`}>
+          <Badge
+            theme="orange"
+            clickable
+            label="Question"
+            selected={router.asPath.includes("/question")}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "question")
             }
           />
         </Link>

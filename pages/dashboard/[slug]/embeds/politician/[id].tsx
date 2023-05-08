@@ -57,7 +57,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <LoaderFlag />
   ) : (
     <>
-      <h2>Embed</h2>
+      <h2>Politician Embed</h2>
       <EmbedPage id={id} embedType="politician" />
     </>
   );

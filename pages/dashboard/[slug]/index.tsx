@@ -135,6 +135,8 @@ export function DashboardTopNav() {
               ? `/dashboard/[slug]/embeds/legislation/new`
               : router.pathname.includes("politician")
               ? `/dashboard/[slug]/embeds/politician/new`
+              : router.pathname.includes("question")
+              ? `/dashboard/[slug]/embeds/question/new`
               : `/dashboard/[slug]/embeds/new`,
             query: { slug: router.query.slug },
           }}

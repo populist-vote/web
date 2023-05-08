@@ -88,6 +88,11 @@ $small-size: 1.825rem;
     border-color: $colorDark;
     color: $color;
     cursor: not-allowed;
+
+    &:hover {
+      background: $colorDarker;
+      color: $color;
+    }
   }
 
   &:not(.iconOnlyButton, [disabled]) {

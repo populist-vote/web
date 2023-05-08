@@ -1,30 +1,29 @@
 import clsx from "clsx";
 import { BillWidget } from "components/BillWidget/BillWidget";
 import { Box } from "components/Box/Box";
-import { CodeBlock } from "components/CodeBlock/CodeBlock";
-import { EmbedForm } from "components/EmbedForm/EmbedForm";
+import { EmbedBasicsForm } from "components/EmbedBasicsForm/EmbedBasicsForm";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import {
   EmbedResult,
   useDeleteEmbedMutation,
   useEmbedByIdQuery,
 } from "generated";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
 import { Button } from "components/Button/Button";
 import { useRouter } from "next/router";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
+import { QuestionEmbedForm } from "pages/dashboard/[slug]/embeds/question/new";
+import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
+import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
 
 function EmbedPage({
   id,
   embedType,
 }: {
   id: string;
-  embedType: "legislation" | "politician";
+  embedType: "legislation" | "politician" | "question";
 }) {
-  const router = useRouter();
-  const [language, setLanguage] = useState<"html" | "react">("html");
   const { data, isLoading } = useEmbedByIdQuery(
     {
       id,
@@ -38,8 +37,73 @@ function EmbedPage({
 
   const billId = data?.embedById?.attributes?.billId as string;
   const politicianId = data?.embedById?.attributes?.politicianId as string;
-  // const politicianId = data?.embedById?.attributes?.politicianId as string;
+
   const embed = data?.embedById as EmbedResult;
+
+  const renderPreviewByType = () => {
+    switch (embedType) {
+      case "legislation":
+        return (
+          <BillWidget
+            billId={billId}
+            origin={window.location.origin}
+            embedId={id}
+            renderOptions={embed.attributes.renderOptions}
+          />
+        );
+      case "politician":
+        return (
+          <PoliticianWidget
+            politicianId={politicianId}
+            origin={window.location.origin}
+            embedId={id}
+            renderOptions={embed.attributes.renderOptions}
+          />
+        );
+      case "question":
+        return <QuestionWidget embedId={id} origin={window.location.origin} />;
+      default:
+        return <div>Temp default</div>;
+    }
+  };
+
+  if (isLoading) return <LoaderFlag />;
+
+  return (
+    <div className={styles.content}>
+      <div className={clsx(styles.options)}>
+        <Box>
+          {embedType == "question" ? (
+            <QuestionEmbedForm buttonLabel="Save" embed={embed} />
+          ) : (
+            <EmbedBasicsForm embed={embed} />
+          )}
+        </Box>
+      </div>
+      <div className={clsx(styles.preview)}>
+        <h3>Preview</h3>
+        {renderPreviewByType()}
+      </div>
+      <div className={clsx(styles.embedCode)}>
+        <EmbedCodeBlock id={id} />
+      </div>
+      <div>
+        <DeleteEmbedButton id={id} embedType={embedType} />
+      </div>
+    </div>
+  );
+}
+
+export { EmbedPage };
+
+export function DeleteEmbedButton({
+  id,
+  embedType,
+}: {
+  id: string;
+  embedType: string;
+}) {
+  const router = useRouter();
 
   const deleteEmbedMutation = useDeleteEmbedMutation();
 
@@ -64,99 +128,13 @@ function EmbedPage({
       );
   };
 
-  const htmlText = `
-  <!-- Place this div where you want the widget to appear -->
-  <div class="populist-${id}" />
-  
-  <script
-    src="${window.location.origin}/widget-client.js"
-    data-embed-id="${id}"
-    />
-    `;
-
-  const reactText = `
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "${window.location.origin}/widget-client.js";
-    script.async = true;
-    script.setAttribute(
-      "data-embed-id", 
-      "${id}"
-    );
-    document.body.appendChild(script);
-    return () => document.body.removeChild(script);
-  }, [])
-
-  // Place this div where you want the widget to appear
-  return <div className="populist-${id}" />
-      `;
-
-  const snippets = {
-    html: htmlText,
-    react: reactText,
-  };
-
-  const renderPreviewByType = () => {
-    switch (embedType) {
-      case "legislation":
-        return (
-          <BillWidget
-            billId={billId}
-            origin={window.location.origin}
-            embedId={id}
-            renderOptions={embed.attributes.renderOptions}
-          />
-        );
-      case "politician":
-        return (
-          <PoliticianWidget
-            politicianId={politicianId}
-            origin={window.location.origin}
-            embedId={id}
-            renderOptions={embed.attributes.renderOptions}
-          />
-        );
-      default:
-        return <div>Temp default</div>;
-    }
-  };
-
-  if (isLoading) return <LoaderFlag />;
-
   return (
-    <div className={styles.content}>
-      <div className={clsx(styles.options)}>
-        <h3>Options</h3>
-        <Box>
-          <EmbedForm embed={embed} />
-        </Box>
-      </div>
-      <div className={clsx(styles.preview)}>
-        <h3>Preview</h3>
-
-        {renderPreviewByType()}
-      </div>
-      <div className={clsx(styles.embedCode)}>
-        <Box>
-          <h4>Embed Code</h4>
-          <CodeBlock
-            language={language}
-            setLanguage={setLanguage}
-            snippets={snippets}
-          />
-        </Box>
-      </div>
-      <div>
-        <Button
-          theme="red"
-          variant="secondary"
-          label="Delete Embed"
-          size="small"
-          onClick={handleDelete}
-        />
-      </div>
-    </div>
+    <Button
+      theme="red"
+      variant="secondary"
+      label="Delete Embed"
+      size="small"
+      onClick={handleDelete}
+    />
   );
 }
-
-export { EmbedPage };

@@ -1,7 +1,6 @@
 import { Button, LoaderFlag } from "components";
 import { Badge } from "components/Badge/Badge";
 import { SponsorsBar } from "components/SponsorsBar/SponsorsBar";
-import { LogoTextDark } from "components/Logo";
 import {
   BillResult,
   BillStatus,
@@ -15,6 +14,7 @@ import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import styles from "./BillWidget.module.scss";
 import { LastVoteSection } from "./LastVoteSection/LastVoteSection";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
+import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 
 interface BillWidgetRenderOptions {
   issueTags: boolean;
@@ -121,26 +121,7 @@ function BillWidget({
           </section>
         )}
       </main>
-      <footer className={styles.footer}>
-        <div className={styles.branding}>
-          <span className={styles.poweredBy}>Powered by</span>
-          <a href="https://populist.us" target="_blank" rel="noreferrer">
-            <LogoTextDark />
-          </a>
-        </div>
-        <a
-          href={`https://populist.us/bills/${bill.slug}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Button
-            variant="secondary"
-            size="small"
-            label="Learn More"
-            theme="grey"
-          />
-        </a>
-      </footer>
+      <WidgetFooter learnMoreHref={`https://populist.us/bills/${bill.slug}`} />
     </div>
   );
 }

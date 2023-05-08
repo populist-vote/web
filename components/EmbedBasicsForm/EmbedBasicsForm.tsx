@@ -62,7 +62,7 @@ function BillEmbedOptionsForm({
   );
 }
 
-function EmbedForm({ embed }: { embed: EmbedResult | null }) {
+function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
   const { user } = useAuth({ redirect: false });
   const upsertEmbed = useUpsertEmbedMutation();
@@ -165,4 +165,4 @@ function EmbedForm({ embed }: { embed: EmbedResult | null }) {
   );
 }
 
-export { EmbedForm };
+export { EmbedBasicsForm };

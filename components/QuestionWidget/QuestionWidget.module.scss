@@ -1,0 +1,29 @@
+@import "styles/layout/containers";
+@import "styles/variables/fonts";
+
+.widgetContainer {
+  main {
+    padding: 1rem 0.5rem;
+
+    .formFooter {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    button {
+      width: 25%;
+    }
+  }
+  h3 {
+    font-family: $font-secondary;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0;
+    text-align: center;
+  }
+}

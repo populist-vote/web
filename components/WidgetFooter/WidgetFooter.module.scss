@@ -1,0 +1,25 @@
+@import "styles/variables/colors";
+
+.footer {
+  border-top: 1px solid $grey-light;
+  width: 100%;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .branding {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .poweredBy {
+    font-size: 13px;
+    font-style: italic;
+    color: $grey;
+    padding-left: 0.75rem;
+  }
+}
