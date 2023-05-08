@@ -5,7 +5,7 @@ import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
-import { useUpsertEmbedMutation } from "generated";
+import { useUpsertEmbedMutation, EmbedType } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { Box } from "components/Box/Box";
@@ -46,6 +46,7 @@ function NewPoliticianEmbed() {
         input: {
           id: embedId as string,
           name: "Politician Embed",
+          embedType: EmbedType.Politician,
           populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
           attributes: {

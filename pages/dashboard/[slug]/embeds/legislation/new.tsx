@@ -6,7 +6,7 @@ import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
-import { useUpsertEmbedMutation } from "generated";
+import { useUpsertEmbedMutation, EmbedType } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { BillResultsTable } from "components/BillResultsTable/BillResultsTable";
@@ -43,6 +43,7 @@ function NewLegislationEmbed() {
         input: {
           id: embedId as string,
           name: "Legislation Embed",
+          embedType: EmbedType.Legislation,
           populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
           attributes: {

@@ -50,6 +50,7 @@
 
   &.small {
     input,
+    textarea,
     select {
       font-size: 14px;
       line-height: 18px;
@@ -66,6 +67,7 @@
 
   &.medium {
     input,
+    textarea,
     select {
       font-size: 17px;
       line-height: 24px;
@@ -82,6 +84,7 @@
 
   &.large {
     input,
+    textarea,
     select {
       font-size: 19px;
       letter-spacing: 0.2px;

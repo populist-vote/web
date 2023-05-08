@@ -50,8 +50,8 @@ dependencies:
     specifier: ^14.2.2
     version: 14.2.2(react@18.2.0)
   react-hook-form:
-    specifier: ^7.36.1
-    version: 7.36.1(react@18.2.0)
+    specifier: ^7.43.9
+    version: 7.43.9(react@18.2.0)
   react-icons:
     specifier: ^4.3.1
     version: 4.4.0(react@18.2.0)
@@ -6501,8 +6501,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-hook-form@7.36.1(react@18.2.0):
-    resolution: {integrity: sha512-EbYYkCG2p8ywe7ikOH2l02lAFMrrrslZi1I8fqd8ifDGNAkhomHZQzQsP6ksvzrWBKntRe8b5L5L7Zsd+Gm02Q==}
+  /react-hook-form@7.43.9(react@18.2.0):
+    resolution: {integrity: sha512-AUDN3Pz2NSeoxQ7Hs6OhQhDr6gtF9YRuutGDwPQqhSUAHJSgGl2VeY3qN19MG0SucpjgDiuMJ4iC5T5uB+eaNQ==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18

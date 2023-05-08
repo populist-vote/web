@@ -44,9 +44,9 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
   const columns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {
-        accessorKey: "attributes.prompt",
+        accessorKey: "question.prompt",
         header: "Prompt",
-        size: 100,
+        size: 400,
       },
       {
         accessorKey: "createdAt",
@@ -60,7 +60,7 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
         header: "Last Updated",
         cell: (info) =>
           getRelativeTimeString(new Date(info.getValue() as string)),
-        size: 110,
+        size: 100,
       },
     ],
     []

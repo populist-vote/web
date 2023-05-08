@@ -19,14 +19,22 @@ export function QuestionWidget({
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this question.</div>;
 
-  const prompt = data?.embedById?.attributes.prompt;
+  const prompt = data?.embedById?.question?.prompt;
+  const placeholder =
+    data?.embedById?.question?.responsePlaceholderText ||
+    "Enter your response here";
 
   return (
     <article className={styles.widgetContainer}>
       <main>
         <h3>{prompt}</h3>
         <form>
-          <TextInput name="response" placeholder={"Your question"} textarea />
+          <TextInput
+            size="small"
+            name="response"
+            placeholder={placeholder}
+            textarea
+          />
           <div className={styles.formFooter}>
             <Button size="small" variant="primary" label="Next" type="submit" />
           </div>

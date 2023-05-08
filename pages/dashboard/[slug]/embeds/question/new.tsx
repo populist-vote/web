@@ -7,8 +7,10 @@ import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
 import {
   EmbedResult,
+  EmbedType,
   useEmbedByIdQuery,
   useUpsertEmbedMutation,
+  useUpsertQuestionMutation,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
@@ -40,6 +42,7 @@ type NewQuestionEmbedFormValues = {
   prompt: string;
   enforceCharacterLimit?: boolean;
   characterLimit?: number;
+  responsePlaceholderText?: string;
   allowAnonymousResponses?: boolean;
 };
 
@@ -76,6 +79,8 @@ export function QuestionEmbedForm({
   const { slug } = query;
   const { user } = useAuth({ redirect: false });
   const upsertEmbed = useUpsertEmbedMutation();
+  const upsertQuestion = useUpsertQuestionMutation();
+
   const {
     register,
     handleSubmit,
@@ -84,9 +89,12 @@ export function QuestionEmbedForm({
   } = useForm<NewQuestionEmbedFormValues>({
     mode: "onChange",
     defaultValues: {
-      prompt: embed?.attributes.prompt,
-      enforceCharacterLimit: false,
-      characterLimit: 140,
+      prompt: embed?.question?.prompt,
+      enforceCharacterLimit: embed?.question?.responseCharLimit !== null,
+      characterLimit: embed?.question?.responseCharLimit || 140,
+      responsePlaceholderText: embed?.question?.responsePlaceholderText || "",
+      allowAnonymousResponses:
+        embed?.question?.allowAnonymousResponses || false,
     },
   });
 
@@ -97,40 +105,58 @@ export function QuestionEmbedForm({
       prompt,
       enforceCharacterLimit,
       characterLimit,
-      allowAnonymousResponses,
+      responsePlaceholderText,
     } = data;
-    upsertEmbed.mutate(
+
+    upsertQuestion.mutate(
       {
         input: {
-          id: embed?.id as string,
-          name: "Politician Embed",
-          populistUrl: "https://populist.us",
-          organizationId: user?.organizationId as string,
-          attributes: {
-            embedType: "question",
-            prompt,
-            characterLimit: enforceCharacterLimit ? characterLimit : null,
-            allowAnonymousResponses,
-          },
+          id: embed?.attributes.questionId as string,
+          prompt,
+          responseCharLimit: enforceCharacterLimit ? characterLimit : null,
+          responsePlaceholderText,
         },
       },
       {
         onSuccess: (data) => {
-          toast("Embed saved!", { type: "success", position: "bottom-right" });
-          void queryClient.invalidateQueries(
-            useEmbedByIdQuery.getKey({ id: router.query.id as string })
-          );
-          void router.push(
-            `/dashboard/${slug}/embeds/question/${data.upsertEmbed.id}`,
-            undefined,
+          upsertEmbed.mutate(
             {
-              shallow: true,
+              input: {
+                id: embed?.id as string,
+                name: "Politician Embed",
+                populistUrl: "https://populist.us",
+                embedType: EmbedType.Question,
+                organizationId: user?.organizationId as string,
+                attributes: {
+                  questionId: data.upsertQuestion.id,
+                  embedType: "question",
+                },
+              },
+            },
+            {
+              onSuccess: (data) => {
+                toast("Embed saved!", {
+                  type: "success",
+                  position: "bottom-right",
+                });
+                void queryClient.invalidateQueries(
+                  useEmbedByIdQuery.getKey({ id: router.query.id as string })
+                );
+                void router.push(
+                  `/dashboard/${slug}/embeds/question/${data.upsertEmbed.id}`,
+                  undefined,
+                  {
+                    shallow: true,
+                  }
+                );
+              },
             }
           );
         },
       }
     );
   };
+
   return (
     <form onSubmit={handleSubmit(handleCreateEmbed)}>
       <div
@@ -171,7 +197,7 @@ export function QuestionEmbedForm({
             style={{
               display: "grid",
               gridTemplateRows: "auto auto",
-              gap: "1rem",
+              gap: "0.75rem",
             }}
           >
             <Checkbox
@@ -184,7 +210,7 @@ export function QuestionEmbedForm({
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "1rem",
+                gap: "0.75rem",
                 height: "2rem",
               }}
             >
@@ -205,6 +231,14 @@ export function QuestionEmbedForm({
                 </div>
               )}
             </div>
+            <TextInput
+              id="responsePlaceholderText"
+              name="responsePlaceholderText"
+              label="Response Placeholder Text"
+              size="small"
+              placeholder="What placeholder text would you like users to see?"
+              register={register}
+            />
           </div>
         </section>
       </div>

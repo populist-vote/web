@@ -199,6 +199,7 @@ type BillResult {
   state: State
   status: BillStatus!
   title: String!
+  updatedAt: DateTime!
   usersVote: ArgumentPosition
   votesmartBillId: Int
 }
@@ -400,6 +401,14 @@ type DeletePoliticianResult {
   id: String!
 }
 
+type DeletePollResult {
+  id: ID!
+}
+
+type DeleteQuestionResult {
+  id: ID!
+}
+
 type DeleteRaceResult {
   id: String!
 }
@@ -475,14 +484,27 @@ type EmbedResult {
   organizationId: ID!
   politician: PoliticianResult
   populistUrl: String!
+  question: QuestionResult
   updatedAt: DateTime!
   updatedBy: UserResult!
   updatedById: ID!
 }
 
+enum EmbedType {
+  LEGISLATION
+  POLITICIAN
+  POLL
+  QUESTION
+}
+
 type Endorsements {
   organizations: [OrganizationResult!]!
   politicians: [PoliticianResult!]!
+}
+
+type ExternalUserResult {
+  email: String!
+  name: String!
 }
 
 type GeneralInfo {
@@ -550,7 +572,9 @@ type Mutation {
   deleteOffice(id: String!): DeleteOfficeResult!
   deleteOrganization(id: String!): DeleteOrganizationResult!
   deletePolitician(id: String!): DeletePoliticianResult!
+  deletePoll(id: ID!): DeletePollResult!
   deleteProfilePicture: Boolean!
+  deleteQuestion(id: ID!): DeleteQuestionResult!
   deleteRace(id: String!): DeleteRaceResult!
   deleteVotingGuide(id: ID!): DeleteVotingGuideResult!
   deleteVotingGuideCandidateNote(candidateId: ID!, votingGuideId: ID!): VotingGuideCandidateResult!
@@ -575,6 +599,8 @@ type Mutation {
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
   upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
   upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
+  upsertPoll(input: UpsertPollInput!): PollResult!
+  upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
   upsertRace(input: UpsertRaceInput!): RaceResult!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
@@ -830,6 +856,25 @@ type PoliticianResultEdge {
   node: PoliticianResult!
 }
 
+type PollOptionResult {
+  createdAt: DateTime!
+  id: ID!
+  isWriteIn: Boolean!
+  optionText: String!
+  pollId: ID!
+  updatedAt: DateTime!
+}
+
+type PollResult {
+  createdAt: DateTime!
+  embedId: ID
+  id: ID!
+  name: String
+  options: [PollOptionResult!]!
+  prompt: String!
+  updatedAt: DateTime!
+}
+
 enum PopularitySort {
   MOST_OPPOSED
   MOST_POPULAR
@@ -935,6 +980,25 @@ type Query {
   ): [VotingGuideResult!]!
 }
 
+type QuestionResult {
+  allowAnonymousResponses: Boolean!
+  createdAt: DateTime!
+  id: ID!
+  prompt: String!
+  responseCharLimit: Int
+  responsePlaceholderText: String
+  submissions: [QuestionSubmissionResult!]!
+  updatedAt: DateTime!
+}
+
+type QuestionSubmissionResult {
+  createdAt: DateTime!
+  id: ID!
+  respondent: RespondentResult!
+  response: String!
+  updatedAt: DateTime!
+}
+
 type RaceCandidateResult {
   candidateId: ID!
   votePercentage: Float
@@ -1014,6 +1078,8 @@ input ResetPasswordInput {
   newPassword: String!
   resetToken: String!
 }
+
+union RespondentResult = ExternalUserResult | UserResult
 
 enum Role {
   BASIC
@@ -1289,6 +1355,7 @@ input UpsertElectionInput {
 input UpsertEmbedInput {
   attributes: JSON
   description: String
+  embedType: EmbedType
   id: UUID
   name: String
   organizationId: UUID
@@ -1383,6 +1450,28 @@ input UpsertPoliticianInput {
   votesmartCandidateId: Int
   votesmartCandidateRatings: JSON
   youtubeUrl: String
+}
+
+input UpsertPollInput {
+  id: UUID
+  name: String!
+  options: [UpsertPollOptionInput!]!
+  prompt: String!
+}
+
+input UpsertPollOptionInput {
+  isWriteIn: Boolean
+  optionText: String!
+}
+
+input UpsertQuestionInput {
+  allowAnonymousResponses: Boolean
+  embedId: UUID
+  id: UUID
+  name: String
+  prompt: String
+  responseCharLimit: Int
+  responsePlaceholderText: String
 }
 
 input UpsertRaceInput {

@@ -15,3 +15,14 @@ mutation DeleteEmbed($id: UUID!) {
     id
   }
 }
+
+mutation UpsertQuestion($input: UpsertQuestionInput!) {
+  upsertQuestion(input: $input) {
+    id
+    prompt
+    responseCharLimit
+    responsePlaceholderText
+    createdAt
+    updatedAt
+  }
+}
