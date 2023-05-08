@@ -5,6 +5,7 @@ import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { useEmbedByIdQuery } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Button } from "components/Button/Button";
+import { useForm } from "react-hook-form";
 
 export function QuestionWidget({
   embedId,
@@ -15,6 +16,7 @@ export function QuestionWidget({
 }) {
   useEmbedResizer({ origin, embedId });
   const { data, isLoading, error } = useEmbedByIdQuery({ id: embedId });
+  const { register, watch } = useForm();
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this question.</div>;
@@ -23,6 +25,7 @@ export function QuestionWidget({
   const placeholder =
     data?.embedById?.question?.responsePlaceholderText ||
     "Enter your response here";
+  const charLimit = data?.embedById?.question?.responseCharLimit || undefined;
 
   return (
     <article className={styles.widgetContainer}>
@@ -34,6 +37,9 @@ export function QuestionWidget({
             name="response"
             placeholder={placeholder}
             textarea
+            charLimit={charLimit}
+            register={register}
+            watch={watch("response")}
           />
           <div className={styles.formFooter}>
             <Button size="small" variant="primary" label="Next" type="submit" />

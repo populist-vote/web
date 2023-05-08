@@ -114,6 +114,12 @@
     }
   }
 
+  span.charLimit {
+    color: $grey;
+    font-size: $text-xs;
+    display: inline-block;
+  }
+
   span.errorMessage {
     color: $red;
     font-size: $text-sm;

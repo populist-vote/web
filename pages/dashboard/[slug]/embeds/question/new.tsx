@@ -41,8 +41,8 @@ export async function getServerSideProps({
 type NewQuestionEmbedFormValues = {
   prompt: string;
   enforceCharacterLimit?: boolean;
-  characterLimit?: number;
-  responsePlaceholderText?: string;
+  responseCharLimit?: number | null;
+  responsePlaceholderText?: string | null;
   allowAnonymousResponses?: boolean;
 };
 
@@ -86,15 +86,15 @@ export function QuestionEmbedForm({
     handleSubmit,
     watch,
     formState: { isValid, isDirty, isSubmitting },
+    reset,
   } = useForm<NewQuestionEmbedFormValues>({
     mode: "onChange",
     defaultValues: {
       prompt: embed?.question?.prompt,
       enforceCharacterLimit: embed?.question?.responseCharLimit !== null,
-      characterLimit: embed?.question?.responseCharLimit || 140,
+      responseCharLimit: embed?.question?.responseCharLimit || 140,
       responsePlaceholderText: embed?.question?.responsePlaceholderText || "",
-      allowAnonymousResponses:
-        embed?.question?.allowAnonymousResponses || false,
+      allowAnonymousResponses: embed?.question?.allowAnonymousResponses,
     },
   });
 
@@ -104,7 +104,7 @@ export function QuestionEmbedForm({
     const {
       prompt,
       enforceCharacterLimit,
-      characterLimit,
+      responseCharLimit,
       responsePlaceholderText,
     } = data;
 
@@ -113,12 +113,28 @@ export function QuestionEmbedForm({
         input: {
           id: embed?.attributes.questionId as string,
           prompt,
-          responseCharLimit: enforceCharacterLimit ? characterLimit : null,
+          responseCharLimit:
+            enforceCharacterLimit && responseCharLimit
+              ? responseCharLimit
+              : null,
           responsePlaceholderText,
+          allowAnonymousResponses: data.allowAnonymousResponses,
         },
       },
       {
+        onError: (error) => {
+          toast(
+            `Something went wrong saving this embed: ${(
+              error as any
+            ).toString()}`,
+            {
+              type: "error",
+              position: "bottom-right",
+            }
+          );
+        },
         onSuccess: (data) => {
+          reset(data.upsertQuestion);
           upsertEmbed.mutate(
             {
               input: {
@@ -138,6 +154,7 @@ export function QuestionEmbedForm({
                 toast("Embed saved!", {
                   type: "success",
                   position: "bottom-right",
+                  autoClose: 1000,
                 });
                 void queryClient.invalidateQueries(
                   useEmbedByIdQuery.getKey({ id: router.query.id as string })
@@ -224,9 +241,13 @@ export function QuestionEmbedForm({
                 <div style={{ width: "75px" }}>
                   <TextInput
                     size="small"
-                    id="characterLimit"
-                    name="characterLimit"
+                    type="number"
+                    id="responseCharLimit"
+                    name="responseCharLimit"
                     register={register}
+                    rules={{
+                      valueAsNumber: true,
+                    }}
                   />
                 </div>
               )}
@@ -255,7 +276,9 @@ export function QuestionEmbedForm({
           width="fit-content"
           label={buttonLabel}
           type="submit"
-          disabled={!isDirty || !isValid || isSubmitting}
+          disabled={
+            !isDirty || !isValid || isSubmitting || upsertQuestion.isLoading
+          }
         />
       </div>
     </form>

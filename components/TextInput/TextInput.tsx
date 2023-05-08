@@ -11,7 +11,7 @@ import { ReactNode } from "react";
 
 type TextInputSize = "small" | "medium" | "large";
 
-type TextInputType = "text" | "password" | "email" | "tel";
+type TextInputType = "text" | "password" | "email" | "tel" | "number";
 
 export type TextInputProps<TFormValues extends FieldValues> = {
   id?: string;
@@ -25,9 +25,11 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   placeholder?: string;
   register?: UseFormRegister<TFormValues>;
   rules?: RegisterOptions;
+  watch?: string;
   type?: TextInputType;
   icon?: ReactNode;
   textarea?: boolean;
+  charLimit?: number;
   [x: string]: unknown;
 };
 
@@ -42,8 +44,10 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   type = "text",
   register,
   rules,
+  watch,
   icon,
   textarea = false,
+  charLimit,
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || "input";
@@ -75,6 +79,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
             id={inputId}
             placeholder={placeholder || ""}
             aria-invalid={hasErrors}
+            maxLength={charLimit}
             {...(register && register(name, rules))}
             {...rest}
           />
@@ -84,12 +89,19 @@ function TextInput<TFormValues extends Record<string, unknown>>({
             type={type}
             placeholder={placeholder || ""}
             aria-invalid={hasErrors}
+            maxLength={charLimit}
             {...(register && register(name, rules))}
             {...rest}
           />
         )}
         {icon}
       </div>
+      {charLimit && (
+        <span className={styles.charLimit}>
+          {charLimit - (watch ? watch?.toString().length : 0)} characters
+          remaining
+        </span>
+      )}
 
       {hasErrors && errorMessage && (
         <span className={styles.errorMessage}>{errorMessage()}</span>

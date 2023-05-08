@@ -41,5 +41,6 @@ fragment EmbedFields on EmbedResult {
       prompt
       responseCharLimit
       responsePlaceholderText
+      allowAnonymousResponses
     }
 }
