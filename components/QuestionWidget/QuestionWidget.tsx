@@ -2,10 +2,20 @@ import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import styles from "./QuestionWidget.module.scss";
 import { TextInput } from "components/TextInput/TextInput";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
-import { useEmbedByIdQuery } from "generated";
+import {
+  useEmbedByIdQuery,
+  useUpsertQuestionSubmissionMutation,
+} from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Button } from "components/Button/Button";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+
+type QuestionWidgetForm = {
+  response: string;
+  name: string;
+  email: string;
+};
 
 export function QuestionWidget({
   embedId,
@@ -15,23 +25,61 @@ export function QuestionWidget({
   origin: string;
 }) {
   useEmbedResizer({ origin, embedId });
+  const [isSuccess, setIsSuccess] = useState(false);
   const { data, isLoading, error } = useEmbedByIdQuery({ id: embedId });
-  const { register, watch } = useForm();
-
-  if (isLoading) return <LoaderFlag />;
-  if (error) return <div>Something went wrong loading this question.</div>;
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { isValid, isDirty, isSubmitting },
+  } = useForm<QuestionWidgetForm>();
+  const upsertQuestionSubmissionMutation =
+    useUpsertQuestionSubmissionMutation();
 
   const prompt = data?.embedById?.question?.prompt;
   const placeholder =
     data?.embedById?.question?.responsePlaceholderText ||
     "Enter your response here";
   const charLimit = data?.embedById?.question?.responseCharLimit || undefined;
+  const questionId = data?.embedById?.question?.id;
+  const allowAnonymousResponses =
+    data?.embedById?.question?.allowAnonymousResponses;
+
+  const onSubmit = (data: QuestionWidgetForm) => {
+    upsertQuestionSubmissionMutation.mutate(
+      {
+        respondentInput: {
+          name: data.name,
+          email: data.email,
+        },
+        questionSubmissionInput: {
+          questionId,
+          response: data.response,
+        },
+      },
+      {
+        onSuccess: () => {
+          setIsSuccess(true);
+        },
+      }
+    );
+  };
+  if (isLoading) return <LoaderFlag />;
+  if (error) return <div>Something went wrong loading this question.</div>;
+  if (isSuccess)
+    return (
+      <article className={styles.widgetContainer}>
+        <main>
+          <h3>Thanks for your response!</h3>
+        </main>
+      </article>
+    );
 
   return (
     <article className={styles.widgetContainer}>
       <main>
         <h3>{prompt}</h3>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             size="small"
             name="response"
@@ -39,10 +87,51 @@ export function QuestionWidget({
             textarea
             charLimit={charLimit}
             register={register}
+            rules={{
+              required: true,
+            }}
             watch={watch("response")}
           />
+          <br />
+          <TextInput
+            size="small"
+            name="name"
+            placeholder={`Full Name ${
+              allowAnonymousResponses ? "(Optional)" : ""
+            }`}
+            register={register}
+            rules={{
+              required: !allowAnonymousResponses,
+            }}
+            style={{ marginBottom: "0.5rem" }}
+          />
+          <TextInput
+            size="small"
+            name="email"
+            placeholder={`Email ${allowAnonymousResponses ? "(Optional)" : ""}`}
+            register={register}
+            rules={{
+              required: !allowAnonymousResponses,
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Invalid email address",
+              },
+            }}
+            typ="email"
+          />
           <div className={styles.formFooter}>
-            <Button size="small" variant="primary" label="Next" type="submit" />
+            <Button
+              size="small"
+              variant="primary"
+              label="Next"
+              type="submit"
+              disabled={
+                !isValid ||
+                !isDirty ||
+                isSubmitting ||
+                upsertQuestionSubmissionMutation.isLoading
+              }
+            />
           </div>
         </form>
       </main>

@@ -38,6 +38,7 @@ fragment EmbedFields on EmbedResult {
       fullName
     }
     question {
+      id
       prompt
       responseCharLimit
       responsePlaceholderText

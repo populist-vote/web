@@ -26,3 +26,16 @@ mutation UpsertQuestion($input: UpsertQuestionInput!) {
     updatedAt
   }
 }
+
+mutation UpsertQuestionSubmission($respondentInput: UpsertRespondentInput!, $questionSubmissionInput: UpsertQuestionSubmissionInput!) {
+  upsertQuestionSubmission(respondentInput: $respondentInput, questionSubmissionInput: $questionSubmissionInput) {
+    id
+    response
+    respondent {
+      name
+      email
+    }
+    createdAt
+    updatedAt
+  }
+}

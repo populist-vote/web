@@ -502,11 +502,6 @@ type Endorsements {
   politicians: [PoliticianResult!]!
 }
 
-type ExternalUserResult {
-  email: String!
-  name: String!
-}
-
 type GeneralInfo {
   linkBack: String!
   title: String!
@@ -601,6 +596,7 @@ type Mutation {
   upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
   upsertPoll(input: UpsertPollInput!): PollResult!
   upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
+  upsertQuestionSubmission(questionSubmissionInput: UpsertQuestionSubmissionInput!, respondentInput: UpsertRespondentInput!): QuestionSubmissionResult!
   upsertRace(input: UpsertRaceInput!): RaceResult!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
@@ -994,7 +990,8 @@ type QuestionResult {
 type QuestionSubmissionResult {
   createdAt: DateTime!
   id: ID!
-  respondent: RespondentResult!
+  respondent: RespondentResult
+  respondentId: ID
   response: String!
   updatedAt: DateTime!
 }
@@ -1079,7 +1076,10 @@ input ResetPasswordInput {
   resetToken: String!
 }
 
-union RespondentResult = ExternalUserResult | UserResult
+type RespondentResult {
+  email: String!
+  name: String!
+}
 
 enum Role {
   BASIC
@@ -1474,6 +1474,13 @@ input UpsertQuestionInput {
   responsePlaceholderText: String
 }
 
+input UpsertQuestionSubmissionInput {
+  id: UUID
+  questionId: UUID!
+  respondentId: UUID
+  response: String!
+}
+
 input UpsertRaceInput {
   ballotpediaLink: String
   description: String
@@ -1491,6 +1498,12 @@ input UpsertRaceInput {
   title: String
   totalVotes: Int
   winnerIds: [UUID!]
+}
+
+input UpsertRespondentInput {
+  email: String!
+  id: UUID
+  name: String!
 }
 
 input UpsertVotingGuideCandidateInput {

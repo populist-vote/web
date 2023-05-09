@@ -98,8 +98,10 @@ function TextInput<TFormValues extends Record<string, unknown>>({
       </div>
       {charLimit && (
         <span className={styles.charLimit}>
-          {charLimit - (watch ? watch?.toString().length : 0)} characters
-          remaining
+          <strong style={{ color: "var(--blue-text)" }}>
+            {charLimit - (watch ? watch?.toString().length : 0)}
+          </strong>{" "}
+          characters remaining
         </span>
       )}
 

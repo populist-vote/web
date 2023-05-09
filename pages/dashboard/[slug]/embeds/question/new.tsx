@@ -38,7 +38,7 @@ export async function getServerSideProps({
   };
 }
 
-type NewQuestionEmbedFormValues = {
+type NewQuestionEmbedForm = {
   prompt: string;
   enforceCharacterLimit?: boolean;
   responseCharLimit?: number | null;
@@ -87,7 +87,7 @@ export function QuestionEmbedForm({
     watch,
     formState: { isValid, isDirty, isSubmitting },
     reset,
-  } = useForm<NewQuestionEmbedFormValues>({
+  } = useForm<NewQuestionEmbedForm>({
     mode: "onChange",
     defaultValues: {
       prompt: embed?.question?.prompt,
@@ -100,7 +100,7 @@ export function QuestionEmbedForm({
 
   const watchCharacterLimit = watch("enforceCharacterLimit");
 
-  const handleCreateEmbed = (data: NewQuestionEmbedFormValues) => {
+  const handleCreateEmbed = (data: NewQuestionEmbedForm) => {
     const {
       prompt,
       enforceCharacterLimit,
