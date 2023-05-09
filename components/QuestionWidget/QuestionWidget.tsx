@@ -10,6 +10,7 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Button } from "components/Button/Button";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 type QuestionWidgetForm = {
   response: string;
@@ -35,7 +36,7 @@ export function QuestionWidget({
   } = useForm<QuestionWidgetForm>();
   const upsertQuestionSubmissionMutation =
     useUpsertQuestionSubmissionMutation();
-
+  const queryClient = useQueryClient();
   const prompt = data?.embedById?.question?.prompt;
   const placeholder =
     data?.embedById?.question?.responsePlaceholderText ||
@@ -60,6 +61,9 @@ export function QuestionWidget({
       {
         onSuccess: () => {
           setIsSuccess(true);
+          void queryClient.invalidateQueries(
+            useEmbedByIdQuery.getKey({ id: embedId })
+          );
         },
       }
     );

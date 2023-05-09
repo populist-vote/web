@@ -43,5 +43,14 @@ fragment EmbedFields on EmbedResult {
       responseCharLimit
       responsePlaceholderText
       allowAnonymousResponses
+      submissions {
+        id
+        response
+        createdAt
+        respondent {
+          name
+          email
+        }
+      }
     }
 }
