@@ -38,7 +38,6 @@ export function EmbedCodeBlock({ id }: { id: string }) {
 
   return (
     <Box>
-      <h4>Embed Code</h4>
       <CodeBlock
         language={language}
         setLanguage={setLanguage}

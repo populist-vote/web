@@ -78,7 +78,12 @@ function EmbedPage({
 
   return (
     <div className={styles.content}>
+      <div className={clsx(styles.preview)}>
+        <h3>Preview</h3>
+        <Box>{renderPreviewByType()}</Box>
+      </div>
       <div className={clsx(styles.options)}>
+        <h3>Configuration</h3>
         <Box>
           {embedType == "question" ? (
             <QuestionEmbedForm buttonLabel="Save" embed={embed} />
@@ -87,19 +92,16 @@ function EmbedPage({
           )}
         </Box>
       </div>
-      <div className={clsx(styles.preview)}>
-        <h3>Preview</h3>
-        {renderPreviewByType()}
-        <div style={{ marginTop: "1rem" }}>
+      <div className={clsx(styles.embedCode)}>
+        <h3>Embed Code</h3>
+        <EmbedCodeBlock id={id} />
+        <div style={{ margin: "1rem 0" }}>
           <DeleteEmbedButton id={id} embedType={embedType} />
         </div>
+        {embedType == "question" && (
+          <QuestionSubmissionsTable submissions={submissions} />
+        )}
       </div>
-      <div className={clsx(styles.embedCode)}>
-        <EmbedCodeBlock id={id} />
-      </div>
-      {embedType == "question" && (
-        <QuestionSubmissionsTable submissions={submissions} />
-      )}
     </div>
   );
 }
