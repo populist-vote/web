@@ -139,13 +139,13 @@ export function PollEmbedForm({
             {
               input: {
                 id: embed?.id as string,
-                name: "Politician Embed",
+                name: "Poll Embed",
                 populistUrl: "https://populist.us",
                 embedType: EmbedType.Poll,
                 organizationId: user?.organizationId as string,
                 attributes: {
                   pollId: data.upsertPoll.id,
-                  embedType: "question",
+                  embedType: "poll",
                 },
               },
             },

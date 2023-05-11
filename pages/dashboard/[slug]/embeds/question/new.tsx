@@ -40,7 +40,7 @@ export async function getServerSideProps({
 
 type NewQuestionEmbedForm = {
   prompt: string;
-  enforceCharacterLimit?: boolean;
+  enforceCharLimit?: boolean;
   responseCharLimit?: number | null;
   responsePlaceholderText?: string | null;
   allowAnonymousResponses?: boolean;
@@ -91,19 +91,19 @@ export function QuestionEmbedForm({
     mode: "onChange",
     defaultValues: {
       prompt: embed?.question?.prompt,
-      enforceCharacterLimit: embed?.question?.responseCharLimit !== null,
+      enforceCharLimit: !!embed?.question?.responseCharLimit,
       responseCharLimit: embed?.question?.responseCharLimit || 140,
       responsePlaceholderText: embed?.question?.responsePlaceholderText || "",
       allowAnonymousResponses: embed?.question?.allowAnonymousResponses,
     },
   });
 
-  const watchCharacterLimit = watch("enforceCharacterLimit");
+  const watchCharacterLimit = watch("enforceCharLimit");
 
   const handleCreateEmbed = (data: NewQuestionEmbedForm) => {
     const {
       prompt,
-      enforceCharacterLimit,
+      enforceCharLimit,
       responseCharLimit,
       responsePlaceholderText,
     } = data;
@@ -114,9 +114,7 @@ export function QuestionEmbedForm({
           id: embed?.attributes.questionId as string,
           prompt,
           responseCharLimit:
-            enforceCharacterLimit && responseCharLimit
-              ? responseCharLimit
-              : null,
+            enforceCharLimit && responseCharLimit ? responseCharLimit : null,
           responsePlaceholderText,
           allowAnonymousResponses: data.allowAnonymousResponses,
         },
@@ -139,7 +137,7 @@ export function QuestionEmbedForm({
             {
               input: {
                 id: embed?.id as string,
-                name: "Politician Embed",
+                name: "Question Embed",
                 populistUrl: "https://populist.us",
                 embedType: EmbedType.Question,
                 organizationId: user?.organizationId as string,
@@ -232,8 +230,8 @@ export function QuestionEmbedForm({
               }}
             >
               <Checkbox
-                id="enforceCharacterLimit"
-                name="enforceCharacterLimit"
+                id="enforceCharLimit"
+                name="enforceCharLimit"
                 label="Enforce character limit for responses"
                 register={register}
               />

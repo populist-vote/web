@@ -5,7 +5,6 @@ import { EmbedBasicsForm } from "components/EmbedBasicsForm/EmbedBasicsForm";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import {
   EmbedResult,
-  QuestionSubmissionResult,
   useDeleteEmbedMutation,
   useEmbedByIdQuery,
 } from "generated";
@@ -17,11 +16,6 @@ import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 import { QuestionEmbedForm } from "pages/dashboard/[slug]/embeds/question/new";
 import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
-import { Table } from "components/Table/Table";
-import { useMemo } from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import { getRelativeTimeString } from "utils/dates";
-import { useTheme } from "hooks/useTheme";
 import { PollEmbedForm } from "pages/dashboard/[slug]/embeds/poll/new";
 import { PollWidget } from "components/PollWidget/PollWidget";
 
@@ -45,8 +39,6 @@ function EmbedPage({
 
   const billId = data?.embedById?.attributes?.billId as string;
   const politicianId = data?.embedById?.attributes?.politicianId as string;
-  const submissions = data?.embedById?.question
-    ?.submissions as QuestionSubmissionResult[];
 
   const embed = data?.embedById as EmbedResult;
 
@@ -103,56 +95,12 @@ function EmbedPage({
         <div style={{ margin: "1rem 0" }}>
           <DeleteEmbedButton id={id} embedType={embedType} />
         </div>
-        {embedType == "question" && (
-          <QuestionSubmissionsTable submissions={submissions} />
-        )}
       </div>
     </div>
   );
 }
 
 export { EmbedPage };
-
-function QuestionSubmissionsTable({
-  submissions,
-}: {
-  submissions: QuestionSubmissionResult[];
-}) {
-  const { theme } = useTheme();
-  const columns = useMemo<ColumnDef<QuestionSubmissionResult>[]>(
-    () => [
-      {
-        header: "Response",
-        accessorKey: "response",
-      },
-      {
-        header: "Name",
-        accessorKey: "respondent.name",
-      },
-      {
-        header: "Email",
-        accessorKey: "respondent.email",
-      },
-      {
-        header: "Created At",
-        accessorKey: "createdAt",
-        cell: (info) =>
-          getRelativeTimeString(new Date(info.getValue() as string)),
-        size: 100,
-      },
-    ],
-    []
-  );
-
-  return (
-    <Table
-      columns={columns}
-      initialState={{}}
-      data={submissions}
-      theme={theme}
-    />
-  );
-}
 
 export function DeleteEmbedButton({
   id,

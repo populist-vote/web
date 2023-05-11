@@ -7,7 +7,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
-import { DashboardTopNav } from "../..";
+import { DashboardTopNav } from "../../..";
 
 export async function getServerSideProps({
   query,
@@ -57,8 +57,8 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <LoaderFlag />
   ) : (
     <>
-      <h2>Question Embed</h2>
-      <EmbedPage id={id} embedType="question" />
+      <h2>Poll Embed</h2>
+      <EmbedPage id={id} embedType="poll" />
     </>
   );
 }

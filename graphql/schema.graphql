@@ -872,6 +872,7 @@ type PollResult {
   name: String
   options: [PollOptionResult!]!
   prompt: String!
+  submissions: [PollSubmissionResult!]!
   updatedAt: DateTime!
 }
 

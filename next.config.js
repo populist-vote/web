@@ -34,6 +34,11 @@ const nextConfig = {
         destination: '/dashboard/:slug/embeds/legislation',
         permanent: true,
       },
+      {
+        source: '/dashboard/:slug/embeds/:embedType/:id',
+        destination: '/dashboard/:slug/embeds/:embedType/:id/manage',
+        permanent: true,
+      }
     ];
   }
 };

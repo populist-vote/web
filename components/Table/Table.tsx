@@ -160,7 +160,7 @@ function Table<T extends object>({
         };
       case "violet":
         return {
-          background: "rgba(255 0 255 / 0.05)",
+          background: "rgba(0 255 255 / 0.05)",
           color: "var(--violet)",
           selectedRow: "rgba(255, 228, 92, 0.05)",
           border: "var(--blue-dark)",

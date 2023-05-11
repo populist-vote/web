@@ -66,6 +66,9 @@
       &[data-color="orange"] {
         border-color: $orange;
       }
+      &[data-color="violet"] {
+        border-color: $violet;
+      }
     }
 
     button {

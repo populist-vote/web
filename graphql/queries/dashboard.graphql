@@ -47,6 +47,7 @@ fragment EmbedFields on EmbedResult {
         id
         response
         createdAt
+        updatedAt
         respondent {
           name
           email
@@ -62,5 +63,18 @@ fragment EmbedFields on EmbedResult {
       }
       allowAnonymousResponses
       allowWriteInResponses
+      submissions {
+        id
+        option {
+          id
+          optionText
+        }
+        createdAt
+        updatedAt
+        respondent {
+          name
+          email
+        }
+      }
     }
 }

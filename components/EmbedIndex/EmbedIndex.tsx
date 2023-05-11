@@ -22,7 +22,12 @@ function EmbedIndex({
 }: {
   slug: string;
   title: string;
-  embedType: "legislation" | "multi-legislation" | "politician" | "question";
+  embedType:
+    | "legislation"
+    | "multi-legislation"
+    | "politician"
+    | "question"
+    | "poll";
   embeds: EmbedResult[];
   columns: ColumnDef<EmbedResult>[];
 }) {
@@ -114,7 +119,7 @@ function EmbedIndex({
             height: "50vh",
           }}
         >
-          <small>You don't have any embeds yet.</small>
+          <strong>You don't have any {embedType} embeds yet.</strong>
         </div>
       ) : (
         <Table

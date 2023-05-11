@@ -79,7 +79,7 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
       title={"Poll Embeds"}
       embeds={pollEmbeds}
       columns={columns}
-      embedType="question"
+      embedType="poll"
     />
   );
 }
