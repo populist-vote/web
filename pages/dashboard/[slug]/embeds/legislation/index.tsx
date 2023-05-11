@@ -120,7 +120,7 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
 
   if (isLoading) return <LoaderFlag />;
   const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
-  const legislationEmbeds = embeds.filter(
+  const legislationEmbeds = embeds?.filter(
     (embed) => embed.attributes.embedType === "legislation"
   );
 

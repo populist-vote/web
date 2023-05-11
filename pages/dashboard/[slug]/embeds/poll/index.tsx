@@ -69,7 +69,7 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
   if (isLoading) return <LoaderFlag />;
 
   const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
-  const pollEmbeds = embeds.filter(
+  const pollEmbeds = embeds?.filter(
     (embed) => embed.attributes.embedType === "poll"
   );
 

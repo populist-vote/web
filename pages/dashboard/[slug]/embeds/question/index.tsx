@@ -68,8 +68,8 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
 
   if (isLoading) return <LoaderFlag />;
 
-  const embeds = data?.embedsByOrganization as EmbedResult[];
-  const questionEmbeds = embeds.filter(
+  const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
+  const questionEmbeds = embeds?.filter(
     (embed) => embed.attributes.embedType === "question"
   );
 
