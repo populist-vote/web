@@ -95,6 +95,9 @@
   }
 
   input[type="radio"]:checked + label {
+    background: $blue;
+    color: $white;
+
     &.aquaLabel {
       background: $aqua;
       color: $grey-darkest;

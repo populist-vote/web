@@ -277,7 +277,19 @@ $small-size: 1.825rem;
     // hover background color
     $blue-lighter,
     // focus color
-    #103e49 // text color
+    $blue-darkest // text color
+  );
+}
+
+.violet.primary {
+  @include primary(
+    $violet,
+    $violet-dark,
+    $violet-darker,
+    $blue-darkest,
+    $violet-lighter,
+    $violet-light,
+    $blue-darkest
   );
 }
 

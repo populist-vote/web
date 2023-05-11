@@ -53,4 +53,14 @@ fragment EmbedFields on EmbedResult {
         }
       }
     }
+    poll {
+      id
+      prompt
+      options {
+        id
+        optionText
+      }
+      allowAnonymousResponses
+      allowWriteInResponses
+    }
 }

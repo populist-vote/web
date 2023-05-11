@@ -68,7 +68,7 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
 
   if (isLoading) return <LoaderFlag />;
 
-  const embeds = data?.embedsByOrganization as EmbedResult[];
+  const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
   const politicianEmbeds = embeds?.filter(
     (embed) => embed.attributes.embedType === "politician"
   );

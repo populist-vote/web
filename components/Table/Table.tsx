@@ -41,7 +41,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-type TableTheme = "green" | "yellow" | "orange" | "aqua";
+type TableTheme = "green" | "yellow" | "orange" | "aqua" | "violet";
 
 interface TableThemeColors {
   background: string;
@@ -151,6 +151,17 @@ function Table<T extends object>({
         return {
           background: "rgba(0 255 255 / 0.05)",
           color: "var(--aqua)",
+          selectedRow: "rgba(255, 228, 92, 0.05)",
+          border: "var(--blue-dark)",
+          index: {
+            selected: "var(--blue)",
+            unselected: "var(--blue-dark)",
+          },
+        };
+      case "violet":
+        return {
+          background: "rgba(255 0 255 / 0.05)",
+          color: "var(--violet)",
           selectedRow: "rgba(255, 228, 92, 0.05)",
           border: "var(--blue-dark)",
           index: {

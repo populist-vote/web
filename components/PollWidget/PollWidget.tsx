@@ -1,24 +1,22 @@
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
-import styles from "./QuestionWidget.module.scss";
-import { TextInput } from "components/TextInput/TextInput";
+import styles from "./PollWidget.module.scss";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
-import {
-  useEmbedByIdQuery,
-  useUpsertQuestionSubmissionMutation,
-} from "generated";
+import { useEmbedByIdQuery, useUpsertPollSubmissionMutation } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Button } from "components/Button/Button";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { TextInput } from "components/TextInput/TextInput";
 
-type QuestionWidgetForm = {
-  response: string;
+type PollWidgetForm = {
+  selectedResponseId: string;
+  writeInResponse?: string;
   name: string;
   email: string;
 };
 
-export function QuestionWidget({
+export function PollWidget({
   embedId,
   origin,
 }: {
@@ -30,32 +28,32 @@ export function QuestionWidget({
   const { data, isLoading, error } = useEmbedByIdQuery({ id: embedId });
   const {
     register,
-    watch,
     handleSubmit,
+    watch,
     formState: { isValid, isDirty, isSubmitting },
-  } = useForm<QuestionWidgetForm>();
-  const upsertQuestionSubmissionMutation =
-    useUpsertQuestionSubmissionMutation();
+  } = useForm<PollWidgetForm>();
+  const upsertPollSubmissionMutation = useUpsertPollSubmissionMutation();
   const queryClient = useQueryClient();
-  const prompt = data?.embedById?.question?.prompt;
-  const placeholder =
-    data?.embedById?.question?.responsePlaceholderText ||
-    "Enter your response here";
-  const charLimit = data?.embedById?.question?.responseCharLimit || undefined;
-  const questionId = data?.embedById?.question?.id;
-  const allowAnonymousResponses =
-    data?.embedById?.question?.allowAnonymousResponses;
+  const prompt = data?.embedById?.poll?.prompt;
+  const pollId = data?.embedById?.poll?.id;
 
-  const onSubmit = (data: QuestionWidgetForm) => {
-    upsertQuestionSubmissionMutation.mutate(
+  const watchSelected = watch("selectedResponseId");
+
+  const allowAnonymousResponses =
+    data?.embedById?.poll?.allowAnonymousResponses;
+  const allowWriteInResponses = data?.embedById?.poll?.allowWriteInResponses;
+
+  const onSubmit = (data: PollWidgetForm) => {
+    upsertPollSubmissionMutation.mutate(
       {
         respondentInput: {
           name: data.name,
           email: data.email,
         },
-        questionSubmissionInput: {
-          questionId,
-          response: data.response,
+        pollSubmissionInput: {
+          pollId,
+          pollOptionId: data.selectedResponseId,
+          writeInResponse: data.writeInResponse,
         },
       },
       {
@@ -87,20 +85,37 @@ export function QuestionWidget({
     <article className={styles.widgetContainer}>
       <main>
         <h3 className={styles.prompt}>{prompt}</h3>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextInput
-            size="small"
-            name="response"
-            placeholder={placeholder}
-            textarea
-            charLimit={charLimit}
-            register={register}
-            rules={{
-              required: true,
-            }}
-            watch={watch("response")}
-          />
-          <br />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={styles.submissionForm}
+        >
+          {data?.embedById.poll?.options?.map((option) => (
+            <label
+              className={styles.pollOption}
+              key={option.optionText}
+              htmlFor={option.id}
+              data-selected={watchSelected === option.id}
+            >
+              <input
+                {...register("selectedResponseId")}
+                type="radio"
+                value={option.id}
+                id={option.id}
+              />
+              {option.optionText}
+            </label>
+          ))}
+          {allowWriteInResponses && (
+            <TextInput
+              size="medium"
+              name="writeInResponse"
+              placeholder="Write-in Response"
+              register={register}
+            />
+          )}
+          <small className={styles.consent}>
+            Your information will never be used without your consent.
+          </small>
           <TextInput
             size="small"
             name="name"
@@ -111,7 +126,6 @@ export function QuestionWidget({
             rules={{
               required: !allowAnonymousResponses,
             }}
-            style={{ marginBottom: "0.5rem" }}
           />
           <TextInput
             size="small"
@@ -131,13 +145,13 @@ export function QuestionWidget({
             <Button
               size="small"
               variant="primary"
-              label="Next"
+              label="Submit"
               type="submit"
               disabled={
                 !isValid ||
                 !isDirty ||
                 isSubmitting ||
-                upsertQuestionSubmissionMutation.isLoading
+                upsertPollSubmissionMutation.isLoading
               }
             />
           </div>

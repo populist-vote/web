@@ -483,6 +483,7 @@ type EmbedResult {
   name: String!
   organizationId: ID!
   politician: PoliticianResult
+  poll: PollResult
   populistUrl: String!
   question: QuestionResult
   updatedAt: DateTime!
@@ -595,6 +596,7 @@ type Mutation {
   upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
   upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
   upsertPoll(input: UpsertPollInput!): PollResult!
+  upsertPollSubmission(pollSubmissionInput: UpsertPollSubmissionInput!, respondentInput: UpsertRespondentInput!): PollSubmissionResult!
   upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
   upsertQuestionSubmission(questionSubmissionInput: UpsertQuestionSubmissionInput!, respondentInput: UpsertRespondentInput!): QuestionSubmissionResult!
   upsertRace(input: UpsertRaceInput!): RaceResult!
@@ -862,6 +864,8 @@ type PollOptionResult {
 }
 
 type PollResult {
+  allowAnonymousResponses: Boolean!
+  allowWriteInResponses: Boolean!
   createdAt: DateTime!
   embedId: ID
   id: ID!
@@ -869,6 +873,19 @@ type PollResult {
   options: [PollOptionResult!]!
   prompt: String!
   updatedAt: DateTime!
+}
+
+type PollSubmissionResult {
+  createdAt: DateTime!
+  id: ID!
+  option: PollOptionResult!
+  poll: PollResult!
+  pollId: ID!
+  pollOptionId: ID!
+  respondent: RespondentResult
+  respondentId: ID
+  updatedAt: DateTime!
+  writeInResponse: String
 }
 
 enum PopularitySort {
@@ -1453,15 +1470,26 @@ input UpsertPoliticianInput {
 }
 
 input UpsertPollInput {
+  allowAnonymousResponses: Boolean
+  allowWriteInResponses: Boolean
   id: UUID
-  name: String!
+  name: String
   options: [UpsertPollOptionInput!]!
-  prompt: String!
+  prompt: String
 }
 
 input UpsertPollOptionInput {
+  id: UUID
   isWriteIn: Boolean
   optionText: String!
+}
+
+input UpsertPollSubmissionInput {
+  id: UUID
+  pollId: UUID!
+  pollOptionId: UUID!
+  respondentId: UUID
+  writeInResponse: String
 }
 
 input UpsertQuestionInput {

@@ -4,7 +4,14 @@ import styles from "./Button.module.scss";
 
 type ButtonVariant = "primary" | "secondary" | "text" | "super";
 
-type ButtonTheme = "blue" | "yellow" | "red" | "aqua" | "grey" | "orange";
+type ButtonTheme =
+  | "blue"
+  | "yellow"
+  | "red"
+  | "aqua"
+  | "grey"
+  | "orange"
+  | "violet";
 
 type ButtonSize = "small" | "medium" | "large";
 

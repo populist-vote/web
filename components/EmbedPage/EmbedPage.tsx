@@ -21,13 +21,16 @@ import { Table } from "components/Table/Table";
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { getRelativeTimeString } from "utils/dates";
+import { useTheme } from "hooks/useTheme";
+import { PollEmbedForm } from "pages/dashboard/[slug]/embeds/poll/new";
+import { PollWidget } from "components/PollWidget/PollWidget";
 
 function EmbedPage({
   id,
   embedType,
 }: {
   id: string;
-  embedType: "legislation" | "politician" | "question";
+  embedType: "legislation" | "politician" | "question" | "poll";
 }) {
   const { data, isLoading } = useEmbedByIdQuery(
     {
@@ -69,8 +72,8 @@ function EmbedPage({
         );
       case "question":
         return <QuestionWidget embedId={id} origin={window.location.origin} />;
-      default:
-        return <div>Temp default</div>;
+      case "poll":
+        return <PollWidget embedId={id} origin={window.location.origin} />;
     }
   };
 
@@ -87,6 +90,8 @@ function EmbedPage({
         <Box>
           {embedType == "question" ? (
             <QuestionEmbedForm buttonLabel="Save" embed={embed} />
+          ) : embedType == "poll" ? (
+            <PollEmbedForm buttonLabel="Save" embed={embed} />
           ) : (
             <EmbedBasicsForm embed={embed} />
           )}
@@ -113,6 +118,7 @@ function QuestionSubmissionsTable({
 }: {
   submissions: QuestionSubmissionResult[];
 }) {
+  const { theme } = useTheme();
   const columns = useMemo<ColumnDef<QuestionSubmissionResult>[]>(
     () => [
       {
@@ -138,7 +144,14 @@ function QuestionSubmissionsTable({
     []
   );
 
-  return <Table columns={columns} initialState={{}} data={submissions} />;
+  return (
+    <Table
+      columns={columns}
+      initialState={{}}
+      data={submissions}
+      theme={theme}
+    />
+  );
 }
 
 export function DeleteEmbedButton({

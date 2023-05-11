@@ -44,7 +44,7 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
   const columns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {
-        accessorKey: "question.prompt",
+        accessorKey: "poll.prompt",
         header: "Prompt",
         size: 400,
       },
@@ -68,16 +68,16 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
 
   if (isLoading) return <LoaderFlag />;
 
-  const embeds = data?.embedsByOrganization as EmbedResult[];
-  const questionEmbeds = embeds.filter(
-    (embed) => embed.attributes.embedType === "question"
+  const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
+  const pollEmbeds = embeds.filter(
+    (embed) => embed.attributes.embedType === "poll"
   );
 
   return (
     <EmbedIndex
       slug={slug}
-      title={"Question Embeds"}
-      embeds={questionEmbeds}
+      title={"Poll Embeds"}
+      embeds={pollEmbeds}
       columns={columns}
       embedType="question"
     />

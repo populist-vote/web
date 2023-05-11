@@ -39,3 +39,27 @@ mutation UpsertQuestionSubmission($respondentInput: UpsertRespondentInput!, $que
     updatedAt
   }
 }
+
+mutation UpsertPoll($input: UpsertPollInput!) {
+  upsertPoll(input: $input) {
+    id
+    prompt
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpsertPollSubmission($respondentInput: UpsertRespondentInput!, $pollSubmissionInput: UpsertPollSubmissionInput!) {
+  upsertPollSubmission(respondentInput: $respondentInput, pollSubmissionInput: $pollSubmissionInput) {
+    id
+    option {
+      optionText
+    }
+    respondent {
+      name
+      email
+    }
+    createdAt
+    updatedAt
+  }
+}

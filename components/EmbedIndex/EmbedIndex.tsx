@@ -70,6 +70,17 @@ function EmbedIndex({
             }
           />
         </Link>
+        <Link href={`/dashboard/${slug}/embeds/poll`}>
+          <Badge
+            theme="violet"
+            clickable
+            label="Poll"
+            selected={router.asPath.includes("/poll")}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "poll")
+            }
+          />
+        </Link>
       </div>
       <h2>{title}</h2>
       <Box>
