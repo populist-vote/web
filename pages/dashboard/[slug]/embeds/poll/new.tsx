@@ -175,6 +175,7 @@ export function PollEmbedForm({
                   undefined,
                   {
                     shallow: true,
+                    scroll: false,
                   }
                 );
               },

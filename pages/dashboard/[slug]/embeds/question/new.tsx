@@ -162,6 +162,7 @@ export function QuestionEmbedForm({
                   undefined,
                   {
                     shallow: true,
+                    scroll: false,
                   }
                 );
               },

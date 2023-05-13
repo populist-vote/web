@@ -16,6 +16,7 @@ import { getRelativeTimeString } from "utils/dates";
 import { Table } from "components/Table/Table";
 import { useTheme } from "hooks/useTheme";
 import { toast } from "react-toastify";
+import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 
 export async function getServerSideProps({
   query,
@@ -80,6 +81,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   ) : (
     <>
       <h2>Poll Embed</h2>
+      <EmbedPageTabs embedType={"poll"} />
       <PollSubmissionsTable submissions={submissions} />
     </>
   );

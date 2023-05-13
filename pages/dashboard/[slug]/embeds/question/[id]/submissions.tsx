@@ -16,6 +16,7 @@ import { getRelativeTimeString } from "utils/dates";
 import { useTheme } from "hooks/useTheme";
 import { ColumnDef } from "@tanstack/react-table";
 import { toast } from "react-toastify";
+import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 
 export async function getServerSideProps({
   query,
@@ -79,6 +80,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   ) : (
     <>
       <h2>Question Embed</h2>
+      <EmbedPageTabs embedType="question" />
       <QuestionSubmissionsTable submissions={submissions} />
     </>
   );

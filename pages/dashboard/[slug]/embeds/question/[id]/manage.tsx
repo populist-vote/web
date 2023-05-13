@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../../..";
+import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 
 export async function getServerSideProps({
   query,
@@ -58,6 +59,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   ) : (
     <>
       <h2>Question Embed</h2>
+      <EmbedPageTabs embedType="question" />
       <EmbedPage id={id} embedType="question" />
     </>
   );
