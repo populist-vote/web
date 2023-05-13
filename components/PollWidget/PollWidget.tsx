@@ -46,10 +46,13 @@ export function PollWidget({
   const onSubmit = (data: PollWidgetForm) => {
     upsertPollSubmissionMutation.mutate(
       {
-        respondentInput: {
-          name: data.name,
-          email: data.email,
-        },
+        respondentInput:
+          data.name || data.email
+            ? {
+                name: data.name,
+                email: data.email,
+              }
+            : null,
         pollSubmissionInput: {
           pollId,
           pollOptionId: data.selectedResponseId,

@@ -49,10 +49,13 @@ export function QuestionWidget({
   const onSubmit = (data: QuestionWidgetForm) => {
     upsertQuestionSubmissionMutation.mutate(
       {
-        respondentInput: {
-          name: data.name,
-          email: data.email,
-        },
+        respondentInput:
+          data.name || data.email
+            ? {
+                name: data.name,
+                email: data.email,
+              }
+            : null,
         questionSubmissionInput: {
           questionId,
           response: data.response,

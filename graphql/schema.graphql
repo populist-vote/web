@@ -596,9 +596,9 @@ type Mutation {
   upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
   upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
   upsertPoll(input: UpsertPollInput!): PollResult!
-  upsertPollSubmission(pollSubmissionInput: UpsertPollSubmissionInput!, respondentInput: UpsertRespondentInput!): PollSubmissionResult!
+  upsertPollSubmission(pollSubmissionInput: UpsertPollSubmissionInput!, respondentInput: UpsertRespondentInput): PollSubmissionResult!
   upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
-  upsertQuestionSubmission(questionSubmissionInput: UpsertQuestionSubmissionInput!, respondentInput: UpsertRespondentInput!): QuestionSubmissionResult!
+  upsertQuestionSubmission(questionSubmissionInput: UpsertQuestionSubmissionInput!, respondentInput: UpsertRespondentInput): QuestionSubmissionResult!
   upsertRace(input: UpsertRaceInput!): RaceResult!
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!

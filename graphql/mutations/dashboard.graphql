@@ -27,7 +27,7 @@ mutation UpsertQuestion($input: UpsertQuestionInput!) {
   }
 }
 
-mutation UpsertQuestionSubmission($respondentInput: UpsertRespondentInput!, $questionSubmissionInput: UpsertQuestionSubmissionInput!) {
+mutation UpsertQuestionSubmission($respondentInput: UpsertRespondentInput, $questionSubmissionInput: UpsertQuestionSubmissionInput!) {
   upsertQuestionSubmission(respondentInput: $respondentInput, questionSubmissionInput: $questionSubmissionInput) {
     id
     response
@@ -49,7 +49,7 @@ mutation UpsertPoll($input: UpsertPollInput!) {
   }
 }
 
-mutation UpsertPollSubmission($respondentInput: UpsertRespondentInput!, $pollSubmissionInput: UpsertPollSubmissionInput!) {
+mutation UpsertPollSubmission($respondentInput: UpsertRespondentInput, $pollSubmissionInput: UpsertPollSubmissionInput!) {
   upsertPollSubmission(respondentInput: $respondentInput, pollSubmissionInput: $pollSubmissionInput) {
     id
     option {
