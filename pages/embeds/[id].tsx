@@ -71,7 +71,7 @@ function EmbedPage({
           renderOptions={renderOptions}
         />
       );
-    case "questionn":
+    case "question":
       return <QuestionWidget embedId={embedId} origin={resolvedOrigin} />;
     case "poll":
       return <PollWidget embedId={embedId} origin={resolvedOrigin} />;
