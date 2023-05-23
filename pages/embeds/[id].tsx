@@ -1,5 +1,7 @@
 import { BillWidget } from "components/BillWidget/BillWidget";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
+import { PollWidget } from "components/PollWidget/PollWidget";
+import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
 import { useEmbedByIdQuery } from "generated";
 import { GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
@@ -35,6 +37,8 @@ function EmbedPage({
   const resolvedOrigin =
     originHost || (typeof location === "undefined" ? "" : location.href);
 
+  // Track resolved origin in database so we know where embeds are being used
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== originHost) return;
@@ -67,6 +71,10 @@ function EmbedPage({
           renderOptions={renderOptions}
         />
       );
+    case "questionn":
+      return <QuestionWidget embedId={embedId} origin={resolvedOrigin} />;
+    case "poll":
+      return <PollWidget embedId={embedId} origin={resolvedOrigin} />;
   }
 }
 

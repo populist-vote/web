@@ -7,12 +7,12 @@ function LastVoteSection({ votes }: { votes: Bill["votes"] }) {
   if (votes.length < 1) return null;
 
   const lastHouseVote = votes
-    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .filter((vote) => vote.chamber === "H")
     .slice(-1)
     .pop();
   const lastSenateVote = votes
-    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .filter((vote) => vote.chamber === "S")
     .slice(-1)
     .pop();
