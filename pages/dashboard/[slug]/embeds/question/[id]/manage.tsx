@@ -1,6 +1,6 @@
 import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
-import { useOrganizationBySlugQuery } from "generated";
+import { useEmbedByIdQuery, useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -9,6 +9,8 @@ import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
+import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
+import { toast } from "react-toastify";
 
 export async function getServerSideProps({
   query,
@@ -35,6 +37,16 @@ export async function getServerSideProps({
 
 function EmbedById({ slug, id }: { slug: string; id: string }) {
   const router = useRouter();
+  const { data, isLoading: embedLoading } = useEmbedByIdQuery(
+    {
+      id,
+    },
+    {
+      onError: (error) => {
+        toast((error as Error).message, { type: "error" });
+      },
+    }
+  );
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
@@ -49,16 +61,23 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
       retry: false,
     }
   );
-
-  const { isLoading, user } = useAuth({
+  const { isLoading: userLoading } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
+    redirect: true,
+    redirectTo: `/login?redirect=${encodeURIComponent(
+      `/dashboard/${slug}/embeds/question/${id}/manage`
+    )}`,
   });
 
-  return organizationQuery.isLoading || isLoading || !user ? (
+  const prompt = data?.embedById?.question?.prompt || "";
+
+  const isLoading = embedLoading || userLoading || organizationQuery.isLoading;
+
+  return isLoading ? (
     <LoaderFlag />
   ) : (
     <>
-      <h2>Question Embed</h2>
+      <EmbedHeader title={prompt} embedType="question" />
       <EmbedPageTabs embedType="question" />
       <EmbedPage id={id} embedType="question" />
     </>
