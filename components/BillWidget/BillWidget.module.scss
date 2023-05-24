@@ -6,7 +6,7 @@
 .billCard {
   width: auto;
   height: auto;
-  min-width: 20rem;
+  min-width: 27rem;
   border: 1px solid $grey-light;
   background: $grey-lightest;
   text-align: center;
@@ -49,6 +49,7 @@
 
     h2 {
       font-family: $font-secondary;
+      margin-top: 1rem;
       margin-bottom: 0 !important;
     }
 
