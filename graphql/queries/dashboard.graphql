@@ -53,6 +53,10 @@ fragment EmbedFields on EmbedResult {
           email
         }
       }
+      submissionCountByDate {
+        date
+        count
+      }
     }
     poll {
       id

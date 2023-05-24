@@ -13,7 +13,7 @@ import { Box } from "components/Box/Box";
 import { BsCircleFill } from "react-icons/bs";
 import { XAxis, YAxis, AreaChart, Area, ResponsiveContainer } from "recharts";
 
-function SubmissionsOverTimeLineChart({
+export function SubmissionsOverTimeLineChart({
   submissionCountByDate,
 }: {
   submissionCountByDate: SubmissionsOverTimeResult[];
@@ -49,10 +49,10 @@ function SubmissionsOverTimeLineChart({
   };
 
   return (
-    <ResponsiveContainer height={150}>
+    <ResponsiveContainer height={120}>
       <AreaChart
         data={data}
-        margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+        margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
       >
         <defs>
           <linearGradient id="count" x1="0" y1="0" x2="0" y2="1">
@@ -68,7 +68,7 @@ function SubmissionsOverTimeLineChart({
           fill="url(#count)"
         />
         <XAxis dataKey="date" stroke="white" tick={renderCustomTick} />
-        <YAxis stroke="white" />
+        <YAxis stroke="white" allowDecimals={false} />
       </AreaChart>
     </ResponsiveContainer>
   );

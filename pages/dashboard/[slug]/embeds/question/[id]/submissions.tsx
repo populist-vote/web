@@ -17,6 +17,10 @@ import { useTheme } from "hooks/useTheme";
 import { ColumnDef } from "@tanstack/react-table";
 import { toast } from "react-toastify";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
+import { Box } from "components/Box/Box";
+import styles from "components/PollMetrics/PollMetrics.module.scss";
+import { SubmissionsOverTimeLineChart } from "components/PollMetrics/PollMetrics";
+import { BsCircleFill } from "react-icons/bs";
 
 export async function getServerSideProps({
   query,
@@ -74,6 +78,8 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   );
 
   const submissions = data?.embedById?.question?.submissions || [];
+  const submissionCountByDate =
+    data?.embedById?.question?.submissionCountByDate || [];
 
   return organizationQuery.isLoading || isLoading || !user || embedLoading ? (
     <LoaderFlag />
@@ -81,6 +87,30 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <>
       <h2>Question Embed</h2>
       <EmbedPageTabs embedType="question" />
+      <div className={styles.container}>
+        <Box width="fit-content">
+          <div className={styles.responseCount}>
+            <h1>{submissions.length}</h1>
+            <h4>Responses</h4>
+          </div>
+        </Box>
+        <div style={{ width: "100%" }}>
+          <div className={styles.lineChartHeader}>
+            <h3>Activity Over Time</h3>
+            <div className={styles.flexBetween}>
+              <BsCircleFill color="#006586" />
+              <h5>Responses</h5>
+            </div>
+          </div>
+          <Box flexDirection="row">
+            <div className={styles.flexChild}>
+              <SubmissionsOverTimeLineChart
+                submissionCountByDate={submissionCountByDate}
+              />
+            </div>
+          </Box>
+        </div>
+      </div>
       <QuestionSubmissionsTable submissions={submissions} />
     </>
   );
