@@ -1,6 +1,6 @@
 import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
-import { useOrganizationBySlugQuery } from "generated";
+import { useEmbedByIdQuery, useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
+import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 
 export async function getServerSideProps({
   query,
@@ -50,15 +51,37 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     }
   );
 
-  const { isLoading, user } = useAuth({
+  const embedQuery = useEmbedByIdQuery(
+    {
+      id,
+    },
+    {
+      onError: () => void router.push("/404"),
+      onSuccess: (data) => {
+        if (!data.embedById) {
+          void router.push("/404");
+        }
+      },
+      retry: false,
+    }
+  );
+
+  const userQuery = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
   });
 
-  return organizationQuery.isLoading || isLoading || !user ? (
+  const isLoading =
+    userQuery.isLoading || embedQuery.isLoading || organizationQuery.isLoading;
+
+  const embed = embedQuery.data?.embedById;
+  const bill = embed?.bill;
+  const title = embed?.name || `${bill?.state} ${bill?.billNumber}`;
+
+  return organizationQuery.isLoading || isLoading ? (
     <LoaderFlag />
   ) : (
     <>
-      <h2>Legislation Embed</h2>
+      <EmbedHeader title={title} embedType="legislation" />
       <EmbedPage id={id} embedType="legislation" />
     </>
   );

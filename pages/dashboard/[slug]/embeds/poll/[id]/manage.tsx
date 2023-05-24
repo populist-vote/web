@@ -1,6 +1,10 @@
 import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
-import { useOrganizationBySlugQuery } from "generated";
+import {
+  PollResult,
+  useEmbedByIdQuery,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -9,6 +13,8 @@ import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
+import { toast } from "react-toastify";
+import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 
 export async function getServerSideProps({
   query,
@@ -35,6 +41,19 @@ export async function getServerSideProps({
 
 function EmbedById({ slug, id }: { slug: string; id: string }) {
   const router = useRouter();
+  const { data, isLoading: embedLoading } = useEmbedByIdQuery(
+    {
+      id,
+    },
+    {
+      onError: (error) => {
+        toast((error as Error).message, { type: "error" });
+      },
+    }
+  );
+
+  const poll = data?.embedById.poll as PollResult;
+  const prompt = poll?.prompt;
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
@@ -50,15 +69,21 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     }
   );
 
-  const { isLoading, user } = useAuth({
+  const { isLoading: userLoading } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
+    redirect: true,
+    redirectTo: `/login?redirect=${encodeURIComponent(
+      `/dashboard/${slug}/embeds/poll/${id}/manage`
+    )}`,
   });
 
-  return organizationQuery.isLoading || isLoading || !user ? (
+  const isLoading = embedLoading || organizationQuery.isLoading || userLoading;
+
+  return organizationQuery.isLoading || isLoading ? (
     <LoaderFlag />
   ) : (
     <>
-      <h2>Poll Embed</h2>
+      <EmbedHeader title={prompt} embedType="poll" />
       <EmbedPageTabs embedType={"poll"} />
       <EmbedPage id={id} embedType="poll" />
     </>

@@ -1,0 +1,30 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid $blue-dark;
+  margin-bottom: 1.5rem;
+
+  h2 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 40px;
+  }
+
+  button {
+    background: none;
+    padding: 0;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: $text-sm;
+    margin: 0;
+    color: $blue-text-light;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+}

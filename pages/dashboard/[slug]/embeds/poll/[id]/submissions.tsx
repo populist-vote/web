@@ -14,6 +14,7 @@ import { DashboardTopNav } from "../../..";
 import { toast } from "react-toastify";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import { PollMetrics } from "components/PollMetrics/PollMetrics";
+import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 
 export async function getServerSideProps({
   query,
@@ -57,6 +58,9 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
 
   const { isLoading, user } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
+    redirectTo: `/login?redirect=${encodeURIComponent(
+      `/dashboard/${slug}/embeds/poll/${id}/submissions`
+    )}`,
   });
 
   const { data, isLoading: embedLoading } = useEmbedByIdQuery(
@@ -71,12 +75,13 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   );
 
   const poll = data?.embedById.poll as PollResult;
+  const prompt = poll?.prompt;
 
   return organizationQuery.isLoading || isLoading || !user || embedLoading ? (
     <LoaderFlag />
   ) : (
     <>
-      <h2>{poll?.prompt}</h2>
+      <EmbedHeader title={prompt} embedType="question" />
       <EmbedPageTabs embedType={"poll"} />
       <PollMetrics poll={poll} />
     </>
