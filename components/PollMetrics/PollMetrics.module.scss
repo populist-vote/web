@@ -3,10 +3,24 @@
 @import "styles/layout/containers";
 
 .container {
-  margin: 1.5rem 0;
-  display: grid;
-  grid-template-columns: auto 4fr;
-  gap: 2.5rem;
+  .basics {
+    display: grid;
+    grid-template-columns: auto 4fr;
+    gap: 2.5rem;
+    margin: 1.5rem 0;
+  }
+
+  h3.heading {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+
+  .pollSubmissionsContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 1.5rem 0;
+  }
 }
 
 .lineChartHeader {
@@ -18,12 +32,6 @@
   h5 {
     font-size: $text-sm;
     font-weight: 400;
-  }
-
-  h3 {
-    font-size: 30px;
-    font-weight: 600;
-    margin: 0 0 1rem;
   }
 }
 
