@@ -872,6 +872,7 @@ type PollResult {
   name: String
   options: [PollOptionResult!]!
   prompt: String!
+  submissionCountByDate: [SubmissionsOverTimeResult!]!
   submissions: [PollSubmissionResult!]!
   updatedAt: DateTime!
 }
@@ -1001,6 +1002,7 @@ type QuestionResult {
   prompt: String!
   responseCharLimit: Int
   responsePlaceholderText: String
+  submissionCountByDate: [SubmissionsOverTimeResult!]!
   submissions: [QuestionSubmissionResult!]!
   updatedAt: DateTime!
 }
@@ -1244,6 +1246,11 @@ enum State {
 type Subject {
   subjectId: Int!
   subjectName: String!
+}
+
+type SubmissionsOverTimeResult {
+  count: Int!
+  date: DateTime!
 }
 
 type Subscription {

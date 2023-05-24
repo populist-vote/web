@@ -60,6 +60,18 @@
   @include scroll-snap;
 }
 
+.flexBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.flexChild {
+  flex: 1;
+  width: 0;
+}
+
 .widgetContainer {
   border-radius: 15px;
   border: 1px solid $grey-light;
