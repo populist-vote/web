@@ -91,7 +91,7 @@ function PollSubmissionBarChart({ poll }: { poll: PollResult }) {
     <div>
       {Object.entries(submissionCounts).map(([optionText, count]) => (
         <div key={optionText} className={styles.optionContainer}>
-          <h4>{optionText}</h4>
+          <h5>{optionText}</h5>
           <div className={styles.barContainer}>
             <div
               className={styles.innerBar}
