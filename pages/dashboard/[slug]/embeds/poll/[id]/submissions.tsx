@@ -1,6 +1,6 @@
 import { Layout, LoaderFlag } from "components";
 import {
-  PollSubmissionResult,
+  PollResult,
   useEmbedByIdQuery,
   useOrganizationBySlugQuery,
 } from "generated";
@@ -8,15 +8,12 @@ import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../../..";
-import { ColumnDef } from "@tanstack/react-table";
-import { getRelativeTimeString } from "utils/dates";
-import { Table } from "components/Table/Table";
-import { useTheme } from "hooks/useTheme";
 import { toast } from "react-toastify";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
+import { PollMetrics } from "components/PollMetrics/PollMetrics";
 
 export async function getServerSideProps({
   query,
@@ -73,58 +70,16 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     }
   );
 
-  const submissions = (data?.embedById?.poll?.submissions ||
-    []) as Partial<PollSubmissionResult>[];
+  const poll = data?.embedById.poll as PollResult;
 
   return organizationQuery.isLoading || isLoading || !user || embedLoading ? (
     <LoaderFlag />
   ) : (
     <>
-      <h2>Poll Embed</h2>
+      <h2>{poll?.prompt}</h2>
       <EmbedPageTabs embedType={"poll"} />
-      <PollSubmissionsTable submissions={submissions} />
+      <PollMetrics poll={poll} />
     </>
-  );
-}
-
-function PollSubmissionsTable({
-  submissions,
-}: {
-  submissions: Partial<PollSubmissionResult>[];
-}) {
-  const { theme } = useTheme();
-  const columns = useMemo<ColumnDef<Partial<PollSubmissionResult>>[]>(
-    () => [
-      {
-        header: "Response",
-        accessorKey: "option.optionText",
-      },
-      {
-        header: "Name",
-        accessorKey: "respondent.name",
-      },
-      {
-        header: "Email",
-        accessorKey: "respondent.email",
-      },
-      {
-        header: "Created At",
-        accessorKey: "createdAt",
-        cell: (info) =>
-          getRelativeTimeString(new Date(info.getValue() as string)),
-        size: 100,
-      },
-    ],
-    []
-  );
-
-  return (
-    <Table
-      columns={columns}
-      initialState={{}}
-      data={submissions}
-      theme={theme}
-    />
   );
 }
 

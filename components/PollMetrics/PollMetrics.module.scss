@@ -1,0 +1,80 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/layout/containers";
+
+.container {
+  margin: 1.5rem 0;
+  display: grid;
+  grid-template-columns: auto 4fr;
+  gap: 2.5rem;
+}
+
+.lineChartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1;
+
+  h5 {
+    font-size: $text-sm;
+    font-weight: 400;
+  }
+
+  h3 {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+}
+
+.optionContainer {
+  display: grid;
+  grid-template-columns: 2fr 12fr 1fr;
+  align-items: center;
+  :last-child {
+    display: flex;
+    justify-content: center;
+  }
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  h4 {
+    white-space: nowrap;
+  }
+}
+
+.barContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem;
+  background-color: $blue-dark;
+  width: auto;
+  height: 30px;
+  border-radius: 5px;
+
+  .innerBar {
+    background-color: $blue;
+    height: 100%;
+    border-radius: 5px;
+    align-self: flex-start;
+  }
+}
+
+.responseCount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: $text-xxxl;
+  }
+
+  h4 {
+    color: $blue-text;
+    font-size: $text-sm;
+  }
+}
