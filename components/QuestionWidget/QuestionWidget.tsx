@@ -134,7 +134,7 @@ export function QuestionWidget({
             <Button
               size="small"
               variant="primary"
-              label="Next"
+              label="Submit"
               type="submit"
               disabled={
                 !isValid ||

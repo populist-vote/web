@@ -3,7 +3,7 @@
 
 .widgetContainer {
   main {
-    min-height: 20rem;
+    min-height: 12rem;
     padding: 1rem 0.5rem;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
     }
 
     button {
