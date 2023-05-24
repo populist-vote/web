@@ -158,32 +158,37 @@ export function PollMetrics({ poll }: { poll: PollResult }) {
   return (
     <>
       <div className={styles.container}>
-        <Box width="fit-content">
-          <div className={styles.responseCount}>
-            <h1>{submissions.length}</h1>
-            <h4>Responses</h4>
-          </div>
-        </Box>
-        <div style={{ width: "100%" }}>
-          <div className={styles.lineChartHeader}>
-            <h3>Activity Over Time</h3>
-            <div className={styles.flexBetween}>
-              <BsCircleFill color="#006586" />
-              <h5>Responses</h5>
+        <div className={styles.basics}>
+          <Box width="fit-content">
+            <div className={styles.responseCount}>
+              <h1>{submissions.length}</h1>
+              <h4>Responses</h4>
             </div>
-          </div>
-          <Box flexDirection="row">
-            <div className={styles.flexChild}>
-              <SubmissionsOverTimeLineChart
-                submissionCountByDate={submissionCountByDate}
-              />
+          </Box>
+          <div style={{ width: "100%" }}>
+            <div className={styles.lineChartHeader}>
+              <h3 className={styles.heading}>Activity Over Time</h3>
+              <div className={styles.flexBetween}>
+                <BsCircleFill color="#006586" />
+                <h5>Responses</h5>
+              </div>
             </div>
+            <Box flexDirection="row">
+              <div className={styles.flexChild}>
+                <SubmissionsOverTimeLineChart
+                  submissionCountByDate={submissionCountByDate}
+                />
+              </div>
+            </Box>
+          </div>
+        </div>
+        <div className={styles.pollSubmissionsContainer}>
+          <h3 className={styles.heading}>Responses</h3>
+          <Box>
+            <PollSubmissionBarChart poll={poll as PollResult} />
           </Box>
         </div>
       </div>
-      <Box>
-        <PollSubmissionBarChart poll={poll as PollResult} />
-      </Box>
       <PollSubmissionsTable submissions={submissions} />
     </>
   );

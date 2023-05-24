@@ -96,7 +96,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
         </Box>
         <div style={{ width: "100%" }}>
           <div className={styles.lineChartHeader}>
-            <h3>Activity Over Time</h3>
+            <h3 className={styles.heading}>Activity Over Time</h3>
             <div className={styles.flexBetween}>
               <BsCircleFill color="#006586" />
               <h5>Responses</h5>
