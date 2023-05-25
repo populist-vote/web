@@ -99,6 +99,7 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
         cell: (info) => (
           <BillStatusBadge status={info.getValue() as BillStatus} />
         ),
+        size: 180,
       },
       {
         accessorKey: "createdAt",
