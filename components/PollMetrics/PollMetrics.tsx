@@ -61,6 +61,13 @@ export function SubmissionsOverTimeLineChart({
     );
   };
 
+  if (data.length === 0)
+    return (
+      <div className={styles.center}>
+        <small>No activity yet</small>
+      </div>
+    );
+
   return (
     <ResponsiveContainer height={120}>
       <AreaChart
