@@ -22,6 +22,7 @@ import styles from "components/PollMetrics/PollMetrics.module.scss";
 import { SubmissionsOverTimeLineChart } from "components/PollMetrics/PollMetrics";
 import { BsCircleFill } from "react-icons/bs";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
+import { Badge } from "components/Badge/Badge";
 
 export async function getServerSideProps({
   query,
@@ -85,6 +86,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   const submissions = data?.embedById?.question?.submissions || [];
   const submissionCountByDate =
     data?.embedById?.question?.submissionCountByDate || [];
+  const commonWords = data?.embedById?.question?.commonWords || [];
 
   return organizationQuery.isLoading || isLoading || !user || embedLoading ? (
     <LoaderFlag />
@@ -93,7 +95,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
       <EmbedHeader title={prompt} embedType="question" />
       <EmbedPageTabs embedType="question" />
       <div className={styles.container}>
-        <div className={styles.basics}>
+        <section className={styles.basics}>
           <Box width="fit-content">
             <div className={styles.responseCount}>
               <h1>{submissions.length}</h1>
@@ -116,9 +118,35 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
               </div>
             </Box>
           </div>
-        </div>
+        </section>
+        <section>
+          <h3 className={styles.heading}>Insights</h3>
+          <div className={styles.flexBetween}>
+            <Box>
+              <div className={styles.flexLeft} style={{ marginTop: "0.5rem" }}>
+                <h4>Most common words</h4>
+                {commonWords.map(({ word }) => (
+                  <Badge size="small" key={word} theme="blue">
+                    {word}
+                  </Badge>
+                ))}
+              </div>
+            </Box>
+            <Box>
+              <div className={styles.flexLeft} style={{ marginTop: "0.5rem" }}>
+                <h4>Aggregate response sentiment</h4>
+                <Badge size="small" theme="green-support">
+                  Positive
+                </Badge>
+              </div>
+            </Box>
+          </div>
+        </section>
+        <section>
+          <h3 className={styles.heading}>Responses</h3>
+          <QuestionSubmissionsTable submissions={submissions} />
+        </section>
       </div>
-      <QuestionSubmissionsTable submissions={submissions} />
     </>
   );
 }

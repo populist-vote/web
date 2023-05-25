@@ -319,6 +319,11 @@ type CommitteeResult {
   state: State
 }
 
+type CommonWordsResult {
+  count: Int!
+  word: String!
+}
+
 input Coordinates {
   latitude: Float!
   longitude: Float!
@@ -872,7 +877,7 @@ type PollResult {
   name: String
   options: [PollOptionResult!]!
   prompt: String!
-  submissionCountByDate: [SubmissionsOverTimeResult!]!
+  submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [PollSubmissionResult!]!
   updatedAt: DateTime!
 }
@@ -997,12 +1002,13 @@ type Query {
 
 type QuestionResult {
   allowAnonymousResponses: Boolean!
+  commonWords: [CommonWordsResult!]!
   createdAt: DateTime!
   id: ID!
   prompt: String!
   responseCharLimit: Int
   responsePlaceholderText: String
-  submissionCountByDate: [SubmissionsOverTimeResult!]!
+  submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [QuestionSubmissionResult!]!
   updatedAt: DateTime!
 }
@@ -1248,7 +1254,7 @@ type Subject {
   subjectName: String!
 }
 
-type SubmissionsOverTimeResult {
+type SubmissionCountByDateResult {
   count: Int!
   date: DateTime!
 }
