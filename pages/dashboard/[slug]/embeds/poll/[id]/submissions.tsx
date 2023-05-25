@@ -81,7 +81,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={prompt} embedType="question" />
+      <EmbedHeader title={prompt} embedType="poll" />
       <EmbedPageTabs embedType={"poll"} />
       <PollMetrics poll={poll} />
     </>
