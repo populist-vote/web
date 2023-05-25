@@ -154,19 +154,19 @@ function Table<T extends object>({
           selectedRow: "rgba(255, 228, 92, 0.05)",
           border: "var(--blue-dark)",
           index: {
-            selected: "var(--blue)",
-            unselected: "var(--blue-dark)",
+            selected: "var(--aqua)",
+            unselected: "var(--aqua-dark)",
           },
         };
       case "violet":
         return {
-          background: "rgba(0 255 255 / 0.05)",
+          background: "var(--blue-darker)",
           color: "var(--violet)",
           selectedRow: "rgba(255, 228, 92, 0.05)",
           border: "var(--blue-dark)",
           index: {
-            selected: "var(--blue)",
-            unselected: "var(--blue-dark)",
+            selected: "var(--violet)",
+            unselected: "var(--violet-dark)",
           },
         };
     }
