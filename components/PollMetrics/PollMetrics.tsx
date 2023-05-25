@@ -7,7 +7,7 @@ import styles from "./PollMetrics.module.scss";
 import { useTheme } from "hooks/useTheme";
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { getRelativeTimeString } from "utils/dates";
+import { getMissingDates, getRelativeTimeString } from "utils/dates";
 import { Table } from "components/Table/Table";
 import { Box } from "components/Box/Box";
 import { BsCircleFill } from "react-icons/bs";
@@ -18,7 +18,20 @@ export function SubmissionsOverTimeLineChart({
 }: {
   submissionCountByDate: SubmissionsOverTimeResult[];
 }) {
-  const data = submissionCountByDate.map((submission) => ({
+  const dates = submissionCountByDate.map((submission) => submission.date);
+
+  const missingDates = getMissingDates(dates);
+
+  const missingDateCounts = missingDates.map((date) => ({
+    date,
+    count: 0,
+  }));
+
+  const counts = [...submissionCountByDate, ...missingDateCounts].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+
+  const data = counts.map((submission) => ({
     date: new Date(submission.date).toLocaleDateString(),
     count: submission.count,
   }));
