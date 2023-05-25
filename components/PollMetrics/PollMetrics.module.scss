@@ -3,11 +3,14 @@
 @import "styles/layout/containers";
 
 .container {
+  section {
+    margin: 1.5rem 0;
+  }
+
   .basics {
     display: grid;
     grid-template-columns: auto 4fr;
     gap: 2.5rem;
-    margin: 1.5rem 0;
   }
 
   h3.heading {

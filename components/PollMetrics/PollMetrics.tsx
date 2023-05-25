@@ -1,7 +1,7 @@
 import {
   PollResult,
   PollSubmissionResult,
-  SubmissionsOverTimeResult,
+  SubmissionCountByDateResult,
 } from "generated";
 import styles from "./PollMetrics.module.scss";
 import { useTheme } from "hooks/useTheme";
@@ -16,7 +16,7 @@ import { XAxis, YAxis, AreaChart, Area, ResponsiveContainer } from "recharts";
 export function SubmissionsOverTimeLineChart({
   submissionCountByDate,
 }: {
-  submissionCountByDate: SubmissionsOverTimeResult[];
+  submissionCountByDate: SubmissionCountByDateResult[];
 }) {
   const dates = submissionCountByDate.map((submission) => submission.date);
 
@@ -173,7 +173,7 @@ export function PollMetrics({ poll }: { poll: PollResult }) {
     []) as Partial<PollSubmissionResult>[];
 
   const submissionCountByDate = (poll?.submissionCountByDate ||
-    []) as SubmissionsOverTimeResult[];
+    []) as SubmissionCountByDateResult[];
 
   return (
     <>

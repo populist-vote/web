@@ -58,6 +58,10 @@ fragment EmbedFields on EmbedResult {
         date
         count
       }
+      commonWords {
+        word
+        count
+      }
     }
     poll {
       id
