@@ -73,3 +73,53 @@ export function getRelativeTimeString(
 export function getYear(date: string) {
   return new Date(date).getFullYear();
 }
+
+export function getMissingDates(isoDates: string[]): string[] {
+  // Step 1: Convert ISO date strings to Date objects
+  const dates: Date[] = isoDates
+    .map((dateString) => new Date(dateString))
+    .filter((date) => !isNaN(date.getTime()));
+
+  // Check if the array is empty or contains invalid dates
+  if (dates.length === 0) {
+    return [];
+  }
+
+  // Step 2: Determine the minimum and maximum dates
+  const minDate: Date = new Date(
+    Math.min(...dates.map((date) => date.getTime()))
+  );
+  const maxDate: Date = new Date(
+    Math.max(...dates.map((date) => date.getTime()))
+  );
+
+  // Step 3: Create an array of all dates in the range
+  const allDates: Date[] = [];
+  for (
+    let d: Date = new Date(minDate);
+    d <= maxDate;
+    d.setDate(d.getDate() + 1)
+  ) {
+    allDates.push(new Date(d));
+  }
+
+  // Step 4: Compare arrays and find missing dates
+  const missingDates: string[] = [];
+  for (let i = 0; i < allDates.length; i++) {
+    const currentDate = allDates[i] as Date;
+    if (!dates.some((date) => isSameDate(date, currentDate))) {
+      missingDates.push(currentDate.toISOString().split("T")[0] as string);
+    }
+  }
+
+  return missingDates;
+}
+
+// Helper function to compare dates without comparing time
+export function isSameDate(date1: Date, date2: Date): boolean {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+}
