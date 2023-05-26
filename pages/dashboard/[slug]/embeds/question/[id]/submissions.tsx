@@ -1,6 +1,7 @@
 import { Layout, LoaderFlag } from "components";
 import {
   QuestionSubmissionResult,
+  Sentiment,
   useEmbedByIdQuery,
   useOrganizationBySlugQuery,
 } from "generated";
@@ -82,11 +83,36 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     }
   );
 
-  const prompt = data?.embedById?.question?.prompt || "";
-  const submissions = data?.embedById?.question?.submissions || [];
-  const submissionCountByDate =
-    data?.embedById?.question?.submissionCountByDate || [];
-  const commonWords = data?.embedById?.question?.commonWords || [];
+  const question = data?.embedById?.question;
+  const prompt = question?.prompt || "";
+  const submissions = question?.submissions || [];
+  const submissionCountByDate = question?.submissionCountByDate || [];
+  const commonWords = question?.commonWords || [];
+  const sentimentCounts = question?.sentimentCounts;
+  const generalSentiment = sentimentCounts?.[0]?.sentiment;
+
+  const renderSentimentBadge = () => {
+    switch (generalSentiment) {
+      case Sentiment.Positive:
+        return (
+          <Badge size="small" theme="green-support">
+            Positive
+          </Badge>
+        );
+      case Sentiment.Negative:
+        return (
+          <Badge size="small" theme="red">
+            Positive
+          </Badge>
+        );
+      case Sentiment.Neutral:
+        return (
+          <Badge size="small" theme="yellow">
+            Neutral
+          </Badge>
+        );
+    }
+  };
 
   return organizationQuery.isLoading || isLoading || !user || embedLoading ? (
     <LoaderFlag />
@@ -134,10 +160,8 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
             </Box>
             <Box>
               <div className={styles.flexLeft} style={{ marginTop: "0.5rem" }}>
-                <h4>Aggregate response sentiment</h4>
-                <Badge size="small" theme="green-support">
-                  Positive
-                </Badge>
+                <h4>General sentiment</h4>
+                {renderSentimentBadge()}
               </div>
             </Box>
           </div>

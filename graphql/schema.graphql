@@ -1008,6 +1008,7 @@ type QuestionResult {
   prompt: String!
   responseCharLimit: Int
   responsePlaceholderText: String
+  sentimentCounts: [SentimentCountResult!]!
   submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [QuestionSubmissionResult!]!
   updatedAt: DateTime!
@@ -1019,6 +1020,7 @@ type QuestionSubmissionResult {
   respondent: RespondentResult
   respondentId: ID
   response: String!
+  sentiment: Sentiment
   updatedAt: DateTime!
 }
 
@@ -1143,6 +1145,18 @@ type Sector {
   name: String!
   pacs: Int!
   total: Int!
+}
+
+enum Sentiment {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+  UNKNOWN
+}
+
+type SentimentCountResult {
+  count: Int!
+  sentiment: Sentiment!
 }
 
 type Session {
@@ -1521,6 +1535,7 @@ input UpsertQuestionSubmissionInput {
   questionId: UUID!
   respondentId: UUID
   response: String!
+  sentiment: Sentiment
 }
 
 input UpsertRaceInput {
