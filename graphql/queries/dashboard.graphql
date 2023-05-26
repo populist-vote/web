@@ -47,6 +47,7 @@ fragment EmbedFields on EmbedResult {
       submissions {
         id
         response
+        sentiment
         createdAt
         updatedAt
         respondent {
@@ -56,6 +57,14 @@ fragment EmbedFields on EmbedResult {
       }
       submissionCountByDate {
         date
+        count
+      }
+      commonWords {
+        word
+        count
+      }
+      sentimentCounts {
+        sentiment
         count
       }
     }

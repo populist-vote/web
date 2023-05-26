@@ -319,6 +319,11 @@ type CommitteeResult {
   state: State
 }
 
+type CommonWordsResult {
+  count: Int!
+  word: String!
+}
+
 input Coordinates {
   latitude: Float!
   longitude: Float!
@@ -872,7 +877,7 @@ type PollResult {
   name: String
   options: [PollOptionResult!]!
   prompt: String!
-  submissionCountByDate: [SubmissionsOverTimeResult!]!
+  submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [PollSubmissionResult!]!
   updatedAt: DateTime!
 }
@@ -997,12 +1002,14 @@ type Query {
 
 type QuestionResult {
   allowAnonymousResponses: Boolean!
+  commonWords: [CommonWordsResult!]!
   createdAt: DateTime!
   id: ID!
   prompt: String!
   responseCharLimit: Int
   responsePlaceholderText: String
-  submissionCountByDate: [SubmissionsOverTimeResult!]!
+  sentimentCounts: [SentimentCountResult!]!
+  submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [QuestionSubmissionResult!]!
   updatedAt: DateTime!
 }
@@ -1013,6 +1020,7 @@ type QuestionSubmissionResult {
   respondent: RespondentResult
   respondentId: ID
   response: String!
+  sentiment: Sentiment
   updatedAt: DateTime!
 }
 
@@ -1139,6 +1147,18 @@ type Sector {
   total: Int!
 }
 
+enum Sentiment {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+  UNKNOWN
+}
+
+type SentimentCountResult {
+  count: Int!
+  sentiment: Sentiment!
+}
+
 type Session {
   sessionId: Int!
   sessionName: String!
@@ -1248,7 +1268,7 @@ type Subject {
   subjectName: String!
 }
 
-type SubmissionsOverTimeResult {
+type SubmissionCountByDateResult {
   count: Int!
   date: DateTime!
 }
@@ -1515,6 +1535,7 @@ input UpsertQuestionSubmissionInput {
   questionId: UUID!
   respondentId: UUID
   response: String!
+  sentiment: Sentiment
 }
 
 input UpsertRaceInput {

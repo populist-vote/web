@@ -1,6 +1,7 @@
 import { Layout, LoaderFlag } from "components";
 import {
   QuestionSubmissionResult,
+  Sentiment,
   useEmbedByIdQuery,
   useOrganizationBySlugQuery,
 } from "generated";
@@ -22,6 +23,7 @@ import styles from "components/PollMetrics/PollMetrics.module.scss";
 import { SubmissionsOverTimeLineChart } from "components/PollMetrics/PollMetrics";
 import { BsCircleFill } from "react-icons/bs";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
+import { Badge } from "components/Badge/Badge";
 
 export async function getServerSideProps({
   query,
@@ -81,10 +83,38 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     }
   );
 
-  const prompt = data?.embedById?.question?.prompt || "";
-  const submissions = data?.embedById?.question?.submissions || [];
-  const submissionCountByDate =
-    data?.embedById?.question?.submissionCountByDate || [];
+  const question = data?.embedById?.question;
+  const prompt = question?.prompt || "";
+  const submissions = question?.submissions || [];
+  const submissionCountByDate = question?.submissionCountByDate || [];
+  const commonWords = question?.commonWords || [];
+  const sentimentCounts = question?.sentimentCounts.filter(
+    (s) => s.sentiment !== Sentiment.Unknown
+  );
+  const generalSentiment = sentimentCounts?.[0]?.sentiment;
+
+  const renderSentimentBadge = () => {
+    switch (generalSentiment) {
+      case Sentiment.Positive:
+        return (
+          <Badge size="small" theme="green-support">
+            Positive
+          </Badge>
+        );
+      case Sentiment.Negative:
+        return (
+          <Badge size="small" theme="red">
+            Positive
+          </Badge>
+        );
+      case Sentiment.Neutral:
+        return (
+          <Badge size="small" theme="yellow">
+            Neutral
+          </Badge>
+        );
+    }
+  };
 
   return organizationQuery.isLoading || isLoading || !user || embedLoading ? (
     <LoaderFlag />
@@ -93,7 +123,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
       <EmbedHeader title={prompt} embedType="question" />
       <EmbedPageTabs embedType="question" />
       <div className={styles.container}>
-        <div className={styles.basics}>
+        <section className={styles.basics}>
           <Box width="fit-content">
             <div className={styles.responseCount}>
               <h1>{submissions.length}</h1>
@@ -116,9 +146,41 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
               </div>
             </Box>
           </div>
-        </div>
+        </section>
+        <section>
+          <h3 className={styles.heading}>Insights</h3>
+          <div className={styles.flexBetween}>
+            <Box>
+              <div
+                className={styles.flexBetween}
+                style={{ marginTop: "0.5rem" }}
+              >
+                <h4>Popular words</h4>
+                <div className={styles.flexBetween}>
+                  {commonWords.slice(0, 3).map(({ word }) => (
+                    <Badge size="small" key={word} theme="blue">
+                      {word}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </Box>
+            <Box>
+              <div
+                className={styles.flexBetween}
+                style={{ marginTop: "0.5rem" }}
+              >
+                <h4>General sentiment</h4>
+                {renderSentimentBadge()}
+              </div>
+            </Box>
+          </div>
+        </section>
+        <section>
+          <h3 className={styles.heading}>Responses</h3>
+          <QuestionSubmissionsTable submissions={submissions} />
+        </section>
       </div>
-      <QuestionSubmissionsTable submissions={submissions} />
     </>
   );
 }

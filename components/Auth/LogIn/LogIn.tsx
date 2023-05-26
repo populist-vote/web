@@ -1,4 +1,4 @@
-import { Button } from "components";
+import { Button, LoaderFlag } from "components";
 import { useCurrentUserQuery, useLogInMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ function LogIn() {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const getCurrentUser = useCurrentUserQuery();
-  const { data, isLoading } = useCurrentUserQuery();
+  const { data, isInitialLoading } = useCurrentUserQuery();
   const user = data?.currentUser;
   if (user) void router.push(`/${router.query.next || "/home"}`);
 
@@ -41,13 +41,13 @@ function LogIn() {
   };
 
   let message = "";
-
-  if (user || isLoading) return null;
   if (router.query.next?.includes("/voting-guides")) {
     message = t("voting-guide-sign-in");
   } else {
     message = t("sign-in");
   }
+
+  if (isInitialLoading) return <LoaderFlag />;
 
   return (
     <div className={styles.container}>
