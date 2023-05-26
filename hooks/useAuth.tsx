@@ -11,8 +11,8 @@ import {
 const AuthContext = createContext<AuthTokenResult>({} as AuthTokenResult);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data, isLoading, error } = useCurrentUserQuery();
-  if (isLoading || error) return null;
+  const { data, isInitialLoading, error } = useCurrentUserQuery();
+  if (isInitialLoading || error) return null;
 
   return (
     <AuthContext.Provider value={data?.currentUser as AuthTokenResult}>
