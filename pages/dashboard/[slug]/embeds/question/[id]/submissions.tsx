@@ -88,7 +88,9 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   const submissions = question?.submissions || [];
   const submissionCountByDate = question?.submissionCountByDate || [];
   const commonWords = question?.commonWords || [];
-  const sentimentCounts = question?.sentimentCounts;
+  const sentimentCounts = question?.sentimentCounts.filter(
+    (s) => s.sentiment !== Sentiment.Unknown
+  );
   const generalSentiment = sentimentCounts?.[0]?.sentiment;
 
   const renderSentimentBadge = () => {
@@ -149,17 +151,25 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
           <h3 className={styles.heading}>Insights</h3>
           <div className={styles.flexBetween}>
             <Box>
-              <div className={styles.flexLeft} style={{ marginTop: "0.5rem" }}>
-                <h4>Most common words</h4>
-                {commonWords.map(({ word }) => (
-                  <Badge size="small" key={word} theme="blue">
-                    {word}
-                  </Badge>
-                ))}
+              <div
+                className={styles.flexBetween}
+                style={{ marginTop: "0.5rem" }}
+              >
+                <h4>Popular words</h4>
+                <div className={styles.flexBetween}>
+                  {commonWords.slice(0, 3).map(({ word }) => (
+                    <Badge size="small" key={word} theme="blue">
+                      {word}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </Box>
             <Box>
-              <div className={styles.flexLeft} style={{ marginTop: "0.5rem" }}>
+              <div
+                className={styles.flexBetween}
+                style={{ marginTop: "0.5rem" }}
+              >
                 <h4>General sentiment</h4>
                 {renderSentimentBadge()}
               </div>
