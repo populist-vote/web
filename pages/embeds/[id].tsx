@@ -7,27 +7,25 @@ import { GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
 import { getOriginHost } from "utils/messages";
 
+interface EmbedPageProps {
+  embedId: string;
+  origin: string;
+  originHost: string;
+}
+
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { originHost } = getOriginHost((query.origin as string) || "");
 
   return {
     props: {
       embedId: query.id,
-      originHost,
       origin: query.origin,
+      originHost,
     },
   };
 }
 
-function EmbedPage({
-  embedId,
-  originHost,
-  origin,
-}: {
-  embedId: string;
-  originHost: string;
-  origin: string;
-}) {
+function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
   const resolvedOrigin =
     originHost || (typeof location === "undefined" ? "" : location.href);
 
