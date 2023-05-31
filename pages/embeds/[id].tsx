@@ -2,7 +2,7 @@ import { BillWidget } from "components/BillWidget/BillWidget";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
-import { useEmbedByIdQuery } from "generated";
+import { useEmbedByIdQuery, usePingEmbedOriginMutation } from "generated";
 import { GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
 import { getOriginHost } from "utils/messages";
@@ -14,6 +14,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
     props: {
       embedId: query.id,
       originHost,
+      origin: query.origin,
     },
   };
 }
@@ -21,23 +22,30 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
 function EmbedPage({
   embedId,
   originHost,
+  origin,
 }: {
   embedId: string;
   originHost: string;
+  origin: string;
 }) {
-  const { data, error, isLoading } = useEmbedByIdQuery({
-    id: embedId,
-  });
+  const resolvedOrigin =
+    originHost || (typeof location === "undefined" ? "" : location.href);
 
+  const pingEmbedOriginMutation = usePingEmbedOriginMutation();
+  const { data, error, isLoading } = useEmbedByIdQuery(
+    {
+      id: embedId,
+    },
+    {
+      onSuccess: () => {
+        pingEmbedOriginMutation.mutate({ input: { embedId, url: origin } });
+      },
+    }
+  );
   const embedType = data?.embedById?.attributes?.embedType;
   const billId = data?.embedById?.attributes?.billId;
   const politicianId = data?.embedById?.attributes?.politicianId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
-
-  const resolvedOrigin =
-    originHost || (typeof location === "undefined" ? "" : location.href);
-
-  // Track resolved origin in database so we know where embeds are being used
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {

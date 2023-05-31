@@ -477,6 +477,11 @@ input ElectionSearchInput {
   title: String
 }
 
+type EmbedOriginResult {
+  lastPingAt: DateTime!
+  url: String!
+}
+
 type EmbedResult {
   attributes: JSON!
   bill: BillResult
@@ -582,6 +587,7 @@ type Mutation {
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
+  pingEmbedOrigin(input: PingEmbedOriginInput!): EmbedOriginResult!
   requestPasswordReset(email: String!): Boolean!
   resetPassword(input: ResetPasswordInput!): Boolean!
   updateAddress(address: AddressInput!): AddressResult!
@@ -746,6 +752,11 @@ type PasswordEntropyResult {
   message: String
   score: Int!
   valid: Boolean!
+}
+
+input PingEmbedOriginInput {
+  embedId: UUID!
+  url: String!
 }
 
 enum PoliticalParty {
