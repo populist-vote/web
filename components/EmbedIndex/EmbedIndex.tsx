@@ -37,7 +37,9 @@ function EmbedIndex({
   const [searchValue, setSearchValue] = useState(search);
 
   const onRowClick = (row: Row<EmbedResult>) =>
-    router.push(`/dashboard/${slug}/embeds/${embedType}/${row.original.id}`);
+    router.push(
+      `/dashboard/${slug}/embeds/${embedType}/${row.original.id}/manage`
+    );
 
   return (
     <div>
