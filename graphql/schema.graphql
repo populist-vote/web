@@ -492,6 +492,7 @@ type EmbedResult {
   id: ID!
   name: String!
   organizationId: ID!
+  origins: [EmbedOriginResult!]!
   politician: PoliticianResult
   poll: PollResult
   populistUrl: String!
