@@ -56,12 +56,19 @@ function EmbedsNew({ slug }: { slug: string }) {
             <Button variant="super" size="large" label="Politician" />
           </Link>
           <br />
-          <Button
-            variant="super"
-            size="large"
-            label="Poll (coming soon)"
-            disabled
-          />
+          <Link
+            href="/dashboard/[slug]/embeds/question/new"
+            as={`/dashboard/${slug}/embeds/question/new`}
+          >
+            <Button variant="super" size="large" label="Question" />
+          </Link>
+          <br />
+          <Link
+            href="/dashboard/[slug]/embeds/poll/new"
+            as={`/dashboard/${slug}/embeds/poll/new`}
+          >
+            <Button variant="super" size="large" label="Poll" />
+          </Link>
         </div>
       </Box>
     </>

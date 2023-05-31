@@ -235,6 +235,7 @@ function DashboardLink({ organization }: { organization: OrganizationResult }) {
             organization.assets.thumbnailImage160 ||
             ORGANIZATION_FALLBACK_IMAGE_URL
           }
+          fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
           alt="organization logo"
           size={36}
         />
