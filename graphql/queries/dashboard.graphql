@@ -16,6 +16,10 @@ fragment EmbedFields on EmbedResult {
     description
     populistUrl
     attributes
+    origins {
+      url 
+      lastPingAt
+    }
     createdAt
     updatedAt
     bill {

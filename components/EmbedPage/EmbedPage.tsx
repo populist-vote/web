@@ -18,6 +18,7 @@ import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
 import { PollEmbedForm } from "pages/dashboard/[slug]/embeds/poll/new";
 import { PollWidget } from "components/PollWidget/PollWidget";
+import { FaExternalLinkSquareAlt } from "react-icons/fa";
 
 function EmbedPage({
   id,
@@ -92,9 +93,17 @@ function EmbedPage({
       <div className={clsx(styles.embedCode)}>
         <h3>Embed Code</h3>
         <EmbedCodeBlock id={id} />
-        <div style={{ margin: "1rem 0" }}>
-          <DeleteEmbedButton id={id} embedType={embedType} />
-        </div>
+      </div>
+      <div>
+        <h3>Deployments</h3>
+        {embed.origins.map(({ url }) => (
+          <a href={url} key={url} className={styles.flexLeft}>
+            {url} <FaExternalLinkSquareAlt />
+          </a>
+        ))}
+      </div>
+      <div style={{ margin: "1rem 0" }}>
+        <DeleteEmbedButton id={id} embedType={embedType} />
       </div>
     </div>
   );
