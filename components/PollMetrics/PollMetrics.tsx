@@ -202,14 +202,18 @@ export function PollMetrics({ poll }: { poll: PollResult }) {
             </Box>
           </div>
         </div>
-        <div className={styles.pollSubmissionsContainer}>
-          <h3 className={styles.heading}>Responses</h3>
-          <Box>
-            <PollSubmissionBarChart poll={poll as PollResult} />
-          </Box>
-        </div>
+        {poll.submissions.length > 0 && (
+          <div className={styles.pollSubmissionsContainer}>
+            <h3 className={styles.heading}>Responses</h3>
+            <Box>
+              <PollSubmissionBarChart poll={poll as PollResult} />
+            </Box>
+          </div>
+        )}
       </div>
-      <PollSubmissionsTable submissions={submissions} />
+      {poll.submissions.length > 0 && (
+        <PollSubmissionsTable submissions={submissions} />
+      )}
     </>
   );
 }

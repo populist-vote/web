@@ -33,7 +33,9 @@ function EmbedIndex({
 
   const onRowClick = (row: Row<EmbedResult>) =>
     router.push(
-      `/dashboard/${slug}/embeds/${embedType}/${row.original.id}/manage`
+      `/dashboard/${slug}/embeds/${embedType.toLowerCase()}/${
+        row.original.id
+      }/manage`
     );
 
   return (
@@ -116,7 +118,9 @@ function EmbedIndex({
             height: "50vh",
           }}
         >
-          <strong>You don't have any {embedType} embeds yet.</strong>
+          <strong>
+            You don't have any {embedType.toLowerCase()} embeds yet.
+          </strong>
         </div>
       ) : (
         <Table

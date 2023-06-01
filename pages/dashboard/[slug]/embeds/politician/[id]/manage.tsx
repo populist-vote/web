@@ -1,13 +1,17 @@
 import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
-import { useEmbedByIdQuery, useOrganizationBySlugQuery } from "generated";
+import {
+  EmbedType,
+  useEmbedByIdQuery,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
-import { DashboardTopNav } from "../..";
+import { DashboardTopNav } from "../../..";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 
 export async function getServerSideProps({
@@ -17,7 +21,6 @@ export async function getServerSideProps({
   query: {
     slug: string;
     id: string;
-    embedType: "legislation" | "multi-legislation" | "politician";
   };
   locale: SupportedLocale;
 }) {
@@ -66,23 +69,18 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     }
   );
 
-  const userQuery = useAuth({
+  const politicianName = embedQuery.data?.embedById?.politician?.fullName || "";
+
+  const { isLoading, user } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
   });
 
-  const isLoading =
-    userQuery.isLoading || embedQuery.isLoading || organizationQuery.isLoading;
-
-  const embed = embedQuery.data?.embedById;
-  const bill = embed?.bill;
-  const title = embed?.name || `${bill?.state} ${bill?.billNumber}`;
-
-  return organizationQuery.isLoading || isLoading ? (
+  return organizationQuery.isLoading || isLoading || !user ? (
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={title} embedType="legislation" />
-      <EmbedPage id={id} embedType="legislation" />
+      <EmbedHeader embedType={EmbedType.Politician} title={politicianName} />
+      <EmbedPage id={id} embedType={EmbedType.Politician} />
     </>
   );
 }

@@ -5,6 +5,7 @@ import { EmbedBasicsForm } from "components/EmbedBasicsForm/EmbedBasicsForm";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import {
   EmbedResult,
+  EmbedType,
   useDeleteEmbedMutation,
   useEmbedByIdQuery,
 } from "generated";
@@ -20,13 +21,7 @@ import { PollEmbedForm } from "pages/dashboard/[slug]/embeds/poll/new";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 
-function EmbedPage({
-  id,
-  embedType,
-}: {
-  id: string;
-  embedType: "legislation" | "politician" | "question" | "poll";
-}) {
+function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
   const { data, isLoading } = useEmbedByIdQuery(
     {
       id,
@@ -45,7 +40,7 @@ function EmbedPage({
 
   const renderPreviewByType = () => {
     switch (embedType) {
-      case "legislation":
+      case EmbedType.Legislation:
         return (
           <BillWidget
             billId={billId}
@@ -54,7 +49,7 @@ function EmbedPage({
             renderOptions={embed.attributes.renderOptions}
           />
         );
-      case "politician":
+      case EmbedType.Politician:
         return (
           <PoliticianWidget
             politicianId={politicianId}
@@ -63,9 +58,9 @@ function EmbedPage({
             renderOptions={embed.attributes.renderOptions}
           />
         );
-      case "question":
+      case EmbedType.Question:
         return <QuestionWidget embedId={id} origin={window.location.origin} />;
-      case "poll":
+      case EmbedType.Poll:
         return <PollWidget embedId={id} origin={window.location.origin} />;
     }
   };
@@ -81,9 +76,9 @@ function EmbedPage({
       <div className={clsx(styles.options)}>
         <h3>Configuration</h3>
         <Box>
-          {embedType == "question" ? (
+          {embedType == EmbedType.Question ? (
             <QuestionEmbedForm buttonLabel="Save" embed={embed} />
-          ) : embedType == "poll" ? (
+          ) : embedType == EmbedType.Poll ? (
             <PollEmbedForm buttonLabel="Save" embed={embed} />
           ) : (
             <EmbedBasicsForm embed={embed} />
@@ -137,7 +132,7 @@ export function DeleteEmbedButton({
         {
           onSuccess: () => {
             void router.push({
-              pathname: `/dashboard/[slug]/embeds/${embedType}`,
+              pathname: `/dashboard/[slug]/embeds/${embedType.toLowerCase()}`,
               query: { slug: router.query.slug },
             });
             toast("Embed deleted", {

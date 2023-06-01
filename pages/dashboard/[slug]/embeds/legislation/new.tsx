@@ -56,7 +56,7 @@ function NewLegislationEmbed() {
         onSuccess: (data) => {
           toast("Embed saved!", { type: "success", position: "bottom-right" });
           void router.push(
-            `/dashboard/${slug}/embeds/legislation/${data.upsertEmbed.id}`,
+            `/dashboard/${slug}/embeds/legislation/${data.upsertEmbed.id}/manage`,
             undefined,
             {
               shallow: true,

@@ -1,6 +1,10 @@
 import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
-import { useEmbedByIdQuery, useOrganizationBySlugQuery } from "generated";
+import {
+  EmbedType,
+  useEmbedByIdQuery,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -77,9 +81,9 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={prompt} embedType="question" />
-      <EmbedPageTabs embedType="question" />
-      <EmbedPage id={id} embedType="question" />
+      <EmbedHeader title={prompt} embedType={EmbedType.Question} />
+      <EmbedPageTabs embedType={EmbedType.Question} />
+      <EmbedPage id={id} embedType={EmbedType.Question} />
     </>
   );
 }

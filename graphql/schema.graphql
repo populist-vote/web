@@ -493,6 +493,7 @@ type EmbedResult {
   createdBy: UserResult!
   createdById: ID!
   description: String
+  embedType: EmbedType!
   id: ID!
   name: String!
   organizationId: ID!
