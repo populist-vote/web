@@ -2,7 +2,11 @@ import { BillWidget } from "components/BillWidget/BillWidget";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
-import { useEmbedByIdQuery, usePingEmbedOriginMutation } from "generated";
+import {
+  EmbedType,
+  useEmbedByIdQuery,
+  usePingEmbedOriginMutation,
+} from "generated";
 import { GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
 import { getOriginHost } from "utils/messages";
@@ -40,7 +44,8 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
       },
     }
   );
-  const embedType = data?.embedById?.attributes?.embedType;
+  const embedType = data?.embedById?.embedType;
+
   const billId = data?.embedById?.attributes?.billId;
   const politicianId = data?.embedById?.attributes?.politicianId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
@@ -59,7 +64,7 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
   if (error) return <div>This embed does not exist</div>;
 
   switch (embedType) {
-    case "legislation":
+    case EmbedType.Legislation:
       return (
         <BillWidget
           billId={billId}
@@ -68,7 +73,7 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
           renderOptions={renderOptions}
         />
       );
-    case "politician":
+    case EmbedType.Politician:
       return (
         <PoliticianWidget
           politicianId={politicianId}
@@ -77,9 +82,9 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
           renderOptions={renderOptions}
         />
       );
-    case "question":
+    case EmbedType.Question:
       return <QuestionWidget embedId={embedId} origin={resolvedOrigin} />;
-    case "poll":
+    case EmbedType.Poll:
       return <PollWidget embedId={embedId} origin={resolvedOrigin} />;
   }
 }

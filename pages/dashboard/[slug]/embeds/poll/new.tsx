@@ -145,7 +145,6 @@ export function PollEmbedForm({
                 organizationId: user?.organizationId as string,
                 attributes: {
                   pollId: data.upsertPoll.id,
-                  embedType: "poll",
                 },
               },
             },

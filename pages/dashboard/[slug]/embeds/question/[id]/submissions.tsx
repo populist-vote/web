@@ -1,5 +1,6 @@
 import { Layout, LoaderFlag } from "components";
 import {
+  EmbedType,
   QuestionSubmissionResult,
   Sentiment,
   useEmbedByIdQuery,
@@ -120,8 +121,8 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={prompt} embedType="question" />
-      <EmbedPageTabs embedType="question" />
+      <EmbedHeader title={prompt} embedType={EmbedType.Question} />
+      <EmbedPageTabs embedType={EmbedType.Question} />
       <div className={styles.container}>
         <section className={styles.basics}>
           <Box width="fit-content">
@@ -150,21 +151,23 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
         <section>
           <h3 className={styles.heading}>Insights</h3>
           <div className={styles.flexBetween}>
-            <Box>
-              <div
-                className={styles.flexBetween}
-                style={{ marginTop: "0.5rem" }}
-              >
-                <h4>Popular words</h4>
-                <div className={styles.flexBetween}>
-                  {commonWords.slice(0, 3).map(({ word }) => (
-                    <Badge size="small" key={word} theme="blue">
-                      {word}
-                    </Badge>
-                  ))}
+            {commonWords.length > 0 && (
+              <Box>
+                <div
+                  className={styles.flexBetween}
+                  style={{ marginTop: "0.5rem" }}
+                >
+                  <h4>Popular words</h4>
+                  <div className={styles.flexBetween}>
+                    {commonWords.slice(0, 3).map(({ word }) => (
+                      <Badge size="small" key={word} theme="blue">
+                        {word}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Box>
+              </Box>
+            )}
             <Box>
               <div
                 className={styles.flexBetween}
@@ -176,10 +179,12 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
             </Box>
           </div>
         </section>
-        <section>
-          <h3 className={styles.heading}>Responses</h3>
-          <QuestionSubmissionsTable submissions={submissions} />
-        </section>
+        {submissions?.length > 0 && (
+          <section>
+            <h3 className={styles.heading}>Responses</h3>
+            <QuestionSubmissionsTable submissions={submissions} />
+          </section>
+        )}
       </div>
     </>
   );

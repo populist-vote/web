@@ -143,7 +143,6 @@ export function QuestionEmbedForm({
                 organizationId: user?.organizationId as string,
                 attributes: {
                   questionId: data.upsertQuestion.id,
-                  embedType: "question",
                 },
               },
             },

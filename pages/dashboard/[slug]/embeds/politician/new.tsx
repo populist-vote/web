@@ -51,7 +51,6 @@ function NewPoliticianEmbed() {
           organizationId: user?.organizationId as string,
           attributes: {
             politicianId: selected as string,
-            embedType: "politician",
           },
         },
       },
@@ -59,7 +58,7 @@ function NewPoliticianEmbed() {
         onSuccess: (data) => {
           toast("Embed saved!", { type: "success", position: "bottom-right" });
           void router.push(
-            `/dashboard/${slug}/embeds/politician/${data.upsertEmbed.id}`,
+            `/dashboard/${slug}/embeds/politician/${data.upsertEmbed.id}/manage`,
             undefined,
             {
               shallow: true,

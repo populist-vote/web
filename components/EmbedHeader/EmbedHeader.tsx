@@ -1,12 +1,13 @@
 import { BiChevronLeft } from "react-icons/bi";
 import styles from "./EmbedHeader.module.scss";
 import { useRouter } from "next/router";
+import { EmbedType } from "generated";
 
 export function EmbedHeader({
   embedType,
   title,
 }: {
-  embedType: "politician" | "legislation" | "question" | "poll";
+  embedType: EmbedType;
   title: string;
 }) {
   const router = useRouter();

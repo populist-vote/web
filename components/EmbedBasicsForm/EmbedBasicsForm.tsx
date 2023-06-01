@@ -88,6 +88,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           id: embed?.id,
           populistUrl: `${window.location.origin}/embed/${embed?.id}`,
           organizationId: user?.organizationId as string,
+          embedType: embed?.embedType,
           attributes: {
             ...embed?.attributes,
             renderOptions: data.renderOptions,

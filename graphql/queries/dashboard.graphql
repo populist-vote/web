@@ -15,6 +15,7 @@ fragment EmbedFields on EmbedResult {
     name
     description
     populistUrl
+    embedType
     attributes
     origins {
       url 

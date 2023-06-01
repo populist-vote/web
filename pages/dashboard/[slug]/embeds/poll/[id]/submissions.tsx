@@ -1,5 +1,6 @@
 import { Layout, LoaderFlag } from "components";
 import {
+  EmbedType,
   PollResult,
   useEmbedByIdQuery,
   useOrganizationBySlugQuery,
@@ -81,8 +82,8 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={prompt} embedType="poll" />
-      <EmbedPageTabs embedType={"poll"} />
+      <EmbedHeader title={prompt} embedType={EmbedType.Poll} />
+      <EmbedPageTabs embedType={EmbedType.Poll} />
       <PollMetrics poll={poll} />
     </>
   );
