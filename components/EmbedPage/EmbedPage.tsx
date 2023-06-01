@@ -94,18 +94,21 @@ function EmbedPage({
         <h3>Embed Code</h3>
         <EmbedCodeBlock id={id} />
       </div>
-      <div>
+      <div className={styles.deployments}>
         <h3>Deployments</h3>
-        {embed.origins.length == 0 && (
-          <small>This embed has not yet been deployed.</small>
-        )}
-        {embed.origins.map(({ url }) => (
-          <a href={url} key={url} className={styles.flexLeft}>
-            {url} <FaExternalLinkSquareAlt />
-          </a>
-        ))}
+        <Box>
+          {embed.origins.length == 0 && (
+            <small>This embed has not yet been deployed.</small>
+          )}
+          {embed.origins.map(({ url }) => (
+            <a href={url} key={url} className={styles.flexLeft}>
+              {url} <FaExternalLinkSquareAlt />
+            </a>
+          ))}
+        </Box>
       </div>
-      <div style={{ margin: "1rem 0" }}>
+      <div className={styles.dangerZone}>
+        <h3>Danger Zone</h3>
         <DeleteEmbedButton id={id} embedType={embedType} />
       </div>
     </div>
