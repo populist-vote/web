@@ -171,7 +171,7 @@ export function PollEmbedForm({
                   useEmbedByIdQuery.getKey({ id: router.query.id as string })
                 );
                 void router.push(
-                  `/dashboard/${slug}/embeds/poll/${data.upsertEmbed.id}`,
+                  `/dashboard/${slug}/embeds/poll/${data.upsertEmbed.id}/manage`,
                   undefined,
                   {
                     shallow: true,

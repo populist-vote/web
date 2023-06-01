@@ -158,7 +158,7 @@ export function QuestionEmbedForm({
                   useEmbedByIdQuery.getKey({ id: router.query.id as string })
                 );
                 void router.push(
-                  `/dashboard/${slug}/embeds/question/${data.upsertEmbed.id}`,
+                  `/dashboard/${slug}/embeds/question/${data.upsertEmbed.id}/manage`,
                   undefined,
                   {
                     shallow: true,
