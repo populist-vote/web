@@ -1,5 +1,5 @@
-query EmbedsByOrganization($id: ID!) {
-  embedsByOrganization(organizationId: $id) {
+query EmbedsByOrganization($id: ID!, $filter: EmbedFilter) {
+  embedsByOrganization(organizationId: $id, filter: $filter) {
     ...EmbedFields
   }
 }

@@ -8,6 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import {
   BillStatus,
   EmbedResult,
+  EmbedType,
   IssueTagResult,
   SessionResult,
   useEmbedsByOrganizationQuery,
@@ -43,6 +44,9 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
   const { data, isLoading } = useEmbedsByOrganizationQuery(
     {
       id: user?.organizationId as string,
+      filter: {
+        embedType: EmbedType.Legislation,
+      },
     },
     {
       onError: (error) => {
@@ -121,17 +125,14 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
 
   if (isLoading) return <LoaderFlag />;
   const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
-  const legislationEmbeds = embeds?.filter(
-    (embed) => embed.attributes.embedType === "legislation"
-  );
 
   return (
     <EmbedIndex
       slug={slug}
       title={"Legislation Embeds"}
-      embeds={legislationEmbeds}
+      embeds={embeds}
       columns={legislationColumns}
-      embedType="legislation"
+      embedType={EmbedType.Legislation}
     />
   );
 }

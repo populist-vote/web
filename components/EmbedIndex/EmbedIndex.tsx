@@ -1,4 +1,4 @@
-import { EmbedResult } from "generated";
+import { EmbedResult, EmbedType } from "generated";
 import { Table } from "components/Table/Table";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useRouter } from "next/router";
@@ -22,12 +22,7 @@ function EmbedIndex({
 }: {
   slug: string;
   title: string;
-  embedType:
-    | "legislation"
-    | "multi-legislation"
-    | "politician"
-    | "question"
-    | "poll";
+  embedType: EmbedType;
   embeds: EmbedResult[];
   columns: ColumnDef<EmbedResult>[];
 }) {

@@ -477,6 +477,10 @@ input ElectionSearchInput {
   title: String
 }
 
+input EmbedFilter {
+  embedType: EmbedType
+}
+
 type EmbedOriginResult {
   lastPingAt: DateTime!
   url: String!
@@ -959,7 +963,7 @@ type Query {
   ): [ElectionResult!]!
   electionsByUser: [ElectionResult!]!
   embedById(id: ID!): EmbedResult!
-  embedsByOrganization(organizationId: ID!): [EmbedResult!]!
+  embedsByOrganization(filter: EmbedFilter, organizationId: ID!): [EmbedResult!]!
   """Returns `true` to indicate the GraphQL server is reachable"""
   health: Boolean!
   issueTagBySlug(

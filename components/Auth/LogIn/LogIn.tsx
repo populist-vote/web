@@ -1,4 +1,4 @@
-import { Button, LoaderFlag } from "components";
+import { Button, LoaderFlag, TextInput } from "components";
 import { useCurrentUserQuery, useLogInMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -59,7 +59,7 @@ function LogIn() {
               errors.emailOrUsername && styles.invalid
             }`}
           >
-            <input
+            <TextInput
               type="text"
               placeholder={t("email-or-username")}
               {...register("emailOrUsername", {
