@@ -5,7 +5,11 @@ import { ReactNode, useMemo } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import { ColumnDef } from "@tanstack/react-table";
-import { EmbedResult, useEmbedsByOrganizationQuery } from "generated";
+import {
+  EmbedResult,
+  EmbedType,
+  useEmbedsByOrganizationQuery,
+} from "generated";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { getRelativeTimeString } from "utils/dates";
@@ -34,6 +38,9 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
   const { data, isLoading } = useEmbedsByOrganizationQuery(
     {
       id: user?.organizationId as string,
+      filter: {
+        embedType: EmbedType.Question,
+      },
     },
     {
       onError: (error) => {
@@ -69,17 +76,14 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
   if (isLoading) return <LoaderFlag />;
 
   const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
-  const questionEmbeds = embeds?.filter(
-    (embed) => embed.attributes.embedType === "question"
-  );
 
   return (
     <EmbedIndex
       slug={slug}
       title={"Question Embeds"}
-      embeds={questionEmbeds}
+      embeds={embeds}
       columns={columns}
-      embedType="question"
+      embedType={EmbedType.Question}
     />
   );
 }

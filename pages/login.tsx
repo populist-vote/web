@@ -12,7 +12,7 @@ export async function getServerSideProps({
 }) {
   return {
     props: {
-      title: "Login",
+      title: "Sign In",
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],

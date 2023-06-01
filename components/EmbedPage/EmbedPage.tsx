@@ -96,6 +96,9 @@ function EmbedPage({
       </div>
       <div>
         <h3>Deployments</h3>
+        {embed.origins.length == 0 && (
+          <small>This embed has not yet been deployed.</small>
+        )}
         {embed.origins.map(({ url }) => (
           <a href={url} key={url} className={styles.flexLeft}>
             {url} <FaExternalLinkSquareAlt />
