@@ -3,7 +3,7 @@
 .content {
   display: grid;
   grid-template-columns: 2fr 3fr;
-  grid-template-rows: repeat(4, auto);
+  grid-template-rows: repeat(5, auto);
   gap: 2rem;
   margin-top: 2rem;
 
@@ -29,5 +29,15 @@
   .embedCode {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
+  }
+
+  .deployments {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+  }
+
+  .dangerZone {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
   }
 }
