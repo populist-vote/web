@@ -168,15 +168,17 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
                 </div>
               </Box>
             )}
-            <Box>
-              <div
-                className={styles.flexBetween}
-                style={{ marginTop: "0.5rem" }}
-              >
-                <h4>General sentiment</h4>
-                {renderSentimentBadge()}
-              </div>
-            </Box>
+            {generalSentiment && (
+              <Box>
+                <div
+                  className={styles.flexBetween}
+                  style={{ marginTop: "0.5rem" }}
+                >
+                  <h4>General sentiment</h4>
+                  {renderSentimentBadge()}
+                </div>
+              </Box>
+            )}
           </div>
         </section>
         {submissions?.length > 0 && (
