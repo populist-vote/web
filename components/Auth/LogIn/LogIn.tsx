@@ -60,11 +60,13 @@ function LogIn() {
             }`}
           >
             <TextInput
+              name="emailOrUsername"
+              rules={{
+                required: t("email-or-username-is-required"),
+              }}
               type="text"
               placeholder={t("email-or-username")}
-              {...register("emailOrUsername", {
-                required: t("email-or-username-is-required"),
-              })}
+              register={register}
             />
           </div>
           <div
