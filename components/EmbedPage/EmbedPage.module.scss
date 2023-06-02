@@ -34,6 +34,12 @@
   .deployments {
     grid-column: 2 / 3;
     grid-row: 3 / 4;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
   }
 
   .dangerZone {
