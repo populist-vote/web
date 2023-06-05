@@ -58,7 +58,6 @@ function AddressStep() {
   });
 
   const submitForm = (data: { address?: AddressInput | null }) => {
-    alert(JSON.stringify(data, null, 2));
     actions.updateAction({ address: data.address });
 
     handleUserRegistration.mutate({
@@ -165,13 +164,13 @@ function AddressStep() {
             theme="blue"
           />
           <br />
-          <Button
-            variant="text"
-            onClick={() => submitForm({ address: null })}
-            label="Skip this step for now"
-            size="small"
-          />
         </form>
+        <Button
+          variant="text"
+          onClick={() => submitForm({ address: null })}
+          label="Skip this step for now"
+          size="small"
+        />
       </div>
     </div>
   );
