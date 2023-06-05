@@ -4,7 +4,12 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 
 import { Election } from "components/Ballot/Election";
-import { Layout, VotingGuideWelcome, TopNavElections } from "components";
+import {
+  Layout,
+  VotingGuideWelcome,
+  TopNavElections,
+  Button,
+} from "components";
 
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
@@ -23,6 +28,7 @@ import {
 } from "generated";
 
 import { SupportedLocale } from "types/global";
+import Link from "next/link";
 
 export async function getServerSideProps({
   locale,
@@ -111,7 +117,23 @@ function BallotPage() {
 
   if (!user) return null;
 
-  if (error) return <div>{JSON.stringify(error)}</div>;
+  if (error) {
+    if ((error as any).message === "No user address data") {
+      return (
+        <div>
+          <h2>
+            We'll need your voting address if you want to see your ballot
+            information
+          </h2>
+          <Link href="/settings/profile">
+            <Button variant="primary" size="large" label="Update Address" />
+          </Link>
+        </div>
+      );
+    } else {
+      return <div>Something went wrong</div>;
+    }
+  }
 
   return (
     <>

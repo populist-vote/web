@@ -5,7 +5,6 @@ import {
   useCurrentUserQuery,
 } from "generated";
 import { useStateMachine } from "little-state-machine";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
@@ -58,12 +57,16 @@ function AddressStep() {
     },
   });
 
-  const submitForm = (data: { address: AddressInput }) => {
+  const submitForm = (data: { address?: AddressInput | null }) => {
+    alert(JSON.stringify(data, null, 2));
     actions.updateAction({ address: data.address });
 
     handleUserRegistration.mutate({
       ...loginFormState,
-      address: data.address,
+      address: {
+        ...data.address,
+        country: "USA",
+      },
     } as BeginUserRegistrationInput);
   };
 
@@ -162,16 +165,12 @@ function AddressStep() {
             theme="blue"
           />
           <br />
-          <Link
-            href={{
-              pathname: "/register",
-              query,
-            }}
-            shallow
-            replace
-          >
-            {t("back")}
-          </Link>
+          <Button
+            variant="text"
+            onClick={() => submitForm({ address: null })}
+            label="Skip this step for now"
+            size="small"
+          />
         </form>
       </div>
     </div>
