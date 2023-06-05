@@ -8,7 +8,7 @@ import { updateAction } from "pages/register";
 import styles from "../Auth.module.scss";
 import { useRouter } from "next/router";
 import useDebounce from "hooks/useDebounce";
-import { Button, PasswordEntropyMeter } from "components";
+import { Button, PasswordEntropyMeter, TextInput } from "components";
 import { PasswordInput } from "../PasswordInput";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
@@ -150,20 +150,23 @@ function EmailStep() {
               errors.email && styles.invalid
             )}
           >
-            <input
+            <TextInput
+              name="email"
               type="email"
               placeholder={t("email")}
               aria-invalid={errors.email ? "true" : "false"}
-              {...register("email", {
+              register={register}
+              rules={{
+                // Need to update email synchronously so that we can revalidate it on each form submission
+                onChange: (e) =>
+                  actions.updateAction({ email: e.target.value }),
                 required: t("email-is-required"),
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                   message: t("invalid-email"),
                 },
-              })}
+              }}
               autoComplete="email"
-              // Need to update email synchronously so that we can revalidate it on each form submission
-              onChange={(e) => actions.updateAction({ email: e.target.value })}
             />
           </div>
           <div

@@ -2,7 +2,12 @@ import { useEffect, useState, useMemo } from "react";
 import { useElectionsQuery, ElectionResult } from "generated";
 
 export function useElections(initialSelectedElectionId?: string) {
-  const electionsQuery = useElectionsQuery();
+  const electionsQuery = useElectionsQuery(
+    {},
+    {
+      retry: false,
+    }
+  );
   const { data, isSuccess } = electionsQuery;
   const [selectedElectionId, setSelectedElectionId] = useState<string>();
   const [intialized, setInitialized] = useState(false);

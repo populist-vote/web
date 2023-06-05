@@ -1,4 +1,4 @@
-import { AddressInput } from "generated";
+import { AddressInput, InputMaybe } from "generated";
 import "little-state-machine";
 import { FilterFn } from "@tanstack/react-table";
 
@@ -7,7 +7,7 @@ declare module "little-state-machine" {
     loginFormState: {
       email: string;
       password: string;
-      address: AddressInput;
+      address?: InputMaybe<AddressInput>;
     };
   }
 }
