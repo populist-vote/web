@@ -57,6 +57,13 @@ function AddressStep() {
     },
   });
 
+  const skipAddressStep = () => {
+    handleUserRegistration.mutate({
+      ...loginFormState,
+      address: null,
+    });
+  };
+
   const submitForm = (data: { address?: AddressInput | null }) => {
     actions.updateAction({ address: data.address });
 
@@ -167,7 +174,7 @@ function AddressStep() {
         </form>
         <Button
           variant="text"
-          onClick={() => submitForm({ address: null })}
+          onClick={skipAddressStep}
           label="Skip this step for now"
           size="small"
         />
