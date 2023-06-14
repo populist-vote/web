@@ -1,13 +1,19 @@
 import { Layout, LoaderFlag } from "components";
-import { Box } from "components/Box/Box";
-import { useOrganizationBySlugQuery } from "generated";
+import {
+  RespondentResult,
+  useAudienceQuery,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from ".";
+import { ColumnDef } from "@tanstack/react-table";
+import { Table } from "components/Table/Table";
+import Link from "next/link";
 
 export async function getServerSideProps({
   query,
@@ -30,6 +36,7 @@ export async function getServerSideProps({
 
 function Audience({ slug }: { slug: string }) {
   const router = useRouter();
+  const query = router.query;
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
@@ -45,26 +52,61 @@ function Audience({ slug }: { slug: string }) {
     }
   );
 
+  const audienceQuery = useAudienceQuery({
+    organizationId: organizationQuery.data?.organizationBySlug?.id as string,
+  });
+
+  const respondents =
+    audienceQuery.data?.respondentsByOrganizationId?.edges.map(
+      (edge) => edge.node
+    ) || [];
+
   const { isLoading, user } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
   });
 
+  const columns = useMemo<ColumnDef<RespondentResult>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: "Full Name",
+        size: 100,
+      },
+      {
+        accessorKey: "email",
+        header: "Email",
+        size: 100,
+      },
+    ],
+    []
+  );
+
   return organizationQuery.isLoading || isLoading || !user ? (
     <LoaderFlag />
+  ) : respondents.length === 0 ? (
+    <div>
+      <h3 style={{ marginTop: 0 }}>All Respondents</h3>
+      <small>
+        No respondents yet.{" "}
+        <Link href={`/dashboard/${query.slug}/embeds/new`}>
+          Try creating a new poll or question embed to begin engaging your
+          audience
+        </Link>
+      </small>
+    </div>
   ) : (
-    <Box>
-      <h3 style={{ marginTop: 0 }}>
-        Audience engagement metrics for{" "}
-        {organizationQuery.data?.organizationBySlug.name}
-      </h3>
-      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-        - Table with searchable list of audience members (for embedded polls and
-        questions)
-      </p>
-      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-        - Graphs about engagement metrics
-      </p>
-    </Box>
+    <div>
+      <h3 style={{ marginTop: 0 }}>All Respondents</h3>
+      <Table
+        data={respondents}
+        initialState={{
+          pagination: {
+            pageSize: 10,
+          },
+        }}
+        columns={columns}
+      />
+    </div>
   );
 }
 

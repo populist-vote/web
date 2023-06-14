@@ -14,6 +14,7 @@ import { BiCodeBlock } from "react-icons/bi";
 import { ReactNode } from "react";
 import { useTheme } from "hooks/useTheme";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
+import { BsPeopleFill } from "react-icons/bs";
 // import { BsPeopleFill } from "react-icons/bs";
 
 export async function getServerSideProps({
@@ -128,7 +129,7 @@ export function DashboardTopNav() {
             <BiCodeBlock /> Embeds
           </Link>
         </li>
-        {/* <li
+        <li
           data-selected={router.asPath == `/dashboard/${slug}/audience`}
           data-color={theme}
         >
@@ -140,7 +141,7 @@ export function DashboardTopNav() {
           >
             <BsPeopleFill /> Audience
           </Link>
-        </li> */}
+        </li>
       </ul>
       <div>
         <Link

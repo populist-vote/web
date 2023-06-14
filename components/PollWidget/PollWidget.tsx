@@ -32,6 +32,7 @@ export function PollWidget({
     watch,
     formState: { isValid, isDirty, isSubmitting },
   } = useForm<PollWidgetForm>();
+  const embed = data?.embedById;
   const upsertPollSubmissionMutation = useUpsertPollSubmissionMutation();
   const queryClient = useQueryClient();
   const prompt = data?.embedById?.poll?.prompt;
@@ -51,6 +52,7 @@ export function PollWidget({
             ? {
                 name: data.name,
                 email: data.email,
+                organizationId: embed?.organizationId,
               }
             : null,
         pollSubmissionInput: {

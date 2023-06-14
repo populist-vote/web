@@ -17,6 +17,7 @@ fragment EmbedFields on EmbedResult {
     populistUrl
     embedType
     attributes
+    organizationId
     origins {
       url 
       lastPingAt
@@ -100,4 +101,15 @@ fragment EmbedFields on EmbedResult {
         count
       }
     }
+}
+
+query Audience($organizationId: ID!) {
+  respondentsByOrganizationId(organizationId: $organizationId) {
+    edges {
+      node {
+        name
+        email
+      }
+    }
+  }
 }

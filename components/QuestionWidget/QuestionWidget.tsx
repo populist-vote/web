@@ -28,6 +28,7 @@ export function QuestionWidget({
   useEmbedResizer({ origin, embedId });
   const [isSuccess, setIsSuccess] = useState(false);
   const { data, isLoading, error } = useEmbedByIdQuery({ id: embedId });
+  const embed = data?.embedById;
   const {
     register,
     watch,
@@ -54,6 +55,7 @@ export function QuestionWidget({
             ? {
                 name: data.name,
                 email: data.email,
+                organizationId: embed?.organizationId,
               }
             : null,
         questionSubmissionInput: {
