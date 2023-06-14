@@ -999,6 +999,7 @@ type Query {
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(filter: RaceFilter): [RaceResult!]!
+  respondentsByOrganizationId(after: String, before: String, first: Int, last: Int, organizationId: ID!): RespondentResultConnection!
   """Get all users"""
   userCount(filter: UserCountFilter): Int
   """Publicly accessible user information"""
@@ -1124,6 +1125,25 @@ input ResetPasswordInput {
 type RespondentResult {
   email: String!
   name: String!
+}
+
+type RespondentResultConnection {
+  """A list of edges."""
+  edges: [RespondentResultEdge!]!
+  """A list of nodes."""
+  nodes: [RespondentResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type RespondentResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: RespondentResult!
 }
 
 enum Role {
@@ -1578,6 +1598,7 @@ input UpsertRespondentInput {
   email: String!
   id: UUID
   name: String!
+  organizationId: UUID!
 }
 
 input UpsertVotingGuideCandidateInput {

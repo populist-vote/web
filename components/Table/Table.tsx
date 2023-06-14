@@ -5,7 +5,6 @@ import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
 import { Button } from "components/Button/Button";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import clsx from "clsx";
-import { BillResult } from "generated";
 
 import {
   useReactTable,
@@ -41,7 +40,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-type TableTheme = "green" | "yellow" | "orange" | "aqua" | "violet";
+type TableTheme = "default" | "green" | "yellow" | "orange" | "aqua" | "violet";
 
 interface TableThemeColors {
   background: string;
@@ -169,6 +168,17 @@ function Table<T extends object>({
             unselected: "var(--violet-dark)",
           },
         };
+      default:
+        return {
+          background: "var(--blue-darker)",
+          color: "var(--blue-text)",
+          selectedRow: "transparent",
+          border: "var(--blue-dark)",
+          index: {
+            selected: "var(--blue)",
+            unselected: "var(--blue-dark)",
+          },
+        };
     }
   };
 
@@ -286,7 +296,7 @@ function Table<T extends object>({
                   onClick={() => onRowClick?.(row)}
                   className={clsx({
                     [styles.selected as string]:
-                      (row.original as BillResult).id === selectedRowId,
+                      selectedRowId && row.original.id === selectedRowId,
                   })}
                 >
                   {row.getVisibleCells().map((cell) => {
