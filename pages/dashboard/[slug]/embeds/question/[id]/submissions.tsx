@@ -148,39 +148,42 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
             </Box>
           </div>
         </section>
-        <section>
-          <h3 className={styles.heading}>Insights</h3>
-          <div className={styles.flexBetween}>
-            {commonWords.length > 0 && (
-              <Box>
-                <div
-                  className={styles.flexBetween}
-                  style={{ marginTop: "0.5rem" }}
-                >
-                  <h4>Popular words</h4>
-                  <div className={styles.flexBetween}>
-                    {commonWords.slice(0, 3).map(({ word }) => (
-                      <Badge size="small" key={word} theme="blue">
-                        {word}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </Box>
-            )}
-            {generalSentiment && (
-              <Box>
-                <div
-                  className={styles.flexBetween}
-                  style={{ marginTop: "0.5rem" }}
-                >
-                  <h4>General sentiment</h4>
-                  {renderSentimentBadge()}
-                </div>
-              </Box>
-            )}
-          </div>
-        </section>
+        {commonWords.length > 0 ||
+          (generalSentiment && (
+            <section>
+              <h3 className={styles.heading}>Insights</h3>
+              <div className={styles.flexBetween}>
+                {commonWords.length > 0 && (
+                  <Box>
+                    <div
+                      className={styles.flexBetween}
+                      style={{ marginTop: "0.5rem" }}
+                    >
+                      <h4>Popular words</h4>
+                      <div className={styles.flexBetween}>
+                        {commonWords.slice(0, 3).map(({ word }) => (
+                          <Badge size="small" key={word} theme="blue">
+                            {word}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </Box>
+                )}
+                {generalSentiment && (
+                  <Box>
+                    <div
+                      className={styles.flexBetween}
+                      style={{ marginTop: "0.5rem" }}
+                    >
+                      <h4>General sentiment</h4>
+                      {renderSentimentBadge()}
+                    </div>
+                  </Box>
+                )}
+              </div>
+            </section>
+          ))}
         {submissions?.length > 0 && (
           <section>
             <h3 className={styles.heading}>Responses</h3>
