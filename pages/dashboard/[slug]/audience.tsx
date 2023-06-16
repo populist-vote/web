@@ -116,7 +116,6 @@ Audience.getLayout = (page: ReactNode) => (
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
         padding: "1.5rem 0",
       }}
     >
