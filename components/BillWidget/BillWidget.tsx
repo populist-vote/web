@@ -121,7 +121,7 @@ function BillWidget({
           </section>
         )}
       </main>
-      <WidgetFooter learnMoreHref={`https://populist.us/bills/${bill.slug}`} />
+      <WidgetFooter learnMoreHref={`/bills/${bill.slug}`} />
     </div>
   );
 }
