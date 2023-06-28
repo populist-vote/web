@@ -18,6 +18,8 @@ const nextConfig = {
       "static.votesmart.org",
       "populist-platform.s3.us-east-2.amazonaws.com",
       "www.gravatar.com",
+      "www.google.com",
+      "icons.duckduckgo.com"
     ],
     formats: ["image/webp"],
   },

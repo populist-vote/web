@@ -4,6 +4,7 @@ import styles from "./Dashboard.module.scss";
 import { EmbedType, useEmbedsByOrganizationQuery } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export function Dashboard({ organizationId }: { organizationId: string }) {
   const { query } = useRouter();
@@ -51,117 +52,147 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
 
   return (
     <div className={styles.container}>
-      <h2 style={{ textAlign: "center" }}>Activity</h2>
-      <div className={styles.tiles}>
-        <Box>
-          <div className={styles.tile}>
-            <Link href={`/dashboard/${query.slug}/embeds/legislation`} passHref>
-              <Badge theme="yellow" size="large" variant="solid" clickable>
-                Legislation
-              </Badge>
-            </Link>
-            <div>
-              <div className={styles.dotSpread}>
-                <span>Embeds</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--yellow)" }}>
-                  {legislationEmbeds.length}
-                </span>
-              </div>
-              <div className={styles.dotSpread}>
-                <span>Deployments</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--yellow)" }}>
-                  {legislationEmbedDeployments}
-                </span>
-              </div>
-            </div>
-          </div>
-        </Box>
-        <Box>
-          <div className={styles.tile}>
-            <Link href={`/dashboard/${query.slug}/embeds/politician`} passHref>
-              <Badge theme="aqua" size="large" variant="solid" clickable>
-                Politicians
-              </Badge>
-            </Link>
-            <div>
-              <div className={styles.dotSpread}>
-                <span>Embeds</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--aqua)" }}>
-                  {politicianEmbeds.length}
-                </span>
-              </div>
-              <div className={styles.dotSpread}>
-                <span>Deployments</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--aqua)" }}>
-                  {politicianEmbedDeployments}
-                </span>
+      <section>
+        <h2 style={{ textAlign: "center" }}>Activity</h2>
+        <div className={styles.tiles}>
+          <Box>
+            <div className={styles.tile}>
+              <Link
+                href={`/dashboard/${query.slug}/embeds/legislation`}
+                passHref
+              >
+                <Badge theme="yellow" size="large" variant="solid" clickable>
+                  Legislation
+                </Badge>
+              </Link>
+              <div>
+                <div className={styles.dotSpread}>
+                  <span>Embeds</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--yellow)" }}>
+                    {legislationEmbeds.length}
+                  </span>
+                </div>
+                <div className={styles.dotSpread}>
+                  <span>Deployments</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--yellow)" }}>
+                    {legislationEmbedDeployments}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </Box>
-        <Box>
-          <div className={styles.tile}>
-            <Link href={`/dashboard/${query.slug}/embeds/question`} passHref>
-              <Badge theme="orange" size="large" variant="solid" clickable>
-                Questions
-              </Badge>
-            </Link>
-            <div>
-              <h1>{questionSubmissionLength}</h1>
-              <h4 style={{ color: "var(--orange)" }}>Submissions</h4>
-            </div>
-            <div>
-              <div className={styles.dotSpread}>
-                <span>Embeds</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--orange)" }}>
-                  {questionEmbeds.length}
-                </span>
-              </div>
-              <div className={styles.dotSpread}>
-                <span>Deployments</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--orange)" }}>
-                  {questionEmbedDeployments}
-                </span>
-              </div>
-            </div>
-          </div>
-        </Box>
-        <Box>
-          <div className={styles.tile}>
-            <Link href={`/dashboard/${query.slug}/embeds/poll`} passHref>
-              <Badge theme="violet" size="large" variant="solid" clickable>
-                Polls
-              </Badge>
-            </Link>
-            <div>
-              <h1>{pollSubmissionLength}</h1>
-              <h4 style={{ color: "var(--violet)" }}>Submissions</h4>
-            </div>
-            <div>
-              <div className={styles.dotSpread}>
-                <span>Embeds</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--violet)" }}>
-                  {pollEmbeds.length}
-                </span>
-              </div>
-              <div className={styles.dotSpread}>
-                <span>Deployments</span>
-                <span className={styles.dots} />
-                <span style={{ color: "var(--violet)" }}>
-                  {pollEmbedDeployments}
-                </span>
+          </Box>
+          <Box>
+            <div className={styles.tile}>
+              <Link
+                href={`/dashboard/${query.slug}/embeds/politician`}
+                passHref
+              >
+                <Badge theme="aqua" size="large" variant="solid" clickable>
+                  Politicians
+                </Badge>
+              </Link>
+              <div>
+                <div className={styles.dotSpread}>
+                  <span>Embeds</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--aqua)" }}>
+                    {politicianEmbeds.length}
+                  </span>
+                </div>
+                <div className={styles.dotSpread}>
+                  <span>Deployments</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--aqua)" }}>
+                    {politicianEmbedDeployments}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </Box>
-      </div>
+          </Box>
+          <Box>
+            <div className={styles.tile}>
+              <Link href={`/dashboard/${query.slug}/embeds/question`} passHref>
+                <Badge theme="orange" size="large" variant="solid" clickable>
+                  Questions
+                </Badge>
+              </Link>
+              <div>
+                <h1>{questionSubmissionLength}</h1>
+                <h4 style={{ color: "var(--orange)" }}>Submissions</h4>
+              </div>
+              <div>
+                <div className={styles.dotSpread}>
+                  <span>Embeds</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--orange)" }}>
+                    {questionEmbeds.length}
+                  </span>
+                </div>
+                <div className={styles.dotSpread}>
+                  <span>Deployments</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--orange)" }}>
+                    {questionEmbedDeployments}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Box>
+          <Box>
+            <div className={styles.tile}>
+              <Link href={`/dashboard/${query.slug}/embeds/poll`} passHref>
+                <Badge theme="violet" size="large" variant="solid" clickable>
+                  Polls
+                </Badge>
+              </Link>
+              <div>
+                <h1>{pollSubmissionLength}</h1>
+                <h4 style={{ color: "var(--violet)" }}>Submissions</h4>
+              </div>
+              <div>
+                <div className={styles.dotSpread}>
+                  <span>Embeds</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--violet)" }}>
+                    {pollEmbeds.length}
+                  </span>
+                </div>
+                <div className={styles.dotSpread}>
+                  <span>Deployments</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--violet)" }}>
+                    {pollEmbedDeployments}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Box>
+        </div>
+      </section>
+      <section>
+        <h2 style={{ textAlign: "center" }}>Deployments</h2>
+        <div className={styles.tiles}>
+          {embeds.map((embed) => {
+            if (embed.origins?.length === 0) return null;
+            return embed.origins.map((origin) => (
+              <Box key={origin.url}>
+                <a href={origin.url} style={{ display: "flex", gap: "1rem" }}>
+                  <Image
+                    height="25"
+                    width="25"
+                    alt={"favicon"}
+                    src={`http://www.google.com/s2/favicons?domain=${origin.url}`}
+                  />
+                  <h5>{origin.url}</h5>
+                </a>
+              </Box>
+            ));
+            // return <pre key={embed.id}>{JSON.stringify(embed, null, 4)}</pre>;
+          })}
+        </div>
+      </section>
 
       <p
         style={{ fontSize: "1.1em", alignSelf: "flex-end", marginTop: "5rem" }}
