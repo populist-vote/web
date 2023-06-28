@@ -1,7 +1,6 @@
 import { Button, Layout, LoaderFlag } from "components";
-import { Box } from "components/Box/Box";
 import { TopNav } from "components/TopNav/TopNav";
-import { OrganizationResult, useOrganizationBySlugQuery } from "generated";
+import { useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -15,6 +14,7 @@ import { ReactNode } from "react";
 import { useTheme } from "hooks/useTheme";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 import { BsPeopleFill } from "react-icons/bs";
+import { Dashboard } from "components/Dashboard/Dashboard";
 // import { BsPeopleFill } from "react-icons/bs";
 
 export async function getServerSideProps({
@@ -36,30 +36,7 @@ export async function getServerSideProps({
   };
 }
 
-function DashboardContent({
-  organization,
-}: {
-  organization?: OrganizationResult;
-}) {
-  return (
-    <Box>
-      <h3 style={{ marginTop: 0 }}>
-        Welcome to your new dashboard, {organization?.name}
-      </h3>
-      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-        From here, you'll be able to create and edit your embedded content, gain
-        insights from your active embeds, and browse through our database of
-        bills, politicians and more.
-      </p>
-      <p style={{ fontSize: "1.1em", marginBottom: 0 }}>
-        If you have any questions, please reach out to us at{" "}
-        <a href="mailto:info@populist.us">info@populist.us</a>
-      </p>
-    </Box>
-  );
-}
-
-function Dashboard({ slug }: { slug: string }) {
+function DashboardIndex({ slug }: { slug: string }) {
   const router = useRouter();
 
   const organizationQuery = useOrganizationBySlugQuery(
@@ -77,18 +54,15 @@ function Dashboard({ slug }: { slug: string }) {
     }
   );
 
-  const { isLoading } = useAuth({
-    organizationId: organizationQuery.data?.organizationBySlug?.id,
-  });
+  const organizationId = organizationQuery.data?.organizationBySlug
+    ?.id as string;
+
+  const { isLoading } = useAuth({ organizationId });
 
   return organizationQuery.isLoading || isLoading ? (
     <LoaderFlag />
   ) : (
-    <DashboardContent
-      organization={
-        organizationQuery.data?.organizationBySlug as OrganizationResult
-      }
-    />
+    <Dashboard organizationId={organizationId} />
   );
 }
 
@@ -171,7 +145,7 @@ export function DashboardTopNav() {
   );
 }
 
-Dashboard.getLayout = (page: ReactNode) => (
+DashboardIndex.getLayout = (page: ReactNode) => (
   <Layout>
     <DashboardTopNav />
     <div
@@ -185,4 +159,4 @@ Dashboard.getLayout = (page: ReactNode) => (
     </div>
   </Layout>
 );
-export default Dashboard;
+export default DashboardIndex;
