@@ -2,6 +2,14 @@
 @import "styles/variables/fonts";
 
 .container {
+  section {
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    margin: 0 0 1.5rem;
+  }
+
   display: flex;
   flex-direction: column;
   width: 100%;
