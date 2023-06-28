@@ -1,0 +1,38 @@
+@import "styles/layout/containers";
+@import "styles/variables/fonts";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+
+    .tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      > * {
+        width: 100%;
+        align-content: center;
+        text-align: center;
+        justify-content: center;
+        text-transform: uppercase;
+        margin: 0.5rem 0;
+      }
+    }
+  }
+
+  .dotSpread {
+    font-size: $text-md;
+
+    span {
+      text-transform: capitalize;
+    }
+  }
+}

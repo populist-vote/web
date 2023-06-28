@@ -33,6 +33,11 @@ $small-size: 1.825rem;
       background: $blue;
       color: $white;
     }
+
+    &.solid {
+      background: $blue;
+      color: $white;
+    }
   }
 
   &.violet {
@@ -41,6 +46,11 @@ $small-size: 1.825rem;
     color: $white;
 
     &.selected {
+      background: $violet;
+      color: $blue-darkest;
+    }
+
+    &.solid {
       background: $violet;
       color: $blue-darkest;
     }
@@ -55,6 +65,11 @@ $small-size: 1.825rem;
       background: $orange;
       color: $grey-darkest;
     }
+
+    &.solid {
+      background: $orange;
+      color: $grey-darkest;
+    }
   }
 
   &.green-support {
@@ -63,6 +78,11 @@ $small-size: 1.825rem;
     color: $white;
 
     &.selected {
+      background: $green;
+      color: $grey-darkest;
+    }
+
+    &.solid {
       background: $green;
       color: $grey-darkest;
     }
@@ -77,6 +97,11 @@ $small-size: 1.825rem;
       background: $yellow;
       color: $black;
     }
+
+    &.solid {
+      background: $yellow;
+      color: $black;
+    }
   }
 
   &.red {
@@ -85,6 +110,11 @@ $small-size: 1.825rem;
     color: $white;
 
     &.selected {
+      background: $red;
+      color: $white;
+    }
+
+    &.solid {
       background: $red;
       color: $white;
     }
@@ -99,6 +129,11 @@ $small-size: 1.825rem;
       background: $grey;
       color: $white;
     }
+
+    &.solid {
+      background: $grey;
+      color: $white;
+    }
   }
 
   &.aqua {
@@ -107,6 +142,11 @@ $small-size: 1.825rem;
     color: $white;
 
     &.selected {
+      background: $aqua;
+      color: $grey-darkest;
+    }
+
+    &.solid {
       background: $aqua;
       color: $grey-darkest;
     }

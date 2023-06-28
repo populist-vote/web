@@ -12,6 +12,7 @@ interface BadgeProps {
     | "violet"
     | "orange"
     | "aqua";
+  variant?: "solid" | "outline";
   size?: "small" | "medium" | "large";
   font?: "primary" | "secondary";
   iconLeft?: ReactNode;
@@ -25,6 +26,7 @@ interface BadgeProps {
 
 function Badge({
   theme = "grey",
+  variant = "outline",
   size = "medium",
   font = "secondary",
   iconLeft,
@@ -33,10 +35,12 @@ function Badge({
   clickable,
   lightBackground = false,
   children,
+
   ...rest
 }: PropsWithChildren<BadgeProps>) {
   const cx = clsx(styles.container, styles[size as string], {
     [styles.selected as string]: selected,
+    [styles.solid as string]: variant === "solid",
     [styles.lightBackground as string]: lightBackground,
     [styles.clickable as string]: clickable,
     [styles[theme as string] as string]: theme,
