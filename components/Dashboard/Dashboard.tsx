@@ -2,8 +2,11 @@ import { Badge } from "components/Badge/Badge";
 import { Box } from "components/Box/Box";
 import styles from "./Dashboard.module.scss";
 import { EmbedType, useEmbedsByOrganizationQuery } from "generated";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export function Dashboard({ organizationId }: { organizationId: string }) {
+  const { query } = useRouter();
   const { data } = useEmbedsByOrganizationQuery({
     id: organizationId,
   });
@@ -52,9 +55,11 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
       <div className={styles.tiles}>
         <Box>
           <div className={styles.tile}>
-            <Badge theme="yellow" size="large" variant="solid">
-              Legislation
-            </Badge>
+            <Link href={`/dashboard/${query.slug}/embeds/legislation`} passHref>
+              <Badge theme="yellow" size="large" variant="solid" clickable>
+                Legislation
+              </Badge>
+            </Link>
             <div>
               <div className={styles.dotSpread}>
                 <span>Embeds</span>
@@ -75,9 +80,11 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
         </Box>
         <Box>
           <div className={styles.tile}>
-            <Badge theme="aqua" size="large" variant="solid">
-              Politicians
-            </Badge>
+            <Link href={`/dashboard/${query.slug}/embeds/politician`} passHref>
+              <Badge theme="aqua" size="large" variant="solid" clickable>
+                Politicians
+              </Badge>
+            </Link>
             <div>
               <div className={styles.dotSpread}>
                 <span>Embeds</span>
@@ -98,9 +105,11 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
         </Box>
         <Box>
           <div className={styles.tile}>
-            <Badge theme="orange" size="large" variant="solid">
-              Questions
-            </Badge>
+            <Link href={`/dashboard/${query.slug}/embeds/question`} passHref>
+              <Badge theme="orange" size="large" variant="solid" clickable>
+                Questions
+              </Badge>
+            </Link>
             <div>
               <h1>{questionSubmissionLength}</h1>
               <h4 style={{ color: "var(--orange)" }}>Submissions</h4>
@@ -125,9 +134,11 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
         </Box>
         <Box>
           <div className={styles.tile}>
-            <Badge theme="violet" size="large" variant="solid">
-              Polls
-            </Badge>
+            <Link href={`/dashboard/${query.slug}/embeds/poll`} passHref>
+              <Badge theme="violet" size="large" variant="solid" clickable>
+                Polls
+              </Badge>
+            </Link>
             <div>
               <h1>{pollSubmissionLength}</h1>
               <h4 style={{ color: "var(--violet)" }}>Submissions</h4>

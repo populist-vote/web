@@ -17,6 +17,7 @@
       align-items: center;
       justify-content: space-between;
       height: 100%;
+
       > * {
         width: 100%;
         align-content: center;
@@ -24,6 +25,11 @@
         justify-content: center;
         text-transform: uppercase;
         margin: 0.5rem 0;
+      }
+
+      a > * {
+        width: 100%;
+        justify-content: center;
       }
     }
   }
