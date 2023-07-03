@@ -4,7 +4,7 @@ import styles from "./Dashboard.module.scss";
 import { EmbedType, useEmbedsByOrganizationQuery } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallback";
 
 export function Dashboard({ organizationId }: { organizationId: string }) {
   const { query } = useRouter();
@@ -177,19 +177,34 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
           {embeds.map((embed) => {
             if (embed.origins?.length === 0) return null;
             return embed.origins.map((origin) => (
-              <Box key={origin.url}>
-                <a href={origin.url} style={{ display: "flex", gap: "1rem" }}>
-                  <Image
-                    height="25"
-                    width="25"
-                    alt={"favicon"}
-                    src={`http://www.google.com/s2/favicons?domain=${origin.url}`}
-                  />
-                  <h5>{origin.url}</h5>
-                </a>
-              </Box>
+              <a
+                href={origin.url}
+                key={origin.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Box key={origin.url} isLink>
+                  <h3>{embed.name}</h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      alignItems: "center",
+                      marginTop: "1rem",
+                    }}
+                  >
+                    <ImageWithFallback
+                      height="25"
+                      width="25"
+                      alt={"favicon"}
+                      src={`http://www.google.com/s2/favicons?domain=${origin.url}`}
+                      fallbackSrc={"/images/favicon.ico"}
+                    />
+                    <h5>{origin.url}</h5>
+                  </div>
+                </Box>
+              </a>
             ));
-            // return <pre key={embed.id}>{JSON.stringify(embed, null, 4)}</pre>;
           })}
         </div>
       </section>
