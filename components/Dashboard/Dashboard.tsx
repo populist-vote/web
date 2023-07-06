@@ -191,6 +191,7 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
                       gap: "1rem",
                       alignItems: "center",
                       marginTop: "1rem",
+                      wordBreak: "break-all",
                     }}
                   >
                     <ImageWithFallback
