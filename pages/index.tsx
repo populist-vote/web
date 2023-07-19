@@ -4,22 +4,23 @@ import LegacyImage from "next/legacy/image";
 import Image from "next/image";
 import headerLogo from "public/images/LogoWithText.svg";
 import landing0 from "public/images/landing/politicianBrowser-new.webp";
-import landing1 from "public/images/landing/ballot.jpg";
-import landing2 from "public/images/landing/action.jpg";
-import landing3 from "public/images/landing/3.png";
-import landing4 from "public/images/landing/Connections.png";
+import landing1 from "public/images/landing/citizen-my-ballot.png";
+import landing2 from "public/images/landing/citizen-voting-guide.png";
+import landing3 from "public/images/landing/citizen-legislation.png";
+import landing4 from "public/images/landing/org-enhance.png";
+import landing5 from "public/images/landing/org-create.png";
+import landing6 from "public/images/landing/org-engage.png";
 import { Avatar, Footer, Button, MPRLogo } from "components";
 import styles from "styles/modules/landing.module.scss";
-import clsx from "clsx";
 import Router from "next/router";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
-import useDeviceInfo from "hooks/useDeviceInfo";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { useTranslation } from "next-i18next";
+import clsx from "clsx";
 
 export async function getServerSideProps({
   locale,
@@ -39,112 +40,103 @@ export async function getServerSideProps({
 
 const Home: NextPage = () => {
   const { user } = useAuth({ redirectTo: "/" });
-  const { isMobile } = useDeviceInfo();
   const { t } = useTranslation(["auth", "common"]);
 
   return (
     <main className={styles.container}>
       <div id={styles["container1"]}>
-        <div className={styles.navContainer}>
-          <div className={styles.logoContainer}></div>
-          <div className={styles.menuContainer}>
-            <ul className={styles.menu}>
-              {!user && (
-                <>
-                  <li>
-                    <Link href="/about" passHref>
-                      ABOUT
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/faq" passHref>
-                      FAQ
-                    </Link>
-                  </li>
-                  <li>
-                    <Button
-                      size={isMobile ? "small" : "medium"}
-                      variant="secondary"
-                      theme="blue"
-                      label={t("sign-in")}
-                      onClick={() => Router.push(`/login`)}
-                    />
-                  </li>
-                  <li className={styles.menuButton}>
-                    <Button
-                      size={isMobile ? "small" : "medium"}
-                      variant="primary"
-                      theme="blue"
-                      label={t("get-started", { ns: "common" })}
-                      onClick={() => Router.push(`/register`)}
-                    />
-                  </li>
-                </>
-              )}
-              {user && (
-                <>
-                  <li>
-                    <Link href="/about" passHref>
-                      ABOUT
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/faq" passHref>
-                      FAQ
-                    </Link>
-                  </li>
-                  <li className={styles.accountProfile}>
-                    <Link href="/settings/profile" passHref>
-                      <div>
-                        <Avatar
-                          src={
-                            user?.userProfile.profilePictureUrl ||
-                            PERSON_FALLBACK_IMAGE_URL
-                          }
-                          fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
-                          alt="profile picture"
-                          size={isMobile ? 35 : 60}
-                        />
-                      </div>
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
+        <div className={styles.menuContainer}>
+          <ul>
+            {!user && (
+              <>
+                <li>
+                  <Link href="/about" passHref>
+                    ABOUT
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq" passHref>
+                    FAQ
+                  </Link>
+                </li>
+                <li>
+                  <Button
+                    size={"medium"}
+                    variant="secondary"
+                    theme="blue"
+                    label={t("sign-in")}
+                    onClick={() => Router.push(`/login`)}
+                  />
+                </li>
+                <li className={styles.menuButton}>
+                  <Button
+                    size={"medium"}
+                    variant="primary"
+                    theme="blue"
+                    label={t("get-started", { ns: "common" })}
+                    onClick={() => Router.push(`/register`)}
+                  />
+                </li>
+              </>
+            )}
+            {user && (
+              <ul>
+                <li>
+                  <Link href="/about" passHref>
+                    ABOUT
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq" passHref>
+                    FAQ
+                  </Link>
+                </li>
+                <li className={styles.accountProfile}>
+                  <Link href="/settings/profile" passHref>
+                    <div>
+                      <Avatar
+                        src={
+                          user?.userProfile.profilePictureUrl ||
+                          PERSON_FALLBACK_IMAGE_URL
+                        }
+                        fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
+                        alt="profile picture"
+                        size={50}
+                      />
+                    </div>
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </ul>
         </div>
 
-        <div id={styles["section1"]}>
+        <div className={styles.headerLogo}>
           <LegacyImage
-            id="logo"
             src={headerLogo}
             width="555"
             height="83"
+            style={{ objectFit: "contain" }}
             alt="🇺🇸Populist"
           />
         </div>
-
-        <div id={styles["section1c"]}>
-          <div id={styles["s1ccol1"]}>
+        <section className={styles.headerSection}>
+          <div className={styles.headerImage}>
             <Image
               src={landing0}
               alt="Politician browser on mobile"
-              height={540}
+              height={400}
               quality={50}
-              priority={!isMobile}
             />
           </div>
-          <div id={styles["s1ccol2"]}>
-            <h2>Transparent democracy in action.</h2>
+
+          <div className={styles.headerCopy}>
+            <h2>
+              Not a social network, <br /> a <strong>civic network</strong>.
+            </h2>
             <p>
-              We believe that with better access to transparent, non-partisan
-              information, we can create a well-informed and critical public –
-              the foundation of a more equitable democracy for all.
-            </p>
-            <p>
-              It's time to change the way we engage with our government. From
-              federal to local, ballots to bills, we’re bringing power back to
-              the people.
+              Connecting people to democracy through our civic data and
+              engagement tools.
             </p>
             <Button
               size="large"
@@ -154,118 +146,95 @@ const Home: NextPage = () => {
               onClick={() => Router.push(`/home`)}
             />
           </div>
-        </div>
+        </section>
 
-        <div id={styles["section1a"]}>
-          <MPRLogo height={80} />
-          <div id={styles["s1acol2"]}>
-            <h2>
-              We've partnered with Minnesota Public Radio.
-              <Button
-                size="large"
-                variant="primary"
-                theme="blue"
-                label="Our MPR Coverage"
-                onClick={() => Router.push(`/mpr`)}
-              />
-            </h2>
-          </div>
-        </div>
+        <section className={styles.blueBand}>
+          <MPRLogo />
+          <h2>We've partnered with Minnesota Public Radio.</h2>
+        </section>
 
-        <div id={styles["section1b"]}>
-          <div id={styles["s1bcol1"]}>
-            <div className={styles.contentwide}>
-              <h2>It begins at the ballot.</h2>
+        <div className={styles.infoColumns}>
+          <div className={styles.leftColumn}>
+            <section>
+              <h4>For Citizens</h4>
               <p>
-                Easily research your ballot, create a personalized voting guide,
-                and share it with your friends.
+                Clear, non-partisan information—from federal to local, ballots
+                to bills.
               </p>
-              <Button
-                size="large"
-                variant="primary"
-                theme="aqua"
-                label="View your ballot"
-                onClick={() => Router.push(`/ballot`)}
-              />
-            </div>
-          </div>
-          <div id={styles["s1bcol2"]}>
-            <LegacyImage src={landing1} alt="My ballot on mobile" />
-          </div>
-        </div>
-
-        <div id={styles["section2"]}>
-          <div id={styles["s2col1"]}>
-            <LegacyImage src={landing2} alt="desktop browser" />
-          </div>
-          <div id={styles["s2col2"]}>
-            <div className={styles.contentwide}>
-              <h2>New avenues of action.</h2>
+            </section>
+            <section>
+              <Image src={landing1} alt="computer" height={250} />
+              <h5>It starts at the ballot.</h5>
               <p>
-                Extend the power of your vote beyond the ballot box by letting
-                your representatives know your position on key legislation and
-                issues.
+                Research candidates to see endorsements, sponsored bills,
+                donors, and more.
               </p>
-            </div>
+            </section>
+            <section>
+              <Image src={landing2} alt="computer" width={250} />
+              <h5>Share who you're voting for.</h5>
+              <p>Create private or public voting guides, including notes.</p>
+            </section>
+            <section>
+              <Image src={landing3} alt="computer" height={250} />
+              <h5>Take action on legislation.</h5>
+              <p>Voice your position on legislation and issues</p>
+            </section>
           </div>
-        </div>
-
-        <div id={styles["section3"]}>
-          <div id={styles["s3col1"]}>
-            <div className={styles.contentwide}>
-              <h2>Transparent, modern, and ethical.</h2>
+          <div className={styles.rightColumn}>
+            <section>
+              <h4>For Organizations</h4>
+              <p>Easy-to-embed civic content with built-in engagement.</p>
+            </section>
+            <section>
+              <Image src={landing4} alt="computer" height={250} />
+              <h5>Enhance your reporting.</h5>
               <p>
-                Moving fast and breaking things is no longer compatible with our
-                modern society. We lead with thoughtful design that is
-                responsible to people, not profits.
+                Add valuable context to political stories with our clear, simple
+                civic data embeds.
               </p>
-            </div>
-          </div>
-          <div id={styles["s3col2"]}>
-            <LegacyImage
-              src={landing3}
-              alt="transparency into our algorithms"
-            />
-          </div>
-        </div>
-
-        <div id={styles["section4"]}>
-          <div id={styles["s4row1"]}>
-            <div className={styles.contentwide2}>
-              <LegacyImage
-                src={landing4}
-                alt="people becoming involved in government"
-              />
-              <h2>
-                Populist is for{" "}
-                <span className={styles.emphasized}>voters</span>,{" "}
-                <span className={styles.emphasized}>organizations</span>, and{" "}
-                <span className={styles.emphasized}>politicians</span>.
-              </h2>
+            </section>
+            <section>
+              <Image src={landing5} alt="computer" height={250} />
+              <h5>Create content.</h5>
               <p>
-                By creating and surfacing connections between these key
-                stakeholders, we can make meaningful action more accessible and
-                build a stronger democracy.
+                Easily generate candidate guides and other content with our
+                automated reporting tools.
               </p>
-            </div>
+            </section>
+            <section>
+              <Image src={landing6} alt="computer" height={250} />
+              <h5>Engage audiences.</h5>
+              <p>
+                Discover audience insight with built-in engagement and no extra
+                work.
+              </p>
+            </section>
           </div>
-          <div id={styles["s4row2"]}>
-            <div
-              className={clsx(
-                styles.contentwide3,
-                styles.last,
-                styles.botspace
-              )}
-            >
-              <h2>Interested? Create an account now.</h2>
-              <Link href="register">
-                <Button size="large" variant="primary" label="Get Started" />
-              </Link>
-            </div>
-          </div>
-
-          <Footer />
         </div>
+        <section className={clsx(styles.blueBand, styles.flexBetween)}>
+          <Avatar
+            size={100}
+            alt="Michael Olson"
+            src={"/images/landing/olson-headshot.png"}
+          />
+          <figure className={styles.quote}>
+            <blockquote>
+              “Populist helps us easily supplement our articles with up-to-date
+              civic information, creating a more engaging experience for
+              audiences.
+            </blockquote>
+            <cite>Michael Olson, Deputy Managing Editor of MPR</cite>
+          </figure>
+        </section>
+        <section className={styles.cta}>
+          <h2>Interested? Create an account now.</h2>
+          <Link href="/register" passHref>
+            <Button size="large" label="Get Started" variant="primary" />
+          </Link>
+        </section>
+
+        <Footer />
       </div>
     </main>
   );
