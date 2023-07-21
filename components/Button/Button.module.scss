@@ -323,7 +323,7 @@ $small-size: 1.825rem;
   width: $size;
 }
 
-.small {
+@mixin small {
   font-size: 0.8125rem;
   line-height: 1rem;
   min-height: $small-size;
@@ -335,7 +335,7 @@ $small-size: 1.825rem;
   }
 }
 
-.medium {
+@mixin medium {
   font-size: 1rem;
   line-height: 1.25rem;
   min-height: $medium-size;
@@ -343,6 +343,22 @@ $small-size: 1.825rem;
 
   &.iconOnlyButton {
     @include icon-button($medium-size);
+  }
+}
+
+.small {
+  @include small;
+}
+
+.medium {
+  @include medium;
+}
+
+.responsive {
+  @include small;
+
+  @media (min-width: 768px) {
+    @include medium;
   }
 }
 
