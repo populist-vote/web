@@ -125,60 +125,79 @@ const Home: NextPage = () => {
             <Image
               src={landing0}
               alt="Politician browser on mobile"
-              height={400}
+              height={500}
               quality={50}
             />
           </div>
 
           <div className={styles.headerCopy}>
-            <h2>
-              Not a social network, <br /> a <strong>civic network</strong>.
+            <h2 className={styles.headerTitle}>
+              Not a social network, a civic network.
             </h2>
             <p>
               Connecting people to democracy through our civic data and
               engagement tools.
+              <Button
+                size="large"
+                variant="primary"
+                theme="yellow"
+                label="Explore the app"
+                onClick={() => Router.push(`/home`)}
+              />
             </p>
-            <Button
-              size="large"
-              variant="primary"
-              theme="yellow"
-              label="Explore the app"
-              onClick={() => Router.push(`/home`)}
-            />
           </div>
         </section>
 
         <section className={styles.blueBand}>
-          <MPRLogo />
-          <h2>We've partnered with Minnesota Public Radio.</h2>
+          <div className={styles.contentContainer}>
+            <MPRLogo />
+            <h2>We've partnered with Minnesota Public Radio.</h2>
+          </div>
         </section>
 
         <div className={styles.infoColumns}>
           <div className={styles.leftColumn}>
-            <section>
+            <section className={styles.left1}>
               <h4>For Citizens</h4>
               <p>
-                Clear, non-partisan information—from federal to local, ballots
+                Clear, non-partisan information — from federal to local, ballots
                 to bills.
               </p>
             </section>
-            <section>
-              <Image src={landing1} alt="computer" height={250} />
-              <h5>It starts at the ballot.</h5>
+            <section className={styles.bgGradient}>
+              <Image
+                src={landing1}
+                alt="computer"
+                height={275}
+                className={styles.ballotImage}
+              />
+              <h5 className={styles.ballotTitle}>It starts at the ballot.</h5>
               <p>
                 Research candidates to see endorsements, sponsored bills,
                 donors, and more.
               </p>
             </section>
-            <section>
-              <Image src={landing2} alt="computer" width={250} />
+            <section className={styles.bgGradient}>
+              <Image src={landing2} alt="computer" height={250} />
               <h5>Share who you're voting for.</h5>
               <p>Create private or public voting guides, including notes.</p>
             </section>
-            <section>
-              <Image src={landing3} alt="computer" height={250} />
+            <section className={styles.bgGradient}>
+              <Image
+                src={landing3}
+                alt="computer"
+                height={250}
+                className={styles.legislationImage}
+              />
               <h5>Take action on legislation.</h5>
               <p>Voice your position on legislation and issues</p>
+              <Button
+                size="large"
+                label="View your ballot"
+                variant="primary"
+                theme="yellow"
+                onClick={() => Router.push(`/ballot`)}
+              />
             </section>
           </div>
           <div className={styles.rightColumn}>
@@ -186,46 +205,68 @@ const Home: NextPage = () => {
               <h4>For Organizations</h4>
               <p>Easy-to-embed civic content with built-in engagement.</p>
             </section>
-            <section>
-              <Image src={landing4} alt="computer" height={250} />
+            <section className={styles.bgGradient}>
+              <Image
+                src={landing4}
+                alt="computer"
+                height={250}
+                className={styles.enhanceImage}
+              />
               <h5>Enhance your reporting.</h5>
               <p>
                 Add valuable context to political stories with our clear, simple
                 civic data embeds.
               </p>
             </section>
-            <section>
-              <Image src={landing5} alt="computer" height={250} />
+            <section className={styles.bgGradient}>
+              <Image
+                src={landing5}
+                alt="computer"
+                height={250}
+                className={styles.createImage}
+              />
               <h5>Create content.</h5>
               <p>
                 Easily generate candidate guides and other content with our
                 automated reporting tools.
               </p>
             </section>
-            <section>
-              <Image src={landing6} alt="computer" height={250} />
+            <section className={styles.bgGradient}>
+              <Image
+                src={landing6}
+                alt="computer"
+                height={250}
+                className={styles.engageImage}
+              />
               <h5>Engage audiences.</h5>
               <p>
                 Discover audience insight with built-in engagement and no extra
                 work.
               </p>
+              <Link href="mailto:info@populist.us" passHref>
+                <Button size="large" label="Request a demo" variant="primary" />
+              </Link>
             </section>
           </div>
         </div>
         <section className={clsx(styles.blueBand, styles.flexBetween)}>
-          <Avatar
-            size={100}
-            alt="Michael Olson"
-            src={"/images/landing/olson-headshot.png"}
-          />
-          <figure className={styles.quote}>
-            <blockquote>
-              “Populist helps us easily supplement our articles with up-to-date
-              civic information, creating a more engaging experience for
-              audiences.
-            </blockquote>
-            <cite>Michael Olson, Deputy Managing Editor of MPR</cite>
-          </figure>
+          <div className={styles.contentContainer}>
+            <Image
+              src={"/images/landing/michael-olson.jpg"}
+              alt="Michael Olson"
+              height={175}
+              width={175}
+              className={styles.michaelOlson}
+            />
+            <figure className={styles.quote}>
+              <blockquote>
+                “Populist helps us easily supplement our articles with
+                up-to-date civic information, creating a more engaging
+                experience for audiences.”
+              </blockquote>
+              <cite>Michael Olson, Deputy Managing Editor of MPR</cite>
+            </figure>
+          </div>
         </section>
         <section className={styles.cta}>
           <h2>Interested? Create an account now.</h2>

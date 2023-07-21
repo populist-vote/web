@@ -31,7 +31,7 @@
   }
 
   .menuContainer {
-    padding: 0.5rem;
+    padding: 3rem 3rem;
 
     ul {
       list-style: none;
@@ -39,8 +39,9 @@
       flex-wrap: wrap;
       justify-content: right;
       align-items: center;
-      gap: 1rem;
+      gap: 2rem;
       margin: 0;
+      padding: 0;
 
       li,
       a {
@@ -66,8 +67,8 @@
   transform-style: preserve-3d;
   flex-shrink: 0;
 
-  @media screen and (max-width: 768px) {
-    margin: 1rem;
+  @include for-tablet-down {
+    margin: 2rem;
   }
 }
 
@@ -75,55 +76,88 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 3.5rem 3.5rem;
+  margin: 0 3.5rem 12rem;
   button {
     align-self: center;
+    margin-top: 2rem;
   }
 
-  @media screen and (max-width: 768px) {
+  @include for-tablet-down {
     flex-direction: column-reverse;
     gap: 3rem;
-    margin: 0 1rem 1rem;
+    margin: 0 2rem 1rem;
+  }
+}
+
+.headerTitle {
+  max-width: 420px;
+  margin: 0;
+  line-height: 1.2em;
+
+  @include for-tablet-down {
+    max-width: 100%;
+    font-size: 1.75em;
   }
 }
 
 .headerImage {
   height: 325px;
+  margin-right: -40px;
+
+  @include for-tablet-down {
+    height: 100%;
+    margin-right: -100px;
+  }
 }
 
 .headerCopy {
   max-width: 650px;
   display: flex;
   flex-direction: column;
+  padding-top: 30px;
 
-  h2 {
-    margin: 0;
+  p {
+    @include for-tablet-down {
+      font-size: $text-lg;
+    }
   }
 }
 
 /*  SECTION 1A  */
 
 .blueBand {
-  padding: 2rem 12rem;
+  padding: 4rem 3rem;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  background-color: $blue-darker;
+  background-color: $blue-dark;
   color: white;
   box-shadow: 7px 7px 20px 0 rgb(0 0 0 / 30%);
 
-  h2 {
-    font-size: 2em;
-  }
-
-  @media screen and (max-width: 768px) {
-    flex-flow: column;
-    padding: 3rem 2rem 2rem;
+  .contentContainer {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    max-width: 1000px;
 
     img {
+      max-width: 450px;
       width: 100%;
+    }
+
+    h2 {
+      margin: 0;
+      line-height: 1.2em;
+    }
+
+    @include for-tablet-down {
+      flex-flow: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+
+      h2 {
+        text-align: center;
+      }
     }
   }
 }
@@ -133,23 +167,22 @@
   grid-template-columns: repeat(2, 50%);
   color: $blue-darkest;
 
-  @media screen and (max-width: 768px) {
+  @include for-tablet-down {
     grid-template-columns: 100%;
   }
 
   .leftColumn,
   .rightColumn {
     display: grid;
-    grid-template-rows: 16rem 30rem 30rem 30rem;
+    grid-template-rows: 16rem 30rem 30rem 36rem;
     justify-items: center;
     align-items: center;
     text-align: center;
 
-    @media screen and (max-width: 768px) {
+    @include for-tablet-down {
       display: flex;
       flex-direction: column;
       text-align: center;
-      padding: 0.5rem;
     }
   }
 
@@ -161,18 +194,27 @@
     background: $yellow;
   }
 
+  .bgGradient {
+    background-image: linear-gradient(
+      rgba(0, 101, 134, 0.1),
+      rgba(0, 101, 134, 0)
+    );
+  }
+
   section {
     width: 100%;
-    border-bottom: 1px solid $blue-alpha-1;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1.5rem;
-    max-width: 500px;
 
-    &:last-child {
-      border-bottom: none;
+    &:first-child {
+      padding: 1.5rem 1.5rem 0 1.5rem;
+      @include for-tablet-down {
+        padding: 3rem 3rem 1.5rem;
+      }
     }
 
     h4,
@@ -182,44 +224,112 @@
 
     h4 {
       font-size: $text-xxxl;
+      font-weight: 500;
     }
 
     h5 {
       color: var(--blue-darkest, #002135);
       text-align: center;
       font-family: $font-primary;
-      font-size: $text-xxl;
+      font-size: 2em;
       font-style: normal;
-      font-weight: 300;
-      line-height: 3.125rem; /* 111.111% */
+      font-weight: 400;
+      line-height: 1.3em; /* 111.111% */
     }
 
     p {
       font-size: $text-lg;
+      font-weight: 400;
+      margin-top: 1rem;
+    }
+
+    button {
+      margin: 2rem 0;
+      box-shadow: 3px 3px 10px 0 rgb(0 0 0 / 25%);
     }
   }
 }
 
+.ballotImage {
+  margin-top: 20px;
+  margin-bottom: -20px;
+}
+
+.legislationImage {
+  margin-bottom: 10px;
+
+  @include for-tablet-down {
+    margin-top: 20px;
+  }
+}
+
+.enhanceImage {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.createImage {
+  margin-top: -10px;
+  margin-bottom: 10px;
+
+  @include for-tablet-down {
+    margin-top: 10px;
+  }
+}
+
+.engageImage {
+  margin-top: -10px;
+  margin-bottom: 10px;
+
+  @include for-tablet-down {
+    margin-top: 10px;
+  }
+}
+
 .quote {
+  margin: 0;
+  padding: 1rem 0;
+
   blockquote {
     color: $white;
     text-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.25);
-    font-family: $font-primary;
-    font-size: 1.25rem;
+    font-family: $font-secondary;
+    font-size: 1.6em;
     font-style: italic;
+    line-height: 1.3em;
     font-weight: 400;
     padding: 0;
     margin: 0 0 1rem;
+
+    @include for-tablet-down {
+      font-size: 1.4em;
+    }
   }
 
   cite {
     color: $blue-text-light;
     text-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.25);
-    font-family: $font-primary;
-    font-size: 0.875rem;
+    font-family: $font-secondary;
+    font-size: 1.25em;
     font-weight: 400;
     font-style: normal;
+
+    @include for-tablet-down {
+      font-size: 1.15em;
+    }
   }
+
+  @include for-tablet-down {
+    text-align: center;
+    margin-bottom: -1rem;
+  }
+}
+
+.michaelOlson {
+  border-radius: 100px;
+  box-shadow: 5px 5px 20px 0 rgb(0 0 0 / 25%);
+  width: 175px !important;
+  height: 175px !important;
 }
 
 .cta {
@@ -229,6 +339,10 @@
   justify-content: center;
   padding: 3rem 0;
   text-align: center;
+
+  @include for-tablet-down {
+    padding: 3rem 2rem;
+  }
 }
 
 #footer {
