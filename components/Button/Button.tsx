@@ -13,7 +13,7 @@ type ButtonTheme =
   | "orange"
   | "violet";
 
-type ButtonSize = "small" | "medium" | "large";
+type ButtonSize = "small" | "medium" | "large" | "responsive";
 
 type IconPosition = "before" | "after";
 

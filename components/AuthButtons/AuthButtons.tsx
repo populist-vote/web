@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import useDeviceInfo from "hooks/useDeviceInfo";
 import { Button } from "components";
 import styles from "./AuthButtons.module.scss";
 import { useAuth } from "hooks/useAuth";
@@ -14,7 +13,6 @@ function AuthButtons({
   showAvatarIfUser?: boolean;
 }) {
   const { user } = useAuth({ redirect: false });
-  const { isMobile } = useDeviceInfo();
   const { push } = useRouter();
   const { t } = useTranslation("auth");
 
@@ -39,7 +37,7 @@ function AuthButtons({
       <li className={styles.menuButton}>
         <Button
           label={t("sign-in")}
-          size={isMobile ? "small" : "medium"}
+          size={"responsive"}
           variant="secondary"
           theme="blue"
           onClick={() => push(`/login`)}
@@ -48,7 +46,7 @@ function AuthButtons({
       <li className={styles.menuButton}>
         <Button
           label={t("register")}
-          size={isMobile ? "small" : "medium"}
+          size={"responsive"}
           variant="primary"
           theme="blue"
           onClick={() => push(`/register`)}

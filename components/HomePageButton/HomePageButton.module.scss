@@ -2,6 +2,7 @@
 @import "styles/variables/colors";
 
 a.container {
+  width: calc(100vw - 3.5rem);
   max-width: 768px;
   background-repeat: no-repeat;
   border-radius: 15px;
