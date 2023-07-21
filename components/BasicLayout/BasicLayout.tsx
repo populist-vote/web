@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
 
 import {
   Footer,
@@ -17,27 +16,27 @@ import styles from "./BasicLayout.module.scss";
 
 function BasicLayout({
   children,
+  hideAuthButtons = false,
   hideFooter = false,
-  showAuthButtons = false,
-}: PropsWithChildren<{ hideFooter?: boolean; showAuthButtons?: boolean }>) {
-  const { user } = useAuth({ redirect: false });
-
+}: PropsWithChildren<{
+  hideAuthButtons?: boolean;
+  hideFooter?: boolean;
+}>) {
   return (
     <div className={styles.container}>
-      <BasicHeader />
-      <main className={styles.content}>
-        <div />
-        {children}
-        <div>{showAuthButtons && !user && <AuthButtons />}</div>
-      </main>
+      <BasicHeader hideAuthButtons={hideAuthButtons} />
+      <main className={styles.content}>{children}</main>
       {hideFooter ? <footer /> : <Footer />}
     </div>
   );
 }
 
-function BasicHeader() {
-  const { pathname, query } = useRouter();
-  const { t } = useTranslation(["auth", "common"]);
+function BasicHeader({
+  hideAuthButtons = false,
+}: {
+  hideAuthButtons?: boolean;
+}) {
+  const { pathname } = useRouter();
   const { user } = useAuth({ redirect: false });
 
   const { data } = useOrganizationByIdQuery(
@@ -58,57 +57,33 @@ function BasicHeader() {
           <LogoBetaDesktop />
         </div>
       </Link>
+      <div>
+        {!hideAuthButtons && <AuthButtons />}
+        {user && (
+          <div className={styles.linkSection}>
+            {organization && pathname === "/home" && (
+              <div className={styles.dashboardLink}>
+                <DashboardLink
+                  organization={organization as OrganizationResult}
+                />
+              </div>
+            )}
 
-      {pathname === "/register" && (
-        <Link
-          href={{
-            pathname: "/login",
-            query,
-          }}
-          shallow
-          replace
-        >
-          {t("sign-in")}
-        </Link>
-      )}
-
-      {pathname === "/login" && (
-        <Link
-          href={{
-            pathname: "/register",
-            query,
-          }}
-          shallow
-          replace
-        >
-          {t("get-started", { ns: "common" })}
-        </Link>
-      )}
-
-      {user && (
-        <div className={styles.linkSection}>
-          {organization && pathname === "/home" && (
-            <div className={styles.dashboardLink}>
-              <DashboardLink
-                organization={organization as OrganizationResult}
-              />
-            </div>
-          )}
-
-          <Link href="/settings/profile" passHref>
-            <div style={{ cursor: "pointer" }}>
-              <Avatar
-                src={
-                  user?.userProfile.profilePictureUrl ||
-                  PERSON_FALLBACK_IMAGE_URL
-                }
-                alt="profile picture"
-                size={35}
-              />
-            </div>
-          </Link>
-        </div>
-      )}
+            <Link href="/settings/profile" passHref>
+              <div style={{ cursor: "pointer" }}>
+                <Avatar
+                  src={
+                    user?.userProfile.profilePictureUrl ||
+                    PERSON_FALLBACK_IMAGE_URL
+                  }
+                  alt="profile picture"
+                  size={35}
+                />
+              </div>
+            </Link>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

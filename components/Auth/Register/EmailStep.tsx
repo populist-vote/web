@@ -11,7 +11,8 @@ import useDebounce from "hooks/useDebounce";
 import { Button, PasswordEntropyMeter, TextInput } from "components";
 import { PasswordInput } from "../PasswordInput";
 import clsx from "clsx";
-import { useTranslation } from "next-i18next";
+import { Trans, useTranslation } from "next-i18next";
+import Link from "next/link";
 
 function EmailStep() {
   const router = useRouter();
@@ -137,10 +138,16 @@ function EmailStep() {
 
   return (
     <div className={styles.container}>
-      <h1 className="title">{t("get-started", { ns: "common" })}</h1>
-      <p>
+      <h1 className={styles.signInTitle}>
+        {t("get-started", { ns: "common" })}
+      </h1>
+      <p className={styles.subtitle}>
         {t("please-create-account-copy")}{" "}
-        <span className={styles.footnote}>{t("passwords-copy")}</span>
+        <span className={styles.signInSubtitle}>
+          <Trans i18nKey={"auth:have-account-helper"}>
+            <Link href="/login" className={styles.textLink}></Link>
+          </Trans>
+        </span>
       </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
@@ -188,15 +195,18 @@ function EmailStep() {
                 actions.updateAction({ password: e.target.value })
               }
             />
-            <PasswordEntropyMeter
-              valid={isPasswordValid}
-              score={score}
-              message={message}
-              length={loginFormState.password.length}
-              isLoading={
-                isEntropyCalcLoading && passwordEntropyFetchStatus != "idle"
-              }
-            />
+            <small className={styles.footnote}>
+              {t("passwords-copy")}{" "}
+              <PasswordEntropyMeter
+                valid={isPasswordValid}
+                score={score}
+                message={message}
+                length={loginFormState.password.length}
+                isLoading={
+                  isEntropyCalcLoading && passwordEntropyFetchStatus != "idle"
+                }
+              />{" "}
+            </small>
           </div>
           <Button
             variant="primary"

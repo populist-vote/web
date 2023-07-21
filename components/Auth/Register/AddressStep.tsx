@@ -79,7 +79,7 @@ function AddressStep() {
   return (
     <div className={styles.container}>
       <h2>{t("where-are-you-registered-copy")}</h2>
-      <p>{t("we-use-your-address-copy")}</p>
+      <p className={styles.subtitle}>{t("we-use-your-address-copy")}</p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-2">
           <div

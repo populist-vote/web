@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
 import { PasswordInput } from "../PasswordInput";
-import { useTranslation } from "next-i18next";
+import { Trans, useTranslation } from "next-i18next";
 
 function LogIn() {
   const router = useRouter();
@@ -51,7 +51,12 @@ function LogIn() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.signInTitle}>{message}</h1>
+      <h1>{message}</h1>
+      <p className={styles.subtitle}>
+        <Trans i18nKey={"auth:no-account-helper"}>
+          <Link href="/register" className={styles.textLink}></Link>
+        </Trans>
+      </p>
       <div className={styles.formWrapper}>
         <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
           <div

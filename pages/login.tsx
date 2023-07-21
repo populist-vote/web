@@ -27,7 +27,9 @@ function LoginPage() {
 }
 
 LoginPage.getLayout = (page: ReactNode) => (
-  <BasicLayout hideFooter>{page}</BasicLayout>
+  <BasicLayout hideFooter hideAuthButtons>
+    {page}
+  </BasicLayout>
 );
 
 export default LoginPage;
