@@ -58,7 +58,7 @@ function BasicHeader({
         </div>
       </Link>
       <div>
-        {!hideAuthButtons && <AuthButtons />}
+        {!hideAuthButtons && !user && <AuthButtons />}
         {user && (
           <div className={styles.linkSection}>
             {organization && pathname === "/home" && (
@@ -68,7 +68,6 @@ function BasicHeader({
                 />
               </div>
             )}
-
             <Link href="/settings/profile" passHref>
               <div style={{ cursor: "pointer" }}>
                 <Avatar
