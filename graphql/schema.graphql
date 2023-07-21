@@ -163,7 +163,7 @@ type Bill {
   texts: [Text!]!
   title: String!
   url: String!
-  votes: [Vote!]!
+  votes: [BillVote!]!
 }
 
 input BillFilter {
@@ -259,6 +259,26 @@ enum BillType {
   REPEAL_BILL
   RESOLUTION
   STUDY_REQUEST
+}
+
+type BillVote {
+  absent: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  desc: String!
+  nay: Int!
+  nv: Int!
+  passed: Int!
+  """
+  This field is not returned from get_bill, but can be populated with a subsequent call to `get_roll_call`
+  """
+  rollCallData: RollCall
+  rollCallId: Int!
+  stateLink: String!
+  total: Int!
+  url: String!
+  yea: Int!
 }
 
 type Calendar {
@@ -1165,8 +1185,14 @@ type RollCall {
   passed: Int!
   rollCallId: Int!
   total: Int!
-  votes: [Vote!]!
+  votes: [RollCallVote!]!
   yea: Int!
+}
+
+type RollCallVote {
+  peopleId: Int!
+  voteId: Int!
+  voteText: String!
 }
 
 type Sast {
@@ -1628,26 +1654,6 @@ type UserResult {
   lastName: String
   profilePictureUrl: String
   username: String!
-}
-
-type Vote {
-  absent: Int!
-  chamber: String!
-  chamberId: Int!
-  date: String!
-  desc: String!
-  nay: Int!
-  nv: Int!
-  passed: Int!
-  """
-  This field is not returned from get_bill, but can be populated with a subsequent call to `get_roll_call`
-  """
-  rollCallData: RollCall
-  rollCallId: Int!
-  stateLink: String!
-  total: Int!
-  url: String!
-  yea: Int!
 }
 
 type VotingGuideCandidateResult {

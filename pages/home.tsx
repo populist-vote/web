@@ -71,11 +71,11 @@ function HomePage() {
   };
 
   return isBetaVisible ? (
-    <BasicLayout showAuthButtons={false}>
+    <BasicLayout>
       <BetaNotice onContinue={handleBetaDismissal} />
     </BasicLayout>
   ) : (
-    <BasicLayout showAuthButtons>
+    <BasicLayout>
       <CitizenHome userLoggedIn={!!user} />
     </BasicLayout>
   );

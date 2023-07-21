@@ -32,7 +32,9 @@ function Register() {
 }
 
 Register.getLayout = (page: ReactNode) => (
-  <BasicLayout hideFooter>{page}</BasicLayout>
+  <BasicLayout hideFooter hideAuthButtons>
+    {page}
+  </BasicLayout>
 );
 
 export default Register;
