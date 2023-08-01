@@ -131,7 +131,7 @@ const Faq: NextPage = () => {
                 interested in contributing,{" "}
                 <Link href="mailto:info@populist.us" passHref>
                   get in touch!
-                </Link>
+                </Link>{" "}
                 Someone on our team would be happy to help you get up and
                 running with our applications.
               </p>
