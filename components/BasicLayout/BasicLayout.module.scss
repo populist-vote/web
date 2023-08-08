@@ -8,7 +8,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: calc(100vh - 7.5rem);
+  min-height: 100vh;
 
   header,
   nav {
@@ -23,14 +23,6 @@
     cursor: pointer;
     transition: cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.15s;
   }
-
-  // .dashboardLink a {
-  //   text-transform: none;
-
-  //   &:hover {
-  //     color: $white;
-  //   }
-  // }
 
   .header {
     width: 100%;
