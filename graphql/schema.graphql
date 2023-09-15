@@ -41,20 +41,6 @@ type AddressResult {
   state: State!
 }
 
-type Amendment {
-  adopted: Int!
-  amendmentId: Int!
-  chamber: String!
-  chamberId: Int!
-  date: String!
-  description: String!
-  mime: String!
-  mimeId: Int!
-  stateLink: String!
-  title: String!
-  url: String!
-}
-
 enum ArgumentPosition {
   NEUTRAL
   OPPOSE
@@ -131,7 +117,7 @@ input BeginUserRegistrationInput {
 }
 
 type Bill {
-  amendments: [Amendment!]!
+  amendments: [BillAmendment!]!
   billId: Int!
   billNumber: String!
   billType: String!
@@ -149,7 +135,7 @@ type Bill {
   progress: [Progress!]!
   referrals: [Referral!]
   sasts: [Sast!]!
-  session: Session!
+  session: BillSession!
   sessionId: Int!
   sponsors: [Sponsor!]!
   state: String!
@@ -159,11 +145,25 @@ type Bill {
   statusDate: String
   statusType: String!
   subjects: [Subject!]!
-  supplements: [Supplement!]!
+  supplements: [BillSupplement!]!
   texts: [Text!]!
   title: String!
   url: String!
   votes: [BillVote!]!
+}
+
+type BillAmendment {
+  adopted: Int!
+  amendmentId: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  description: String!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  title: String!
+  url: String!
 }
 
 input BillFilter {
@@ -223,6 +223,15 @@ type BillResultEdge {
   node: BillResult!
 }
 
+type BillSession {
+  sessionId: Int!
+  sessionName: String!
+  sessionTitle: String!
+  special: Int!
+  yearEnd: Int!
+  yearStart: Int!
+}
+
 input BillSort {
   popularity: PopularitySort
 }
@@ -234,6 +243,19 @@ enum BillStatus {
   IN_CONSIDERATION
   UNKNOWN
   VETOED
+}
+
+type BillSupplement {
+  date: String!
+  description: String!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  supplementId: Int!
+  title: String!
+  typeField: String!
+  typeId: Int!
+  url: String!
 }
 
 enum BillType {
@@ -1222,15 +1244,6 @@ type SentimentCountResult {
   sentiment: Sentiment!
 }
 
-type Session {
-  sessionId: Int!
-  sessionName: String!
-  sessionTitle: String!
-  special: Int!
-  yearEnd: Int!
-  yearStart: Int!
-}
-
 type SessionResult {
   congressName: String!
   description: String!
@@ -1341,19 +1354,6 @@ type Subscription {
   Heartbeat, containing the UTC timestamp of the last server-sent payload
   """
   heartbeat(interval: Int! = 1000): Heartbeat!
-}
-
-type Supplement {
-  date: String!
-  description: String!
-  mime: String!
-  mimeId: Int!
-  stateLink: String!
-  supplementId: Int!
-  title: String!
-  typeField: String!
-  typeId: Int!
-  url: String!
 }
 
 type Text {
