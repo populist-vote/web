@@ -1,6 +1,6 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
-import { PoliticianResult, useRaceIndexQuery } from "generated";
+import { RaceResult, useRaceIndexQuery } from "generated";
 import useDebounce from "hooks/useDebounce";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -30,10 +30,10 @@ export function RaceResultsTable() {
   );
 
   const raceResults = data?.races.edges.map((edge) => edge.node) as
-    | PoliticianResult[]
+    | RaceResult[]
     | [];
 
-  const columns = useMemo<ColumnDef<PoliticianResult>[]>(
+  const columns = useMemo<ColumnDef<RaceResult>[]>(
     () => [
       {
         accessorKey: "office.title",
@@ -65,7 +65,7 @@ export function RaceResultsTable() {
     []
   );
 
-  const onRowClick = (row: Row<PoliticianResult>) => {
+  const onRowClick = (row: Row<RaceResult>) => {
     void router.replace(
       {
         query: { ...query, selected: row.original.id },
