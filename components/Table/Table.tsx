@@ -40,7 +40,14 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed;
 };
 
-type TableTheme = "default" | "green" | "yellow" | "orange" | "aqua" | "violet";
+type TableTheme =
+  | "default"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "aqua"
+  | "violet"
+  | "blue";
 
 interface TableThemeColors {
   background: string;
