@@ -554,6 +554,7 @@ enum EmbedType {
   POLITICIAN
   POLL
   QUESTION
+  RACE
 }
 
 type Endorsements {
@@ -1040,7 +1041,7 @@ type Query {
   popularBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
-  races(filter: RaceFilter): [RaceResult!]!
+  races(after: String, before: String, filter: RaceFilter, first: Int, last: Int): RaceResultConnection!
   respondentsByOrganizationId(after: String, before: String, first: Int, last: Int, organizationId: ID!): RespondentResultConnection!
   """Get all users"""
   userCount(filter: UserCountFilter): Int
@@ -1094,6 +1095,7 @@ input RaceFilter {
   electionScope: ElectionScope
   officeTitles: [String!]
   politicalScope: PoliticalScope
+  query: String
   state: State
 }
 
@@ -1114,6 +1116,25 @@ type RaceResult {
   slug: String!
   state: State
   title: String!
+}
+
+type RaceResultConnection {
+  """A list of edges."""
+  edges: [RaceResultEdge!]!
+  """A list of nodes."""
+  nodes: [RaceResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type RaceResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: RaceResult!
 }
 
 type RaceResultsResult {

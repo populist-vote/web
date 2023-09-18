@@ -1,25 +1,31 @@
-query MPRFeaturedRaces {
-  races(
-    filter: {
-      state: MN
-      officeTitles: [
-        "U.S. Representative"
-        "Governor"
-        "Lieutenant Governor"
-        "Attorney General"
-        "Secretary of State"
-        "State Auditor"
-      ]
-    }
-  ) {
-    ...raceFields
-  }
-}
-
 query ElectionBySlug($slug: String!) {
   electionBySlug(slug: $slug) {
     id
     slug
     description
+  }
+}
+
+query RaceById($id: String!) {
+  raceById(id: $id) {
+    ...raceFields
+  }
+}
+
+query RaceIndex(
+  $pageSize: Int
+  $cursor: String
+  $filter: RaceFilter
+) {
+  races(
+    first: $pageSize
+    after: $cursor
+    filter: $filter
+  ) {
+    edges {
+      node {
+        ...raceFields
+      }
+    }
   }
 }

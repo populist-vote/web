@@ -69,6 +69,9 @@
       &[data-color="violet"] {
         border-color: $violet;
       }
+      &[data-color="blue"] {
+        border-color: $blue;
+      }
     }
 
     button {
