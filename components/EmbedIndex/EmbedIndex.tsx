@@ -2,8 +2,6 @@ import { EmbedResult, EmbedType } from "generated";
 import { Table } from "components/Table/Table";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useRouter } from "next/router";
-// import { Badge } from "components/Badge/Badge";
-// import Link from "next/link";
 import { useTheme } from "hooks/useTheme";
 import { Box } from "components/Box/Box";
 import { useState } from "react";
@@ -60,6 +58,17 @@ function EmbedIndex({
             selected={router.asPath.includes("/politician")}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
+            }
+          />
+        </Link>
+        <Link href={`/dashboard/${slug}/embeds/race`}>
+          <Badge
+            theme="blue"
+            clickable
+            label="Race"
+            selected={router.asPath.includes("/race")}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "race")
             }
           />
         </Link>

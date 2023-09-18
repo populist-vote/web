@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-type Theme = "yellow" | "aqua" | "orange" | "violet";
+type Theme = "yellow" | "aqua" | "orange" | "violet" | "blue";
 
 function useTheme(): { theme: Theme } {
   const router = useRouter();
@@ -8,6 +8,8 @@ function useTheme(): { theme: Theme } {
     ? "yellow"
     : router.asPath.includes("politician")
     ? "aqua"
+    : router.asPath.includes("race")
+    ? "blue"
     : router.asPath.includes("question")
     ? "orange"
     : router.asPath.includes("poll")

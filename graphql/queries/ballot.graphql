@@ -3,6 +3,7 @@ fragment raceFields on RaceResult {
   raceType
   title
   party
+  electionDate
   office {
     id
     name
