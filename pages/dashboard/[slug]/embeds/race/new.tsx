@@ -91,7 +91,7 @@ function NewRaceEmbed() {
       <Box>
         <div className={styles.inputWithIcon}>
           <input
-            placeholder="Search for races"
+            placeholder="Try 'Minnesota Governor' or 'California Senate'"
             onChange={(e) => {
               setSearchValue(e.target.value);
               if (e.target.value === "") {

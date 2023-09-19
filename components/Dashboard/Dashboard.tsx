@@ -26,7 +26,13 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
     (a, p) => a + (p?.origins?.length || 0),
     0
   );
-
+  const raceEmbeds = embeds.filter(
+    (embed) => embed.embedType == EmbedType.Race
+  );
+  const raceEmbedDeployments = raceEmbeds.reduce(
+    (a, r) => a + (r?.origins?.length || 0),
+    0
+  );
   const questionEmbeds = embeds.filter(
     (embed) => embed.embedType === EmbedType.Question
   );
@@ -106,6 +112,31 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
                   <span className={styles.dots} />
                   <span style={{ color: "var(--aqua)" }}>
                     {politicianEmbedDeployments}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Box>
+          <Box>
+            <div className={styles.tile}>
+              <Link href={`/dashboard/${query.slug}/embeds/race`} passHref>
+                <Badge theme="blue" size="large" variant="solid" clickable>
+                  Elections
+                </Badge>
+              </Link>
+              <div>
+                <div className={styles.dotSpread}>
+                  <span>Embeds</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--blue-text)" }}>
+                    {raceEmbeds.length}
+                  </span>
+                </div>
+                <div className={styles.dotSpread}>
+                  <span>Deployments</span>
+                  <span className={styles.dots} />
+                  <span style={{ color: "var(--blue-text)" }}>
+                    {raceEmbedDeployments}
                   </span>
                 </div>
               </div>

@@ -69,6 +69,7 @@ type TableProps<T extends object> = {
   onRowClick?: (row: Row<T>) => void;
   selectedRowId?: string;
   globalFilter?: string;
+  useSearchQueryAsFilter?: boolean;
 };
 
 function Table<T extends object>({
@@ -79,6 +80,7 @@ function Table<T extends object>({
   theme = "yellow",
   onRowClick,
   selectedRowId,
+  useSearchQueryAsFilter = false,
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
     initialState.sorting || []
@@ -94,7 +96,7 @@ function Table<T extends object>({
     state: {
       sorting,
       columnFilters,
-      globalFilter: search,
+      globalFilter: useSearchQueryAsFilter ? search : null,
     },
     filterFns: {
       fuzzy: fuzzyFilter,
@@ -251,6 +253,8 @@ function Table<T extends object>({
       </div>
     );
   };
+
+  console.log(table.getState());
 
   return (
     <>
