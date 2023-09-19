@@ -12,6 +12,7 @@ export function RaceResultsTable() {
   const { query } = router;
   const { search, selected } = query;
   const shouldFetchRaceResults = !!search;
+
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
     350
@@ -29,9 +30,10 @@ export function RaceResultsTable() {
     }
   );
 
-  const raceResults = data?.races.edges.map((edge) => edge.node) as
-    | RaceResult[]
-    | [];
+  const raceResults = useMemo(
+    () => data?.races.edges.map((edge) => edge.node) || [],
+    [data?.races.edges]
+  ) as RaceResult[];
 
   const columns = useMemo<ColumnDef<RaceResult>[]>(
     () => [
@@ -80,7 +82,7 @@ export function RaceResultsTable() {
 
   return (
     <Table
-      data={raceResults || []}
+      data={raceResults}
       columns={columns}
       initialState={{
         pagination: {
