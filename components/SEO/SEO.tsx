@@ -4,7 +4,7 @@ const DEFAULT_PREVIEW_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg";
 
 function SEO({
-  title = "Transparent democracy in action.",
+  title = "Politicians, Elections, Legislation and More. We Source, Structure, Link and Deliver Best-in-class Civic Data.",
   appName = "Populist",
   description = "We believe in people. In transparent, non-partisan, accessible information.",
   previewImage = DEFAULT_PREVIEW_IMAGE_URL,
