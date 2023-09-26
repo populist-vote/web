@@ -2,7 +2,7 @@
 title: Election Coverage 2023
 date: 2023-09-26
 author: Wiley McKay Conte
-description: Test descrippy for SEO
+description: Whats in store for this November's election?
 ---
 
 In 2023, the United States witnessed a pivotal electoral year, marked by a range of state and local elections. While it wasn't a presidential election year, these elections played a significant role in shaping the nation's political landscape. Voters across the country participated in gubernatorial, mayoral, and legislative races, exercising their democratic right to choose leaders and representatives who would make decisions affecting their communities.
