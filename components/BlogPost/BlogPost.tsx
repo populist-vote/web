@@ -27,7 +27,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ markdown }) => {
     <BasicLayout>
       <h1>{data.title}</h1>
       <p>{formattedDate}</p>
-      {/* You can display other metadata fields here */}
+      {/* You can display other metadata fields here if needed */}
       <div dangerouslySetInnerHTML={{ __html: processedContent }} />
     </BasicLayout>
   );
