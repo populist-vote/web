@@ -544,6 +544,7 @@ type EmbedResult {
   poll: PollResult
   populistUrl: String!
   question: QuestionResult
+  race: RaceResult
   updatedAt: DateTime!
   updatedBy: UserResult!
   updatedById: ID!
@@ -696,16 +697,28 @@ type Office {
 type OfficeResult {
   chamber: Chamber
   county: String
+  """
+  The district name, e.g. "2, 3B, Ward 5"
+  """
   district: String
+  """
+  The type of district, used to determine which field is referenced for the district
+  """
   districtType: District
+  """National, State, County, City, or District"""
   electionScope: ElectionScope!
   hospitalDistrict: String
   id: ID!
   incumbent: PoliticianResult
   municipality: String
+  """
+  Name of the office, e.g. "U.S. Senate"
+  """
   name: String
   officeType: String
+  """Local, State, or Federal"""
   politicalScope: PoliticalScope!
+  """Used to determine order of offices in a list"""
   priority: Int
   schoolDistrict: String
   seat: String
@@ -714,6 +727,9 @@ type OfficeResult {
   subtitle: String
   subtitleShort: String
   termLength: Int
+  """
+  What the person in office would be called, e.g. "Senator", "Governor"
+  """
   title: String!
 }
 

@@ -7,6 +7,7 @@
   border: 1px solid $blue;
   padding: 1rem;
   height: 100%;
+  min-width: 0;
 
   .flexBetween {
     @include flex-between(1rem);
