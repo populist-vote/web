@@ -205,6 +205,7 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
       <section>
         <h2 style={{ textAlign: "center" }}>Deployments</h2>
         <div className={styles.tiles}>
+          {embeds.flatMap(embed => embed.origins).length == 0 && <small style={{ justifySelf: "center", color: "var(--blue-text)" }}>No embeds have been deployed yet.</small>}
           {embeds.map((embed) => {
             if (embed.origins?.length === 0) return null;
             return embed.origins.map((origin) => (
