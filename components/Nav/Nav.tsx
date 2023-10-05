@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaQuestionCircle } from "react-icons/fa";
 import { useState } from "react";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useAuth } from "hooks/useAuth";
@@ -179,48 +179,63 @@ function DesktopNav({
             );
           })}
         </ul>
-        {user ? (
-          <div>
-            {organization && (
-              <li
-                className={clsx(styles.navItem, {
-                  [styles.active as string]: pathname.includes("/dashboard"),
-                })}
-              >
-                <DashboardLink
-                  organization={organization as OrganizationResult}
-                />
-              </li>
-            )}
-            <div className={styles.flexColumn}>
-              <Link href="/settings/profile" passHref>
-                <div className={styles.avatar}>
-                  <Avatar
-                    src={
-                      user?.userProfile.profilePictureUrl ||
-                      PERSON_FALLBACK_IMAGE_URL
-                    }
-                    alt="profile picture"
-                    size={80}
-                    borderColor={
-                      pathname.includes("/settings/profile") ? "var(--aqua" : ""
-                    }
-                    borderWidth="3px"
+        <div className={styles.navFooter}>
+          {user ? (
+            <div>
+              {organization && (
+                <li
+                  className={clsx(styles.navItem, {
+                    [styles.active as string]: pathname.includes("/dashboard"),
+                  })}
+                >
+                  <DashboardLink
+                    organization={organization as OrganizationResult}
                   />
-                </div>
+                </li>
+              )}
+              <div className={styles.flexColumn}>
+                <Link href="/settings/profile" passHref>
+                  <div className={styles.avatar}>
+                    <Avatar
+                      src={
+                        user?.userProfile.profilePictureUrl ||
+                        PERSON_FALLBACK_IMAGE_URL
+                      }
+                      alt="profile picture"
+                      size={80}
+                      borderColor={
+                        pathname.includes("/settings/profile")
+                          ? "var(--aqua"
+                          : ""
+                      }
+                      borderWidth="3px"
+                    />
+                  </div>
+                </Link>
+                <Link
+                  href="mailto:info@populist.us"
+                  className={styles.helpBadge}
+                >
+                  <FaQuestionCircle size={20} />
+                  <small>Need help?</small>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className={styles.flexColumn}>
+              <Link href="/register">
+                <Button size="medium" variant="primary" label={t("register")} />
+              </Link>
+              <Link href={`/login?next=${asPath}`}>
+                <Button
+                  size="medium"
+                  variant="secondary"
+                  label={t("sign-in")}
+                />
               </Link>
             </div>
-          </div>
-        ) : (
-          <div className={styles.flexColumn}>
-            <Link href="/register">
-              <Button size="medium" variant="primary" label={t("register")} />
-            </Link>
-            <Link href={`/login?next=${asPath}`}>
-              <Button size="medium" variant="secondary" label={t("sign-in")} />
-            </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
