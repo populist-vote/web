@@ -285,6 +285,14 @@ query PoliticianBySlug($slug: String!) {
 
 query PoliticianEmbedById($id: ID!) {
   politicianById(id: $id) {
+    slug,
     ...BasicInfo
+    raceWins,
+    raceLosses,
+    yearsInPublicOffice
+    currentOffice {
+      title
+      subtitleShort
+    }
   }
 }

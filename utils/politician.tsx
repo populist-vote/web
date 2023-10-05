@@ -2,7 +2,7 @@ import { PoliticianResult } from "generated";
 
 const computeShortOfficeTitle = (politician: Partial<PoliticianResult>) => {
   const districtDisplay = (includePrefix: boolean, includeDash: boolean) => {
-    const district = politician.votesmartCandidateBio?.office?.district;
+    const district = politician?.votesmartCandidateBio?.office?.district;
     if (!district) return "";
     const districtWithPrefix =
       !district || isNaN(+district) || !includePrefix
