@@ -5,6 +5,16 @@ import styles from "./PoliticianWidget.module.scss";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import { getYear } from "utils/dates";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
+import {
+  FaFacebook,
+  FaGlobe,
+  FaInstagram,
+  FaLinkedin,
+  FaTiktok,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa";
+import { GiWireframeGlobe } from "react-icons/gi";
 
 interface PoliticianWidgetRenderOptions {
   bio: boolean;
@@ -40,6 +50,8 @@ export function PoliticianWidget({
   const raceLosses = politician?.raceLosses;
   const age = politician?.age;
 
+  const officeTitle = `${politician?.currentOffice?.title} - ${politician?.currentOffice?.subtitleShort}`;
+
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this politician.</div>;
 
@@ -54,6 +66,9 @@ export function PoliticianWidget({
             size={80}
           />
           <h1>{politician?.fullName}</h1>
+          {politician?.currentOffice && (
+            <span className={styles.officeDisplay}>{officeTitle}</span>
+          )}
         </section>
         <div className={styles.divider} />
         <section>
@@ -78,12 +93,12 @@ export function PoliticianWidget({
               <span>{yearsInPublicOffice}</span>
             </div>
           )}
-          {raceWins != null && raceLosses != null && (
+          {(!!raceWins || !!raceLosses) && (
             <div className={styles.dotSpread}>
               <span>Elections Won / Lost</span>
               <span className={styles.dots} />
               <span>
-                {raceWins} / {raceLosses}
+                {raceWins || 0} / {raceLosses || 0}
               </span>
             </div>
           )}
@@ -93,6 +108,121 @@ export function PoliticianWidget({
               <span className={styles.dots} />
               <span>{age}</span>
             </div>
+          )}
+        </section>
+        <div className={styles.divider} />
+        <section className={styles.socials}>
+          {politician?.officialWebsiteUrl && (
+            <a
+              aria-label={"Website"}
+              href={
+                politician.officialWebsiteUrl?.startsWith("http")
+                  ? politician.officialWebsiteUrl
+                  : `//${politician.officialWebsiteUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GiWireframeGlobe />
+            </a>
+          )}
+          {politician?.campaignWebsiteUrl && (
+            <a
+              aria-label={"Website"}
+              href={
+                politician.campaignWebsiteUrl?.startsWith("http")
+                  ? politician.campaignWebsiteUrl
+                  : `//${politician.campaignWebsiteUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGlobe />
+            </a>
+          )}
+          {politician?.twitterUrl && (
+            <a
+              aria-label={"Twitter"}
+              href={
+                politician.twitterUrl?.startsWith("http")
+                  ? politician.twitterUrl
+                  : `//${politician.twitterUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaTwitter />
+            </a>
+          )}
+          {politician?.facebookUrl && (
+            <a
+              aria-label={"Facebook"}
+              href={
+                politician.facebookUrl?.startsWith("http")
+                  ? politician.facebookUrl
+                  : `//${politician.facebookUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebook />
+            </a>
+          )}
+          {politician?.instagramUrl && (
+            <a
+              aria-label={"Instagram"}
+              href={
+                politician.instagramUrl?.startsWith("http")
+                  ? politician.instagramUrl
+                  : `//${politician.instagramUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram />
+            </a>
+          )}
+          {politician?.tiktokUrl && (
+            <a
+              aria-label={"TikTok"}
+              href={
+                politician.tiktokUrl?.startsWith("http")
+                  ? politician.tiktokUrl
+                  : `//${politician.tiktokUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaTiktok />
+            </a>
+          )}
+          {politician?.youtubeUrl && (
+            <a
+              aria-label={"YouTube"}
+              href={
+                politician.youtubeUrl?.startsWith("http")
+                  ? politician.youtubeUrl
+                  : `//${politician.youtubeUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaYoutube />
+            </a>
+          )}
+          {politician?.linkedinUrl && (
+            <a
+              aria-label={"LinkedIn"}
+              href={
+                politician.linkedinUrl?.startsWith("http")
+                  ? politician.linkedinUrl
+                  : `//${politician.linkedinUrl}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin />
+            </a>
           )}
         </section>
       </main>

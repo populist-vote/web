@@ -10,6 +10,26 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .officeDisplay {
+    font-size: $text-sm;
+    font-style: italic;
+  }
+
+  .socials {
+    flex-direction: row;
+
+    svg {
+      font-size: 30px;
+      color: $grey-dark;
+      transition: ease-in-out 0.2s;
+
+      &:hover {
+        color: $blue;
+      }
+    }
   }
 
   h1 {
