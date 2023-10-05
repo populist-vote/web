@@ -252,9 +252,7 @@ function Race({
     </>
   );
 
-  return (
-    <div>
-      {raceType === RaceType.General ? (
+  return raceType === RaceType.General ? (
         <div className={clsx(styles.raceContent, styles.scrollSnap)}>
           {$raceContent}
         </div>
@@ -262,13 +260,11 @@ function Race({
         <FieldSet
           heading={raceType}
           color={party === PoliticalParty.Republican ? "red" : "blue"}
-          className={clsx(styles.raceContent, styles.scrollSnap)}
+          className={clsx(styles.scrollSnap)}
         >
           {$raceContent}
         </FieldSet>
-      )}
-    </div>
-  );
+      );
 }
 
 export type { EditVotingGuideCandidate };
