@@ -205,7 +205,11 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
       <section>
         <h2 style={{ textAlign: "center" }}>Deployments</h2>
         <div className={styles.tiles}>
-          {embeds.flatMap(embed => embed.origins).length == 0 && <small style={{ justifySelf: "center", color: "var(--blue-text)" }}>No embeds have been deployed yet.</small>}
+          {embeds.flatMap((embed) => embed.origins).length == 0 && (
+            <small style={{ justifySelf: "center", color: "var(--blue-text)" }}>
+              No embeds have been deployed yet.
+            </small>
+          )}
           {embeds.map((embed) => {
             if (embed.origins?.length === 0) return null;
             return embed.origins.map((origin) => (
@@ -241,13 +245,6 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
           })}
         </div>
       </section>
-
-      <p
-        style={{ fontSize: "1.1em", alignSelf: "flex-end", marginTop: "5rem" }}
-      >
-        If you have any questions, please reach out to us at{" "}
-        <a href="mailto:info@populist.us">info@populist.us</a>
-      </p>
     </div>
   );
 }
