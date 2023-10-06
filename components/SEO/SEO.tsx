@@ -4,15 +4,14 @@ const DEFAULT_PREVIEW_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg";
 
 function SEO({
-  title = "Politicians, Elections, Legislation and More. We Source, Structure, Link and Deliver Best-in-class Civic Data.",
+  title = "Populist | Civic Data Platform for Transparent Democracy",
   appName = "Populist",
-  description = "We believe in people. In transparent, non-partisan, accessible information.",
+  description = "Populist sources, structures, links and delivers best-in-class civic data and provides a suite of tools that power transparent democracy. Easily enhance your organization's civic engagement and reporting.",
   previewImage = DEFAULT_PREVIEW_IMAGE_URL,
 }) {
-  const fullTitle = `${title} | ${appName}`;
   return (
     <Head>
-      <title key="title">{fullTitle}</title>
+      <title key="title">{title}</title>
       <meta
         name="viewport"
         content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5,user-scalable=yes"
@@ -22,7 +21,7 @@ function SEO({
       {/* OG FB meta tags */}
       <meta key="og_type" property="og:type" content="website" />
       <meta key="og_image" property="og:image" content={previewImage} />
-      <meta key="og_title" property="og:title" content={fullTitle} />
+      <meta key="og_title" property="og:title" content={title} />
       <meta
         key="og_description"
         property="og:description"
@@ -37,7 +36,7 @@ function SEO({
       />
       <meta key="twitter_image" name="twitter:image" content={previewImage} />
       <meta key="twitter_site" name="twitter:site" content="@populist_us" />
-      <meta key="twitter_title" name="twitter:title" content={fullTitle} />
+      <meta key="twitter_title" name="twitter:title" content={title} />
       <meta
         key="twitter_description"
         name="twitter:description"
