@@ -22,8 +22,6 @@
   a {
     color: $white;
     font-family: $font-primary;
-    font-size: $text-sm;
-    text-transform: uppercase;
     cursor: pointer;
     transition: cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.15s;
   }
@@ -35,7 +33,21 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
-    padding: 1.75rem;
+    padding: 1.5rem 1.75rem;
+
+    @include for-tablet-up {
+      padding: 1.5rem 3rem;
+    }
+
+    .logoContainer {
+      width: 12rem;
+      cursor: pointer;
+
+      @include for-tablet-up {
+        width: 16rem;
+        padding: 2rem;
+      }
+    }
   }
 }
 
@@ -64,7 +76,6 @@
 }
 
 .dashboardLink {
-  padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   transition: ease-in-out 0.2s;
 

@@ -13,6 +13,7 @@ import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { OrganizationResult, useOrganizationByIdQuery } from "generated";
 import styles from "./BasicLayout.module.scss";
+import useDeviceInfo from "hooks/useDeviceInfo";
 
 function BasicLayout({
   children,
@@ -49,11 +50,12 @@ function BasicHeader({
   );
 
   const organization = data?.organizationById;
+  const { isMobile } = useDeviceInfo();
 
   return (
     <header className={styles.header}>
       <Link href="/" passHref>
-        <div style={{ width: "10rem", cursor: "pointer" }}>
+        <div className={styles.logoContainer}>
           <LogoBetaDesktop />
         </div>
       </Link>
@@ -76,7 +78,7 @@ function BasicHeader({
                     PERSON_FALLBACK_IMAGE_URL
                   }
                   alt="profile picture"
-                  size={35}
+                  size={isMobile ? 35 : 60}
                 />
               </div>
             </Link>
