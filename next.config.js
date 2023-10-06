@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 
 const runtimeCaching = require("next-pwa/cache");
-const { i18n } = require('./next-i18next.config');
+const { i18n } = require("./next-i18next.config");
 
-
-const withPWA = require('next-pwa')({
+const withPWA = require("next-pwa")({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
   runtimeCaching,
-})
+});
 
 const nextConfig = {
   reactStrictMode: true,
@@ -16,10 +15,11 @@ const nextConfig = {
   images: {
     domains: [
       "static.votesmart.org",
+      "populist-platform-staging.s3.amazonaws.com",
       "populist-platform.s3.us-east-2.amazonaws.com",
       "www.gravatar.com",
       "www.google.com",
-      "icons.duckduckgo.com"
+      "icons.duckduckgo.com",
     ],
     formats: ["image/webp"],
   },
@@ -31,12 +31,12 @@ const nextConfig = {
   redirects: async () => {
     return [
       {
-        source: '/dashboard/:slug/embeds',
-        destination: '/dashboard/:slug/embeds/legislation',
+        source: "/dashboard/:slug/embeds",
+        destination: "/dashboard/:slug/embeds/legislation",
         permanent: true,
-      }
+      },
     ];
-  }
+  },
 };
 
 module.exports = withPWA(nextConfig);
