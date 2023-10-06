@@ -105,7 +105,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
       case Sentiment.Negative:
         return (
           <Badge size="small" theme="red">
-            Positive
+            Negative
           </Badge>
         );
       case Sentiment.Neutral:
