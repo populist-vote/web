@@ -31,15 +31,15 @@
   }
 
   .menuContainer {
-    padding: 1.5rem;
+    padding: 3.5rem 3rem;
 
-    ul {
+    ul.menu {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
       justify-content: right;
       align-items: center;
-      gap: 1rem;
+      gap: 2.5rem;
       margin: 0;
       padding: 0;
 
@@ -47,12 +47,23 @@
       a {
         font-family: $font-primary;
         color: $white;
+        font-size: 1.1em;
+
         &:visited {
           color: $white;
         }
         &:hover {
           color: $blue-lighter;
         }
+      }
+    }
+
+    .accountProfile {
+      padding-left: 1rem;
+      margin-top: 5px;
+
+      div {
+        display: block !important;
       }
     }
   }

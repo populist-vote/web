@@ -10,7 +10,7 @@ import landing3 from "public/images/landing/citizen-legislation.png";
 import landing4 from "public/images/landing/org-enhance.png";
 import landing5 from "public/images/landing/org-create.png";
 import landing6 from "public/images/landing/org-engage.png";
-import { Avatar, Footer, Button, MPRLogo } from "components";
+import { AuthButtons, Avatar, Footer, Button, MPRLogo } from "components";
 import styles from "styles/modules/landing.module.scss";
 import Router from "next/router";
 import { useAuth } from "hooks/useAuth";
@@ -19,8 +19,8 @@ import Link from "next/link";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
-import { useTranslation } from "next-i18next";
 import clsx from "clsx";
+import useDeviceInfo from "hooks/useDeviceInfo";
 
 export async function getServerSideProps({
   locale,
@@ -40,13 +40,13 @@ export async function getServerSideProps({
 
 const Home: NextPage = () => {
   const { user } = useAuth({ redirectTo: "/" });
-  const { t } = useTranslation(["auth", "common"]);
+  const { isMobile } = useDeviceInfo();
 
   return (
     <main className={styles.container}>
       <div id={styles["container1"]}>
         <div className={styles.menuContainer}>
-          <ul>
+          <ul className={styles.menu}>
             {!user && (
               <>
                 <li>
@@ -59,28 +59,11 @@ const Home: NextPage = () => {
                     FAQ
                   </Link>
                 </li>
-                <li>
-                  <Button
-                    size={"medium"}
-                    variant="secondary"
-                    theme="blue"
-                    label={t("sign-in")}
-                    onClick={() => Router.push(`/login`)}
-                  />
-                </li>
-                <li className={styles.menuButton}>
-                  <Button
-                    size={"medium"}
-                    variant="primary"
-                    theme="blue"
-                    label={t("get-started", { ns: "common" })}
-                    onClick={() => Router.push(`/register`)}
-                  />
-                </li>
+                <AuthButtons />
               </>
             )}
             {user && (
-              <ul>
+              <ul className={styles.menu}>
                 <li>
                   <Link href="/about" passHref>
                     ABOUT
@@ -101,7 +84,7 @@ const Home: NextPage = () => {
                         }
                         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
                         alt="profile picture"
-                        size={50}
+                        size={isMobile ? 35 : 60}
                       />
                     </div>
                   </Link>

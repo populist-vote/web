@@ -19,13 +19,18 @@ function BasicLayout({
   children,
   hideAuthButtons = false,
   hideFooter = false,
+  hideTextMenu = true,
 }: PropsWithChildren<{
   hideAuthButtons?: boolean;
   hideFooter?: boolean;
+  hideTextMenu?: boolean;
 }>) {
   return (
     <div className={styles.container}>
-      <BasicHeader hideAuthButtons={hideAuthButtons} />
+      <BasicHeader
+        hideAuthButtons={hideAuthButtons}
+        hideTextMenu={hideTextMenu}
+      />
       <main className={styles.content}>{children}</main>
       {hideFooter ? <footer /> : <Footer />}
     </div>
@@ -34,8 +39,10 @@ function BasicLayout({
 
 function BasicHeader({
   hideAuthButtons = false,
+  hideTextMenu = true,
 }: {
   hideAuthButtons?: boolean;
+  hideTextMenu?: boolean;
 }) {
   const { pathname } = useRouter();
   const { user } = useAuth({ redirect: false });
@@ -60,30 +67,52 @@ function BasicHeader({
         </div>
       </Link>
       <div>
-        {!hideAuthButtons && !user && <AuthButtons />}
-        {user && (
-          <div className={styles.linkSection}>
-            {organization && pathname === "/home" && (
-              <div className={styles.dashboardLink}>
-                <DashboardLink
-                  organization={organization as OrganizationResult}
-                />
+        <ul className={styles.menu}>
+          {!hideTextMenu && (
+            <ul className={styles.textMenu}>
+              <li>
+                <Link href="/about" passHref>
+                  ABOUT
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" passHref>
+                  FAQ
+                </Link>
+              </li>
+            </ul>
+          )}
+          {!hideAuthButtons && !user && (
+            <li>
+              <AuthButtons />
+            </li>
+          )}
+          {user && (
+            <li>
+              <div className={styles.linkSection}>
+                {organization && pathname === "/home" && (
+                  <div className={styles.dashboardLink}>
+                    <DashboardLink
+                      organization={organization as OrganizationResult}
+                    />
+                  </div>
+                )}
+                <Link href="/settings/profile" passHref>
+                  <div style={{ cursor: "pointer" }}>
+                    <Avatar
+                      src={
+                        user?.userProfile.profilePictureUrl ||
+                        PERSON_FALLBACK_IMAGE_URL
+                      }
+                      alt="profile picture"
+                      size={isMobile ? 35 : 60}
+                    />
+                  </div>
+                </Link>
               </div>
-            )}
-            <Link href="/settings/profile" passHref>
-              <div style={{ cursor: "pointer" }}>
-                <Avatar
-                  src={
-                    user?.userProfile.profilePictureUrl ||
-                    PERSON_FALLBACK_IMAGE_URL
-                  }
-                  alt="profile picture"
-                  size={isMobile ? 35 : 60}
-                />
-              </div>
-            </Link>
-          </div>
-        )}
+            </li>
+          )}
+        </ul>
       </div>
     </header>
   );
