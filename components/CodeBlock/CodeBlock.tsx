@@ -9,9 +9,9 @@ function CodeBlock({
   setLanguage,
   snippets,
 }: {
-  language: "html" | "react";
-  setLanguage: (language: "html" | "react") => void;
-  snippets: { html: string; react: string };
+  language: "html" | "react" | "nextjs";
+  setLanguage: (language: "html" | "react" | "nextjs") => void;
+  snippets: { html: string; react: string; nextjs: string };
 }) {
   const text = snippets[language];
 
@@ -39,6 +39,7 @@ function CodeBlock({
             >
               <option value="html">HTML</option>
               <option value="react">React</option>
+              <option value="nextjs">Next.js</option>
             </select>
           </small>
           <Button

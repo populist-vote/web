@@ -126,6 +126,8 @@ export function DashboardTopNav() {
               ? `/dashboard/[slug]/embeds/politician/new`
               : router.pathname.includes("question")
               ? `/dashboard/[slug]/embeds/question/new`
+              : router.pathname.includes("race")
+              ? `/dashboard/[slug]/embeds/race/new`
               : router.pathname.includes("poll")
               ? `/dashboard/[slug]/embeds/poll/new`
               : `/dashboard/[slug]/embeds/new`,
