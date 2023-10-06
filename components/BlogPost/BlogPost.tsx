@@ -32,7 +32,7 @@ const BlogPost: React.FC<BlogPostProps> = ({ markdown }) => {
           <FlagSection label={formattedDate} hideFlagForMobile={true}>
             <div className={styles.content}>
               <h1>{data.title}</h1>
-              {/* You can display other metadata fields here if needed */}
+              {/* You can display other metadata fields here */}
               <div dangerouslySetInnerHTML={{ __html: processedContent }} />
             </div>
           </FlagSection>
