@@ -36,7 +36,7 @@ function AuthButtons({
     <ul className={styles.menu}>
       <li>
         <Button
-          label={t("Sign in")}
+          label={t("sign-in") || "Sign In"}
           size={"responsive"}
           variant="secondary"
           theme="blue"
@@ -45,7 +45,7 @@ function AuthButtons({
       </li>
       <li>
         <Button
-          label={t("Register")}
+          label={t("register") || "Register"}
           size={"responsive"}
           variant="primary"
           theme="blue"
