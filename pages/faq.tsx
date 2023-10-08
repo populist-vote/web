@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { NextPage } from "next";
-import { AuthButtons, Avatar, Footer, LogoText } from "components";
+import { AuthButtons, Avatar, Footer, LogoBetaDesktop } from "components";
 import styles from "styles/modules/faq.module.scss";
 import SimpleNavStyles from "styles/modules/nav.module.scss";
 import { FlagSection } from "components";
@@ -38,7 +38,7 @@ const Faq: NextPage = () => {
         <div className={SimpleNavStyles.navContainer}>
           <div className={SimpleNavStyles.logoContainer}>
             <Link href="/" passHref>
-              <LogoText />
+              <LogoBetaDesktop />
             </Link>
           </div>
           <div className={SimpleNavStyles.break}></div>

@@ -1,7 +1,10 @@
 import fs from "fs";
 import path from "path";
-import { GetStaticProps, GetStaticPaths } from "next";
+import { GetStaticPaths } from "next";
 import BlogPost from "components/BlogPost/BlogPost";
+import nextI18nextConfig from "next-i18next.config";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { SupportedLocale } from "types/global";
 
 interface BlogPostPageProps {
   markdown: string;
@@ -18,8 +21,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({
+export const getStaticProps = async ({
   params,
+  locale,
+}: {
+  params: { slug: string };
+  locale: SupportedLocale;
 }) => {
   const { slug } = params as { slug: string };
   const postFilePath = path.join(process.cwd(), "blog", `${slug}.md`);
@@ -35,6 +42,11 @@ export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({
       markdown: postContent,
       title,
       description,
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 };

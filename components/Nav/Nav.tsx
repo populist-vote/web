@@ -18,6 +18,7 @@ import {
   AuthTokenResult,
   OrganizationResult,
 } from "generated";
+import useDeviceInfo from "hooks/useDeviceInfo";
 
 export interface NavItem {
   label: string;
@@ -242,6 +243,8 @@ function DesktopNav({
 }
 
 function DashboardLink({ organization }: { organization: OrganizationResult }) {
+  const { isMobile } = useDeviceInfo();
+
   return (
     <Link href={`/dashboard/${organization.slug}`}>
       <div className={styles.orgDashboardLink}>
@@ -252,7 +255,7 @@ function DashboardLink({ organization }: { organization: OrganizationResult }) {
           }
           fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
           alt="organization logo"
-          size={36}
+          size={isMobile ? 35 : 60}
         />
         <div className={styles.stack}>
           <h5>{organization.name}</h5>
