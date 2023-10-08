@@ -34,18 +34,18 @@ function AuthButtons({
 
   return (
     <ul className={styles.menu}>
-      <li className={styles.menuButton}>
+      <li>
         <Button
-          label={t("sign-in")}
+          label={t("sign-in") || "Sign In"}
           size={"responsive"}
           variant="secondary"
           theme="blue"
           onClick={() => push(`/login`)}
         />
       </li>
-      <li className={styles.menuButton}>
+      <li>
         <Button
-          label={t("register")}
+          label={t("register") || "Register"}
           size={"responsive"}
           variant="primary"
           theme="blue"
