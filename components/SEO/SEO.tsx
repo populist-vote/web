@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const DEFAULT_PREVIEW_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg";
@@ -9,9 +10,11 @@ function SEO({
   description = "Populist sources, structures, links and delivers best-in-class civic data and provides a suite of tools that power transparent democracy. Easily enhance your organization's civic engagement and reporting.",
   previewImage = DEFAULT_PREVIEW_IMAGE_URL,
 }) {
+  const { pathname } = useRouter();
+  const compoundTitle = pathname == "/" ? title : `${title} | ${appName}`;
   return (
     <Head>
-      <title key="title">{title}</title>
+      <title key="title">{compoundTitle}</title>
       <meta
         name="viewport"
         content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5,user-scalable=yes"
