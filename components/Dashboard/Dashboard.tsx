@@ -121,7 +121,7 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
             <div className={styles.tile}>
               <Link href={`/dashboard/${query.slug}/embeds/race`} passHref>
                 <Badge theme="blue" size="large" variant="solid" clickable>
-                  Elections
+                  Races
                 </Badge>
               </Link>
               <div>

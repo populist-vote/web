@@ -120,17 +120,7 @@ export function DashboardTopNav() {
       <div>
         <Link
           href={{
-            pathname: router.pathname.includes("legislation")
-              ? `/dashboard/[slug]/embeds/legislation/new`
-              : router.pathname.includes("politician")
-              ? `/dashboard/[slug]/embeds/politician/new`
-              : router.pathname.includes("question")
-              ? `/dashboard/[slug]/embeds/question/new`
-              : router.pathname.includes("race")
-              ? `/dashboard/[slug]/embeds/race/new`
-              : router.pathname.includes("poll")
-              ? `/dashboard/[slug]/embeds/poll/new`
-              : `/dashboard/[slug]/embeds/new`,
+            pathname: `/dashboard/[slug]/embeds/poll/new`,
             query: { slug: router.query.slug },
           }}
         >

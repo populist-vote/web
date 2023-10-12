@@ -254,8 +254,6 @@ function Table<T extends object>({
     );
   };
 
-  console.log(table.getState());
-
   return (
     <>
       <PageIndex />
