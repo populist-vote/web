@@ -11,96 +11,99 @@ query EmbedById($id: ID!) {
 }
 
 fragment EmbedFields on EmbedResult {
+  id
+  name
+  description
+  populistUrl
+  embedType
+  attributes
+  organizationId
+  origins {
+    url
+    lastPingAt
+  }
+  createdAt
+  updatedAt
+  bill {
     id
-    name
-    description
-    populistUrl
-    embedType
-    attributes
-    organizationId
-    origins {
-      url 
-      lastPingAt
-    }
-    createdAt
-    updatedAt
-    bill {
-      id
-      slug
-      title
-      billNumber
-      status
+    slug
+    title
+    billNumber
+    status
+    state
+    session {
+      name
       state
-      session {
-        name
-        state
-        startDate
-      }
-      issueTags {
-        slug
-        name
-      }
+      startDate
     }
-    politician {
-      fullName
+    issueTags {
+      slug
+      name
     }
-    question {
+  }
+  politician {
+    fullName
+  }
+  question {
+    id
+    prompt
+    responseCharLimit
+    responsePlaceholderText
+    allowAnonymousResponses
+    submissions {
       id
-      prompt
-      responseCharLimit
-      responsePlaceholderText
-      allowAnonymousResponses
-      submissions {
-        id
-        response
-        sentiment
-        createdAt
-        updatedAt
-        respondent {
-          name
-          email
-        }
-      }
-      submissionCountByDate {
-        date
-        count
-      }
-      commonWords {
-        word
-        count
-      }
-      sentimentCounts {
-        sentiment
-        count
+      response
+      sentiment
+      createdAt
+      updatedAt
+      respondent {
+        name
+        email
       }
     }
-    poll {
+    submissionCountByDate {
+      date
+      count
+    }
+    commonWords {
+      word
+      count
+    }
+    sentimentCounts {
+      sentiment
+      count
+    }
+  }
+  poll {
+    id
+    prompt
+    options {
       id
-      prompt
-      options {
+      optionText
+    }
+    allowAnonymousResponses
+    allowWriteInResponses
+    submissions {
+      id
+      option {
         id
         optionText
       }
-      allowAnonymousResponses
-      allowWriteInResponses
-      submissions {
-        id
-        option {
-          id
-          optionText
-        }
-        createdAt
-        updatedAt
-        respondent {
-          name
-          email
-        }
-      }
-      submissionCountByDate {
-        date
-        count
+      createdAt
+      updatedAt
+      respondent {
+        name
+        email
       }
     }
+    submissionCountByDate {
+      date
+      count
+    }
+  }
+  race {
+    title
+  }
 }
 
 query Audience($organizationId: ID!) {

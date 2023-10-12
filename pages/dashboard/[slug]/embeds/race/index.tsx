@@ -53,21 +53,21 @@ export default function EmbedsIndex({ slug }: { slug: string }) {
       {
         accessorKey: "race.title",
         header: "Title",
-        size: 100,
+        size: 150,
       },
       {
         accessorKey: "createdAt",
         header: "Created",
         cell: (info) =>
           new Date(info.getValue() as string).toLocaleDateString(),
-        size: 100,
+        size: 50,
       },
       {
         accessorKey: "updatedAt",
         header: "Last Updated",
         cell: (info) =>
           getRelativeTimeString(new Date(info.getValue() as string)),
-        size: 110,
+        size: 50,
       },
     ],
     []

@@ -44,6 +44,7 @@ export function RaceResultsTable() {
       {
         accessorKey: "office.subtitle",
         header: "Location",
+        size: 200,
       },
       {
         accessorKey: "raceType",
@@ -53,10 +54,7 @@ export function RaceResultsTable() {
           const party = info.row.getValue("party") as string;
           return titleCase(`${raceType} ${party ? "- " + party : ""}`);
         },
-      },
-      {
-        accessorKey: "party",
-        header: "Party",
+        size: 50,
       },
       {
         accessorKey: "electionDate",
