@@ -4,6 +4,7 @@ import { useEmbedResizer } from "hooks/useEmbedResizer";
 import styles from "./RaceWidget.module.scss";
 import { Race } from "components/Ballot/Race";
 import { getYear } from "utils/dates";
+import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 
 interface RaceWidgetRenderOptions {
   theme: "light" | "dark";
@@ -43,6 +44,7 @@ export function RaceWidget({
       <main>
         <Race race={race} itemId={race.id} />
       </main>
+      <WidgetFooter learnMoreHref={"/ballot"} />
     </article>
   );
 }

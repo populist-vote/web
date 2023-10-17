@@ -6,6 +6,11 @@
 .widgetContainer {
   background: $grey-lightest;
   width: 100%;
+
+  main {
+    width: 100%;
+    padding: 1.75rem 0;
+  }
 }
 
 .header {
