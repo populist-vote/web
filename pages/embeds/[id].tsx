@@ -2,6 +2,7 @@ import { BillWidget } from "components/BillWidget/BillWidget";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
+import { RaceWidget } from "components/RaceWidget/RaceWidget";
 import {
   EmbedType,
   useEmbedByIdQuery,
@@ -48,6 +49,7 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
 
   const billId = data?.embedById?.attributes?.billId;
   const politicianId = data?.embedById?.attributes?.politicianId;
+  const raceId = data?.embedById?.attributes?.raceId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
 
   useEffect(() => {
@@ -77,6 +79,15 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
       return (
         <PoliticianWidget
           politicianId={politicianId}
+          embedId={embedId}
+          origin={resolvedOrigin}
+          renderOptions={renderOptions}
+        />
+      );
+    case EmbedType.Race:
+      return (
+        <RaceWidget
+          raceId={raceId}
           embedId={embedId}
           origin={resolvedOrigin}
           renderOptions={renderOptions}
