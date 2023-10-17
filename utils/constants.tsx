@@ -1,6 +1,6 @@
 import { i18n } from "next-i18next.config";
 export const DEFAULT_LANGUAGE = i18n.defaultLocale;
-export type Language = typeof i18n.locales[number];
+export type Language = (typeof i18n.locales)[number];
 
 export interface LocalizedNote {
   en?: string;
@@ -22,12 +22,17 @@ export const LANGUAGES: LanguageCode[] = [
 ];
 
 // Urls
-
 export const PERSON_FALLBACK_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/default-person-160.jpg";
 
 export const PERSON_FALLBACK_IMAGE_400_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/default-person-400.jpg";
+
+export const PERSON_FALLBACK_IMAGE_LIGHT_URL =
+  "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/default-person-light-160.jpg";
+
+export const PERSON_FALLBACK_IMAGE_LIGHT_400_URL =
+  "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/default-person-light-400.jpg";
 
 export const ORGANIZATION_FALLBACK_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/organization-thumbnails/default-org-160.jpg";
