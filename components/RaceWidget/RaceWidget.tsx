@@ -37,7 +37,7 @@ export function RaceWidget({
   return (
     <article className={styles.widgetContainer}>
       <header className={styles.header}>
-        <strong>{`${race?.office.title} - ${race?.office.subtitle}`}</strong>
+        <strong>{`${race?.office.name} - ${race?.office.subtitle}`}</strong>
         <strong>{`${getYear(race.electionDate)} - ${race.raceType}`}</strong>
       </header>
       <main>
