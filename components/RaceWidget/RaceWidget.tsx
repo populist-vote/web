@@ -20,7 +20,12 @@ export function RaceWidget({
   origin: string;
   renderOptions: RaceWidgetRenderOptions;
 }) {
-  const { data, isLoading, error } = useRaceByIdQuery({ id: raceId });
+  const { data, isLoading, error } = useRaceByIdQuery(
+    { id: raceId },
+    {
+      staleTime: 1000 * 2,
+    }
+  );
   useEmbedResizer({ origin, embedId });
   const _ = renderOptions;
   const race = data?.raceById as RaceResult;
