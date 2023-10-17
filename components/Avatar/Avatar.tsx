@@ -6,6 +6,7 @@ import { StarYellowDarkIcon, StarGreyDarkIcon } from "components/Icons";
 
 import {
   ORGANIZATION_FALLBACK_IMAGE_URL,
+  PERSON_FALLBACK_IMAGE_LIGHT_URL,
   PERSON_FALLBACK_IMAGE_URL,
 } from "utils/constants";
 import { PoliticalParty } from "../../generated";
@@ -78,6 +79,7 @@ interface AvatarProps {
 }
 
 interface PartyAvatarProps extends AvatarProps {
+  theme?: "light" | "dark";
   party?: PoliticalParty;
   badgeSize?: string;
   badgeFontSize?: string;
@@ -319,13 +321,14 @@ function Avatar(props: AvatarProps): JSX.Element {
 }
 
 function PartyAvatar({
+  theme = "dark",
   party = PoliticalParty.Unknown,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",
   iconType = "plus",
   src,
-  fallbackSrc = PERSON_FALLBACK_IMAGE_URL,
+  fallbackSrc,
   hasIconMenu = false,
   isEndorsement = false,
   hasNote = false,
@@ -349,6 +352,12 @@ function PartyAvatar({
     size: badgeSize,
     fontSize: badgeFontSize,
   };
+
+  const computedFallbackSrc = fallbackSrc
+    ? fallbackSrc
+    : theme === "dark"
+    ? PERSON_FALLBACK_IMAGE_URL
+    : PERSON_FALLBACK_IMAGE_LIGHT_URL;
 
   const iconStyleVars: CSSProperties & {
     "--icon-right-position": string;
@@ -390,7 +399,7 @@ function PartyAvatar({
         hasIconMenu={hasIconMenu}
         iconMenuProps={iconMenuProps}
         src={src}
-        fallbackSrc={fallbackSrc}
+        fallbackSrc={computedFallbackSrc}
         opaque={opaque}
         {...rest}
       />

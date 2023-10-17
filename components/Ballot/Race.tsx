@@ -30,10 +30,12 @@ interface EditVotingGuideCandidate {
 function Race({
   race,
   incumbentId,
+  theme = "dark",
 }: {
   race: RaceResult;
   itemId: string;
   incumbentId?: string;
+  theme?: "light" | "dark";
 }) {
   const queryClient = useQueryClient();
 
@@ -219,6 +221,7 @@ function Race({
 
             <div className={styles.avatarContainer}>
               <PartyAvatar
+                theme={theme}
                 size={80}
                 hasIconMenu
                 isEndorsement={isEndorsing}
@@ -253,18 +256,18 @@ function Race({
   );
 
   return raceType === RaceType.General ? (
-        <div className={clsx(styles.raceContent, styles.scrollSnap)}>
-          {$raceContent}
-        </div>
-      ) : (
-        <FieldSet
-          heading={raceType}
-          color={party === PoliticalParty.Republican ? "red" : "blue"}
-          className={clsx(styles.scrollSnap)}
-        >
-          {$raceContent}
-        </FieldSet>
-      );
+    <div className={clsx(styles.raceContent, styles.scrollSnap)}>
+      {$raceContent}
+    </div>
+  ) : (
+    <FieldSet
+      heading={raceType}
+      color={party === PoliticalParty.Republican ? "red" : "blue"}
+      className={clsx(styles.scrollSnap)}
+    >
+      {$raceContent}
+    </FieldSet>
+  );
 }
 
 export type { EditVotingGuideCandidate };
