@@ -23,7 +23,8 @@ export function RaceWidget({
   const { data, isLoading, error } = useRaceByIdQuery(
     { id: raceId },
     {
-      staleTime: 1000 * 2,
+      // two minutes
+      refetchInterval: 1000 * 60 * 2,
     }
   );
   useEmbedResizer({ origin, embedId });

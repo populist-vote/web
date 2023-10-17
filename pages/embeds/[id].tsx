@@ -97,6 +97,8 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
       return <QuestionWidget embedId={embedId} origin={resolvedOrigin} />;
     case EmbedType.Poll:
       return <PollWidget embedId={embedId} origin={resolvedOrigin} />;
+    default:
+      return <div>This embed type has not been implemented yet.</div>;
   }
 }
 
