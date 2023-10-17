@@ -120,7 +120,7 @@ export function DashboardTopNav() {
       <div>
         <Link
           href={{
-            pathname: `/dashboard/[slug]/embeds/poll/new`,
+            pathname: `/dashboard/[slug]/embeds/new`,
             query: { slug: router.query.slug },
           }}
         >
