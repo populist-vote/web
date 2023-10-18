@@ -22,8 +22,8 @@ function Candidate({
         size={60}
         party={candidate.party as PoliticalParty}
         src={
-          candidate.thumbnailImageUrl ||
           candidate.assets?.thumbnailImage160 ||
+          candidate.thumbnailImageUrl ||
           PERSON_FALLBACK_IMAGE_URL
         }
         fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
