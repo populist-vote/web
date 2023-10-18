@@ -19,7 +19,7 @@ export function RaceResultsTable() {
   );
   const { data } = useRaceIndexQuery(
     {
-      pageSize: 10,
+      pageSize: 50,
       filter: {
         query: debouncedSearchQuery || null,
       },
