@@ -58,7 +58,7 @@ function PoliticianEndorsement({
       <div className={styles.avatarContainer}>
         <PartyAvatar
           party={politician?.party as PoliticalParty}
-          src={politician?.thumbnailImageUrl as string}
+          src={politician?.assets?.thumbnailImage160 as string}
           alt={politician?.fullName as string}
           size={80}
         />
@@ -91,28 +91,29 @@ function EndorsementsSection() {
   return (
     <ColoredSection color="var(--aqua)">
       <h2 className={styles.gradientHeader}>Endorsements</h2>
-      {endorsements?.organizations && endorsements?.organizations?.length > 0 && (
-        <div className={styles.endorsementSection}>
-          <h4 className={`${styles.subHeader} ${styles.aqua}`}>
-            Organizations
-          </h4>
-          <div
-            className={clsx(
-              styles.sectionContent,
-              styles.flexBetween,
-              styles.scrollSnap
-            )}
-          >
-            {endorsements?.organizations?.map((organization) => (
-              <OrganizationEndorsement
-                organization={organization}
-                key={organization.slug}
-                itemId={organization.slug}
-              />
-            ))}
+      {endorsements?.organizations &&
+        endorsements?.organizations?.length > 0 && (
+          <div className={styles.endorsementSection}>
+            <h4 className={`${styles.subHeader} ${styles.aqua}`}>
+              Organizations
+            </h4>
+            <div
+              className={clsx(
+                styles.sectionContent,
+                styles.flexBetween,
+                styles.scrollSnap
+              )}
+            >
+              {endorsements?.organizations?.map((organization) => (
+                <OrganizationEndorsement
+                  organization={organization}
+                  key={organization.slug}
+                  itemId={organization.slug}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       {endorsements?.politicians && endorsements?.politicians?.length > 0 && (
         <div className={styles.endorsementSection}>
           <h4 className={`${styles.subHeader} ${styles.aqua}`}>Individuals</h4>

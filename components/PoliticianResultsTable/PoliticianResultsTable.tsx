@@ -38,7 +38,7 @@ function PoliticianResultsTable() {
   const columns = useMemo<ColumnDef<PoliticianResult>[]>(
     () => [
       {
-        accessorKey: "thumbnailImageUrl",
+        accessorKey: "assets.thumbnailImage160",
         header: "",
         cell: (info) => (
           <PartyAvatar

@@ -61,7 +61,7 @@ export function PoliticianWidget({
         <section>
           <PartyAvatar
             party={politician?.party as PoliticalParty}
-            src={politician?.thumbnailImageUrl as string}
+            src={politician?.assets.thumbnailImage400 as string}
             alt={politician?.fullName as string}
             size={80}
           />

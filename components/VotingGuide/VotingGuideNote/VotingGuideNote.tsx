@@ -79,7 +79,7 @@ function VotingGuideNote({
     <div className={styles.container} id="modal" key={politician.id}>
       <PartyAvatar
         party={politician.party as PoliticalParty}
-        src={politician?.thumbnailImageUrl as string}
+        src={politician?.assets?.thumbnailImage160 as string}
         alt={politician?.fullName as string}
         size={80}
       />
