@@ -32,10 +32,16 @@ $box-height: 14rem;
 
 .boxOpponent {
   height: $box-height;
-  overflow: scroll;
-  justify-content: flex-start;
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  .opponentContainer {
+    overflow: scroll;
+    justify-content: flex-start;
+    display: flex;
+    align-items: baseline;
+  }
 }
 
 section.wrapper {

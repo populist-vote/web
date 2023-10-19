@@ -21,6 +21,9 @@ fragment raceFields on RaceResult {
       fullName
       party
       thumbnailImageUrl
+      assets {
+        thumbnailImage160
+      }
     }
   }
   candidates {
@@ -28,12 +31,14 @@ fragment raceFields on RaceResult {
     slug
     fullName
     party
-    thumbnailImageUrl
+    assets {
+      thumbnailImage160
+    }
   }
   results {
     votesByCandidate {
       candidateId
-      votes 
+      votes
       votePercentage
     }
     totalVotes
@@ -49,7 +54,6 @@ fragment electionFields on ElectionResult {
   title
   description
   electionDate
-  
 }
 
 query Elections {

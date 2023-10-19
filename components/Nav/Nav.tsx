@@ -250,7 +250,7 @@ function DashboardLink({ organization }: { organization: OrganizationResult }) {
       <div className={styles.orgDashboardLink}>
         <Avatar
           src={
-            organization.assets.thumbnailImage160 ||
+            organization.assets?.thumbnailImage160 ||
             ORGANIZATION_FALLBACK_IMAGE_URL
           }
           fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}

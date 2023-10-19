@@ -4,12 +4,7 @@ query BillIndex(
   $filter: BillFilter
   $sort: BillSort
 ) {
-  bills(
-    first: $pageSize
-    after: $cursor
-    filter: $filter
-    sort: $sort
-  ) {
+  bills(first: $pageSize, after: $cursor, filter: $filter, sort: $sort) {
     edges {
       node {
         ...BillFields
@@ -23,14 +18,8 @@ query BillIndex(
   }
 }
 
-query PopularBills(
-  $pageSize: Int
-  $cursor: String
-) {
-  popularBills(
-    first: $pageSize
-    after: $cursor
-  ) {
+query PopularBills($pageSize: Int, $cursor: String) {
+  popularBills(first: $pageSize, after: $cursor) {
     edges {
       node {
         ...BillFields
@@ -67,6 +56,9 @@ query BillBySlug($slug: String!) {
       slug
       party
       thumbnailImageUrl
+      assets {
+        thumbnailImage160
+      }
       fullName
       currentOffice {
         id
@@ -76,7 +68,7 @@ query BillBySlug($slug: String!) {
       }
     }
     session {
-      name 
+      name
       startDate
       endDate
     }
@@ -112,6 +104,9 @@ query BillById($id: ID!) {
       slug
       party
       thumbnailImageUrl
+      assets {
+        thumbnailImage160
+      }
       fullName
       currentOffice {
         id
@@ -121,7 +116,7 @@ query BillById($id: ID!) {
       }
     }
     session {
-      name 
+      name
       startDate
       endDate
     }
@@ -145,7 +140,11 @@ query BillById($id: ID!) {
   }
 }
 
-mutation UpsertBillPublicVote($billId: ID!, $userId: ID!, $position: ArgumentPosition!) {
+mutation UpsertBillPublicVote(
+  $billId: ID!
+  $userId: ID!
+  $position: ArgumentPosition!
+) {
   upsertBillPublicVote(billId: $billId, userId: $userId, position: $position) {
     support
     neutral
@@ -170,29 +169,29 @@ fragment BillFields on BillResult {
     oppose
   }
   session {
-    name 
+    name
     startDate
     endDate
   }
 }
 
 query BillIssueTags {
-    billIssueTags {
-        id
-        name
-        description
-        slug
-    }
+  billIssueTags {
+    id
+    name
+    description
+    slug
+  }
 }
 
 query BillYears {
-    billYears
+  billYears
 }
 
 query BillCommittees {
-    billCommittees {
-        id
-        slug
-        name
-    }
+  billCommittees {
+    id
+    slug
+    name
+  }
 }
