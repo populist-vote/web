@@ -16,7 +16,7 @@ import { LastVoteSection } from "./LastVoteSection/LastVoteSection";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 
-interface BillWidgetRenderOptions {
+export interface BillWidgetRenderOptions {
   issueTags: boolean;
   summary: boolean;
   sponsors: boolean;
