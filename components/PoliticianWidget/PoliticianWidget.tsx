@@ -313,7 +313,7 @@ export function PoliticianWidget({
           </>
         )}
       </main>
-      <WidgetFooter />
+      <WidgetFooter learnMoreHref={`/politicians/${politician?.slug}`} />
     </article>
   );
 }
