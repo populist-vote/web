@@ -1,9 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { BillWidgetRenderOptions } from "components/BillWidget/BillWidget";
 import { Button } from "components/Button/Button";
 import { Checkbox } from "components/Checkbox/Checkbox";
+import { PoliticianWidgetRenderOptions } from "components/PoliticianWidget/PoliticianWidget";
 import { TextInput } from "components/TextInput/TextInput";
 import {
   EmbedResult,
+  EmbedType,
   UpsertEmbedInput,
   useEmbedByIdQuery,
   useUpsertEmbedMutation,
@@ -13,18 +16,8 @@ import { useRouter } from "next/router";
 import { UseFormRegister, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-type BillRenderOptions = {
-  issueTags: boolean;
-  summary: boolean;
-  sponsors: boolean;
-};
-
-type PoliticianRenderOptions = {
-  bio: boolean;
-};
-
 type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
-  renderOptions: BillRenderOptions | PoliticianRenderOptions;
+  renderOptions: BillWidgetRenderOptions | PoliticianWidgetRenderOptions;
 };
 
 function BillEmbedOptionsForm({
@@ -62,6 +55,41 @@ function BillEmbedOptionsForm({
   );
 }
 
+function PoliticianEmbedOptionsForm({
+  register,
+}: {
+  register: UseFormRegister<UpsertEmbedInputWithOptions>;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+      }}
+    >
+      <Checkbox
+        id="stats"
+        name="renderOptions.stats"
+        label="Stats"
+        register={register}
+      />
+      <Checkbox
+        id="endorsements"
+        name="renderOptions.endorsements"
+        label="Endorsements"
+        register={register}
+      />
+      <Checkbox
+        id="socials"
+        name="renderOptions.socials"
+        label="Socials"
+        register={register}
+      />
+    </div>
+  );
+}
+
 function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
   const { user } = useAuth({ redirect: false });
@@ -76,6 +104,9 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         issueTags: embed?.attributes?.renderOptions?.issueTags,
         summary: embed?.attributes?.renderOptions?.summary,
         sponsors: embed?.attributes?.renderOptions?.sponsors,
+        stats: embed?.attributes?.renderOptions?.stats,
+        endorsements: embed?.attributes?.renderOptions?.endorsements,
+        socials: embed?.attributes?.renderOptions?.socials,
       },
     },
   });
@@ -110,9 +141,11 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   };
 
   const renderOptions = () => {
-    switch (embed?.attributes?.embedType) {
-      case "legislation":
+    switch (embed?.embedType) {
+      case EmbedType.Legislation:
         return <BillEmbedOptionsForm register={register} />;
+      case EmbedType.Politician:
+        return <PoliticianEmbedOptionsForm register={register} />;
       default:
         return null;
     }
