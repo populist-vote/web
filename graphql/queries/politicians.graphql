@@ -12,6 +12,9 @@ query PoliticianIndex(
         homeState
         party
         thumbnailImageUrl
+        assets {
+          thumbnailImage160
+        }
         currentOffice {
           id
           slug
@@ -135,6 +138,9 @@ fragment Endorsements on PoliticianResult {
       homeState
       party
       thumbnailImageUrl
+      assets {
+        thumbnailImage160
+      }
       currentOffice {
         id
         slug

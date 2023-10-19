@@ -234,7 +234,7 @@ function Race({
                 }
                 handleAddNote={() => handleAddNoteClick(politician)}
                 party={politician?.party as PoliticalParty}
-                src={politician?.assets.thumbnailImage160 as string}
+                src={politician?.assets?.thumbnailImage160 as string}
                 alt={politician.fullName}
                 readOnly={!isGuideOwner}
                 href={politicianLink}

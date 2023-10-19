@@ -79,21 +79,23 @@ function ElectionInfoSection() {
           Opponent{opponents.length > 1 && "s"}
         </h4>
         <div className={clsx(styles.boxOpponent, styles.roundedCard)}>
-          {opponents.length == 0 ? (
-            <h3 style={{ justifySelf: "center", width: "100%" }}>None</h3>
-          ) : (
-            opponents.map(
-              (candidate: Partial<PoliticianResult> & { id: string }) => {
-                return (
-                  <Candidate
-                    candidate={candidate}
-                    itemId={candidate.id}
-                    key={candidate.id}
-                  />
-                );
-              }
-            )
-          )}
+          <div className={styles.opponentContainer}>
+            {opponents.length == 0 ? (
+              <h3 style={{ justifySelf: "center", width: "100%" }}>None</h3>
+            ) : (
+              opponents.map(
+                (candidate: Partial<PoliticianResult> & { id: string }) => {
+                  return (
+                    <Candidate
+                      candidate={candidate}
+                      itemId={candidate.id}
+                      key={candidate.id}
+                    />
+                  );
+                }
+              )
+            )}
+          </div>
         </div>
       </div>
     </section>
