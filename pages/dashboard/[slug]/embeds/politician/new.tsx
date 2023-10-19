@@ -51,6 +51,11 @@ function NewPoliticianEmbed() {
           organizationId: user?.organizationId as string,
           attributes: {
             politicianId: selected as string,
+            renderOptions: {
+              stats: true,
+              endorsements: true,
+              socials: true,
+            },
           },
         },
       },
