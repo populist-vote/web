@@ -52,6 +52,7 @@ export function PoliticianWidget({
   const age = politician?.age;
   const officeTitle = `${politician?.currentOffice?.title} - ${politician?.currentOffice?.subtitleShort}`;
   const upcomingRace = politician?.upcomingRace;
+  const isPastElection = new Date(upcomingRace?.electionDate) < new Date();
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this politician.</div>;
@@ -59,7 +60,7 @@ export function PoliticianWidget({
   const $upcomingRaceSection = (
     <section className={styles.upcomingRaceSection}>
       <div>
-        <h4>Running For</h4>
+        <h4>{isPastElection ? "Ran For" : "Running For"}</h4>
         <div className={styles.raceBox}>
           <h4 className={styles.officeSubtitle}>
             {upcomingRace?.office.subtitle}
@@ -68,7 +69,7 @@ export function PoliticianWidget({
         </div>
       </div>
       <div>
-        <h4>Next Election</h4>
+        <h4>{`${isPastElection ? "Last" : "Next"} Election`}</h4>
         <div className={styles.raceBox}>
           <h3>{dateString(upcomingRace?.electionDate)}</h3>
         </div>
