@@ -55,7 +55,7 @@ const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
           size={60}
           party={politician.party as PoliticalParty}
           src={
-            politician.thumbnailImageUrl ||
+            politician.assets.thumbnailImage160 ||
             (politician.votesmartCandidateBio?.candidate.photo as string)
           }
           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}

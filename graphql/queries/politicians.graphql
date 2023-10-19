@@ -3,11 +3,7 @@ query PoliticianIndex(
   $cursor: String
   $filter: PoliticianFilter
 ) {
-  politicians(
-    first: $pageSize
-    after: $cursor
-    filter: $filter
-  ) {
+  politicians(first: $pageSize, after: $cursor, filter: $filter) {
     edges {
       node {
         id
@@ -39,9 +35,9 @@ query PoliticianIndex(
 
 fragment BasicInfo on PoliticianResult {
   id
-  fullName 
-  preferredName 
-  homeState 
+  fullName
+  preferredName
+  homeState
   party
   yearsInPublicOffice
   raceWins
@@ -113,7 +109,9 @@ fragment ElectionInfo on PoliticianResult {
       id
       slug
       fullName
-      thumbnailImageUrl
+      assets {
+        thumbnailImage160
+      }
       party
     }
   }
@@ -213,11 +211,11 @@ fragment Financials on PoliticianResult {
   }
 
   donationsSummary {
-    totalRaised,
-    spent,
-    cashOnHand,
-    debt,
-    source,
+    totalRaised
+    spent
+    cashOnHand
+    debt
+    source
     lastUpdated
   }
 }
@@ -270,7 +268,6 @@ query PoliticianFinancials($slug: String!) {
   }
 }
 
-
 query PoliticianBySlug($slug: String!) {
   politicianBySlug(slug: $slug) {
     ...BasicInfo
@@ -285,10 +282,10 @@ query PoliticianBySlug($slug: String!) {
 
 query PoliticianEmbedById($id: ID!) {
   politicianById(id: $id) {
-    slug,
+    slug
     ...BasicInfo
-    raceWins,
-    raceLosses,
+    raceWins
+    raceLosses
     yearsInPublicOffice
     currentOffice {
       title
