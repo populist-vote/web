@@ -52,6 +52,7 @@ function NewPoliticianEmbed() {
           attributes: {
             politicianId: selected as string,
             renderOptions: {
+              upcomingRace: true,
               stats: true,
               endorsements: true,
               socials: true,

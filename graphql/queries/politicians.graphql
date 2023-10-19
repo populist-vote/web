@@ -291,6 +291,7 @@ query PoliticianEmbedById($id: ID!) {
     slug
     ...BasicInfo
     ...Endorsements
+    ...ElectionInfo
     raceWins
     raceLosses
     yearsInPublicOffice

@@ -69,6 +69,12 @@ function PoliticianEmbedOptionsForm({
       }}
     >
       <Checkbox
+        id="upcomingRace"
+        name="renderOptions.upcomingRace"
+        label="Upcoming Race (if applicable)"
+        register={register}
+      />
+      <Checkbox
         id="stats"
         name="renderOptions.stats"
         label="Stats"
@@ -104,6 +110,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         issueTags: embed?.attributes?.renderOptions?.issueTags,
         summary: embed?.attributes?.renderOptions?.summary,
         sponsors: embed?.attributes?.renderOptions?.sponsors,
+        upcomingRace: embed?.attributes?.renderOptions?.upcomingRace,
         stats: embed?.attributes?.renderOptions?.stats,
         endorsements: embed?.attributes?.renderOptions?.endorsements,
         socials: embed?.attributes?.renderOptions?.socials,
