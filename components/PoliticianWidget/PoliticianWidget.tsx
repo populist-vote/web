@@ -2,7 +2,7 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { PoliticalParty, usePoliticianEmbedByIdQuery } from "generated";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import styles from "./PoliticianWidget.module.scss";
-import { PartyAvatar } from "components/Avatar/Avatar";
+import { OrganizationAvatar, PartyAvatar } from "components/Avatar/Avatar";
 import { getYear } from "utils/dates";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import {
@@ -111,10 +111,38 @@ export function PoliticianWidget({
           )}
         </section>
         <div className={styles.divider} />
+        <section className={styles.endorsementSection}>
+          <h4>Endorsements</h4>
+          <div className={styles.endorsementList}>
+            {politician?.endorsements?.organizations.map((endorsement) => (
+              <div key={endorsement.id} className={styles.endorsementContainer}>
+                <OrganizationAvatar
+                  alt={endorsement.name}
+                  src={endorsement.assets?.thumbnailImage160 as string}
+                  size={40}
+                />
+                <span>{endorsement.name}</span>
+              </div>
+            ))}
+            {politician?.endorsements?.politicians.map((endorsement) => (
+              <div key={endorsement.id} className={styles.endorsementContainer}>
+                <PartyAvatar
+                  alt={endorsement.fullName}
+                  src={endorsement.assets?.thumbnailImage160 as string}
+                  size={40}
+                  party={endorsement.party as PoliticalParty}
+                />
+                <span>{endorsement.fullName}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+        <div className={styles.divider} />
         <section className={styles.socials}>
           {politician?.officialWebsiteUrl && (
             <a
-              aria-label={"Website"}
+              aria-label={"Official Website"}
+              title="Official Website"
               href={
                 politician.officialWebsiteUrl?.startsWith("http")
                   ? politician.officialWebsiteUrl
@@ -128,7 +156,8 @@ export function PoliticianWidget({
           )}
           {politician?.campaignWebsiteUrl && (
             <a
-              aria-label={"Website"}
+              aria-label={"Campaign Website"}
+              title="Campaign Website"
               href={
                 politician.campaignWebsiteUrl?.startsWith("http")
                   ? politician.campaignWebsiteUrl
@@ -143,6 +172,7 @@ export function PoliticianWidget({
           {politician?.twitterUrl && (
             <a
               aria-label={"Twitter"}
+              title="Twitter"
               href={
                 politician.twitterUrl?.startsWith("http")
                   ? politician.twitterUrl
@@ -157,6 +187,7 @@ export function PoliticianWidget({
           {politician?.facebookUrl && (
             <a
               aria-label={"Facebook"}
+              title="Facebook"
               href={
                 politician.facebookUrl?.startsWith("http")
                   ? politician.facebookUrl
@@ -171,6 +202,7 @@ export function PoliticianWidget({
           {politician?.instagramUrl && (
             <a
               aria-label={"Instagram"}
+              title="Instagram"
               href={
                 politician.instagramUrl?.startsWith("http")
                   ? politician.instagramUrl
@@ -185,6 +217,7 @@ export function PoliticianWidget({
           {politician?.tiktokUrl && (
             <a
               aria-label={"TikTok"}
+              title="TikTok"
               href={
                 politician.tiktokUrl?.startsWith("http")
                   ? politician.tiktokUrl
@@ -199,6 +232,7 @@ export function PoliticianWidget({
           {politician?.youtubeUrl && (
             <a
               aria-label={"YouTube"}
+              title="YouTube"
               href={
                 politician.youtubeUrl?.startsWith("http")
                   ? politician.youtubeUrl
@@ -213,6 +247,7 @@ export function PoliticianWidget({
           {politician?.linkedinUrl && (
             <a
               aria-label={"LinkedIn"}
+              title="LinkedIn"
               href={
                 politician.linkedinUrl?.startsWith("http")
                   ? politician.linkedinUrl
