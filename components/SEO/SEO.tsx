@@ -4,14 +4,28 @@ import { useRouter } from "next/router";
 const DEFAULT_PREVIEW_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg";
 
+interface SEOProps {
+  title?: string;
+  appName?: string;
+  description?: string;
+  previewImage?: string;
+  ogParams?: {
+    cardType: string;
+    imageSrc: string;
+  };
+}
+
 function SEO({
   title = "Populist | Civic Data and Engagement",
   appName = "Populist",
   description = "Populist sources, structures, links and delivers best-in-class civic data and provides a suite of tools that power transparent democracy. Easily enhance your organization's civic engagement and reporting.",
   previewImage = DEFAULT_PREVIEW_IMAGE_URL,
-}) {
-  const { pathname } = useRouter();
-  const compoundTitle = pathname == "/" ? title : `${title} | ${appName}`;
+  ogParams,
+}: SEOProps) {
+  const { cardType, imageSrc } = ogParams || {};
+  const router = useRouter();
+  const compoundTitle =
+    router.pathname == "/" ? title : `${title} | ${appName}`;
   return (
     <Head>
       <title key="title">{compoundTitle}</title>
@@ -23,7 +37,17 @@ function SEO({
 
       {/* OG FB meta tags */}
       <meta key="og_type" property="og:type" content="website" />
-      <meta key="og_image" property="og:image" content={previewImage} />
+
+      <meta
+        key="og_image"
+        property="og:image"
+        content={
+          cardType && imageSrc
+            ? `${process.env.VERCEL_URL}/api/og?cardType=${cardType}&imageSrc=${imageSrc}`
+            : previewImage
+        }
+      />
+
       <meta key="og_title" property="og:title" content={title} />
       <meta
         key="og_description"
@@ -37,7 +61,15 @@ function SEO({
         name="twitter:card"
         content="summary_large_image"
       />
-      <meta key="twitter_image" name="twitter:image" content={previewImage} />
+      <meta
+        key="twitter_image"
+        name="twitter:image"
+        content={
+          cardType && imageSrc
+            ? `${process.env.VERCEL_URL}/api/og?cardType=${cardType}&imageSrc=${imageSrc}`
+            : previewImage
+        }
+      />
       <meta key="twitter_site" name="twitter:site" content="@populist_us" />
       <meta key="twitter_title" name="twitter:title" content={title} />
       <meta

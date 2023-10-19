@@ -27,17 +27,21 @@ import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/F
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "types/global";
+import { OGParams } from "pages/api/og";
 
 function PoliticianPage({
   slug,
   votingGuideId,
   mobileNavTitle,
   referer,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ogParams,
 }: {
   slug: string;
   votingGuideId?: string;
   mobileNavTitle?: string;
   referer?: string;
+  ogParams: OGParams;
 }) {
   const { data, isLoading } = usePoliticianBasicInfoQuery(
     {
@@ -108,6 +112,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const data = state.queries[0]?.state.data as PoliticianBasicInfoQuery;
 
+  const ogParams: OGParams = {
+    cardType: "politician",
+    imageSrc: data?.politicianBySlug?.assets.thumbnailImage400 as string,
+  };
+
   return {
     notFound: !data,
     props: {
@@ -118,6 +127,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       mobileNavTitle: data?.politicianBySlug?.fullName,
       title: data?.politicianBySlug?.fullName,
       description: `Check out ${data?.politicianBySlug?.fullName}'s voting record, financial data, and more on Populist.`,
+      ogParams,
       ...(await serverSideTranslations(
         locale as SupportedLocale,
         ["auth", "common"],
