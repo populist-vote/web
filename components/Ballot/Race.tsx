@@ -31,11 +31,13 @@ function Race({
   race,
   incumbentId,
   theme = "dark",
+  isEmbedded = false,
 }: {
   race: RaceResult;
   itemId: string;
   incumbentId?: string;
   theme?: "light" | "dark";
+  isEmbedded?: boolean;
 }) {
   const queryClient = useQueryClient();
 
@@ -238,6 +240,8 @@ function Race({
                 alt={politician.fullName}
                 readOnly={!isGuideOwner}
                 href={politicianLink}
+                target={isEmbedded ? "_blank" : undefined}
+                rel={isEmbedded ? "noopener noreferrer" : undefined}
                 labelLeft={labelLeftProps}
                 opaque={isOpaque}
               />
