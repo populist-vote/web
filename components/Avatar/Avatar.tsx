@@ -73,6 +73,8 @@ interface AvatarProps {
   name?: string;
   round?: boolean;
   href?: string;
+  target?: string;
+  rel?: string;
   labelLeft?: LabelLeftProps;
   opaque?: boolean;
   onClick?: () => void;
@@ -260,6 +262,8 @@ function Avatar(props: AvatarProps): JSX.Element {
     hasIconMenu,
     iconMenuProps,
     href,
+    target,
+    rel,
     handleIconClick,
     labelLeft,
     opaque = false,
@@ -303,7 +307,7 @@ function Avatar(props: AvatarProps): JSX.Element {
       <div className={styles.container}>
         {href ? (
           <div className={styles.avatarLink}>
-            <Link href={href} passHref>
+            <Link href={href} target={target} rel={rel} passHref>
               <div>{$avatarImage}</div>
             </Link>
           </div>

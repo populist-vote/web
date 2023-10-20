@@ -42,7 +42,7 @@ export function RaceWidget({
         <strong>{`${getYear(race.electionDate)} - ${race.raceType}`}</strong>
       </header>
       <main>
-        <Race race={race} itemId={race.id} theme="light" />
+        <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
       </main>
       <WidgetFooter learnMoreHref={"/ballot"} />
     </article>
