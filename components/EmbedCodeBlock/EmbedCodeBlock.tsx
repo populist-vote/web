@@ -6,7 +6,7 @@ export function EmbedCodeBlock({ id }: { id: string }) {
   const [language, setLanguage] = useState<"html" | "react" | "nextjs">("html");
   const htmlText = `
   <!-- Place this div where you want the widget to appear -->
-  <div className="populist-${id}" />
+  <div class="populist-${id}" />
   
   <script
     src="${window.location.origin}/widget-client.js"
