@@ -92,7 +92,7 @@
 .widgetContainer {
   border-radius: 15px;
   border: 1px solid $grey-light;
-  background: $grey-lighter;
+  background: $grey-lightest;
   box-sizing: border-box;
   color: $grey-darkest;
   display: flex;
@@ -166,26 +166,30 @@
   }
 }
 
-.dotSpread {
+.dotSpreadEmbed {
   display: inline-flex;
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
   gap: 0.5rem;
-  margin: 0.25rem 0;
+  margin-bottom: 0.25rem;
 
   span {
     min-width: fit-content;
     margin: 0;
 
     &.dots {
-      border-bottom: dotted 2px $grey-dark;
       width: 100%;
-      float: left;
-      position: relative;
-      display: block;
-      height: 12px;
-      margin: 0;
+      display: inline;
+      height: 1px;
+      background-image: linear-gradient(
+        to right,
+        $grey-darker 20%,
+        $grey-lightest 0%
+      );
+      background-position: bottom;
+      background-size: 5px 1px;
+      background-repeat: repeat-x;
     }
   }
 }
