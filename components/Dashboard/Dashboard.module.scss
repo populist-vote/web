@@ -43,10 +43,32 @@
   }
 
   .dotSpread {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
     font-size: $text-md;
 
     span {
+      min-width: fit-content;
+      margin: 0;
       text-transform: capitalize;
+
+      &.dots {
+        width: 100%;
+        display: inline;
+        height: 1px;
+        background-image: linear-gradient(
+          to right,
+          $blue-light 20%,
+          $blue-darker 0%
+        );
+        background-position: bottom;
+        background-size: 5px 1px;
+        background-repeat: repeat-x;
+      }
     }
   }
 }

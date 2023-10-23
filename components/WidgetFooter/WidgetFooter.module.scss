@@ -1,28 +1,37 @@
 @import "styles/variables/colors";
 
 .footer {
-  border-top: 1px solid $grey-light;
   width: 100%;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  padding: 0 1rem 0.75rem;
 
-  .branding {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    justify-content: center;
-    align-items: center;
-
-    a {
-      height: 13px;
-    }
+  .divider {
+    width: 100%;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid $grey-light;
   }
 
-  .poweredBy {
-    font-size: 13px;
-    font-style: italic;
-    color: $grey;
+  .footerContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .branding {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      justify-content: center;
+      align-items: center;
+      padding-left: 0.75rem;
+
+      a {
+        height: 13px;
+      }
+    }
+
+    .poweredBy {
+      font-size: 13px;
+      font-style: italic;
+      color: $grey;
+    }
   }
 }

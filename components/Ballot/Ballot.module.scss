@@ -36,15 +36,16 @@
 }
 
 .flexBetween {
-  @include flex-between(0.5rem);
-
-  align-items: stretch;
+  @include flex-between(0rem);
+  height: 100%;
+  align-items: start;
 }
 
 .raceContent {
   display: flex;
   justify-content: flex-start;
-  align-items: baseline;
+  align-items: start;
+  padding: 0 0.5rem;
 }
 
 .electionHeader {
@@ -183,4 +184,8 @@
   display: grid;
   place-items: center;
   height: 75vh;
+}
+
+.avatarContainer {
+  width: 100px;
 }

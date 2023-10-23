@@ -5,6 +5,10 @@
 @import "styles/mixins/utils";
 
 .widgetContainer {
+  main {
+    padding: 0.5rem 1rem 1.25rem;
+  }
+
   section {
     display: flex;
     flex-direction: column;
@@ -12,6 +16,7 @@
     align-items: center;
     width: 100%;
     margin-top: 1.5rem;
+    padding: 0 0.75rem;
   }
 
   .officeDisplay {
@@ -21,9 +26,11 @@
 
   .socials {
     flex-direction: row;
+    justify-content: space-around;
+    margin-top: 1rem;
 
     svg {
-      font-size: 30px;
+      font-size: 25px;
       color: $grey-dark;
       transition: ease-in-out 0.2s;
 
@@ -42,12 +49,18 @@
 
   .divider {
     width: 100%;
-    margin: 1rem 0;
+    margin: 1.5rem 0 1rem;
     border-bottom: 1px solid $grey-light;
   }
 
   .endorsementSection {
     width: 100%;
+    padding-bottom: 0.25rem;
+
+    h4 {
+      font-size: $text-xxs;
+      font-weight: 500;
+    }
 
     .endorsementList {
       width: inherit;
@@ -56,6 +69,7 @@
       gap: 1rem;
       justify-content: flex-start;
       overflow: scroll;
+      margin-top: 0.25rem;
     }
 
     .endorsementContainer {
@@ -65,13 +79,17 @@
 
       span {
         @include clamp-ellipsis(2);
+        font-size: $text-xs;
+        margin-top: 0.5rem;
+        text-align: center;
       }
     }
   }
 
   .upcomingRaceSection {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
 
     div {
       width: 100%;
@@ -81,23 +99,36 @@
       align-items: center;
     }
 
+    h4 {
+      font-size: $text-xxs;
+      font-weight: 500;
+    }
+
     .raceBox {
-      background: $grey-light;
+      background: $grey-lighter;
       width: 100%;
-      padding: 1.5rem 1rem;
+      padding: 1rem 1rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      border-radius: 30px;
-      border: 1px solid $grey;
+      border-radius: 10px;
+      border: 1px solid $grey-light;
       color: $blue;
 
       h3 {
         margin: 0;
-        font-size: $text-xxl;
+        font-size: $text-md;
         font-weight: 500;
       }
+
+      h4 {
+        margin-bottom: 0.25rem;
+      }
     }
+  }
+
+  .statsSection {
+    font-size: $text-sm;
   }
 }

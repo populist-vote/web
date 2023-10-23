@@ -156,8 +156,8 @@ function Race({
     return candidates
       ?.sort(randomizeFn)
       .sort(partySortFn)
-      .sort(incumbentSortFn)
-      .sort(electionResultsSortFn);
+      .sort(electionResultsSortFn)
+      .sort(incumbentSortFn);
   }, [candidates, incumbentId, results.votesByCandidate]);
 
   const $raceContent = (
