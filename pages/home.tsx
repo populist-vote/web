@@ -35,7 +35,7 @@ function CitizenHome({ userLoggedIn }: { userLoggedIn: boolean }) {
         label={t("my-ballot")}
       />
       <HomePageButton
-        href={userLoggedIn ? "/voting-guides" : "/login?next=/voting-guides"}
+        href={userLoggedIn ? "/voting-guides" : "/login?next=voting-guides"}
         className="votingGuides"
         label={t("voting-guides")}
       />
