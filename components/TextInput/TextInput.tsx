@@ -50,7 +50,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   charLimit,
   ...rest
 }: TextInputProps<TFormValues>) {
-  const inputId = id || "input";
+  const inputId = id || `input-${name}`;
 
   const inputClasses = clsx(styles.inputContainer, styles[size as string], {
     [styles.hideLabel as string]: hideLabel,
