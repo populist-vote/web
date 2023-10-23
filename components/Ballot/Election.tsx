@@ -28,7 +28,7 @@ function Election({
       id: electionId,
     },
     {
-      enabled: !votingGuideId,
+      enabled: !votingGuideId && !!electionId,
     }
   );
 
@@ -38,7 +38,7 @@ function Election({
       votingGuideId: votingGuideId as string,
     },
     {
-      enabled: !!votingGuideId,
+      enabled: !!votingGuideId && !!electionId,
     }
   );
 
