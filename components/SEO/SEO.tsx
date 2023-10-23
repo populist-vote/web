@@ -43,7 +43,7 @@ function SEO({
         property="og:image"
         content={
           cardType && imageSrc
-            ? `${process.env.VERCEL_URL}/api/og?cardType=${cardType}&imageSrc=${imageSrc}`
+            ? `/api/og?cardType=${cardType}&imageSrc=${imageSrc}`
             : previewImage
         }
       />
@@ -66,7 +66,7 @@ function SEO({
         name="twitter:image"
         content={
           cardType && imageSrc
-            ? `${process.env.VERCEL_URL}/api/og?cardType=${cardType}&imageSrc=${imageSrc}`
+            ? `/api/og?cardType=${cardType}&imageSrc=${imageSrc}`
             : previewImage
         }
       />
