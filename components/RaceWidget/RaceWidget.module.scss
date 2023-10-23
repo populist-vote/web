@@ -9,7 +9,7 @@
 
   main {
     width: 100%;
-    padding: 1.75rem 0;
+    padding: 1.5rem 0rem 1.25rem;
   }
 }
 
@@ -28,5 +28,15 @@
     font-weight: 500;
     font-family: $font-primary;
     text-transform: uppercase;
+  }
+
+  .raceName {
+    text-align: left;
+    padding-right: 1rem;
+  }
+
+  .raceYear {
+    text-align: right;
+    padding-left: 1rem;
   }
 }

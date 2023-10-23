@@ -772,7 +772,7 @@ type OrganizationResult {
   politicianNotes(electionId: ID!): [OrganizationPoliticianNoteResult!]!
   slug: String!
   taxClassification: String
-  thumbnailImageUrl: String
+  thumbnailImageUrl: String @deprecated(reason: "Use `assets.thumbnailImage160` instead")
   twitterUrl: String
   votesmartSigId: Int
   websiteUrl: String
@@ -898,7 +898,7 @@ type PoliticianResult {
   slug: String!
   sponsoredBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
   suffix: String
-  thumbnailImageUrl: String
+  thumbnailImageUrl: String @deprecated(reason: "Use `assets.thumbnailImage160` instead")
   tiktokUrl: String
   twitterUrl: String
   upcomingRace: RaceResult
@@ -1132,6 +1132,7 @@ type RaceResult {
   slug: String!
   state: State
   title: String!
+  voteType: VoteType!
 }
 
 type RaceResultConnection {
@@ -1654,6 +1655,7 @@ input UpsertRaceInput {
   state: State
   title: String
   totalVotes: Int
+  voteType: VoteType
   winnerIds: [UUID!]
 }
 
@@ -1691,6 +1693,11 @@ type UserResult {
   lastName: String
   profilePictureUrl: String
   username: String!
+}
+
+enum VoteType {
+  PLURALITY
+  RANKED_CHOICE
 }
 
 type VotingGuideCandidateResult {

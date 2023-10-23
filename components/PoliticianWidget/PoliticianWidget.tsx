@@ -71,37 +71,37 @@ export function PoliticianWidget({
       <div>
         <h4>{`${isPastElection ? "Last" : "Next"} Election`}</h4>
         <div className={styles.raceBox}>
-          <h3>{dateString(upcomingRace?.electionDate)}</h3>
+          <h3>{dateString(upcomingRace?.electionDate, true)}</h3>
         </div>
       </div>
     </section>
   );
 
   const $statsSection = (
-    <section>
+    <section className={styles.statsSection}>
       {!!termStart && (
-        <div className={styles.dotSpread}>
+        <div className={styles.dotSpreadEmbed}>
           <span>Assumed Office</span>
           <span className={styles.dots} />
           <span>{termStart}</span>
         </div>
       )}
       {!!termEnd && (
-        <div className={styles.dotSpread}>
+        <div className={styles.dotSpreadEmbed}>
           <span>Term Ends</span>
           <span className={styles.dots} />
           <span>{termEnd}</span>
         </div>
       )}
       {!!yearsInPublicOffice && (
-        <div className={styles.dotSpread}>
+        <div className={styles.dotSpreadEmbed}>
           <span>Years in Public Office</span>
           <span className={styles.dots} />
           <span>{yearsInPublicOffice}</span>
         </div>
       )}
       {(!!raceWins || !!raceLosses) && (
-        <div className={styles.dotSpread}>
+        <div className={styles.dotSpreadEmbed}>
           <span>Elections Won / Lost</span>
           <span className={styles.dots} />
           <span>
@@ -110,7 +110,7 @@ export function PoliticianWidget({
         </div>
       )}
       {!!age && (
-        <div className={styles.dotSpread}>
+        <div className={styles.dotSpreadEmbed}>
           <span>Age</span>
           <span className={styles.dots} />
           <span>{age}</span>
@@ -294,24 +294,19 @@ export function PoliticianWidget({
             {$upcomingRaceSection}
           </>
         )}
-        {renderOptions?.stats && (
-          <>
-            <div className={styles.divider} />
-            {$statsSection}
-          </>
-        )}
         {renderOptions?.endorsements && (
           <>
             <div className={styles.divider} />
             {$endorsementSection}
           </>
         )}
-        {renderOptions?.socials && (
+        {renderOptions?.stats && (
           <>
             <div className={styles.divider} />
-            {$socialSection}
+            {$statsSection}
           </>
         )}
+        {renderOptions?.socials && <>{$socialSection}</>}
       </main>
       <WidgetFooter learnMoreHref={`/politicians/${politician?.slug}`} />
     </article>

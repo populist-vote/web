@@ -38,8 +38,16 @@ export function RaceWidget({
   return (
     <article className={styles.widgetContainer}>
       <header className={styles.header}>
-        <strong>{`${race?.office.name} - ${race?.office.subtitle}`}</strong>
-        <strong>{`${getYear(race.electionDate)} - ${race.raceType}`}</strong>
+        <strong>
+          <span className={styles.raceName}>
+            {`${race?.office.name} - ${race?.office.subtitle}`}
+          </span>
+        </strong>
+        <strong>
+          <span className={styles.raceYear}>
+            {`${getYear(race.electionDate)} - ${race.raceType}`}
+          </span>
+        </strong>
       </header>
       <main>
         <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
