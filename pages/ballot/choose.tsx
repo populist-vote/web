@@ -34,7 +34,7 @@ function ChooseAdventure() {
   if (user) void router.push("/ballot");
   return (
     <div className={styles.container}>
-      <Link href={`/register?next=/ballot`} passHref>
+      <Link href={`/register?next=ballot`} passHref>
         <div className={clsx(styles.roundedCard, styles.flex)}>
           <h2>View your Ballot</h2>
           <p>
