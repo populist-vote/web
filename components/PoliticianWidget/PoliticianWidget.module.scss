@@ -79,9 +79,11 @@
 
       span {
         @include clamp-ellipsis(2);
+
         font-size: $text-xs;
         margin-top: 0.5rem;
         text-align: center;
+        color: $grey-darkest;
       }
     }
   }
