@@ -16,6 +16,7 @@
   transition: all 0.2s ease-in-out;
   svg {
     font-size: 1.2em;
+    transition: ease-in-out all 0.2s;
   }
 
   &:disabled {
@@ -213,6 +214,10 @@ $small-size: 1.825rem;
   &:hover:not(:disabled) {
     background: $blue;
     color: $white;
+
+    svg {
+      color: $blue-text;
+    }
   }
 }
 

@@ -15,6 +15,7 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { GiWireframeGlobe } from "react-icons/gi";
+import Link from "next/link";
 
 export interface PoliticianWidgetRenderOptions {
   upcomingRace: boolean;
@@ -124,25 +125,39 @@ export function PoliticianWidget({
       <h4>Endorsements</h4>
       <div className={styles.endorsementList}>
         {politician?.endorsements?.organizations.map((endorsement) => (
-          <div key={endorsement.id} className={styles.endorsementContainer}>
-            <OrganizationAvatar
-              alt={endorsement.name}
-              src={endorsement.assets?.thumbnailImage160 as string}
-              size={40}
-            />
-            <span>{endorsement.name}</span>
-          </div>
+          <Link
+            href={`/organizations/${endorsement.slug}`}
+            key={endorsement.id}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div key={endorsement.id} className={styles.endorsementContainer}>
+              <OrganizationAvatar
+                alt={endorsement.name}
+                src={endorsement.assets?.thumbnailImage160 as string}
+                size={40}
+              />
+              <span>{endorsement.name}</span>
+            </div>
+          </Link>
         ))}
         {politician?.endorsements?.politicians.map((endorsement) => (
-          <div key={endorsement.id} className={styles.endorsementContainer}>
-            <PartyAvatar
-              alt={endorsement.fullName}
-              src={endorsement.assets?.thumbnailImage160 as string}
-              size={40}
-              party={endorsement.party as PoliticalParty}
-            />
-            <span>{endorsement.fullName}</span>
-          </div>
+          <Link
+            href={`/politicians/${endorsement.slug}`}
+            key={endorsement.id}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div key={endorsement.id} className={styles.endorsementContainer}>
+              <PartyAvatar
+                alt={endorsement.fullName}
+                src={endorsement.assets?.thumbnailImage160 as string}
+                size={40}
+                party={endorsement.party as PoliticalParty}
+              />
+              <span>{endorsement.fullName}</span>
+            </div>
+          </Link>
         ))}
       </div>
     </section>
