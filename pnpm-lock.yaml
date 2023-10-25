@@ -47,9 +47,6 @@ dependencies:
   next-pwa:
     specifier: ^5.6.0
     version: 5.6.0(@babel/core@7.23.0)(next@13.5.4)(webpack@5.88.2)
-  playwright-core:
-    specifier: 1.40.0-alpha-oct-25-2023
-    version: 1.40.0-alpha-oct-25-2023
   postcss:
     specifier: ^8.3.3
     version: 8.4.31
@@ -7184,12 +7181,6 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
     dev: true
-
-  /playwright-core@1.40.0-alpha-oct-25-2023:
-    resolution: {integrity: sha512-sBsmZRT9BNLdyozVW0OkYGX86ldVhk7pssxCyyt5rRgH3aYWX4TMlgOG+fynzj3N2VDathTd30M5TOqiLgphcQ==}
-    engines: {node: '>=16'}
-    hasBin: true
-    dev: false
 
   /playwright@1.39.0:
     resolution: {integrity: sha512-naE5QT11uC/Oiq0BwZ50gDmy8c8WLPRTEWuSSFVG2egBka/1qMoSqYQcROMT9zLwJ86oPofcTH2jBY/5wWOgIw==}
