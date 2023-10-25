@@ -2,12 +2,27 @@ import Script from "next/script";
 
 function EmbedTest() {
   return (
-    <div style={{ maxWidth: "512px" }}>
-      <div className="populist-935b8160-72b3-4209-a19b-5ea12f9c99fc" />
+    <div
+      style={{
+        backgroundColor: "dodgerblue",
+        display: "flex",
+      }}
+    >
+      <div className="populist-d3ea6fff-a537-4d72-9891-c3c82dcd684c" />
 
       <Script
-        src={`${window.location.origin}/widget-client.js`}
-        data-embed-id="d5d2467f-6591-4a14-a9fc-5a590d89e9b4"
+        src="http://localhost:3030/widget-client.js"
+        data-embed-id="d3ea6fff-a537-4d72-9891-c3c82dcd684c"
+      />
+
+      <Script
+        src="http://localhost:3030/widget-client.js?t=1"
+        data-embed-id="cdb2daf0-0951-4e59-ab88-c20cfc1d3252"
+      />
+
+      <Script
+        src="http://localhost:3030/widget-client.js?t=2"
+        data-embed-id="67b3c9f2-984a-4967-bde8-3e7bf9de3d5d"
       />
     </div>
   );

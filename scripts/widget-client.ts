@@ -18,7 +18,7 @@
   const src = `${populistOrigin}/embeds/${
     attributes.embedId
   }?${new URLSearchParams(params)}`;
-  const loading = attributes.loading === "lazy" ? "lazy" : undefined;
+  const loading = attributes.loading || "lazy";
 
   // Set up iframe element
   const iframeElement = document.createElement("iframe");
