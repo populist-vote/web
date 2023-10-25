@@ -14,7 +14,7 @@
     }
     // Compute embed source URL and loading attribute
     var src = "".concat(populistOrigin, "/embeds/").concat(attributes.embedId, "?").concat(new URLSearchParams(params));
-    var loading = attributes.loading === "lazy" ? "lazy" : undefined;
+    var loading = attributes.loading || "lazy";
     // Set up iframe element
     var iframeElement = document.createElement("iframe");
     var iframeAttributes = {
