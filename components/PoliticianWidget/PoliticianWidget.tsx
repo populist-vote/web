@@ -184,6 +184,7 @@ export function PoliticianWidget({
                 party={endorsement.party as PoliticalParty}
                 badgeSize="0.75rem"
                 badgeFontSize="0.5rem"
+                theme="light"
               />
               <span className={styles.endorserLabel}>
                 {endorsement.fullName}
@@ -329,6 +330,7 @@ export function PoliticianWidget({
             src={politician?.assets.thumbnailImage400 as string}
             alt={politician?.fullName as string}
             size={80}
+            theme="light"
           />
           <h1 className={styles.politicianName}>{politician?.fullName}</h1>
           {politician?.currentOffice && (
