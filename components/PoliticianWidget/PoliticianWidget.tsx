@@ -138,7 +138,7 @@ export function PoliticianWidget({
                 size="small"
                 label="Source"
                 style={{
-                  color: "var(--blue-dark)",
+                  color: "var(--blue)",
                 }}
               />
             </a>
