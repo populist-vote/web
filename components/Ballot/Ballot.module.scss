@@ -36,15 +36,16 @@
 }
 
 .flexBetween {
-  @include flex-between(0rem);
+  @include flex-between(0);
+
   height: 100%;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .raceContent {
   display: flex;
   justify-content: flex-start;
-  align-items: start;
+  align-items: flex-start;
   padding: 0 0.5rem;
 }
 
