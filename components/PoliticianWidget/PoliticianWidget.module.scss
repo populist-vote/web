@@ -26,13 +26,14 @@
 
   .socials {
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     margin-top: 1rem;
 
     svg {
       font-size: 25px;
       color: $grey-dark;
       transition: ease-in-out 0.2s;
+      margin: 0 0.75rem;
 
       &:hover {
         color: $blue;
@@ -40,16 +41,22 @@
     }
   }
 
-  h1 {
+  .politicianName {
     font-size: $text-md;
     font-weight: 400;
-    margin: 0;
+    margin: 0.5rem 0 0.25rem;
     font-family: $font-secondary;
   }
 
   .divider {
     width: 100%;
     margin: 1.5rem 0 1rem;
+    border-bottom: 1px solid $grey-light;
+  }
+
+  .socialsDivider {
+    width: 100%;
+    margin: 1.5rem 0 1.5rem;
     border-bottom: 1px solid $grey-light;
   }
 
@@ -60,6 +67,11 @@
     h4 {
       font-size: $text-xxs;
       font-weight: 500;
+
+      .endorsementsCount {
+        color: $blue;
+        padding: 0 0.2rem;
+      }
     }
 
     .endorsementList {
@@ -76,14 +88,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 70px;
 
-      span {
+      .endorserLabel {
         @include clamp-ellipsis(2);
 
         font-size: $text-xs;
-        margin-top: 0.5rem;
+        margin-top: 0.25rem;
         text-align: center;
         color: $grey-darkest;
+        max-width: 70px;
+        word-wrap: break-word;
       }
     }
   }
@@ -104,6 +119,11 @@
     h4 {
       font-size: $text-xxs;
       font-weight: 500;
+
+      .electionDate {
+        color: $blue;
+        padding: 0 0.2rem;
+      }
     }
 
     .raceBox {
@@ -114,7 +134,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      border-radius: 10px;
+      border-radius: 20px;
       border: 1px solid $grey-light;
       color: $blue;
 
@@ -132,5 +152,54 @@
 
   .statsSection {
     font-size: $text-sm;
+
+    .bioContainer {
+      padding-top: 0 !important;
+      margin-top: 0.75rem;
+      margin-bottom: -0.5rem;
+
+      .description {
+        text-align: left;
+        margin-bottom: 0.25rem;
+        max-height: 90px;
+        overflow: scroll;
+
+        p {
+          font-size: 1em;
+          font-weight: 400;
+          line-height: 1.5em;
+          margin-top: 0.5rem;
+        }
+      }
+
+      .overflowGradient {
+        position: relative;
+        padding: 0;
+      }
+
+      .overflowGradient::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1rem;
+        background: linear-gradient($grey-lightest, rgba(238, 238, 238, 0));
+      }
+
+      .overflowGradient::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1rem;
+        background: linear-gradient(rgba(238, 238, 238, 0), $grey-lightest);
+      }
+
+      button {
+        margin: 0.5rem auto 0;
+      }
+    }
   }
 }
