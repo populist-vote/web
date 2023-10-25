@@ -264,7 +264,7 @@ export function PoliticianWidget({
     )
       return (
         <>
-          <div className={styles.socialsDivider} />
+          <div className={styles.divider} />
           <section className={styles.socials}>
             <small>NONE</small>
           </section>
@@ -272,7 +272,7 @@ export function PoliticianWidget({
       );
     return (
       <>
-        <div className={styles.socialsDivider} />
+        <div className={styles.divider} />
         <section className={styles.socials}>
           {politician?.officialWebsiteUrl && (
             <a
