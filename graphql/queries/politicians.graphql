@@ -290,6 +290,7 @@ query PoliticianEmbedById($id: ID!) {
   politicianById(id: $id) {
     slug
     ...BasicInfo
+    ...Bio
     ...Endorsements
     ...ElectionInfo
     raceWins

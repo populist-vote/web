@@ -297,7 +297,6 @@ function Avatar(props: AvatarProps): JSX.Element {
   return (
     <div
       style={{
-        display: "inline",
         width: props.size,
         height: props.size,
         overflow: "visible",
