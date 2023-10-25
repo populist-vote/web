@@ -161,7 +161,7 @@ export function PoliticianWidget({
           >
             <div key={endorsement.id} className={styles.endorsementContainer}>
               <OrganizationAvatar
-                alt={endorsement.name}
+                alt={endorsement.name as string}
                 src={endorsement.assets?.thumbnailImage160 as string}
                 size={40}
               />
@@ -178,7 +178,7 @@ export function PoliticianWidget({
           >
             <div key={endorsement.id} className={styles.endorsementContainer}>
               <PartyAvatar
-                alt={endorsement.fullName}
+                alt={endorsement.fullName as string}
                 src={endorsement.assets?.thumbnailImage160 as string}
                 size={40}
                 party={endorsement.party as PoliticalParty}
