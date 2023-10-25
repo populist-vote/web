@@ -150,15 +150,7 @@ export function PoliticianWidget({
 
   const $endorsementSection = (
     <section className={styles.endorsementSection}>
-      <h4>
-        Endorsements{" "}
-        <span className={styles.endorsementsCount}>
-          (
-          {(politician?.endorsements?.organizations?.length || 0) +
-            (politician?.endorsements?.politicians?.length || 0)}
-          )
-        </span>
-      </h4>
+      <h4>Endorsements</h4>
       <div className={styles.endorsementList}>
         {politician?.endorsements?.organizations.map((endorsement) => (
           <Link
