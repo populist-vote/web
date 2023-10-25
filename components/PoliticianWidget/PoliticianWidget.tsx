@@ -60,93 +60,118 @@ export function PoliticianWidget({
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this politician.</div>;
 
-  const $upcomingRaceSection = (
-    <section className={styles.upcomingRaceSection}>
-      <div>
-        <h4>
-          {isPastElection ? "Ran For " : "Running For "}
-          <span className={styles.electionDate}>
-            ({dateString(upcomingRace?.electionDate, true)})
-          </span>
-        </h4>
-        <div className={styles.raceBox}>
-          <h4 className={styles.officeSubtitle}>
-            {upcomingRace?.office.subtitle}
+  const UpcomingRaceSection = () => (
+    <>
+      <div className={styles.divider} />
+      <section className={styles.upcomingRaceSection}>
+        <div>
+          <h4>
+            {isPastElection ? "Ran For " : "Running For "}
+            <span className={styles.electionDate}>
+              ({dateString(upcomingRace?.electionDate, true)})
+            </span>
           </h4>
-          <h3 className={styles.officeTitle}>{upcomingRace?.office.name}</h3>
-        </div>
-      </div>
-    </section>
-  );
-
-  const $statsSection = (
-    <section className={styles.statsSection}>
-      {!!termStart && (
-        <div className={styles.dotSpreadEmbed}>
-          <span>Assumed Office</span>
-          <span className={styles.dots} />
-          <span>{termStart}</span>
-        </div>
-      )}
-      {!!termEnd && (
-        <div className={styles.dotSpreadEmbed}>
-          <span>Term Ends</span>
-          <span className={styles.dots} />
-          <span>{termEnd}</span>
-        </div>
-      )}
-      {!!yearsInPublicOffice && (
-        <div className={styles.dotSpreadEmbed}>
-          <span>Years in Public Office</span>
-          <span className={styles.dots} />
-          <span>{yearsInPublicOffice}</span>
-        </div>
-      )}
-      {(!!raceWins || !!raceLosses) && (
-        <div className={styles.dotSpreadEmbed}>
-          <span>Elections Won / Lost</span>
-          <span className={styles.dots} />
-          <span>
-            {raceWins || 0} / {raceLosses || 0}
-          </span>
-        </div>
-      )}
-      {!!age && (
-        <div className={styles.dotSpreadEmbed}>
-          <span>Age</span>
-          <span className={styles.dots} />
-          <span>{age}</span>
-        </div>
-      )}
-      {!!biography && (
-        <>
-          <div className={styles.bioContainer}>
-            <div className={styles.overflowGradient}>
-              <div className={styles.description}>
-                <p>{biography}</p>
-              </div>
-            </div>
-
-            <a
-              href={biographySource as string}
-              target="_blank"
-              rel="noreferrer"
-              style={{ width: "auto" }}
-            >
-              <Button
-                variant="text"
-                size="small"
-                label="Source"
-                style={{
-                  color: "var(--blue)",
-                }}
-              />
-            </a>
+          <div className={styles.raceBox}>
+            <h4 className={styles.officeSubtitle}>
+              {upcomingRace?.office.subtitle}
+            </h4>
+            <h3 className={styles.officeTitle}>{upcomingRace?.office.name}</h3>
           </div>
-        </>
-      )}
-    </section>
+        </div>
+      </section>
+    </>
   );
+
+  const BasicInformation = () => {
+    if (
+      !termStart &&
+      !termEnd &&
+      !yearsInPublicOffice &&
+      !raceWins &&
+      !raceLosses &&
+      !age &&
+      !biography
+    )
+      return (
+        <>
+          <div className={styles.divider} />
+          <section className={styles.statsSection}>
+            <small>NONE</small>
+          </section>
+        </>
+      );
+    return (
+      <>
+        <div className={styles.divider} />
+        <section className={styles.statsSection}>
+          {!!termStart && (
+            <div className={styles.dotSpreadEmbed}>
+              <span>Assumed Office</span>
+              <span className={styles.dots} />
+              <span>{termStart}</span>
+            </div>
+          )}
+          {!!termEnd && (
+            <div className={styles.dotSpreadEmbed}>
+              <span>Term Ends</span>
+              <span className={styles.dots} />
+              <span>{termEnd}</span>
+            </div>
+          )}
+          {!!yearsInPublicOffice && (
+            <div className={styles.dotSpreadEmbed}>
+              <span>Years in Public Office</span>
+              <span className={styles.dots} />
+              <span>{yearsInPublicOffice}</span>
+            </div>
+          )}
+          {(!!raceWins || !!raceLosses) && (
+            <div className={styles.dotSpreadEmbed}>
+              <span>Elections Won / Lost</span>
+              <span className={styles.dots} />
+              <span>
+                {raceWins || 0} / {raceLosses || 0}
+              </span>
+            </div>
+          )}
+          {!!age && (
+            <div className={styles.dotSpreadEmbed}>
+              <span>Age</span>
+              <span className={styles.dots} />
+              <span>{age}</span>
+            </div>
+          )}
+          {!!biography && (
+            <>
+              <div className={styles.bioContainer}>
+                <div className={styles.overflowGradient}>
+                  <div className={styles.description}>
+                    <p>{biography}</p>
+                  </div>
+                </div>
+
+                <a
+                  href={biographySource as string}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ width: "auto" }}
+                >
+                  <Button
+                    variant="text"
+                    size="small"
+                    label="Source"
+                    style={{
+                      color: "var(--blue)",
+                    }}
+                  />
+                </a>
+              </div>
+            </>
+          )}
+        </section>
+      </>
+    );
+  };
 
   const EndorsementSection = () => {
     if (
@@ -155,7 +180,16 @@ export function PoliticianWidget({
         ...(politician?.endorsements?.organizations || []),
       ].length == 0
     )
-      return null;
+      return (
+        <>
+          <div className={styles.divider} />
+          <section className={styles.endorsementSection}>
+            <h4>Endorsements</h4>
+
+            <small>NONE</small>
+          </section>
+        </>
+      );
 
     return (
       <>
@@ -228,7 +262,14 @@ export function PoliticianWidget({
       !politician?.officialWebsiteUrl &&
       !politician?.campaignWebsiteUrl
     )
-      return null;
+      return (
+        <>
+          <div className={styles.socialsDivider} />
+          <section className={styles.socials}>
+            <small>NONE</small>
+          </section>
+        </>
+      );
     return (
       <>
         <div className={styles.socialsDivider} />
@@ -374,19 +415,9 @@ export function PoliticianWidget({
             <span className={styles.officeDisplay}>{officeTitle}</span>
           )}
         </section>
-        {renderOptions?.upcomingRace && (
-          <>
-            <div className={styles.divider} />
-            {$upcomingRaceSection}
-          </>
-        )}
+        {renderOptions?.upcomingRace && <UpcomingRaceSection />}
+        {renderOptions?.stats && <BasicInformation />}
         {renderOptions?.endorsements && <EndorsementSection />}
-        {renderOptions?.stats && (
-          <>
-            <div className={styles.divider} />
-            {$statsSection}
-          </>
-        )}
         {renderOptions?.socials && <SocialsSection />}
       </main>
       <WidgetFooter learnMoreHref={`/politicians/${politician?.slug}`} />
