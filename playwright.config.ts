@@ -60,9 +60,9 @@ const config: PlaywrightTestConfig = {
       },
     },
     // {
-    //   name: 'webkit',
+    //   name: "webkit",
     //   use: {
-    //     ...devices['Desktop Safari'],
+    //     ...devices["Desktop Safari"],
     //   },
     // },
 
@@ -74,9 +74,9 @@ const config: PlaywrightTestConfig = {
     //   },
     // },
     // {
-    //   name: 'Mobile Safari',
+    //   name: "Mobile Safari",
     //   use: {
-    //     ...devices['iPhone 12'],
+    //     ...devices["iPhone 12"],
     //   },
     // },
 

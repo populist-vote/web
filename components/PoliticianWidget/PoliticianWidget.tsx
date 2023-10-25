@@ -1,4 +1,4 @@
-import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
+import { Button, LoaderFlag } from "components";
 import { PoliticalParty, usePoliticianEmbedByIdQuery } from "generated";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import styles from "./PoliticianWidget.module.scss";
@@ -51,6 +51,8 @@ export function PoliticianWidget({
   const raceWins = politician?.raceWins;
   const raceLosses = politician?.raceLosses;
   const age = politician?.age;
+  const biography = politician?.biography;
+  const biographySource = politician?.biographySource;
   const officeTitle = `${politician?.currentOffice?.title} - ${politician?.currentOffice?.subtitleShort}`;
   const upcomingRace = politician?.upcomingRace;
   const isPastElection = new Date(upcomingRace?.electionDate) < new Date();
@@ -61,18 +63,17 @@ export function PoliticianWidget({
   const $upcomingRaceSection = (
     <section className={styles.upcomingRaceSection}>
       <div>
-        <h4>{isPastElection ? "Ran For" : "Running For"}</h4>
+        <h4>
+          {isPastElection ? "Ran For " : "Running For "}
+          <span className={styles.electionDate}>
+            ({dateString(upcomingRace?.electionDate, true)})
+          </span>
+        </h4>
         <div className={styles.raceBox}>
           <h4 className={styles.officeSubtitle}>
             {upcomingRace?.office.subtitle}
           </h4>
           <h3 className={styles.officeTitle}>{upcomingRace?.office.name}</h3>
-        </div>
-      </div>
-      <div>
-        <h4>{`${isPastElection ? "Last" : "Next"} Election`}</h4>
-        <div className={styles.raceBox}>
-          <h3>{dateString(upcomingRace?.electionDate, true)}</h3>
         </div>
       </div>
     </section>
@@ -117,6 +118,33 @@ export function PoliticianWidget({
           <span>{age}</span>
         </div>
       )}
+      {!!biography && (
+        <>
+          <div className={styles.bioContainer}>
+            <div className={styles.overflowGradient}>
+              <div className={styles.description}>
+                <p>{biography}</p>
+              </div>
+            </div>
+
+            <a
+              href={biographySource as string}
+              target="_blank"
+              rel="noreferrer"
+              style={{ width: "auto" }}
+            >
+              <Button
+                variant="text"
+                size="small"
+                label="Source"
+                style={{
+                  color: "var(--blue)",
+                }}
+              />
+            </a>
+          </div>
+        </>
+      )}
     </section>
   );
 
@@ -137,7 +165,7 @@ export function PoliticianWidget({
                 src={endorsement.assets?.thumbnailImage160 as string}
                 size={40}
               />
-              <span>{endorsement.name}</span>
+              <span className={styles.endorserLabel}>{endorsement.name}</span>
             </div>
           </Link>
         ))}
@@ -154,8 +182,12 @@ export function PoliticianWidget({
                 src={endorsement.assets?.thumbnailImage160 as string}
                 size={40}
                 party={endorsement.party as PoliticalParty}
+                badgeSize="0.75rem"
+                badgeFontSize="0.5rem"
               />
-              <span>{endorsement.fullName}</span>
+              <span className={styles.endorserLabel}>
+                {endorsement.fullName}
+              </span>
             </div>
           </Link>
         ))}
@@ -298,7 +330,7 @@ export function PoliticianWidget({
             alt={politician?.fullName as string}
             size={80}
           />
-          <h1>{politician?.fullName}</h1>
+          <h1 className={styles.politicianName}>{politician?.fullName}</h1>
           {politician?.currentOffice && (
             <span className={styles.officeDisplay}>{officeTitle}</span>
           )}
@@ -321,7 +353,12 @@ export function PoliticianWidget({
             {$statsSection}
           </>
         )}
-        {renderOptions?.socials && <>{$socialSection}</>}
+        {renderOptions?.socials && (
+          <>
+            <div className={styles.socialsDivider} />
+            {$socialSection}
+          </>
+        )}
       </main>
       <WidgetFooter learnMoreHref={`/politicians/${politician?.slug}`} />
     </article>
