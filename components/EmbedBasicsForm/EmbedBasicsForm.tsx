@@ -77,7 +77,7 @@ function PoliticianEmbedOptionsForm({
       <Checkbox
         id="stats"
         name="renderOptions.stats"
-        label="Stats"
+        label="Basic information"
         register={register}
       />
       <Checkbox
@@ -89,7 +89,7 @@ function PoliticianEmbedOptionsForm({
       <Checkbox
         id="socials"
         name="renderOptions.socials"
-        label="Socials"
+        label="Links"
         register={register}
       />
     </div>
