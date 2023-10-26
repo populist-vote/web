@@ -203,15 +203,31 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
         </div>
       </section>
       <section>
-        <h2 style={{ textAlign: "center" }}>Deployments</h2>
+        <h2 style={{ textAlign: "center" }}>Recent Deployments</h2>
         <div className={styles.tiles}>
           {embeds.flatMap((embed) => embed.origins).length == 0 && (
             <small style={{ justifySelf: "center", color: "var(--blue-text)" }}>
               No embeds have been deployed yet.
             </small>
           )}
-          {embeds.map((embed) => {
+
+          {embeds.slice(0, 12).map((embed) => {
             if (embed.origins?.length === 0) return null;
+            const computedEmbedName = () => {
+              switch (embed.embedType) {
+                case EmbedType.Legislation:
+                  return `Legislation: ${embed.bill?.title}`;
+                case EmbedType.Politician:
+                  return `Politician: ${embed.politician?.fullName}`;
+                case EmbedType.Poll:
+                  return `Poll: ${embed.poll?.prompt}`;
+                case EmbedType.Question:
+                  return `Question: ${embed.question?.prompt}`;
+                case EmbedType.Race:
+                  return `Race: ${embed.race?.title}`;
+              }
+            };
+
             return embed.origins.map((origin) => (
               <a
                 href={origin.url}
@@ -220,7 +236,7 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
                 rel="noreferrer"
               >
                 <Box key={origin.url} isLink>
-                  <h3>{embed.name}</h3>
+                  <h3>{computedEmbedName()}</h3>
                   <div
                     style={{
                       display: "flex",
