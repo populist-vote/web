@@ -4,4 +4,19 @@
   .avatarName {
     margin-top: 0.75rem;
   }
+
+  .avatarContainer {
+    width: 100px;
+  }
+
+  .flexBetween {
+    display: flex;
+
+    a:first-child {
+      margin-left: auto;
+    }
+    a:last-child {
+      margin-right: auto;
+    }
+  }
 }
