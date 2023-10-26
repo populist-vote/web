@@ -138,6 +138,7 @@ function EmbedIndex({
           initialState={{}}
           onRowClick={onRowClick}
           theme={theme}
+          useSearchQueryAsFilter={true}
         />
       )}
     </div>
