@@ -96,7 +96,7 @@ export function PoliticianWidget({
         <>
           <div className={styles.divider} />
           <section className={styles.statsSection}>
-            <small>NONE</small>
+            <span className={styles.emptySection}>NO INFO</span>
           </section>
         </>
       );
@@ -186,7 +186,7 @@ export function PoliticianWidget({
           <section className={styles.endorsementSection}>
             <h4>Endorsements</h4>
 
-            <small>NONE</small>
+            <span className={styles.emptyEndorsementsSection}>NONE</span>
           </section>
         </>
       );
@@ -266,7 +266,7 @@ export function PoliticianWidget({
         <>
           <div className={styles.divider} />
           <section className={styles.socials}>
-            <small>NONE</small>
+            <span className={styles.emptySection}>NO LINKS</span>
           </section>
         </>
       );
@@ -416,8 +416,8 @@ export function PoliticianWidget({
           )}
         </section>
         {renderOptions?.upcomingRace && <UpcomingRaceSection />}
-        {renderOptions?.stats && <BasicInformation />}
         {renderOptions?.endorsements && <EndorsementSection />}
+        {renderOptions?.stats && <BasicInformation />}
         {renderOptions?.socials && <SocialsSection />}
       </main>
       <WidgetFooter learnMoreHref={`/politicians/${politician?.slug}`} />
