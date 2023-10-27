@@ -104,7 +104,8 @@ export function PoliticianWidget({
       <>
         <div className={styles.divider} />
         <section className={styles.statsSection}>
-          {!!termStart && (
+          <h4>Biography</h4>
+          {/* {!!termStart && (
             <div className={styles.dotSpreadEmbed}>
               <span>Assumed Office</span>
               <span className={styles.dots} />
@@ -140,7 +141,7 @@ export function PoliticianWidget({
               <span className={styles.dots} />
               <span>{age}</span>
             </div>
-          )}
+          )} */}
           {!!biography && (
             <>
               <div className={styles.bioContainer}>
