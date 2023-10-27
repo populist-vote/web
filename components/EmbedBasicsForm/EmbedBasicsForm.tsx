@@ -75,15 +75,15 @@ function PoliticianEmbedOptionsForm({
         register={register}
       />
       <Checkbox
-        id="stats"
-        name="renderOptions.stats"
-        label="Basic information"
-        register={register}
-      />
-      <Checkbox
         id="endorsements"
         name="renderOptions.endorsements"
         label="Endorsements"
+        register={register}
+      />
+      <Checkbox
+        id="stats"
+        name="renderOptions.stats"
+        label="Basic information"
         register={register}
       />
       <Checkbox
