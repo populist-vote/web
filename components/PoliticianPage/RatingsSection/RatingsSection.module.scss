@@ -28,6 +28,7 @@
 
 .flexBetween {
   display: flex;
+  align-items: flex-start;
 
   a:first-child {
     margin-left: auto;
