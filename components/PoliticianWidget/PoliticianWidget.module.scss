@@ -161,6 +161,11 @@
     flex-direction: column;
     gap: 0.1rem;
 
+    h4 {
+      font-size: $text-xxs;
+      font-weight: 500;
+    }
+
     .dotSpreadEmbed {
       span {
         font-size: $text-sm;
@@ -169,7 +174,7 @@
       }
     }
     .bioContainer {
-      margin-top: 0.25rem;
+      // margin-top: 0.25rem;
       .description {
         text-align: left;
         margin-bottom: 0.25rem;
