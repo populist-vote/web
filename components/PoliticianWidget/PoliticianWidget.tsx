@@ -3,7 +3,7 @@ import { PoliticalParty, usePoliticianEmbedByIdQuery } from "generated";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import styles from "./PoliticianWidget.module.scss";
 import { OrganizationAvatar, PartyAvatar } from "components/Avatar/Avatar";
-import { dateString, getYear } from "utils/dates";
+import { dateString } from "utils/dates";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import {
   FaFacebook,
@@ -43,16 +43,6 @@ export function PoliticianWidget({
   useEmbedResizer({ origin, embedId });
 
   const politician = data?.politicianById;
-  const termStart = getYear(
-    politician?.votesmartCandidateBio?.office?.termStart as string
-  );
-  const termEnd = getYear(
-    politician?.votesmartCandidateBio?.office?.termEnd as string
-  );
-  const yearsInPublicOffice = politician?.yearsInPublicOffice;
-  const raceWins = politician?.raceWins;
-  const raceLosses = politician?.raceLosses;
-  const age = politician?.age;
   const biography = politician?.biography;
   const biographySource = politician?.biographySource;
   const officeTitle = `${politician?.currentOffice?.title} - ${politician?.currentOffice?.subtitleShort}`;
@@ -85,15 +75,7 @@ export function PoliticianWidget({
   );
 
   const BasicInformation = () => {
-    if (
-      !termStart &&
-      !termEnd &&
-      !yearsInPublicOffice &&
-      !raceWins &&
-      !raceLosses &&
-      !age &&
-      !biography
-    )
+    if (!biography)
       return (
         <>
           <div className={styles.divider} />
@@ -107,43 +89,6 @@ export function PoliticianWidget({
         <div className={styles.divider} />
         <section className={styles.statsSection}>
           <h4>Biography</h4>
-          {/* {!!termStart && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Assumed Office</span>
-              <span className={styles.dots} />
-              <span>{termStart}</span>
-            </div>
-          )}
-          {!!termEnd && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Term Ends</span>
-              <span className={styles.dots} />
-              <span>{termEnd}</span>
-            </div>
-          )}
-          {!!yearsInPublicOffice && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Years in Public Office</span>
-              <span className={styles.dots} />
-              <span>{yearsInPublicOffice}</span>
-            </div>
-          )}
-          {(!!raceWins || !!raceLosses) && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Elections Won / Lost</span>
-              <span className={styles.dots} />
-              <span>
-                {raceWins || 0} / {raceLosses || 0}
-              </span>
-            </div>
-          )}
-          {!!age && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Age</span>
-              <span className={styles.dots} />
-              <span>{age}</span>
-            </div>
-          )} */}
           {!!biography && (
             <>
               <div className={styles.bioContainer}>
