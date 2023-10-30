@@ -148,6 +148,7 @@ export function PollWidget({
             <Button
               size="small"
               variant="primary"
+              theme="grey"
               label="Submit"
               type="submit"
               disabled={
