@@ -124,9 +124,7 @@ export function PollWidget({
           <TextInput
             size="small"
             name="name"
-            placeholder={`Full Name ${
-              allowAnonymousResponses ? "(Optional)" : ""
-            }`}
+            placeholder={`Name ${allowAnonymousResponses ? "(Optional)" : ""}`}
             register={register}
             rules={{
               required: !allowAnonymousResponses,
