@@ -75,21 +75,14 @@ export function PoliticianWidget({
   );
 
   const BasicInformation = () => {
-    if (!biography)
-      return (
-        <>
-          <div className={styles.divider} />
-          <section className={styles.statsSection}>
-            <span className={styles.emptySection}>NO INFO</span>
-          </section>
-        </>
-      );
     return (
       <>
         <div className={styles.divider} />
         <section className={styles.statsSection}>
           <h4>Biography</h4>
-          {!!biography && (
+          {!biography ? (
+            <span className={styles.emptySectionWithTitle}>NONE</span>
+          ) : (
             <>
               <div className={styles.bioContainer}>
                 <div className={styles.overflowGradient}>
@@ -153,7 +146,7 @@ export function PoliticianWidget({
             ...(politician?.endorsements?.politicians || []),
             ...(politician?.endorsements?.organizations || []),
           ].length == 0 ? (
-            <span className={styles.emptyEndorsementsSection}>NONE</span>
+            <span className={styles.emptySectionWithTitle}>NONE</span>
           ) : (
             <div className={styles.endorsementList}>
               {politician?.endorsements?.organizations.map((endorsement) => (
