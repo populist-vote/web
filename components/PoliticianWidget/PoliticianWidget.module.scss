@@ -108,6 +108,38 @@
         word-wrap: break-word;
       }
     }
+
+    .infoCircleContainer {
+      display: inline;
+      position: relative;
+      cursor: pointer !important;
+
+      .infoCircle {
+        position: absolute;
+        top: -1px;
+        left: 0.5rem;
+        color: $blue;
+      }
+    }
+
+    .endorsementsInfoContainer {
+      display: block;
+      position: relative;
+      width: 75%;
+      .endorsementsInfo {
+        position: absolute;
+        top: -5px;
+        z-index: 1005;
+        padding: 0.5rem 0.75rem;
+        background-color: $grey-lighter;
+        color: $grey-darkest;
+        font-size: $text-xs;
+        text-align: center;
+        border-radius: 0.5rem;
+        border: solid 1px $grey-light;
+        filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+      }
+    }
   }
 
   .upcomingRaceSection {

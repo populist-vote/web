@@ -13,9 +13,11 @@ import {
   FaTiktok,
   FaTwitter,
   FaYoutube,
+  FaInfoCircle,
 } from "react-icons/fa";
 import { GiWireframeGlobe } from "react-icons/gi";
 import Link from "next/link";
+import { useState } from "react";
 
 export interface PoliticianWidgetRenderOptions {
   upcomingRace: boolean;
@@ -175,6 +177,8 @@ export function PoliticianWidget({
   };
 
   const EndorsementSection = () => {
+    const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+
     if (
       [
         ...(politician?.endorsements?.politicians || []),
@@ -185,7 +189,9 @@ export function PoliticianWidget({
         <>
           <div className={styles.divider} />
           <section className={styles.endorsementSection}>
-            <h4>Endorsements</h4>
+            <h4>
+              Endorsements <FaInfoCircle color="var(--grey-dark)" />
+            </h4>
 
             <span className={styles.emptyEndorsementsSection}>NONE</span>
           </section>
@@ -196,7 +202,27 @@ export function PoliticianWidget({
       <>
         <div className={styles.divider} />
         <section className={styles.endorsementSection}>
-          <h4>Endorsements</h4>
+          <h4>
+            Endorsements{" "}
+            <div className={styles.infoCircleContainer}>
+              <FaInfoCircle
+                color="#AAA"
+                size={"15px"}
+                title="From organizations and publicly elected politicians"
+                onClick={() => setIsTooltipVisible(!isTooltipVisible)}
+                onMouseEnter={() => setIsTooltipVisible(true)}
+                onMouseLeave={() => setIsTooltipVisible(false)}
+                className={styles.infoCircle}
+              />
+            </div>
+          </h4>
+          {isTooltipVisible && (
+            <div className={styles.endorsementsInfoContainer}>
+              <div className={styles.endorsementsInfo}>
+                <span>From organizations and publicly elected politicians</span>
+              </div>
+            </div>
+          )}
           <div className={styles.endorsementList}>
             {politician?.endorsements?.organizations.map((endorsement) => (
               <Link
