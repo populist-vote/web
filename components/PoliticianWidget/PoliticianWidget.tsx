@@ -179,25 +179,6 @@ export function PoliticianWidget({
   const EndorsementSection = () => {
     const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
-    if (
-      [
-        ...(politician?.endorsements?.politicians || []),
-        ...(politician?.endorsements?.organizations || []),
-      ].length == 0
-    )
-      return (
-        <>
-          <div className={styles.divider} />
-          <section className={styles.endorsementSection}>
-            <h4>
-              Endorsements <FaInfoCircle color="var(--grey-dark)" />
-            </h4>
-
-            <span className={styles.emptyEndorsementsSection}>NONE</span>
-          </section>
-        </>
-      );
-
     return (
       <>
         <div className={styles.divider} />
@@ -223,56 +204,63 @@ export function PoliticianWidget({
               </div>
             </div>
           )}
-          <div className={styles.endorsementList}>
-            {politician?.endorsements?.organizations.map((endorsement) => (
-              <Link
-                href={`/organizations/${endorsement.slug}`}
-                key={endorsement.id}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div
+          {[
+            ...(politician?.endorsements?.politicians || []),
+            ...(politician?.endorsements?.organizations || []),
+          ].length == 0 ? (
+            <span className={styles.emptyEndorsementsSection}>NONE</span>
+          ) : (
+            <div className={styles.endorsementList}>
+              {politician?.endorsements?.organizations.map((endorsement) => (
+                <Link
+                  href={`/organizations/${endorsement.slug}`}
                   key={endorsement.id}
-                  className={styles.endorsementContainer}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <OrganizationAvatar
-                    alt={endorsement.name as string}
-                    src={endorsement.assets?.thumbnailImage160 as string}
-                    size={40}
-                  />
-                  <span className={styles.endorserLabel}>
-                    {endorsement.name}
-                  </span>
-                </div>
-              </Link>
-            ))}
-            {politician?.endorsements?.politicians.map((endorsement) => (
-              <Link
-                href={`/politicians/${endorsement.slug}`}
-                key={endorsement.id}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div
+                  <div
+                    key={endorsement.id}
+                    className={styles.endorsementContainer}
+                  >
+                    <OrganizationAvatar
+                      alt={endorsement.name as string}
+                      src={endorsement.assets?.thumbnailImage160 as string}
+                      size={40}
+                    />
+                    <span className={styles.endorserLabel}>
+                      {endorsement.name}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+              {politician?.endorsements?.politicians.map((endorsement) => (
+                <Link
+                  href={`/politicians/${endorsement.slug}`}
                   key={endorsement.id}
-                  className={styles.endorsementContainer}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <PartyAvatar
-                    alt={endorsement.fullName as string}
-                    src={endorsement.assets?.thumbnailImage160 as string}
-                    size={40}
-                    party={endorsement.party as PoliticalParty}
-                    badgeSize="0.75rem"
-                    badgeFontSize="0.5rem"
-                    theme="light"
-                  />
-                  <span className={styles.endorserLabel}>
-                    {endorsement.fullName}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div
+                    key={endorsement.id}
+                    className={styles.endorsementContainer}
+                  >
+                    <PartyAvatar
+                      alt={endorsement.fullName as string}
+                      src={endorsement.assets?.thumbnailImage160 as string}
+                      size={40}
+                      party={endorsement.party as PoliticalParty}
+                      badgeSize="0.75rem"
+                      badgeFontSize="0.5rem"
+                      theme="light"
+                    />
+                    <span className={styles.endorserLabel}>
+                      {endorsement.fullName}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </section>
       </>
     );
