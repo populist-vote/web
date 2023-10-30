@@ -3,7 +3,7 @@ import { PoliticalParty, usePoliticianEmbedByIdQuery } from "generated";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import styles from "./PoliticianWidget.module.scss";
 import { OrganizationAvatar, PartyAvatar } from "components/Avatar/Avatar";
-import { dateString, getYear } from "utils/dates";
+import { dateString } from "utils/dates";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import {
   FaFacebook,
@@ -13,9 +13,11 @@ import {
   FaTiktok,
   FaTwitter,
   FaYoutube,
+  FaInfoCircle,
 } from "react-icons/fa";
 import { GiWireframeGlobe } from "react-icons/gi";
 import Link from "next/link";
+import { useState } from "react";
 
 export interface PoliticianWidgetRenderOptions {
   upcomingRace: boolean;
@@ -41,16 +43,6 @@ export function PoliticianWidget({
   useEmbedResizer({ origin, embedId });
 
   const politician = data?.politicianById;
-  const termStart = getYear(
-    politician?.votesmartCandidateBio?.office?.termStart as string
-  );
-  const termEnd = getYear(
-    politician?.votesmartCandidateBio?.office?.termEnd as string
-  );
-  const yearsInPublicOffice = politician?.yearsInPublicOffice;
-  const raceWins = politician?.raceWins;
-  const raceLosses = politician?.raceLosses;
-  const age = politician?.age;
   const biography = politician?.biography;
   const biographySource = politician?.biographySource;
   const officeTitle = `${politician?.currentOffice?.title} - ${politician?.currentOffice?.subtitleShort}`;
@@ -83,66 +75,14 @@ export function PoliticianWidget({
   );
 
   const BasicInformation = () => {
-    if (
-      !termStart &&
-      !termEnd &&
-      !yearsInPublicOffice &&
-      !raceWins &&
-      !raceLosses &&
-      !age &&
-      !biography
-    )
-      return (
-        <>
-          <div className={styles.divider} />
-          <section className={styles.statsSection}>
-            <span className={styles.emptySection}>NO INFO</span>
-          </section>
-        </>
-      );
     return (
       <>
         <div className={styles.divider} />
         <section className={styles.statsSection}>
           <h4>Biography</h4>
-          {/* {!!termStart && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Assumed Office</span>
-              <span className={styles.dots} />
-              <span>{termStart}</span>
-            </div>
-          )}
-          {!!termEnd && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Term Ends</span>
-              <span className={styles.dots} />
-              <span>{termEnd}</span>
-            </div>
-          )}
-          {!!yearsInPublicOffice && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Years in Public Office</span>
-              <span className={styles.dots} />
-              <span>{yearsInPublicOffice}</span>
-            </div>
-          )}
-          {(!!raceWins || !!raceLosses) && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Elections Won / Lost</span>
-              <span className={styles.dots} />
-              <span>
-                {raceWins || 0} / {raceLosses || 0}
-              </span>
-            </div>
-          )}
-          {!!age && (
-            <div className={styles.dotSpreadEmbed}>
-              <span>Age</span>
-              <span className={styles.dots} />
-              <span>{age}</span>
-            </div>
-          )} */}
-          {!!biography && (
+          {!biography ? (
+            <span className={styles.emptySectionWithTitle}>NONE</span>
+          ) : (
             <>
               <div className={styles.bioContainer}>
                 <div className={styles.overflowGradient}>
@@ -175,78 +115,90 @@ export function PoliticianWidget({
   };
 
   const EndorsementSection = () => {
-    if (
-      [
-        ...(politician?.endorsements?.politicians || []),
-        ...(politician?.endorsements?.organizations || []),
-      ].length == 0
-    )
-      return (
-        <>
-          <div className={styles.divider} />
-          <section className={styles.endorsementSection}>
-            <h4>Endorsements</h4>
-
-            <span className={styles.emptyEndorsementsSection}>NONE</span>
-          </section>
-        </>
-      );
+    const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
     return (
       <>
         <div className={styles.divider} />
         <section className={styles.endorsementSection}>
-          <h4>Endorsements</h4>
-          <div className={styles.endorsementList}>
-            {politician?.endorsements?.organizations.map((endorsement) => (
-              <Link
-                href={`/organizations/${endorsement.slug}`}
-                key={endorsement.id}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div
+          <h4>
+            Endorsements{" "}
+            <div className={styles.infoCircleContainer}>
+              <FaInfoCircle
+                color="#AAA"
+                size={"15px"}
+                title="From organizations and publicly elected politicians"
+                onClick={() => setIsTooltipVisible(!isTooltipVisible)}
+                onMouseEnter={() => setIsTooltipVisible(true)}
+                onMouseLeave={() => setIsTooltipVisible(false)}
+                className={styles.infoCircle}
+              />
+            </div>
+          </h4>
+          {isTooltipVisible && (
+            <div className={styles.endorsementsInfoContainer}>
+              <div className={styles.endorsementsInfo}>
+                <span>From organizations and publicly elected politicians</span>
+              </div>
+            </div>
+          )}
+          {[
+            ...(politician?.endorsements?.politicians || []),
+            ...(politician?.endorsements?.organizations || []),
+          ].length == 0 ? (
+            <span className={styles.emptySectionWithTitle}>NONE</span>
+          ) : (
+            <div className={styles.endorsementList}>
+              {politician?.endorsements?.organizations.map((endorsement) => (
+                <Link
+                  href={`/organizations/${endorsement.slug}`}
                   key={endorsement.id}
-                  className={styles.endorsementContainer}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <OrganizationAvatar
-                    alt={endorsement.name as string}
-                    src={endorsement.assets?.thumbnailImage160 as string}
-                    size={40}
-                  />
-                  <span className={styles.endorserLabel}>
-                    {endorsement.name}
-                  </span>
-                </div>
-              </Link>
-            ))}
-            {politician?.endorsements?.politicians.map((endorsement) => (
-              <Link
-                href={`/politicians/${endorsement.slug}`}
-                key={endorsement.id}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div
+                  <div
+                    key={endorsement.id}
+                    className={styles.endorsementContainer}
+                  >
+                    <OrganizationAvatar
+                      alt={endorsement.name as string}
+                      src={endorsement.assets?.thumbnailImage160 as string}
+                      size={40}
+                    />
+                    <span className={styles.endorserLabel}>
+                      {endorsement.name}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+              {politician?.endorsements?.politicians.map((endorsement) => (
+                <Link
+                  href={`/politicians/${endorsement.slug}`}
                   key={endorsement.id}
-                  className={styles.endorsementContainer}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <PartyAvatar
-                    alt={endorsement.fullName as string}
-                    src={endorsement.assets?.thumbnailImage160 as string}
-                    size={40}
-                    party={endorsement.party as PoliticalParty}
-                    badgeSize="0.75rem"
-                    badgeFontSize="0.5rem"
-                    theme="light"
-                  />
-                  <span className={styles.endorserLabel}>
-                    {endorsement.fullName}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div
+                    key={endorsement.id}
+                    className={styles.endorsementContainer}
+                  >
+                    <PartyAvatar
+                      alt={endorsement.fullName as string}
+                      src={endorsement.assets?.thumbnailImage160 as string}
+                      size={40}
+                      party={endorsement.party as PoliticalParty}
+                      badgeSize="0.75rem"
+                      badgeFontSize="0.5rem"
+                      theme="light"
+                    />
+                    <span className={styles.endorserLabel}>
+                      {endorsement.fullName}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </section>
       </>
     );
