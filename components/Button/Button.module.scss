@@ -76,7 +76,6 @@ $small-size: 1.825rem;
   &:active {
     background: $colorDark;
     border-color: $color;
-    color: $colorDarkest;
   }
 
   &:disabled {
@@ -98,7 +97,6 @@ $small-size: 1.825rem;
 
   &:hover:not(:disabled) {
     background: $colorLight;
-    color: $colorDarkest;
   }
 }
 
