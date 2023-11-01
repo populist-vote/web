@@ -195,18 +195,16 @@ function EmailStep() {
                 actions.updateAction({ password: e.target.value })
               }
             />
-            <small className={styles.footnote}>
-              {t("passwords-copy")}{" "}
-              <PasswordEntropyMeter
-                valid={isPasswordValid}
-                score={score}
-                message={message}
-                length={loginFormState.password.length}
-                isLoading={
-                  isEntropyCalcLoading && passwordEntropyFetchStatus != "idle"
-                }
-              />{" "}
-            </small>
+            <PasswordEntropyMeter
+              valid={isPasswordValid}
+              score={score}
+              message={message}
+              length={loginFormState.password.length}
+              isLoading={
+                isEntropyCalcLoading && passwordEntropyFetchStatus != "idle"
+              }
+            />
+            <small className={styles.footnote}>{t("passwords-copy")} </small>
           </div>
           <Button
             variant="primary"

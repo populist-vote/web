@@ -54,7 +54,7 @@ function ResetPasswordForm() {
     },
     {
       refetchOnWindowFocus: false,
-      enabled: password.length > 0,
+      enabled: debouncedPassword.length > 0,
     }
   );
 
