@@ -45,7 +45,9 @@ export function RaceWidget({
         </strong>
         <strong>
           <span className={styles.raceYear}>
-            {`${getYear(race.electionDate)} - ${race.raceType}`}
+            {`${getYear(race.electionDate)} - ${
+              race?.isSpecialElection ? " Special " : ""
+            }${race.raceType}`}
           </span>
         </strong>
       </header>

@@ -1123,6 +1123,7 @@ type RaceResult {
   electionDate: NaiveDate
   electionId: ID
   id: ID!
+  isSpecialElection: Boolean!
   office: OfficeResult!
   officeId: ID!
   officialWebsite: String
