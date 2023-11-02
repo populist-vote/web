@@ -46,6 +46,7 @@ fragment raceFields on RaceResult {
       id
     }
   }
+  isSpecialElection
 }
 
 fragment electionFields on ElectionResult {
