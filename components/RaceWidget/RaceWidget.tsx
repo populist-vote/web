@@ -1,8 +1,9 @@
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import { RaceResult, useRaceByIdQuery } from "generated";
+import { RaceResult, VoteType, useRaceByIdQuery } from "generated";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import styles from "./RaceWidget.module.scss";
 import { Race } from "components/Ballot/Race";
+import { Badge } from "components/Badge/Badge";
 import { getYear } from "utils/dates";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 
@@ -31,6 +32,8 @@ export function RaceWidget({
   useEmbedResizer({ origin, embedId });
   const _ = renderOptions;
   const race = data?.raceById as RaceResult;
+  const shouldDisplayRaceLabels =
+    race?.voteType === VoteType.RankedChoice || (race?.numElect ?? 0) > 1;
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this race.</div>;
@@ -52,6 +55,20 @@ export function RaceWidget({
         </strong>
       </header>
       <main>
+        {shouldDisplayRaceLabels && (
+          <section className={styles.raceLabels}>
+            {race?.voteType === VoteType.RankedChoice && (
+              <Badge size="small" theme="grey" lightBackground>
+                Ranked Choice Vote
+              </Badge>
+            )}
+            {(race?.numElect ?? 0) > 1 && (
+              <Badge size="small" theme="grey" lightBackground>
+                Elect {race?.numElect}
+              </Badge>
+            )}
+          </section>
+        )}
         <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
       </main>
       <WidgetFooter learnMoreHref={"/ballot"} />
