@@ -1,6 +1,7 @@
 fragment raceFields on RaceResult {
   id
   raceType
+  voteType
   title
   party
   electionDate
@@ -47,6 +48,7 @@ fragment raceFields on RaceResult {
     }
   }
   isSpecialElection
+  numElect
 }
 
 fragment electionFields on ElectionResult {
