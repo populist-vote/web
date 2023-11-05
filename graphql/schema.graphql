@@ -1124,6 +1124,7 @@ type RaceResult {
   electionId: ID
   id: ID!
   isSpecialElection: Boolean!
+  numElect: Int
   office: OfficeResult!
   officeId: ID!
   officialWebsite: String
