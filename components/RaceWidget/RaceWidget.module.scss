@@ -47,3 +47,13 @@
     padding-left: 1rem;
   }
 }
+
+.resultsInfoLabel {
+  display: flex;
+  justify-content: center;
+  font-size: $text-sm;
+  font-style: italic;
+  font-weight: 400;
+  color: $grey-darker;
+  margin: 1rem 0 0.25rem 0;
+}

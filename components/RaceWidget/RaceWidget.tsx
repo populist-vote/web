@@ -41,18 +41,17 @@ export function RaceWidget({
   return (
     <article className={styles.widgetContainer}>
       <header className={styles.header}>
-        <strong>
-          <span className={styles.raceName}>
-            {`${race?.office.name} - ${race?.office.subtitle}`}
-          </span>
-        </strong>
-        <strong>
-          <span className={styles.raceYear}>
+        <span className={styles.raceName}>
+          <strong>{`${race?.office.name} - ${race?.office.subtitle}`}</strong>
+        </span>
+
+        <span className={styles.raceYear}>
+          <strong>
             {`${getYear(race.electionDate)} - ${
               race?.isSpecialElection ? " Special " : ""
             }${race.raceType}`}
-          </span>
-        </strong>
+          </strong>
+        </span>
       </header>
       <main>
         {shouldDisplayRaceLabels && (
@@ -70,6 +69,9 @@ export function RaceWidget({
           </section>
         )}
         <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
+        <span className={styles.resultsInfoLabel}>
+          Vote totals update every 10 minutes after polls close.
+        </span>
       </main>
       <WidgetFooter learnMoreHref={"/ballot"} />
     </article>
