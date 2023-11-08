@@ -73,7 +73,7 @@ export function RaceWidget({
           {`${
             race?.voteType === VoteType.RankedChoice
               ? "Ranked choice vote results only show after winners are declared."
-              : "Vote results update every 60 seconds."
+              : "Vote results are still being updated from the Secretary of State."
           }`}
         </span>
       </main>
