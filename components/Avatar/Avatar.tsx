@@ -114,7 +114,7 @@ function LabelLeft(props: LabelLeftProps): JSX.Element | null {
     [`--background`]: background,
   };
 
-  if (!text) return null;
+  if (!text && !icon) return null;
 
   return (
     <div className={styles.labelLeftWrapper} style={styleVars}>
