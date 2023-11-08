@@ -69,13 +69,6 @@ export function RaceWidget({
           </section>
         )}
         <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
-        <span className={styles.resultsInfoLabel}>
-          {`${
-            race?.voteType === VoteType.RankedChoice
-              ? "Ranked choice vote results only show after winners are declared."
-              : "Vote results are still being updated from the Secretary of State."
-          }`}
-        </span>
       </main>
       <WidgetFooter learnMoreHref={"/ballot"} />
     </article>
