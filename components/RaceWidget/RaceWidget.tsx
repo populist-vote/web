@@ -70,7 +70,11 @@ export function RaceWidget({
         )}
         <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
         <span className={styles.resultsInfoLabel}>
-          Vote totals update every 10 minutes after polls close.
+          {`${
+            race?.voteType === VoteType.RankedChoice
+              ? "Ranked choice vote results only show after winners are declared."
+              : "Vote totals update every 10 minutes after polls close."
+          }`}
         </span>
       </main>
       <WidgetFooter learnMoreHref={"/ballot"} />
