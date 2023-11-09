@@ -69,6 +69,11 @@ export function RaceWidget({
           </section>
         )}
         <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
+        {race?.voteType === VoteType.RankedChoice && (
+          <span className={styles.resultsInfoLabel}>
+            Percentages are first choice votes.
+          </span>
+        )}
       </main>
       <WidgetFooter learnMoreHref={"/ballot"} />
     </article>
