@@ -12,16 +12,14 @@ query RaceById($id: String!) {
   }
 }
 
-query RaceIndex(
-  $pageSize: Int
-  $cursor: String
-  $filter: RaceFilter
-) {
-  races(
-    first: $pageSize
-    after: $cursor
-    filter: $filter
-  ) {
+query RaceBySlug($slug: String!) {
+  raceBySlug(slug: $slug) {
+    ...raceFields
+  }
+}
+
+query RaceIndex($pageSize: Int, $cursor: String, $filter: RaceFilter) {
+  races(first: $pageSize, after: $cursor, filter: $filter) {
     edges {
       node {
         ...raceFields
