@@ -1,4 +1,4 @@
-import { Button, Layout, LoaderFlag } from "components";
+import { Button, Layout } from "components";
 import { TopNav } from "components/TopNav/TopNav";
 import { useOrganizationBySlugQuery } from "generated";
 import { useAuth } from "hooks/useAuth";
@@ -58,9 +58,7 @@ function DashboardIndex({ slug }: { slug: string }) {
 
   const { isLoading } = useAuth({ organizationId });
 
-  return organizationQuery.isLoading || isLoading ? (
-    <LoaderFlag />
-  ) : (
+  return organizationQuery.isLoading || isLoading ? null : (
     <Dashboard organizationId={organizationId} />
   );
 }
