@@ -29,6 +29,13 @@
   text-align: center;
 }
 
+.centered {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .inputWithIcon {
   display: flex;
   align-items: center;
