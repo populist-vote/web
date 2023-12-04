@@ -5,10 +5,11 @@ import { EmbedType, useEmbedsByOrganizationQuery } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallback";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
 export function Dashboard({ organizationId }: { organizationId: string }) {
   const { query } = useRouter();
-  const { data } = useEmbedsByOrganizationQuery({
+  const { data, isInitialLoading } = useEmbedsByOrganizationQuery({
     id: organizationId,
   });
   const embeds = data?.embedsByOrganization ?? [];
@@ -55,6 +56,13 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
     (a, p) => a + (p?.origins?.length || 0),
     0
   );
+
+  if (isInitialLoading)
+    return (
+      <div className={styles.container}>
+        <LoaderFlag />
+      </div>
+    );
 
   return (
     <div className={styles.container}>
