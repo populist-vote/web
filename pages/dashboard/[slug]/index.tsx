@@ -15,7 +15,6 @@ import { useTheme } from "hooks/useTheme";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 import { BsPeopleFill } from "react-icons/bs";
 import { Dashboard } from "components/Dashboard/Dashboard";
-// import { BsPeopleFill } from "react-icons/bs";
 
 export async function getServerSideProps({
   query,
@@ -140,15 +139,7 @@ export function DashboardTopNav() {
 DashboardIndex.getLayout = (page: ReactNode) => (
   <Layout>
     <DashboardTopNav />
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "1.5rem 0",
-      }}
-    >
-      {page}
-    </div>
+    {page}
   </Layout>
 );
 export default DashboardIndex;

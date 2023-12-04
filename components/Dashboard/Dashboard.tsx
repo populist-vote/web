@@ -9,9 +9,15 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
 export function Dashboard({ organizationId }: { organizationId: string }) {
   const { query } = useRouter();
-  const { data, isInitialLoading } = useEmbedsByOrganizationQuery({
-    id: organizationId,
-  });
+  const { data, isInitialLoading } = useEmbedsByOrganizationQuery(
+    {
+      id: organizationId,
+    },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
   const embeds = data?.embedsByOrganization ?? [];
   const legislationEmbeds = embeds.filter(
     (embed) => embed.embedType === EmbedType.Legislation
@@ -59,7 +65,7 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
 
   if (isInitialLoading)
     return (
-      <div className={styles.container}>
+      <div className={styles.centered}>
         <LoaderFlag />
       </div>
     );
