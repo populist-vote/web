@@ -225,7 +225,7 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
             </small>
           )}
 
-          {embeds.slice(0, 12).map((embed) => {
+          {embeds.slice(0, 5).map((embed) => {
             if (embed.origins?.length === 0) return null;
             const computedEmbedName = () => {
               switch (embed.embedType) {
