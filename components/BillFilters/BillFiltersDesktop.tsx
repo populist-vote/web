@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import styles from "./BillFiltersDesktop.module.scss";
 import { useAuth } from "hooks/useAuth";
 
-function BillFiltersDesktop() {
+function BillFiltersDesktop({ theme }: { theme: "yellow" | "aqua" }) {
   const router = useRouter();
   const query = router.query;
   const { user } = useAuth({ redirect: false });
@@ -81,7 +81,7 @@ function BillFiltersDesktop() {
           <h4>State</h4>
           <Select
             border="solid"
-            accentColor="yellow"
+            accentColor={theme}
             value={state as string}
             disabled={scope === "FEDERAL"}
             options={[
@@ -97,7 +97,7 @@ function BillFiltersDesktop() {
             <h4>Year</h4>
             <Select
               textColor="blue-dark"
-              backgroundColor="yellow"
+              backgroundColor={theme}
               onChange={handleYearFilter}
               value={year as string}
               options={billYearOptions || []}

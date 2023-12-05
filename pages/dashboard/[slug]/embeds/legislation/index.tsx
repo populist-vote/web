@@ -1,4 +1,4 @@
-import { EmbedIndex, Layout, LoaderFlag } from "components";
+import { EmbedIndex, Layout } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useMemo } from "react";
@@ -123,11 +123,11 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
     []
   );
 
-  if (isLoading) return <LoaderFlag />;
   const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
 
   return (
     <EmbedIndex
+      isLoading={isLoading}
       slug={slug}
       title={"Legislation Embeds"}
       embeds={embeds}

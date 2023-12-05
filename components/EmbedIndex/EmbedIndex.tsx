@@ -10,14 +10,17 @@ import styles from "./EmbedIndex.module.scss";
 import Link from "next/link";
 import { Badge } from "components/Badge/Badge";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
 function EmbedIndex({
+  isLoading,
   slug,
   title,
   embedType,
   embeds,
   columns,
 }: {
+  isLoading: boolean;
   slug: string;
   title: string;
   embedType: EmbedType;
@@ -34,6 +37,13 @@ function EmbedIndex({
       `/dashboard/${slug}/embeds/${embedType.toLowerCase()}/${
         row.original.id
       }/manage`
+    );
+
+  if (isLoading)
+    return (
+      <div className={styles.centered}>
+        <LoaderFlag />
+      </div>
     );
 
   return (

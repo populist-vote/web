@@ -5,7 +5,6 @@
   // @include for-tablet-landscape-up {
   //   display: none;
   // }
-
   section {
     border-bottom: 1px solid $blue;
     padding: 1.5rem 1rem;
@@ -13,6 +12,18 @@
     h4 {
       margin: 0 0 1.5rem;
       text-align: center;
+    }
+  }
+
+  .flexRow {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+
+    h4 {
+      margin: 0;
     }
   }
 

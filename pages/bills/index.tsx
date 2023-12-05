@@ -63,40 +63,18 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { scope = PoliticalScope.State } = query;
+  const { scope = PoliticalScope.Federal } = query;
   const { showFilters = "false" } = props.query || query;
   const isMobile = useMediaQuery("(max-width: 896px)");
-
   const showFiltersParam = showFilters === "true";
   const { handleScopeFilter } = useBillFilters();
 
-  if (showFiltersParam && isMobile)
-    return (
-      <Layout mobileNavTitle="Legislation">
-        <BillFiltersMobile {...props} />
-      </Layout>
-    );
+  if (showFiltersParam && isMobile) return <BillFiltersMobile {...props} />;
 
   return (
     <>
       <TopNav>
         <ul>
-          <li
-            data-selected={scope === PoliticalScope.State}
-            data-color="yellow"
-          >
-            <Link
-              href={{
-                pathname: "/bills",
-                query: {
-                  ...query,
-                  scope: PoliticalScope.State,
-                },
-              }}
-            >
-              State
-            </Link>
-          </li>
           <li
             data-selected={scope === PoliticalScope.Federal}
             data-color="aqua"
@@ -113,12 +91,30 @@ function BillIndex(props: BillIndexProps) {
               Federal
             </Link>
           </li>
+          <li
+            data-selected={scope === PoliticalScope.State}
+            data-color="yellow"
+          >
+            <Link
+              href={{
+                pathname: "/bills",
+                query: {
+                  ...query,
+                  scope: PoliticalScope.State,
+                },
+              }}
+            >
+              State
+            </Link>
+          </li>
         </ul>
       </TopNav>
       <div className={styles.container}>
         <div className={styles.desktopOnly}>
           <section>
-            <BillSearchAndFilters />
+            <BillSearchAndFilters
+              theme={scope === PoliticalScope.State ? "yellow" : "aqua"}
+            />
           </section>
         </div>
         <BillResults />

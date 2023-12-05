@@ -6,7 +6,11 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BillFiltersDesktop } from "./BillFiltersDesktop";
 import styles from "./BillSearchAndFilters.module.scss";
 
-export function BillSearchAndFilters() {
+export function BillSearchAndFilters({
+  theme = "yellow",
+}: {
+  theme: "yellow" | "aqua";
+}) {
   const router = useRouter();
   const { query } = router;
   const { search, showFilters = "false" } = query;
@@ -37,7 +41,7 @@ export function BillSearchAndFilters() {
           variant={
             showFiltersParam || hasFiltersApplied ? "primary" : "secondary"
           }
-          theme="yellow"
+          theme={theme}
           label="Filters"
           size="medium"
           onClick={() =>
@@ -51,7 +55,7 @@ export function BillSearchAndFilters() {
         />
         <Button
           variant="secondary"
-          theme={"yellow"}
+          theme={theme}
           disabled={!hasFiltersApplied}
           label="Clear"
           size="medium"
@@ -76,7 +80,7 @@ export function BillSearchAndFilters() {
           }}
         />
       </div>
-      {showFiltersParam && <BillFiltersDesktop />}
+      {showFiltersParam && <BillFiltersDesktop theme={theme} />}
     </Box>
   );
 }
