@@ -47,7 +47,7 @@ function BillFiltersMobile(props: BillIndexProps) {
   return (
     <div className={styles.container}>
       {!yearsLoading && !yearsError && (
-        <section className={styles.flex}>
+        <section className={styles.flexRow}>
           <h4>Year</h4>
           <Select
             textColor="blue-dark"

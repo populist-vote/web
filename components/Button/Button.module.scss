@@ -277,6 +277,18 @@ $small-size: 1.825rem;
   );
 }
 
+.aqua.secondary {
+  @include secondary(
+    $aqua,
+    $white,
+    #2c6e6a,
+    $white,
+    #9aeacf,
+    $blue-lighter,
+    $white
+  );
+}
+
 .violet.primary {
   @include primary(
     $violet,

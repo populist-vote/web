@@ -85,7 +85,7 @@ function NewLegislationEmbed() {
         />
       </div>
       <p>Search and select legislation to embed on your page.</p>
-      <BillSearchAndFilters />
+      <BillSearchAndFilters theme={"yellow"} />
       <BillResultsTable />
     </>
   );
