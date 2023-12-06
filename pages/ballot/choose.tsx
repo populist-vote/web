@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import styles from "./choose.module.scss";
+import { USMap } from "pages/map";
 
 export async function getServerSideProps({
   locale,
@@ -50,7 +51,7 @@ function ChooseAdventure() {
       <div className={clsx(styles.roundedCard, styles.flex)}>
         <h2>Browse by state</h2>
         <p>Browse elections and candidate information</p>
-        <Link
+        {/* <Link
           href="/politicians?state=CO"
           passHref
           className={clsx(styles.stateButton, styles.aquaButton)}
@@ -63,7 +64,8 @@ function ChooseAdventure() {
           className={clsx(styles.stateButton, styles.violetButton)}
         >
           Minnesota
-        </Link>
+        </Link> */}
+        <USMap />
       </div>
     </div>
   );
