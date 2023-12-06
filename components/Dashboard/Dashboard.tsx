@@ -165,7 +165,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                           className={styles.TooltipContent}
                           sideOffset={5}
                         >
-                          Add to library
+                          Manage embed
                           <Tooltip.Arrow className={styles.TooltipArrow} />
                         </Tooltip.Content>
                       </Tooltip.Portal>
@@ -199,7 +199,10 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                 <h5>{deployment.url}</h5>
               </div>
               {deployment.lastPingAt && (
-                <div className={styles.flexRight}>
+                <div
+                  className={styles.flexRight}
+                  style={{ marginTop: "1.25rem" }}
+                >
                   <BsEyeglasses />
                   <small>
                     Last view{" "}
