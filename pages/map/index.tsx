@@ -26,11 +26,11 @@ export function USMap() {
             strokeWidth="1px"
             d={state.shape}
             onMouseOver={(event) => {
-              if (event.target instanceof HTMLElement)
+              if (event.target instanceof SVGElement)
                 event.target.style.fill = "var(--blue-dark)";
             }}
             onMouseOut={(event) => {
-              if (event.target instanceof HTMLElement)
+              if (event.target instanceof SVGElement)
                 event.target.style.fill = color ?? "var(--blue)";
             }}
           ></path>
