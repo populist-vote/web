@@ -1,3 +1,23 @@
+query EmbedsActivity($id: ID!) {
+  embedsActivity(organizationId: $id) {
+    embedType
+    embedCount
+    uniqueOriginCount
+    totalDeployments
+    submissions
+  }
+}
+
+query EmbedsDeployments($id: ID!) {
+  recentDeployments(organizationId: $id) {
+    embedId
+    embedType
+    name
+    url
+    lastPingAt
+  }
+}
+
 query EmbedsByOrganization($id: ID!, $filter: EmbedFilter) {
   embedsByOrganization(organizationId: $id, filter: $filter) {
     ...EmbedFields

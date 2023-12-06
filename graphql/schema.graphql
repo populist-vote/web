@@ -558,9 +558,25 @@ enum EmbedType {
   RACE
 }
 
+type EmbedsCountResult {
+  embedCount: Int
+  embedType: EmbedType!
+  submissions: Int
+  totalDeployments: Int
+  uniqueOriginCount: Int
+}
+
 type Endorsements {
   organizations: [OrganizationResult!]!
   politicians: [PoliticianResult!]!
+}
+
+type EnhancedEmbedOriginResult {
+  embedId: UUID!
+  embedType: EmbedType!
+  lastPingAt: DateTime!
+  name: String!
+  url: String!
 }
 
 type GeneralInfo {
@@ -1023,6 +1039,7 @@ type Query {
   ): [ElectionResult!]!
   electionsByUser: [ElectionResult!]!
   embedById(id: ID!): EmbedResult!
+  embedsActivity(organizationId: ID!): [EmbedsCountResult!]!
   embedsByOrganization(filter: EmbedFilter, organizationId: ID!): [EmbedResult!]!
   """Returns `true` to indicate the GraphQL server is reachable"""
   health: Boolean!
@@ -1058,6 +1075,7 @@ type Query {
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(after: String, before: String, filter: RaceFilter, first: Int, last: Int): RaceResultConnection!
+  recentDeployments(limit: Int, organizationId: ID!): [EnhancedEmbedOriginResult!]!
   respondentsByOrganizationId(after: String, before: String, first: Int, last: Int, organizationId: ID!): RespondentResultConnection!
   """Get all users"""
   userCount(filter: UserCountFilter): Int
