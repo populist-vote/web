@@ -176,7 +176,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                   <Tooltip.Root>
                     <Tooltip.Trigger asChild>
                       <Link
-                        href={`/dashboard/${slug}/embeds/${deployment.embedType}/${deployment.embedId}`}
+                        href={`/dashboard/${slug}/embeds/${deployment.embedType}/${deployment.embedId}/manage`}
                       >
                         <BsCodeSquare />
                       </Link>
