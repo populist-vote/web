@@ -220,6 +220,15 @@
   }
 }
 
+.linkParent {
+  height: fit-content;
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+    color: none;
+  }
+}
+
 .TooltipContent {
   border: 1px solid $blue-text;
   border-radius: 5px;

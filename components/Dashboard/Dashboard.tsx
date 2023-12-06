@@ -141,37 +141,18 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
         )}
 
         {deployments?.map((deployment: EnhancedEmbedOriginResult) => (
-          <a
+          <Link
             href={deployment.url}
             key={deployment.url}
             target="_blank"
             rel="noreferrer"
+            className={styles.linkParent}
           >
             <Box key={deployment.url} isLink>
-              <div className={styles.flexBetween}>
-                <div className={styles.flexBaseline}>
-                  <h3>{deployment.name}</h3>
-                  <Tooltip.Provider delayDuration={300}>
-                    <Tooltip.Root>
-                      <Tooltip.Trigger asChild>
-                        <Link
-                          href={`/dashboard/${slug}/embeds/${deployment.embedType}/${deployment.embedId}`}
-                        >
-                          <BsCodeSquare />
-                        </Link>
-                      </Tooltip.Trigger>
-                      <Tooltip.Portal>
-                        <Tooltip.Content
-                          className={styles.TooltipContent}
-                          sideOffset={5}
-                        >
-                          Manage embed
-                          <Tooltip.Arrow className={styles.TooltipArrow} />
-                        </Tooltip.Content>
-                      </Tooltip.Portal>
-                    </Tooltip.Root>
-                  </Tooltip.Provider>
-                </div>
+              <div
+                className={styles.flexBaseline}
+                style={{ marginBottom: "1.25rem" }}
+              >
                 <Badge
                   theme={EmbedTypeColorMap[deployment.embedType]}
                   size="small"
@@ -179,6 +160,38 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                 >
                   {deployment.embedType}
                 </Badge>
+                {deployment.lastPingAt && (
+                  <div className={styles.flexRight}>
+                    <BsEyeglasses />
+                    <small>
+                      Last view{" "}
+                      {getRelativeTimeString(new Date(deployment.lastPingAt))}
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className={styles.flexBaseline}>
+                <h3>{deployment.name}</h3>
+                <Tooltip.Provider delayDuration={300}>
+                  <Tooltip.Root>
+                    <Tooltip.Trigger asChild>
+                      <Link
+                        href={`/dashboard/${slug}/embeds/${deployment.embedType}/${deployment.embedId}`}
+                      >
+                        <BsCodeSquare />
+                      </Link>
+                    </Tooltip.Trigger>
+                    <Tooltip.Portal>
+                      <Tooltip.Content
+                        className={styles.TooltipContent}
+                        sideOffset={5}
+                      >
+                        Manage embed
+                        <Tooltip.Arrow className={styles.TooltipArrow} />
+                      </Tooltip.Content>
+                    </Tooltip.Portal>
+                  </Tooltip.Root>
+                </Tooltip.Provider>
               </div>
               <div
                 style={{
@@ -198,20 +211,8 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                 />
                 <h5>{deployment.url}</h5>
               </div>
-              {deployment.lastPingAt && (
-                <div
-                  className={styles.flexRight}
-                  style={{ marginTop: "1.25rem" }}
-                >
-                  <BsEyeglasses />
-                  <small>
-                    Last view{" "}
-                    {getRelativeTimeString(new Date(deployment.lastPingAt))}
-                  </small>
-                </div>
-              )}
             </Box>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
