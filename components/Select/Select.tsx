@@ -7,32 +7,9 @@ type SelectProps = {
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   value: string;
   options: { value: string; label: string }[];
-  textColor?:
-    | "white"
-    | "yellow"
-    | "blue-text"
-    | "blue"
-    | "blue-dark"
-    | "aqua"
-    | "violet"
-    | "salmon"
-    | "yellow";
-  accentColor?:
-    | "white"
-    | "yellow"
-    | "blue-text"
-    | "blue"
-    | "blue-dark"
-    | "aqua"
-    | "violet"
-    | "salmon";
-  backgroundColor?:
-    | "transparent"
-    | "blue"
-    | "aqua"
-    | "violet"
-    | "salmon"
-    | "yellow";
+  textColor?: string;
+  accentColor?: string;
+  backgroundColor?: string;
   border?: "none" | "solid";
   uppercase?: boolean;
   placeholder?: string;
