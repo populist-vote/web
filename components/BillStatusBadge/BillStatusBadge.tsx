@@ -12,7 +12,7 @@ function BillStatusBadge({ status }: { status: BillStatus }) {
       iconLeft={<FaCircle size={12} color={`var(--${statusInfo?.color})`} />}
       theme={statusInfo?.color}
     >
-      {titleCase(status.replaceAll("_", " ") as string)}
+      <span>{titleCase(status.replaceAll("_", " ") as string)}</span>
     </Badge>
   );
 }

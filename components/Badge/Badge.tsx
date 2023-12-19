@@ -49,10 +49,10 @@ function Badge({
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-    <span className={cx} {...rest}>
+    <div className={cx} {...rest}>
       {iconLeft}
       {label || children}
-    </span>
+    </div>
   );
 }
 
