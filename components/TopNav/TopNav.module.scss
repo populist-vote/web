@@ -22,14 +22,15 @@
     gap: 1rem;
     margin: 0;
     padding-inline-start: 0;
-    width: fit-content;
+    width: 100%;
   }
 
   li {
     list-style: none;
     text-transform: uppercase;
     font-family: $font-primary;
-    width: 50%;
+    width: fit-content;
+    min-width: 9rem;
     height: 3rem;
     text-align: center;
     box-sizing: border-box;
