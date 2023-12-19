@@ -6,6 +6,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { Avatar, Layout, LoaderFlag, IssueTags, Button } from "components";
 
 import {
+  IssueTagResult,
   OrganizationBySlugQuery,
   useOrganizationBySlugQuery,
 } from "../../generated";
@@ -60,7 +61,7 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
 
           <h1 className={styles.mainTitle}>{organization?.name}</h1>
           {organization?.issueTags && (
-            <IssueTags tags={organization.issueTags} />
+            <IssueTags tags={organization.issueTags as IssueTagResult[]} />
           )}
 
           <div className={styles.divider} />

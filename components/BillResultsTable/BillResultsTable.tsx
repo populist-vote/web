@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { getYear } from "utils/dates";
 import styles from "../BillResults/BillResults.module.scss";
+import { getIssueTagIcon } from "utils/data";
 
 function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
   const router = useRouter();
@@ -100,7 +101,7 @@ function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
             {(info.getValue() as IssueTagResult[]).map(
               (tag: IssueTagResult) => (
                 <Badge key={tag.id} size="small" color="white">
-                  {tag.name}
+                  <span>{getIssueTagIcon(tag)}</span> {tag.name}
                 </Badge>
               )
             )}
