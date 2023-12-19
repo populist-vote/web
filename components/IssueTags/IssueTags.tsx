@@ -4,7 +4,9 @@ import { getIssueTagIcon } from "utils/data";
 
 const IssueTag = ({ tag }: { tag: IssueTagResult }) => (
   <li className={styles.issueBubble}>
-    <span style={{ marginRight: "0.5rem" }}>{getIssueTagIcon(tag)}</span>
+    <span style={{ marginRight: "0.5rem", height: "fit-content" }}>
+      {getIssueTagIcon(tag)}
+    </span>
     {tag.name}
   </li>
 );

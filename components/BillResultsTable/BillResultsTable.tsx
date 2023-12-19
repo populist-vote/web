@@ -101,7 +101,8 @@ function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
             {(info.getValue() as IssueTagResult[]).map(
               (tag: IssueTagResult) => (
                 <Badge key={tag.id} size="small" color="white">
-                  <span>{getIssueTagIcon(tag)}</span> {tag.name}
+                  <span>{getIssueTagIcon(tag)}</span>
+                  <span>{tag.name}</span>
                 </Badge>
               )
             )}
