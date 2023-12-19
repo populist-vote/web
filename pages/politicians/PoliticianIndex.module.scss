@@ -1,0 +1,16 @@
+@import "components/Layout/Layout.module";
+
+.container {
+  section {
+    padding: 2.5rem 0;
+  }
+
+  .wideButton {
+    background: $blue;
+    color: $white;
+    border-radius: 25px;
+    border: none;
+    padding: 0.5rem 1rem;
+    width: 100%;
+  }
+}

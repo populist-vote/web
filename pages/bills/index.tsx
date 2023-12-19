@@ -1,4 +1,5 @@
 import { Layout } from "components";
+import * as Separator from "@radix-ui/react-separator";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import { ReactNode } from "react";
 import Link from "next/link";
@@ -15,7 +16,6 @@ import {
   MobileTabs,
   TopNav,
   BillFiltersMobile,
-  BillResults,
   BillSearchAndFilters,
 } from "components";
 
@@ -23,6 +23,7 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
 
 import styles from "./BillIndex.module.scss";
+import { BillResultsTable } from "components/BillResultsTable/BillResultsTable";
 
 export async function getServerSideProps({
   locale,
@@ -68,6 +69,7 @@ function BillIndex(props: BillIndexProps) {
   const isMobile = useMediaQuery("(max-width: 896px)");
   const showFiltersParam = showFilters === "true";
   const { handleScopeFilter } = useBillFilters();
+  const theme = scope === PoliticalScope.State ? "yellow" : "aqua";
 
   if (showFiltersParam && isMobile) return <BillFiltersMobile {...props} />;
 
@@ -117,7 +119,17 @@ function BillIndex(props: BillIndexProps) {
             />
           </section>
         </div>
-        <BillResults />
+        <div style={{ marginBottom: "3rem" }}>
+          <BillResultsTable theme={theme} />
+        </div>
+        <Separator.Root
+          className={styles.SeparatorRoot}
+          decorative
+          style={{
+            height: "2px",
+            backgroundColor: `var(--${theme})`,
+          }}
+        />
         <PopularBills />
       </div>
       <div>

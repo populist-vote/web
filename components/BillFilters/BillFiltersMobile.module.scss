@@ -2,9 +2,9 @@
 @import "styles/mixins/media";
 
 .container {
-  // @include for-tablet-landscape-up {
-  //   display: none;
-  // }
+  @include for-tablet-landscape-up {
+    display: none;
+  }
   section {
     border-bottom: 1px solid $blue;
     padding: 1.5rem 1rem;
@@ -47,22 +47,6 @@
 
     button {
       flex-grow: 1;
-    }
-  }
-
-  .inputWithIcon {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin-right: 0.75rem;
-    width: 100%;
-
-    input {
-      margin-right: -2rem;
-    }
-
-    input:focus + svg {
-      opacity: 0;
     }
   }
 }

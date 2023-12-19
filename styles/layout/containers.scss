@@ -41,7 +41,7 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin-right: 0.75rem;
+  margin-right: 0;
   width: 100%;
 
   input {
@@ -227,6 +227,35 @@
     text-decoration: none;
     color: none;
   }
+}
+
+.noResults {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 1rem 0;
+  color: $blue;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: $text-md;
+}
+
+.mt1 {
+  margin-top: 1rem;
+}
+
+// Radix UI styles
+
+.SeparatorRoot {
+  background-color: $blue-text;
+}
+.SeparatorRoot[data-orientation="horizontal"] {
+  height: 1px;
+  width: 100%;
+}
+.SeparatorRoot[data-orientation="vertical"] {
+  height: 100%;
+  width: 1px;
 }
 
 .TooltipContent {
