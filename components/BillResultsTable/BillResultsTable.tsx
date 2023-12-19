@@ -94,12 +94,18 @@ function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
       {
         accessorKey: "issueTags",
         header: "Issues",
-        cell: (info) =>
-          (info.getValue() as IssueTagResult[]).map((tag: IssueTagResult) => (
-            <Badge key={tag.id} size="small" color="white">
-              {tag.name}
-            </Badge>
-          )),
+
+        cell: (info) => (
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            {(info.getValue() as IssueTagResult[]).map(
+              (tag: IssueTagResult) => (
+                <Badge key={tag.id} size="small" color="white">
+                  {tag.name}
+                </Badge>
+              )
+            )}
+          </div>
+        ),
       },
     ],
     []
