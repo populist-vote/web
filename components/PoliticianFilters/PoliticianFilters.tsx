@@ -1,11 +1,13 @@
-import { AiFillCaretDown, AiOutlineSearch } from "react-icons/ai";
-import { Spacer } from "components";
+import { AiOutlineSearch } from "react-icons/ai";
+import { Select } from "components";
 import styles from "components/Layout/Layout.module.scss";
 import { Chambers, PoliticalScope, State } from "../../generated";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { PoliticianIndexProps } from "pages/politicians";
 import { ChangeEvent, useState } from "react";
+import { Box } from "components/Box/Box";
+import * as Separator from "@radix-ui/react-separator";
 
 function PoliticianIndexFilters(props: PoliticianIndexProps) {
   const router = useRouter();
@@ -34,44 +36,54 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
   };
 
   return (
-    <div className={styles.filtersContainer}>
-      <div className={styles.flexLeft}>
-        <select
-          className={styles.pillSelect}
-          name="state"
-          onChange={(e) => {
-            if (e.target.value === "all") {
-              const { state: _, ...newQuery } = query;
-              void router.push({ query: newQuery });
-            } else {
-              void router.push({
-                query: { ...query, state: e.target.value },
-              });
-            }
-          }}
+    <Box>
+      <div className={styles.flexBetween}>
+        <Select
+          backgroundColor="blue"
           value={state || "all"}
-        >
-          <option value={"all"}>All states</option>
-          <option value={State.Co}>Colorado</option>
-          <option value={State.Mn}>Minnesota</option>
-        </select>
-        <AiFillCaretDown className={styles.chevron} />
-      </div>
-      <br />
-      <h2 className={styles.desktopOnly}>Browse</h2>
-      <div className={styles.inputWithIcon}>
-        <input
-          placeholder="Search"
+          options={[
+            { value: "all", label: "All States" },
+            { value: State.Co, label: "Colorado" },
+            { value: State.Mn, label: "Minnesota" },
+          ]}
           onChange={(e) => {
-            setSearchValue(e.target.value);
-            void router.push({ query: { ...query, search: e.target.value } });
+            const state = e.target.value as State;
+            void router.push({ query: { ...query, state } });
           }}
-          value={searchValue || ""}
-        ></input>
-        <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
+        />
+        <div className={styles.inputWithIcon}>
+          <input
+            placeholder="Search"
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+              void router.push({ query: { ...query, search: e.target.value } });
+            }}
+            value={searchValue || ""}
+          ></input>
+          <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
+        </div>
       </div>
-      <Spacer size={16} axis="vertical" />
-      <form className={styles.flexBetween}>
+      <Separator.Root
+        className={styles.SeparatorRoot}
+        decorative
+        style={{
+          margin: "1rem 0 ",
+          height: "1px",
+          backgroundColor: `var(--blue-dark)`,
+        }}
+      />
+      <div className={styles.filtersContainer}>
+        <Select
+          border="solid"
+          accentColor="blue"
+          onChange={handleChamberSelect}
+          value={chamber || Chambers.All}
+          options={[
+            { value: Chambers.All, label: "All Chambers" },
+            { value: Chambers.House, label: "House" },
+            { value: Chambers.Senate, label: "Senate" },
+          ]}
+        />
         <input
           name="scope"
           id="federal-radio"
@@ -117,21 +129,8 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
         >
           Local
         </label>
-        <div className={styles.flexLeft}>
-          <select
-            className={styles.pillSelect}
-            name="chambers"
-            onChange={handleChamberSelect}
-            value={chamber || Chambers.All}
-          >
-            <option value={Chambers.All}>All Chambers</option>
-            <option value={Chambers.House}>House</option>
-            <option value={Chambers.Senate}>Senate</option>
-          </select>
-          <AiFillCaretDown className={styles.chevron} />
-        </div>
-      </form>
-    </div>
+      </div>
+    </Box>
   );
 }
 

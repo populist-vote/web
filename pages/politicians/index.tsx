@@ -3,8 +3,8 @@ import { ReactNode, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { usePoliticianIndexQuery } from "generated";
-import { Layout, LoaderFlag, PartyAvatar, Spacer } from "components";
-import styles from "components/Layout/Layout.module.scss";
+import { Layout, LoaderFlag, PartyAvatar, Spacer, TopNav } from "components";
+import styles from "./PoliticianIndex.module.scss";
 
 import {
   Chambers,
@@ -166,10 +166,11 @@ function PoliticianIndex(props: PoliticianIndexProps) {
   }, [loadMoreRef.current, hasNextPage, isFetchingNextPage]);
 
   return (
-    <div>
-      <header>
+    <div className={styles.container}>
+      <PoliticiansTopNav />
+      <section>
         <PoliticianIndexFilters query={props.query} />
-      </header>
+      </section>
       <div>
         <>
           {isLoading && (
@@ -209,6 +210,48 @@ function PoliticianIndex(props: PoliticianIndexProps) {
         </>
       </div>
     </div>
+  );
+}
+
+export function PoliticiansTopNav() {
+  const router = useRouter();
+  const { query } = router;
+
+  return (
+    <TopNav>
+      <ul>
+        <li
+          data-selected={router.pathname === "/politicians/my-politicians"}
+          data-color="aqua"
+        >
+          <Link
+            href={{
+              pathname: "/politicians/my-politicians",
+              query: {
+                ...query,
+              },
+            }}
+          >
+            My Politicians
+          </Link>
+        </li>
+        <li
+          data-selected={router.pathname === "/politicians"}
+          data-color="yellow"
+        >
+          <Link
+            href={{
+              pathname: "/politicians",
+              query: {
+                ...query,
+              },
+            }}
+          >
+            Browse
+          </Link>
+        </li>
+      </ul>
+    </TopNav>
   );
 }
 

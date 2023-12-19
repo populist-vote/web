@@ -60,6 +60,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: ease-in-out all 0.3s;
 
     &.aquaLabel {
       border: 1px solid $aqua;
@@ -74,8 +75,7 @@
     }
 
     &:hover {
-      transform: translate3d(2px, 2px, 2px);
-      transition: cubic-bezier(1, 0, 0, 1) all 0.3s;
+      opacity: 0.8;
     }
   }
 
@@ -116,15 +116,6 @@
 
   input[type="radio"] {
     display: none;
-  }
-
-  .wideButton {
-    background: $blue;
-    color: $white;
-    border-radius: 25px;
-    border: none;
-    padding: 0.5rem 1rem;
-    width: 100%;
   }
 
   .pillSelect {
@@ -168,7 +159,7 @@
   }
 
   .flexBetween {
-    @include flex-between(0.5rem);
+    @include flex-between(1rem);
   }
 
   .flexLeft {
@@ -177,9 +168,14 @@
   }
 
   .filtersContainer {
-    gap: 0.5rem;
-    padding: 1rem;
-    border-bottom: 1px solid $blue-dark;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @include for-tablet-up {
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
 
   .desktopOnly {

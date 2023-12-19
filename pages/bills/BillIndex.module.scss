@@ -39,17 +39,6 @@
     margin-bottom: 15vh;
   }
 
-  .filters {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 0;
-
-    select {
-      max-width: 12rem;
-    }
-  }
-
   .mobileOnly {
     @include for-tablet-portrait-up {
       display: none;
