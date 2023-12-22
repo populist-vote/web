@@ -56,7 +56,15 @@ function useBillFilters() {
     );
   };
 
-  const handleStatusFilter = (value: BillStatus) => {
+  const handleStatusFilter = (value: BillStatus | "any") => {
+    if (value == "any") {
+      const { status: _, ...newQuery } = query;
+      void router.push({ query: newQuery }, undefined, {
+        scroll: false,
+      });
+      return;
+    }
+
     if (status === value) {
       const { status: _, ...newQuery } = query;
       void router.push({ query: newQuery }, undefined, {
@@ -76,6 +84,14 @@ function useBillFilters() {
   };
 
   const handleIssueTagFilter = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value == "any") {
+      const { issue: _, ...newQuery } = query;
+      void router.push({ query: newQuery }, undefined, {
+        scroll: false,
+      });
+      return;
+    }
+
     void router.push(
       {
         query: { ...query, issue: e.target.value },

@@ -117,22 +117,32 @@ export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
           <Select
             border="solid"
             accentColor={theme}
-            value={issue as string}
+            value={(issue as string) || "any"}
             onChange={handleIssueTagFilter}
             placeholder="Select an issue"
-            options={
-              billIssueTags?.map((issue) => ({
+            options={[
+              ...(billIssueTags?.map((issue) => ({
                 value: issue.slug,
                 label: issue.name,
-              })) || []
-            }
+              })) || []),
+              {
+                value: "any",
+                label: "Any Issue",
+              },
+            ]}
           />
         )}
         <Select
           border="solid"
           accentColor={theme}
-          options={billStatuses}
-          value={status as string}
+          options={[
+            ...billStatuses,
+            {
+              value: "any",
+              label: "All Statuses",
+            },
+          ]}
+          value={(status as string) || "any"}
           onChange={(e) => handleStatusFilter(e.target.value as BillStatus)}
           placeholder="All Statuses"
         />
