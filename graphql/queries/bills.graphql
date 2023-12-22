@@ -18,21 +18,6 @@ query BillIndex(
   }
 }
 
-query PopularBills($pageSize: Int, $cursor: String) {
-  popularBills(first: $pageSize, after: $cursor) {
-    edges {
-      node {
-        ...BillFields
-      }
-    }
-    totalCount
-    pageInfo {
-      hasNextPage
-      endCursor
-    }
-  }
-}
-
 query BillBySlug($slug: String!) {
   billBySlug(slug: $slug) {
     id
