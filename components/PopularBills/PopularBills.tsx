@@ -1,25 +1,61 @@
 import clsx from "clsx";
 import { BillCard } from "components/BillCard/BillCard";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import { BillResult, usePopularBillsQuery } from "generated";
+import {
+  BillResult,
+  BillStatus,
+  PoliticalScope,
+  PopularitySort,
+  State,
+  useBillIndexQuery,
+} from "generated";
 import styles from "../BillResults/BillResults.module.scss";
+import { useRouter } from "next/router";
+import useDebounce from "hooks/useDebounce";
 
 function PopularBills() {
-  const { data, isLoading, error } = usePopularBillsQuery(
+  const router = useRouter();
+  const { query } = router;
+  const {
+    state = null,
+    status = null,
+    search = null,
+    year = null,
+    scope = null,
+    issue = null,
+  } = query;
+
+  const debouncedSearchQuery = useDebounce<string | null>(
+    search as string,
+    350
+  );
+
+  const { data, isInitialLoading, error } = useBillIndexQuery(
     {
-      pageSize: 10,
+      pageSize: 5,
+      sort: {
+        popularity: PopularitySort.MostOpposed,
+      },
+      filter: {
+        query: debouncedSearchQuery || null,
+        state: state as State,
+        politicalScope: scope as PoliticalScope,
+        year: parseInt(year as string),
+        status: status as BillStatus,
+        issueTag: issue as string,
+      },
     },
     {
       refetchOnWindowFocus: false,
     }
   );
 
-  const popularBills = data?.popularBills.edges.map((edge) => edge.node) || [];
+  const popularBills = data?.bills.edges.map((edge) => edge.node) || [];
 
   return (
     <section className={styles.billsSection}>
       <h2 className={styles.gradientHeader}>Popular Bills</h2>
-      {isLoading ? (
+      {isInitialLoading ? (
         <LoaderFlag />
       ) : error ? (
         <span>{error.toString()}</span>
