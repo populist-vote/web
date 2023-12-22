@@ -117,14 +117,14 @@ function BillFiltersDesktop({ theme }: { theme: Theme }) {
               onChange={handleIssueTagFilter}
               placeholder="Select an issue"
               options={[
+                {
+                  value: "any",
+                  label: "Any Issue",
+                },
                 ...billIssueTags.map((issue) => ({
                   value: issue.slug,
                   label: issue.name,
                 })),
-                {
-                  value: "any",
-                  label: "Any",
-                },
               ]}
             />
           </section>

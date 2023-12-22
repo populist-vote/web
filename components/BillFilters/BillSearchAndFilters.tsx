@@ -121,14 +121,14 @@ export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
             onChange={handleIssueTagFilter}
             placeholder="Select an issue"
             options={[
-              ...(billIssueTags?.map((issue) => ({
-                value: issue.slug,
-                label: issue.name,
-              })) || []),
               {
                 value: "any",
                 label: "Any Issue",
               },
+              ...(billIssueTags?.map((issue) => ({
+                value: issue.slug,
+                label: issue.name,
+              })) || []),
             ]}
           />
         )}
@@ -136,15 +136,15 @@ export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
           border="solid"
           accentColor={theme}
           options={[
-            ...billStatuses,
             {
               value: "any",
-              label: "All Statuses",
+              label: "Any Status",
             },
+            ...billStatuses,
           ]}
           value={(status as string) || "any"}
           onChange={(e) => handleStatusFilter(e.target.value as BillStatus)}
-          placeholder="All Statuses"
+          placeholder="Any Status"
         />
       </div>
       {showFiltersParam && <BillFiltersDesktop theme={theme} />}
