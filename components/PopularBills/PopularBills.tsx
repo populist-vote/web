@@ -21,7 +21,7 @@ function PopularBills() {
     status = null,
     search = null,
     year = null,
-    scope = null,
+    scope = "FEDERAL",
     issue = null,
   } = query;
 
