@@ -167,10 +167,7 @@ function PoliticianIndex(props: PoliticianIndexProps) {
 
   return (
     <div className={styles.container}>
-      <PoliticiansTopNav />
-      <section>
-        <PoliticianIndexFilters query={props.query} />
-      </section>
+      <PoliticiansTopNav query={props.query} />
       <div>
         <>
           {isLoading && (
@@ -213,7 +210,7 @@ function PoliticianIndex(props: PoliticianIndexProps) {
   );
 }
 
-export function PoliticiansTopNav() {
+export function PoliticiansTopNav(props: PoliticianIndexProps) {
   const router = useRouter();
   const { query } = router;
 
@@ -251,6 +248,8 @@ export function PoliticiansTopNav() {
           </Link>
         </li>
       </ul>
+      <PoliticianIndexFilters query={props.query} />
+      <br />
     </TopNav>
   );
 }

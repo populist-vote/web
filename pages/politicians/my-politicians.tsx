@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import styles from "./MyPoliticians.module.scss";
 import clsx from "clsx";
-import { PoliticiansTopNav } from ".";
+import { PoliticianIndexProps, PoliticiansTopNav } from ".";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -25,10 +25,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default function MyPoliticians() {
+export default function MyPoliticians(props: PoliticianIndexProps) {
   return (
     <div>
-      <PoliticiansTopNav />
+      <PoliticiansTopNav query={props.query} />
       <div
         className={clsx(styles.centered, styles.noResults)}
         style={{ height: "80vh" }}

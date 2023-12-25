@@ -70,6 +70,7 @@ type TableProps<T extends object> = {
   selectedRowId?: string;
   globalFilter?: string;
   useSearchQueryAsFilter?: boolean;
+  children?: React.ReactNode;
 };
 
 function Table<T extends object>({
@@ -81,6 +82,7 @@ function Table<T extends object>({
   onRowClick,
   selectedRowId,
   useSearchQueryAsFilter = false,
+  children,
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
     initialState.sorting || []
@@ -334,6 +336,7 @@ function Table<T extends object>({
           </small>
           {metaRight}
         </div>
+        {children}
       </div>
     </>
   );

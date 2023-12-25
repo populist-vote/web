@@ -110,17 +110,15 @@ function BillIndex(props: BillIndexProps) {
             </Link>
           </li>
         </ul>
+        <section>
+          <BillSearchAndFilters
+            theme={scope === PoliticalScope.State ? "yellow" : "aqua"}
+          />
+        </section>
       </TopNav>
       <div className={styles.container}>
-        <div className={styles.desktopOnly}>
-          <section>
-            <BillSearchAndFilters
-              theme={scope === PoliticalScope.State ? "yellow" : "aqua"}
-            />
-          </section>
-        </div>
-        <div style={{ marginBottom: "3rem" }}>
-          <BillResultsTable theme={theme} />
+        <div style={{ margin: "1.5rem 0 3rem" }}>
+          <BillResultsTable theme={theme}></BillResultsTable>
         </div>
         <Separator.Root
           className={styles.SeparatorRoot}

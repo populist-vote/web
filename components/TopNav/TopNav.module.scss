@@ -3,24 +3,27 @@
 @import "styles/mixins/media";
 
 .container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border-bottom: 1px solid $blue-dark;
+  grid-area: subnav;
   width: 100%;
+  position: sticky;
+  top: 0;
+  background: $blue-darkest;
+  z-index: 10;
 
   @include for-tablet-portrait-down {
     display: none;
   }
 
   ul {
+    margin: 0 0 1.75rem;
+    padding: 1.75rem 0 0;
+    border-bottom: 1px solid $blue-dark;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     list-style: none;
     gap: 1rem;
-    margin: 0;
     padding-inline-start: 0;
     width: 100%;
   }
