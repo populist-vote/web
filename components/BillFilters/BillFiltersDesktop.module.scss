@@ -3,12 +3,6 @@
 @import "styles/mixins/media";
 
 .container {
-  max-width: 100%;
-  gap: 1rem;
-  overflow: auto;
-  border-top: 1px solid $blue;
-  margin-top: 1.5rem;
-
   @include for-tablet-landscape-down {
     display: none;
   }

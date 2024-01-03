@@ -1,39 +1,24 @@
 import { IssueTagResult } from "generated";
 import styles from "./IssueTags.module.scss";
+import { getIssueTagIcon } from "utils/data";
 
-interface IssueTagProps extends Partial<IssueTagResult> {
-  selected?: boolean;
-}
-
-const IssueTag = ({ name }: IssueTagProps) => (
-  <li className={styles.issueBubble}>{name}</li>
+const IssueTag = ({ tag }: { tag: IssueTagResult }) => (
+  <li className={styles.issueBubble}>
+    <span style={{ marginRight: "0.5rem", height: "fit-content" }}>
+      {getIssueTagIcon(tag)}
+    </span>
+    {tag.name}
+  </li>
 );
 
-const IssueTags = ({ tags }: { tags: Partial<IssueTagResult>[] }) => {
+const IssueTags = ({ tags }: { tags: IssueTagResult[] }) => {
   return (
     <div className={styles.container}>
       {tags.map((i) => (
-        <IssueTag key={i.id} name={i.name} />
+        <IssueTag key={i.id} tag={i} />
       ))}
     </div>
   );
 };
-
-// const IssueTagList = ({
-//   tags, // selected,
-// }: {
-//   tags: Partial<IssueTagResult>[];
-//   // selected?: string;
-// }) => {
-//   // const { current, setCurrent } = useState(0);
-
-//   return (
-//     <ul className={styles.container}>
-//       {tags.map((i) => (
-//         <IssueTag key={i.id} name={i.name} />
-//       ))}
-//     </ul>
-//   );
-// };
 
 export { IssueTags };

@@ -29,10 +29,12 @@
     list-style: none;
     text-transform: uppercase;
     font-family: $font-primary;
-    width: auto;
+    width: fit-content;
+    min-width: 9rem;
     height: 3rem;
     text-align: center;
     box-sizing: border-box;
+    white-space: nowrap;
 
     a,
     select {
@@ -55,7 +57,7 @@
     }
 
     &[data-selected="true"] {
-      border-bottom: 2px solid $yellow;
+      border-bottom: 3px solid $yellow;
 
       &[data-color="aqua"] {
         border-color: $aqua;

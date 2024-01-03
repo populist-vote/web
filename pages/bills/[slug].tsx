@@ -25,6 +25,7 @@ import {
   PoliticianResult,
   BillBySlugQuery,
   useBillBySlugQuery,
+  IssueTagResult,
 } from "generated";
 
 import styles from "./BillBySlug.module.scss";
@@ -121,7 +122,9 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
             <header>
               <h3>{bill?.billNumber}</h3>
               <h1>{bill?.title}</h1>
-              {bill?.issueTags && <IssueTags tags={bill.issueTags} />}
+              {bill?.issueTags && (
+                <IssueTags tags={bill.issueTags as IssueTagResult[]} />
+              )}
             </header>
 
             <section className={styles.statusAndCommitteesSection}>

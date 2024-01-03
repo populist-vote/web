@@ -8,6 +8,7 @@ import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { getYear } from "utils/dates";
 import { ReactNode } from "react";
+import { getIssueTagIcon } from "utils/data";
 
 interface BillCardWithBill {
   isLink?: boolean;
@@ -71,7 +72,7 @@ function BillCard({ bill, billId, isLink = true }: BillCardProps) {
           <div className={styles.tags}>
             {bill.issueTags?.map((tag) => (
               <Badge key={tag.id} lightBackground>
-                {tag.name}
+                <span>{getIssueTagIcon(tag)}</span> {tag.name}
               </Badge>
             ))}
           </div>

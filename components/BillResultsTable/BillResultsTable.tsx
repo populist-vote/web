@@ -12,11 +12,14 @@ import {
   useBillIndexQuery,
 } from "generated";
 import useDebounce from "hooks/useDebounce";
+import { Theme } from "hooks/useTheme";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { getYear } from "utils/dates";
+import styles from "../BillResults/BillResults.module.scss";
+import { getIssueTagIcon } from "utils/data";
 
-function BillResultsTable() {
+function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
   const router = useRouter();
   const { query } = router;
   const {
@@ -92,31 +95,43 @@ function BillResultsTable() {
       {
         accessorKey: "issueTags",
         header: "Issues",
-        cell: (info) =>
-          (info.getValue() as IssueTagResult[]).map((tag: IssueTagResult) => (
-            <Badge key={tag.id} size="small" color="white">
-              {tag.name}
-            </Badge>
-          )),
+
+        cell: (info) => (
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            {(info.getValue() as IssueTagResult[]).map(
+              (tag: IssueTagResult) => (
+                <Badge key={tag.id} size="small" color="white">
+                  <span>{getIssueTagIcon(tag)}</span>
+                  <span>{tag.name}</span>
+                </Badge>
+              )
+            )}
+          </div>
+        ),
       },
     ],
     []
   );
 
   const onRowClick = (row: Row<BillResult>) => {
-    void router.replace(
-      {
-        query: { ...query, selected: row.original.id },
-      },
-      undefined,
-      {
-        scroll: false,
-        shallow: true,
-      }
-    );
+    router.pathname === "/bills"
+      ? void router.push(`/bills/${row.original.slug}`)
+      : void router.replace(
+          {
+            query: { ...query, selected: row.original.id },
+          },
+          undefined,
+          {
+            scroll: false,
+            shallow: true,
+          }
+        );
   };
 
   if (!shouldFetchBillResults) return null;
+
+  if (billResults?.length === 0)
+    return <small className={styles.noResults}>No results</small>;
 
   return (
     <Table
@@ -127,6 +142,7 @@ function BillResultsTable() {
           pageSize: 7,
         },
       }}
+      theme={theme}
       onRowClick={onRowClick}
       selectedRowId={selected as string}
     />

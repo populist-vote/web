@@ -12,8 +12,9 @@ import { useBillFilters } from "hooks/useBillFilters";
 import { useRouter } from "next/router";
 import styles from "./BillFiltersDesktop.module.scss";
 import { useAuth } from "hooks/useAuth";
+import { Theme } from "hooks/useTheme";
 
-function BillFiltersDesktop({ theme }: { theme: "yellow" | "aqua" }) {
+function BillFiltersDesktop({ theme }: { theme: Theme }) {
   const router = useRouter();
   const query = router.query;
   const { user } = useAuth({ redirect: false });
@@ -115,10 +116,16 @@ function BillFiltersDesktop({ theme }: { theme: "yellow" | "aqua" }) {
               value={issue as string}
               onChange={handleIssueTagFilter}
               placeholder="Select an issue"
-              options={billIssueTags.map((issue) => ({
-                value: issue.slug,
-                label: issue.name,
-              }))}
+              options={[
+                {
+                  value: "any",
+                  label: "Any Issue",
+                },
+                ...billIssueTags.map((issue) => ({
+                  value: issue.slug,
+                  label: issue.name,
+                })),
+              ]}
             />
           </section>
         )}
