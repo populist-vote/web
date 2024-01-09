@@ -101,6 +101,7 @@ $font-size: 0.85em;
       display: flex;
       gap: 1rem;
       align-items: center;
+      border: 1px solid $blue-darker;
 
       .statusText {
         color: $green;

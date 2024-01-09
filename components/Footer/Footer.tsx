@@ -1,14 +1,30 @@
 import styles from "./Footer.module.scss";
-import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaCircle } from "react-icons/fa";
 import Link from "next/link";
 import { BsGithub } from "react-icons/bs";
 
 function Footer() {
   return (
     <footer className={styles.footer}>
-      <p className={styles.copyright}>
-        &#169; {new Date().getFullYear()} Populist. &nbsp; 🇺🇸 Made in the USA.
-      </p>
+      <div
+        style={{
+          display: "flex",
+          gap: "1rem",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <p className={styles.copyright}>
+          &#169; {new Date().getFullYear()} Populist. &nbsp; 🇺🇸 Made in the USA.
+        </p>
+        <div className={styles.platformStatus}>
+          <span>
+            Status <FaCircle color={"var(--green)"} />{" "}
+            <span className={styles.statusText}>All systems operational.</span>
+          </span>
+        </div>
+      </div>
+
       <ul className={styles.links}>
         <li>
           <Link href="/about" passHref>
@@ -69,17 +85,6 @@ function Footer() {
             <FaInstagram aria-labelledby="populist on instagram" />
           </a>
         </li>
-
-        {/* <li>
-          <div className={styles.platformStatus}>
-            <span>
-              Status <FaCircle color={"var(--green)"} />{" "}
-              <span className={styles.statusText}>
-                All systems operational.
-              </span>
-            </span>
-          </div>
-        </li> */}
       </ul>
     </footer>
   );
