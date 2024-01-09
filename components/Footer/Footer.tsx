@@ -1,6 +1,7 @@
 import styles from "./Footer.module.scss";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
+import { BsGithub } from "react-icons/bs";
 
 function Footer() {
   return (
@@ -27,7 +28,16 @@ function Footer() {
       </ul>
       <ul className={styles.socials}>
         <li>
-          {" "}
+          <a
+            href="https://github.com/populist-vote"
+            aria-label="Github"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <BsGithub />
+          </a>
+        </li>
+        <li>
           <a
             href="https://www.facebook.com/populist.us"
             aria-label="Facebook"
@@ -39,7 +49,6 @@ function Footer() {
         </li>
 
         <li>
-          {" "}
           <a
             href="https://twitter.com/populist_us"
             aria-label="Twitter"
@@ -51,7 +60,6 @@ function Footer() {
         </li>
 
         <li>
-          {" "}
           <a
             href="https://www.instagram.com/populist.us/"
             aria-label="Instagram"
