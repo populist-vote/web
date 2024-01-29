@@ -17,7 +17,7 @@ fragment raceFields on RaceResult {
     electionScope
     districtType
     politicalScope
-    incumbent {
+    incumbents {
       id
       fullName
       party

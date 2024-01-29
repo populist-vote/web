@@ -7,12 +7,12 @@ import { Race } from "./Race";
 function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
   const office = races[0]?.office;
 
-  const incumbentId = office?.incumbent?.id;
+  const incumbentIds = office?.incumbents?.map((i) => i.id) || [];
 
   // Display race that has incumbent first
   const raceSortFn = (a: RaceResult, b: RaceResult) =>
-    a.candidates.some((politician) => politician.id === incumbentId) &&
-    !b.candidates.some((politician) => politician.id === incumbentId)
+    a.candidates.some((politician) => incumbentIds.includes(politician.id)) &&
+    !b.candidates.some((politician) => incumbentIds.includes(politician.id))
       ? -1
       : 1;
 
@@ -41,7 +41,7 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
             race={race}
             key={race.id}
             itemId={race.id}
-            incumbentId={incumbentId}
+            incumbentIds={incumbentIds}
           />
         ))}
       </div>

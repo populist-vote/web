@@ -21,12 +21,15 @@ interface PoliticianNoteProps {
 
 function PoliticianNote({ politician, notes }: PoliticianNoteProps) {
   const { i18n } = useTranslation();
+  const isIncumbent =
+    politician.id ===
+    politician?.upcomingRace?.office?.incumbents
+      ?.map((i) => i.id)
+      .includes(politician.id as string);
   return (
     <div className={styles.noteContainer}>
       <div className={styles.noteCandidate}>
-        {politician.id === politician?.upcomingRace?.office?.incumbent?.id && (
-          <span className={styles.sideText}>INCUMBENT</span>
-        )}
+        {isIncumbent && <span className={styles.sideText}>INCUMBENT</span>}
         <Candidate itemId={politician.slug as string} candidate={politician} />
       </div>
       <div>

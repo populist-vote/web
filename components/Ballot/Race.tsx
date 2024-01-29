@@ -29,13 +29,13 @@ interface EditVotingGuideCandidate {
 
 function Race({
   race,
-  incumbentId,
+  incumbentIds,
   theme = "dark",
   isEmbedded = false,
 }: {
   race: RaceResult;
   itemId: string;
-  incumbentId?: string;
+  incumbentIds?: string[];
   theme?: "light" | "dark";
   isEmbedded?: boolean;
 }) {
@@ -130,7 +130,7 @@ function Race({
     const randomizeFn = () => Math.random() - 0.5;
 
     const incumbentSortFn = (a: PoliticianResult, b: PoliticianResult) =>
-      a.id === incumbentId && b.id !== incumbentId ? -1 : 1;
+      incumbentIds?.includes(a.id) && !incumbentIds.includes(b.id) ? -1 : 1;
 
     const partySortFn = (a: PoliticianResult, b: PoliticianResult) =>
       (a.party === PoliticalParty.Democratic &&
@@ -158,7 +158,7 @@ function Race({
       .sort(partySortFn)
       .sort(electionResultsSortFn)
       .sort(incumbentSortFn);
-  }, [candidates, incumbentId, results.votesByCandidate]);
+  }, [candidates, incumbentIds, results.votesByCandidate]);
 
   const $raceContent = (
     <>
@@ -217,7 +217,7 @@ function Race({
 
         return (
           <div className={styles.flexBetween} key={politician.id}>
-            {politician.id == incumbentId && (
+            {incumbentIds?.includes(politician.id) && (
               <span className={styles.sideText}>INCUMBENT</span>
             )}
 
@@ -250,9 +250,8 @@ function Race({
               </span>
             </div>
 
-            {politician.id == incumbentId && candidates?.length > 1 && (
-              <VerticalDivider />
-            )}
+            {incumbentIds?.includes(politician.id) &&
+              candidates?.length > 1 && <VerticalDivider />}
           </div>
         );
       })}
