@@ -57,7 +57,7 @@ query OrganizationPoliticianNotes($slug: String!, $electionId: ID!) {
             title
             subtitleShort
             priority
-            incumbent {
+            incumbents {
               id
             }
           }

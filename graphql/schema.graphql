@@ -710,6 +710,12 @@ type Office {
   typeField: String!
 }
 
+input OfficeFilter {
+  politicalScope: PoliticalScope
+  query: String
+  state: State
+}
+
 type OfficeResult {
   chamber: Chamber
   county: String
@@ -725,7 +731,7 @@ type OfficeResult {
   electionScope: ElectionScope!
   hospitalDistrict: String
   id: ID!
-  incumbent: PoliticianResult
+  incumbents: [PoliticianResult!]!
   municipality: String
   """
   Name of the office, e.g. "U.S. Senate"
@@ -749,10 +755,23 @@ type OfficeResult {
   title: String!
 }
 
-input OfficeSearch {
-  politicalScope: PoliticalScope
-  query: String
-  state: State
+type OfficeResultConnection {
+  """A list of edges."""
+  edges: [OfficeResultEdge!]!
+  """A list of nodes."""
+  nodes: [OfficeResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type OfficeResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: OfficeResult!
 }
 
 type OrganizationAssets {
@@ -1054,10 +1073,7 @@ type Query {
   nextElection: ElectionResult!
   officeById(id: String!): OfficeResult!
   officeBySlug(slug: String!): OfficeResult!
-  offices(
-    """Search by office title or state"""
-    search: OfficeSearch
-  ): [OfficeResult!]!
+  offices(after: String, before: String, filter: OfficeFilter, first: Int, last: Int): OfficeResultConnection!
   organizationById(id: ID!): OrganizationResult!
   organizationBySlug(slug: String!): OrganizationResult!
   organizations(
