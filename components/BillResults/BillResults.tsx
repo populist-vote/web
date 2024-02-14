@@ -35,7 +35,7 @@ function BillResults() {
 
   const { data, isLoading, error } = useBillIndexQuery(
     {
-      pageSize: 10,
+      pageSize: 20,
       filter: {
         query: debouncedSearchQuery || null,
         state: state as State,

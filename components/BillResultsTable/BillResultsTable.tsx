@@ -43,7 +43,7 @@ function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
 
   const { data } = useBillIndexQuery(
     {
-      pageSize: 10,
+      pageSize: 20,
       filter: {
         query: debouncedSearchQuery || null,
         state: state as State,
