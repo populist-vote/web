@@ -1,0 +1,41 @@
+@import "../../components/Button/Button.module.scss";
+@import "styles/layout/containers";
+@import "styles/mixins/utils";
+
+.container {
+  width: auto;
+  height: auto;
+  min-width: 20rem;
+  border: 1px solid $grey-light;
+  background: $grey-lightest;
+  border-radius: 0.5rem;
+  color: $grey-darkest;
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+    text-align: left;
+  }
+
+  .table th {
+    font-weight: bold;
+  }
+
+  .table td {
+    font-size: 1rem;
+  }
+
+  .table .highlight {
+    background-color: $grey-lightest;
+  }
+
+  .table tfoot {
+    width: 100%;
+  }
+}

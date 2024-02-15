@@ -46,6 +46,22 @@ $small-size: 1.825rem;
     }
   }
 
+  &.green {
+    background: rgba(143, 216, 171, 0.1);
+    border: 1px solid $green;
+    color: $white;
+
+    &.selected {
+      background: $green;
+      color: $grey-darkest;
+    }
+
+    &.solid {
+      background: $green;
+      color: $grey-darkest;
+    }
+  }
+
   &.violet {
     background: rgba(167, 143, 216, 0.1);
     border: 1px solid $violet;

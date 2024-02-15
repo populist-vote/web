@@ -30,6 +30,24 @@ query EmbedById($id: ID!) {
   }
 }
 
+fragment EmbedBillFields on BillResult {
+  id
+  slug
+  title
+  billNumber
+  status
+  state
+  session {
+    name
+    state
+    startDate
+  }
+  issueTags {
+    slug
+    name
+  }
+}
+
 fragment EmbedFields on EmbedResult {
   id
   name
@@ -45,21 +63,10 @@ fragment EmbedFields on EmbedResult {
   createdAt
   updatedAt
   bill {
-    id
-    slug
-    title
-    billNumber
-    status
-    state
-    session {
-      name
-      state
-      startDate
-    }
-    issueTags {
-      slug
-      name
-    }
+    ...EmbedBillFields
+  }
+  bills {
+    ...EmbedBillFields
   }
   politician {
     fullName

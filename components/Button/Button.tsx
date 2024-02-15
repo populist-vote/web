@@ -11,7 +11,8 @@ type ButtonTheme =
   | "aqua"
   | "grey"
   | "orange"
-  | "violet";
+  | "violet"
+  | "green";
 
 type ButtonSize = "small" | "medium" | "large" | "responsive";
 

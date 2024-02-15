@@ -29,7 +29,7 @@
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.7.0",
     "little-state-machine": "^4.2.3",
-    "next": "^13.5.6",
+    "next": "^14.1.0",
     "next-i18next": "14.0.3",
     "next-pwa": "^5.6.0",
     "postcss": "^8.3.3",

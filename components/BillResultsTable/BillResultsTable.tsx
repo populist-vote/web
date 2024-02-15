@@ -14,12 +14,26 @@ import {
 import useDebounce from "hooks/useDebounce";
 import { Theme } from "hooks/useTheme";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { getYear } from "utils/dates";
-import styles from "../BillResults/BillResults.module.scss";
+import styles from "components/Table/Table.module.scss";
 import { getIssueTagIcon } from "utils/data";
+import { BsPlusCircleFill } from "react-icons/bs";
 
-function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
+function BillResultsTable({
+  theme = "yellow",
+  setSelectedBills,
+}: {
+  theme: Theme;
+  setSelectedBills?: Dispatch<
+    SetStateAction<
+      {
+        id: string;
+        billNumber: string;
+      }[]
+    >
+  >;
+}) {
   const router = useRouter();
   const { query } = router;
   const {
@@ -109,6 +123,18 @@ function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
           </div>
         ),
       },
+      {
+        accessorKey: "actions",
+        header: "",
+        cell: () => (
+          <BsPlusCircleFill
+            color="var(--blue-light)"
+            size={20}
+            className={styles.addButton}
+          />
+        ),
+        size: 10,
+      },
     ],
     []
   );
@@ -116,6 +142,14 @@ function BillResultsTable({ theme = "yellow" }: { theme: Theme }) {
   const onRowClick = (row: Row<BillResult>) => {
     router.pathname === "/bills"
       ? void router.push(`/bills/${row.original.slug}`)
+      : router.pathname.includes("/embeds/legislation-tracker/") &&
+        setSelectedBills
+      ? setSelectedBills((prev) => {
+          return [
+            ...prev,
+            { id: row.original.id, billNumber: row.original.billNumber },
+          ];
+        })
       : void router.replace(
           {
             query: { ...query, selected: row.original.id },

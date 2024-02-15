@@ -34,7 +34,7 @@ function EmbedIndex({
 
   const onRowClick = (row: Row<EmbedResult>) =>
     router.push(
-      `/dashboard/${slug}/embeds/${embedType.toLowerCase()}/${
+      `/dashboard/${slug}/embeds/${embedType.toLowerCase().replace("_", "-")}/${
         row.original.id
       }/manage`
     );
@@ -54,7 +54,18 @@ function EmbedIndex({
             theme="yellow"
             clickable
             label="Legislation"
-            selected={router.asPath.includes("/legislation")}
+            selected={embedType === EmbedType.Legislation}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "legislation")
+            }
+          />
+        </Link>
+        <Link href={`/dashboard/${slug}/embeds/legislation-tracker`}>
+          <Badge
+            theme="green"
+            clickable
+            label="Legislation Tracker"
+            selected={embedType === EmbedType.LegislationTracker}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "legislation")
             }
@@ -65,7 +76,7 @@ function EmbedIndex({
             theme="aqua"
             clickable
             label="Politician"
-            selected={router.asPath.includes("/politician")}
+            selected={embedType === EmbedType.Politician}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
             }
@@ -76,7 +87,7 @@ function EmbedIndex({
             theme="blue"
             clickable
             label="Race"
-            selected={router.asPath.includes("/race")}
+            selected={embedType === EmbedType.Race}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "race")
             }
@@ -87,7 +98,7 @@ function EmbedIndex({
             theme="orange"
             clickable
             label="Question"
-            selected={router.asPath.includes("/question")}
+            selected={embedType === EmbedType.Question}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "question")
             }
@@ -98,7 +109,7 @@ function EmbedIndex({
             theme="violet"
             clickable
             label="Poll"
-            selected={router.asPath.includes("/poll")}
+            selected={embedType === EmbedType.Poll}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "poll")
             }
@@ -142,14 +153,16 @@ function EmbedIndex({
           </strong>
         </div>
       ) : (
-        <Table
-          data={embeds || []}
-          columns={columns}
-          initialState={{}}
-          onRowClick={onRowClick}
-          theme={theme}
-          useSearchQueryAsFilter={true}
-        />
+        <div style={{ marginTop: "1rem" }}>
+          <Table
+            data={embeds || []}
+            columns={columns}
+            initialState={{}}
+            onRowClick={onRowClick}
+            theme={theme}
+            useSearchQueryAsFilter={true}
+          />
+        </div>
       )}
     </div>
   );

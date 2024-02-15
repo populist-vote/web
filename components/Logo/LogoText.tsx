@@ -7,7 +7,6 @@ function LogoText({ ...rest }) {
       src={PopulistLogo}
       alt="Populist"
       layout="responsive"
-      objectFit="contain"
       priority
       {...rest}
     />

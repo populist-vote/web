@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-export type Theme = "yellow" | "aqua" | "blue" | "orange" | "violet" | "yellow";
+export type Theme = "yellow" | "aqua" | "blue" | "orange" | "violet" | "green";
 
 function useTheme(): { theme: Theme } {
   const router = useRouter();

@@ -19,6 +19,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 
 const EmbedTypeColorMap: Record<EmbedType, Theme> = {
   LEGISLATION: "yellow",
+  LEGISLATION_TRACKER: "green",
   POLITICIAN: "aqua",
   RACE: "blue",
   QUESTION: "orange",
@@ -206,7 +207,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                   height="25"
                   width="25"
                   alt={"favicon"}
-                  src={`http://www.google.com/s2/favicons?domain=${deployment.url}`}
+                  src={`https://www.google.com/s2/favicons?domain=${deployment.url}`}
                   fallbackSrc={"/images/favicon.ico"}
                 />
                 <h5>{deployment.url}</h5>

@@ -6,19 +6,14 @@ import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import { ColumnDef } from "@tanstack/react-table";
 import {
-  BillStatus,
+  BillResult,
   EmbedResult,
   EmbedType,
-  IssueTagResult,
-  SessionResult,
   useEmbedsByOrganizationQuery,
 } from "generated";
-import { Badge } from "components/Badge/Badge";
 import { getRelativeTimeString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
-import { BillStatusBadge } from "components/BillStatusBadge/BillStatusBadge";
-import styles from "styles/modules/dashboard.module.scss";
 
 export async function getServerSideProps({
   query,
@@ -45,7 +40,7 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
     {
       id: user?.organizationId as string,
       filter: {
-        embedType: EmbedType.Legislation,
+        embedType: EmbedType.LegislationTracker,
       },
     },
     {
@@ -54,56 +49,18 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
       },
     }
   );
-  const legislationColumns = useMemo<ColumnDef<EmbedResult>[]>(
+
+  const legislationTrackerColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {
-        accessorKey: "bill.session",
-        header: "Session",
+        accessorKey: "bills",
+        header: "Leg. Codes",
+        size: 300,
         cell: (info) => {
-          const session = info.getValue() as SessionResult;
-          const state = session?.state;
-          const year = new Date(session?.startDate).getFullYear();
-          return `${state} - ${year}`;
+          return ((info.getValue() as BillResult[]) || [])
+            .map((b) => b.billNumber)
+            .join(", ");
         },
-        size: 100,
-      },
-      {
-        accessorKey: "bill.billNumber",
-        header: "Leg. Code",
-        size: 100,
-      },
-      {
-        accessorKey: "bill.title",
-        header: "Title",
-        // Render the cell with the title but truncate it when it exceeds two lines
-        cell: (info) => (
-          <span className={styles.elipsis}>{info.getValue() as string}</span>
-        ),
-        size: 200,
-      },
-      {
-        accessorKey: "bill.issueTags",
-        header: "Issue Tags",
-        cell: (info) => {
-          const tags = (info.getValue() || []) as IssueTagResult[];
-          return (
-            <div style={{ display: "flex", gap: "0.5rem" }}>
-              {tags.map((tag) => (
-                <Badge size="small" key={tag.slug}>
-                  {tag.name}
-                </Badge>
-              ))}
-            </div>
-          );
-        },
-      },
-      {
-        accessorKey: "bill.status",
-        header: "Status",
-        cell: (info) => (
-          <BillStatusBadge status={info.getValue() as BillStatus} />
-        ),
-        size: 180,
       },
       {
         accessorKey: "createdAt",
@@ -129,10 +86,10 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
     <EmbedIndex
       isLoading={isLoading}
       slug={slug}
-      title={"Legislation Embeds"}
+      title={"Legislation Tracker Embeds"}
       embeds={embeds}
-      columns={legislationColumns}
-      embedType={EmbedType.Legislation}
+      columns={legislationTrackerColumns}
+      embedType={EmbedType.LegislationTracker}
     />
   );
 }
