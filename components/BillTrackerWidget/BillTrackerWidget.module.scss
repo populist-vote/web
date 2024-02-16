@@ -14,12 +14,12 @@
   .table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 1rem;
+    border-radius: 0.5rem;
   }
 
   .table th,
   .table td {
-    padding: 0.5rem;
+    padding: 0 0.75rem;
     text-align: left;
   }
 
@@ -37,5 +37,57 @@
 
   .table tfoot {
     width: 100%;
+  }
+
+  .table thead {
+    background-color: #ddd;
+    border-radius: 0.5rem 0.5rem 0;
+    font-size: $text-xs;
+    height: 40px;
+
+    th div {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    th:first-child {
+      border-radius: 0.5rem 0 0 0;
+      padding-left: 1rem;
+    }
+
+    th:last-child {
+      border-radius: 0 0.5rem 0 0;
+      padding-right: 1rem;
+    }
+  }
+
+  .table tr {
+    border-bottom: 1px solid #ccc;
+    border-radius: 0.5rem;
+  }
+
+  .table tbody {
+    padding: 1rem;
+  }
+
+  .table tbody tr {
+    padding-left: 1rem;
+    height: 60px;
+
+    td:first-child {
+      padding-left: 1rem;
+    }
+
+    td:last-child {
+      padding-right: 1rem;
+    }
+  }
+
+  .table tbody tr:last-child {
+    border-bottom: 0px;
+  }
+
+  footer {
+    padding: 0 1rem;
   }
 }
