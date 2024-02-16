@@ -1,3 +1,4 @@
+import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 import { BillWidget } from "components/BillWidget/BillWidget";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 import { PollWidget } from "components/PollWidget/PollWidget";
@@ -24,7 +25,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   return {
     props: {
       embedId: query.id,
-      origin: query.origin,
+      origin: query.origin || "",
       originHost,
     },
   };
@@ -48,6 +49,7 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
   const embedType = data?.embedById?.embedType;
 
   const billId = data?.embedById?.attributes?.billId;
+  const billIds = data?.embedById?.attributes?.billIds;
   const politicianId = data?.embedById?.attributes?.politicianId;
   const raceId = data?.embedById?.attributes?.raceId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
@@ -70,6 +72,15 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
       return (
         <BillWidget
           billId={billId}
+          embedId={embedId}
+          origin={resolvedOrigin}
+          renderOptions={renderOptions}
+        />
+      );
+    case EmbedType.LegislationTracker:
+      return (
+        <BillTrackerWidget
+          billIds={billIds}
           embedId={embedId}
           origin={resolvedOrigin}
           renderOptions={renderOptions}
