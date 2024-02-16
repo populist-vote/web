@@ -52,8 +52,8 @@ function NewLegislationEmbed() {
       {
         input: {
           id: embedId as string,
-          name: "Legislation Embed",
-          embedType: EmbedType.Legislation,
+          name: "Legislation Tracker Embed",
+          embedType: EmbedType.LegislationTracker,
           populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
           attributes: {

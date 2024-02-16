@@ -119,7 +119,6 @@ export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
             accentColor={theme}
             value={(issue as string) || "any"}
             onChange={handleIssueTagFilter}
-            placeholder="Select an issue"
             options={[
               {
                 value: "any",
@@ -145,6 +144,26 @@ export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
           value={(status as string) || "any"}
           onChange={(e) => handleStatusFilter(e.target.value as BillStatus)}
           placeholder="Any Status"
+        />
+        <Select
+          border="solid"
+          accentColor={theme}
+          value={state as string}
+          onChange={handleStateChange}
+          options={[
+            {
+              value: "any",
+              label: "Any State",
+            },
+            {
+              value: "MN",
+              label: "Minnesota",
+            },
+            {
+              value: "CO",
+              label: "Colorado",
+            },
+          ]}
         />
       </div>
       {showFiltersParam && <BillFiltersDesktop theme={theme} />}

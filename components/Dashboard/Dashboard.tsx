@@ -61,13 +61,13 @@ function ActivityTiles({ activity }: { activity: EmbedsCountResult[] }) {
             <Box key={embedType}>
               <div className={styles.tile}>
                 <Link
-                  href={`/dashboard/${
-                    query.slug
-                  }/embeds/${embedType.toLowerCase()}`}
+                  href={`/dashboard/${query.slug}/embeds/${embedType
+                    .replace("_", "")
+                    .toLowerCase()}`}
                   passHref
                 >
                   <Badge theme={theme} size="large" variant="solid" clickable>
-                    {embedType}
+                    {embedType.replace("_", " ")}
                   </Badge>
                 </Link>
                 {(embedType == EmbedType.Poll ||

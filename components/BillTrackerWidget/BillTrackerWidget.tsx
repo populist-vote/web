@@ -14,6 +14,7 @@ import {
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
+import { splitAtDigitAndJoin } from "utils/strings";
 
 export interface BillTrackerWidgetRenderOptions {
   tbd: boolean;
@@ -42,12 +43,20 @@ export function BillTrackerWidget({
       {
         accessorKey: "billNumber",
         header: "Code",
-        size: 80,
+        cell: (info) => (
+          <>
+            {info.row.original.state || "U.S."} -{" "}
+            {splitAtDigitAndJoin(info.getValue() as string)}
+          </>
+        ),
+        size: 120,
       },
       {
         accessorKey: "title",
         header: "Title",
-        size: 250,
+        cell: (info) => (
+          <div className={styles.titleColumn}>{info.getValue() as string}</div>
+        ),
       },
 
       {
@@ -66,6 +75,7 @@ export function BillTrackerWidget({
         header: "Last Activity",
         cell: (info) =>
           new Date(info.getValue() as string).toLocaleDateString(),
+        size: 100,
       },
     ],
     []

@@ -15,6 +15,9 @@
     width: 100%;
     border-collapse: collapse;
     border-radius: 0.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .table th,
@@ -29,6 +32,14 @@
 
   .table td {
     font-size: 1rem;
+  }
+
+  .titleColumn {
+    font-weight: 500;
+    color: $grey-darkest;
+    max-width: 24rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .table .highlight {
@@ -51,7 +62,7 @@
     }
 
     th:first-child {
-      border-radius: 0.5rem 0 0 0;
+      border-radius: 0.5rem 0 0;
       padding-left: 1rem;
     }
 
@@ -84,7 +95,7 @@
   }
 
   .table tbody tr:last-child {
-    border-bottom: 0px;
+    border-bottom: 0;
   }
 
   footer {
