@@ -5,7 +5,7 @@
 .container {
   width: auto;
   height: auto;
-  min-width: 20rem;
+  min-width: 512px;
   border: 1px solid $grey-light;
   background: $grey-lightest;
   border-radius: 0.5rem;
@@ -37,9 +37,9 @@
   .titleColumn {
     font-weight: 500;
     color: $grey-darkest;
-    max-width: 24rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 20rem;
   }
 
   .table .highlight {
@@ -82,8 +82,15 @@
   }
 
   .table tbody tr {
-    padding-left: 1rem;
-    height: 60px;
+    td {
+      padding: 0.75rem 0.75rem;
+    }
+
+    td:nth-child(2) {
+      font-size: $text-sm;
+      line-height: 1.4em;
+      font-weight: 500;
+    }
 
     td:first-child {
       padding-left: 1rem;
