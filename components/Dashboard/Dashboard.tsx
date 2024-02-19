@@ -62,7 +62,7 @@ function ActivityTiles({ activity }: { activity: EmbedsCountResult[] }) {
               <div className={styles.tile}>
                 <Link
                   href={`/dashboard/${query.slug}/embeds/${embedType
-                    .replace("_", "")
+                    .replace("_", "-")
                     .toLowerCase()}`}
                   passHref
                 >

@@ -5,19 +5,16 @@
 .container {
   width: auto;
   height: auto;
-  min-width: 512px;
   border: 1px solid $grey-light;
   background: $grey-lightest;
   border-radius: 0.5rem;
   color: $grey-darkest;
+  overflow: scroll;
 
   .table {
     width: 100%;
     border-collapse: collapse;
     border-radius: 0.5rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
   }
 
   .table th,
@@ -32,14 +29,6 @@
 
   .table td {
     font-size: 1rem;
-  }
-
-  .titleColumn {
-    font-weight: 500;
-    color: $grey-darkest;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 20rem;
   }
 
   .table .highlight {
@@ -83,7 +72,7 @@
 
   .table tbody tr {
     td {
-      padding: 0.75rem 0.75rem;
+      padding: 0.75rem;
     }
 
     td:nth-child(2) {

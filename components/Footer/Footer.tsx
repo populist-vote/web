@@ -1,5 +1,5 @@
 import styles from "./Footer.module.scss";
-import { FaFacebookF, FaTwitter, FaInstagram, FaCircle } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import { BsGithub } from "react-icons/bs";
 
@@ -17,12 +17,6 @@ function Footer() {
         <p className={styles.copyright}>
           &#169; {new Date().getFullYear()} Populist. &nbsp; 🇺🇸 Made in the USA.
         </p>
-        <div className={styles.platformStatus}>
-          <span>
-            Status <FaCircle color={"var(--green)"} />{" "}
-            <span className={styles.statusText}>All systems operational.</span>
-          </span>
-        </div>
       </div>
 
       <ul className={styles.links}>

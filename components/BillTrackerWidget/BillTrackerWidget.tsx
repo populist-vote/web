@@ -49,16 +49,13 @@ export function BillTrackerWidget({
             {splitAtDigitAndJoin(info.getValue() as string)}
           </>
         ),
-        size: 120,
       },
       {
         accessorKey: "title",
         header: "Title",
-        cell: (info) => (
-          <div className={styles.titleColumn}>{info.getValue() as string}</div>
-        ),
+        // classNames can be added to each columns cells like this
+        // meta: { className: styles.titleColumn },
       },
-
       {
         accessorKey: "status",
         header: "Status",
@@ -68,14 +65,12 @@ export function BillTrackerWidget({
             theme="light"
           />
         ),
-        size: 120,
       },
       {
         accessorKey: "updatedAt",
         header: "Last Activity",
         cell: (info) =>
           new Date(info.getValue() as string).toLocaleDateString(),
-        size: 100,
       },
     ],
     []
@@ -155,7 +150,13 @@ export function BillTrackerWidget({
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => {
                   return (
-                    <td key={cell.id}>
+                    <td
+                      key={cell.id}
+                      className={
+                        (cell.column.columnDef.meta as { className: string })
+                          ?.className ?? ""
+                      }
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
