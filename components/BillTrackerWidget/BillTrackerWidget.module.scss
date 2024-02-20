@@ -55,6 +55,9 @@
       padding-left: 1rem;
     }
 
+    th:nth-child(3) {
+    }
+
     th:last-child {
       border-radius: 0 0.5rem 0 0;
       padding-right: 1rem;
@@ -79,6 +82,14 @@
       font-size: $text-sm;
       line-height: 1.4em;
       font-weight: 500;
+      max-height: 70px;
+
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-box-pack: center;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     td:first-child {
@@ -97,4 +108,21 @@
   footer {
     padding: 0 1rem;
   }
+}
+
+.codeColumn {
+  flex-grow: 1;
+}
+
+.titleColumn {
+  flex-grow: 4;
+}
+
+.statusColumn {
+  flex-grow: 1;
+}
+
+.activityColumn {
+  flex-grow: 1;
+  min-width: 120px;
 }

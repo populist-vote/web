@@ -49,12 +49,13 @@ export function BillTrackerWidget({
             {splitAtDigitAndJoin(info.getValue() as string)}
           </>
         ),
+        meta: { className: styles.codeColumn },
       },
       {
         accessorKey: "title",
         header: "Title",
         // classNames can be added to each columns cells like this
-        // meta: { className: styles.titleColumn },
+        meta: { className: styles.titleColumn },
       },
       {
         accessorKey: "status",
@@ -65,12 +66,14 @@ export function BillTrackerWidget({
             theme="light"
           />
         ),
+        meta: { className: styles.statusColumn },
       },
       {
         accessorKey: "updatedAt",
         header: "Last Activity",
         cell: (info) =>
           new Date(info.getValue() as string).toLocaleDateString(),
+        meta: { className: styles.activityColumn },
       },
     ],
     []
@@ -111,13 +114,7 @@ export function BillTrackerWidget({
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <th
-                    key={header.id}
-                    colSpan={header.colSpan}
-                    style={{
-                      width: header.getSize(),
-                    }}
-                  >
+                  <th key={header.id} colSpan={header.colSpan}>
                     {header.isPlaceholder ? null : (
                       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                       <div
