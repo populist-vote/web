@@ -71,6 +71,7 @@
   }
 
   .table tbody tr {
+    height: 60px;
     td {
       padding: 0.75rem;
     }
@@ -79,22 +80,26 @@
       font-size: $text-sm;
       line-height: 1.4em;
       font-weight: 500;
-      max-height: 70px;
+      max-height: 55px;
 
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-box-pack: center;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     td:first-child {
       padding-left: 1rem;
+      font-size: $text-sm;
+      line-height: 1.4em;
     }
 
     td:last-child {
       padding-right: 1rem;
+      font-size: $text-sm;
+      line-height: 1.4em;
     }
   }
 
@@ -112,10 +117,12 @@
 
 .codeColumn {
   flex-grow: 1;
+  min-width: 120px;
 }
 
 .titleColumn {
   flex-grow: 4;
+  min-width: 250px;
 }
 
 .statusColumn {
