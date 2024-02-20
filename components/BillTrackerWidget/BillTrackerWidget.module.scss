@@ -55,9 +55,6 @@
       padding-left: 1rem;
     }
 
-    th:nth-child(3) {
-    }
-
     th:last-child {
       border-radius: 0 0.5rem 0 0;
       padding-right: 1rem;
@@ -107,6 +104,9 @@
 
   footer {
     padding: 0 1rem;
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
   }
 }
 
