@@ -531,6 +531,7 @@ type EmbedOriginResult {
 type EmbedResult {
   attributes: JSON!
   bill: BillResult
+  bills: [BillResult!]
   createdAt: DateTime!
   createdBy: UserResult!
   createdById: ID!
@@ -552,6 +553,7 @@ type EmbedResult {
 
 enum EmbedType {
   LEGISLATION
+  LEGISLATION_TRACKER
   POLITICIAN
   POLL
   QUESTION
@@ -1039,6 +1041,7 @@ type Query {
   """Returns all session years that have an associated bill"""
   billYears: [Int!]!
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
+  billsByIds(ids: [ID!]!): [BillResult!]!
   """
   Provides current user based on JWT found in client's access_token cookie
   """
@@ -1087,7 +1090,6 @@ type Query {
   politicianById(id: ID!): PoliticianResult
   politicianBySlug(slug: String!): PoliticianResult
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
-  popularBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(after: String, before: String, filter: RaceFilter, first: Int, last: Int): RaceResultConnection!

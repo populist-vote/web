@@ -50,6 +50,13 @@ function EmbedsNew({ slug }: { slug: string }) {
           </Link>
           <br />
           <Link
+            href="/dashboard/[slug]/embeds/legislation-tracker/new"
+            as={`/dashboard/${slug}/embeds/legislation-tracker/new`}
+          >
+            <Button variant="super" size="large" label="Legislation Tracker" />
+          </Link>
+          <br />
+          <Link
             href="/dashboard/[slug]/embeds/politician/new"
             as={`/dashboard/${slug}/embeds/politician/new`}
           >

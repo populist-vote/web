@@ -21,6 +21,7 @@ import { PollEmbedForm } from "pages/dashboard/[slug]/embeds/poll/new";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { RaceWidget } from "components/RaceWidget/RaceWidget";
+import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 
 function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
   const { data, isLoading } = useEmbedByIdQuery(
@@ -34,6 +35,7 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
     }
   );
 
+  const billIds = data?.embedById?.attributes?.billIds as string[];
   const billId = data?.embedById?.attributes?.billId as string;
   const politicianId = data?.embedById?.attributes?.politicianId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
@@ -49,6 +51,15 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
             origin={window.location.origin}
             embedId={id}
             renderOptions={embed.attributes.renderOptions}
+          />
+        );
+      case EmbedType.LegislationTracker:
+        return (
+          <BillTrackerWidget
+            embedId={id}
+            origin={window.location.origin}
+            billIds={billIds}
+            renderOptions={{ tbd: false }}
           />
         );
       case EmbedType.Politician:

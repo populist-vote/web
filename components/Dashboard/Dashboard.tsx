@@ -19,6 +19,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 
 const EmbedTypeColorMap: Record<EmbedType, Theme> = {
   LEGISLATION: "yellow",
+  LEGISLATION_TRACKER: "green",
   POLITICIAN: "aqua",
   RACE: "blue",
   QUESTION: "orange",
@@ -60,13 +61,13 @@ function ActivityTiles({ activity }: { activity: EmbedsCountResult[] }) {
             <Box key={embedType}>
               <div className={styles.tile}>
                 <Link
-                  href={`/dashboard/${
-                    query.slug
-                  }/embeds/${embedType.toLowerCase()}`}
+                  href={`/dashboard/${query.slug}/embeds/${embedType
+                    .replace("_", "-")
+                    .toLowerCase()}`}
                   passHref
                 >
                   <Badge theme={theme} size="large" variant="solid" clickable>
-                    {embedType}
+                    {embedType.replace("_", " ")}
                   </Badge>
                 </Link>
                 {(embedType == EmbedType.Poll ||
@@ -206,7 +207,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                   height="25"
                   width="25"
                   alt={"favicon"}
-                  src={`http://www.google.com/s2/favicons?domain=${deployment.url}`}
+                  src={`https://www.google.com/s2/favicons?domain=${deployment.url}`}
                   fallbackSrc={"/images/favicon.ico"}
                 />
                 <h5>{deployment.url}</h5>

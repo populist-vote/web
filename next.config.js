@@ -13,13 +13,33 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   images: {
-    domains: [
-      "static.votesmart.org",
-      "populist-platform-staging.s3.amazonaws.com",
-      "populist-platform.s3.us-east-2.amazonaws.com",
-      "www.gravatar.com",
-      "www.google.com",
-      "icons.duckduckgo.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "static.votesmart.org",
+      },
+      {
+        protocol: "https",
+        hostname: "populist-platform-staging.s3.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "populist-platform.s3.us-east-2.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.gravatar.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+        pathname: "/s2/favicons",
+      },
+      {
+        protocol: "https",
+        hostname: "icons.duckduckgo.com",
+        pathname: "**",
+      },
     ],
     formats: ["image/webp"],
   },

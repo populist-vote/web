@@ -15,7 +15,7 @@ export function EmbedHeader({
     <header className={styles.container}>
       <button onClick={() => router.back()} onKeyDown={() => router.back()}>
         <BiChevronLeft size={20} />
-        {embedType}
+        {embedType.replace("_", " ")}
       </button>
       <h2>{title}</h2>
     </header>

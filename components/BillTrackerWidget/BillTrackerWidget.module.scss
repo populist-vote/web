@@ -1,0 +1,135 @@
+@import "../../components/Button/Button.module.scss";
+@import "styles/layout/containers";
+@import "styles/mixins/utils";
+
+.container {
+  width: auto;
+  height: auto;
+  border: 1px solid $grey-light;
+  background: $grey-lightest;
+  border-radius: 0.5rem;
+  color: $grey-darkest;
+  overflow: scroll;
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 0.5rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0 0.75rem;
+    text-align: left;
+  }
+
+  .table th {
+    font-weight: bold;
+  }
+
+  .table td {
+    font-size: 1rem;
+  }
+
+  .table .highlight {
+    background-color: $grey-lightest;
+  }
+
+  .table tfoot {
+    width: 100%;
+  }
+
+  .table thead {
+    background-color: #ddd;
+    border-radius: 0.5rem 0.5rem 0;
+    font-size: $text-xs;
+    height: 40px;
+
+    th div {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    th:first-child {
+      border-radius: 0.5rem 0 0;
+      padding-left: 1rem;
+    }
+
+    th:last-child {
+      border-radius: 0 0.5rem 0 0;
+      padding-right: 1rem;
+    }
+  }
+
+  .table tr {
+    border-bottom: 1px solid #ccc;
+    border-radius: 0.5rem;
+  }
+
+  .table tbody {
+    padding: 1rem;
+  }
+
+  .table tbody tr {
+    height: 60px;
+    td {
+      padding: 0.75rem;
+    }
+
+    td:nth-child(2) {
+      font-size: $text-sm;
+      line-height: 1.4em;
+      font-weight: 500;
+      max-height: 55px;
+
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-box-pack: center;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    td:first-child {
+      padding-left: 1rem;
+      font-size: $text-sm;
+      line-height: 1.4em;
+    }
+
+    td:last-child {
+      padding-right: 1rem;
+      font-size: $text-sm;
+      line-height: 1.4em;
+    }
+  }
+
+  .table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  footer {
+    padding: 0 1rem;
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+  }
+}
+
+.codeColumn {
+  flex-grow: 1;
+  min-width: 120px;
+}
+
+.titleColumn {
+  flex-grow: 4;
+  min-width: 250px;
+}
+
+.statusColumn {
+  flex-grow: 1;
+}
+
+.activityColumn {
+  flex-grow: 1;
+  min-width: 120px;
+}

@@ -6,6 +6,7 @@ interface BadgeProps {
   theme?:
     | "blue"
     | "green-support"
+    | "green"
     | "red"
     | "yellow"
     | "grey"

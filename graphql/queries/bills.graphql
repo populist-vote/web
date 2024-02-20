@@ -125,6 +125,12 @@ query BillById($id: ID!) {
   }
 }
 
+query BillsByIds($ids: [ID!]!) {
+  billsByIds(ids: $ids) {
+    ...BillFields
+  }
+}
+
 mutation UpsertBillPublicVote(
   $billId: ID!
   $userId: ID!
@@ -144,6 +150,7 @@ fragment BillFields on BillResult {
   status
   state
   billNumber
+  updatedAt
   issueTags {
     id
     slug

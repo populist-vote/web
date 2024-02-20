@@ -84,28 +84,4 @@ $font-size: 0.85em;
       justify-content: left;
     }
   }
-
-  .platformStatus {
-    font-size: $text-xxs;
-    color: $blue-light;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    font-family: $font-secondary;
-
-    span:first-child {
-      background: $black-alpha-3;
-      padding: 0.5rem 0.75rem;
-      border-radius: 5px;
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      border: 1px solid $blue-darker;
-
-      .statusText {
-        color: $green;
-      }
-    }
-  }
 }
