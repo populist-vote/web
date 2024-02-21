@@ -116,6 +116,7 @@
   footer {
     padding: 0 1rem;
     position: sticky;
+    /* stylelint-disable-next-line value-no-vendor-prefix */
     position: -webkit-sticky;
     left: 0;
   }

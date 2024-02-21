@@ -149,7 +149,8 @@ function EmbedIndex({
           }}
         >
           <strong>
-            You don't have any {embedType.toLowerCase()} embeds yet.
+            You don't have any {embedType.toLowerCase().replace("_", " ")}{" "}
+            embeds yet.
           </strong>
         </div>
       ) : (
