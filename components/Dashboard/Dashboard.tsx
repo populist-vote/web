@@ -159,7 +159,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                   size="small"
                   variant="solid"
                 >
-                  {deployment.embedType}
+                  {deployment.embedType.replace("_", " ")}
                 </Badge>
                 {deployment.lastPingAt && (
                   <div className={styles.flexRight}>
