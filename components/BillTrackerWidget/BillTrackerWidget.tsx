@@ -54,8 +54,9 @@ export function BillTrackerWidget({
       {
         accessorKey: "title",
         header: "Title",
-        // classNames can be added to each columns cells like this
-        meta: { className: styles.titleColumn },
+        cell: (info) => (
+          <div className={styles.titleCell}>{info.getValue() as string}</div>
+        ),
       },
       {
         accessorKey: "status",

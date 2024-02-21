@@ -77,11 +77,17 @@
     }
 
     td:nth-child(2) {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 4.5rem;
+    }
+
+    .titleCell {
       font-size: $text-sm;
       line-height: 1.4em;
       font-weight: 500;
-      max-height: 55px;
-
+      max-height: 3.75rem;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-box-pack: center;
