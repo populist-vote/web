@@ -30,6 +30,17 @@ query BillBySlug($slug: String!) {
     officialSummary
     populistSummary
     fullTextUrl
+    legiscanData {
+      votes {
+        yea
+        absent
+        nay
+        total
+        date
+        chamber
+        desc
+      }
+    }
     legiscanCommitteeName
     issueTags {
       id

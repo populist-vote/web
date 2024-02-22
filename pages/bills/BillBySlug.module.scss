@@ -5,6 +5,13 @@
 @import "styles/mixins/media";
 @import "styles/mixins/utils";
 
+.flagSectionContainer {
+  margin-top: 1rem;
+  @include for-tablet-up {
+    margin-top: 9rem;
+  }
+}
+
 .pageHeader {
   display: none;
 
@@ -16,7 +23,7 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 0 0 3rem;
-    margin: -12rem -6rem 6rem;
+    margin: -12rem 0 6rem;
     z-index: 100;
     background: linear-gradient(
       180deg,
@@ -75,14 +82,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-bottom: 2px solid $blue-dark;
-    padding-bottom: 1rem;
+    border-bottom: 1px solid $blue-dark;
+    padding-bottom: 3rem;
 
     > h3 {
       font-family: $font-primary;
       font-weight: $weight-light;
-      font-size: 1rem;
-      line-height: 150%;
       text-align: center;
       text-transform: uppercase;
       margin: 0;
@@ -91,50 +96,66 @@
     > h1 {
       font-family: $font-primary;
       font-weight: $weight-semibold;
-      font-size: 2rem;
-      line-height: 38px;
       text-align: center;
     }
   }
 
-  .committeesSection,
   .statusSection {
     height: 100%;
+    margin: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 2rem;
+  }
+
+  .statusAndVotesSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-bottom: 1px solid $blue-dark;
+
+    h4 {
+      margin-top: 0;
+    }
+
+    @include for-tablet-up {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+      padding: 2rem 0;
+    }
+  }
+
+  .fullTextSection {
+    padding-top: 0;
+    padding-bottom: 3rem;
+  }
+
+  .committeesSection {
     width: 100%;
     margin: 0 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-  }
-
-  .statusAndCommitteesSection {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    border-bottom: 2px solid $blue-dark;
+    padding-top: 1.5rem;
+    border-top: 1px solid $blue-dark;
 
     h4 {
       margin-top: 0;
     }
+  }
 
+  @include for-tablet-up {
     .committeesSection {
-      padding-top: 1.5rem;
-      border-top: 2px solid $blue-dark;
-    }
-
-    @include for-tablet-up {
-      flex-direction: row;
-      justify-content: space-evenly;
-      align-items: center;
-      width: 100%;
-
-      .committeesSection {
-        padding-top: 0;
-        border-top: none;
-        height: 100%;
-      }
+      padding-top: 2rem;
+      border-top: 1px solid $blue-dark;
+      height: 100%;
     }
   }
 

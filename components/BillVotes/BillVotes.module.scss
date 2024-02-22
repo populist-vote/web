@@ -1,0 +1,71 @@
+@import "styles/variables/colors";
+@import "styles/mixins/media";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  align-self: stretch;
+
+  .chamberVote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    border-left: 1px solid $blue-dark;
+    padding: 0 2rem;
+
+    h4 {
+      text-align: center;
+    }
+  }
+
+  .chamberVote:last-child {
+    padding-right: 0;
+  }
+
+  .pieChartContainer {
+    display: grid;
+    height: 100%;
+    align-items: center;
+  }
+
+  .pieChart {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    rotate: -90deg;
+  }
+
+  .votes {
+    grid-area: 1 / 1;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .vote {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.25rem;
+    width: 40px;
+    font-size: 0.8em;
+    font-weight: 500;
+    padding: 1px;
+
+    span {
+      margin-top: 1px;
+    }
+  }
+
+  @include for-tablet-down {
+    .chamberVote:first-child {
+      border-left: 0px;
+    }
+  }
+}
