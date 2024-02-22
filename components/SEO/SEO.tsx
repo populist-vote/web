@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 const DEFAULT_PREVIEW_IMAGE_URL =
   "https://populist-platform.s3.us-east-2.amazonaws.com/social/preview_image.jpg";
