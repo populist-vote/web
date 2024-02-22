@@ -67,6 +67,9 @@
   header {
     padding: 1.5rem 0;
     width: 100%;
+    @include for-tablet-up {
+      border-top: solid 4px var(--color-accent);
+    }
   }
 
   p {
@@ -145,14 +148,13 @@
     align-items: center;
     padding-top: 1.5rem;
     border-top: 1px solid $blue-dark;
+    padding-bottom: 3rem;
 
     h4 {
       margin-top: 0;
     }
-  }
 
-  @include for-tablet-up {
-    .committeesSection {
+    @include for-tablet-up {
       padding-top: 2rem;
       border-top: 1px solid $blue-dark;
       height: 100%;
