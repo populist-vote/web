@@ -4,7 +4,9 @@ export type Theme = "yellow" | "aqua" | "blue" | "orange" | "violet" | "green";
 
 function useTheme(): { theme: Theme } {
   const router = useRouter();
-  const theme = router.asPath.includes("legislation")
+  const theme = router.asPath.includes("legislation-tracker")
+    ? "green"
+    : router.asPath.includes("legislation")
     ? "yellow"
     : router.asPath.includes("politician")
     ? "aqua"
