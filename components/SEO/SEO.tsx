@@ -16,16 +16,16 @@ interface SEOProps {
 }
 
 function SEO({
-  title = "Populist | Civic Data and Engagement",
+  title,
   appName = "Populist",
   description = "Populist sources, structures, links and delivers best-in-class civic data and provides a suite of tools that power transparent democracy. Easily enhance your organization's civic engagement and reporting.",
   previewImage = DEFAULT_PREVIEW_IMAGE_URL,
   ogParams,
 }: SEOProps) {
   const { cardType, imageSrc } = ogParams || {};
-  const router = useRouter();
-  const compoundTitle =
-    router.pathname == "/" ? title : `${title} | ${appName}`;
+  const compoundTitle = title
+    ? `${title} | ${appName}`
+    : "Populist | Civic Data and Engagement";
   return (
     <Head>
       <title key="title">{compoundTitle}</title>
