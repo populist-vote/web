@@ -188,6 +188,8 @@ type BillResult {
   legiscanBillId: Int
   legiscanCommitteeName: String
   legiscanData: Bill
+  legiscanLastAction: String
+  legiscanLastActionDate: NaiveDate
   officialSummary: String
   politicalScope: PoliticalScope!
   populistSummary: String

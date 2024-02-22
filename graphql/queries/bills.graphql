@@ -150,6 +150,8 @@ fragment BillFields on BillResult {
   status
   state
   billNumber
+  legiscanLastAction
+  legiscanLastActionDate
   updatedAt
   issueTags {
     id

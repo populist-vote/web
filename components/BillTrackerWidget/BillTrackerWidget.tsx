@@ -70,9 +70,10 @@ export function BillTrackerWidget({
         meta: { className: styles.statusColumn },
       },
       {
-        accessorKey: "updatedAt",
-        header: "Last Activity",
+        accessorKey: "legiscanLastActionDate",
+        header: "Last Action",
         cell: (info) =>
+          info.getValue() &&
           new Date(info.getValue() as string).toLocaleDateString(),
         meta: { className: styles.activityColumn },
       },
