@@ -84,6 +84,7 @@ function BillCard({ bill, billId, isLink = true }: BillCardProps) {
             }
             theme={statusInfo?.color}
             lightBackground
+            size="small"
           >
             {titleCase(bill?.status?.replaceAll("_", " ") as string)}
           </Badge>
@@ -92,6 +93,7 @@ function BillCard({ bill, billId, isLink = true }: BillCardProps) {
               iconLeft={
                 <FaCheckCircle size={18} color="var(--green-support)" />
               }
+              size="small"
             >
               {bill?.publicVotes?.support ?? 0}
             </Badge>

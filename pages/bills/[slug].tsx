@@ -7,6 +7,8 @@ import nextI18nextConfig from "next-i18next.config";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { BsChevronLeft } from "react-icons/bs";
+import { splitAtDigitAndJoin } from "utils/strings";
+import clsx from "clsx";
 
 import {
   IssueTags,
@@ -17,6 +19,7 @@ import {
   LegislationStatusBox,
   Button,
   SupportOppose,
+  ColoredSection,
 } from "components";
 import { CommitteeTag } from "components/PoliticianPage/CommitteesSection/CommitteesSection";
 import { SupportedLocale } from "types/global";
@@ -26,9 +29,11 @@ import {
   BillBySlugQuery,
   useBillBySlugQuery,
   IssueTagResult,
+  BillVote,
 } from "generated";
 
 import styles from "./BillBySlug.module.scss";
+import { BillVotes } from "components/BillVotes/BillVotes";
 
 interface Params extends NextParsedUrlQuery {
   slug: string;
@@ -86,6 +91,8 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
     [bill]
   );
 
+  console.log(bill?.sponsors);
+
   const backAction = useCallback(() => {
     const { referrer } = document;
     if (
@@ -113,72 +120,80 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
             {$supportOppose}
           </div>
         </nav>
-        <FlagSection
-          label={bill?.session?.name ?? ""}
-          hideFlagForMobile
-          style={{ marginTop: "9rem" }}
-        >
-          <div className={styles.billContainer}>
-            <header>
-              <h3>{bill?.billNumber}</h3>
-              <h1>{bill?.title}</h1>
-              {bill?.issueTags && (
-                <IssueTags tags={bill.issueTags as IssueTagResult[]} />
-              )}
-            </header>
+        <div className={styles.flagSectionContainer}>
+          <FlagSection label={bill?.session?.name ?? ""} hideFlagForMobile>
+            <div className={styles.billContainer}>
+              <header>
+                <h3>
+                  {bill.state || "U.S."} -{" "}
+                  {splitAtDigitAndJoin(bill?.billNumber || "")}
+                </h3>
+                <h1>{bill?.title}</h1>
+                {bill?.issueTags && (
+                  <IssueTags tags={bill.issueTags as IssueTagResult[]} />
+                )}
+              </header>
 
-            <section className={styles.statusAndCommitteesSection}>
-              <div className={styles.statusSection}>
-                <h4>Status</h4>
-                <LegislationStatusBox status={bill.status} />
-              </div>
+              <section className={styles.statusAndVotesSection}>
+                <div className={styles.statusSection}>
+                  <h4>Status</h4>
+                  <LegislationStatusBox status={bill.status} />
+                </div>
+
+                <BillVotes
+                  votes={(bill.legiscanData?.votes as BillVote[]) || []}
+                />
+              </section>
+
+              {summary && (
+                <section className={styles.center}>
+                  <ReactMarkdown>{summary}</ReactMarkdown>
+                </section>
+              )}
+
+              {bill?.fullTextUrl && (
+                <section
+                  className={clsx(styles.fullTextSection, styles.center)}
+                >
+                  <a
+                    href={bill?.fullTextUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button
+                      variant="secondary"
+                      size="medium"
+                      label="Full text"
+                      width="10rem"
+                    />
+                  </a>
+                </section>
+              )}
+
               {bill?.legiscanCommitteeName && (
                 <div className={styles.committeesSection}>
-                  <h4>Committee</h4>
+                  <h4>Committees</h4>
                   <CommitteeTag tag={{ text: bill.legiscanCommitteeName }} />
                 </div>
               )}
-            </section>
 
-            {summary && (
-              <section className={styles.center}>
-                <ReactMarkdown>{summary}</ReactMarkdown>
-              </section>
-            )}
-
-            {bill?.fullTextUrl && (
-              <section className={styles.center}>
-                <a
-                  href={bill?.fullTextUrl}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <Button
-                    variant="secondary"
-                    size="medium"
-                    label="Full text"
-                    width="10rem"
-                  />
-                </a>
-              </section>
-            )}
-
-            {bill?.sponsors && bill.sponsors.length > 0 && (
-              <section>
-                <h2 className={styles.gradientHeader}>Sponsors</h2>
-                <div className={styles.sponsorsWrapper}>
-                  {bill.sponsors.map((sponsor) => (
-                    <Candidate
-                      key={sponsor.id}
-                      itemId={sponsor.id}
-                      candidate={sponsor as PoliticianResult}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-        </FlagSection>
+              {bill?.sponsors && bill.sponsors.length > 0 && (
+                <ColoredSection color="var(--blue)">
+                  <h2 className={styles.gradientHeader}>Sponsors</h2>
+                  <div className={styles.sponsorsWrapper}>
+                    {bill.sponsors.map((sponsor) => (
+                      <Candidate
+                        key={sponsor.id}
+                        itemId={sponsor.id}
+                        candidate={sponsor as PoliticianResult}
+                      />
+                    ))}
+                  </div>
+                </ColoredSection>
+              )}
+            </div>
+          </FlagSection>
+        </div>
       </Layout>
       <footer className={styles.supportOpposeMobileContainer}>
         {$supportOppose}
