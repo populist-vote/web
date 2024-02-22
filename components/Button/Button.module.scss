@@ -260,6 +260,18 @@ $small-size: 1.825rem;
   );
 }
 
+.green.primary {
+  @include primary(
+    $green,
+    $green,
+    $green,
+    $blue-darkest,
+    $green,
+    $green,
+    $blue-darkest
+  );
+}
+
 .aqua.primary {
   @include primary(
     $aqua,

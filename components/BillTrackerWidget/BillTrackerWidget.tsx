@@ -70,9 +70,10 @@ export function BillTrackerWidget({
         meta: { className: styles.statusColumn },
       },
       {
-        accessorKey: "updatedAt",
-        header: "Last Activity",
+        accessorKey: "legiscanLastActionDate",
+        header: "Last Action",
         cell: (info) =>
+          info.getValue() &&
           new Date(info.getValue() as string).toLocaleDateString(),
         meta: { className: styles.activityColumn },
       },
@@ -103,6 +104,10 @@ export function BillTrackerWidget({
     debugHeaders: true,
     debugColumns: false,
   });
+
+  const handleRowClick = (billSlug: string) => {
+    window.open(`/bills/${billSlug}`, "_blank");
+  };
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this bill tracker.</div>;
@@ -145,7 +150,12 @@ export function BillTrackerWidget({
         <tbody>
           {table.getRowModel().rows.map((row) => {
             return (
-              <tr key={row.id}>
+              <tr
+                key={row.id}
+                onClick={() => handleRowClick(row.original.slug as string)}
+                style={{ cursor: "pointer" }}
+                className={styles.row}
+              >
                 {row.getVisibleCells().map((cell) => {
                   return (
                     <td
