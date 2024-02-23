@@ -145,26 +145,28 @@ export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
           onChange={(e) => handleStatusFilter(e.target.value as BillStatus)}
           placeholder="Any Status"
         />
-        <Select
-          border="solid"
-          accentColor={theme}
-          value={state as string}
-          onChange={handleStateChange}
-          options={[
-            {
-              value: "any",
-              label: "Any State",
-            },
-            {
-              value: "MN",
-              label: "Minnesota",
-            },
-            {
-              value: "CO",
-              label: "Colorado",
-            },
-          ]}
-        />
+        {router.pathname.includes("/embeds/") && (
+          <Select
+            border="solid"
+            accentColor={theme}
+            value={state as string}
+            onChange={handleStateChange}
+            options={[
+              {
+                value: "any",
+                label: "Any State",
+              },
+              {
+                value: "MN",
+                label: "Minnesota",
+              },
+              {
+                value: "CO",
+                label: "Colorado",
+              },
+            ]}
+          />
+        )}
       </div>
       {showFiltersParam && <BillFiltersDesktop theme={theme} />}
     </Box>
