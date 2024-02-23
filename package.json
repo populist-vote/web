@@ -4,8 +4,8 @@
   "scripts": {
     "cscript": "tsc scripts/widget-client.ts --outDir public",
     "generate": "dotenv -c local -- graphql-codegen",
-    "dev": "COMMIT_HASH=$(git rev-parse HEAD) pnpm cscript --watch --preserveWatchOutput & next dev -p 3030",
-    "build": "COMMIT_HASH=$(git rev-parse HEAD) pnpm cscript && next build",
+    "dev": "pnpm cscript --watch --preserveWatchOutput & next dev -p 3030",
+    "build": "pnpm cscript && next build",
     "start": "COMMIT_HASH=$(git rev-parse HEAD) next start",
     "lint": "stylelint '**/*.{css,scss}' && eslint . --cache --max-warnings 0",
     "lint:fix": "stylelint --fix '**/*.{css,scss}' && eslint --fix . --cache --max-warnings 0",
