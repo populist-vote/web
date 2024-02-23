@@ -1,0 +1,49 @@
+@import "styles/layout/containers.scss";
+@import "styles/variables/colors.scss";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin: 0.5rem;
+  height: 32px;
+  border-radius: 5px;
+  background-color: $blue-darker;
+  z-index: 100;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+  opacity: 0.85;
+
+  a {
+    color: $white;
+    text-decoration: none;
+
+    &:hover {
+      color: $blue-text;
+    }
+  }
+
+  .iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+
+    &:hover {
+      background-color: $black-alpha-5;
+    }
+  }
+
+  &.collapsed {
+    transform: translateX(94%);
+    overflow: hidden;
+  }
+}

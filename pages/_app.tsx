@@ -16,6 +16,7 @@ import { SEO } from "components";
 import { appWithTranslation } from "next-i18next";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NextPage } from "next";
+import { DevToolbar } from "components/DevToolbar/DevToolbar";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -59,6 +60,7 @@ function Populist({ Component, pageProps }: AppPropsWithLayout) {
             {getLayout(<Component {...pageProps} />)}
             <ToastContainer theme="dark" />
             <ReactQueryDevtools initialIsOpen={false} />
+            <DevToolbar />
           </AuthProvider>
         </Hydrate>
       </QueryClientProvider>

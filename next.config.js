@@ -9,6 +9,11 @@ const withPWA = require("next-pwa")({
   runtimeCaching,
 });
 
+const commitHash = require("child_process")
+  .execSync('git log --pretty=format:"%h" -n1')
+  .toString()
+  .trim();
+
 const nextConfig = {
   reactStrictMode: true,
   i18n,
@@ -47,6 +52,7 @@ const nextConfig = {
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     GRAPHQL_SCHEMA_PATH: process.env.GRAPHQL_SCHEMA_PATH,
     POPULIST_API_KEY: process.env.POPULIST_API_KEY,
+    COMMIT_HASH: commitHash,
   },
   redirects: async () => {
     return [

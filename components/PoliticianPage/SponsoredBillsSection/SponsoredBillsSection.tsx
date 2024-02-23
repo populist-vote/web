@@ -29,6 +29,7 @@ function SponsoredBillsSection() {
             styles.flexBetween,
             styles.scrollSnap
           )}
+          style={{ gap: "1rem" }}
         >
           {edges
             .map((edge) => {
