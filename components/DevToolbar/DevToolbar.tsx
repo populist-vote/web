@@ -18,7 +18,7 @@ export function DevToolbar() {
   const [isCollapsed, setCollapsed] = useState(false);
 
   if (!user || user.role !== Role.Superuser) return null;
-  if (process.env.NODE_ENV === "production") return null;
+  if (process.env.ENV === "production") return null;
 
   return (
     <div
