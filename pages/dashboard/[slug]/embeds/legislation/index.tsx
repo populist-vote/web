@@ -77,7 +77,10 @@ export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
         header: "Title",
         // Render the cell with the title but truncate it when it exceeds two lines
         cell: (info) => (
-          <span className={styles.elipsis}>{info.getValue() as string}</span>
+          <span className={styles.elipsis}>
+            {info.row.original.bill?.populistTitle ??
+              (info.getValue() as string)}
+          </span>
         ),
         size: 200,
       },

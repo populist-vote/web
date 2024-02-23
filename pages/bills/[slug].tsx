@@ -128,7 +128,7 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
                   {bill.state || "U.S."} -{" "}
                   {splitAtDigitAndJoin(bill?.billNumber || "")}
                 </h3>
-                <h1>{bill?.title}</h1>
+                <h1>{bill?.populistTitle ?? bill?.title}</h1>
                 {bill?.issueTags && (
                   <IssueTags tags={bill.issueTags as IssueTagResult[]} />
                 )}

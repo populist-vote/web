@@ -64,7 +64,7 @@ function BillWidget({
       </header>
       <main className={styles.cardContent}>
         <section>
-          <h2 className={styles.title}>{bill.title}</h2>
+          <h2 className={styles.title}>{bill.populistTitle ?? bill.title}</h2>
         </section>
         {renderOptions?.issueTags && !!bill.issueTags.length && (
           <section className={styles.tags}>

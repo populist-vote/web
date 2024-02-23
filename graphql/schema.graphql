@@ -193,6 +193,7 @@ type BillResult {
   officialSummary: String
   politicalScope: PoliticalScope!
   populistSummary: String
+  populistTitle: String
   publicVotes: PublicVotes!
   session: SessionResult
   sessionId: ID
@@ -494,6 +495,15 @@ type DonationsSummary {
   totalRaised: Float!
 }
 
+input ElectionFilter {
+  municipality: String
+  politicalScope: PoliticalScope
+  query: String
+  slug: String
+  state: State
+  title: String
+}
+
 type ElectionResult {
   description: String
   electionDate: NaiveDate!
@@ -513,12 +523,6 @@ enum ElectionScope {
   DISTRICT
   NATIONAL
   STATE
-}
-
-input ElectionSearchInput {
-  slug: String
-  state: State
-  title: String
 }
 
 input EmbedFilter {
@@ -1059,7 +1063,7 @@ type Query {
   ): VotingGuideResult
   elections(
     """Search by slug or title"""
-    search: ElectionSearchInput
+    search: ElectionFilter
   ): [ElectionResult!]!
   electionsByUser: [ElectionResult!]!
   embedById(id: ID!): EmbedResult!
@@ -1519,6 +1523,7 @@ input UpsertBillInput {
   officialSummary: String
   politicalScope: PoliticalScope
   populistSummary: String
+  populistTitle: String
   sessionId: UUID!
   slug: String
   state: State
