@@ -19,15 +19,17 @@ import {
 import clsx from "clsx";
 import { Theme } from "hooks/useTheme";
 import * as Separator from "@radix-ui/react-separator";
+import { useAuth } from "hooks/useAuth";
 
 export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
+  const { user } = useAuth();
   const router = useRouter();
   const { query } = router;
   const { search, showFilters = "false" } = query;
   const [searchValue, setSearchValue] = useState(search);
   const showFiltersParam = showFilters === "true";
-
-  const { year, state, scope, issue, status } = query || {};
+  const defaultState = user.userProfile.address?.state || "any";
+  const { year, state = defaultState, scope, issue, status } = query || {};
 
   const { handleYearFilter, handleIssueTagFilter, handleStatusFilter } =
     useBillFilters();
