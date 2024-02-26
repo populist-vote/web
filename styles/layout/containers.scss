@@ -286,6 +286,16 @@
   animation-name: slideRightAndFade;
 }
 
+.TooltipTrigger {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
 .TooltipArrow {
   fill: $blue-text;
 }

@@ -1061,10 +1061,7 @@ type Query {
     """User ID"""
     userId: ID!
   ): VotingGuideResult
-  elections(
-    """Search by slug or title"""
-    search: ElectionFilter
-  ): [ElectionResult!]!
+  elections(filter: ElectionFilter): [ElectionResult!]!
   electionsByUser: [ElectionResult!]!
   embedById(id: ID!): EmbedResult!
   embedsActivity(organizationId: ID!): [EmbedsCountResult!]!
