@@ -92,6 +92,8 @@ function BillResultsTable({
         accessorKey: "title",
         header: "Title",
         size: 270,
+        cell: (info) =>
+          info.row.original?.populistTitle ?? (info.getValue() as string),
       },
       {
         accessorKey: "session.startDate",
