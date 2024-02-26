@@ -79,7 +79,7 @@ export function PollEmbedForm({
   const { query } = router;
   const queryClient = useQueryClient();
   const { slug } = query;
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
   const upsertPoll = useUpsertPollMutation();
   const { theme } = useTheme();
@@ -152,7 +152,7 @@ export function PollEmbedForm({
               onError: (error) => {
                 toast(
                   `Something went wrong saving this embed: ${(
-                    error as any
+                    error as Error
                   ).toString()}`,
                   {
                     type: "error",
@@ -166,9 +166,11 @@ export function PollEmbedForm({
                   position: "bottom-right",
                   autoClose: 1000,
                 });
-                void queryClient.invalidateQueries(
-                  useEmbedByIdQuery.getKey({ id: router.query.id as string })
-                );
+                void queryClient.invalidateQueries({
+                  queryKey: useEmbedByIdQuery.getKey({
+                    id: router.query.id as string,
+                  }),
+                });
                 void router.push(
                   `/dashboard/${slug}/embeds/poll/${data.upsertEmbed.id}/manage`,
                   undefined,
@@ -300,7 +302,7 @@ export function PollEmbedForm({
           label={buttonLabel}
           type="submit"
           disabled={
-            !isDirty || !isValid || isSubmitting || upsertPoll.isLoading
+            !isDirty || !isValid || isSubmitting || upsertPoll.isPending
           }
         />
       </div>

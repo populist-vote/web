@@ -36,7 +36,7 @@ function NewRaceEmbed() {
   const router = useRouter();
   const { query } = router;
   const { slug, selected, embedId } = query;
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
   const { search } = router.query;
   const [searchValue, setSearchValue] = useState(search);

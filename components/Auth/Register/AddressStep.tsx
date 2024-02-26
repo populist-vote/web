@@ -53,7 +53,7 @@ function AddressStep() {
       query.next
         ? void router.push(query.next as string)
         : void router.push("/home");
-      void queryClient.invalidateQueries(queryKey);
+      void queryClient.invalidateQueries({ queryKey });
     },
   });
 

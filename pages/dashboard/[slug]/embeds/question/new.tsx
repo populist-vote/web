@@ -77,7 +77,7 @@ export function QuestionEmbedForm({
   const { query } = router;
   const queryClient = useQueryClient();
   const { slug } = query;
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
   const upsertQuestion = useUpsertQuestionMutation();
 
@@ -123,7 +123,7 @@ export function QuestionEmbedForm({
         onError: (error) => {
           toast(
             `Something went wrong saving this embed: ${(
-              error as any
+              error as Error
             ).toString()}`,
             {
               type: "error",
@@ -153,9 +153,11 @@ export function QuestionEmbedForm({
                   position: "bottom-right",
                   autoClose: 1000,
                 });
-                void queryClient.invalidateQueries(
-                  useEmbedByIdQuery.getKey({ id: router.query.id as string })
-                );
+                void queryClient.invalidateQueries({
+                  queryKey: useEmbedByIdQuery.getKey({
+                    id: router.query.id as string,
+                  }),
+                });
                 void router.push(
                   `/dashboard/${slug}/embeds/question/${data.upsertEmbed.id}/manage`,
                   undefined,
@@ -275,7 +277,7 @@ export function QuestionEmbedForm({
           label={buttonLabel}
           type="submit"
           disabled={
-            !isDirty || !isValid || isSubmitting || upsertQuestion.isLoading
+            !isDirty || !isValid || isSubmitting || upsertQuestion.isPending
           }
         />
       </div>

@@ -45,7 +45,7 @@ function BasicHeader({
   hideTextMenu?: boolean;
 }) {
   const { pathname } = useRouter();
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
 
   const { data } = useOrganizationByIdQuery(
     {

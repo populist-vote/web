@@ -24,16 +24,9 @@ import { RaceWidget } from "components/RaceWidget/RaceWidget";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 
 function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
-  const { data, isLoading } = useEmbedByIdQuery(
-    {
-      id,
-    },
-    {
-      onError: (error) => {
-        toast((error as Error).message, { type: "error" });
-      },
-    }
-  );
+  const { data, isLoading } = useEmbedByIdQuery({
+    id,
+  });
 
   const billIds = data?.embedById?.attributes?.billIds as string[];
   const billId = data?.embedById?.attributes?.billId as string;

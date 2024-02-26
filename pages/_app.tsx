@@ -1,5 +1,5 @@
 import {
-  Hydrate,
+  HydrationBoundary,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
@@ -55,14 +55,14 @@ function Populist({ Component, pageProps }: AppPropsWithLayout) {
           </>
         )}
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
+        <HydrationBoundary state={pageProps.dehydratedState}>
           <AuthProvider>
             {getLayout(<Component {...pageProps} />)}
             <ToastContainer theme="dark" />
             <ReactQueryDevtools initialIsOpen={false} />
             <DevToolbar />
           </AuthProvider>
-        </Hydrate>
+        </HydrationBoundary>
       </QueryClientProvider>
     </>
   );

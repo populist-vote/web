@@ -24,10 +24,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(
-    useRaceBySlugQuery.getKey({ slug }),
-    useRaceBySlugQuery.fetcher({ slug })
-  );
+  await queryClient.prefetchQuery({
+    queryKey: useRaceBySlugQuery.getKey({ slug }),
+    queryFn: useRaceBySlugQuery.fetcher({ slug }),
+  });
 
   const dehydratedState = dehydrate(queryClient);
   const data = dehydratedState.queries[0]?.state.data as RaceBySlugQuery;
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 export default function RacePage({ slug, mobileNavTitle }: RacePageProps) {
-  const { data, isInitialLoading } = useRaceBySlugQuery(
+  const { data, isLoading } = useRaceBySlugQuery(
     {
       slug: slug as string,
     },
@@ -59,7 +59,7 @@ export default function RacePage({ slug, mobileNavTitle }: RacePageProps) {
     }
   );
 
-  if (isInitialLoading) return <LoaderFlag />;
+  if (isLoading) return <LoaderFlag />;
 
   const race = data?.raceBySlug as RaceResult;
 

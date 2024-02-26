@@ -38,7 +38,7 @@ function HeaderSection({
   const queryClient = useQueryClient();
 
   const invalidateVotingGuideQuery = () =>
-    queryClient.invalidateQueries(queryKey);
+    queryClient.invalidateQueries({ queryKey });
 
   const isEndorsed = guideEnabled
     ? guideData?.candidates

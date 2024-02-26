@@ -38,7 +38,7 @@ function Nav({
   navItems: NavItem[];
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   useScrollPosition(

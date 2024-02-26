@@ -24,6 +24,7 @@ generates:
       exposeQueryKeys: true
       exposeDocument: true
       exposeFetcher: true
+      reactQueryVersion: 5
       fetcher:
         endpoint: ${GRAPHQL_SCHEMA_PATH}
         fetchParams:

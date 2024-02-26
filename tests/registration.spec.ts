@@ -2,8 +2,8 @@ import { test, expect } from "@playwright/test";
 
 test("User registration flow works as expected", async ({ page }) => {
   await page.goto("/register");
-  await page.locator('h1:has-text("Get Started")').click();
-  await page.locator('[placeholder="Email"]').click();
+  await page.locator('h1:has-text("Get Started")');
+  await page.locator('[placeholder="Email"]');
   await page
     .locator('[placeholder="Email"]')
     .fill(
@@ -32,8 +32,6 @@ test("User registration flow works as expected", async ({ page }) => {
     .getByRole("button", { name: "Complete Registration" })
     .press("Enter");
   await expect(page).toHaveURL(`${process.env.PLAYWRIGHT_TEST_BASE_URL}/home`);
-  await page.locator("text=We’re still in beta.").click();
-  await page.locator('button:has-text("Continue")').click();
   await page.getByRole("img", { name: "profile picture" }).click();
   await expect(page).toHaveURL(
     `${process.env.PLAYWRIGHT_TEST_BASE_URL}/settings/profile`

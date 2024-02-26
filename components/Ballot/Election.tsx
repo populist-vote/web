@@ -42,11 +42,11 @@ function Election({
     }
   );
 
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const isColoradan = user?.userProfile?.address?.state == State.Co;
   const isLoading =
-    electionQuery.isInitialLoading ||
-    electionVotingGuideRacesQuery.isInitialLoading;
+    electionQuery.isLoading ||
+    electionVotingGuideRacesQuery.isLoading;
   const isError =
     electionQuery.isError || electionVotingGuideRacesQuery.isError;
   const error = electionQuery.error || electionVotingGuideRacesQuery.error;

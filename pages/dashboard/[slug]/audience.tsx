@@ -42,12 +42,6 @@ function Audience({ slug }: { slug: string }) {
       slug,
     },
     {
-      onError: () => void router.push("/404"),
-      onSuccess: (data) => {
-        if (!data.organizationBySlug) {
-          void router.push("/404");
-        }
-      },
       retry: false,
     }
   );

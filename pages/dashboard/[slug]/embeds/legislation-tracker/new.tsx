@@ -38,7 +38,7 @@ function NewLegislationEmbed() {
   const router = useRouter();
   const { query } = router;
   const { slug, embedId } = query;
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
   const [selectedBills, setSelectedBills] = useState<
     {

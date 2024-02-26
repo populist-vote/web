@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 import { BillWidget } from "components/BillWidget/BillWidget";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
@@ -36,16 +37,16 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
     originHost || (typeof location === "undefined" ? "" : location.href);
 
   const pingEmbedOriginMutation = usePingEmbedOriginMutation();
-  const { data, error, isLoading } = useEmbedByIdQuery(
-    {
-      id: embedId,
-    },
-    {
-      onSuccess: () => {
-        pingEmbedOriginMutation.mutate({ input: { embedId, url: origin } });
-      },
-    }
-  );
+  const { data, error, isLoading } = useQuery({
+    queryKey: useEmbedByIdQuery.getKey({ id: embedId }),
+    queryFn: useEmbedByIdQuery.fetcher({ id: embedId }),
+  });
+
+  useEffect(() => {
+    if (!resolvedOrigin) return;
+    pingEmbedOriginMutation.mutate({ input: { embedId, url: origin } });
+  }, [resolvedOrigin, pingEmbedOriginMutation, embedId, origin]);
+
   const embedType = data?.embedById?.embedType;
 
   const billId = data?.embedById?.attributes?.billId;

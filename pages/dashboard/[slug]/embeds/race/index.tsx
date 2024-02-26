@@ -11,7 +11,6 @@ import {
   useEmbedsByOrganizationQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
-import { toast } from "react-toastify";
 import { getRelativeTimeString } from "utils/dates";
 
 export async function getServerSideProps({
@@ -34,20 +33,13 @@ export async function getServerSideProps({
 }
 
 export default function EmbedsIndex({ slug }: { slug: string }) {
-  const { user } = useAuth();
-  const { data, isLoading } = useEmbedsByOrganizationQuery(
-    {
-      id: user?.organizationId as string,
-      filter: {
-        embedType: EmbedType.Race,
-      },
+  const { user } = useAuth({ redirectTo: "/login" });
+  const { data, isLoading } = useEmbedsByOrganizationQuery({
+    id: user?.organizationId as string,
+    filter: {
+      embedType: EmbedType.Race,
     },
-    {
-      onError: (error) => {
-        toast((error as Error).message, { type: "error" });
-      },
-    }
-  );
+  });
   const columns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {

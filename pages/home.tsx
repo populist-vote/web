@@ -53,7 +53,7 @@ function CitizenHome({ userLoggedIn }: { userLoggedIn: boolean }) {
 }
 
 function HomePage() {
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
 
   return (
     <BasicLayout>

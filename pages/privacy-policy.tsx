@@ -30,7 +30,7 @@ export async function getServerSideProps({
 }
 
 const PrivacyPolicy: NextPage = () => {
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const { isMobile } = useDeviceInfo();
 
   return (
