@@ -21,8 +21,8 @@ import {
 } from "utils/constants";
 
 import {
-  useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
+  useElectionsQuery,
 } from "generated";
 
 import { SupportedLocale } from "types/global";

@@ -1,7 +1,7 @@
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { Layout, TopNavElections } from "components";
+import { Layout, LoaderFlag, TopNavElections } from "components";
 import { Box } from "components/Box/Box";
-import { PoliticalScope, useElectionsQuery } from "generated";
+import { PoliticalScope, useElectionsIndexQuery } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useRef, useState } from "react";
@@ -20,8 +20,8 @@ export async function getServerSideProps({
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(
-    useElectionsQuery.getKey(),
-    useElectionsQuery.fetcher()
+    useElectionsIndexQuery.getKey(),
+    useElectionsIndexQuery.fetcher()
   );
 
   const state = dehydrate(queryClient);
@@ -57,6 +57,17 @@ export default function ElectionsPage() {
       void router.push({ query: { ...query, scope: newScope } });
     }
   };
+
+  const { data, isLoading } = useElectionsIndexQuery({
+    filter: {
+      query: searchValue,
+    },
+  });
+
+  if (isLoading) {
+    return <LoaderFlag />;
+  }
+
   return (
     <>
       <TopNavElections selected="Browse" electionData={undefined} />
@@ -133,6 +144,7 @@ export default function ElectionsPage() {
             </label>
           </div>
         </Box>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
       </div>
     </>
   );
