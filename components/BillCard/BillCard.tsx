@@ -80,7 +80,7 @@ function BillCard({ bill, billId, isLink = true }: BillCardProps) {
               <Tooltip.Provider delayDuration={300}>
                 <Tooltip.Root>
                   <Tooltip.Trigger className={styles.TooltipTrigger}>
-                    <Badge size="small" color="white">
+                    <Badge lightBackground>
                       <span>+{bill.issueTags?.length - 1}</span>
                     </Badge>
                   </Tooltip.Trigger>

@@ -22,7 +22,7 @@ import * as Separator from "@radix-ui/react-separator";
 import { useAuth } from "hooks/useAuth";
 
 export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
-  const { user } = useAuth();
+  const { user } = useAuth({ redirect: false });
   const router = useRouter();
   const { query } = router;
   const { search, showFilters = "false" } = query;
