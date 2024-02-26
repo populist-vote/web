@@ -1,6 +1,7 @@
 @import "styles/mixins/media";
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
+@import "styles/layout/containers";
 
 .billCard {
   align-items: center;
@@ -50,6 +51,7 @@
     .tags {
       display: flex;
       justify-content: center;
+      gap: 0.5rem;
     }
   }
 

@@ -9,6 +9,7 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { getYear } from "utils/dates";
 import { ReactNode } from "react";
 import { getIssueTagIcon } from "utils/data";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 interface BillCardWithBill {
   isLink?: boolean;
@@ -70,11 +71,34 @@ function BillCard({ bill, billId, isLink = true }: BillCardProps) {
         <div className={styles.cardContent}>
           <h2 className={styles.title}>{bill.populistTitle ?? bill.title}</h2>
           <div className={styles.tags}>
-            {bill.issueTags?.map((tag) => (
+            {bill.issueTags?.slice(0, 1).map((tag) => (
               <Badge key={tag.id} lightBackground>
                 <span>{getIssueTagIcon(tag)}</span> {tag.name}
               </Badge>
             ))}
+            {bill.issueTags && bill.issueTags?.length > 1 && (
+              <Tooltip.Provider delayDuration={300}>
+                <Tooltip.Root>
+                  <Tooltip.Trigger className={styles.TooltipTrigger}>
+                    <Badge lightBackground>
+                      <span>+{bill.issueTags?.length - 1}</span>
+                    </Badge>
+                  </Tooltip.Trigger>
+                  <Tooltip.Portal>
+                    <Tooltip.Content
+                      className={styles.TooltipContent}
+                      sideOffset={5}
+                    >
+                      {bill.issueTags
+                        .slice(1, bill.issueTags.length)
+                        .map((tag) => tag.name)
+                        .join(", ")}
+                      <Tooltip.Arrow className={styles.TooltipArrow} />
+                    </Tooltip.Content>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+              </Tooltip.Provider>
+            )}
           </div>
         </div>
         <footer className={styles.footer}>

@@ -272,6 +272,7 @@
   animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
+  z-index: 1000;
 }
 .TooltipContent[data-state="delayed-open"][data-side="top"] {
   animation-name: slideDownAndFade;
@@ -284,6 +285,16 @@
 }
 .TooltipContent[data-state="delayed-open"][data-side="left"] {
   animation-name: slideRightAndFade;
+}
+
+.TooltipTrigger {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: none;
+  padding: 0;
 }
 
 .TooltipArrow {
