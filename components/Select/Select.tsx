@@ -14,6 +14,7 @@ type SelectProps = {
   uppercase?: boolean;
   placeholder?: string;
   disabled?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSelect?: any;
 };
 

@@ -27,6 +27,7 @@ import {
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { useRouter } from "next/router";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value);
