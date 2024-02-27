@@ -9,7 +9,6 @@ import { useVotingGuide } from "hooks/useVotingGuide";
 import { Button } from "components/Button/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "hooks/useAuth";
-import { Badge } from "components/Badge/Badge";
 import { BiStar } from "react-icons/bi";
 import { useRouter } from "next/router";
 
@@ -48,11 +47,11 @@ function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
       {election.title && <h4>{election.title}</h4>}
       <p>{election.description}</p>
       {votingGuide ? (
-        <Badge theme="yellow">
+        <div className={styles.guideHelper}>
           <BiStar color="var(--yellow)" size={25} />
           Click the plus signs to star the candidates you support, add notes,
           and share your voting guide for this election
-        </Badge>
+        </div>
       ) : (
         <Button
           size="small"
