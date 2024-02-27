@@ -42,11 +42,9 @@ export function DevToolbar() {
       >
         <Logo width={15} />
         <div>
-          (
           <a href={`https://github.com/populist-vote/web/commit/${commitHash}`}>
-            {commitHash}
+            ({commitHash})
           </a>
-          )
         </div>
         <div
           className={clsx(styles.flexBetween, styles.iconButton)}
