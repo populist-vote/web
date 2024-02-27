@@ -217,8 +217,8 @@ function DesktopNav({
                   href="mailto:info@populist.us"
                   className={styles.helpBadge}
                 >
-                  <FaQuestionCircle size={20} />
-                  <small>Need help?</small>
+                  <small>Help</small>
+                  <FaQuestionCircle size={16} />
                 </Link>
               </div>
             </div>

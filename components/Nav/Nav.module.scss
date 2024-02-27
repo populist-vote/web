@@ -221,20 +221,15 @@
 .helpBadge {
   display: flex;
   justify-content: center;
-  align-items: center;
-  font-size: 1.25rem;
-  gap: 0.5rem;
-  text-transform: none;
+  gap: 0.15rem;
   width: fit-content;
-  border: 1px solid $blue;
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  color: $white;
+  border: none;
+  color: $blue-text;
   cursor: pointer;
   transition: ease-in-out 0.2s;
 
   &:hover {
-    color: $blue-text;
+    color: $white;
   }
 
   .stack {
