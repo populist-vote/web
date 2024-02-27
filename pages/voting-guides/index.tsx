@@ -191,7 +191,7 @@ const VotingGuides: NextPage<{
     [savedGuidesQuery.data, selectedElectionId]
   );
 
-  if (!user || !election) return null;
+  if (!user) return null;
 
   const showLoader =
     isLoading ||
@@ -206,7 +206,7 @@ const VotingGuides: NextPage<{
         electionData={electionData}
       />
       <div className={styles.votingContainer}>
-        <ElectionHeader election={election} />
+        {election && <ElectionHeader election={election} />}
         {showLoader && (
           <div className={styles.center}>
             <LoaderFlag />
