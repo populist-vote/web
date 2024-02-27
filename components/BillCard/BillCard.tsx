@@ -69,7 +69,7 @@ function BillCard({ bill, billId, isLink = true }: BillCardProps) {
           <strong>{getYear(bill.session?.startDate)}</strong>
         </header>
         <div className={styles.cardContent}>
-          <h2 className={styles.title}>{bill.title}</h2>
+          <h2 className={styles.title}>{bill.populistTitle ?? bill.title}</h2>
           <div className={styles.tags}>
             {bill.issueTags?.slice(0, 1).map((tag) => (
               <Badge key={tag.id} lightBackground>
