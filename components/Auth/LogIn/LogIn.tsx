@@ -21,7 +21,7 @@ function LogIn() {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const getCurrentUser = useCurrentUserQuery();
-  const { data, isInitialLoading } = useCurrentUserQuery();
+  const { data, isLoading } = useCurrentUserQuery();
   const user = data?.currentUser;
   if (user) void router.push(`/${router.query.next || "/home"}`);
 
@@ -47,7 +47,7 @@ function LogIn() {
     message = t("sign-in");
   }
 
-  if (isInitialLoading) return <LoaderFlag />;
+  if (isLoading) return <LoaderFlag />;
 
   return (
     <div className={styles.container}>
@@ -88,12 +88,12 @@ function LogIn() {
           </div>
           <Button
             label={
-              login.isLoading ? t("loading", { ns: "common" }) : t("sign-in")
+              login.isPending ? t("loading", { ns: "common" }) : t("sign-in")
             }
             size="large"
             variant="primary"
             theme="blue"
-            disabled={login.isLoading || !isDirty || !isValid}
+            disabled={login.isPending || !isDirty || !isValid}
           />
 
           <br />

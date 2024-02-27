@@ -13,7 +13,6 @@ import {
 } from "generated";
 import { getRelativeTimeString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
-import { toast } from "react-toastify";
 
 export async function getServerSideProps({
   query,
@@ -35,20 +34,13 @@ export async function getServerSideProps({
 }
 
 export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
-  const { user } = useAuth();
-  const { data, isLoading } = useEmbedsByOrganizationQuery(
-    {
-      id: user?.organizationId as string,
-      filter: {
-        embedType: EmbedType.LegislationTracker,
-      },
+  const { user } = useAuth({ redirectTo: "/login" });
+  const { data, isLoading } = useEmbedsByOrganizationQuery({
+    id: user?.organizationId as string,
+    filter: {
+      embedType: EmbedType.LegislationTracker,
     },
-    {
-      onError: (error) => {
-        toast((error as Error).message, { type: "error" });
-      },
-    }
-  );
+  });
 
   const legislationTrackerColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [

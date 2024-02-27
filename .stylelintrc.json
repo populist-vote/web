@@ -4,13 +4,10 @@
     "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$",
     "scss/at-import-partial-extension": null,
     "property-no-vendor-prefix": null,
-    "declaration-colon-newline-after": null,
     "rule-empty-line-before": null,
     "alpha-value-notation": null,
     "color-function-notation": null,
-    "hue-degree-notation": null,
-    "indentation": 2
-
+    "hue-degree-notation": null
   },
   "ignoreFiles": ["./styles/base/_normalize.scss"]
 }

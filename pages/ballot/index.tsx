@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { dehydrate, QueryClient, useQueryClient } from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 
@@ -21,10 +21,8 @@ import {
 } from "utils/constants";
 
 import {
-  ElectionVotingGuideByUserIdQuery,
   useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
-  useUpsertVotingGuideMutation,
 } from "generated";
 
 import { SupportedLocale } from "types/global";
@@ -42,10 +40,10 @@ export async function getServerSideProps({
     now that everything is in the hook.
     Just want to note in case it causes server side issues.
   */
-  await queryClient.prefetchQuery(
-    useElectionsQuery.getKey(),
-    useElectionsQuery.fetcher()
-  );
+  await queryClient.prefetchQuery({
+    queryKey: useElectionsQuery.getKey(),
+    queryFn: useElectionsQuery.fetcher(),
+  });
 
   const state = dehydrate(queryClient);
 
@@ -67,16 +65,10 @@ export async function getServerSideProps({
 
 function BallotPage() {
   const { user } = useAuth({ redirectTo: `/ballot/choose` });
-  const queryClient = useQueryClient();
-
-  const createVotingGuide = useUpsertVotingGuideMutation({
-    onSuccess: () => queryClient.invalidateQueries(userVotingGuideQueryKey),
-  });
 
   const electionData = useElections(
     sessionStorage.getItem(SELECTED_ELECTION) || undefined
   );
-
   const { error, selectedElectionId } = electionData;
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
@@ -86,21 +78,9 @@ function BallotPage() {
     },
     {
       enabled: !!user?.id && !!selectedElectionId,
-      onSuccess: (data: ElectionVotingGuideByUserIdQuery) => {
-        if (!data?.electionVotingGuideByUserId)
-          createVotingGuide.mutate({
-            electionId: selectedElectionId as string,
-          });
-      },
       staleTime: 60 * 1000,
     }
   );
-
-  const userVotingGuideQueryKey = useElectionVotingGuideByUserIdQuery.getKey({
-    userId: user?.id,
-    electionId: selectedElectionId as string,
-  });
-
   // Use either the voting guide ID (above) from query params OR the users voting guide ID
   // to instantiate the VotingGuideContext
   const userGuideId = userVotingGuideQuery.data?.electionVotingGuideByUserId
@@ -118,7 +98,7 @@ function BallotPage() {
   if (!user) return null;
 
   if (error) {
-    if ((error as any).message === "No user address data") {
+    if ((error as Error).message === "No user address data") {
       return (
         <div>
           <h2>

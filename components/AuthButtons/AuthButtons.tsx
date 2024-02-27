@@ -12,7 +12,7 @@ function AuthButtons({
 }: {
   showAvatarIfUser?: boolean;
 }) {
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const { push } = useRouter();
   const { t } = useTranslation("auth");
 

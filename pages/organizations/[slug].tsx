@@ -170,10 +170,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(
-    useOrganizationBySlugQuery.getKey({ slug }),
-    useOrganizationBySlugQuery.fetcher({ slug })
-  );
+  await queryClient.prefetchQuery({
+    queryKey: useOrganizationBySlugQuery.getKey({ slug }),
+    queryFn: useOrganizationBySlugQuery.fetcher({ slug }),
+  });
   const state = dehydrate(queryClient);
 
   const data = state.queries[0]?.state.data as OrganizationBySlugQuery;

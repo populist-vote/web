@@ -16,7 +16,7 @@ import styles from "styles/modules/page.module.scss";
 import { SupportedLocale } from "types/global";
 
 export default function VotingGuidePage() {
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const { id } = useRouter().query;
   const votingGuideId = id as string;
   const { data, error, isLoading } = useVotingGuideByIdQuery({
@@ -45,7 +45,11 @@ export default function VotingGuidePage() {
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
       <VotingGuideProvider votingGuideId={votingGuideId}>
         <VotingGuideNav />
-        <div data-testid="voting-guide-page">
+        <br />
+        <section
+          data-testid="voting-guide-page"
+          className={styles.votingGuidesPageContainer}
+        >
           <Election
             electionId={guide?.election.id as string}
             votingGuideId={votingGuideId}
@@ -63,7 +67,7 @@ export default function VotingGuidePage() {
               </Link>
             </div>
           )}
-        </div>
+        </section>
       </VotingGuideProvider>
     </Layout>
   );
@@ -78,10 +82,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(
-    useVotingGuideByIdQuery.getKey({ id }),
-    useVotingGuideByIdQuery.fetcher({ id })
-  );
+  await queryClient.prefetchQuery({
+    queryKey: useVotingGuideByIdQuery.getKey({ id }),
+    queryFn: useVotingGuideByIdQuery.fetcher({ id }),
+  });
 
   const state = dehydrate(queryClient);
   const data = state.queries[0]?.state.data as VotingGuideByIdQuery;

@@ -57,7 +57,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
     onSuccess: ({ updateFirstAndLastName }) => {
       reset(updateFirstAndLastName as NameSectionProps);
       queryClient
-        .invalidateQueries(useCurrentUserQuery.getKey())
+        .invalidateQueries({ queryKey: useCurrentUserQuery.getKey() })
         .catch((err) => toast.error(err));
     },
   });
@@ -100,7 +100,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
             />
           </div>
           <Button
-            disabled={!isDirty || !isValid || updateNameMutation.isLoading}
+            disabled={!isDirty || !isValid || updateNameMutation.isPending}
             variant="secondary"
             size="large"
             theme="blue"
@@ -126,7 +126,9 @@ const UsernameSection = ({ username }: { username: string }) => {
   const updateUsernameMutation = useUpdateUsernameMutation({
     onSuccess: ({ updateUsername }) => {
       reset(updateUsername);
-      void queryClient.invalidateQueries(useCurrentUserQuery.getKey());
+      void queryClient.invalidateQueries({
+        queryKey: useCurrentUserQuery.getKey(),
+      });
     },
     onError: (error) => {
       if (error instanceof Error)
@@ -162,7 +164,7 @@ const UsernameSection = ({ username }: { username: string }) => {
             }}
           />
           <Button
-            disabled={!isDirty || !isValid || updateUsernameMutation.isLoading}
+            disabled={!isDirty || !isValid || updateUsernameMutation.isPending}
             variant="secondary"
             size="large"
             theme="blue"
@@ -220,7 +222,7 @@ const EmailSection = ({ email }: { email: string }) => {
             }}
           />
           <Button
-            disabled={!isDirty || !isValid || updateEmailMutation.isLoading}
+            disabled={!isDirty || !isValid || updateEmailMutation.isPending}
             variant="secondary"
             size="large"
             theme="blue"
@@ -253,11 +255,13 @@ const AddressSection = ({
     onSuccess: ({ updateAddress }) => {
       reset(updateAddress);
       queryClient
-        .invalidateQueries([
-          "ElectionById",
-          useCurrentUserQuery.getKey(),
-          useUserProfileQuery.getKey({ userId }),
-        ])
+        .invalidateQueries({
+          queryKey: [
+            "ElectionById",
+            useCurrentUserQuery.getKey(),
+            useUserProfileQuery.getKey({ userId }),
+          ],
+        })
         .catch((err) => toast.error(err));
       void toast.success("Address updated successfully");
     },
@@ -359,12 +363,12 @@ const AddressSection = ({
             />
           </div>
           <Button
-            disabled={!isDirty || !isValid || updateAddressMutation.isLoading}
+            disabled={!isDirty || !isValid || updateAddressMutation.isPending}
             variant="secondary"
             size="large"
             theme="blue"
             label={
-              updateAddressMutation.isLoading ? "Saving address..." : "Save"
+              updateAddressMutation.isPending ? "Saving address..." : "Save"
             }
             type="submit"
           />
@@ -387,7 +391,7 @@ const SignOutSection = () => {
       <h2>Sign out</h2>
       <div className={profileStyles.signOutSection}>
         <Button
-          isDisabled={logOutMutation.isLoading}
+          isDisabled={logOutMutation.isPending}
           variant="secondary"
           size="large"
           theme="blue"
@@ -438,7 +442,7 @@ const DeleteAccountSection = () => {
           theme="blue"
           label="Delete"
           disabled={
-            !deleteConfirmationChecked || deleteAccountMutation.isLoading
+            !deleteConfirmationChecked || deleteAccountMutation.isPending
           }
           onClick={handleDeleteAccount}
         />
@@ -625,7 +629,9 @@ const ProfilePhotoSection = ({
     })
       .then(() => {
         queryClient
-          .invalidateQueries(useUserProfileQuery.getKey({ userId }))
+          .invalidateQueries({
+            queryKey: useUserProfileQuery.getKey({ userId }),
+          })
           .catch((err) => toast.error(err));
       })
       .catch((error) => toast.error(error))
@@ -648,13 +654,13 @@ const ProfilePhotoSection = ({
   const label = isDragActive
     ? "Drop image here"
     : !profilePictureUrl
-    ? "Upload profile picture"
-    : "Change profile picture";
+      ? "Upload profile picture"
+      : "Change profile picture";
 
   const deleteProfilePictureMutation = useDeleteProfilePictureMutation({
     onSuccess: () => {
       queryClient
-        .invalidateQueries(useUserProfileQuery.getKey({ userId }))
+        .invalidateQueries({ queryKey: useUserProfileQuery.getKey({ userId }) })
         .catch((err) => toast.error(err));
     },
   });
@@ -690,7 +696,7 @@ const ProfilePhotoSection = ({
               theme="red"
               label={"Remove profile picture"}
               onClick={handleDeleteProfilePicture}
-              disabled={deleteProfilePictureMutation.isLoading}
+              disabled={deleteProfilePictureMutation.isPending}
             />
           )}
         </div>

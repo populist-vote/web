@@ -38,7 +38,7 @@ function Nav({
   navItems: NavItem[];
 }) {
   const [sticky, setSticky] = useState<boolean>(true);
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
 
   useScrollPosition(
@@ -217,8 +217,8 @@ function DesktopNav({
                   href="mailto:info@populist.us"
                   className={styles.helpBadge}
                 >
-                  <FaQuestionCircle size={20} />
-                  <small>Need help?</small>
+                  <small>Help</small>
+                  <FaQuestionCircle size={16} />
                 </Link>
               </div>
             </div>

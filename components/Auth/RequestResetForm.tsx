@@ -30,7 +30,7 @@ function RequestResetForm() {
     },
   });
 
-  const isLoading = requestReset.isLoading;
+  const isLoading = requestReset.isPending;
 
   const submitForm = (data: ResetFormValues) => {
     requestReset.mutate({

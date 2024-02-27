@@ -104,10 +104,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(
-    usePoliticianBasicInfoQuery.getKey({ slug }),
-    usePoliticianBasicInfoQuery.fetcher({ slug })
-  );
+  await queryClient.prefetchQuery({
+    queryKey: usePoliticianBasicInfoQuery.getKey({ slug }),
+    queryFn: usePoliticianBasicInfoQuery.fetcher({ slug }),
+  });
   const state = dehydrate(queryClient);
 
   const data = state.queries[0]?.state.data as PoliticianBasicInfoQuery;

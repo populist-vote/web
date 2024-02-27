@@ -8,11 +8,9 @@ import {
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../../..";
-import { toast } from "react-toastify";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import { PollMetrics } from "components/PollMetrics/PollMetrics";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
@@ -41,18 +39,11 @@ export async function getServerSideProps({
 }
 
 function EmbedById({ slug, id }: { slug: string; id: string }) {
-  const router = useRouter();
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
     },
     {
-      onError: () => void router.push("/404"),
-      onSuccess: (data) => {
-        if (!data.organizationBySlug) {
-          void router.push("/404");
-        }
-      },
       retry: false,
     }
   );
@@ -64,16 +55,9 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     )}`,
   });
 
-  const { data, isLoading: embedLoading } = useEmbedByIdQuery(
-    {
-      id,
-    },
-    {
-      onError: (error) => {
-        toast((error as Error).message, { type: "error" });
-      },
-    }
-  );
+  const { data, isLoading: embedLoading } = useEmbedByIdQuery({
+    id,
+  });
 
   const poll = data?.embedById.poll as PollResult;
   const prompt = poll?.prompt;

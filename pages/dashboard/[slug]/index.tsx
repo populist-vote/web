@@ -36,19 +36,11 @@ export async function getServerSideProps({
 }
 
 function DashboardIndex({ slug }: { slug: string }) {
-  const router = useRouter();
-
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
     },
     {
-      onError: () => void router.push("/404"),
-      onSuccess: (data) => {
-        if (!data.organizationBySlug) {
-          void router.push("/404");
-        }
-      },
       retry: false,
     }
   );
@@ -57,7 +49,6 @@ function DashboardIndex({ slug }: { slug: string }) {
     ?.id as string;
 
   const { isLoading } = useAuth({ organizationId });
-
   return organizationQuery.isLoading || isLoading ? null : (
     <Dashboard organizationId={organizationId} />
   );

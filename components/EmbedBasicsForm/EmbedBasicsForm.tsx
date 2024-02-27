@@ -98,7 +98,7 @@ function PoliticianEmbedOptionsForm({
 
 function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
   const queryClient = useQueryClient();
 
@@ -136,9 +136,11 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
       {
         onSuccess: () => {
           toast("Embed saved!", { type: "success", position: "bottom-right" });
-          void queryClient.invalidateQueries(
-            useEmbedByIdQuery.getKey({ id: router.query.id as string })
-          );
+          void queryClient.invalidateQueries({
+            queryKey: useEmbedByIdQuery.getKey({
+              id: router.query.id as string,
+            }),
+          });
         },
         onError: (error) => {
           toast((error as Error).message, { type: "error" });

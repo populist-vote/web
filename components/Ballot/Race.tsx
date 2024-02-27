@@ -44,11 +44,11 @@ function Race({
   const { data: votingGuide, isGuideOwner, queryKey } = useVotingGuide();
 
   const invalidateVotingGuideQuery = () =>
-    queryClient.invalidateQueries(queryKey);
+    queryClient.invalidateQueries({ queryKey });
 
   const upsertVotingGuideCandidate = useUpsertVotingGuideCandidateMutation({
     onMutate: async (newVotingGuideCandidate) => {
-      await queryClient.cancelQueries(queryKey);
+      await queryClient.cancelQueries({ queryKey });
       const previousVotingGuide =
         queryClient.getQueryData<VotingGuideByIdQuery>(queryKey);
 

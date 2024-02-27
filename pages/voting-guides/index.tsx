@@ -32,6 +32,7 @@ import {
   VotingGuideResult,
   useVotingGuidesByIdsQuery,
   ElectionResult,
+  useElectionByIdQuery,
 } from "generated";
 
 const VotingGuideCard = ({
@@ -143,7 +144,7 @@ const VotingGuides: NextPage<{
 }> = ({ mobileNavTitle }) => {
   const { user } = useAuth({ redirectTo: "/login?next=voting-guides" });
 
-  const { data, isLoading, error } = useVotingGuidesByUserIdQuery(
+  const { data, isLoading } = useVotingGuidesByUserIdQuery(
     {
       userId: user?.id,
     },
@@ -167,19 +168,17 @@ const VotingGuides: NextPage<{
   );
   const { selectedElectionId, isLoading: isElectionsLoading } = electionData;
 
-  const election = useMemo(
-    () =>
-      data?.votingGuidesByUserId.find(
-        (g) => g.electionId === selectedElectionId
-      )?.election as ElectionResult,
-    [data?.votingGuidesByUserId, selectedElectionId]
-  );
+  const electionByIdQuery = useElectionByIdQuery({
+    id: selectedElectionId,
+  });
+
+  const electionById = electionByIdQuery?.data?.electionById as ElectionResult;
 
   const userVotingGuides = useMemo(
     () =>
       data?.votingGuidesByUserId.filter(
         (g) => g.electionId === selectedElectionId
-      ),
+      ) || [],
     [data, selectedElectionId]
   );
 
@@ -191,11 +190,12 @@ const VotingGuides: NextPage<{
     [savedGuidesQuery.data, selectedElectionId]
   );
 
-  if (!user || !election) return null;
+  if (!user) return null;
 
   const showLoader =
     isLoading ||
     isElectionsLoading ||
+    electionByIdQuery.isLoading ||
     (savedGuidesQuery.isLoading && savedGuidesQuery.fetchStatus !== "idle");
 
   return (
@@ -206,31 +206,23 @@ const VotingGuides: NextPage<{
         electionData={electionData}
       />
       <div className={styles.votingContainer}>
-        <ElectionHeader election={election} />
+        {electionById && <ElectionHeader election={electionById} />}
         {showLoader && (
           <div className={styles.center}>
             <LoaderFlag />
           </div>
         )}
-        {!showLoader && (
+        {!showLoader && userVotingGuides.length > 0 && (
           <FlagSection label="My Voting Guides">
-            <>
-              {error && <small>Something went wrong...</small>}
-              {userVotingGuides && (userVotingGuides?.length as number) < 1 && (
-                <>
-                  <small>No voting guides</small>
-                </>
-              )}
-              <div className={styles.guidesContainer}>
-                {userVotingGuides?.map((guide) => (
-                  <VotingGuideCard
-                    guide={guide as Partial<VotingGuideResult>}
-                    key={guide.id}
-                    showEdit={user.id === guide.user.id}
-                  />
-                ))}
-              </div>
-            </>
+            <div className={styles.guidesContainer}>
+              {userVotingGuides?.map((guide) => (
+                <VotingGuideCard
+                  guide={guide as Partial<VotingGuideResult>}
+                  key={guide.id}
+                  showEdit={user.id === guide.user.id}
+                />
+              ))}
+            </div>
           </FlagSection>
         )}
       </div>

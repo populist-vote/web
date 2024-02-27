@@ -36,7 +36,7 @@ function ConfirmEmail() {
     mutation.mutate({ token: token as string });
   }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (mutation.isLoading) return <LoaderFlag />;
+  if (mutation.isPending) return <LoaderFlag />;
 
   if (!mutation.isSuccess)
     return (

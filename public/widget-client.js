@@ -18,13 +18,13 @@
     // Set up iframe element
     var iframeElement = document.createElement("iframe");
     var iframeAttributes = {
-        "class": "populist-frame populist-frame--loading",
+        class: "populist-frame populist-frame--loading",
         id: "populist-iframe-".concat(attributes.embedId),
         title: "Populist Widget",
         scrolling: "no",
         allow: "clipboard-write",
         src: src,
-        loading: loading
+        loading: loading,
     };
     Object.entries(iframeAttributes).forEach(function (_a) {
         var key = _a[0], value = _a[1];

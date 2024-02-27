@@ -34,7 +34,7 @@ function NewLegislationEmbed() {
   const router = useRouter();
   const { query } = router;
   const { slug, selected, embedId } = query;
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
 
   function handleCreateEmbed() {

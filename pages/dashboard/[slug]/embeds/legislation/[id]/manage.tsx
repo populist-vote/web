@@ -8,7 +8,6 @@ import {
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../../..";
@@ -39,18 +38,11 @@ export async function getServerSideProps({
 }
 
 function EmbedById({ slug, id }: { slug: string; id: string }) {
-  const router = useRouter();
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
     },
     {
-      onError: () => void router.push("/404"),
-      onSuccess: (data) => {
-        if (!data.organizationBySlug) {
-          void router.push("/404");
-        }
-      },
       retry: false,
     }
   );
@@ -60,12 +52,6 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
       id,
     },
     {
-      onError: () => void router.push("/404"),
-      onSuccess: (data) => {
-        if (!data.embedById) {
-          void router.push("/404");
-        }
-      },
       retry: false,
     }
   );

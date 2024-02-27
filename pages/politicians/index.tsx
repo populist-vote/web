@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { usePoliticianIndexQuery } from "generated";
@@ -21,7 +21,7 @@ import { PoliticianIndexFilters } from "components/PoliticianFilters/PoliticianF
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "types/global";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {} from "@tanstack/react-query";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 50;
 
 const PoliticianRow = ({ politician }: { politician: PoliticianResult }) => {
   const { isMobile } = useDeviceInfo();
@@ -103,7 +103,7 @@ function PoliticianIndex(props: PoliticianIndexProps) {
   const { query } = router;
   const {
     state = null,
-    scope = null,
+    scope = PoliticalScope.Federal,
     chamber = null,
     search = null,
   } = props.query || query;
@@ -113,57 +113,15 @@ function PoliticianIndex(props: PoliticianIndexProps) {
     350
   );
 
-  const {
-    data,
-    isLoading,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery(
-    ["politicianIndex", debouncedSearchQuery, scope, chamber, state],
-    ({ pageParam }) =>
-      usePoliticianIndexQuery.fetcher({
-        pageSize: PAGE_SIZE,
-        cursor: pageParam,
-        filter: {
-          query: debouncedSearchQuery || null,
-          homeState: state as State,
-          politicalScope: scope as PoliticalScope,
-          chambers: chamber as Chambers,
-        },
-      })(),
-    {
-      getNextPageParam: (lastPage) => {
-        if (!lastPage.politicians.pageInfo.hasNextPage) return undefined;
-        return lastPage.politicians.pageInfo.endCursor;
-      },
-    }
-  );
-
-  const loadMoreRef = useRef(null);
-
-  // Handle infinite scroll
-  useEffect(() => {
-    if (!hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver((entries) =>
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !isFetchingNextPage) {
-          void fetchNextPage();
-        }
-      })
-    );
-    const el = loadMoreRef && loadMoreRef.current;
-    if (!el) {
-      return;
-    }
-    observer.observe(el);
-    return () => {
-      observer.unobserve(el);
-    };
-  }, [loadMoreRef.current, hasNextPage, isFetchingNextPage]);
+  const { data, isLoading, error } = usePoliticianIndexQuery({
+    filter: {
+      query: debouncedSearchQuery,
+      homeState: state,
+      politicalScope: scope,
+      chambers: chamber,
+    },
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <div className={styles.container}>
@@ -181,32 +139,19 @@ function PoliticianIndex(props: PoliticianIndexProps) {
           {error && (
             <h4>Something went wrong fetching politician records...</h4>
           )}
-          <div>
-            {data?.pages.map((page) =>
-              page.politicians.edges
-                ?.map((edge) => edge?.node as PoliticianResult)
-                .map((politician: PoliticianResult) => (
-                  <PoliticianRow politician={politician} key={politician.id} />
-                ))
-            )}
-          </div>
-          {hasNextPage && (
-            <>
-              <button
-                className={styles.wideButton}
-                style={{ margin: "1rem 0 0" }}
-                ref={loadMoreRef}
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-              >
-                {isFetchingNextPage
-                  ? "Loading more..."
-                  : hasNextPage
-                  ? "Load More"
-                  : "Nothing more to load"}
-              </button>
-            </>
+          {data?.politicians?.totalCount === 0 && (
+            <div className={styles.center}>
+              <p className={styles.noResults}>No Results</p>
+            </div>
           )}
+          <div>
+            {data?.politicians?.edges?.map((edge, index) => (
+              <PoliticianRow
+                key={index}
+                politician={edge.node as PoliticianResult}
+              />
+            ))}
+          </div>
         </>
       </div>
     </div>

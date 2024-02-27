@@ -30,7 +30,7 @@ function PopularBills() {
     350
   );
 
-  const { data, isInitialLoading, error } = useBillIndexQuery(
+  const { data, isLoading, error } = useBillIndexQuery(
     {
       pageSize: 5,
       sort: {
@@ -55,7 +55,7 @@ function PopularBills() {
   return (
     <section className={styles.billsSection}>
       <h2 className={styles.gradientHeader}>Popular Bills</h2>
-      {isInitialLoading ? (
+      {isLoading ? (
         <LoaderFlag />
       ) : error ? (
         <span>{error.toString()}</span>

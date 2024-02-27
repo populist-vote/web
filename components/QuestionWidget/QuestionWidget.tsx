@@ -66,9 +66,9 @@ export function QuestionWidget({
       {
         onSuccess: () => {
           setIsSuccess(true);
-          void queryClient.invalidateQueries(
-            useEmbedByIdQuery.getKey({ id: embedId })
-          );
+          void queryClient.invalidateQueries({
+            queryKey: useEmbedByIdQuery.getKey({ id: embedId }),
+          });
         },
       }
     );
@@ -141,7 +141,7 @@ export function QuestionWidget({
                 !isValid ||
                 !isDirty ||
                 isSubmitting ||
-                upsertQuestionSubmissionMutation.isLoading
+                upsertQuestionSubmissionMutation.isPending
               }
             />
           </div>

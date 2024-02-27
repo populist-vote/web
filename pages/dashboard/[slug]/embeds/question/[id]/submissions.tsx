@@ -9,7 +9,6 @@ import {
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/router";
 import { ReactNode, useMemo } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../../..";
@@ -17,7 +16,6 @@ import { Table } from "components/Table/Table";
 import { getRelativeTimeString } from "utils/dates";
 import { useTheme } from "hooks/useTheme";
 import { ColumnDef } from "@tanstack/react-table";
-import { toast } from "react-toastify";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import { Box } from "components/Box/Box";
 import styles from "components/PollMetrics/PollMetrics.module.scss";
@@ -50,18 +48,11 @@ export async function getServerSideProps({
 }
 
 function EmbedById({ slug, id }: { slug: string; id: string }) {
-  const router = useRouter();
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
     },
     {
-      onError: () => void router.push("/404"),
-      onSuccess: (data) => {
-        if (!data.organizationBySlug) {
-          void router.push("/404");
-        }
-      },
       retry: false,
     }
   );
@@ -73,16 +64,9 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     )}`,
   });
 
-  const { data, isLoading: embedLoading } = useEmbedByIdQuery(
-    {
-      id,
-    },
-    {
-      onError: (error) => {
-        toast((error as Error).message, { type: "error" });
-      },
-    }
-  );
+  const { data, isLoading: embedLoading } = useEmbedByIdQuery({
+    id,
+  });
 
   const question = data?.embedById?.question;
   const prompt = question?.prompt || "";

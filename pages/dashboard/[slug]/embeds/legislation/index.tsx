@@ -16,7 +16,6 @@ import {
 import { Badge } from "components/Badge/Badge";
 import { getRelativeTimeString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
-import { toast } from "react-toastify";
 import { BillStatusBadge } from "components/BillStatusBadge/BillStatusBadge";
 import styles from "styles/modules/dashboard.module.scss";
 import * as Tooltip from "@radix-ui/react-tooltip";
@@ -41,20 +40,13 @@ export async function getServerSideProps({
 }
 
 export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
-  const { user } = useAuth();
-  const { data, isLoading } = useEmbedsByOrganizationQuery(
-    {
-      id: user?.organizationId as string,
-      filter: {
-        embedType: EmbedType.Legislation,
-      },
+  const { user } = useAuth({ redirectTo: "/login" });
+  const { data, isLoading } = useEmbedsByOrganizationQuery({
+    id: user?.organizationId as string,
+    filter: {
+      embedType: EmbedType.Legislation,
     },
-    {
-      onError: (error) => {
-        toast((error as Error).message, { type: "error" });
-      },
-    }
-  );
+  });
   const legislationColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {

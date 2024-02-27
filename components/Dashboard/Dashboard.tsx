@@ -27,13 +27,13 @@ const EmbedTypeColorMap: Record<EmbedType, Theme> = {
 };
 
 export function Dashboard({ organizationId }: { organizationId: string }) {
-  const { data, isInitialLoading } = useEmbedsActivityQuery({
+  const { data, isLoading } = useEmbedsActivityQuery({
     id: organizationId,
   });
 
   const activity = data?.embedsActivity as EmbedsCountResult[];
 
-  if (isInitialLoading)
+  if (isLoading)
     return (
       <div className={styles.centered}>
         <LoaderFlag />
@@ -118,13 +118,13 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
   const { query } = useRouter();
   const slug = query.slug as string;
 
-  const { data, isInitialLoading } = useEmbedsDeploymentsQuery({
+  const { data, isLoading } = useEmbedsDeploymentsQuery({
     id: organizationId,
   });
 
   const deployments = data?.recentDeployments;
 
-  if (isInitialLoading)
+  if (isLoading)
     return (
       <div className={styles.centered}>
         <LoaderFlag />

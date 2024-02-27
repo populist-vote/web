@@ -72,12 +72,12 @@ function SupportOppose({
   const { support: supportVotes, oppose: opposeVotes } = publicVotes;
   const router = useRouter();
   const queryKey = useBillBySlugQuery.getKey({ slug: billSlug });
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
 
   const queryClient = useQueryClient();
   const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({
     onMutate: async (variables) => {
-      await queryClient.cancelQueries(queryKey);
+      await queryClient.cancelQueries({ queryKey });
       const previousValue = queryClient.getQueryData(queryKey);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       queryClient.setQueryData(queryKey, (oldData: any) => {
@@ -101,7 +101,7 @@ function SupportOppose({
       queryClient.setQueryData(queryKey, context?.previousValue);
     },
     onSettled: () => {
-      void queryClient.invalidateQueries(queryKey);
+      void queryClient.invalidateQueries({ queryKey });
     },
   });
 

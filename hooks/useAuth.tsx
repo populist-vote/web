@@ -11,8 +11,8 @@ import {
 const AuthContext = createContext<AuthTokenResult>({} as AuthTokenResult);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data, isInitialLoading, error } = useCurrentUserQuery();
-  if (isInitialLoading || error) return null;
+  const { data, isLoading, error } = useCurrentUserQuery();
+  if (isLoading || error) return null;
 
   return (
     <AuthContext.Provider value={data?.currentUser as AuthTokenResult}>
@@ -22,15 +22,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth({
-  redirectTo = "/login",
+  redirectTo,
   minRole = Role.Basic,
   organizationId = null,
-  redirect = true,
 }: {
   redirectTo?: string;
   minRole?: Role;
   organizationId?: null | string;
-  redirect?: boolean;
 } = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const user = useContext(AuthContext);
@@ -40,7 +38,7 @@ export function useAuth({
     setIsLoading(true);
 
     const handleRedirect = async () => {
-      if (redirect) {
+      if (redirectTo) {
         if (!user) await router.push(redirectTo);
 
         if (user) {
@@ -64,11 +62,11 @@ export function useAuth({
       }
     };
 
-    handleRedirect().finally(() => setIsLoading(false));
+    void handleRedirect().finally(() => setIsLoading(false));
 
     return () => setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, redirectTo, minRole, redirect, organizationId]);
+  }, [user, redirectTo, minRole, organizationId]);
 
   return { user, isLoading };
 }

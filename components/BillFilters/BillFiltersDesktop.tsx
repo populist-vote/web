@@ -17,7 +17,7 @@ import { Theme } from "hooks/useTheme";
 function BillFiltersDesktop({ theme }: { theme: Theme }) {
   const router = useRouter();
   const query = router.query;
-  const { user } = useAuth({ redirect: false });
+  const { user } = useAuth();
   const {
     popularity,
     year,
