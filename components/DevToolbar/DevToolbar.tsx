@@ -46,15 +46,17 @@ export function DevToolbar() {
             ({commitHash})
           </a>
         </div>
-        <div
-          className={clsx(styles.flexBetween, styles.iconButton)}
-          style={{ gap: "1rem" }}
-        >
-          <SiGraphql color="var(--aqua)" />
-          <a href={process.env.GRAPHQL_SCHEMA_PATH}>
-            {process.env.GRAPHQL_SCHEMA_PATH}
-          </a>
-        </div>
+        <a href={process.env.GRAPHQL_SCHEMA_PATH}>
+          <div
+            className={clsx(styles.flexBetween, styles.iconButton)}
+            style={{ gap: "1rem" }}
+          >
+            <SiGraphql color="var(--aqua)" />
+            <span style={{ lineHeight: 0 }}>
+              {process.env.GRAPHQL_SCHEMA_PATH}
+            </span>
+          </div>
+        </a>
         <Link href="/admin" className={styles.iconButton}>
           <MdAdminPanelSettings color="var(--aqua)" />
         </Link>
