@@ -45,7 +45,8 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
   useEffect(() => {
     if (!resolvedOrigin) return;
     pingEmbedOriginMutation.mutate({ input: { embedId, url: origin } });
-  }, [resolvedOrigin, pingEmbedOriginMutation, embedId, origin]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const embedType = data?.embedById?.embedType;
 
