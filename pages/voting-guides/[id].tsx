@@ -45,6 +45,7 @@ export default function VotingGuidePage() {
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
       <VotingGuideProvider votingGuideId={votingGuideId}>
         <VotingGuideNav />
+        <br />
         <section
           data-testid="voting-guide-page"
           className={styles.votingGuidesPageContainer}
