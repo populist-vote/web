@@ -103,7 +103,7 @@ function PoliticianIndex(props: PoliticianIndexProps) {
   const { query } = router;
   const {
     state = null,
-    scope = PoliticalScope.Federal,
+    scope,
     chamber = null,
     search = null,
   } = props.query || query;
