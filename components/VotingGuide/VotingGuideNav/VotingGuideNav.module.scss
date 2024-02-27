@@ -3,7 +3,7 @@
 .topBar {
   grid-area: "subnav";
   position: sticky;
-  top: 80px;
+  top: 0;
   z-index: 14;
   transform: translateY(-250%);
   transition: transform 400ms ease-in;

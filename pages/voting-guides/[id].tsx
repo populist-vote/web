@@ -45,7 +45,10 @@ export default function VotingGuidePage() {
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
       <VotingGuideProvider votingGuideId={votingGuideId}>
         <VotingGuideNav />
-        <div data-testid="voting-guide-page">
+        <section
+          data-testid="voting-guide-page"
+          className={styles.votingGuidesPageContainer}
+        >
           <Election
             electionId={guide?.election.id as string}
             votingGuideId={votingGuideId}
@@ -63,7 +66,7 @@ export default function VotingGuidePage() {
               </Link>
             </div>
           )}
-        </div>
+        </section>
       </VotingGuideProvider>
     </Layout>
   );

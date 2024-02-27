@@ -69,7 +69,6 @@ function BallotPage() {
   const electionData = useElections(
     sessionStorage.getItem(SELECTED_ELECTION) || undefined
   );
-
   const { error, selectedElectionId } = electionData;
 
   const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
@@ -82,7 +81,6 @@ function BallotPage() {
       staleTime: 60 * 1000,
     }
   );
-
   // Use either the voting guide ID (above) from query params OR the users voting guide ID
   // to instantiate the VotingGuideContext
   const userGuideId = userVotingGuideQuery.data?.electionVotingGuideByUserId

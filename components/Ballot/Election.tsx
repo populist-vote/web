@@ -45,8 +45,7 @@ function Election({
   const { user } = useAuth();
   const isColoradan = user?.userProfile?.address?.state == State.Co;
   const isLoading =
-    electionQuery.isLoading ||
-    electionVotingGuideRacesQuery.isLoading;
+    electionQuery.isLoading || electionVotingGuideRacesQuery.isLoading;
   const isError =
     electionQuery.isError || electionVotingGuideRacesQuery.isError;
   const error = electionQuery.error || electionVotingGuideRacesQuery.error;
@@ -83,14 +82,6 @@ function Election({
             />
           </div>
         </a>
-      )}
-      {electionVotingGuideRacesQuery.isSuccess && races.length < 1 && (
-        <div className={styles.electionHeader}>
-          <small>
-            This voting guide doesn't have any candidates selected for this
-            election
-          </small>
-        </div>
       )}
       <ElectionRaces races={races as RaceResult[]} />
     </>
