@@ -139,6 +139,11 @@ function PoliticianIndex(props: PoliticianIndexProps) {
           {error && (
             <h4>Something went wrong fetching politician records...</h4>
           )}
+          {data?.politicians?.totalCount === 0 && (
+            <div className={styles.center}>
+              <p className={styles.noResults}>No Results</p>
+            </div>
+          )}
           <div>
             {data?.politicians?.edges?.map((edge, index) => (
               <PoliticianRow

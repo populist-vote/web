@@ -8,6 +8,7 @@ import { PoliticianIndexProps } from "pages/politicians";
 import { ChangeEvent, useState } from "react";
 import { Box } from "components/Box/Box";
 import * as Separator from "@radix-ui/react-separator";
+import states from "utils/states";
 
 function PoliticianIndexFilters(props: PoliticianIndexProps) {
   const router = useRouter();
@@ -35,17 +36,18 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
     void router.push({ query: { ...query, chamber } });
   };
 
+  const stateOptions = Object.entries(states).map(([code, name]) => ({
+    value: code,
+    label: name,
+  }));
+
   return (
     <Box>
       <div className={styles.flexBetween}>
         <Select
           backgroundColor="blue"
           value={state || "all"}
-          options={[
-            { value: "all", label: "All States" },
-            { value: State.Co, label: "Colorado" },
-            { value: State.Mn, label: "Minnesota" },
-          ]}
+          options={[{ value: "all", label: "All States" }, ...stateOptions]}
           onChange={(e) => {
             const state = e.target.value as State;
             void router.push({ query: { ...query, state } });
