@@ -9,6 +9,7 @@ import { useFps } from "react-fps";
 import clsx from "clsx";
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import { useState } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const commitHash = process.env.COMMIT_HASH;
 
@@ -90,6 +91,7 @@ export function DevToolbar() {
           </small>
         </div>
       </div>
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="relative" />
     </div>
   );
 }

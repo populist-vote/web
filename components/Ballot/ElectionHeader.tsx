@@ -9,8 +9,8 @@ import { useVotingGuide } from "hooks/useVotingGuide";
 import { Button } from "components/Button/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "hooks/useAuth";
-import { BiStar } from "react-icons/bi";
 import { useRouter } from "next/router";
+import { StarYellowDarkIcon } from "components/Icons";
 
 function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
   const { data: votingGuide } = useVotingGuide();
@@ -48,7 +48,7 @@ function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
       <p>{election.description}</p>
       {votingGuide ? (
         <div className={styles.guideHelper}>
-          <BiStar color="var(--yellow)" size={25} />
+          <StarYellowDarkIcon />
           Click the plus signs to star the candidates you support, add notes,
           and share your voting guide for this election
         </div>

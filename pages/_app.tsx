@@ -14,7 +14,6 @@ import "styles/vendor/toast.css";
 import { AuthProvider } from "hooks/useAuth";
 import { SEO } from "components";
 import { appWithTranslation } from "next-i18next";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { NextPage } from "next";
 import { DevToolbar } from "components/DevToolbar/DevToolbar";
 
@@ -59,7 +58,6 @@ function Populist({ Component, pageProps }: AppPropsWithLayout) {
           <AuthProvider>
             {getLayout(<Component {...pageProps} />)}
             <ToastContainer theme="dark" />
-            <ReactQueryDevtools initialIsOpen={false} />
             <DevToolbar />
           </AuthProvider>
         </HydrationBoundary>
