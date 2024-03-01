@@ -136,9 +136,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
       <h2 style={{ textAlign: "center" }}>Recent Deployments</h2>
       <div className={styles.tiles}>
         {deployments?.length == 0 && (
-          <small style={{ justifySelf: "center", color: "var(--blue-text)" }}>
-            No embeds have been deployed yet.
-          </small>
+          <small className={styles.noResults}>No deployments</small>
         )}
 
         {deployments?.map((deployment: EnhancedEmbedOriginResult) => (

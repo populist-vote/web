@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaHome, FaQuestionCircle } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { useState } from "react";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useAuth } from "hooks/useAuth";
@@ -212,13 +212,6 @@ function DesktopNav({
                       borderWidth="3px"
                     />
                   </div>
-                </Link>
-                <Link
-                  href="mailto:info@populist.us"
-                  className={styles.helpBadge}
-                >
-                  <small>Help</small>
-                  <FaQuestionCircle size={16} />
                 </Link>
               </div>
             </div>

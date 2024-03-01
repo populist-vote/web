@@ -35,6 +35,9 @@ function Footer() {
             PRIVACY
           </Link>
         </li>
+        <li>
+          <Link href="mailto:info@populist.us">HELP</Link>
+        </li>
       </ul>
       <ul className={styles.socials}>
         <li>

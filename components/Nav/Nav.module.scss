@@ -218,38 +218,6 @@
   }
 }
 
-.helpBadge {
-  display: flex;
-  justify-content: center;
-  gap: 0.15rem;
-  width: fit-content;
-  border: none;
-  color: $blue-text;
-  cursor: pointer;
-  transition: ease-in-out 0.2s;
-
-  &:hover {
-    color: $white;
-  }
-
-  .stack {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    justify-content: left;
-    text-align: left;
-  }
-
-  h5 {
-    margin: 0;
-    font-size: 1rem;
-  }
-
-  small {
-    font-size: 0.75rem;
-  }
-}
-
 .navFooter {
   padding: 1rem 0;
 }

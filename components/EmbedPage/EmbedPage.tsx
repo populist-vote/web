@@ -108,7 +108,7 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
         <h3>Deployments</h3>
         <Box>
           {embed.origins.length == 0 && (
-            <small>This embed has not yet been deployed.</small>
+            <small className={styles.noResults}>No deployments</small>
           )}
           {embed.origins.map(({ url }) => (
             <a href={url} key={url} className={styles.flexLeft}>
