@@ -29,10 +29,6 @@ $font-size: 0.85em;
     align-items: center;
     gap: 2rem;
 
-    @include for-tablet-up {
-      min-width: 25%;
-    }
-
     li {
       list-style: none;
       display: inline-block;
