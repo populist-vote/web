@@ -29,6 +29,7 @@ function Election({
     },
     {
       enabled: !votingGuideId && !!electionId,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -39,6 +40,7 @@ function Election({
     },
     {
       enabled: !!votingGuideId && !!electionId,
+      refetchOnWindowFocus: false,
     }
   );
 

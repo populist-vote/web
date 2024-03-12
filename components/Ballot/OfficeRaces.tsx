@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { RaceResult } from "generated";
 import styles from "./Ballot.module.scss";
 import { Race } from "./Race";
+import { useMemo } from "react";
 
 // Races associated with a single office (to handle primaries)
 function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
@@ -15,6 +16,8 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
     !b.candidates.some((politician) => incumbentIds.includes(politician.id))
       ? -1
       : 1;
+
+  const sortedRaces = useMemo(() => races.sort(raceSortFn), []);
 
   const headerCx = clsx(
     styles.bold,
@@ -36,7 +39,7 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
       </header>
 
       <div className={cardCx}>
-        {races.sort(raceSortFn).map((race) => (
+        {sortedRaces.map((race) => (
           <Race
             race={race}
             key={race.id}
