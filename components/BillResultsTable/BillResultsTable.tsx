@@ -154,40 +154,45 @@ function BillResultsTable({
       {
         accessorKey: "actions",
         header: "",
-        cell: () => (
-          <BsPlusCircleFill
-            color="var(--blue-light)"
-            size={20}
-            className={styles.addButton}
-          />
-        ),
+        cell: () => {
+          const isDashboard = router.pathname.includes("embeds");
+          if (!isDashboard) return null;
+
+          return (
+            <BsPlusCircleFill
+              color="var(--blue-light)"
+              size={20}
+              className={styles.addButton}
+            />
+          );
+        },
         size: 10,
       },
     ],
-    []
+    [router.pathname]
   );
 
   const onRowClick = (row: Row<BillResult>) => {
     router.pathname === "/bills"
       ? void router.push(`/bills/${row.original.slug}`)
       : router.pathname.includes("/embeds/legislation-tracker/") &&
-        setSelectedBills
-      ? setSelectedBills((prev) => {
-          return [
-            ...prev,
-            { id: row.original.id, billNumber: row.original.billNumber },
-          ];
-        })
-      : void router.replace(
-          {
-            query: { ...query, selected: row.original.id },
-          },
-          undefined,
-          {
-            scroll: false,
-            shallow: true,
-          }
-        );
+          setSelectedBills
+        ? setSelectedBills((prev) => {
+            return [
+              ...prev,
+              { id: row.original.id, billNumber: row.original.billNumber },
+            ];
+          })
+        : void router.replace(
+            {
+              query: { ...query, selected: row.original.id },
+            },
+            undefined,
+            {
+              scroll: false,
+              shallow: true,
+            }
+          );
   };
 
   if (!shouldFetchBillResults) return null;
