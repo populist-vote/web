@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
 import { StarYellowDarkIcon } from "components/Icons";
+import { BsPlusCircle } from "react-icons/bs";
 
 function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
   const { data: votingGuide } = useVotingGuide();
@@ -49,8 +50,10 @@ function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
       {votingGuide ? (
         <div className={styles.guideHelper}>
           <StarYellowDarkIcon />
-          Click the plus signs to star the candidates you support, add notes,
-          and share your voting guide for this election
+          Click the plus signs
+          <BsPlusCircle />
+          to star candidates you support, add notes, and share your voting guide
+          for this election
         </div>
       ) : (
         <Button
