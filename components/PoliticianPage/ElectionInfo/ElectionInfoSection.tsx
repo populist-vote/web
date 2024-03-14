@@ -83,17 +83,15 @@ function ElectionInfoSection() {
             {opponents.length == 0 ? (
               <h3 style={{ justifySelf: "center", width: "100%" }}>None</h3>
             ) : (
-              opponents.map(
-                (candidate: Partial<PoliticianResult> & { id: string }) => {
-                  return (
-                    <Candidate
-                      candidate={candidate}
-                      itemId={candidate.id}
-                      key={candidate.id}
-                    />
-                  );
-                }
-              )
+              opponents.map((candidate) => {
+                return (
+                  <Candidate
+                    candidate={candidate as PoliticianResult}
+                    itemId={candidate.id as string}
+                    key={candidate.id}
+                  />
+                );
+              })
             )}
           </div>
         </div>

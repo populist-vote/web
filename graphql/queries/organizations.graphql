@@ -45,7 +45,9 @@ query OrganizationPoliticianNotes($slug: String!, $electionId: ID!) {
         id
         slug
         fullName
-        party
+        party {
+          name
+        }
         assets {
           thumbnailImage160
           thumbnailImage400

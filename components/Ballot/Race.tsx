@@ -133,10 +133,8 @@ function Race({
       incumbentIds?.includes(a.id) && !incumbentIds.includes(b.id) ? -1 : 1;
 
     const partySortFn = (a: PoliticianResult, b: PoliticianResult) =>
-      (a.party === PoliticalParty.Democratic &&
-        b.party !== PoliticalParty.Democratic) ||
-      (a.party === PoliticalParty.Republican &&
-        b.party !== PoliticalParty.Republican)
+      (a.party?.name === "Democratic" && b.party?.name !== "Democratic") ||
+      (a.party?.name === "Republican" && b.party?.name !== "Republican")
         ? -1
         : 1;
 
@@ -265,7 +263,7 @@ function Race({
   ) : (
     <FieldSet
       heading={raceType}
-      color={party === PoliticalParty.Republican ? "red" : "blue"}
+      color={party?.name === "Republican" ? "red" : "blue"}
       className={clsx(styles.scrollSnap)}
     >
       {$raceContent}

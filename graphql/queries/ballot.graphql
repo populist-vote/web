@@ -3,7 +3,9 @@ fragment raceFields on RaceResult {
   raceType
   voteType
   title
-  party
+  party {
+    name
+  }
   electionDate
   office {
     id
@@ -20,7 +22,9 @@ fragment raceFields on RaceResult {
     incumbents {
       id
       fullName
-      party
+      party {
+        name
+      }
       thumbnailImageUrl
       assets {
         thumbnailImage160
@@ -31,7 +35,9 @@ fragment raceFields on RaceResult {
     id
     slug
     fullName
-    party
+    party {
+      name
+    }
     assets {
       thumbnailImage160
     }

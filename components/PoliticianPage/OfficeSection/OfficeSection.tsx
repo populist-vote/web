@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import styles from "./OfficeSection.module.scss";
 
 function OfficeSection() {
-  const cx = clsx(styles.center, styles.borderTop, styles.politicianOffice);
+  const cx = clsx(styles.center, styles.borderTop);
   const { query } = useRouter();
   const { data, isLoading } = usePoliticianCurrentOfficeQuery({
     slug: query.slug as string,

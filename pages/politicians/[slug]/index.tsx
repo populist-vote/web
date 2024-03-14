@@ -14,8 +14,8 @@ import {
   PoliticianBasicInfoQuery,
   PoliticianResult,
   usePoliticianBasicInfoQuery,
-} from "../../generated";
-import styles from "./PoliticianPage.module.scss";
+} from "../../../generated";
+import styles from "../PoliticianPage.module.scss";
 import { OfficeSection } from "components/PoliticianPage/OfficeSection/OfficeSection";
 import { BasicInfoSection } from "components/PoliticianPage/BasicInfoSection/BasicInfoSection";
 import { CommitteesSection } from "components/PoliticianPage/CommitteesSection/CommitteesSection";

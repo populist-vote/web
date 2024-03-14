@@ -867,24 +867,12 @@ input PingEmbedOriginInput {
   url: String!
 }
 
-enum PoliticalParty {
-  AMERICAN_CONSTITUTION
-  APPROVAL_VOTING
-  COLORADO_CENTER
-  CONSTITUTION
-  DEMOCRATIC
-  DEMOCRATIC_FARMER_LABOR
-  FREEDOM
-  GRASSROOTS_LEGALIZE_CANNABIS
-  GREEN
-  INDEPENDENT
-  LEGAL_MARIJUANA_NOW
-  LIBERTARIAN
-  REPUBLICAN
-  SOCIALIST_WORKERS
-  UNAFFILIATED
-  UNITY
-  UNKNOWN
+type PoliticalParty {
+  description: String
+  fecCode: String
+  id: ID!
+  name: String!
+  notes: String
 }
 
 enum PoliticalScope {
@@ -901,7 +889,6 @@ type PoliticianAssets {
 input PoliticianFilter {
   chambers: Chambers
   homeState: State
-  party: PoliticalParty
   politicalScope: PoliticalScope
   query: String
 }
@@ -932,6 +919,7 @@ type PoliticianResult {
   officeId: ID
   officialWebsiteUrl: String
   party: PoliticalParty
+  partyId: ID
   phone: String
   preferredName: String
   raceLosses: Int
@@ -1090,6 +1078,7 @@ type Query {
     """Search by organization name"""
     search: OrganizationSearch
   ): OrganizationResultConnection!
+  politicalParties: [PoliticalParty!]!
   politicianById(id: ID!): PoliticianResult
   politicianBySlug(slug: String!): PoliticianResult
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
@@ -1168,6 +1157,7 @@ type RaceResult {
   officeId: ID!
   officialWebsite: String
   party: PoliticalParty
+  partyId: ID
   raceType: RaceType!
   results: RaceResultsResult!
   slug: String!
@@ -1622,7 +1612,7 @@ input UpsertPoliticianInput {
   officeId: UUID
   officialWebsiteUrl: String
   organizationEndorsements: CreateOrConnectOrganizationInput
-  party: PoliticalParty
+  partyId: UUID
   phone: String
   politicianEndorsements: CreateOrConnectPoliticianInput
   preferredName: String
@@ -1691,7 +1681,7 @@ input UpsertRaceInput {
   numElect: Int
   officeId: UUID
   officialWebsite: String
-  party: PoliticalParty
+  partyId: UUID
   raceType: RaceType
   slug: String
   state: State

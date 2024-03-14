@@ -16,6 +16,14 @@
     }
   }
 
+  textarea {
+    resize: vertical;
+  }
+
+  label {
+    font-weight: 500;
+  }
+
   input,
   textarea,
   select {

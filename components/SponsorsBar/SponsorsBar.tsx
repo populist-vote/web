@@ -7,11 +7,11 @@ interface Props {
 
 function SponsorsBar({ endorsements }: Props) {
   const numDemocrats = endorsements.filter((e) =>
-    e.party?.includes("DEMOCRATIC")
+    e.party?.name.includes("Democratic")
   ).length;
 
-  const numRepublicans = endorsements.filter(
-    (e) => e.party === "REPUBLICAN"
+  const numRepublicans = endorsements.filter((e) =>
+    e.party?.name.includes("Republican")
   ).length;
 
   const numEndorsements = endorsements.length;

@@ -325,7 +325,7 @@ function Avatar(props: AvatarProps): JSX.Element {
 
 function PartyAvatar({
   theme = "dark",
-  party = PoliticalParty.Unknown,
+  party,
   badgeSize = "1.25rem",
   badgeFontSize = "0.75rem",
   iconSize = "1.25rem",
@@ -350,8 +350,8 @@ function PartyAvatar({
   const badge = {
     background,
     color,
-    text: (party || "UNKNOWN").toUpperCase(),
-    title: titleCase((party || "UNKNOWN").replaceAll("_", " ")),
+    text: (party?.name || "UNKNOWN").toUpperCase(),
+    title: titleCase((party?.name || "UNKNOWN").replaceAll("_", " ")),
     size: badgeSize,
     fontSize: badgeFontSize,
   };
@@ -359,8 +359,8 @@ function PartyAvatar({
   const computedFallbackSrc = fallbackSrc
     ? fallbackSrc
     : theme === "dark"
-    ? PERSON_FALLBACK_IMAGE_URL
-    : PERSON_FALLBACK_IMAGE_LIGHT_URL;
+      ? PERSON_FALLBACK_IMAGE_URL
+      : PERSON_FALLBACK_IMAGE_LIGHT_URL;
 
   const iconStyleVars: CSSProperties & {
     "--icon-right-position": string;
@@ -423,69 +423,28 @@ type BadgeColors = {
   text: string;
 };
 
-function getPartyColors(
-  party: PoliticalParty = PoliticalParty.Unknown
-): BadgeColors {
-  switch (party) {
-    case PoliticalParty.Democratic:
+function getPartyColors(party?: PoliticalParty): BadgeColors {
+  if (!party) {
+    return {
+      background: "var(--purple)",
+      text: "var(--white)",
+    };
+  }
+  switch (true) {
+    case party.name.toLocaleLowerCase().includes("democratic"):
       return {
         background: "var(--blue)",
         text: "var(--white)",
       };
-    case PoliticalParty.DemocraticFarmerLabor:
-      return {
-        background: "var(--blue)",
-        text: "var(--white)",
-      };
-    case PoliticalParty.Republican:
+    case party.name.toLocaleLowerCase().includes("republican"):
       return {
         background: "var(--red)",
         text: "var(--white)",
       };
-    case PoliticalParty.Green:
-      return {
-        background: "var(--green-support)",
-        text: "var(--white)",
-      };
-    case PoliticalParty.LegalMarijuanaNow:
-      return {
-        background: "var(--green-support)",
-        text: "var(--white)",
-      };
-    case PoliticalParty.GrassrootsLegalizeCannabis:
-      return {
-        background: "var(--green-support)",
-        text: "var(--white)",
-      };
-    case PoliticalParty.Libertarian:
-      return {
-        background: "var(--yellow)",
-        text: "var(--grey-darkest)",
-      };
-    case PoliticalParty.AmericanConstitution:
-      return {
-        background: "var(--red)",
-        text: "var(--white)",
-      };
-    case PoliticalParty.Constitution:
-      return {
-        background: "var(--red)",
-        text: "var(--white)",
-      };
-    case PoliticalParty.Unknown:
+    case party.name.toLocaleLowerCase().includes("independent"):
       return {
         background: "var(--grey-light)",
-        text: "var(--grey-darkest)",
-      };
-    case PoliticalParty.Unaffiliated:
-      return {
-        background: "var(--grey-light)",
-        text: "var(--grey-darkest)",
-      };
-    case PoliticalParty.SocialistWorkers:
-      return {
-        background: "var(--red)",
-        text: "var(--white)",
+        text: "var(--grey-darker)",
       };
     default:
       return {

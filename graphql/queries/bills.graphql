@@ -51,7 +51,9 @@ query BillBySlug($slug: String!) {
     sponsors {
       id
       slug
-      party
+      party {
+        name
+      }
       thumbnailImageUrl
       assets {
         thumbnailImage160
@@ -100,7 +102,9 @@ query BillById($id: ID!) {
     sponsors {
       id
       slug
-      party
+      party {
+        name
+      }
       thumbnailImageUrl
       assets {
         thumbnailImage160

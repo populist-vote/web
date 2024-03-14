@@ -20,12 +20,12 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
   });
 
   return (
-    <section style={style} className={styleClasses}>
+    <div style={style} className={styleClasses}>
       <header className={styles.header}>
         <span className={styles.sectionTitle}>{label}</span>
       </header>
       <div className={styles.content}>{children}</div>
-    </section>
+    </div>
   );
 }
 
