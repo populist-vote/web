@@ -28,20 +28,26 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
 import states from "utils/states";
+import { toast } from "react-toastify";
 
 function PoliticianForm({
   politician,
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, handleSubmit } = useForm<Partial<PoliticianResult>>({
+  const { register, handleSubmit, formState, reset } = useForm<
+    Partial<PoliticianResult>
+  >({
     defaultValues: {
       ...politician,
     },
+    mode: "onChange",
   });
+
+  const isDirty = !!Object.keys(formState.dirtyFields).length;
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { mutate } = useUpdatePoliticianMutation();
+  const { mutate, isPending } = useUpdatePoliticianMutation();
   const { data: partyData, isLoading: partiesAreLoading } =
     usePoliticalPartiesQuery();
 
@@ -58,16 +64,34 @@ function PoliticianForm({
           preferredName: formData.preferredName,
           homeState: formData.homeState,
           partyId: formData.partyId,
+          biography: formData.biography,
+          biographySource: formData.biographySource,
+          officialWebsiteUrl: formData.officialWebsiteUrl,
+          campaignWebsiteUrl: formData.campaignWebsiteUrl,
+          facebookUrl: formData.facebookUrl,
+          twitterUrl: formData.twitterUrl,
+          instagramUrl: formData.instagramUrl,
+          tiktokUrl: formData.tiktokUrl,
+          youtubeUrl: formData.youtubeUrl,
+          linkedinUrl: formData.linkedinUrl,
+          phone: formData.phone,
+          email: formData.email,
+          raceWins: formData.raceWins,
+          raceLosses: formData.raceLosses,
         },
       },
       {
         onSettled: (data) => {
           queryClient.setQueryData(
-            usePoliticianBasicInfoQuery.getKey({
+            usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
             }),
             { politicianBySlug: data?.upsertPolitician }
           );
+          toast.success("Politician updated", {
+            position: "bottom-right",
+          });
+          reset();
         },
         onError: (error) => {
           // Specify the type of 'error' as 'any'
@@ -231,7 +255,13 @@ function PoliticianForm({
         />
       </div>
       <div className={clsx(styles.flexBaseline)}>
-        <Button type="submit" variant="primary" label="Save" size="large" />
+        <Button
+          type="submit"
+          variant="primary"
+          label="Save"
+          size="large"
+          disabled={!isDirty || isPending}
+        />
         <Button
           type="button"
           variant="secondary"
