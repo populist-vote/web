@@ -2,11 +2,14 @@ import { Button, LoaderFlag } from "components";
 import { Badge } from "components/Badge/Badge";
 import { SponsorsBar } from "components/SponsorsBar/SponsorsBar";
 import {
+  ArgumentPosition,
   BillResult,
   BillStatus,
   IssueTagResult,
   PoliticianResult,
   useBillByIdQuery,
+  useBillBySlugQuery,
+  useUpsertBillPublicVoteMutation,
 } from "generated";
 import { getStatusInfo } from "utils/bill";
 import { getYear } from "utils/dates";
@@ -15,6 +18,11 @@ import styles from "./BillWidget.module.scss";
 import { LastVoteSection } from "./LastVoteSection/LastVoteSection";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
+import { FaCheckCircle } from "react-icons/fa";
+import { HiQuestionMarkCircle } from "react-icons/hi";
+import { FaCircleXmark } from "react-icons/fa6";
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface BillWidgetRenderOptions {
   issueTags: boolean;
@@ -120,9 +128,109 @@ function BillWidget({
             <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />
           </section>
         )}
+        <PublicVoting id={bill.id} slug={bill.slug} />
       </main>
       <WidgetFooter learnMoreHref={`/bills/${bill.slug}`} />
     </div>
+  );
+}
+
+function PublicVoting({ id, slug }: { id: string; slug: string }) {
+  const [voteSelected, setVoteSelected] = useState<ArgumentPosition | null>(
+    null
+  );
+  const queryKey = useBillBySlugQuery.getKey({ slug });
+  const queryClient = useQueryClient();
+  const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({
+    // onMutate: async (variables) => {
+    //   await queryClient.cancelQueries({ queryKey });
+    //   const previousValue = queryClient.getQueryData(queryKey);
+    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //   queryClient.setQueryData(queryKey, (oldData: any) => {
+    //     const newPublicVotes = {
+    //       ...oldData?.publicVotes,
+    //       [variables.position.toLowerCase()]:
+    //         oldData.billBySlug.publicVotes[variables.position.toLowerCase()] +
+    //         1,
+    //       [voteSelected as string]:
+    //         oldData.billBySlug.publicVotes[voteSelected as string] - 1,
+    //     };
+    //     return {
+    //       ...oldData,
+    //       publicVotes: newPublicVotes,
+    //       usersVote: variables.position,
+    //     };
+    //   });
+    //   return { previousValue };
+    // },
+    // onError: (_err, _variables, context) => {
+    //   queryClient.setQueryData(queryKey, context?.previousValue);
+    // },
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
+  const toggleSupport = () => {
+    upsertPublicVotesMutation.mutate({
+      billId: id,
+      position: ArgumentPosition.Support,
+    });
+    setVoteSelected(ArgumentPosition.Support);
+  };
+
+  const toggleNeutral = () => {
+    upsertPublicVotesMutation.mutate({
+      billId: id,
+      position: ArgumentPosition.Neutral,
+    });
+    setVoteSelected(ArgumentPosition.Neutral);
+  };
+
+  const toggleOppose = () => {
+    upsertPublicVotesMutation.mutate({
+      billId: id,
+      position: ArgumentPosition.Oppose,
+    });
+    setVoteSelected(ArgumentPosition.Oppose);
+  };
+
+  return (
+    <section className={styles.publicVoting} style={{ width: "100%" }}>
+      <h4>Public Voting</h4>
+      <Badge
+        size="small"
+        theme="grey"
+        lightBackground
+        clickable
+        selected={voteSelected == ArgumentPosition.Support}
+        onClick={toggleSupport}
+      >
+        <FaCheckCircle color="var(--green-support)" size={20} /> Support
+      </Badge>
+      <Badge
+        size="small"
+        theme="grey"
+        lightBackground
+        clickable
+        selected={voteSelected == ArgumentPosition.Neutral}
+        onClick={toggleNeutral}
+      >
+        <HiQuestionMarkCircle color="var(--orange-light)" size={25} />
+        Neutral
+      </Badge>
+      <Badge
+        size="small"
+        theme="grey"
+        lightBackground
+        clickable
+        selected={voteSelected == ArgumentPosition.Oppose}
+        onClick={toggleOppose}
+      >
+        <FaCircleXmark color="var(--red)" size={20} />
+        Oppose
+      </Badge>
+    </section>
   );
 }
 

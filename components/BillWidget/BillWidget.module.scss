@@ -199,3 +199,23 @@
   height: 1rem;
   background: linear-gradient(rgba(238, 238, 238, 0), $grey-lightest);
 }
+
+.publicVoting {
+  background: $grey-lighter;
+  padding: 1rem !important;
+  border-radius: 8px;
+  border: 1px solid $grey-light;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  > div {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    text-transform: uppercase;
+  }
+}

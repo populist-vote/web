@@ -149,8 +149,8 @@ $small-size: 1.825rem;
     border: 1px solid $grey-light;
 
     &.selected {
-      background: $grey;
-      color: $white;
+      background: $grey-light;
+      border: 1px solid $grey;
     }
 
     &.solid {

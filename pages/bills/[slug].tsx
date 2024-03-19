@@ -91,8 +91,6 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
     [bill]
   );
 
-  console.log(bill?.sponsors);
-
   const backAction = useCallback(() => {
     const { referrer } = document;
     if (
