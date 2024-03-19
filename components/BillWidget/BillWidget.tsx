@@ -204,7 +204,7 @@ function PublicVoting({ id }: { id: string }) {
 
   return (
     <section className={styles.publicVoting} style={{ width: "100%" }}>
-      <h4>Public Voting</h4>
+      <h4>What do you think of this legislation?</h4>
       <Badge
         size="small"
         theme="grey"
@@ -227,7 +227,7 @@ function PublicVoting({ id }: { id: string }) {
         onClick={toggleNeutral}
       >
         <HiQuestionMarkCircle color="var(--orange-light)" size={25} />
-        Neutral
+        Undecided
         {!!neutral && neutral > 0 && (
           <span className={styles.pill}>{neutral}</span>
         )}

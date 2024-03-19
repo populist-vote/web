@@ -201,10 +201,8 @@
 }
 
 .publicVoting {
-  background: $grey-lighter;
-  padding: 1rem !important;
-  border-radius: 8px;
-  border: 1px solid $grey-light;
+  border-top: 1px solid $grey-light;
+  padding: 1.25rem !important;
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
