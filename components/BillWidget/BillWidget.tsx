@@ -204,7 +204,9 @@ function PublicVoting({ id }: { id: string }) {
 
   return (
     <section className={styles.publicVoting} style={{ width: "100%" }}>
-      <h4>What do you think of this legislation?</h4>
+      <h5 style={{ fontSize: "1em", marginBottom: "0.5rem" }}>
+        What do you think of this legislation?
+      </h5>
       <Badge
         size="small"
         theme="grey"
