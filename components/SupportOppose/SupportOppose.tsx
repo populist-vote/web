@@ -110,7 +110,6 @@ function SupportOppose({
     if (user) {
       upsertPublicVotesMutation.mutate({
         billId,
-        userId: user.id,
         position:
           usersVote === ArgumentPosition.Support
             ? ArgumentPosition.Neutral
@@ -124,7 +123,6 @@ function SupportOppose({
     if (user) {
       upsertPublicVotesMutation.mutate({
         billId,
-        userId: user.id,
         position:
           usersVote === ArgumentPosition.Oppose
             ? ArgumentPosition.Neutral

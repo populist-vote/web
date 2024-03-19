@@ -51,6 +51,12 @@ function BillEmbedOptionsForm({
         label="Sponsors"
         register={register}
       />
+      <Checkbox
+        id="publicVoting"
+        name="renderOptions.publicVoting"
+        label="Public Voting"
+        register={register}
+      />
     </div>
   );
 }

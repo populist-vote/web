@@ -8,7 +8,6 @@ import {
   IssueTagResult,
   PoliticianResult,
   useBillByIdQuery,
-  useBillBySlugQuery,
   useUpsertBillPublicVoteMutation,
 } from "generated";
 import { getStatusInfo } from "utils/bill";
@@ -28,6 +27,7 @@ export interface BillWidgetRenderOptions {
   issueTags: boolean;
   summary: boolean;
   sponsors: boolean;
+  publicVoting: boolean;
 }
 
 function BillWidget({
@@ -128,19 +128,24 @@ function BillWidget({
             <SponsorsBar endorsements={bill.sponsors as PoliticianResult[]} />
           </section>
         )}
-        <PublicVoting id={bill.id} slug={bill.slug} />
+        {renderOptions?.publicVoting && <PublicVoting id={bill.id} />}
       </main>
       <WidgetFooter learnMoreHref={`/bills/${bill.slug}`} />
     </div>
   );
 }
 
-function PublicVoting({ id, slug }: { id: string; slug: string }) {
+function PublicVoting({ id }: { id: string }) {
+  const { data, isLoading } = useBillByIdQuery({ id });
+  const bill = data?.billById as BillResult;
+  const { publicVotes } = bill;
+  const { support, neutral, oppose } = publicVotes;
   const [voteSelected, setVoteSelected] = useState<ArgumentPosition | null>(
     null
   );
-  const queryKey = useBillBySlugQuery.getKey({ slug });
+  const queryKey = useBillByIdQuery.getKey({ id });
   const queryClient = useQueryClient();
+
   const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({
     // onMutate: async (variables) => {
     //   await queryClient.cancelQueries({ queryKey });
@@ -195,6 +200,8 @@ function PublicVoting({ id, slug }: { id: string; slug: string }) {
     setVoteSelected(ArgumentPosition.Oppose);
   };
 
+  if (isLoading) return <LoaderFlag />;
+
   return (
     <section className={styles.publicVoting} style={{ width: "100%" }}>
       <h4>Public Voting</h4>
@@ -207,6 +214,7 @@ function PublicVoting({ id, slug }: { id: string; slug: string }) {
         onClick={toggleSupport}
       >
         <FaCheckCircle color="var(--green-support)" size={20} /> Support
+        <span className={styles.pill}>{support}</span>
       </Badge>
       <Badge
         size="small"
@@ -218,6 +226,7 @@ function PublicVoting({ id, slug }: { id: string; slug: string }) {
       >
         <HiQuestionMarkCircle color="var(--orange-light)" size={25} />
         Neutral
+        <span className={styles.pill}>{neutral}</span>
       </Badge>
       <Badge
         size="small"
@@ -229,6 +238,7 @@ function PublicVoting({ id, slug }: { id: string; slug: string }) {
       >
         <FaCircleXmark color="var(--red)" size={20} />
         Oppose
+        <span className={styles.pill}>{oppose}</span>
       </Badge>
     </section>
   );

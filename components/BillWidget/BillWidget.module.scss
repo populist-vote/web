@@ -218,4 +218,14 @@
     width: 100%;
     text-transform: uppercase;
   }
+
+  .pill {
+    background: $grey-lighter;
+    border: 1px solid $grey-light;
+    border-radius: 25px;
+    padding: 0.25rem 0.5rem;
+    font-size: $text-xs;
+    font-weight: 600;
+    color: $grey-darkest;
+  }
 }
