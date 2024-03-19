@@ -214,7 +214,9 @@ function PublicVoting({ id }: { id: string }) {
         onClick={toggleSupport}
       >
         <FaCheckCircle color="var(--green-support)" size={20} /> Support
-        <span className={styles.pill}>{support}</span>
+        {support && support > 0 && (
+          <span className={styles.pill}>{support}</span>
+        )}
       </Badge>
       <Badge
         size="small"
@@ -226,7 +228,9 @@ function PublicVoting({ id }: { id: string }) {
       >
         <HiQuestionMarkCircle color="var(--orange-light)" size={25} />
         Neutral
-        <span className={styles.pill}>{neutral}</span>
+        {neutral && neutral > 0 && (
+          <span className={styles.pill}>{neutral}</span>
+        )}
       </Badge>
       <Badge
         size="small"
@@ -238,7 +242,7 @@ function PublicVoting({ id }: { id: string }) {
       >
         <FaCircleXmark color="var(--red)" size={20} />
         Oppose
-        <span className={styles.pill}>{oppose}</span>
+        {oppose && oppose > 0 && <span className={styles.pill}>{oppose}</span>}
       </Badge>
     </section>
   );
