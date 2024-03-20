@@ -148,7 +148,7 @@ query BillsByIds($ids: [ID!]!) {
   }
 }
 
-mutation UpsertBillPublicVote($billId: ID!, $position: ArgumentPosition!) {
+mutation UpsertBillPublicVote($billId: ID!, $position: ArgumentPosition) {
   upsertBillPublicVote(billId: $billId, position: $position) {
     support
     neutral

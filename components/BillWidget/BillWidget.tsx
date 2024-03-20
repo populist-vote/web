@@ -20,7 +20,6 @@ import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import { FaCheckCircle } from "react-icons/fa";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 import { FaCircleXmark } from "react-icons/fa6";
-import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 export interface BillWidgetRenderOptions {
@@ -139,65 +138,50 @@ function PublicVoting({ id }: { id: string }) {
   const { data, isLoading } = useBillByIdQuery({ id });
   const bill = data?.billById as BillResult;
   const { publicVotes } = bill;
+  const usersVote = bill.usersVote as string;
   const { support, neutral, oppose } = publicVotes;
-  const [voteSelected, setVoteSelected] = useState<ArgumentPosition | null>(
-    null
-  );
   const queryKey = useBillByIdQuery.getKey({ id });
   const queryClient = useQueryClient();
 
   const upsertPublicVotesMutation = useUpsertBillPublicVoteMutation({
-    // onMutate: async (variables) => {
-    //   await queryClient.cancelQueries({ queryKey });
-    //   const previousValue = queryClient.getQueryData(queryKey);
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   queryClient.setQueryData(queryKey, (oldData: any) => {
-    //     const newPublicVotes = {
-    //       ...oldData?.publicVotes,
-    //       [variables.position.toLowerCase()]:
-    //         oldData.billBySlug.publicVotes[variables.position.toLowerCase()] +
-    //         1,
-    //       [voteSelected as string]:
-    //         oldData.billBySlug.publicVotes[voteSelected as string] - 1,
-    //     };
-    //     return {
-    //       ...oldData,
-    //       publicVotes: newPublicVotes,
-    //       usersVote: variables.position,
-    //     };
-    //   });
-    //   return { previousValue };
-    // },
-    // onError: (_err, _variables, context) => {
-    //   queryClient.setQueryData(queryKey, context?.previousValue);
-    // },
+    onMutate: async (_variables) => {
+      await queryClient.cancelQueries({ queryKey });
+      const previousValue = queryClient.getQueryData(queryKey);
+      return { previousValue };
+    },
+    onError: (_err, _variables, context) => {
+      queryClient.setQueryData(queryKey, context?.previousValue);
+    },
     onSettled: () => {
       void queryClient.invalidateQueries({ queryKey });
     },
   });
 
   const toggleSupport = () => {
+    const newPosition =
+      usersVote === ArgumentPosition.Support ? null : ArgumentPosition.Support;
     upsertPublicVotesMutation.mutate({
       billId: id,
-      position: ArgumentPosition.Support,
+      position: newPosition,
     });
-    setVoteSelected(ArgumentPosition.Support);
   };
 
   const toggleNeutral = () => {
+    const newPosition =
+      usersVote === ArgumentPosition.Neutral ? null : ArgumentPosition.Neutral;
     upsertPublicVotesMutation.mutate({
       billId: id,
-      position: ArgumentPosition.Neutral,
+      position: newPosition,
     });
-    setVoteSelected(ArgumentPosition.Neutral);
   };
 
   const toggleOppose = () => {
+    const newPosition =
+      usersVote === ArgumentPosition.Oppose ? null : ArgumentPosition.Oppose;
     upsertPublicVotesMutation.mutate({
       billId: id,
-      position: ArgumentPosition.Oppose,
+      position: newPosition,
     });
-    setVoteSelected(ArgumentPosition.Oppose);
   };
 
   if (isLoading) return <LoaderFlag />;
@@ -212,7 +196,7 @@ function PublicVoting({ id }: { id: string }) {
         theme="grey"
         lightBackground
         clickable
-        selected={voteSelected == ArgumentPosition.Support}
+        selected={usersVote == ArgumentPosition.Support}
         onClick={toggleSupport}
       >
         <FaCheckCircle color="var(--green-support)" size={20} /> Support
@@ -225,7 +209,7 @@ function PublicVoting({ id }: { id: string }) {
         theme="grey"
         lightBackground
         clickable
-        selected={voteSelected == ArgumentPosition.Neutral}
+        selected={usersVote == ArgumentPosition.Neutral}
         onClick={toggleNeutral}
       >
         <HiQuestionMarkCircle color="var(--orange-light)" size={25} />
@@ -239,7 +223,7 @@ function PublicVoting({ id }: { id: string }) {
         theme="grey"
         lightBackground
         clickable
-        selected={voteSelected == ArgumentPosition.Oppose}
+        selected={usersVote == ArgumentPosition.Oppose}
         onClick={toggleOppose}
       >
         <FaCircleXmark color="var(--red)" size={20} />

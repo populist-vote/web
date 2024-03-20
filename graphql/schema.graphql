@@ -673,7 +673,7 @@ type Mutation {
   uploadProfilePicture(file: Upload!): String!
   upsertBallotMeasure(electionId: UUID!, input: UpsertBallotMeasureInput!): BallotMeasureResult!
   upsertBill(input: UpsertBillInput!): BillResult!
-  upsertBillPublicVote(billId: ID!, position: ArgumentPosition!): PublicVotes!
+  upsertBillPublicVote(billId: ID!, position: ArgumentPosition): PublicVotes!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
   upsertEmbed(input: UpsertEmbedInput!): EmbedResult!
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!

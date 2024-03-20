@@ -32,8 +32,8 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
   const billId = data?.embedById?.attributes?.billId as string;
   const politicianId = data?.embedById?.attributes?.politicianId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
-
   const embed = data?.embedById as EmbedResult;
+  const renderOptions = embed.attributes.renderOptions;
 
   const renderPreviewByType = () => {
     switch (embedType) {
@@ -43,7 +43,7 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
             billId={billId}
             origin={window.location.origin}
             embedId={id}
-            renderOptions={embed.attributes.renderOptions}
+            renderOptions={renderOptions}
           />
         );
       case EmbedType.LegislationTracker:

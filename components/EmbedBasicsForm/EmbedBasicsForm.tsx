@@ -120,6 +120,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         stats: embed?.attributes?.renderOptions?.stats,
         endorsements: embed?.attributes?.renderOptions?.endorsements,
         socials: embed?.attributes?.renderOptions?.socials,
+        publicVoting: embed?.attributes?.renderOptions?.publicVoting,
       },
     },
   });

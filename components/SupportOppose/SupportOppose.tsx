@@ -81,6 +81,7 @@ function SupportOppose({
       const previousValue = queryClient.getQueryData(queryKey);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       queryClient.setQueryData(queryKey, (oldData: any) => {
+        if (!variables.position) return oldData;
         const newPublicVotes = {
           ...oldData?.publicVotes,
           [variables.position.toLowerCase()]:
