@@ -673,7 +673,7 @@ type Mutation {
   uploadProfilePicture(file: Upload!): String!
   upsertBallotMeasure(electionId: UUID!, input: UpsertBallotMeasureInput!): BallotMeasureResult!
   upsertBill(input: UpsertBillInput!): BillResult!
-  upsertBillPublicVote(billId: ID!, position: ArgumentPosition): PublicVotes!
+  upsertBillPublicVote(billId: ID!, position: ArgumentPosition): UpsertBillPublicVoteResult!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
   upsertEmbed(input: UpsertEmbedInput!): EmbedResult!
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
@@ -1517,6 +1517,12 @@ input UpsertBillInput {
   status: BillStatus!
   title: String
   votesmartBillId: Int
+}
+
+type UpsertBillPublicVoteResult {
+  billId: String!
+  position: ArgumentPosition
+  publicVotes: PublicVotes!
 }
 
 input UpsertElectionInput {
