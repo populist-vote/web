@@ -17,10 +17,11 @@ import styles from "./BillWidget.module.scss";
 import { LastVoteSection } from "./LastVoteSection/LastVoteSection";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaCookieBite } from "react-icons/fa";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 import { FaCircleXmark } from "react-icons/fa6";
 import { useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 
 export interface BillWidgetRenderOptions {
   issueTags: boolean;
@@ -184,54 +185,68 @@ function PublicVoting({ id }: { id: string }) {
     });
   };
 
+  const isCookieEnabled = navigator.cookieEnabled;
+
   if (isLoading) return <LoaderFlag />;
 
   return (
     <section className={styles.publicVoting} style={{ width: "100%" }}>
-      <h5 style={{ fontSize: "1em", marginBottom: "0.5rem" }}>
-        What do you think of this legislation?
-      </h5>
-      <Badge
-        size="small"
-        theme="grey"
-        lightBackground
-        clickable
-        selected={usersVote == ArgumentPosition.Support}
-        onClick={toggleSupport}
-      >
-        <FaCheckCircle color="var(--green-support)" size={20} /> Support
-        {!!support && support > 0 && (
-          <span className={styles.pill}>{support}</span>
-        )}
-      </Badge>
-      <Badge
-        size="small"
-        theme="grey"
-        lightBackground
-        clickable
-        selected={usersVote == ArgumentPosition.Neutral}
-        onClick={toggleNeutral}
-      >
-        <HiQuestionMarkCircle color="var(--orange-light)" size={25} />
-        Undecided
-        {!!neutral && neutral > 0 && (
-          <span className={styles.pill}>{neutral}</span>
-        )}
-      </Badge>
-      <Badge
-        size="small"
-        theme="grey"
-        lightBackground
-        clickable
-        selected={usersVote == ArgumentPosition.Oppose}
-        onClick={toggleOppose}
-      >
-        <FaCircleXmark color="var(--red)" size={20} />
-        Oppose
-        {!!oppose && oppose > 0 && (
-          <span className={styles.pill}>{oppose}</span>
-        )}
-      </Badge>
+      {!isCookieEnabled ? (
+        <div className={clsx(styles.cookieBanner)}>
+          <FaCookieBite />
+          <p>
+            Public voting is disabled because cookies are not enabled in your
+            browser. Please enable cookies to participate.
+          </p>
+        </div>
+      ) : (
+        <>
+          <h5 style={{ fontSize: "1em", marginBottom: "0.5rem" }}>
+            What do you think of this legislation?
+          </h5>
+          <Badge
+            size="small"
+            theme="grey"
+            lightBackground
+            clickable
+            selected={usersVote == ArgumentPosition.Support}
+            onClick={toggleSupport}
+          >
+            <FaCheckCircle color="var(--green-support)" size={20} /> Support
+            {!!support && support > 0 && (
+              <span className={styles.pill}>{support}</span>
+            )}
+          </Badge>
+          <Badge
+            size="small"
+            theme="grey"
+            lightBackground
+            clickable
+            selected={usersVote == ArgumentPosition.Neutral}
+            onClick={toggleNeutral}
+          >
+            <HiQuestionMarkCircle color="var(--orange-light)" size={25} />
+            Undecided
+            {!!neutral && neutral > 0 && (
+              <span className={styles.pill}>{neutral}</span>
+            )}
+          </Badge>
+          <Badge
+            size="small"
+            theme="grey"
+            lightBackground
+            clickable
+            selected={usersVote == ArgumentPosition.Oppose}
+            onClick={toggleOppose}
+          >
+            <FaCircleXmark color="var(--red)" size={20} />
+            Oppose
+            {!!oppose && oppose > 0 && (
+              <span className={styles.pill}>{oppose}</span>
+            )}
+          </Badge>
+        </>
+      )}
     </section>
   );
 }

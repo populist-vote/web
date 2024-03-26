@@ -226,4 +226,20 @@
     font-weight: 600;
     color: $grey-darkest;
   }
+
+  .cookieBanner {
+    background: $black-alpha-2;
+    border: 1px solid $grey-light;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    svg {
+      min-width: 1rem;
+    }
+  }
 }
