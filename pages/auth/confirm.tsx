@@ -1,4 +1,4 @@
-import { BasicLayout } from "components";
+import { BasicLayout, Button } from "components";
 import { useConfirmUserEmailMutation } from "generated";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
@@ -40,7 +40,7 @@ function ConfirmEmail() {
 
   if (!mutation.isSuccess)
     return (
-      <div>
+      <div className={styles.container}>
         <h1>Whoops!</h1>
         <div
           className={styles.formWrapper}
@@ -61,7 +61,7 @@ function ConfirmEmail() {
             for help.
           </p>
           <Link href="/login" passHref>
-            <button>LOG IN NOW</button>
+            <Button variant="primary" size="large" label="Log in now" />
           </Link>
         </div>
       </div>
@@ -72,7 +72,7 @@ function ConfirmEmail() {
       <h1>Congratulations, your account has been confirmed!</h1>
       <p>We're excited to have you.</p>
       <Link href="/login" passHref>
-        <button>LOG IN NOW</button>
+        <Button variant="primary" size="large" label="Log in now" />
       </Link>
     </div>
   );
