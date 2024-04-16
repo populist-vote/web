@@ -1,6 +1,5 @@
 import { z } from "zod";
 import "../load-fonts";
-
 import {
   AbsoluteFill,
   Sequence,
@@ -50,6 +49,10 @@ const bigTag: React.CSSProperties = {
   alignItems: "center",
   boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.3)",
 };
+
+//Introduced: Uses Violet color
+//In Consideration: Uses Orange color
+//Became Law: Uses Green color
 
 export const Main = ({}: z.infer<typeof CompositionProps>) => {
   // const frame = useCurrentFrame();
