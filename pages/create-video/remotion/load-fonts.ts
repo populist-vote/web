@@ -21,6 +21,10 @@ const fontWeights = [
     name: "commuterSansBold",
     file: "fonts/commuter_sans_bold-webfont.woff2",
   },
+  {
+    name: "proximaNovaRegular",
+    file: "fonts/proximanova-regular-webfont.woff2",
+  },
 ];
 
 Promise.all(
