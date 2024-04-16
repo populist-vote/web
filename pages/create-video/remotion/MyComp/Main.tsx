@@ -1,63 +1,54 @@
 import { z } from "zod";
+import "../load-fonts";
+
 import {
   AbsoluteFill,
   Sequence,
-  spring,
-  useCurrentFrame,
+  // spring,
+  // useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { CompositionProps } from "../../types/constants";
-import { NextLogo } from "./NextLogo";
-import { loadFont, fontFamily } from "@remotion/google-fonts/Inter";
-import React, { useMemo } from "react";
-import { Rings } from "./Rings";
+import React from "react";
 import { TextFade } from "./TextFade";
 
-loadFont();
-
 const container: React.CSSProperties = {
-  backgroundColor: "white",
+  backgroundColor: "#002135",
 };
 
-const logo: React.CSSProperties = {
-  justifyContent: "center",
-  alignItems: "center",
-};
+// const logo: React.CSSProperties = {
+//   justifyContent: "left",
+//   alignItems: "center",
+// };
 
-export const Main = ({ billTitle }: z.infer<typeof CompositionProps>) => {
-  const frame = useCurrentFrame();
+export const Main = ({}: z.infer<typeof CompositionProps>) => {
+  // const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const transitionStart = 2 * fps;
   const transitionDuration = 1 * fps;
 
-  const logoOut = spring({
-    fps,
-    frame,
-    config: { damping: 200 },
-    durationInFrames: transitionDuration,
-    delay: transitionStart,
-  });
-
-  const titleStyle: React.CSSProperties = useMemo(() => {
-    return {
-      fontFamily,
-      fontSize: 70,
-      color: "black",
-    };
-  }, []);
+  // const logoOut = spring({
+  //   fps,
+  //   frame,
+  //   config: { damping: 200 },
+  //   durationInFrames: transitionDuration,
+  //   delay: transitionStart,
+  // });
 
   return (
     <AbsoluteFill style={container}>
       <Sequence durationInFrames={transitionStart + transitionDuration}>
-        <Rings outProgress={logoOut}></Rings>
-        <AbsoluteFill style={logo}>
-          <NextLogo outProgress={logoOut}></NextLogo>
-        </AbsoluteFill>
-      </Sequence>
-      <Sequence from={transitionStart + transitionDuration / 2}>
         <TextFade>
-          <h1 style={titleStyle}>{billTitle}</h1>
+          <h1
+            style={{
+              fontFamily: "commuterSansLight",
+              color: "white",
+              fontSize: "8rem",
+            }}
+          >
+            Rideshare Regulations
+          </h1>
         </TextFade>
       </Sequence>
     </AbsoluteFill>
