@@ -17,6 +17,18 @@ dependencies:
   '@remotion/cli':
     specifier: ^4.0.141
     version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+  '@remotion/google-fonts':
+    specifier: ^4.0.141
+    version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+  '@remotion/paths':
+    specifier: ^4.0.141
+    version: 4.0.141
+  '@remotion/player':
+    specifier: ^4.0.141
+    version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+  '@remotion/shapes':
+    specifier: ^4.0.141
+    version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
   '@szhsin/react-menu':
     specifier: ^4.1.0
     version: 4.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -110,6 +122,9 @@ dependencies:
   webpack:
     specifier: ^5.90.3
     version: 5.90.3
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
 
 optionalDependencies:
   '@next/swc-linux-x64-gnu':
@@ -3538,6 +3553,15 @@ packages:
     dev: false
     optional: true
 
+  /@remotion/google-fonts@4.0.141(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-jByCCvJmhTWeeObPnLiuaA1o7CU4iY/Rl+r/yEE52PQDWW/PHJYpRouqvMwKZYt7OSWXfJ1egRwRwkfxs0rpdQ==}
+    dependencies:
+      remotion: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
   /@remotion/media-utils@4.0.141(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-eSjQl8G0f0izuRJioWA5Q5XWpSNV1vaxsGoMaDQbh9d9rWev7QnCgVaCOl85oGV25GmZW8fxY1wklpzf956b7Q==}
     peerDependencies:
@@ -3547,6 +3571,10 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       remotion: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+    dev: false
+
+  /@remotion/paths@4.0.141:
+    resolution: {integrity: sha512-cmXPhozOwWi1nfbf5heuCtl0ImljtFA9wK3SFlWAKUINI0q+Dzo6oyu5rMIdFrgidOyvCNONdk4O8mJeCd19Xg==}
     dev: false
 
   /@remotion/player@4.0.141(react-dom@18.2.0)(react@18.2.0):
@@ -3585,6 +3613,17 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@remotion/shapes@4.0.141(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-B74Sw2ywA2l5DTAgY8aRsGFNCY0edPWgT9WXF4exxboCAkqKMqeK5+ywNJu+HkGNcbvWYdYGv/1XASQl5msTkQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@remotion/paths': 4.0.141
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@remotion/studio-server@4.0.141(react-dom@18.2.0)(react@18.2.0):
@@ -11208,6 +11247,10 @@ packages:
 
   /yoga-wasm-web@0.3.3:
     resolution: {integrity: sha512-N+d4UJSJbt/R3wqY7Coqs5pcV0aUj2j9IaQ3rNj9bVCLld8tTGKRa2USARjnvZJWVx1NDmQev8EknoczaOQDOA==}
+    dev: false
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
 
   /zwitch@2.0.4:
