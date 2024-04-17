@@ -1,6 +1,5 @@
 // import { z } from "zod";
 import {
-  AbsoluteFill,
   Sequence,
   // spring,
   // useCurrentFrame,
@@ -42,66 +41,64 @@ const bigTag: React.CSSProperties = {
 
 export const Main = () => {
   return (
-    <AbsoluteFill>
-      <Sequence>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "left",
-            justifyContent: "top",
-            padding: "8rem 4rem", // 120pt 40pt
-            gap: "4rem",
-          }}
-        >
-          <div id="header" style={{}}>
-            <h3
-              style={{
-                color: "white",
-                fontSize: "2.5rem",
-                margin: "2rem 0",
-              }}
-            >
-              2023 - 2024 SESSION
-            </h3>
-            <hr
-              style={{
-                border: "1px solid white",
-                opacity: "0.1",
-                width: "100%",
-              }}
-            ></hr>
-            <h2
-              style={{
-                color: "white",
-                fontSize: "3rem",
-                margin: "2rem 0",
-              }}
-            >
-              MN - HF 4746
-            </h2>
-          </div>
-          <h1
+    <Sequence>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+          justifyContent: "top",
+          padding: "8rem 4rem", // 120pt 40pt
+          gap: "4rem",
+        }}
+      >
+        <div id="header" style={{}}>
+          <h3
             style={{
               color: "white",
-              fontSize: "8rem",
-              margin: "30rem 0 0 0",
+              fontSize: "2.5rem",
+              margin: "2rem 0",
             }}
           >
-            Rideshare Regulations
-          </h1>
-
-          <div
-            id="tags"
-            style={{ display: "flex", gap: "8pt", marginBottom: "2rem" }}
+            2023 - 2024 SESSION
+          </h3>
+          <hr
+            style={{
+              border: "1px solid white",
+              opacity: "0.1",
+              width: "100%",
+            }}
+          ></hr>
+          <h2
+            style={{
+              color: "white",
+              fontSize: "3rem",
+              margin: "2rem 0",
+            }}
           >
-            <span style={tag}>Tag</span>
-            <span style={tag}>Tag</span>
-          </div>
-
-          <div style={bigTag}>In Consideration</div>
+            MN - HF 4746
+          </h2>
         </div>
-      </Sequence>
-    </AbsoluteFill>
+        <h1
+          style={{
+            color: "white",
+            fontSize: "8rem",
+            margin: "30rem 0 0 0",
+          }}
+        >
+          Rideshare Regulations
+        </h1>
+
+        <div
+          id="tags"
+          style={{ display: "flex", gap: "8pt", marginBottom: "2rem" }}
+        >
+          <span style={tag}>Tag</span>
+          <span style={tag}>Tag</span>
+        </div>
+
+        <div style={bigTag}>In Consideration</div>
+      </div>
+    </Sequence>
   );
 };
