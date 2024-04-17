@@ -1,11 +1,11 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
 import React, { useMemo, useState } from "react";
-import { Main } from "./remotion/MyComp/Main";
+import { RemotionVideo } from "./remotion/Video";
 import {
   CompositionProps,
   defaultMyCompProps,
-  DURATION_IN_FRAMES,
+  // DURATION_IN_FRAMES,
   VIDEO_FPS,
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
@@ -59,9 +59,9 @@ const Home: NextPage = () => {
 
       <div className="cinematics" style={outer}>
         <Player
-          component={Main}
+          component={RemotionVideo}
           inputProps={inputProps}
-          durationInFrames={DURATION_IN_FRAMES}
+          durationInFrames={400}
           fps={VIDEO_FPS}
           compositionHeight={VIDEO_HEIGHT}
           compositionWidth={VIDEO_WIDTH}

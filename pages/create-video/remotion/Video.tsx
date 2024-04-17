@@ -1,17 +1,24 @@
-import { Composition } from "remotion";
+import { AbsoluteFill, Series } from "remotion";
 import { Main } from "./MyComp/Main";
+import { Summary } from "./MyComp/Summary";
 
 export const RemotionVideo: React.FC = () => {
   return (
     <>
-      <Composition
-        id={"Main"}
-        component={Main}
-        durationInFrames={200}
-        fps={60}
-        width={1080}
-        height={1920}
-      />
+      <AbsoluteFill
+        style={{
+          backgroundColor: "var(--background-primary)",
+        }}
+      >
+        <Series>
+          <Series.Sequence durationInFrames={200}>
+            <Main />
+          </Series.Sequence>
+          <Series.Sequence durationInFrames={200}>
+            <Summary />
+          </Series.Sequence>
+        </Series>
+      </AbsoluteFill>
     </>
   );
 };

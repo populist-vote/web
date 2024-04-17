@@ -4,16 +4,11 @@ import {
   Sequence,
   // spring,
   // useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
 // import { CompositionProps } from "../../types/constants";
 import React from "react";
 // import { TextFade } from "./TextFade";
 // import { IssueTags } from "../../../../components/IssueTags/IssueTags";
-
-const container: React.CSSProperties = {
-  backgroundColor: "var(--background-primary)",
-};
 
 const tag: React.CSSProperties = {
   width: "140pt",
@@ -45,28 +40,10 @@ const bigTag: React.CSSProperties = {
   boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.3)",
 };
 
-//Introduced: Uses Violet color
-//In Consideration: Uses Orange color
-//Became Law: Uses Green color
-
 export const Main = () => {
-  // const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  const transitionStart = 2 * fps;
-  const transitionDuration = 1 * fps;
-
-  // const logoOut = spring({
-  //   fps,
-  //   frame,
-  //   config: { damping: 200 },
-  //   durationInFrames: transitionDuration,
-  //   delay: transitionStart,
-  // });
-
   return (
-    <AbsoluteFill style={container}>
-      <Sequence durationInFrames={transitionStart + transitionDuration}>
+    <AbsoluteFill>
+      <Sequence>
         <div
           style={{
             display: "flex",
