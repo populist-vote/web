@@ -69,10 +69,10 @@
 }
 
 .formWrapper {
+  place-content: stretch;
   align-content: space-between;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: stretch;
   width: 100%;
 
   form {
