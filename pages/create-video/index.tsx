@@ -1,6 +1,5 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
-import Head from "next/head";
 import React, { useMemo, useState } from "react";
 import { Main } from "./remotion/MyComp/Main";
 import {
@@ -14,6 +13,7 @@ import {
 import { z } from "zod";
 import { Spacing } from "./components/Spacing";
 import { useBillBySlugQuery } from "generated";
+// import "load-fonts";
 
 const container: React.CSSProperties = {
   maxWidth: 768,
@@ -30,7 +30,7 @@ const outer: React.CSSProperties = {
 };
 
 const player: React.CSSProperties = {
-  width: "100%",
+  width: "50%",
 };
 
 const Home: NextPage = () => {
@@ -53,37 +53,28 @@ const Home: NextPage = () => {
   const bill = data.billBySlug;
 
   return (
-    <div>
-      <Head>
-        <title>us-hb610-2023-2024</title>
-        <meta name="description" content="us-hb610-2023-2024" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
+    <div style={container}>
+      <h1>Create a Video</h1>
+      <h2 id="billTitle">{bill.populistTitle ?? bill.title}</h2>
+
+      <div className="cinematics" style={outer}>
+        <Player
+          component={Main}
+          inputProps={inputProps}
+          durationInFrames={DURATION_IN_FRAMES}
+          fps={VIDEO_FPS}
+          compositionHeight={VIDEO_HEIGHT}
+          compositionWidth={VIDEO_WIDTH}
+          style={player}
+          controls
+          autoPlay
+          loop
         />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div style={container}>
-        <h1 id="billTitle">{bill.populistTitle ?? bill.title}</h1>
-        <div className="cinematics" style={outer}>
-          <Player
-            component={Main}
-            inputProps={inputProps}
-            durationInFrames={DURATION_IN_FRAMES}
-            fps={VIDEO_FPS}
-            compositionHeight={VIDEO_HEIGHT}
-            compositionWidth={VIDEO_WIDTH}
-            style={player}
-            controls
-            autoPlay
-            loop
-          />
-        </div>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
       </div>
+      <Spacing></Spacing>
+      <Spacing></Spacing>
+      <Spacing></Spacing>
+      <Spacing></Spacing>
     </div>
   );
 };
