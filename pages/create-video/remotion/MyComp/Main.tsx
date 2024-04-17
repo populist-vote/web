@@ -1,4 +1,4 @@
-import { z } from "zod";
+// import { z } from "zod";
 import {
   AbsoluteFill,
   Sequence,
@@ -6,12 +6,13 @@ import {
   // useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { CompositionProps } from "../../types/constants";
+// import { CompositionProps } from "../../types/constants";
 import React from "react";
 // import { TextFade } from "./TextFade";
+// import { IssueTags } from "../../../../components/IssueTags/IssueTags";
 
 const container: React.CSSProperties = {
-  backgroundColor: "#002135",
+  backgroundColor: "var(--background-primary)",
 };
 
 const tag: React.CSSProperties = {
@@ -48,7 +49,7 @@ const bigTag: React.CSSProperties = {
 //In Consideration: Uses Orange color
 //Became Law: Uses Green color
 
-export const Main = ({}: z.infer<typeof CompositionProps>) => {
+export const Main = () => {
   // const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
