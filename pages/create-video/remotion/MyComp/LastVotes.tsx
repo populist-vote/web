@@ -36,11 +36,18 @@ export const LastVotes = () => {
           numberOfYesVotes={100}
           numberOfNoVotes={20}
         />
-        <Image
-          src={billInConsiderationDark}
-          alt="Yay Icon"
-          layout="responsive"
+        <VoteDisplay
+          voteTitle="SENATE"
+          numberOfYesVotes={34}
+          numberOfNoVotes={5}
         />
+        <div style={{ position: "absolute", bottom: "20%", width: "400px" }}>
+          <Image
+            src={billInConsiderationDark}
+            alt="Bill Status: In Consideration"
+            layout="responsive"
+          />
+        </div>
       </div>
     </Sequence>
   );

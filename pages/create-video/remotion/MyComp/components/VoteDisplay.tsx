@@ -58,17 +58,33 @@ const VoteDisplay = ({
             fontFamily: "proxima_nova",
             fontWeight: "600",
             fontSize: "3rem",
-            gap: "1rem",
           }}
         >
-          <div>
-            <Image src={iconYay} alt="Yay Icon" layout="responsive" />
-            {numberOfYesVotes}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              marginRight: "2rem",
+            }}
+          >
+            <span style={{ width: "60px", marginRight: "1rem" }}>
+              <Image src={iconYay} alt="Yay Icon" layout="responsive" />
+            </span>
+            <span>{numberOfYesVotes}</span>
           </div>
-          <div>
-            {" "}
-            <Image src={iconNay} alt="Nay Icon" layout="responsive" />
-            {numberOfNoVotes}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ width: "60px", marginRight: "1rem" }}>
+              <Image src={iconNay} alt="Nay Icon" layout="responsive" />
+            </span>
+            <span>{numberOfNoVotes}</span>
           </div>
         </div>
       </div>
