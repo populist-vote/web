@@ -30,13 +30,14 @@ export const LastVotes = () => {
             Last Votes
           </h1>
           <VoteDisplay
-            redcolor="#ff4444"
-            greencolor="#44ff44"
-            numberOfYesVotes={40}
-            numberOfNoVotes={25}
+            voteTitle="HOUSE"
+            redcolor="var(--red)"
+            greencolor="var(--green-support)"
+            numberOfYesVotes={100}
+            numberOfNoVotes={20}
             voteWidthHeight={1}
-            columnGap={1}
-            rowGap={1}
+            columnGap={0.5}
+            rowGap={0.5}
           />
         </div>
       </Sequence>

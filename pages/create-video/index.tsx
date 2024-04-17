@@ -61,7 +61,7 @@ const Home: NextPage = () => {
         <Player
           component={RemotionVideo}
           inputProps={inputProps}
-          durationInFrames={400}
+          durationInFrames={600}
           fps={VIDEO_FPS}
           compositionHeight={VIDEO_HEIGHT}
           compositionWidth={VIDEO_WIDTH}
