@@ -1,5 +1,4 @@
 import { z } from "zod";
-import "../load-fonts";
 import {
   AbsoluteFill,
   Sequence,
@@ -15,18 +14,13 @@ const container: React.CSSProperties = {
   backgroundColor: "#002135",
 };
 
-// const logo: React.CSSProperties = {
-//   justifyContent: "left",
-//   alignItems: "center",
-// };
-
 const tag: React.CSSProperties = {
   width: "140pt",
   height: "40pt",
   padding: "24pt 14pt",
   borderRadius: "32pt",
   backgroundColor: "#003C55",
-  fontFamily: "proximaNovaRegular",
+  fontFamily: "proxima_nova",
   fontSize: "2.25rem",
   color: "white",
   display: "flex",
@@ -41,7 +35,7 @@ const bigTag: React.CSSProperties = {
   borderRadius: "3.75rem",
   border: "4px solid #FFB45C",
   backgroundColor: "rgba(255, 180, 92, 0.1)", // 10% opacity
-  fontFamily: "commuterSansLight",
+  fontFamily: "commuter_sans",
   fontSize: "4rem",
   color: "white",
   display: "flex",
@@ -85,7 +79,6 @@ export const Main = ({}: z.infer<typeof CompositionProps>) => {
           <div id="header" style={{}}>
             <h3
               style={{
-                fontFamily: "commuterSansLight",
                 color: "white",
                 fontSize: "2.5rem",
                 margin: "2rem 0",
@@ -102,7 +95,6 @@ export const Main = ({}: z.infer<typeof CompositionProps>) => {
             ></hr>
             <h2
               style={{
-                fontFamily: "commuterSansLight",
                 color: "white",
                 fontSize: "3rem",
                 margin: "2rem 0",
@@ -113,7 +105,6 @@ export const Main = ({}: z.infer<typeof CompositionProps>) => {
           </div>
           <h1
             style={{
-              fontFamily: "commuterSansSemiBold",
               color: "white",
               fontSize: "8rem",
               margin: "30rem 0 0 0",
