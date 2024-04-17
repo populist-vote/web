@@ -31,13 +31,8 @@ export const LastVotes = () => {
           </h1>
           <VoteDisplay
             voteTitle="HOUSE"
-            redcolor="var(--red)"
-            greencolor="var(--green-support)"
             numberOfYesVotes={100}
             numberOfNoVotes={20}
-            voteWidthHeight={1}
-            columnGap={0.5}
-            rowGap={0.5}
           />
         </div>
       </Sequence>

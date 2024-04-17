@@ -2,27 +2,22 @@ import React from "react";
 
 const VoteDisplay = ({
   voteTitle,
-  redcolor,
-  greencolor,
   numberOfYesVotes,
   numberOfNoVotes,
-  voteWidthHeight,
-  columnGap,
-  rowGap,
 }: {
   voteTitle: string;
-  redcolor: string;
-  greencolor: string;
   numberOfYesVotes: number;
   numberOfNoVotes: number;
-  voteWidthHeight: number;
-  columnGap: number;
-  rowGap: number;
 }) => {
+  const voteWidthHeight = 1; // height & width of each square
+  const columnGap = 0.5; // gap between columns
+  const rowGap = 0.5; // gap between rows
+  const noColor = "var(--red)"; // color for no votes
+  const yesColor = "var(--green-support)"; // color for yes votes
   const totalVotes = numberOfYesVotes + numberOfNoVotes;
   const squares = new Array(totalVotes).fill(null).map((_, index) => {
     const isGreen = index < numberOfYesVotes;
-    const color = isGreen ? greencolor : redcolor;
+    const color = isGreen ? yesColor : noColor;
     return (
       <div
         key={index}
