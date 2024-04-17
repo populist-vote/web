@@ -1,6 +1,8 @@
 import { Sequence } from "remotion";
 import React from "react";
+import Image from "next/legacy/image";
 import { HeaderInner } from "./components/HeaderInner";
+import billInConsiderationDark from "public/images/video-generator/bill-status-in-consideration-darkbg.svg";
 
 export const Summary = () => {
   return (
@@ -30,6 +32,13 @@ export const Summary = () => {
           defining terms, establishing insurance requirements, and protecting
           drivers and riders.
         </p>
+        <div style={{ position: "absolute", bottom: "20%", width: "400px" }}>
+          <Image
+            src={billInConsiderationDark}
+            alt="Bill Status: In Consideration"
+            layout="responsive"
+          />
+        </div>
       </div>
     </Sequence>
   );

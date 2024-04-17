@@ -1,6 +1,6 @@
 import { AbsoluteFill, Series } from "remotion";
-// import { Main } from "./MyComp/Main";
-// import { Summary } from "./MyComp/Summary";
+import { Main } from "./MyComp/Main";
+import { Summary } from "./MyComp/Summary";
 import { LastVotes } from "./MyComp/LastVotes";
 
 export const RemotionVideo: React.FC = () => {
@@ -12,13 +12,13 @@ export const RemotionVideo: React.FC = () => {
         }}
       >
         <Series>
-          {/* <Series.Sequence durationInFrames={200}>
+          <Series.Sequence durationInFrames={200}>
             <Main />
           </Series.Sequence>
           <Series.Sequence durationInFrames={200}>
             <Summary />
-          </Series.Sequence> */}
-          <Series.Sequence durationInFrames={Infinity}>
+          </Series.Sequence>
+          <Series.Sequence durationInFrames={200}>
             <LastVotes />
           </Series.Sequence>
         </Series>
