@@ -1,4 +1,7 @@
 import React from "react";
+import Image from "next/legacy/image";
+import iconYay from "public/images/video-generator/yay-icon.svg";
+import iconNay from "public/images/video-generator/nay-icon.svg";
 
 const VoteDisplay = ({
   voteTitle,
@@ -58,8 +61,15 @@ const VoteDisplay = ({
             gap: "1rem",
           }}
         >
-          <div>{numberOfYesVotes}</div>
-          <div>{numberOfNoVotes}</div>
+          <div>
+            <Image src={iconYay} alt="Yay Icon" layout="responsive" />
+            {numberOfYesVotes}
+          </div>
+          <div>
+            {" "}
+            <Image src={iconNay} alt="Nay Icon" layout="responsive" />
+            {numberOfNoVotes}
+          </div>
         </div>
       </div>
       <div
