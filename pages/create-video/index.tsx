@@ -1,7 +1,7 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
 import React, { useMemo, useState } from "react";
-import { RemotionVideo } from "../../video/Video";
+import { RemotionVideo } from "../../video/legislationVideo/Video";
 import {
   CompositionProps,
   defaultMyCompProps,

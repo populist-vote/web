@@ -1,7 +1,7 @@
 import { AbsoluteFill, Series } from "remotion";
-import { Main } from "./MyComp/Main";
-import { Summary } from "./MyComp/Summary";
-import { LastVotes } from "./MyComp/LastVotes";
+import { Main } from "./Main";
+import { Summary } from "./Summary";
+import { LastVotes } from "./LastVotes";
 
 export const RemotionVideo: React.FC = () => {
   return (
