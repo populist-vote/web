@@ -15,19 +15,19 @@ dependencies:
     specifier: ^1.0.7
     version: 1.0.7(@types/react-dom@18.2.21)(@types/react@18.2.59)(react-dom@18.2.0)(react@18.2.0)
   '@remotion/cli':
-    specifier: ^4.0.141
-    version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
-  '@remotion/google-fonts':
-    specifier: ^4.0.141
+    specifier: 4.0.141
     version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
   '@remotion/paths':
-    specifier: ^4.0.141
+    specifier: 4.0.141
     version: 4.0.141
   '@remotion/player':
-    specifier: ^4.0.141
+    specifier: 4.0.141
+    version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+  '@remotion/renderer':
+    specifier: 4.0.141
     version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
   '@remotion/shapes':
-    specifier: ^4.0.141
+    specifier: 4.0.141
     version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
   '@szhsin/react-menu':
     specifier: ^4.1.0
@@ -111,7 +111,7 @@ dependencies:
     specifier: ^16.0.1
     version: 16.0.1
   remotion:
-    specifier: ^4.0.141
+    specifier: 4.0.141
     version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
   sass:
     specifier: ^1.71.1
@@ -3552,15 +3552,6 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
-
-  /@remotion/google-fonts@4.0.141(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-jByCCvJmhTWeeObPnLiuaA1o7CU4iY/Rl+r/yEE52PQDWW/PHJYpRouqvMwKZYt7OSWXfJ1egRwRwkfxs0rpdQ==}
-    dependencies:
-      remotion: 4.0.141(react-dom@18.2.0)(react@18.2.0)
-    transitivePeerDependencies:
-      - react
-      - react-dom
-    dev: false
 
   /@remotion/media-utils@4.0.141(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-eSjQl8G0f0izuRJioWA5Q5XWpSNV1vaxsGoMaDQbh9d9rWev7QnCgVaCOl85oGV25GmZW8fxY1wklpzf956b7Q==}
