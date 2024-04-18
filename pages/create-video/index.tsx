@@ -1,7 +1,7 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
 import React, { useMemo, useState } from "react";
-import { RemotionVideo } from "./remotion/Video";
+import { RemotionVideo } from "../../video/Video";
 import {
   CompositionProps,
   defaultMyCompProps,
@@ -9,9 +9,9 @@ import {
   VIDEO_FPS,
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
-} from "./types/constants";
+} from "types/constants";
 import { z } from "zod";
-import { Spacing } from "./components/Spacing";
+// import { Spacing } from "./components/Spacing";
 import { useBillBySlugQuery } from "generated";
 // import "load-fonts";
 
@@ -71,10 +71,6 @@ const Home: NextPage = () => {
           loop
         />
       </div>
-      <Spacing></Spacing>
-      <Spacing></Spacing>
-      <Spacing></Spacing>
-      <Spacing></Spacing>
     </div>
   );
 };
