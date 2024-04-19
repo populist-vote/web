@@ -1,19 +1,10 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
-import React, { useMemo, useState } from "react";
-import { RemotionVideo } from "../../video/legislationVideo/Video";
-import {
-  CompositionProps,
-  defaultMyCompProps,
-  // DURATION_IN_FRAMES,
-  VIDEO_FPS,
-  VIDEO_HEIGHT,
-  VIDEO_WIDTH,
-} from "types/constants";
-import { z } from "zod";
-// import { Spacing } from "./components/Spacing";
+import { LegislationVideo } from "../../video/legislationVideo/Video";
+import { VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from "types/constants";
+import type { BillResult } from "generated";
+
 import { useBillBySlugQuery } from "generated";
-// import "load-fonts";
 
 const container: React.CSSProperties = {
   maxWidth: 768,
@@ -34,34 +25,21 @@ const player: React.CSSProperties = {
 };
 
 const Home: NextPage = () => {
-  const billId = "us-hb610-2023-2024";
+  const billId = "mnsf18842023-2024";
   const { data, isLoading, error } = useBillBySlugQuery({ slug: billId });
-
-  const [text] = useState<string>(defaultMyCompProps.title);
-  const inputProps: z.infer<typeof CompositionProps> = useMemo(() => {
-    return {
-      title: text,
-      billTitle:
-        data?.billBySlug?.populistTitle ?? data?.billBySlug?.title ?? "",
-    };
-  }, [text, data]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
   if (!data?.billBySlug) return null;
 
-  const bill = data.billBySlug;
-
   return (
     <div style={container}>
       <h1>Create a Video</h1>
-      <h2 id="billTitle">{bill.populistTitle ?? bill.title}</h2>
-
       <div className="cinematics" style={outer}>
         <Player
-          component={RemotionVideo}
-          inputProps={inputProps}
-          durationInFrames={600}
+          component={LegislationVideo}
+          inputProps={{ billData: data.billBySlug as BillResult }}
+          durationInFrames={800}
           fps={VIDEO_FPS}
           compositionHeight={VIDEO_HEIGHT}
           compositionWidth={VIDEO_WIDTH}

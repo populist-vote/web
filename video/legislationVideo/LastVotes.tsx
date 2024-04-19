@@ -1,8 +1,6 @@
 import { Sequence } from "remotion";
 import React from "react";
 import Image from "next/legacy/image";
-
-import { HeaderInner } from "./components/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay";
 import billInConsiderationDark from "public/images/video-generator/bill-status-in-consideration-darkbg.svg";
 
@@ -20,7 +18,6 @@ export const LastVotes = () => {
           width: "100%",
         }}
       >
-        <HeaderInner />
         <h1
           style={{
             color: "white",

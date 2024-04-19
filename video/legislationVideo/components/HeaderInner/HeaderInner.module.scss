@@ -1,0 +1,31 @@
+@import "styles/mixins/media";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/layout/containers";
+
+.headerInner {
+  .stateAndDate {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  h2 {
+    font-weight: $weight-semibold;
+    color: $white;
+    font-size: $text-xxxl; // 3rem
+    margin: 2rem 0;
+  }
+
+  h3 {
+    color: $white;
+    font-size: $text-xxl; // 2.5rem
+    margin: 2rem 0;
+  }
+
+  hr {
+    border: 1px solid $white;
+    opacity: 0.1;
+    width: 100%;
+  }
+}
