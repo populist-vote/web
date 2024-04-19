@@ -38,7 +38,7 @@ const Home: NextPage = () => {
       <div className="cinematics" style={outer}>
         <Player
           component={LegislationVideo}
-          inputProps={{ billData: data.billBySlug as BillResult }}
+          inputProps={{ billResult: data.billBySlug as BillResult }}
           durationInFrames={800}
           fps={VIDEO_FPS}
           compositionHeight={VIDEO_HEIGHT}
