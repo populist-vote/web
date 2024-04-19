@@ -1,5 +1,4 @@
 import { AbsoluteFill, Series } from "remotion";
-import { Main } from "./Main";
 import VoteDisplay from "./components/VoteDisplay";
 import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import type { BillResult } from "generated";
@@ -14,17 +13,36 @@ import legislationVideoStyles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
   billResult,
-  // sponsors,
 }: {
   billResult: BillResult;
 }) => {
-  // console.log("LegislationVideo billdata:", JSON.stringify(billData, null, 2));
+  // console.log(JSON.stringify(billResult, null, 2));
   return (
     <>
       <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
         <Series>
-          <Series.Sequence durationInFrames={200}>
-            <Main />
+          <Series.Sequence
+            durationInFrames={200}
+            className={legislationVideoStyles.legislationVideo}
+          >
+            <div id="header" className={legislationVideoStyles.mainHeader}>
+              <h3>2023 - 2024 SESSION</h3>
+              <hr></hr>
+              <h2>MN - HF 4746</h2>
+            </div>
+
+            <h1>Rideshare Regulations</h1>
+
+            <div
+              id="tags"
+              style={{ display: "flex", gap: "8pt", marginBottom: "2rem" }}
+            >
+              <span className={legislationVideoStyles.tag}>Tag</span>
+              <span className={legislationVideoStyles.tag}>Tag</span>
+            </div>
+            <div className={legislationVideoStyles.bigTag}>
+              In Consideration
+            </div>
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
@@ -44,6 +62,7 @@ export const LegislationVideo = ({
                 lineHeight: "1.5",
               }}
             >
+              {billResult.populistSummary ?? billResult.officialSummary}
               This bill aims to regulate transportation network companies by
               defining terms, establishing insurance requirements, and
               protecting drivers and riders.
