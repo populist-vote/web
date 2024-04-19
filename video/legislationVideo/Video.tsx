@@ -67,6 +67,15 @@ export const LegislationVideo = ({
               defining terms, establishing insurance requirements, and
               protecting drivers and riders.
             </p>
+            <div
+              style={{ position: "absolute", bottom: "20%", width: "400px" }}
+            >
+              <Image
+                src={billInConsiderationDark}
+                alt="Bill Status: In Consideration"
+                layout="responsive"
+              />
+            </div>
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
@@ -98,6 +107,15 @@ export const LegislationVideo = ({
               numberOfYesVotes={34}
               numberOfNoVotes={5}
             />
+            <div
+              style={{ position: "absolute", bottom: "20%", width: "400px" }}
+            >
+              <Image
+                src={billInConsiderationDark}
+                alt="Bill Status: In Consideration"
+                layout="responsive"
+              />
+            </div>
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
