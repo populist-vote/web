@@ -1,8 +1,6 @@
 import { AbsoluteFill, Series } from "remotion";
-// import { Main } from "./Main";
-// import { Summary } from "./Summary";
-// import { LastVotes } from "./LastVotes";
-// import { Sponsors } from "./Sponsors";
+import { Main } from "./Main";
+import VoteDisplay from "./components/VoteDisplay";
 import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import type { BillResult } from "generated";
 import Image from "next/legacy/image";
@@ -12,6 +10,7 @@ import { Candidate, ColoredSection } from "components";
 import { PoliticianResult } from "generated";
 
 import styles from "../../pages/bills/BillBySlug.module.scss";
+import legislationVideoStyles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
   billResult,
@@ -22,19 +21,68 @@ export const LegislationVideo = ({
   // console.log("LegislationVideo billdata:", JSON.stringify(billData, null, 2));
   return (
     <>
-      <AbsoluteFill>
+      <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
         <Series>
+          <Series.Sequence durationInFrames={200}>
+            <Main />
+          </Series.Sequence>
           <Series.Sequence
-            durationInFrames={Infinity}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "left",
-              justifyContent: "top",
-              padding: "8rem 4rem", // 120pt 40pt
-              gap: "4rem",
-              width: "100%",
-            }}
+            durationInFrames={200}
+            className={legislationVideoStyles.legislationVideo}
+          >
+            <HeaderInner
+              billTitle={billResult.populistTitle ?? billResult.title}
+              billNumber={billResult.billNumber}
+              billState={billResult.state}
+              billSession={billResult.session}
+            />
+            <p
+              style={{
+                fontFamily: "proxima_nova",
+                fontSize: "3.5rem",
+                fontWeight: "400",
+                lineHeight: "1.5",
+              }}
+            >
+              This bill aims to regulate transportation network companies by
+              defining terms, establishing insurance requirements, and
+              protecting drivers and riders.
+            </p>
+          </Series.Sequence>
+          <Series.Sequence
+            durationInFrames={200}
+            className={legislationVideoStyles.legislationVideo}
+          >
+            <HeaderInner
+              billTitle={billResult.populistTitle ?? billResult.title}
+              billNumber={billResult.billNumber}
+              billState={billResult.state}
+              billSession={billResult.session}
+            />
+            <h1
+              style={{
+                color: "white",
+                fontSize: "6rem",
+                fontWeight: "600",
+                margin: "10rem 0 0 0",
+              }}
+            >
+              Last Votes
+            </h1>
+            <VoteDisplay
+              voteTitle="HOUSE"
+              numberOfYesVotes={100}
+              numberOfNoVotes={20}
+            />
+            <VoteDisplay
+              voteTitle="SENATE"
+              numberOfYesVotes={34}
+              numberOfNoVotes={5}
+            />
+          </Series.Sequence>
+          <Series.Sequence
+            durationInFrames={200}
+            className={legislationVideoStyles.legislationVideo}
           >
             <HeaderInner
               billTitle={billResult.populistTitle ?? billResult.title}
@@ -56,7 +104,6 @@ export const LegislationVideo = ({
                 </div>
               </ColoredSection>
             )}
-            {/* <Sponsors /> */}
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
             >
@@ -67,27 +114,6 @@ export const LegislationVideo = ({
               />
             </div>
           </Series.Sequence>
-          {/* <Series.Sequence durationInFrames={200}>
-            <Main />
-          </Series.Sequence>
-          <Series.Sequence durationInFrames={200}>
-            <HeaderInner
-              billTitle={billData.populistTitle ?? billData.title}
-              billNumber={billData.billNumber}
-              billState={billData.state}
-              billSession={billData.session}
-            />
-            <Summary />
-          </Series.Sequence>
-          <Series.Sequence durationInFrames={200}>
-            <HeaderInner
-              billTitle={billData.populistTitle ?? billData.title}
-              billNumber={billData.billNumber}
-              billState={billData.state}
-              billSession={billData.session}
-            />
-            <LastVotes />
-          </Series.Sequence> */}
         </Series>
       </AbsoluteFill>
     </>

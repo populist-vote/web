@@ -1,0 +1,15 @@
+@import "styles/mixins/media";
+@import "styles/mixins/utils";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/layout/containers";
+
+.legislationVideo {
+  display: flex;
+  flex-direction: column;
+  //   align-items: flex-start;
+  //   justify-content: flex-start;
+  padding: 8rem 4rem; // 120pt 40pt
+  //   gap: 4rem;
+  width: 100%;
+}
