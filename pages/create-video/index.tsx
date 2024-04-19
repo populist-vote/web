@@ -10,14 +10,8 @@ const container: React.CSSProperties = {
   maxWidth: 768,
   margin: "auto",
   marginBottom: 20,
-};
-
-const outer: React.CSSProperties = {
-  borderRadius: "var(--geist-border-radius)",
-  overflow: "hidden",
-  boxShadow: "0 0 200px rgba(0, 0, 0, 0.15)",
-  marginBottom: 40,
-  marginTop: 60,
+  padding: 10,
+  backgroundColor: "var(--blue-darker)",
 };
 
 const player: React.CSSProperties = {
@@ -33,21 +27,24 @@ const Home: NextPage = () => {
   if (!data?.billBySlug) return null;
 
   return (
-    <div style={container}>
+    <div>
       <h1>Create a Video</h1>
-      <div className="cinematics" style={outer}>
-        <Player
-          component={LegislationVideo}
-          inputProps={{ billResult: data.billBySlug as BillResult }}
-          durationInFrames={800}
-          fps={VIDEO_FPS}
-          compositionHeight={VIDEO_HEIGHT}
-          compositionWidth={VIDEO_WIDTH}
-          style={player}
-          controls
-          autoPlay
-          loop
-        />
+
+      <div style={container}>
+        <div>
+          <Player
+            component={LegislationVideo}
+            inputProps={{ billResult: data.billBySlug as BillResult }}
+            durationInFrames={800}
+            fps={VIDEO_FPS}
+            compositionHeight={VIDEO_HEIGHT}
+            compositionWidth={VIDEO_WIDTH}
+            style={player}
+            controls
+            autoPlay
+            loop
+          />
+        </div>
       </div>
     </div>
   );
