@@ -1,9 +1,9 @@
 import { AbsoluteFill, Series } from "remotion";
 import VoteDisplay from "./components/VoteDisplay";
+import { Badge } from "components/Badge/Badge";
+import { FaCircle } from "react-icons/fa";
 import { HeaderInner } from "./components/HeaderInner/HeaderInner";
-import type { BillResult } from "generated";
-import Image from "next/legacy/image";
-import billInConsiderationDark from "public/images/video-generator/bill-status-in-consideration-darkbg.svg";
+import type { BillResult, BillStatus } from "generated";
 import {
   Candidate,
   ColoredSection,
@@ -15,20 +15,24 @@ import { PoliticianResult, IssueTagResult } from "generated";
 
 import styles from "../../pages/bills/BillBySlug.module.scss";
 import legislationVideoStyles from "./LegislationVideo.module.scss";
-import { splitAtDigitAndJoin } from "utils/strings";
+import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import React from "react";
+import { getStatusInfo } from "utils/bill";
 
 export const LegislationVideo = ({
   billResult,
 }: {
   billResult: BillResult;
 }) => {
+  // console.log(JSON.stringify(billResult, null, 2));
+  const statusInfo = getStatusInfo(billResult.status as BillStatus);
+
   return (
     <>
       <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
         <Series>
           <Series.Sequence
-            durationInFrames={1000}
+            durationInFrames={200}
             className={legislationVideoStyles.legislationVideo}
           >
             <div id="header" className={legislationVideoStyles.mainHeader}>
@@ -69,11 +73,16 @@ export const LegislationVideo = ({
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
             >
-              <Image
-                src={billInConsiderationDark}
-                alt="Bill Status: In Consideration"
-                layout="responsive"
-              />
+              <Badge
+                iconLeft={
+                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                }
+                theme={statusInfo?.color}
+                darkBackground
+                size="small"
+              >
+                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
+              </Badge>
             </div>
           </Series.Sequence>
           <Series.Sequence
@@ -109,11 +118,16 @@ export const LegislationVideo = ({
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
             >
-              <Image
-                src={billInConsiderationDark}
-                alt="Bill Status: In Consideration"
-                layout="responsive"
-              />
+              <Badge
+                iconLeft={
+                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                }
+                theme={statusInfo?.color}
+                darkBackground
+                size="small"
+              >
+                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
+              </Badge>
             </div>
           </Series.Sequence>
           <Series.Sequence
@@ -182,11 +196,22 @@ export const LegislationVideo = ({
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
             >
-              <Image
-                src={billInConsiderationDark}
-                alt="Bill Status: In Consideration"
-                layout="responsive"
-              />
+              <div
+                style={{ position: "absolute", bottom: "20%", width: "400px" }}
+              >
+                <Badge
+                  iconLeft={
+                    <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                  }
+                  theme={statusInfo?.color}
+                  darkBackground
+                  size="small"
+                >
+                  {titleCase(
+                    billResult?.status?.replaceAll("_", " ") as string
+                  )}
+                </Badge>
+              </div>
             </div>
           </Series.Sequence>
         </Series>
