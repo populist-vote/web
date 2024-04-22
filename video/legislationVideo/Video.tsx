@@ -24,7 +24,7 @@ export const LegislationVideo = ({
 }: {
   billResult: BillResult;
 }) => {
-  // console.log(JSON.stringify(billResult, null, 2));
+  console.log(JSON.stringify(billResult, null, 2));
   const statusInfo = getStatusInfo(billResult.status as BillStatus);
 
   return (
@@ -68,7 +68,9 @@ export const LegislationVideo = ({
                 lineHeight: "1.5",
               }}
             >
-              {billResult.populistSummary ?? billResult.officialSummary}
+              {billResult.description ??
+                billResult.populistSummary ??
+                billResult.officialSummary}
             </p>
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
