@@ -4,25 +4,34 @@ import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import type { BillResult } from "generated";
 import Image from "next/legacy/image";
 import billInConsiderationDark from "public/images/video-generator/bill-status-in-consideration-darkbg.svg";
-import { Candidate, ColoredSection } from "components";
+import {
+  Candidate,
+  ColoredSection,
+  IssueTags,
+  LegislationStatusBox,
+} from "components";
 
-import { PoliticianResult } from "generated";
+import { PoliticianResult, IssueTagResult } from "generated";
 
 import styles from "../../pages/bills/BillBySlug.module.scss";
 import legislationVideoStyles from "./LegislationVideo.module.scss";
+
+import React from "react";
 
 export const LegislationVideo = ({
   billResult,
 }: {
   billResult: BillResult;
 }) => {
-  // console.log(JSON.stringify(billResult, null, 2));
+  console.log(JSON.stringify(billResult, null, 2));
+  // console.log(JSON.stringify(billResult.issueTags, null, 2));
+
   return (
     <>
       <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
         <Series>
           <Series.Sequence
-            durationInFrames={200}
+            durationInFrames={1000}
             className={legislationVideoStyles.legislationVideo}
           >
             <div id="header" className={legislationVideoStyles.mainHeader}>
@@ -30,19 +39,11 @@ export const LegislationVideo = ({
               <hr></hr>
               <h2>MN - HF 4746</h2>
             </div>
-
             <h1>Rideshare Regulations</h1>
-
-            <div
-              id="tags"
-              style={{ display: "flex", gap: "8pt", marginBottom: "2rem" }}
-            >
-              <span className={legislationVideoStyles.tag}>Tag</span>
-              <span className={legislationVideoStyles.tag}>Tag</span>
-            </div>
-            <div className={legislationVideoStyles.bigTag}>
-              In Consideration
-            </div>
+            {billResult?.issueTags && (
+              <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
+            )}
+            <LegislationStatusBox status={billResult.status} />
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
@@ -127,20 +128,59 @@ export const LegislationVideo = ({
               billState={billResult.state}
               billSession={billResult.session}
             />
+            {/* 
+            
+            If billResult.sponsors is less than or equal to 6, display the sponsors in a row, 3 at a time.
+            
+            If billResult.sponsors is greater than 6, display them in list with only their names, in red or blue, according to their PoliticalParty.
+            */}
+
             {billResult?.sponsors && billResult.sponsors.length > 0 && (
               <ColoredSection color="var(--blue)">
                 <h2 className={styles.gradientHeader}>Sponsors</h2>
-                <div className={styles.sponsorsWrapper}>
-                  {billResult.sponsors.map((sponsor) => (
-                    <Candidate
-                      key={sponsor.id}
-                      itemId={sponsor.id}
-                      candidate={sponsor as PoliticianResult}
-                    />
-                  ))}
-                </div>
+                {billResult.sponsors.length <= 6 ? (
+                  <div
+                    className={styles.sponsorsWrapper}
+                    style={{
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {billResult.sponsors.map((sponsor, index) => (
+                      <React.Fragment key={sponsor.id}>
+                        <Candidate
+                          itemId={sponsor.id}
+                          candidate={sponsor as PoliticianResult}
+                        />
+                        {(index + 1) % 3 === 0 && (
+                          <div style={{ width: "100%" }}></div>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                ) : (
+                  <ul style={{ listStyle: "none", padding: 0 }}>
+                    {billResult.sponsors.map((sponsor) => {
+                      return (
+                        <li
+                          key={sponsor.id}
+                          style={{
+                            color:
+                              sponsor.party?.name === "Democratic-Farmer-Labor"
+                                ? "blue"
+                                : "red",
+                          }}
+                        >
+                          {sponsor.fullName}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
               </ColoredSection>
             )}
+
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
             >

@@ -19,7 +19,10 @@ const player: React.CSSProperties = {
 };
 
 const Home: NextPage = () => {
-  const billId = "mnsf18842023-2024";
+  // const billId = "mnsf18842023-2024"; // 3sponsors
+  const billId = "mnsf7222023-2024"; // 3 republican sponsors
+
+  // const billId = "mnhf29252023-2024"; // 10 democratic sponsors
   const { data, isLoading, error } = useBillBySlugQuery({ slug: billId });
 
   if (isLoading) return <div>Loading...</div>;
