@@ -24,8 +24,20 @@ export const LegislationVideo = ({
 }: {
   billResult: BillResult;
 }) => {
-  console.log(JSON.stringify(billResult, null, 2));
+  // console.log(JSON.stringify(billResult, null, 2));
   const statusInfo = getStatusInfo(billResult.status as BillStatus);
+
+  const lastHouseVote = billResult.legiscanData?.votes
+    ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .filter((vote) => vote.chamber === "H")
+    .slice(-1)
+    .pop();
+
+  const lastSenateVote = billResult.legiscanData?.votes
+    ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .filter((vote) => vote.chamber === "S")
+    .slice(-1)
+    .pop();
 
   return (
     <>
@@ -107,16 +119,23 @@ export const LegislationVideo = ({
             >
               Last Votes
             </h1>
-            <VoteDisplay
-              voteTitle="HOUSE"
-              numberOfYesVotes={100}
-              numberOfNoVotes={20}
-            />
-            <VoteDisplay
-              voteTitle="SENATE"
-              numberOfYesVotes={34}
-              numberOfNoVotes={5}
-            />
+
+            {lastHouseVote?.yea || lastHouseVote?.nay ? (
+              <VoteDisplay
+                voteTitle={"HOUSE"}
+                numberOfYesVotes={lastHouseVote?.yea ?? 0}
+                numberOfNoVotes={lastHouseVote?.nay ?? 0}
+              />
+            ) : null}
+
+            {lastSenateVote?.yea || lastSenateVote?.nay ? (
+              <VoteDisplay
+                voteTitle={"SENATE"}
+                numberOfYesVotes={lastSenateVote?.yea ?? 0}
+                numberOfNoVotes={lastSenateVote?.nay ?? 0}
+              />
+            ) : null}
+
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
             >
@@ -182,8 +201,8 @@ export const LegislationVideo = ({
                           style={{
                             color:
                               sponsor.party?.name === "Democratic-Farmer-Labor"
-                                ? "blue"
-                                : "red",
+                                ? "var(--blue-text-light)"
+                                : "var(--salmon)",
                           }}
                         >
                           {sponsor.fullName}
