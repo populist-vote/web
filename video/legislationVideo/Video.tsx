@@ -4,12 +4,7 @@ import { Badge } from "components/Badge/Badge";
 import { FaCircle } from "react-icons/fa";
 import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import type { BillResult, BillStatus } from "generated";
-import {
-  Candidate,
-  ColoredSection,
-  IssueTags,
-  LegislationStatusBox,
-} from "components";
+import { Candidate, IssueTags, LegislationStatusBox } from "components";
 
 import { PoliticianResult, IssueTagResult } from "generated";
 
@@ -169,7 +164,7 @@ export const LegislationVideo = ({
             */}
 
             {billResult?.sponsors && billResult.sponsors.length > 0 && (
-              <ColoredSection color="var(--blue)">
+              <div>
                 <h2 className={styles.gradientHeader}>Sponsors</h2>
                 {billResult.sponsors.length <= 6 ? (
                   <div
@@ -193,7 +188,7 @@ export const LegislationVideo = ({
                     ))}
                   </div>
                 ) : (
-                  <ul style={{ listStyle: "none", padding: 0 }}>
+                  <ul className={legislationVideoStyles.sponsorList}>
                     {billResult.sponsors.map((sponsor) => {
                       return (
                         <li
@@ -211,7 +206,7 @@ export const LegislationVideo = ({
                     })}
                   </ul>
                 )}
-              </ColoredSection>
+              </div>
             )}
 
             <div
