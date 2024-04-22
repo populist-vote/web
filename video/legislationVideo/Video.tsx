@@ -24,7 +24,7 @@ export const LegislationVideo = ({
 }: {
   billResult: BillResult;
 }) => {
-  // console.log(JSON.stringify(billResult, null, 2));
+  console.log(JSON.stringify(billResult, null, 2));
   const statusInfo = getStatusInfo(billResult.status as BillStatus);
 
   const lastHouseVote = billResult.legiscanData?.votes
@@ -92,8 +92,8 @@ export const LegislationVideo = ({
                   <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
                 }
                 theme={statusInfo?.color}
-                darkBackground
-                size="small"
+                lightBackground={false}
+                size="large"
               >
                 {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
               </Badge>
@@ -144,8 +144,8 @@ export const LegislationVideo = ({
                   <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
                 }
                 theme={statusInfo?.color}
-                darkBackground
-                size="small"
+                lightBackground={false}
+                size="large"
               >
                 {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
               </Badge>
@@ -217,22 +217,16 @@ export const LegislationVideo = ({
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
             >
-              <div
-                style={{ position: "absolute", bottom: "20%", width: "400px" }}
+              <Badge
+                iconLeft={
+                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                }
+                theme={statusInfo?.color}
+                lightBackground={false}
+                size="large"
               >
-                <Badge
-                  iconLeft={
-                    <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
-                  }
-                  theme={statusInfo?.color}
-                  darkBackground
-                  size="small"
-                >
-                  {titleCase(
-                    billResult?.status?.replaceAll("_", " ") as string
-                  )}
-                </Badge>
-              </div>
+                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
+              </Badge>
             </div>
           </Series.Sequence>
         </Series>
