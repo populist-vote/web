@@ -15,7 +15,7 @@ import { PoliticianResult, IssueTagResult } from "generated";
 
 import styles from "../../pages/bills/BillBySlug.module.scss";
 import legislationVideoStyles from "./LegislationVideo.module.scss";
-
+import { splitAtDigitAndJoin } from "utils/strings";
 import React from "react";
 
 export const LegislationVideo = ({
@@ -23,9 +23,6 @@ export const LegislationVideo = ({
 }: {
   billResult: BillResult;
 }) => {
-  console.log(JSON.stringify(billResult, null, 2));
-  // console.log(JSON.stringify(billResult.issueTags, null, 2));
-
   return (
     <>
       <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
@@ -37,9 +34,13 @@ export const LegislationVideo = ({
             <div id="header" className={legislationVideoStyles.mainHeader}>
               <h3>2023 - 2024 SESSION</h3>
               <hr></hr>
-              <h2>MN - HF 4746</h2>
+              <h2>
+                {billResult.state || "U.S."} -{" "}
+                {splitAtDigitAndJoin(billResult.billNumber)}
+              </h2>
             </div>
-            <h1>Rideshare Regulations</h1>
+            <h1> {billResult.populistTitle ?? billResult.title}</h1>
+
             {billResult?.issueTags && (
               <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
             )}
@@ -64,9 +65,6 @@ export const LegislationVideo = ({
               }}
             >
               {billResult.populistSummary ?? billResult.officialSummary}
-              This bill aims to regulate transportation network companies by
-              defining terms, establishing insurance requirements, and
-              protecting drivers and riders.
             </p>
             <div
               style={{ position: "absolute", bottom: "20%", width: "400px" }}
