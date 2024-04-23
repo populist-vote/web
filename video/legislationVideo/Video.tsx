@@ -5,7 +5,6 @@ import { AbsoluteFill, Series } from "remotion";
 import { Badge } from "components/Badge/Badge";
 import { PartyAvatar, IssueTags, LegislationStatusBox } from "components";
 import { LogoText } from "components/Logo";
-// import { MPRLogo } from "components/MPRLogo/MPRLogo";
 import Image from "next/legacy/image";
 import MPRLogo from "public/images/video-generator/MPR-logo.png";
 import type {
@@ -22,8 +21,6 @@ import VoteDisplay from "./components/VoteDisplay";
 import legislationVideoStyles from "./LegislationVideo.module.scss";
 import styles from "../../pages/bills/BillBySlug.module.scss";
 import { default as clsx } from "clsx";
-
-// import { MPRLogo } from "/images/video-generator/MPR-logo.png";
 
 export const LegislationVideo = ({
   billResult,
