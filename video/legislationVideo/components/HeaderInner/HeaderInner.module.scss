@@ -1,4 +1,4 @@
-@import "styles/mixins/media";
+// @import "styles/mixins/media";
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
 @import "styles/layout/containers";
@@ -13,13 +13,13 @@
   h2 {
     font-weight: $weight-semibold;
     color: $white;
-    font-size: $text-xxxl; // 3rem
+    font-size: $text-md;
     margin: 2rem 0;
   }
 
   h3 {
     color: $white;
-    font-size: $text-xxl; // 2.5rem
+    font-size: $text-sm;
     margin: 2rem 0;
   }
 

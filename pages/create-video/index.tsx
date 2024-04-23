@@ -22,8 +22,10 @@ const Home: NextPage = () => {
   // const billId = "mnsf18842023-2024"; // 3sponsors
   // const billId = "mnsf7222023-2024"; // 3 republican sponsors
   // const billId = "us-hb2772-2023-2024"; // 2 issue tags
-  const billId = "us-hb610-2023-2024"; // 1 issue tags
+  // const billId = "us-hb610-2023-2024"; // 1 issue tags
   // const billId = "mnhf29252023-2024"; // 10 democratic sponsors
+  const billId = "mnhf1002023-2024"; // has house and senate votes
+
   const { data, isLoading, error } = useBillBySlugQuery({ slug: billId });
 
   if (isLoading) return <div>Loading...</div>;
@@ -39,7 +41,7 @@ const Home: NextPage = () => {
           <Player
             component={LegislationVideo}
             inputProps={{ billResult: data.billBySlug as BillResult }}
-            durationInFrames={800}
+            durationInFrames={1000}
             fps={VIDEO_FPS}
             compositionHeight={VIDEO_HEIGHT}
             compositionWidth={VIDEO_WIDTH}

@@ -1,10 +1,12 @@
-@import "styles/mixins/media";
+// @import "styles/mixins/media";
 @import "styles/mixins/utils";
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
 @import "styles/layout/containers";
 
 .legislationVideo {
+  font-size: 2em;
+
   display: flex;
   flex-direction: column;
   //   align-items: flex-start;
@@ -13,9 +15,13 @@
   //   gap: 4rem;
   width: 100%;
 
+  h1 {
+    font-size: $text-xxl;
+    font-weight: $weight-semibold;
+  }
+
   .mainHeader {
     h3 {
-      color: white;
       font-size: 2.5rem;
       margin: 2rem 0;
     }

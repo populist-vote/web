@@ -1,25 +1,30 @@
-import { AbsoluteFill, Series } from "remotion";
-import VoteDisplay from "./components/VoteDisplay";
-import { Badge } from "components/Badge/Badge";
-import { FaCircle } from "react-icons/fa";
-import { HeaderInner } from "./components/HeaderInner/HeaderInner";
-import type { BillResult, BillStatus } from "generated";
-import { Candidate, IssueTags, LegislationStatusBox } from "components";
-
-import { PoliticianResult, IssueTagResult } from "generated";
-
-import styles from "../../pages/bills/BillBySlug.module.scss";
-import legislationVideoStyles from "./LegislationVideo.module.scss";
-import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import React from "react";
+import { FaCircle } from "react-icons/fa";
+import { AbsoluteFill, Series } from "remotion";
+
+import { Badge } from "components/Badge/Badge";
+import { Candidate, IssueTags, LegislationStatusBox } from "components";
+import { LogoText } from "components/Logo";
+import type {
+  BillResult,
+  BillStatus,
+  PoliticianResult,
+  IssueTagResult,
+} from "generated";
 import { getStatusInfo } from "utils/bill";
+import { splitAtDigitAndJoin, titleCase } from "utils/strings";
+
+import { HeaderInner } from "./components/HeaderInner/HeaderInner";
+import VoteDisplay from "./components/VoteDisplay";
+import legislationVideoStyles from "./LegislationVideo.module.scss";
+import styles from "../../pages/bills/BillBySlug.module.scss";
 
 export const LegislationVideo = ({
   billResult,
 }: {
   billResult: BillResult;
 }) => {
-  console.log(JSON.stringify(billResult, null, 2));
+  // console.log(JSON.stringify(billResult, null, 2));
   const statusInfo = getStatusInfo(billResult.status as BillStatus);
 
   const lastHouseVote = billResult.legiscanData?.votes
@@ -50,12 +55,14 @@ export const LegislationVideo = ({
                 {splitAtDigitAndJoin(billResult.billNumber)}
               </h2>
             </div>
-            <h1> {billResult.populistTitle ?? billResult.title}</h1>
+            <h1>{billResult.populistTitle ?? billResult.title}</h1>
 
             {billResult?.issueTags && (
               <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
             )}
-            <LegislationStatusBox status={billResult.status} />
+            <div style={{ maxWidth: "800px" }}>
+              <LegislationStatusBox status={billResult.status} />
+            </div>
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
@@ -67,14 +74,7 @@ export const LegislationVideo = ({
               billState={billResult.state}
               billSession={billResult.session}
             />
-            <p
-              style={{
-                fontFamily: "proxima_nova",
-                fontSize: "3.5rem",
-                fontWeight: "400",
-                lineHeight: "1.5",
-              }}
-            >
+            <p>
               {billResult.description ??
                 billResult.populistSummary ??
                 billResult.officialSummary}
@@ -104,16 +104,7 @@ export const LegislationVideo = ({
               billState={billResult.state}
               billSession={billResult.session}
             />
-            <h1
-              style={{
-                color: "white",
-                fontSize: "6rem",
-                fontWeight: "600",
-                margin: "10rem 0 0 0",
-              }}
-            >
-              Last Votes
-            </h1>
+            <h1>Last Votes</h1>
 
             {lastHouseVote?.yea || lastHouseVote?.nay ? (
               <VoteDisplay
@@ -165,7 +156,7 @@ export const LegislationVideo = ({
 
             {billResult?.sponsors && billResult.sponsors.length > 0 && (
               <div>
-                <h2 className={styles.gradientHeader}>Sponsors</h2>
+                <h1 className={styles.gradientHeader}>Sponsors</h1>
                 {billResult.sponsors.length <= 6 ? (
                   <div
                     className={styles.sponsorsWrapper}
@@ -222,6 +213,16 @@ export const LegislationVideo = ({
               >
                 {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
               </Badge>
+            </div>
+          </Series.Sequence>
+          <Series.Sequence
+            durationInFrames={200}
+            className={legislationVideoStyles.legislationVideo}
+          >
+            <div>Uploaded logo will go here</div>
+            <div>
+              <span>Powered by</span>
+              <LogoText />
             </div>
           </Series.Sequence>
         </Series>
