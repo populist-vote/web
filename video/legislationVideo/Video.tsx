@@ -57,14 +57,13 @@ export const LegislationVideo = ({
               </h2>
             </div>
 
-            <h1>{billResult.populistTitle ?? billResult.title}</h1>
-            <div className={legislationVideoStyles.issueTags}>
-              {billResult?.issueTags && (
-                <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
-              )}
-            </div>
-
             <div className={legislationVideoStyles.bottomContainer}>
+              <h1>{billResult.populistTitle ?? billResult.title}</h1>
+              <div className={legislationVideoStyles.issueTags}>
+                {billResult?.issueTags && (
+                  <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
+                )}
+              </div>
               <div className={legislationVideoStyles.statusContainer}>
                 <LegislationStatusBox status={billResult.status} />
               </div>
@@ -166,8 +165,8 @@ export const LegislationVideo = ({
                   <div
                     style={{
                       display: "flex",
-                      alignItems: "flex-start", // Aligns children to the top
-                      justifyContent: "flex-start", // Aligns children to the left
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
                     }}
                   >
                     {billResult.sponsors.map((sponsor) => (
@@ -194,7 +193,9 @@ export const LegislationVideo = ({
                     ))}
                   </div>
                 ) : (
-                  <ul className={legislationVideoStyles.sponsorList}>
+                  <ul
+                    className={`${legislationVideoStyles.sponsorList} ${billResult.sponsors.length > 10 ? legislationVideoStyles.twoColumns : ""}`}
+                  >
                     {billResult.sponsors.map((sponsor) => {
                       return (
                         <li

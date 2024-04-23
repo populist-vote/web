@@ -60,6 +60,10 @@
     }
   }
 
+  .twoColumns {
+    column-count: 2;
+  }
+
   .sponsorList {
     font-size: $text-md;
     margin: 0;
