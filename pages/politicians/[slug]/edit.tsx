@@ -284,7 +284,7 @@ export default function PoliticianEditPage({
   referer?: string;
   ogParams: OGParams;
 }) {
-  useAuth({ minRole: Role.Staff });
+  useAuth({ minRole: Role.Staff, redirectTo: `/politician/${slug}` });
 
   const { data, isLoading } = usePoliticianBySlugQuery({
     slug: slug as string,
