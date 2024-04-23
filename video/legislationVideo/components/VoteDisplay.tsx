@@ -44,14 +44,7 @@ const VoteDisplay = ({
           alignItems: "center",
         }}
       >
-        <h2
-          style={{
-            fontSize: "2.5rem",
-            fontWeight: "400",
-          }}
-        >
-          {voteTitle}
-        </h2>
+        <h2>{voteTitle}</h2>
         <div
           style={{
             display: "flex",

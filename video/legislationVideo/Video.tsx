@@ -3,13 +3,13 @@ import { FaCircle } from "react-icons/fa";
 import { AbsoluteFill, Series } from "remotion";
 
 import { Badge } from "components/Badge/Badge";
-import { Candidate, IssueTags, LegislationStatusBox } from "components";
+import { PartyAvatar, IssueTags, LegislationStatusBox } from "components";
 import { LogoText } from "components/Logo";
 import type {
   BillResult,
   BillStatus,
-  PoliticianResult,
   IssueTagResult,
+  PoliticalParty,
 } from "generated";
 import { getStatusInfo } from "utils/bill";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
@@ -18,6 +18,7 @@ import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay";
 import legislationVideoStyles from "./LegislationVideo.module.scss";
 import styles from "../../pages/bills/BillBySlug.module.scss";
+import { default as clsx } from "clsx";
 
 export const LegislationVideo = ({
   billResult,
@@ -47,7 +48,7 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={legislationVideoStyles.legislationVideo}
           >
-            <div id="header" className={legislationVideoStyles.mainHeader}>
+            <div className={legislationVideoStyles.mainHeader}>
               <h3>2023 - 2024 SESSION</h3>
               <hr></hr>
               <h2>
@@ -55,13 +56,18 @@ export const LegislationVideo = ({
                 {splitAtDigitAndJoin(billResult.billNumber)}
               </h2>
             </div>
-            <h1>{billResult.populistTitle ?? billResult.title}</h1>
 
-            {billResult?.issueTags && (
-              <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
-            )}
-            <div style={{ maxWidth: "800px" }}>
-              <LegislationStatusBox status={billResult.status} />
+            <h1>{billResult.populistTitle ?? billResult.title}</h1>
+            <div className={legislationVideoStyles.issueTags}>
+              {billResult?.issueTags && (
+                <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
+              )}
+            </div>
+
+            <div className={legislationVideoStyles.bottomContainer}>
+              <div className={legislationVideoStyles.statusContainer}>
+                <LegislationStatusBox status={billResult.status} />
+              </div>
             </div>
           </Series.Sequence>
           <Series.Sequence
@@ -79,19 +85,21 @@ export const LegislationVideo = ({
                 billResult.populistSummary ??
                 billResult.officialSummary}
             </p>
-            <div
-              style={{ position: "absolute", bottom: "20%", width: "400px" }}
-            >
-              <Badge
-                iconLeft={
-                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
-                }
-                theme={statusInfo?.color}
-                lightBackground={false}
-                size="large"
-              >
-                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
-              </Badge>
+            <div className={legislationVideoStyles.bottomContainer}>
+              <div className={legislationVideoStyles.badgeContainer}>
+                <Badge
+                  iconLeft={
+                    <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                  }
+                  theme={statusInfo?.color}
+                  lightBackground={false}
+                  size="large"
+                >
+                  {titleCase(
+                    billResult?.status?.replaceAll("_", " ") as string
+                  )}
+                </Badge>
+              </div>
             </div>
           </Series.Sequence>
           <Series.Sequence
@@ -121,10 +129,7 @@ export const LegislationVideo = ({
                 numberOfNoVotes={lastSenateVote?.nay ?? 0}
               />
             ) : null}
-
-            <div
-              style={{ position: "absolute", bottom: "20%", width: "400px" }}
-            >
+            <div className={legislationVideoStyles.bottomContainer}>
               <Badge
                 iconLeft={
                   <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
@@ -156,26 +161,36 @@ export const LegislationVideo = ({
 
             {billResult?.sponsors && billResult.sponsors.length > 0 && (
               <div>
-                <h1 className={styles.gradientHeader}>Sponsors</h1>
+                <h1>Sponsors</h1>
                 {billResult.sponsors.length <= 6 ? (
                   <div
-                    className={styles.sponsorsWrapper}
                     style={{
-                      flexDirection: "row",
-                      flexWrap: "wrap",
-                      justifyContent: "center",
+                      display: "flex",
+                      alignItems: "flex-start", // Aligns children to the top
+                      justifyContent: "flex-start", // Aligns children to the left
                     }}
                   >
-                    {billResult.sponsors.map((sponsor, index) => (
-                      <React.Fragment key={sponsor.id}>
-                        <Candidate
-                          itemId={sponsor.id}
-                          candidate={sponsor as PoliticianResult}
+                    {billResult.sponsors.map((sponsor) => (
+                      <div
+                        key={sponsor.id}
+                        className={styles.avatarContainer}
+                        style={{ marginRight: "3rem", marginLeft: "0" }}
+                      >
+                        <PartyAvatar
+                          theme={"dark"}
+                          isEndorsement={false}
+                          iconSize="600px"
+                          party={sponsor.party as PoliticalParty}
+                          src={sponsor.assets?.thumbnailImage160 as string}
+                          alt={`${sponsor.fullName}'s avatar`}
+                          badgeSize="3rem"
+                          badgeFontSize="2rem"
+                          size={240}
                         />
-                        {(index + 1) % 3 === 0 && (
-                          <div style={{ width: "100%" }}></div>
-                        )}
-                      </React.Fragment>
+                        <span className={clsx(styles.link, styles.avatarName)}>
+                          {sponsor.fullName}
+                        </span>
+                      </div>
                     ))}
                   </div>
                 ) : (
@@ -199,10 +214,7 @@ export const LegislationVideo = ({
                 )}
               </div>
             )}
-
-            <div
-              style={{ position: "absolute", bottom: "20%", width: "400px" }}
-            >
+            <div className={legislationVideoStyles.bottomContainer}>
               <Badge
                 iconLeft={
                   <FaCircle size={12} color={`var(--${statusInfo?.color})`} />

@@ -5,54 +5,78 @@
 @import "styles/layout/containers";
 
 .legislationVideo {
-  font-size: 2em;
-
+  font-size: 2.25em;
   display: flex;
   flex-direction: column;
-  //   align-items: flex-start;
-  //   justify-content: flex-start;
-  padding: 8rem 4rem; // 120pt 40pt
-  //   gap: 4rem;
-  width: 100%;
+  padding: 8rem 5rem 30rem 5rem;
+  position: relative;
 
   h1 {
-    font-size: $text-xxl;
+    font-size: $text-xxxl;
     font-weight: $weight-semibold;
+  }
+
+  hr {
+    border: 1px solid white;
+    opacity: 0.1;
+    width: 100%;
+  }
+
+  p {
+    font-size: $text-xl;
+    color: $blue-text-light;
+  }
+
+  .statusContainer {
+    max-width: 600px;
+    h1 {
+      font-size: $text-xl;
+      font-weight: $weight-light;
+    }
+  }
+
+  .issueTags {
+    margin: 1rem 0;
+    font-size: $text-sm;
+  }
+
+  .bottomContainer {
+    margin-top: auto;
+
+    .badgeContainer {
+      font-size: $text-lg;
+    }
   }
 
   .mainHeader {
     h3 {
-      font-size: 2.5rem;
+      font-size: $text-md;
       margin: 2rem 0;
     }
 
     h2 {
-      width: 100%;
-    }
-    hr {
-      border: 1px solid white;
-      opacity: 0.1;
+      font-size: $text-lg;
       width: 100%;
     }
   }
 
   .sponsorList {
-    font-size: 2rem;
+    font-size: $text-md;
     margin: 0;
     padding: 0;
 
     li {
       list-style-type: none;
       position: relative;
-      padding-left: 40px; /* Provides space for the custom marker */
+      padding-left: 40px;
     }
 
     li::before {
-      content: "•"; /* Represents a bullet */
+      content: "•";
       position: absolute;
       left: 0;
       top: -32px;
-      font-size: 5rem; /* Control the size of the bullet */
+      font-size: 5rem;
     }
   }
 }
