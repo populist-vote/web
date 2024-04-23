@@ -20,7 +20,9 @@ export const HeaderInner = ({
         <h3>
           {billState || "U.S."} - {splitAtDigitAndJoin(billNumber)}
         </h3>
-        <h3>{getYear(billSession?.startDate)}</h3>
+        <h3>
+          {getYear(billSession?.startDate)} - {getYear(billSession?.endDate)}
+        </h3>
       </div>
       <hr></hr>
       <h2>{billTitle}</h2>
