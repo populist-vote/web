@@ -5,6 +5,7 @@ import { AbsoluteFill, Series } from "remotion";
 import { Badge } from "components/Badge/Badge";
 import { PartyAvatar, IssueTags, LegislationStatusBox } from "components";
 import { LogoText } from "components/Logo";
+import { MPRLogo } from "components/MPRLogo/MPRLogo";
 import type {
   BillResult,
   BillStatus,
@@ -19,6 +20,8 @@ import VoteDisplay from "./components/VoteDisplay";
 import legislationVideoStyles from "./LegislationVideo.module.scss";
 import styles from "../../pages/bills/BillBySlug.module.scss";
 import { default as clsx } from "clsx";
+
+// import { MPRLogo } from "/images/video-generator/MPR-logo.png";
 
 export const LegislationVideo = ({
   billResult,
@@ -223,6 +226,7 @@ export const LegislationVideo = ({
                 theme={statusInfo?.color}
                 lightBackground={false}
                 size="large"
+                style={{ scale: "2" }}
               >
                 {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
               </Badge>
@@ -232,10 +236,34 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={legislationVideoStyles.legislationVideo}
           >
-            <div>Uploaded logo will go here</div>
-            <div>
-              <span>Powered by</span>
-              <LogoText />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                gap: "2rem",
+                justifyContent: "center",
+              }}
+            >
+              <div>
+                <MPRLogo />
+              </div>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
+                <span
+                  style={{
+                    fontSize: "$text-sm",
+                    fontStyle: "italic",
+                    color: "var(--blue-text-light)",
+                  }}
+                >
+                  Powered by
+                </span>
+                <div style={{ width: "14rem" }}>
+                  <LogoText />
+                </div>
+              </div>
             </div>
           </Series.Sequence>
         </Series>
