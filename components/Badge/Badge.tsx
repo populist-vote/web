@@ -14,7 +14,7 @@ interface BadgeProps {
     | "orange"
     | "aqua";
   variant?: "solid" | "outline";
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large" | "extra-large";
   font?: "primary" | "secondary";
   iconLeft?: ReactNode;
   label?: string;
