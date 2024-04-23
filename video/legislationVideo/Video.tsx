@@ -5,7 +5,9 @@ import { AbsoluteFill, Series } from "remotion";
 import { Badge } from "components/Badge/Badge";
 import { PartyAvatar, IssueTags, LegislationStatusBox } from "components";
 import { LogoText } from "components/Logo";
-import { MPRLogo } from "components/MPRLogo/MPRLogo";
+// import { MPRLogo } from "components/MPRLogo/MPRLogo";
+import Image from "next/legacy/image";
+import MPRLogo from "public/images/video-generator/MPR-logo.png";
 import type {
   BillResult,
   BillStatus,
@@ -88,20 +90,17 @@ export const LegislationVideo = ({
                 billResult.officialSummary}
             </p>
             <div className={legislationVideoStyles.bottomContainer}>
-              <div className={legislationVideoStyles.badgeContainer}>
-                <Badge
-                  iconLeft={
-                    <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
-                  }
-                  theme={statusInfo?.color}
-                  lightBackground={false}
-                  size="large"
-                >
-                  {titleCase(
-                    billResult?.status?.replaceAll("_", " ") as string
-                  )}
-                </Badge>
-              </div>
+              <Badge
+                iconLeft={
+                  <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
+                }
+                theme={statusInfo?.color}
+                lightBackground={false}
+                size="extra-large"
+              >
+                &nbsp;
+                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
+              </Badge>
             </div>
           </Series.Sequence>
           <Series.Sequence
@@ -134,12 +133,13 @@ export const LegislationVideo = ({
             <div className={legislationVideoStyles.bottomContainer}>
               <Badge
                 iconLeft={
-                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                  <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
                 }
                 theme={statusInfo?.color}
                 lightBackground={false}
-                size="large"
+                size="extra-large"
               >
+                &nbsp;
                 {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
               </Badge>
             </div>
@@ -221,13 +221,13 @@ export const LegislationVideo = ({
             <div className={legislationVideoStyles.bottomContainer}>
               <Badge
                 iconLeft={
-                  <FaCircle size={12} color={`var(--${statusInfo?.color})`} />
+                  <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
                 }
                 theme={statusInfo?.color}
                 lightBackground={false}
-                size="large"
-                style={{ scale: "2" }}
+                size="extra-large"
               >
+                &nbsp;
                 {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
               </Badge>
             </div>
@@ -241,12 +241,12 @@ export const LegislationVideo = ({
                 display: "flex",
                 flexDirection: "column",
                 height: "100%",
-                gap: "2rem",
+                gap: "4rem",
                 justifyContent: "center",
               }}
             >
               <div>
-                <MPRLogo />
+                <Image src={MPRLogo} alt="MPR Logo" />
               </div>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
