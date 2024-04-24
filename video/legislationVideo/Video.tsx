@@ -1,19 +1,17 @@
 import React from "react";
-import { FaCircle } from "react-icons/fa";
 import { AbsoluteFill, Series } from "remotion";
 
-import { Badge } from "components/Badge/Badge";
 import { IssueTags, LegislationStatusBox } from "components";
 import { LogoText } from "components/Logo";
 import Image from "next/legacy/image";
 import MPRLogo from "public/images/video-generator/MPR-logo.png";
-import type { BillResult, BillStatus, IssueTagResult } from "generated";
-import { getStatusInfo } from "utils/bill";
-import { splitAtDigitAndJoin, titleCase } from "utils/strings";
+import type { BillResult, IssueTagResult } from "generated";
+import { splitAtDigitAndJoin } from "utils/strings";
 
 import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay";
+import StatusBadge from "./components/StatusBadge";
 import styles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
@@ -21,8 +19,6 @@ export const LegislationVideo = ({
 }: {
   billResult: BillResult;
 }) => {
-  const statusInfo = getStatusInfo(billResult.status as BillStatus);
-
   const lastHouseVote = billResult.legiscanData?.votes
     ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .filter((vote) => vote.chamber === "H")
@@ -79,19 +75,7 @@ export const LegislationVideo = ({
                 billResult.populistSummary ??
                 billResult.officialSummary}
             </p>
-            <div className={styles.bottomContainer}>
-              <Badge
-                iconLeft={
-                  <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
-                }
-                theme={statusInfo?.color}
-                lightBackground={false}
-                size="extra-large"
-              >
-                &nbsp;
-                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
-              </Badge>
-            </div>
+            <StatusBadge status={billResult?.status} />
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
@@ -120,19 +104,7 @@ export const LegislationVideo = ({
                 numberOfNoVotes={lastSenateVote?.nay ?? 0}
               />
             ) : null}
-            <div className={styles.bottomContainer}>
-              <Badge
-                iconLeft={
-                  <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
-                }
-                theme={statusInfo?.color}
-                lightBackground={false}
-                size="extra-large"
-              >
-                &nbsp;
-                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
-              </Badge>
-            </div>
+            <StatusBadge status={billResult?.status} />
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
@@ -147,19 +119,7 @@ export const LegislationVideo = ({
 
             <SponsorDisplay sponsors={billResult.sponsors} />
 
-            <div className={styles.bottomContainer}>
-              <Badge
-                iconLeft={
-                  <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
-                }
-                theme={statusInfo?.color}
-                lightBackground={false}
-                size="extra-large"
-              >
-                &nbsp;
-                {titleCase(billResult?.status?.replaceAll("_", " ") as string)}
-              </Badge>
-            </div>
+            <StatusBadge status={billResult?.status} />
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
