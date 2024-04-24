@@ -329,3 +329,7 @@ query PoliticalParties {
     name
   }
 }
+
+mutation UploadAvatarPicture($slug: String!, $file: Upload!) {
+  uploadAvatarPicture(slug: $slug, file: $file)
+}

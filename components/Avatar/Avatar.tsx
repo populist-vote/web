@@ -82,7 +82,7 @@ interface AvatarProps {
 
 interface PartyAvatarProps extends AvatarProps {
   theme?: "light" | "dark";
-  party?: PoliticalParty;
+  party?: PoliticalParty | null;
   badgeSize?: string;
   badgeFontSize?: string;
   href?: string;
@@ -423,7 +423,7 @@ type BadgeColors = {
   text: string;
 };
 
-function getPartyColors(party?: PoliticalParty): BadgeColors {
+function getPartyColors(party?: PoliticalParty | null): BadgeColors {
   if (!party) {
     return {
       background: "var(--purple)",

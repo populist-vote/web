@@ -47,6 +47,13 @@
   }
 }
 
+.fullName {
+  font-weight: 500;
+  margin: 1rem 0 0.5rem;
+  text-align: center;
+  padding: 1rem;
+}
+
 .committees {
   border-top: solid 1px $blue-dark !important;
   border-bottom: solid 1px $blue-dark;
