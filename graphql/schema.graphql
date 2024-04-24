@@ -672,7 +672,7 @@ type Mutation {
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updateUsername(username: String!): UpdateUsernameResult!
-  uploadAvatarPicture(file: Upload!, slug: String!): String!
+  uploadPoliticianPicture(file: Upload!, slug: String!): String!
   uploadProfilePicture(file: Upload!): String!
   upsertBallotMeasure(electionId: UUID!, input: UpsertBallotMeasureInput!): BallotMeasureResult!
   upsertBill(input: UpsertBillInput!): BillResult!
