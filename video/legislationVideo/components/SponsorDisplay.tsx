@@ -12,7 +12,7 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => (
   <div>
     <h1>Sponsors</h1>
     {sponsors.length <= 6 ? (
-      <div className={styles.flexContainer}>
+      <div className={styles.sponsorAvatars}>
         {sponsors.map((sponsor) => (
           <div
             key={sponsor.id}
