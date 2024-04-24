@@ -8,7 +8,7 @@ interface HeaderInnerProps {
   headerProps: Pick<BillResult, "title" | "billNumber" | "state" | "session">;
 }
 
-export const HeaderInner: React.FC<HeaderInnerProps> = ({ headerProps }) => {
+const HeaderInner: React.FC<HeaderInnerProps> = ({ headerProps }) => {
   const { title, billNumber, state, session } = headerProps;
 
   return (
@@ -26,3 +26,5 @@ export const HeaderInner: React.FC<HeaderInnerProps> = ({ headerProps }) => {
     </div>
   );
 };
+
+export default HeaderInner;
