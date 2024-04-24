@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { AbsoluteFill, Series } from "remotion";
 import { IssueTags, LegislationStatusBox } from "components";
 import type { BillResult, IssueTagResult } from "generated";
@@ -9,6 +9,7 @@ import SponsorDisplay from "./components/SponsorDisplay";
 import StatusBadge from "./components/StatusBadge";
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
+import { Animated, Fade, Move } from "remotion-animated";
 
 interface Vote {
   date: string;
@@ -21,7 +22,7 @@ const getLastVote = (votes: Vote[], chamber: string): Vote | undefined =>
     ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .find((vote) => vote.chamber === chamber);
 
-export const LegislationVideoComponent = ({
+export const LegislationVideo = ({
   billResult,
 }: {
   billResult: BillResult;
@@ -46,7 +47,9 @@ export const LegislationVideoComponent = ({
           className={styles.legislationVideo}
         >
           <div className={styles.mainHeader}>
-            <h3>2023 - 2024 SESSION</h3>
+            <Animated animations={[Move({ y: 40 }), Fade({ to: 0 })]}>
+              <h3>2023 - 2024 SESSION</h3>
+            </Animated>
             <hr />
             <h2>
               {billResult.state || "U.S."} -{" "}
@@ -115,5 +118,3 @@ export const LegislationVideoComponent = ({
     </AbsoluteFill>
   );
 };
-
-export const LegislationVideo = memo(LegislationVideoComponent);

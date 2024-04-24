@@ -51,6 +51,7 @@
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
     "remotion": "4.0.141",
+    "remotion-animated": "^2.0.0",
     "sass": "^1.71.1",
     "sharp": "^0.33.2",
     "webpack": "^5.90.3",

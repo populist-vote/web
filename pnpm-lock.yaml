@@ -113,6 +113,9 @@ dependencies:
   remotion:
     specifier: 4.0.141
     version: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+  remotion-animated:
+    specifier: ^2.0.0
+    version: 2.0.0(react-dom@18.2.0)(react@18.2.0)(remotion@4.0.141)
   sass:
     specifier: ^1.71.1
     version: 1.71.1
@@ -9359,6 +9362,18 @@ packages:
   /remedial@1.0.8:
     resolution: {integrity: sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==}
     dev: true
+
+  /remotion-animated@2.0.0(react-dom@18.2.0)(react@18.2.0)(remotion@4.0.141):
+    resolution: {integrity: sha512-OBrDAxRUvzpuuTaMmAO2L7aVU7KSpfHF5yENEq/oghdjsWYi+Af5E+IAulaMeShJqa+6NkD6KliL7WjYD4ZGeg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      remotion: '>=4.0.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      remotion: 4.0.141(react-dom@18.2.0)(react@18.2.0)
+    dev: false
 
   /remotion@4.0.141(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-jqcqKB7w6o7gDLLAmYIoyDE9RmAInT4SpYnFiQfhQnowBmTMsbp1WtWIdCLxqqOjwaZ7Aazjf6wqSfadWc3T6w==}
