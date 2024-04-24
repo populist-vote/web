@@ -11,6 +11,30 @@
   padding: 8rem 5rem 30rem 5rem;
   position: relative;
 
+  .endTitle {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 4rem;
+    justify-content: center;
+
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .poweredBy {
+      font-size: $text-sm;
+      font-style: italic;
+      color: var(--blue-text-light);
+    }
+
+    .logo {
+      width: 14rem;
+    }
+  }
+
   h1 {
     font-size: $text-xxxl;
     font-weight: $weight-semibold;

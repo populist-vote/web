@@ -2,9 +2,7 @@ import React from "react";
 import { AbsoluteFill, Series } from "remotion";
 
 import { IssueTags, LegislationStatusBox } from "components";
-import { LogoText } from "components/Logo";
-import Image from "next/legacy/image";
-import MPRLogo from "public/images/video-generator/MPR-logo.png";
+
 import type { BillResult, IssueTagResult } from "generated";
 import { splitAtDigitAndJoin } from "utils/strings";
 
@@ -12,6 +10,7 @@ import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay";
 import StatusBadge from "./components/StatusBadge";
+import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
@@ -116,35 +115,7 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={styles.legislationVideo}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-                gap: "4rem",
-                justifyContent: "center",
-              }}
-            >
-              <div>
-                <Image src={MPRLogo} alt="MPR Logo" />
-              </div>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-              >
-                <span
-                  style={{
-                    fontSize: "$text-sm",
-                    fontStyle: "italic",
-                    color: "var(--blue-text-light)",
-                  }}
-                >
-                  Powered by
-                </span>
-                <div style={{ width: "14rem" }}>
-                  <LogoText />
-                </div>
-              </div>
-            </div>
+            <Logos />
           </Series.Sequence>
         </Series>
       </AbsoluteFill>
