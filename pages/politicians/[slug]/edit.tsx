@@ -313,7 +313,7 @@ function PoliticianAvatar({
       .then(() => {
         queryClient
           .invalidateQueries({
-            queryKey: usePoliticianBasicInfoQuery.getKey({
+            queryKey: usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
             }),
           })
