@@ -318,6 +318,7 @@ function PoliticianAvatar({
             }),
           })
           .catch((err) => toast.error(err));
+        document.location.reload();
       })
       .catch((error) => toast.error(error))
       .finally(() => setUploading(false));
