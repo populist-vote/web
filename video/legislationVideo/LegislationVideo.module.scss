@@ -101,11 +101,15 @@
     }
 
     li::before {
-      content: "•";
+      content: "";
       position: absolute;
+      height: 10px;
+      width: 10px;
+      border-radius: 10px;
       left: 0;
-      top: -32px;
+      top: 0;
       font-size: 5rem;
+      background-color: #fff;
     }
   }
 }
