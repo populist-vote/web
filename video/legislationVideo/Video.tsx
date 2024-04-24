@@ -69,7 +69,7 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={styles.legislationVideo}
           >
-            <HeaderInner bill={headerInnerProps} />
+            <HeaderInner headerProps={headerInnerProps} />
             <p>
               {billResult.description ??
                 billResult.populistSummary ??
@@ -81,7 +81,7 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={styles.legislationVideo}
           >
-            <HeaderInner bill={headerInnerProps} />
+            <HeaderInner headerProps={headerInnerProps} />
             <h1>Last Votes</h1>
 
             {lastHouseVote?.yea || lastHouseVote?.nay ? (
@@ -90,7 +90,9 @@ export const LegislationVideo = ({
                 numberOfYesVotes={lastHouseVote?.yea ?? 0}
                 numberOfNoVotes={lastHouseVote?.nay ?? 0}
               />
-            ) : null}
+            ) : (
+              <></>
+            )}
 
             {lastSenateVote?.yea || lastSenateVote?.nay ? (
               <VoteDisplay
@@ -98,14 +100,16 @@ export const LegislationVideo = ({
                 numberOfYesVotes={lastSenateVote?.yea ?? 0}
                 numberOfNoVotes={lastSenateVote?.nay ?? 0}
               />
-            ) : null}
+            ) : (
+              <></>
+            )}
             <StatusBadge status={billResult?.status} />
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
             className={styles.legislationVideo}
           >
-            <HeaderInner bill={headerInnerProps} />
+            <HeaderInner headerProps={headerInnerProps} />
 
             <SponsorDisplay sponsors={billResult.sponsors} />
 

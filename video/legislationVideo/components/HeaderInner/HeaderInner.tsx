@@ -5,11 +5,11 @@ import type { BillResult } from "generated";
 import styles from "./HeaderInner.module.scss";
 
 interface HeaderInnerProps {
-  bill: Pick<BillResult, "title" | "billNumber" | "state" | "session">;
+  headerProps: Pick<BillResult, "title" | "billNumber" | "state" | "session">;
 }
 
-export const HeaderInner: React.FC<HeaderInnerProps> = ({ bill }) => {
-  const { title, billNumber, state, session } = bill;
+export const HeaderInner: React.FC<HeaderInnerProps> = ({ headerProps }) => {
+  const { title, billNumber, state, session } = headerProps;
 
   return (
     <div className={styles.headerInner}>
