@@ -1,31 +1,28 @@
+import React from "react";
 import { splitAtDigitAndJoin } from "utils/strings";
 import { getYear } from "utils/dates";
 import type { BillResult } from "generated";
 import styles from "./HeaderInner.module.scss";
 
-export const HeaderInner = ({
-  billTitle,
-  billNumber,
-  billState,
-  billSession,
-}: {
-  billTitle: BillResult["title"];
-  billNumber: BillResult["billNumber"];
-  billState: BillResult["state"];
-  billSession: BillResult["session"];
-}) => {
+interface HeaderInnerProps {
+  bill: Pick<BillResult, "title" | "billNumber" | "state" | "session">;
+}
+
+export const HeaderInner: React.FC<HeaderInnerProps> = ({ bill }) => {
+  const { title, billNumber, state, session } = bill;
+
   return (
     <div className={styles.headerInner}>
       <div className={styles.stateAndDate}>
         <h3>
-          {billState || "U.S."} - {splitAtDigitAndJoin(billNumber)}
+          {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
         </h3>
         <h3>
-          {getYear(billSession?.startDate)} - {getYear(billSession?.endDate)}
+          {getYear(session?.startDate)} - {getYear(session?.endDate)}
         </h3>
       </div>
-      <hr></hr>
-      <h2>{billTitle}</h2>
+      <hr />
+      <h2>{title}</h2>
     </div>
   );
 };

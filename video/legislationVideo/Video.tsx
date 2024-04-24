@@ -19,6 +19,12 @@ export const LegislationVideo = ({
 }: {
   billResult: BillResult;
 }) => {
+  const headerInnerProps = {
+    title: billResult.populistTitle ?? billResult.title,
+    billNumber: billResult.billNumber,
+    state: billResult.state,
+    session: billResult.session,
+  };
   const lastHouseVote = billResult.legiscanData?.votes
     ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .filter((vote) => vote.chamber === "H")
@@ -64,12 +70,7 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={styles.legislationVideo}
           >
-            <HeaderInner
-              billTitle={billResult.populistTitle ?? billResult.title}
-              billNumber={billResult.billNumber}
-              billState={billResult.state}
-              billSession={billResult.session}
-            />
+            <HeaderInner bill={headerInnerProps} />
             <p>
               {billResult.description ??
                 billResult.populistSummary ??
@@ -81,12 +82,7 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={styles.legislationVideo}
           >
-            <HeaderInner
-              billTitle={billResult.populistTitle ?? billResult.title}
-              billNumber={billResult.billNumber}
-              billState={billResult.state}
-              billSession={billResult.session}
-            />
+            <HeaderInner bill={headerInnerProps} />
             <h1>Last Votes</h1>
 
             {lastHouseVote?.yea || lastHouseVote?.nay ? (
@@ -110,12 +106,7 @@ export const LegislationVideo = ({
             durationInFrames={200}
             className={styles.legislationVideo}
           >
-            <HeaderInner
-              billTitle={billResult.populistTitle ?? billResult.title}
-              billNumber={billResult.billNumber}
-              billState={billResult.state}
-              billSession={billResult.session}
-            />
+            <HeaderInner bill={headerInnerProps} />
 
             <SponsorDisplay sponsors={billResult.sponsors} />
 
