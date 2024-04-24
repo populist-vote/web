@@ -14,14 +14,13 @@ import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay";
-import legislationVideoStyles from "./LegislationVideo.module.scss";
+import styles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
   billResult,
 }: {
   billResult: BillResult;
 }) => {
-  // console.log(JSON.stringify(billResult, null, 2));
   const statusInfo = getStatusInfo(billResult.status as BillStatus);
 
   const lastHouseVote = billResult.legiscanData?.votes
@@ -42,9 +41,9 @@ export const LegislationVideo = ({
         <Series>
           <Series.Sequence
             durationInFrames={200}
-            className={legislationVideoStyles.legislationVideo}
+            className={styles.legislationVideo}
           >
-            <div className={legislationVideoStyles.mainHeader}>
+            <div className={styles.mainHeader}>
               <h3>2023 - 2024 SESSION</h3>
               <hr></hr>
               <h2>
@@ -53,21 +52,21 @@ export const LegislationVideo = ({
               </h2>
             </div>
 
-            <div className={legislationVideoStyles.bottomContainer}>
+            <div className={styles.bottomContainer}>
               <h1>{billResult.populistTitle ?? billResult.title}</h1>
-              <div className={legislationVideoStyles.issueTags}>
+              <div className={styles.issueTags}>
                 {billResult?.issueTags && (
                   <IssueTags tags={billResult.issueTags as IssueTagResult[]} />
                 )}
               </div>
-              <div className={legislationVideoStyles.statusContainer}>
+              <div className={styles.statusContainer}>
                 <LegislationStatusBox status={billResult.status} />
               </div>
             </div>
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
-            className={legislationVideoStyles.legislationVideo}
+            className={styles.legislationVideo}
           >
             <HeaderInner
               billTitle={billResult.populistTitle ?? billResult.title}
@@ -80,7 +79,7 @@ export const LegislationVideo = ({
                 billResult.populistSummary ??
                 billResult.officialSummary}
             </p>
-            <div className={legislationVideoStyles.bottomContainer}>
+            <div className={styles.bottomContainer}>
               <Badge
                 iconLeft={
                   <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
@@ -96,7 +95,7 @@ export const LegislationVideo = ({
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
-            className={legislationVideoStyles.legislationVideo}
+            className={styles.legislationVideo}
           >
             <HeaderInner
               billTitle={billResult.populistTitle ?? billResult.title}
@@ -121,7 +120,7 @@ export const LegislationVideo = ({
                 numberOfNoVotes={lastSenateVote?.nay ?? 0}
               />
             ) : null}
-            <div className={legislationVideoStyles.bottomContainer}>
+            <div className={styles.bottomContainer}>
               <Badge
                 iconLeft={
                   <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
@@ -137,7 +136,7 @@ export const LegislationVideo = ({
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
-            className={legislationVideoStyles.legislationVideo}
+            className={styles.legislationVideo}
           >
             <HeaderInner
               billTitle={billResult.populistTitle ?? billResult.title}
@@ -148,7 +147,7 @@ export const LegislationVideo = ({
 
             <SponsorDisplay sponsors={billResult.sponsors} />
 
-            <div className={legislationVideoStyles.bottomContainer}>
+            <div className={styles.bottomContainer}>
               <Badge
                 iconLeft={
                   <FaCircle size={24} color={`var(--${statusInfo?.color})`} />
@@ -164,7 +163,7 @@ export const LegislationVideo = ({
           </Series.Sequence>
           <Series.Sequence
             durationInFrames={200}
-            className={legislationVideoStyles.legislationVideo}
+            className={styles.legislationVideo}
           >
             <div
               style={{
