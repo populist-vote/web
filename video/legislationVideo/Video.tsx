@@ -3,24 +3,18 @@ import { FaCircle } from "react-icons/fa";
 import { AbsoluteFill, Series } from "remotion";
 
 import { Badge } from "components/Badge/Badge";
-import { PartyAvatar, IssueTags, LegislationStatusBox } from "components";
+import { IssueTags, LegislationStatusBox } from "components";
 import { LogoText } from "components/Logo";
 import Image from "next/legacy/image";
 import MPRLogo from "public/images/video-generator/MPR-logo.png";
-import type {
-  BillResult,
-  BillStatus,
-  IssueTagResult,
-  PoliticalParty,
-} from "generated";
+import type { BillResult, BillStatus, IssueTagResult } from "generated";
 import { getStatusInfo } from "utils/bill";
 import { splitAtDigitAndJoin, titleCase } from "utils/strings";
 
 import { HeaderInner } from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay";
+import SponsorDisplay from "./components/SponsorDisplay";
 import legislationVideoStyles from "./LegislationVideo.module.scss";
-import styles from "../../pages/bills/BillBySlug.module.scss";
-import { default as clsx } from "clsx";
 
 export const LegislationVideo = ({
   billResult,
@@ -151,70 +145,9 @@ export const LegislationVideo = ({
               billState={billResult.state}
               billSession={billResult.session}
             />
-            {/* 
-            
-            If billResult.sponsors is less than or equal to 6, display the sponsors in a row, 3 at a time.
-            
-            If billResult.sponsors is greater than 6, display them in list with only their names, in red or blue, according to their PoliticalParty.
-            */}
 
-            {billResult?.sponsors && billResult.sponsors.length > 0 && (
-              <div>
-                <h1>Sponsors</h1>
-                {billResult.sponsors.length <= 6 ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    {billResult.sponsors.map((sponsor) => (
-                      <div
-                        key={sponsor.id}
-                        className={styles.avatarContainer}
-                        style={{ marginRight: "3rem", marginLeft: "0" }}
-                      >
-                        <PartyAvatar
-                          theme={"dark"}
-                          isEndorsement={false}
-                          iconSize="600px"
-                          party={sponsor.party as PoliticalParty}
-                          src={sponsor.assets?.thumbnailImage160 as string}
-                          alt={`${sponsor.fullName}'s avatar`}
-                          badgeSize="3rem"
-                          badgeFontSize="2rem"
-                          size={240}
-                        />
-                        <span className={clsx(styles.link, styles.avatarName)}>
-                          {sponsor.fullName}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <ul
-                    className={`${legislationVideoStyles.sponsorList} ${billResult.sponsors.length > 10 ? legislationVideoStyles.twoColumns : ""}`}
-                  >
-                    {billResult.sponsors.map((sponsor) => {
-                      return (
-                        <li
-                          key={sponsor.id}
-                          style={{
-                            color:
-                              sponsor.party?.name === "Democratic-Farmer-Labor"
-                                ? "var(--blue-text-light)"
-                                : "var(--salmon)",
-                          }}
-                        >
-                          {sponsor.fullName}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </div>
-            )}
+            <SponsorDisplay sponsors={billResult.sponsors} />
+
             <div className={legislationVideoStyles.bottomContainer}>
               <Badge
                 iconLeft={
