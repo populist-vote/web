@@ -6,7 +6,6 @@ import { splitAtDigitAndJoin } from "utils/strings";
 import HeaderInner from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay";
-import StatusBadge from "./components/StatusBadge";
 import Logos from "./components/Logos";
 import { AnimatedDivider } from "./components/AnimatedDivider";
 import styles from "./LegislationVideo.module.scss";
@@ -35,6 +34,7 @@ export const LegislationVideo = ({
     billNumber: billResult.billNumber,
     state: billResult.state,
     session: billResult.session,
+    status: status,
   };
 
   // console.log(JSON.stringify(populistTitle, null, 2));
@@ -49,17 +49,23 @@ export const LegislationVideo = ({
           className={styles.legislationVideo}
         >
           <div className={styles.mainHeader}>
-            <Animated
-              animations={[
-                Move({ y: 0, initialY: 30 }),
-                Fade({ to: 1, initial: 0 }),
-              ]}
-              delay={20}
-              style={{ opacity: 0 }}
-            >
-              <h3>2023 - 2024 SESSION</h3>
-            </Animated>
-            <AnimatedDivider />
+            <div className={styles.topContainer}>
+              <Animated
+                animations={[
+                  Move({ y: 0, initialY: 30 }),
+                  Fade({ to: 1, initial: 0 }),
+                ]}
+                delay={20}
+                style={{ opacity: 0 }}
+              >
+                <h3>2023 - 2024 SESSION</h3>
+              </Animated>
+            </div>
+
+            <div className={styles.middleContainer}>
+              {/* <hr /> */}
+              <AnimatedDivider />
+            </div>
             <Animated
               animations={[
                 Move({ y: 0, initialY: 30 }),
@@ -127,7 +133,6 @@ export const LegislationVideo = ({
               billResult.populistSummary ??
               billResult.officialSummary}
           </p>
-          <StatusBadge status={status} />
         </Series.Sequence>
 
         <Series.Sequence
@@ -150,7 +155,6 @@ export const LegislationVideo = ({
               numberOfNoVotes={lastSenateVote.nay ?? 0}
             />
           )}
-          <StatusBadge status={status} />
         </Series.Sequence>
 
         <Series.Sequence
@@ -159,7 +163,6 @@ export const LegislationVideo = ({
         >
           <HeaderInner headerProps={headerInnerProps} />
           <SponsorDisplay sponsors={sponsors} />
-          <StatusBadge status={status} />
         </Series.Sequence>
 
         <Series.Sequence

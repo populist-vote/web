@@ -4,28 +4,41 @@
 @import "styles/layout/containers";
 
 .headerInner {
-  .stateAndDate {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+
+  .top {
+    height: 100px;
+  }
+
+  .middle {
+    height: 100px;
+  }
+
+  .bottom {
+    height: 300px;
   }
 
   h2 {
     font-weight: $weight-semibold;
     color: $white;
     font-size: $text-md;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
 
   h3 {
     color: $white;
     font-size: $text-sm;
-    margin: 2rem 0;
+    margin-bottom: 1rem;
+    margin-top: 0;
   }
 
   hr {
     border: 1px solid $white;
     opacity: 0.1;
     width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 }
