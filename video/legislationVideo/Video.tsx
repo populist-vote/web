@@ -128,11 +128,13 @@ export const LegislationVideo = ({
           className={styles.legislationVideo}
         >
           <HeaderInner headerProps={headerInnerProps} />
-          <p>
-            {billResult.description ??
-              billResult.populistSummary ??
-              billResult.officialSummary}
-          </p>
+          <div className={styles.bottomContainer}>
+            <p>
+              {billResult.description ??
+                billResult.populistSummary ??
+                billResult.officialSummary}
+            </p>
+          </div>
         </Series.Sequence>
 
         <Series.Sequence
