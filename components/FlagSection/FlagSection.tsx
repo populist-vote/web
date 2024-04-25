@@ -1,6 +1,8 @@
 import React from "react";
+import Link from "next/link";
 import styles from "./FlagSection.module.scss";
 import clsx from "clsx";
+import { Button } from "components";
 
 export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
 
@@ -23,6 +25,14 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
     <div style={style} className={styleClasses}>
       <header className={styles.header}>
         <span className={styles.sectionTitle}>{label}</span>
+        <Link href="/create-video">
+          <Button
+            variant="primary"
+            size="medium"
+            label="Generate Video Content"
+            width="16rem"
+          />
+        </Link>
       </header>
       <div className={styles.content}>{children}</div>
     </div>
