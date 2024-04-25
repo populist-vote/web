@@ -32,7 +32,13 @@ const CreateVideoPage: NextPage = () => {
 
   return (
     <div>
-      <h1>Create a Video</h1>
+      <h1>Generate Video Content</h1>
+      <p>
+        Generate a 9:16 video perfect for sharing on TikTok, Instagram, and
+        other social media platforms. Customize your video to suit your needs
+        and, when you're ready, click "Generate Video". After the video is
+        processed, you can download it directly from the provided link.
+      </p>
 
       <div style={container}>
         <div>
