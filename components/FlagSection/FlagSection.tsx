@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./FlagSection.module.scss";
 import clsx from "clsx";
 import { Button } from "components";
-import { useRouter } from "next/router"; // Import useRouter
+import { useRouter } from "next/router";
 
 export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
 
