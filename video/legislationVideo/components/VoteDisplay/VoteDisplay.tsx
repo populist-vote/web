@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/legacy/image";
 import iconYay from "public/images/video-generator/yay-icon.svg";
 import iconNay from "public/images/video-generator/nay-icon.svg";
+import styles from "./VoteDisplay.module.scss";
 
 const VoteDisplay = ({
   voteTitle,
@@ -35,15 +36,8 @@ const VoteDisplay = ({
   });
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+    <div className={styles.voteDisplayContainer}>
+      <div>
         <h2>{voteTitle}</h2>
         <div
           style={{

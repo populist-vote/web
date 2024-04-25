@@ -1,0 +1,50 @@
+.voteDisplay {
+  font-family: "proxima_nova", sans-serif;
+
+  .voteDisplayContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .voteIcons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .voteCounts {
+    display: flex;
+    align-items: center;
+    font-family: "proxima_nova", sans-serif;
+    font-weight: 600;
+    font-size: 3rem;
+  }
+
+  //   .voteGrid {
+  //     display: grid;
+  //     width: 100%;
+  //   }
+
+  //   .voteSquare {
+  //     width: 1rem;
+  //     height: 1rem;
+  //     background-color: var(--default-color);
+  //     border-radius: 0.25rem;
+  //   }
+
+  //   .yesVote {
+  //     background-color: var(--green-support);
+  //   }
+
+  //   .noVote {
+  //     background-color: var(--red);
+  //   }
+}
