@@ -25,7 +25,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "populist-platform-staging.s3.amazonaws.com",
+        hostname: "populist-platform-staging.s3.us-east-1.amazonaws.com",
       },
       {
         protocol: "https",

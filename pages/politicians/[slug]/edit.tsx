@@ -2,9 +2,9 @@ import { QueryClient, dehydrate, useQueryClient } from "@tanstack/react-query";
 import {
   Button,
   FlagSection,
-  HeaderSection,
   Layout,
   LoaderFlag,
+  PartyAvatar,
   TextInput,
 } from "components";
 import {
@@ -29,6 +29,9 @@ import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
 import states from "utils/states";
 import { toast } from "react-toastify";
+import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
+import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
+import { useState } from "react";
 
 function PoliticianForm({
   politician,
@@ -274,6 +277,109 @@ function PoliticianForm({
   );
 }
 
+function PoliticianAvatar({
+  politician,
+}: {
+  politician: Partial<PoliticianResult>;
+}) {
+  const [uploading, setUploading] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
+  const avatarUrl = politician?.assets?.thumbnailImage400;
+
+  const onDropAccepted = (files: FileWithPath[]) => {
+    setUploading(true);
+    const formData = new FormData();
+    const uploadAvatarPictureOperations = `
+      {
+        "query":"mutation UploadPoliticianPicture($slug: String, $file: Upload) {uploadPoliticianPicture(slug: $slug, file: $file) }",
+        "variables":{
+            "slug": "${politician.slug}",
+            "file": null
+        }
+      }
+      `;
+
+    formData.append("operations", uploadAvatarPictureOperations);
+    const map = `{"file": ["variables.file"]}`;
+    formData.append("map", map);
+    if (files[0]) formData.append("file", files[0]);
+
+    fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    })
+      .then(() => {
+        queryClient
+          .invalidateQueries({
+            queryKey: usePoliticianBySlugQuery.getKey({
+              slug: politician.slug as string,
+            }),
+          })
+          .catch((err) => toast.error(err));
+        document.location.reload();
+      })
+      .catch((error) => toast.error(error))
+      .finally(() => setUploading(false));
+  };
+
+  const onDropRejected = (e: FileRejection[]) => {
+    e.forEach((file) => {
+      toast.error(file.errors[0]?.message);
+    });
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDropAccepted,
+    onDropRejected,
+    multiple: false,
+    maxSize: 2 * 1024 * 1024,
+  });
+
+  const label = isDragActive
+    ? "Drop image here"
+    : !avatarUrl
+      ? "Upload profile picture"
+      : "Change profile picture";
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      {uploading ? (
+        <LoaderFlag />
+      ) : (
+        <PartyAvatar
+          key={politician?.id}
+          badgeSize={"3.125rem"}
+          badgeFontSize={"2rem"}
+          borderWidth="6px"
+          size={200}
+          party={politician?.party}
+          src={
+            (politician?.assets?.thumbnailImage400 ||
+              politician?.thumbnailImageUrl ||
+              politician?.votesmartCandidateBio?.candidate.photo) as string
+          }
+          fallbackSrc={PERSON_FALLBACK_IMAGE_400_URL}
+          alt={politician?.fullName as string}
+          hasIconMenu={true}
+        />
+      )}
+      <div {...getRootProps()} style={{ marginTop: "1rem" }}>
+        <input {...getInputProps()} />
+        <Button variant="secondary" size="large" theme="blue" label={label} />
+      </div>
+      <h1 className={styles.fullName}>{politician?.fullName}</h1>
+    </div>
+  );
+}
+
 export default function PoliticianEditPage({
   slug,
   mobileNavTitle,
@@ -284,7 +390,7 @@ export default function PoliticianEditPage({
   referer?: string;
   ogParams: OGParams;
 }) {
-  useAuth({ minRole: Role.Staff });
+  useAuth({ minRole: Role.Staff, redirectTo: `/politician/${slug}` });
 
   const { data, isLoading } = usePoliticianBySlugQuery({
     slug: slug as string,
@@ -296,8 +402,8 @@ export default function PoliticianEditPage({
 
   return (
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={true}>
-      <div className={styles.container}>
-        <HeaderSection basicInfo={{ ...politician }} />
+      <div className={styles.container} style={{ marginTop: "4rem" }}>
+        <PoliticianAvatar politician={politician} />
         <FlagSection label="Edit">
           <PoliticianForm politician={politician} />
         </FlagSection>

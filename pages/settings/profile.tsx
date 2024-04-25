@@ -30,7 +30,7 @@ import {
 import { PasswordEntropyMeter } from "components";
 import states from "utils/states";
 import { useQueryClient } from "@tanstack/react-query";
-import { useDropzone, FileWithPath } from "react-dropzone";
+import { useDropzone, FileWithPath, FileRejection } from "react-dropzone";
 import { toast } from "react-toastify";
 import { PasswordInput } from "components/Auth/PasswordInput";
 import useDebounce from "hooks/useDebounce";
@@ -612,7 +612,7 @@ const ProfilePhotoSection = ({
       {
         "query":"mutation UploadProfilePicture($file: Upload) {uploadProfilePicture(file: $file) }",
         "variables":{
-            "file":null
+            "file": null
         }
       }
       `;
@@ -638,11 +638,11 @@ const ProfilePhotoSection = ({
       .finally(() => setUploading(false));
   };
 
-  const onDropRejected = () =>
-    toast(`Please try a file under 2MB`, {
-      type: "error",
-      position: "bottom-center",
+  const onDropRejected = (e: FileRejection[]) => {
+    e.forEach((file) => {
+      toast.error(file.errors[0]?.message);
     });
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDropAccepted,
