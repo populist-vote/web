@@ -1,6 +1,7 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
-import { LegislationVideo } from "../../video/legislationVideo/Video";
+import { useRouter } from "next/router";
+import { LegislationVideo } from "../../../video/legislationVideo/Video";
 import { VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from "types/constants";
 import type { BillResult } from "generated";
 
@@ -18,15 +19,12 @@ const player: React.CSSProperties = {
   width: "50%",
 };
 
-const Home: NextPage = () => {
-  // const billId = "mnsf18842023-2024"; // 3 dem sponsors
-  const billId = "mnsf7222023-2024"; // 3 republican sponsors
-  // const billId = "us-hb2772-2023-2024"; // 2 issue tags
-  // const billId = "us-hb610-2023-2024"; // 1 issue tags
-  // const billId = "mnhf29252023-2024"; // 10 democratic sponsors
-  // const billId = "mnhf1002023-2024"; // has house and senate votes and lots of d sponsors
-
-  const { data, isLoading, error } = useBillBySlugQuery({ slug: billId });
+const CreateVideoPage: NextPage = () => {
+  const router = useRouter();
+  const { slug } = router.query;
+  const { data, isLoading, error } = useBillBySlugQuery({
+    slug: slug as string,
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
@@ -56,4 +54,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default CreateVideoPage;
