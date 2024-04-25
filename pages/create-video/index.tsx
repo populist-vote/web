@@ -19,12 +19,12 @@ const player: React.CSSProperties = {
 };
 
 const Home: NextPage = () => {
-  // const billId = "mnsf18842023-2024"; // 3sponsors
-  // const billId = "mnsf7222023-2024"; // 3 republican sponsors
+  // const billId = "mnsf18842023-2024"; // 3 dem sponsors
+  const billId = "mnsf7222023-2024"; // 3 republican sponsors
   // const billId = "us-hb2772-2023-2024"; // 2 issue tags
   // const billId = "us-hb610-2023-2024"; // 1 issue tags
   // const billId = "mnhf29252023-2024"; // 10 democratic sponsors
-  const billId = "mnhf1002023-2024"; // has house and senate votes
+  // const billId = "mnhf1002023-2024"; // has house and senate votes and lots of d sponsors
 
   const { data, isLoading, error } = useBillBySlugQuery({ slug: billId });
 

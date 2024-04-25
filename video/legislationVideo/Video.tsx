@@ -8,6 +8,7 @@ import VoteDisplay from "./components/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay";
 import StatusBadge from "./components/StatusBadge";
 import Logos from "./components/Logos";
+import { AnimatedDivider } from "./components/AnimatedDivider";
 import styles from "./LegislationVideo.module.scss";
 import { Animated, Fade, Move } from "remotion-animated";
 
@@ -36,6 +37,7 @@ export const LegislationVideo = ({
     session: billResult.session,
   };
 
+  // console.log(JSON.stringify(populistTitle, null, 2));
   const lastHouseVote = getLastVote(legiscanData?.votes ?? [], "H");
   const lastSenateVote = getLastVote(legiscanData?.votes ?? [], "S");
 
@@ -47,19 +49,71 @@ export const LegislationVideo = ({
           className={styles.legislationVideo}
         >
           <div className={styles.mainHeader}>
-            <Animated animations={[Move({ y: 40 }), Fade({ to: 0 })]}>
+            <Animated
+              animations={[
+                Move({ y: 0, initialY: 30 }),
+                Fade({ to: 1, initial: 0 }),
+              ]}
+              delay={20}
+              style={{ opacity: 0 }}
+            >
               <h3>2023 - 2024 SESSION</h3>
             </Animated>
-            <hr />
-            <h2>
-              {billResult.state || "U.S."} -{" "}
-              {splitAtDigitAndJoin(billResult.billNumber)}
-            </h2>
+            <AnimatedDivider />
+            <Animated
+              animations={[
+                Move({ y: 0, initialY: 30 }),
+                Fade({ to: 1, initial: 0 }),
+              ]}
+              delay={40}
+              style={{ opacity: 0 }}
+            >
+              <h2>
+                {billResult.state || "U.S."} -{" "}
+                {splitAtDigitAndJoin(billResult.billNumber)}
+              </h2>
+            </Animated>
           </div>
           <div className={styles.bottomContainer}>
-            <h1>{populistTitle || title}</h1>
-            {issueTags && <IssueTags tags={issueTags as IssueTagResult[]} />}
-            <LegislationStatusBox status={status} />
+            <Animated
+              animations={[
+                Move({ y: 0, initialY: 30 }),
+                Fade({ to: 1, initial: 0 }),
+              ]}
+              style={{ opacity: 0 }}
+              delay={60}
+            >
+              <h1>{populistTitle || title}</h1>
+            </Animated>
+
+            {issueTags && issueTags.length > 0 ? (
+              <Animated
+                animations={[
+                  Move({ y: 0, initialY: 30 }),
+                  Fade({ to: 1, initial: 0 }),
+                ]}
+                style={{ opacity: 0 }}
+                delay={80}
+              >
+                <div className={styles.issueTagsContainer}>
+                  <IssueTags tags={issueTags as IssueTagResult[]} />
+                </div>{" "}
+              </Animated>
+            ) : (
+              <></>
+            )}
+            <Animated
+              animations={[
+                Move({ y: 0, initialY: 30 }),
+                Fade({ to: 1, initial: 0 }),
+              ]}
+              delay={100}
+              style={{ opacity: 0 }}
+            >
+              <div className={styles.legislationStatusContainer}>
+                <LegislationStatusBox status={status} />
+              </div>
+            </Animated>
           </div>
         </Series.Sequence>
 

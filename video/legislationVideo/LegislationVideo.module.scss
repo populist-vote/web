@@ -11,6 +11,14 @@
   padding: 8rem 5rem 30rem 5rem;
   position: relative;
 
+  .legislationStatusContainer {
+    width: 40rem;
+  }
+
+  .issueTagsContainer {
+    margin: 0 0 4rem 0;
+  }
+
   .endTitle {
     display: flex;
     flex-direction: column;
