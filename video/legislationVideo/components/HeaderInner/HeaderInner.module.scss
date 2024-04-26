@@ -6,21 +6,23 @@
   header {
     display: flex;
     flex-direction: column;
+    margin-bottom: 3rem;
 
     .topContainer,
     .middleContainer,
     .bottomContainer {
-      height: 100px;
       display: flex;
       flex-direction: column;
     }
 
     .topContainer {
       justify-content: flex-end;
+      height: 100px;
     }
 
     .middleContainer {
       justify-content: center;
+      height: 100px;
     }
 
     .bottomContainer {
