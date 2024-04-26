@@ -1,8 +1,7 @@
 import React from "react";
 import { PartyAvatar } from "components";
-import styles from "../LegislationVideo.module.scss";
+import styles from "./SponsorDisplay.module.scss";
 import type { PoliticianResult, PoliticalParty } from "generated";
-import clsx from "clsx";
 import { Animated, Fade, Move } from "remotion-animated";
 
 interface SponsorDisplayProps {
@@ -13,16 +12,12 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
   const staggerAmount = 10; // Stagger each animation by 10 frames
 
   return (
-    <div>
+    <div className={styles.sponsorDisplay}>
       <h1>Sponsors</h1>
       {sponsors.length <= 6 ? (
         <div className={styles.sponsorAvatars}>
           {sponsors.map((sponsor, index) => (
-            <div
-              key={sponsor.id}
-              className={styles.avatarContainer}
-              style={{ marginRight: "3rem", marginLeft: "0" }}
-            >
+            <div key={sponsor.id} className={styles.avatarContainer}>
               <Animated
                 animations={[
                   Move({ y: 0, initialY: 80 }),
@@ -42,9 +37,7 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
                   badgeFontSize="2rem"
                   size={240}
                 />
-                <span className={clsx(styles.link, styles.avatarName)}>
-                  {sponsor.fullName}
-                </span>
+                <div className={styles.avatarName}>{sponsor.fullName}</div>
               </Animated>
             </div>
           ))}

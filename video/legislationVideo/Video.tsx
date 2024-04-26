@@ -5,7 +5,7 @@ import type { BillResult, IssueTagResult } from "generated";
 import { splitAtDigitAndJoin } from "utils/strings";
 import HeaderInner from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay/VoteDisplay";
-import SponsorDisplay from "./components/SponsorDisplay";
+import SponsorDisplay from "./components/SponsorDisplay/SponsorDisplay";
 import Logos from "./components/Logos";
 import { AnimatedDivider } from "./components/AnimatedDivider";
 import styles from "./LegislationVideo.module.scss";
@@ -63,7 +63,6 @@ export const LegislationVideo = ({
             </div>
 
             <div className={styles.middleContainer}>
-              {/* <hr /> */}
               <AnimatedDivider />
             </div>
             <Animated
