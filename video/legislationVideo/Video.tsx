@@ -61,13 +61,22 @@ export const LegislationVideo = ({
           durationInFrames={200}
           className={styles.legislationVideo}
         >
-          <HeaderInner headerProps={headerInnerProps} />
-          <div className={styles.bottomContainer}>
-            <p>
-              {billResult.description ??
-                billResult.populistSummary ??
-                billResult.officialSummary}
-            </p>
+          <div
+            style={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <HeaderInner headerProps={headerInnerProps} />
+            <div>
+              <p>
+                {billResult.description ??
+                  billResult.populistSummary ??
+                  billResult.officialSummary}
+              </p>
+            </div>
           </div>
         </Series.Sequence>
 

@@ -16,18 +16,20 @@ const HeaderInner: React.FC<HeaderInnerProps> = ({ headerProps }) => {
 
   return (
     <div className={styles.headerInner}>
-      <div className={styles.top}>
-        <StatusBadge status={status} />
-      </div>
-      <div className={styles.middle}>
-        <hr />
-      </div>
-      <div className={styles.bottom}>
-        <h3>
-          {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
-        </h3>
-        <h2>{title}</h2>
-      </div>
+      <header className={styles.headerInner}>
+        <div className={styles.topContainer}>
+          <StatusBadge status={status} />
+        </div>
+        <div className={styles.middleContainer}>
+          <hr />
+        </div>
+        <div className={styles.bottomContainer}>
+          <h3>
+            {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
+          </h3>
+          <h2>{title}</h2>
+        </div>
+      </header>
     </div>
   );
 };

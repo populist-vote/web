@@ -1,44 +1,49 @@
 // @import "styles/mixins/media";
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
-@import "styles/layout/containers";
-
+// @import "styles/layout/containers";
 .headerInner {
-  height: 500px;
-  display: flex;
-  flex-direction: column;
+  header {
+    display: flex;
+    flex-direction: column;
 
-  .top {
-    height: 100px;
-  }
+    .topContainer,
+    .middleContainer,
+    .bottomContainer {
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .middle {
-    height: 100px;
-  }
+    .topContainer {
+      justify-content: flex-end;
+    }
 
-  .bottom {
-    height: 300px;
-  }
+    .middleContainer {
+      justify-content: center;
+    }
 
-  h2 {
-    font-weight: $weight-semibold;
-    color: $white;
-    font-size: $text-md;
-    margin: 1rem 0;
-  }
+    .bottomContainer {
+      justify-content: flex-start;
+    }
 
-  h3 {
-    color: $white;
-    font-size: $text-sm;
-    margin-bottom: 1rem;
-    margin-top: 0;
-  }
+    h3,
+    h2 {
+      margin: 0;
+    }
 
-  hr {
-    border: 1px solid $white;
-    opacity: 0.1;
-    width: 100%;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    h2 {
+      font-weight: $weight-semibold;
+      font-size: $text-md;
+    }
+
+    h3 {
+      font-size: $text-sm;
+      margin-bottom: 2rem;
+    }
+
+    hr {
+      width: 100%;
+    }
   }
 }

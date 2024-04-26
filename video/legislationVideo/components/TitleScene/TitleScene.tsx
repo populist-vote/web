@@ -19,7 +19,7 @@ const TitleScene: React.FC<TitleSceneProps> = ({ titleProps }) => {
 
   return (
     <div className={styles.titleScene}>
-      <div className={styles.mainHeader}>
+      <header>
         <div className={styles.topContainer}>
           <Animated
             animations={[
@@ -36,20 +36,23 @@ const TitleScene: React.FC<TitleSceneProps> = ({ titleProps }) => {
         <div className={styles.middleContainer}>
           <AnimatedDivider />
         </div>
-        <Animated
-          animations={[
-            Move({ y: 0, initialY: 30 }),
-            Fade({ to: 1, initial: 0 }),
-          ]}
-          delay={40}
-          style={{ opacity: 0 }}
-        >
-          <h2>
-            {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
-          </h2>
-        </Animated>
-      </div>
-      <div className={styles.hugBottomContainer}>
+
+        <div className={styles.bottomContainer}>
+          <Animated
+            animations={[
+              Move({ y: 0, initialY: 30 }),
+              Fade({ to: 1, initial: 0 }),
+            ]}
+            delay={40}
+            style={{ opacity: 0 }}
+          >
+            <h2>
+              {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
+            </h2>
+          </Animated>
+        </div>
+      </header>
+      <div>
         <Animated
           animations={[
             Move({ y: 0, initialY: 30 }),
