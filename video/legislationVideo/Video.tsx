@@ -79,7 +79,7 @@ export const LegislationVideo = ({
           </Series.Sequence>
         )}
 
-        {sponsors && (
+        {sponsors && sponsors.length > 0 && (
           <Series.Sequence
             durationInFrames={240}
             className={styles.legislationVideo}
