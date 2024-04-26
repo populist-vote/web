@@ -9,6 +9,15 @@
 
   .legislationStatusContainer {
     max-width: 40rem;
+
+    h1 {
+      font-weight: $weight-light;
+      font-size: $text-xl;
+    }
+
+    div > div {
+      padding: 2rem 1rem;
+    }
   }
 
   .issueTagsContainer {
