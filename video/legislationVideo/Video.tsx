@@ -34,53 +34,60 @@ export const LegislationVideo = ({
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
       <Series>
-        <Series.Sequence
-          durationInFrames={240}
-          className={styles.legislationVideo}
-        >
-          <TitleScene
-            title={populistTitle || title}
-            issueTags={issueTags}
-            status={status}
-            state={billResult.state ?? undefined}
-            billNumber={billResult.billNumber}
-            startDate={billResult.session?.startDate}
-            endDate={billResult.session?.endDate}
-          />
-        </Series.Sequence>
+        {title && (
+          <Series.Sequence
+            durationInFrames={240}
+            className={styles.legislationVideo}
+          >
+            <TitleScene
+              title={populistTitle || title}
+              issueTags={issueTags}
+              status={status}
+              state={billResult.state ?? undefined}
+              billNumber={billResult.billNumber}
+              startDate={billResult.session?.startDate}
+              endDate={billResult.session?.endDate}
+            />
+          </Series.Sequence>
+        )}
+        {summary && (
+          <Series.Sequence
+            durationInFrames={240}
+            className={styles.legislationVideo}
+          >
+            <div
+              style={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <HeaderInner headerProps={headerInnerProps} />
+              <SummaryScene summary={summary} />
+            </div>
+          </Series.Sequence>
+        )}
 
-        <Series.Sequence
-          durationInFrames={800}
-          className={styles.legislationVideo}
-        >
-          <div
-            style={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
+        {legiscanData?.votes && legiscanData.votes.length > 0 && (
+          <Series.Sequence
+            durationInFrames={240}
+            className={styles.legislationVideo}
           >
             <HeaderInner headerProps={headerInnerProps} />
-            <SummaryScene summary={summary} />
-          </div>
-        </Series.Sequence>
+            <VoteDisplay votes={legiscanData?.votes ?? []} />
+          </Series.Sequence>
+        )}
 
-        <Series.Sequence
-          durationInFrames={240}
-          className={styles.legislationVideo}
-        >
-          <HeaderInner headerProps={headerInnerProps} />
-          <VoteDisplay votes={legiscanData?.votes ?? []} />
-        </Series.Sequence>
-
-        <Series.Sequence
-          durationInFrames={240}
-          className={styles.legislationVideo}
-        >
-          <HeaderInner headerProps={headerInnerProps} />
-          <SponsorDisplay sponsors={sponsors} />
-        </Series.Sequence>
+        {sponsors && (
+          <Series.Sequence
+            durationInFrames={240}
+            className={styles.legislationVideo}
+          >
+            <HeaderInner headerProps={headerInnerProps} />
+            <SponsorDisplay sponsors={sponsors} />
+          </Series.Sequence>
+        )}
 
         <Series.Sequence
           durationInFrames={240}
