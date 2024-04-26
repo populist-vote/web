@@ -3,13 +3,15 @@ import { PartyAvatar } from "components";
 import styles from "./SponsorDisplay.module.scss";
 import type { PoliticianResult, PoliticalParty } from "generated";
 import { Animated, Fade, Move } from "remotion-animated";
+import { FaCircle } from "react-icons/fa";
 
 interface SponsorDisplayProps {
   sponsors: PoliticianResult[];
 }
 
 const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
-  const staggerAmount = 10; // Stagger each animation by 10 frames
+  const avatarStaggerAmount = 10; // Stagger each avatar animation (in frames)
+  const listStaggerAmount = 2; // Stagger each list item animation (in frames)
 
   return (
     <div className={styles.sponsorDisplay}>
@@ -23,7 +25,7 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
                   Move({ y: 0, initialY: 80 }),
                   Fade({ to: 1, initial: 0 }),
                 ]}
-                delay={20 + index * staggerAmount}
+                delay={20 + index * avatarStaggerAmount}
                 style={{ opacity: 0 }}
               >
                 <PartyAvatar
@@ -46,7 +48,7 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
         <ul
           className={`${styles.sponsorList} ${sponsors.length > 10 ? styles.twoColumns : ""}`}
         >
-          {sponsors.map((sponsor) => (
+          {sponsors.map((sponsor, index) => (
             <li
               key={sponsor.id}
               style={{
@@ -56,7 +58,27 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
                     : "var(--salmon)",
               }}
             >
-              {sponsor.fullName}
+              <Animated
+                animations={[
+                  Move({ x: 0, initialX: -30 }),
+                  Fade({ to: 1, initial: 0 }),
+                ]}
+                delay={20 + index * listStaggerAmount}
+                style={{ opacity: 0 }}
+              >
+                <div>
+                  <FaCircle
+                    size={24}
+                    style={{
+                      color:
+                        sponsor.party?.name === "Democratic-Farmer-Labor"
+                          ? "var(--blue)"
+                          : "var(--red)",
+                    }}
+                  />
+                  {sponsor.fullName}
+                </div>
+              </Animated>
             </li>
           ))}
         </ul>
