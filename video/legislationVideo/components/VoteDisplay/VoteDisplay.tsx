@@ -56,7 +56,7 @@ const VoteDisplay = ({
             Move({ y: 0, initialY: 30 }),
             Fade({ to: 1, initial: 0 }),
           ]}
-          delay={0}
+          delay={20}
           style={{ opacity: 0 }}
         >
           <h2>{voteTitle}</h2>
@@ -66,7 +66,7 @@ const VoteDisplay = ({
             Move({ y: 0, initialY: 30 }),
             Fade({ to: 1, initial: 0 }),
           ]}
-          delay={20}
+          delay={40}
           style={{ opacity: 0 }}
         >
           <div className={styles.voteIcons}>
