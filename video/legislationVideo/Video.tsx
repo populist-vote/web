@@ -8,17 +8,6 @@ import TitleScene from "./components/TitleScene/TitleScene";
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
 
-interface Vote {
-  date: string;
-  chamber: string;
-  yea: number;
-  nay: number;
-}
-const getLastVote = (votes: Vote[], chamber: string): Vote | undefined =>
-  votes
-    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .find((vote) => vote.chamber === chamber);
-
 export const LegislationVideo = ({
   billResult,
 }: {
@@ -42,10 +31,6 @@ export const LegislationVideo = ({
     state: billResult.state ?? undefined,
     billNumber: billResult.billNumber,
   };
-
-  // console.log(JSON.stringify(populistTitle, null, 2));
-  const lastHouseVote = getLastVote(legiscanData?.votes ?? [], "H");
-  const lastSenateVote = getLastVote(legiscanData?.votes ?? [], "S");
 
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
@@ -85,21 +70,7 @@ export const LegislationVideo = ({
           className={styles.legislationVideo}
         >
           <HeaderInner headerProps={headerInnerProps} />
-          <h1>Last Votes</h1>
-          {lastHouseVote && (
-            <VoteDisplay
-              voteTitle="HOUSE"
-              numberOfYesVotes={lastHouseVote.yea ?? 0}
-              numberOfNoVotes={lastHouseVote.nay ?? 0}
-            />
-          )}
-          {lastSenateVote && (
-            <VoteDisplay
-              voteTitle="SENATE"
-              numberOfYesVotes={lastSenateVote.yea ?? 0}
-              numberOfNoVotes={lastSenateVote.nay ?? 0}
-            />
-          )}
+          <VoteDisplay votes={legiscanData?.votes ?? []} />
         </Series.Sequence>
 
         <Series.Sequence

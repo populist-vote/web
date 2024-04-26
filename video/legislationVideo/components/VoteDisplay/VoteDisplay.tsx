@@ -6,7 +6,39 @@ import iconNay from "public/images/video-generator/nay-icon.svg";
 import styles from "./VoteDisplay.module.scss";
 import { Animated, Fade, Move } from "remotion-animated";
 
-const VoteDisplay = ({
+interface Vote {
+  date: string;
+  chamber: string;
+  yea: number;
+  nay: number;
+}
+
+const VoteDisplay = ({ votes }: { votes: Vote[] }) => {
+  const lastHouseVote = getLastVote(votes, "H");
+  const lastSenateVote = getLastVote(votes, "S");
+
+  return (
+    <div className={styles.voteDisplay}>
+      <h1>Last Votes</h1>
+      {lastHouseVote && (
+        <VoteDisplayItem
+          voteTitle="HOUSE"
+          numberOfYesVotes={lastHouseVote.yea ?? 0}
+          numberOfNoVotes={lastHouseVote.nay ?? 0}
+        />
+      )}
+      {lastSenateVote && (
+        <VoteDisplayItem
+          voteTitle="SENATE"
+          numberOfYesVotes={lastSenateVote.yea ?? 0}
+          numberOfNoVotes={lastSenateVote.nay ?? 0}
+        />
+      )}
+    </div>
+  );
+};
+
+const VoteDisplayItem = ({
   voteTitle,
   numberOfYesVotes,
   numberOfNoVotes,
@@ -95,5 +127,10 @@ const VoteDisplay = ({
     </div>
   );
 };
+
+const getLastVote = (votes: Vote[], chamber: string): Vote | undefined =>
+  votes
+    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .find((vote) => vote.chamber === chamber);
 
 export default VoteDisplay;
