@@ -393,7 +393,7 @@ input CreateOrConnectOrganizationInput {
 
 input CreateOrConnectPoliticianInput {
   connect: [String!]
-  create: [UpsertPoliticianInput!]
+  create: [InsertPoliticianInput!]
 }
 
 input CreateUserInput {
@@ -611,6 +611,45 @@ type History {
   importance: Int!
 }
 
+input InsertPoliticianInput {
+  assets: JSON
+  biography: String
+  biographySource: String
+  campaignWebsiteUrl: String
+  crpCandidateId: String
+  dateOfBirth: NaiveDate
+  email: String
+  facebookUrl: String
+  fecCandidateId: String
+  firstName: String!
+  homeState: State
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  lastName: String!
+  legiscanPeopleId: Int
+  linkedinUrl: String
+  middleName: String
+  officeId: UUID
+  officialWebsiteUrl: String
+  organizationEndorsements: CreateOrConnectOrganizationInput
+  partyId: UUID
+  phone: String
+  politicianEndorsements: CreateOrConnectPoliticianInput
+  preferredName: String
+  raceLosses: Int
+  raceWins: Int
+  slug: String
+  suffix: String
+  thumbnailImageUrl: String
+  tiktokUrl: String
+  twitterUrl: String
+  upcomingRaceId: UUID
+  votesmartCandidateBio: JSON
+  votesmartCandidateId: Int
+  votesmartCandidateRatings: JSON
+  youtubeUrl: String
+}
+
 type IssueTagResult {
   ballotMeasures: [BallotMeasureResult!]!
   bills: [BillResult!]!
@@ -660,6 +699,7 @@ type Mutation {
   deleteVotingGuide(id: ID!): DeleteVotingGuideResult!
   deleteVotingGuideCandidateNote(candidateId: ID!, votingGuideId: ID!): VotingGuideCandidateResult!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
+  insertPolitician(input: InsertPoliticianInput!): PoliticianResult!
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
   pingEmbedOrigin(input: PingEmbedOriginInput!): EmbedOriginResult!
@@ -670,6 +710,7 @@ type Mutation {
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
+  updatePolitician(input: UpdatePoliticianInput!): PoliticianResult!
   updateUsername(username: String!): UpdateUsernameResult!
   uploadPoliticianPicture(file: Upload!, slug: String!): String!
   uploadProfilePicture(file: Upload!): String!
@@ -681,7 +722,6 @@ type Mutation {
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
   upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
-  upsertPolitician(input: UpsertPoliticianInput!): PoliticianResult!
   upsertPoll(input: UpsertPollInput!): PollResult!
   upsertPollSubmission(pollSubmissionInput: UpsertPollSubmissionInput!, respondentInput: UpsertRespondentInput): PollSubmissionResult!
   upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
@@ -909,6 +949,7 @@ type PoliticianResult {
   email: String
   endorsements: Endorsements!
   facebookUrl: String
+  fecCandidateId: String
   firstName: String!
   fullName: String!
   homeState: State
@@ -916,6 +957,7 @@ type PoliticianResult {
   instagramUrl: String
   issueTags: [IssueTagResult!]!
   lastName: String!
+  legiscanPeopleId: Int
   linkedinUrl: String
   middleName: String
   officeId: ID
@@ -1471,6 +1513,46 @@ input UpdatePasswordInput {
   oldPassword: String!
 }
 
+input UpdatePoliticianInput {
+  assets: JSON
+  biography: String
+  biographySource: String
+  campaignWebsiteUrl: String
+  crpCandidateId: String
+  dateOfBirth: NaiveDate
+  email: String
+  facebookUrl: String
+  fecCandidateId: String
+  firstName: String
+  homeState: State
+  id: UUID!
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  lastName: String
+  legiscanPeopleId: Int
+  linkedinUrl: String
+  middleName: String
+  officeId: UUID
+  officialWebsiteUrl: String
+  organizationEndorsements: CreateOrConnectOrganizationInput
+  partyId: UUID
+  phone: String
+  politicianEndorsements: CreateOrConnectPoliticianInput
+  preferredName: String
+  raceLosses: Int
+  raceWins: Int
+  slug: String
+  suffix: String
+  thumbnailImageUrl: String
+  tiktokUrl: String
+  twitterUrl: String
+  upcomingRaceId: UUID
+  votesmartCandidateBio: JSON
+  votesmartCandidateId: Int
+  votesmartCandidateRatings: JSON
+  youtubeUrl: String
+}
+
 type UpdateUsernameResult {
   username: String!
 }
@@ -1596,46 +1678,6 @@ input UpsertOrganizationInput {
   twitterUrl: String
   votesmartSigId: Int
   websiteUrl: String
-}
-
-input UpsertPoliticianInput {
-  assets: JSON
-  biography: String
-  biographySource: String
-  campaignWebsiteUrl: String
-  crpCandidateId: String
-  dateOfBirth: NaiveDate
-  email: String
-  facebookUrl: String
-  fecCandidateId: String
-  firstName: String
-  homeState: State
-  id: UUID
-  instagramUrl: String
-  issueTags: CreateOrConnectIssueTagInput
-  lastName: String
-  legiscanPeopleId: Int
-  linkedinUrl: String
-  middleName: String
-  officeId: UUID
-  officialWebsiteUrl: String
-  organizationEndorsements: CreateOrConnectOrganizationInput
-  partyId: UUID
-  phone: String
-  politicianEndorsements: CreateOrConnectPoliticianInput
-  preferredName: String
-  raceLosses: Int
-  raceWins: Int
-  slug: String
-  suffix: String
-  thumbnailImageUrl: String
-  tiktokUrl: String
-  twitterUrl: String
-  upcomingRaceId: UUID
-  votesmartCandidateBio: JSON
-  votesmartCandidateId: Int
-  votesmartCandidateRatings: JSON
-  youtubeUrl: String
 }
 
 input UpsertPollInput {

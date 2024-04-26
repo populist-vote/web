@@ -82,6 +82,13 @@ fragment BasicInfo on PoliticianResult {
   }
 }
 
+fragment ApiLinks on PoliticianResult {
+  votesmartCandidateId
+  fecCandidateId
+  crpCandidateId
+  legiscanPeopleId
+}
+
 fragment Bio on PoliticianResult {
   biography
   biographySource
@@ -298,6 +305,7 @@ query PoliticianBySlug($slug: String!) {
     ...Endorsements
     ...SponsoredBills
     ...Ratings
+    ...ApiLinks
   }
 }
 
@@ -317,9 +325,10 @@ query PoliticianEmbedById($id: ID!) {
   }
 }
 
-mutation UpdatePolitician($input: UpsertPoliticianInput!) {
-  upsertPolitician(input: $input) {
+mutation UpdatePolitician($input: UpdatePoliticianInput!) {
+  updatePolitician(input: $input) {
     ...BasicInfo
+    ...ApiLinks
   }
 }
 

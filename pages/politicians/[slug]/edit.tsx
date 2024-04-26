@@ -6,6 +6,10 @@ import {
   LoaderFlag,
   PartyAvatar,
   TextInput,
+  SearchInput,
+  Badge,
+  Box,
+  RadioGroup,
 } from "components";
 import {
   PoliticianBasicInfoQuery,
@@ -31,9 +35,10 @@ import states from "utils/states";
 import { toast } from "react-toastify";
 import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { OfficeResultsTable } from "components/OfficeResultsTable/OfficeResultsTable";
 
-function PoliticianForm({
+function PoliticianBasicsForm({
   politician,
 }: {
   politician: Partial<PoliticianResult>;
@@ -89,7 +94,7 @@ function PoliticianForm({
             usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
             }),
-            { politicianBySlug: data?.upsertPolitician }
+            { politicianBySlug: data?.updatePolitician }
           );
           toast.success("Politician updated", {
             position: "bottom-right",
@@ -277,6 +282,111 @@ function PoliticianForm({
   );
 }
 
+function PoliticianAPILinksForm({
+  politician,
+}: {
+  politician: Partial<PoliticianResult>;
+}) {
+  const { register, handleSubmit, formState, reset } = useForm<
+    Partial<PoliticianResult>
+  >({
+    defaultValues: {
+      votesmartCandidateId: politician.votesmartCandidateId,
+      crpCandidateId: politician.crpCandidateId,
+      fecCandidateId: politician.fecCandidateId,
+      legiscanPeopleId: politician.legiscanPeopleId,
+    },
+    mode: "onChange",
+  });
+
+  const isDirty = !!Object.keys(formState.dirtyFields).length;
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useUpdatePoliticianMutation();
+
+  const handleSave = (formData: Partial<PoliticianResult>) => {
+    return mutate(
+      {
+        input: {
+          id: politician.id,
+          votesmartCandidateId: formData.votesmartCandidateId,
+          crpCandidateId: formData.crpCandidateId,
+          fecCandidateId: formData.fecCandidateId,
+          legiscanPeopleId: formData.legiscanPeopleId,
+        },
+      },
+      {
+        onSettled: (data) => {
+          queryClient.setQueryData(
+            usePoliticianBySlugQuery.getKey({
+              slug: politician.slug as string,
+            }),
+            { politicianBySlug: data?.updatePolitician }
+          );
+          toast.success("Politician updated", {
+            position: "bottom-right",
+          });
+          reset();
+        },
+        onError: (error) => {
+          toast.error(JSON.stringify(error));
+        },
+      }
+    );
+  };
+
+  return (
+    <form onSubmit={handleSubmit(handleSave)} className={styles.editForm}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateRows: "1fr",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "1rem",
+          width: "100%",
+        }}
+      >
+        <TextInput
+          name={"votesmartCandidateId"}
+          label="VoteSmart Candidate ID"
+          register={register}
+        />
+        <TextInput
+          name={"crpCandidateId"}
+          label="CRP Candidate ID"
+          register={register}
+        />
+        <TextInput
+          name={"fecCandidateId"}
+          label="FEC Candidate ID"
+          register={register}
+        />
+        <TextInput
+          name={"legiscanPeopleId"}
+          label="LegiScan People ID"
+          register={register}
+        />
+      </div>
+      <div className={clsx(styles.flexBaseline)}>
+        <Button
+          type="submit"
+          variant="primary"
+          label="Save"
+          size="large"
+          disabled={!isDirty || isPending}
+        />
+        <Button
+          type="button"
+          variant="secondary"
+          label="Done"
+          size="large"
+          onClick={() => router.push(`/politicians/${politician.slug}`)}
+        />
+      </div>
+    </form>
+  );
+}
+
 function PoliticianAvatar({
   politician,
 }: {
@@ -380,6 +490,72 @@ function PoliticianAvatar({
   );
 }
 
+function PoliticianOffices({
+  politician,
+}: {
+  politician: Partial<PoliticianResult>;
+}) {
+  const currentOffice = politician.currentOffice;
+  const updatePolitician = useUpdatePoliticianMutation();
+  const handleRemoveOffice = (_officeId: string) => {
+    confirm(
+      "Are you sure you want to remove this politician's current office?"
+    ) &&
+      updatePolitician.mutate({
+        input: {
+          id: politician.id,
+          officeId: "SET_NULL",
+        },
+      });
+  };
+
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gridTemplateRows: "1fr auto",
+        gap: "1.5rem",
+      }}
+    >
+      <div>
+        <h4>Current Office</h4>
+        <Box>
+          {currentOffice ? (
+            <Badge
+              dismissible
+              onDismiss={() => handleRemoveOffice(currentOffice.id as string)}
+            >
+              {currentOffice.title} - {currentOffice.subtitle}
+            </Badge>
+          ) : (
+            <p className={styles.noResults}>NO OFFICES</p>
+          )}
+        </Box>
+      </div>
+      <div>
+        <h4>Former Offices</h4>
+        <Box>
+          <p className={styles.noResults}>NOT YET IMPLEMENTED</p>{" "}
+        </Box>
+      </div>
+      <div style={{ gridColumn: "1/3" }}>
+        <h2>Search Offices</h2>
+        <Box>
+          <SearchInput
+            placeholder="Search for offices"
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />{" "}
+        </Box>
+        <OfficeResultsTable />
+      </div>
+    </div>
+  );
+}
+
 export default function PoliticianEditPage({
   slug,
   mobileNavTitle,
@@ -398,14 +574,32 @@ export default function PoliticianEditPage({
 
   const politician = data?.politicianBySlug as Partial<PoliticianResult>;
 
+  const router = useRouter();
+  const { query } = router;
+  const tabs = ["Basic Info", "Offices", "Endorsements", "API Links"];
+  const [tab, setTab] = useState<string>((query.tab as string) || "Basic Info");
+
+  useEffect(() => {
+    void router.push(`/politicians/${slug}/edit?tab=${tab}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]);
+
   if (isLoading) return <LoaderFlag />;
 
   return (
     <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile={true}>
       <div className={styles.container} style={{ marginTop: "4rem" }}>
         <PoliticianAvatar politician={politician} />
-        <FlagSection label="Edit">
-          <PoliticianForm politician={politician} />
+        <RadioGroup options={tabs} selected={tab} onChange={setTab} />
+        <FlagSection label="Edit" style={{ width: "100%", marginTop: "3rem" }}>
+          {tab === "Basic Info" && (
+            <PoliticianBasicsForm politician={politician} />
+          )}
+          {tab === "Offices" && <PoliticianOffices politician={politician} />}
+          {tab === "Endorsements" && <div>Endorsements (coming soon)</div>}
+          {tab === "API Links" && (
+            <PoliticianAPILinksForm politician={politician} />
+          )}
         </FlagSection>
       </div>
     </Layout>

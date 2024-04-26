@@ -50,7 +50,10 @@ import { VotingGuideNav } from "./VotingGuide/VotingGuideNav/VotingGuideNav";
 import { Select } from "./Select/Select";
 import { EmbedIndex } from "./EmbedIndex/EmbedIndex";
 import { PoliticianResultsTable } from "./PoliticianResultsTable/PoliticianResultsTable";
-
+import { Badge } from "./Badge/Badge";
+import { Box } from "./Box/Box";
+import { SearchInput } from "./SearchInput/SearchInput";
+import { RadioGroup } from "./RadioGroup/RadioGroup";
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
 export {
@@ -109,4 +112,8 @@ export {
   VotingGuideWelcome,
   Select,
   PoliticianResultsTable,
+  Badge,
+  Box,
+  SearchInput,
+  RadioGroup,
 };

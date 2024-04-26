@@ -1,6 +1,7 @@
 import styles from "./Badge.module.scss";
 import { PropsWithChildren, ReactNode } from "react";
 import clsx from "clsx";
+import { BsXCircleFill } from "react-icons/bs";
 
 interface BadgeProps {
   theme?:
@@ -21,6 +22,8 @@ interface BadgeProps {
   selected?: boolean;
   clickable?: boolean;
   lightBackground?: boolean;
+  dismissible?: boolean;
+  onDismiss?: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any;
 }
@@ -36,6 +39,8 @@ function Badge({
   clickable,
   lightBackground = false,
   children,
+  dismissible = false,
+  onDismiss,
 
   ...rest
 }: PropsWithChildren<BadgeProps>) {
@@ -53,6 +58,9 @@ function Badge({
     <div className={cx} {...rest}>
       {iconLeft}
       {label || children}
+      {dismissible && (
+        <BsXCircleFill onClick={onDismiss} className={styles.dismissButton} />
+      )}
     </div>
   );
 }
