@@ -2,20 +2,32 @@ import React from "react";
 import { Animated } from "remotion-animated";
 import { Move, Fade } from "remotion-animated";
 import { IssueTags, LegislationStatusBox } from "components";
-import type { BillResult } from "generated";
 import { splitAtDigitAndJoin } from "utils/strings";
 import { AnimatedDivider } from "../AnimatedDivider";
 import styles from "./TitleScene.module.scss";
+import { getYear } from "utils/dates";
+import { BillStatus, IssueTagResult, State } from "generated";
 
 interface TitleSceneProps {
-  titleProps: Pick<
-    BillResult,
-    "title" | "issueTags" | "status" | "state" | "billNumber"
-  >;
+  title: string;
+  issueTags?: IssueTagResult[];
+  status: BillStatus;
+  state?: State;
+  billNumber: string;
+  startDate: string;
+  endDate: string;
 }
 
-const TitleScene: React.FC<TitleSceneProps> = ({ titleProps }) => {
-  const { title, issueTags, state, status, billNumber } = titleProps;
+const TitleScene: React.FC<TitleSceneProps> = ({
+  title,
+  issueTags = [],
+  status,
+  state,
+  billNumber,
+  startDate,
+  endDate,
+}) => {
+  const issueTagNames = issueTags.map((tag) => tag.name);
 
   return (
     <div className={styles.titleScene}>
@@ -29,7 +41,10 @@ const TitleScene: React.FC<TitleSceneProps> = ({ titleProps }) => {
             delay={20}
             style={{ opacity: 0 }}
           >
-            <h3>2023 - 2024 SESSION</h3>
+            <h3>
+              {getYear(startDate)} - {endDate ? getYear(endDate) : "CURRENT"}{" "}
+              SESSION
+            </h3>
           </Animated>
         </div>
 
@@ -47,7 +62,8 @@ const TitleScene: React.FC<TitleSceneProps> = ({ titleProps }) => {
             style={{ opacity: 0 }}
           >
             <h2>
-              {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
+              {state ? `${state} - ` : "U.S. - "}
+              {splitAtDigitAndJoin(billNumber)}
             </h2>
           </Animated>
         </div>
@@ -64,7 +80,7 @@ const TitleScene: React.FC<TitleSceneProps> = ({ titleProps }) => {
           <h1>{title}</h1>
         </Animated>
 
-        {issueTags && issueTags.length > 0 ? (
+        {issueTagNames.length > 0 && (
           <Animated
             animations={[
               Move({ y: 0, initialY: 30 }),
@@ -77,8 +93,6 @@ const TitleScene: React.FC<TitleSceneProps> = ({ titleProps }) => {
               <IssueTags tags={issueTags} />
             </div>
           </Animated>
-        ) : (
-          <></>
         )}
         <Animated
           animations={[

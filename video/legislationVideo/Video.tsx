@@ -24,14 +24,6 @@ export const LegislationVideo = ({
     status: status,
   };
 
-  const titleSceneProps = {
-    title: populistTitle || title,
-    issueTags: issueTags,
-    status: status,
-    state: billResult.state ?? undefined,
-    billNumber: billResult.billNumber,
-  };
-
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
       <Series>
@@ -39,7 +31,15 @@ export const LegislationVideo = ({
           durationInFrames={200}
           className={styles.legislationVideo}
         >
-          <TitleScene titleProps={titleSceneProps} />
+          <TitleScene
+            title={populistTitle || title}
+            issueTags={issueTags}
+            status={status}
+            state={billResult.state ?? undefined}
+            billNumber={billResult.billNumber}
+            startDate={billResult.session?.startDate}
+            endDate={billResult.session?.endDate}
+          />
         </Series.Sequence>
 
         <Series.Sequence
