@@ -11,14 +11,6 @@
   padding: 8rem 5rem 30rem 5rem;
   position: relative;
 
-  .legislationStatusContainer {
-    width: 40rem;
-  }
-
-  .issueTagsContainer {
-    margin: 0 0 4rem 0;
-  }
-
   .endTitle {
     display: flex;
     flex-direction: column;
@@ -64,50 +56,6 @@
     h1 {
       font-size: $text-xl;
       font-weight: $weight-light;
-    }
-  }
-
-  .issueTags {
-    margin: 1rem 0;
-    font-size: $text-sm;
-  }
-
-  .bottomContainer {
-    margin-top: auto;
-  }
-
-  .mainHeader {
-    display: flex;
-    flex-direction: column;
-    height: 500;
-
-    .topContainer {
-      height: 100px;
-    }
-
-    .middleContainer {
-      height: 100px;
-    }
-
-    .bottomContainer {
-      height: 300px;
-    }
-
-    h3 {
-      font-size: $text-md;
-      margin-bottom: 2rem;
-    }
-
-    h2 {
-      font-size: $text-lg;
-      width: 100%;
-      margin: 1rem 0;
-    }
-
-    hr {
-      width: 100%;
-      margin-top: 2rem;
-      margin-bottom: 2rem;
     }
   }
 }
