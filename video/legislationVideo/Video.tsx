@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AbsoluteFill, Series } from "remotion";
 import type { BillResult } from "generated";
 import HeaderInner from "./components/HeaderInner/HeaderInner";
@@ -15,6 +15,12 @@ export const LegislationVideo = ({
 }: {
   billResult: BillResult;
 }) => {
+  const [totalFrames, setTotalFrames] = useState(0);
+
+  const handleTotalFrames = (frames: number) => {
+    setTotalFrames(frames);
+  };
+
   const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
     billResult;
 
@@ -52,7 +58,7 @@ export const LegislationVideo = ({
         )}
         {summary && (
           <Series.Sequence
-            durationInFrames={240}
+            durationInFrames={totalFrames}
             className={styles.legislationVideo}
           >
             <div
@@ -64,7 +70,10 @@ export const LegislationVideo = ({
               }}
             >
               <HeaderInner headerProps={headerInnerProps} />
-              <SummaryScene summary={summary} />
+              <SummaryScene
+                summary={summary}
+                onTotalFrames={handleTotalFrames}
+              />
             </div>
           </Series.Sequence>
         )}

@@ -3,9 +3,13 @@ import { Animated, Move, Fade } from "remotion-animated";
 
 interface SummarySceneProps {
   summary: string | undefined;
+  onTotalFrames: (totalFrames: number) => void;
 }
 
-const SummaryScene: React.FC<SummarySceneProps> = ({ summary }) => {
+const SummaryScene: React.FC<SummarySceneProps> = ({
+  summary,
+  onTotalFrames,
+}) => {
   if (!summary) {
     return null;
   }
@@ -30,6 +34,8 @@ const SummaryScene: React.FC<SummarySceneProps> = ({ summary }) => {
   }
 
   let startFrame = 0;
+  const totalFrames = parts.length * 360; // Calculate total frames
+  onTotalFrames(totalFrames); // Pass total frames to the parent
 
   return (
     <div style={{ height: "800px" }}>
