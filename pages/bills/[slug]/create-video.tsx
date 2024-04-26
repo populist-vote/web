@@ -50,30 +50,45 @@ const CreateVideoPage: NextPage = () => {
       >
         <h3>Debug area</h3>
         <ul>
-          <li>
-            <Link
-              href={`/bills/mnhf1002023-2024/create-video`}
-              style={{ color: "#ffffff" }}
-            >
-              no summary, h&s votes, lots of d sponsors
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={`/bills/mnsf18842023-2024/create-video`}
-              style={{ color: "#ffffff" }}
-            >
-              no summary, no votes, 3 dem sponsors
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={`/bills/us-hb2772-2023-2024/create-video`}
-              style={{ color: "#ffffff" }}
-            >
-              2 issue tags, summary, no votes, no sponsors
-            </Link>
-          </li>
+          {[
+            {
+              id: "mnhf1002023-2024",
+              description: "no summary, h&s votes, lots of d sponsors",
+            },
+            {
+              id: "mnsf18842023-2024",
+              description: "no summary, no votes, 3 dem sponsors",
+            },
+            {
+              id: "us-hb2772-2023-2024",
+              description: "2 issue tags, summary, no votes, no sponsors",
+            },
+            {
+              id: "mnhf9172023-2024",
+              description: "3-6 sponsors",
+            },
+            {
+              id: "mnhf14402023-2024",
+              description: "multi sentence summary",
+            },
+            {
+              id: "mnhf9172023-2024",
+              description: "only house vote",
+            },
+            {
+              id: "mnhf1732023-2024",
+              description: "33 sponsors",
+            },
+          ].map((bill) => (
+            <li key={bill.id}>
+              <Link
+                href={`/bills/${bill.id}/create-video`}
+                style={{ color: "#ffffff" }}
+              >
+                {bill.description}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
 
