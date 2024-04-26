@@ -1,0 +1,24 @@
+query OfficeIndex(
+  $after: String
+  $before: String
+  $filter: OfficeFilter
+  $first: Int
+  $last: Int
+) {
+  offices(
+    after: $after
+    before: $before
+    filter: $filter
+    first: $first
+    last: $last
+  ) {
+    edges {
+      node {
+        title
+        subtitle
+        politicalScope
+        state
+      }
+    }
+  }
+}

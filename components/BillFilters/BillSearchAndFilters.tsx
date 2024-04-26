@@ -1,7 +1,6 @@
 import { Box } from "components/Box/Box";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
 import { BillFiltersDesktop } from "./BillFiltersDesktop";
 import styles from "./BillSearchAndFilters.module.scss";
 import { Select } from "components/Select/Select";
@@ -20,13 +19,14 @@ import clsx from "clsx";
 import { Theme } from "hooks/useTheme";
 import * as Separator from "@radix-ui/react-separator";
 import { useAuth } from "hooks/useAuth";
+import { SearchInput } from "components/SearchInput/SearchInput";
 
 export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
   const { user } = useAuth();
   const router = useRouter();
   const { query } = router;
   const { search, showFilters = "false" } = query;
-  const [searchValue, setSearchValue] = useState(search);
+  const [searchValue, setSearchValue] = useState<string>(search as string);
   const showFiltersParam = showFilters === "true";
   const defaultState = user?.userProfile?.address?.state || "any";
   const { year, state = defaultState, scope, issue, status } = query || {};
@@ -82,19 +82,11 @@ export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
             onChange={handleStateChange}
           />
         )}
-        <div className={styles.inputWithIcon}>
-          <input
-            placeholder="Search for legislation"
-            onChange={(e) => {
-              setSearchValue(e.target.value);
-              void router.push({
-                query: { ...query, search: e.target.value },
-              });
-            }}
-            value={searchValue || ""}
-          />
-          <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
-        </div>
+        <SearchInput
+          placeholder="Search for legislation"
+          searchValue={searchValue as string}
+          setSearchValue={setSearchValue}
+        />
         {!yearsLoading && !yearsError && (
           <Select
             textColor="blue-dark"
