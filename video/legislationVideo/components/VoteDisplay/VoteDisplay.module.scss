@@ -1,50 +1,43 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
 .voteDisplay {
   font-family: "proxima_nova", sans-serif;
-
-  .voteDisplayContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
+  margin-bottom: 2rem;
 
   h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+    font-size: $text-xl;
   }
 
-  .voteIcons {
+  .voteHeader {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    width: 100%;
-  }
-
-  .voteCounts {
-    display: flex;
     align-items: center;
-    font-family: "proxima_nova", sans-serif;
-    font-weight: 600;
-    font-size: 3rem;
+
+    .voteIcons {
+      display: flex;
+      justify-content: flex-end;
+      font-size: $text-lg;
+      font-weight: $weight-semibold;
+
+      .yesVoteContainer,
+      .noVoteContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        span {
+          margin-left: 1rem;
+        }
+      }
+
+      .yesVoteContainer {
+        margin-right: 2rem;
+      }
+
+      .noVoteContainer {
+        justify-content: flex-end;
+      }
+    }
   }
-
-  //   .voteGrid {
-  //     display: grid;
-  //     width: 100%;
-  //   }
-
-  //   .voteSquare {
-  //     width: 1rem;
-  //     height: 1rem;
-  //     background-color: var(--default-color);
-  //     border-radius: 0.25rem;
-  //   }
-
-  //   .yesVote {
-  //     background-color: var(--green-support);
-  //   }
-
-  //   .noVote {
-  //     background-color: var(--red);
-  //   }
 }

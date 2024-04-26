@@ -36,41 +36,16 @@ const VoteDisplay = ({
   });
 
   return (
-    <div className={styles.voteDisplayContainer}>
-      <div>
+    <div className={styles.voteDisplay}>
+      <div className={styles.voteHeader}>
         <h2>{voteTitle}</h2>
-        <div
-          style={{
-            display: "flex",
-            fontFamily: "proxima_nova",
-            fontWeight: "600",
-            fontSize: "3rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              marginRight: "2rem",
-            }}
-          >
-            <span style={{ width: "60px", marginRight: "1rem" }}>
-              <Image src={iconYay} alt="Yay Icon" layout="responsive" />
-            </span>
+        <div className={styles.voteIcons}>
+          <div className={styles.yesVoteContainer}>
+            <Image src={iconYay} alt="Yay Icon" width={60} height={60} />
             <span>{numberOfYesVotes}</span>
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
-            <span style={{ width: "60px", marginRight: "1rem" }}>
-              <Image src={iconNay} alt="Nay Icon" layout="responsive" />
-            </span>
+          <div className={styles.noVoteContainer}>
+            <Image src={iconNay} alt="Nay Icon" width={60} height={60} />
             <span>{numberOfNoVotes}</span>
           </div>
         </div>
