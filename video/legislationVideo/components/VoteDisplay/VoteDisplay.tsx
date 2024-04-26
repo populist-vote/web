@@ -4,6 +4,7 @@ import { useCurrentFrame, interpolate, Easing } from "remotion";
 import iconYay from "public/images/video-generator/yay-icon.svg";
 import iconNay from "public/images/video-generator/nay-icon.svg";
 import styles from "./VoteDisplay.module.scss";
+import { Animated, Fade, Move } from "remotion-animated";
 
 const VoteDisplay = ({
   voteTitle,
@@ -50,17 +51,35 @@ const VoteDisplay = ({
   return (
     <div className={styles.voteDisplay}>
       <div className={styles.voteHeader}>
-        <h2>{voteTitle}</h2>
-        <div className={styles.voteIcons}>
-          <div className={styles.yesVoteContainer}>
-            <Image src={iconYay} alt="Yay Icon" width={60} height={60} />
-            <span>{numberOfYesVotes}</span>
+        <Animated
+          animations={[
+            Move({ y: 0, initialY: 30 }),
+            Fade({ to: 1, initial: 0 }),
+          ]}
+          delay={0}
+          style={{ opacity: 0 }}
+        >
+          <h2>{voteTitle}</h2>
+        </Animated>
+        <Animated
+          animations={[
+            Move({ y: 0, initialY: 30 }),
+            Fade({ to: 1, initial: 0 }),
+          ]}
+          delay={20}
+          style={{ opacity: 0 }}
+        >
+          <div className={styles.voteIcons}>
+            <div className={styles.yesVoteContainer}>
+              <Image src={iconYay} alt="Yay Icon" width={60} height={60} />
+              <span>{numberOfYesVotes}</span>
+            </div>
+            <div className={styles.noVoteContainer}>
+              <Image src={iconNay} alt="Nay Icon" width={60} height={60} />
+              <span>{numberOfNoVotes}</span>
+            </div>
           </div>
-          <div className={styles.noVoteContainer}>
-            <Image src={iconNay} alt="Nay Icon" width={60} height={60} />
-            <span>{numberOfNoVotes}</span>
-          </div>
-        </div>
+        </Animated>
       </div>
       <div
         style={{
