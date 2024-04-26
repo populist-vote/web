@@ -58,7 +58,7 @@ export const LegislationVideo = ({
         )}
         {summary && (
           <Series.Sequence
-            durationInFrames={totalFrames}
+            durationInFrames={totalFrames > 0 ? totalFrames : 240} // Use a default minimum duration
             className={styles.legislationVideo}
           >
             <div
