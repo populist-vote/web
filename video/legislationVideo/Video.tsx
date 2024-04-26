@@ -5,6 +5,8 @@ import HeaderInner from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay/SponsorDisplay";
 import TitleScene from "./components/TitleScene/TitleScene";
+import SummaryScene from "./components/SummaryScene/SummaryScene";
+
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
 
@@ -23,12 +25,17 @@ export const LegislationVideo = ({
     session: billResult.session,
     status: status,
   };
+  const summary =
+    billResult?.populistSummary ||
+    billResult?.description ||
+    billResult?.officialSummary ||
+    "";
 
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
       <Series>
         <Series.Sequence
-          durationInFrames={200}
+          durationInFrames={240}
           className={styles.legislationVideo}
         >
           <TitleScene
@@ -43,7 +50,7 @@ export const LegislationVideo = ({
         </Series.Sequence>
 
         <Series.Sequence
-          durationInFrames={200}
+          durationInFrames={800}
           className={styles.legislationVideo}
         >
           <div
@@ -55,18 +62,12 @@ export const LegislationVideo = ({
             }}
           >
             <HeaderInner headerProps={headerInnerProps} />
-            <div>
-              <p>
-                {billResult.description ??
-                  billResult.populistSummary ??
-                  billResult.officialSummary}
-              </p>
-            </div>
+            <SummaryScene summary={summary} />
           </div>
         </Series.Sequence>
 
         <Series.Sequence
-          durationInFrames={200}
+          durationInFrames={240}
           className={styles.legislationVideo}
         >
           <HeaderInner headerProps={headerInnerProps} />
@@ -74,7 +75,7 @@ export const LegislationVideo = ({
         </Series.Sequence>
 
         <Series.Sequence
-          durationInFrames={200}
+          durationInFrames={240}
           className={styles.legislationVideo}
         >
           <HeaderInner headerProps={headerInnerProps} />
@@ -82,7 +83,7 @@ export const LegislationVideo = ({
         </Series.Sequence>
 
         <Series.Sequence
-          durationInFrames={200}
+          durationInFrames={240}
           className={styles.legislationVideo}
         >
           <Logos />
