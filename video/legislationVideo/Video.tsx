@@ -31,11 +31,22 @@ export const LegislationVideo = ({
     session: billResult.session,
     status: status,
   };
+
   const summary =
     billResult?.populistSummary ||
     billResult?.description ||
     billResult?.officialSummary ||
     "";
+
+  // Calculate the number of inner sequences
+  const [numberOfInnerSequenceFrames] = useState(() => {
+    let frames = 0;
+    if (summary) frames += 240;
+    if (legiscanData?.votes && legiscanData.votes.length > 0)
+      frames += 240 * totalFrames;
+    if (sponsors && sponsors.length > 0) frames += 240;
+    return frames;
+  });
 
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
@@ -45,6 +56,7 @@ export const LegislationVideo = ({
             durationInFrames={240}
             className={styles.legislationVideo}
           >
+            <h1>{numberOfInnerSequenceFrames}</h1>
             <TitleScene
               title={populistTitle || title}
               issueTags={issueTags}
