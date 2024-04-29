@@ -157,7 +157,7 @@ const CreateVideoPage: NextPage = () => {
             summary: summary,
           }}
           durationInFrames={
-            (totalInnerScenesCount + 2) * SCENE_LENGTH_IN_FRAMES
+            (totalInnerScenesCount + 2) * SCENE_LENGTH_IN_FRAMES // +2 scenes is 1 for the title, 1 for end screen
           }
           fps={VIDEO_FPS}
           compositionHeight={VIDEO_HEIGHT}
