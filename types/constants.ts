@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export const CompositionProps = z.object({
   title: z.string(),
   billTitle: z.string(), // Add the billTitle property
