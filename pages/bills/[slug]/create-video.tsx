@@ -1,6 +1,7 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
 import { VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from "types/constants";
 import type { BillResult } from "generated";
@@ -26,6 +27,12 @@ const CreateVideoPage: NextPage = () => {
     slug: slug as string,
   });
 
+  const [innerFrames, setInnerFrames] = useState(0);
+
+  const handleFrameCount = (frameCount: number) => {
+    setInnerFrames(frameCount);
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
   if (!data?.billBySlug) return null;
@@ -33,6 +40,7 @@ const CreateVideoPage: NextPage = () => {
   return (
     <div>
       <h1>Generate Video Content</h1>
+
       <p>
         Generate a 9:16 video perfect for sharing on TikTok, Instagram, and
         other social media platforms. Customize your video to suit your needs
@@ -49,6 +57,8 @@ const CreateVideoPage: NextPage = () => {
         }}
       >
         <h3>Debug area</h3>
+        <p>Number of Inner Sequence Frames: {innerFrames}</p>
+
         <ul>
           {[
             {
@@ -96,8 +106,11 @@ const CreateVideoPage: NextPage = () => {
         <div>
           <Player
             component={LegislationVideo}
-            inputProps={{ billResult: data.billBySlug as BillResult }}
-            durationInFrames={1000}
+            inputProps={{
+              billResult: data.billBySlug as BillResult,
+              onFrameCount: handleFrameCount,
+            }}
+            durationInFrames={2000}
             fps={VIDEO_FPS}
             compositionHeight={VIDEO_HEIGHT}
             compositionWidth={VIDEO_WIDTH}

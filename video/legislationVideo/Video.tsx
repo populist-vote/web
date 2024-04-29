@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AbsoluteFill, Series } from "remotion";
 import type { BillResult } from "generated";
 import HeaderInner from "./components/HeaderInner/HeaderInner";
@@ -12,13 +12,18 @@ import styles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
   billResult,
+  onFrameCount,
 }: {
   billResult: BillResult;
+  onFrameCount?: (frameCount: number) => void;
 }) => {
   const [totalFrames, setTotalFrames] = useState(0);
 
   const handleTotalFrames = (frames: number) => {
     setTotalFrames(frames);
+    if (onFrameCount) {
+      onFrameCount(numberOfInnerSequenceFrames);
+    }
   };
 
   const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
@@ -47,6 +52,13 @@ export const LegislationVideo = ({
     if (sponsors && sponsors.length > 0) frames += 240;
     return frames;
   });
+
+  // Ensure to call onFrameCount when numberOfInnerSequenceFrames is calculated
+  useEffect(() => {
+    if (onFrameCount) {
+      onFrameCount(numberOfInnerSequenceFrames);
+    }
+  }, [numberOfInnerSequenceFrames]);
 
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
