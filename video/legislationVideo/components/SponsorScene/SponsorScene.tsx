@@ -1,20 +1,20 @@
 import React from "react";
 import { PartyAvatar } from "components";
-import styles from "./SponsorDisplay.module.scss";
+import styles from "./SponsorScene.module.scss";
 import type { PoliticianResult, PoliticalParty } from "generated";
 import { Animated, Fade, Move } from "remotion-animated";
 import { FaCircle } from "react-icons/fa";
 
-interface SponsorDisplayProps {
+interface SponsorSceneProps {
   sponsors: PoliticianResult[];
 }
 
-const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
+const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
   const avatarStaggerAmount = 10; // Stagger each avatar animation (in frames)
   const listStaggerAmount = 2; // Stagger each list item animation (in frames)
 
   return (
-    <div className={styles.sponsorDisplay}>
+    <div className={styles.SponsorScene}>
       <h1>Sponsors</h1>
       {sponsors.length <= 3 ? (
         <div className={styles.sponsorAvatars}>
@@ -146,4 +146,4 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
   );
 };
 
-export default SponsorDisplay;
+export default SponsorScene;

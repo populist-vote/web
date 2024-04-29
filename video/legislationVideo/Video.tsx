@@ -2,7 +2,7 @@ import { AbsoluteFill, Series } from "remotion";
 import type { BillResult } from "generated";
 import HeaderInner from "./components/HeaderInner/HeaderInner";
 import VoteScene from "./components/VoteScene/VoteScene";
-import SponsorDisplay from "./components/SponsorDisplay/SponsorDisplay";
+import SponsorScene from "./components/SponsorScene/SponsorScene";
 import TitleScene from "./components/TitleScene/TitleScene";
 import SummaryScene from "./components/SummaryScene/SummaryScene";
 import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
@@ -84,7 +84,7 @@ export const LegislationVideo = ({
             className={styles.legislationVideo}
           >
             <HeaderInner headerProps={headerInnerProps} />
-            <SponsorDisplay sponsors={sponsors} />
+            <SponsorScene sponsors={sponsors} />
           </Series.Sequence>
         )}
 
