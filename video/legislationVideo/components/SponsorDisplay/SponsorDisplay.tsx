@@ -16,7 +16,7 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
   return (
     <div className={styles.sponsorDisplay}>
       <h1>Sponsors</h1>
-      {sponsors.length <= 6 ? (
+      {sponsors.length <= 3 ? (
         <div className={styles.sponsorAvatars}>
           {sponsors.map((sponsor, index) => (
             <div key={sponsor.id} className={styles.avatarContainer}>
@@ -44,9 +44,68 @@ const SponsorDisplay: React.FC<SponsorDisplayProps> = ({ sponsors }) => {
             </div>
           ))}
         </div>
+      ) : sponsors.length >= 4 && sponsors.length <= 6 ? (
+        <>
+          <div className={styles.sponsorAvatars}>
+            {sponsors.slice(0, 3).map((sponsor, index) => (
+              <div key={sponsor.id} className={styles.avatarContainer}>
+                <Animated
+                  animations={[
+                    Move({ y: 0, initialY: 80 }),
+                    Fade({ to: 1, initial: 0 }),
+                  ]}
+                  delay={20 + index * avatarStaggerAmount}
+                  style={{ opacity: 0 }}
+                >
+                  <PartyAvatar
+                    theme={"dark"}
+                    isEndorsement={false}
+                    iconSize="600px"
+                    party={sponsor.party as PoliticalParty}
+                    src={sponsor.assets?.thumbnailImage160 as string}
+                    alt={`${sponsor.fullName}'s avatar`}
+                    badgeSize="3rem"
+                    badgeFontSize="2rem"
+                    size={240}
+                  />
+                  <div className={styles.avatarName}>{sponsor.fullName}</div>
+                </Animated>
+              </div>
+            ))}
+          </div>
+          <div className={styles.sponsorAvatars}>
+            {sponsors.slice(3).map((sponsor, index) => (
+              <div key={sponsor.id} className={styles.avatarContainer}>
+                <Animated
+                  animations={[
+                    Move({ y: 0, initialY: 80 }),
+                    Fade({ to: 1, initial: 0 }),
+                  ]}
+                  delay={20 + index * avatarStaggerAmount}
+                  style={{ opacity: 0 }}
+                >
+                  <PartyAvatar
+                    theme={"dark"}
+                    isEndorsement={false}
+                    iconSize="600px"
+                    party={sponsor.party as PoliticalParty}
+                    src={sponsor.assets?.thumbnailImage160 as string}
+                    alt={`${sponsor.fullName}'s avatar`}
+                    badgeSize="3rem"
+                    badgeFontSize="2rem"
+                    size={240}
+                  />
+                  <div className={styles.avatarName}>{sponsor.fullName}</div>
+                </Animated>
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <ul
-          className={`${styles.sponsorList} ${sponsors.length > 10 ? styles.twoColumns : ""}`}
+          className={`${styles.sponsorList} ${
+            sponsors.length > 10 ? styles.twoColumns : ""
+          }`}
         >
           {sponsors.map((sponsor, index) => (
             <li
