@@ -8,7 +8,7 @@ import {
   VIDEO_WIDTH,
   SCENE_LENGTH_IN_FRAMES,
 } from "types/constants";
-import type { BillResult } from "generated";
+import type { BillResult, PoliticianResult } from "generated";
 import { useBillBySlugQuery } from "generated";
 import Link from "next/link";
 
@@ -24,6 +24,45 @@ const player: React.CSSProperties = {
   width: "50%",
 };
 
+function calculateScenes(
+  summary: string | null,
+  billResult: BillResult["legiscanData"],
+  sponsors: PoliticianResult[]
+) {
+  let totalInnerScenes = 0;
+  let summaryScenes = 0;
+
+  if (summary) {
+    const sentences = summary.match(/[^\.!\?]+[\.!\?]+/g) || [];
+    const parts = [];
+    let currentPart = "";
+
+    sentences.forEach((sentence) => {
+      if ((currentPart + sentence).split(" ").length > 30) {
+        parts.push(currentPart.trim());
+        currentPart = sentence;
+      } else {
+        currentPart += " " + sentence;
+      }
+    });
+
+    if (currentPart) {
+      parts.push(currentPart.trim());
+    }
+
+    summaryScenes = parts.length;
+    totalInnerScenes += summaryScenes;
+  }
+
+  if (billResult?.votes && billResult.votes.length > 0) totalInnerScenes += 1;
+  if (sponsors && sponsors.length > 0) totalInnerScenes += 1;
+
+  return {
+    totalInnerScenesCount: totalInnerScenes,
+    summaryScenesCount: summaryScenes,
+  };
+}
+
 const CreateVideoPage: NextPage = () => {
   const router = useRouter();
   const { slug } = router.query;
@@ -34,6 +73,21 @@ const CreateVideoPage: NextPage = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
   if (!data?.billBySlug) return null;
+
+  const billResult = data.billBySlug as BillResult;
+  const sponsors = billResult?.sponsors as PoliticianResult[];
+
+  const summary =
+    billResult?.populistSummary ||
+    billResult?.description ||
+    billResult?.officialSummary ||
+    null;
+
+  const { totalInnerScenesCount, summaryScenesCount } = calculateScenes(
+    summary,
+    billResult.legiscanData,
+    sponsors
+  );
 
   return (
     <div>
@@ -55,8 +109,6 @@ const CreateVideoPage: NextPage = () => {
         }}
       >
         <h3>Debug area</h3>
-        <p>Total number of scenes:</p>
-
         <ul>
           {[
             {
@@ -101,8 +153,12 @@ const CreateVideoPage: NextPage = () => {
           component={LegislationVideo}
           inputProps={{
             billResult: data.billBySlug as BillResult,
+            summaryScenesCount: summaryScenesCount,
+            summary: summary,
           }}
-          durationInFrames={5 * SCENE_LENGTH_IN_FRAMES}
+          durationInFrames={
+            (totalInnerScenesCount + 2) * SCENE_LENGTH_IN_FRAMES
+          }
           fps={VIDEO_FPS}
           compositionHeight={VIDEO_HEIGHT}
           compositionWidth={VIDEO_WIDTH}

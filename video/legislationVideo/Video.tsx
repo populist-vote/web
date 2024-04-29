@@ -1,5 +1,5 @@
 import { AbsoluteFill, Series } from "remotion";
-import type { BillResult, PoliticianResult } from "generated";
+import type { BillResult } from "generated";
 import HeaderInner from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay/SponsorDisplay";
@@ -10,48 +10,14 @@ import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
 
-function calculateScenes(
-  summary: string | null,
-  billResult: BillResult["legiscanData"],
-  sponsors: PoliticianResult[]
-) {
-  let totalInnerScenes = 0;
-  let summaryScenes = 0;
-
-  if (summary) {
-    const sentences = summary.match(/[^\.!\?]+[\.!\?]+/g) || [];
-    const parts = [];
-    let currentPart = "";
-
-    sentences.forEach((sentence) => {
-      if ((currentPart + sentence).split(" ").length > 30) {
-        parts.push(currentPart.trim());
-        currentPart = sentence;
-      } else {
-        currentPart += " " + sentence;
-      }
-    });
-
-    if (currentPart) {
-      parts.push(currentPart.trim());
-    }
-
-    summaryScenes = parts.length;
-    totalInnerScenes += summaryScenes;
-  }
-
-  if (billResult?.votes && billResult.votes.length > 0) totalInnerScenes += 1;
-  if (sponsors && sponsors.length > 0) totalInnerScenes += 1;
-
-  return {
-    totalInnerScenesCount: totalInnerScenes,
-    summaryScenesCount: summaryScenes,
-  };
-}
 export const LegislationVideo = ({
   billResult,
+  summaryScenesCount,
+  summary,
 }: {
   billResult: BillResult;
+  summaryScenesCount: number;
+  summary: string | null;
 }) => {
   const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
     billResult;
@@ -64,20 +30,6 @@ export const LegislationVideo = ({
     status: status,
   };
 
-  const summary =
-    billResult?.populistSummary ||
-    billResult?.description ||
-    billResult?.officialSummary ||
-    null;
-
-  const { totalInnerScenesCount, summaryScenesCount } = calculateScenes(
-    summary,
-    billResult.legiscanData,
-    sponsors
-  );
-
-  console.log("totalInnerScenesCount:", totalInnerScenesCount);
-  console.log("summaryScenesCount:", summaryScenesCount);
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
       <Series>
@@ -99,7 +51,7 @@ export const LegislationVideo = ({
         )}
         {summary && (
           <Series.Sequence
-            durationInFrames={SCENE_LENGTH_IN_FRAMES * 4}
+            durationInFrames={SCENE_LENGTH_IN_FRAMES * summaryScenesCount}
             className={styles.legislationVideo}
           >
             <div
