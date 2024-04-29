@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { AbsoluteFill, Series } from "remotion";
-import type { BillResult } from "generated";
+import type { BillResult, PoliticianResult } from "generated";
 import HeaderInner from "./components/HeaderInner/HeaderInner";
 import VoteDisplay from "./components/VoteDisplay/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay/SponsorDisplay";
@@ -11,22 +10,49 @@ import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
 
+function calculateScenes(
+  summary: string | null,
+  billResult: BillResult["legiscanData"],
+  sponsors: PoliticianResult[]
+) {
+  let totalInnerScenes = 0;
+  let summaryScenes = 0;
+
+  if (summary) {
+    const sentences = summary.match(/[^\.!\?]+[\.!\?]+/g) || [];
+    const parts = [];
+    let currentPart = "";
+
+    sentences.forEach((sentence) => {
+      if ((currentPart + sentence).split(" ").length > 30) {
+        parts.push(currentPart.trim());
+        currentPart = sentence;
+      } else {
+        currentPart += " " + sentence;
+      }
+    });
+
+    if (currentPart) {
+      parts.push(currentPart.trim());
+    }
+
+    summaryScenes = parts.length;
+    totalInnerScenes += summaryScenes;
+  }
+
+  if (billResult?.votes && billResult.votes.length > 0) totalInnerScenes += 1;
+  if (sponsors && sponsors.length > 0) totalInnerScenes += 1;
+
+  return {
+    totalInnerScenesCount: totalInnerScenes,
+    summaryScenesCount: summaryScenes,
+  };
+}
 export const LegislationVideo = ({
   billResult,
-  onFrameCount,
 }: {
   billResult: BillResult;
-  onFrameCount?: (frameCount: number) => void;
 }) => {
-  const [totalFrames, setTotalFrames] = useState(0);
-
-  const handleTotalFrames = (frames: number) => {
-    setTotalFrames(frames);
-    if (onFrameCount) {
-      onFrameCount(numberOfInnerSequenceFrames);
-    }
-  };
-
   const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
     billResult;
 
@@ -42,25 +68,16 @@ export const LegislationVideo = ({
     billResult?.populistSummary ||
     billResult?.description ||
     billResult?.officialSummary ||
-    "";
+    null;
 
-  // Calculate the number of inner sequences
-  const [numberOfInnerSequenceFrames] = useState(() => {
-    let frames = 0;
-    if (summary) frames += 240;
-    if (legiscanData?.votes && legiscanData.votes.length > 0)
-      frames += 240 * totalFrames;
-    if (sponsors && sponsors.length > 0) frames += 240;
-    return frames;
-  });
+  const { totalInnerScenesCount, summaryScenesCount } = calculateScenes(
+    summary,
+    billResult.legiscanData,
+    sponsors
+  );
 
-  // Ensure to call onFrameCount when numberOfInnerSequenceFrames is calculated
-  useEffect(() => {
-    if (onFrameCount) {
-      onFrameCount(numberOfInnerSequenceFrames);
-    }
-  }, [numberOfInnerSequenceFrames]);
-
+  console.log("totalInnerScenesCount:", totalInnerScenesCount);
+  console.log("summaryScenesCount:", summaryScenesCount);
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
       <Series>
@@ -69,7 +86,6 @@ export const LegislationVideo = ({
             durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
-            <h1>{numberOfInnerSequenceFrames}</h1>
             <TitleScene
               title={populistTitle || title}
               issueTags={issueTags}
@@ -83,9 +99,7 @@ export const LegislationVideo = ({
         )}
         {summary && (
           <Series.Sequence
-            durationInFrames={
-              totalFrames > 0 ? totalFrames : SCENE_LENGTH_IN_FRAMES
-            } // Use a default minimum duration
+            durationInFrames={SCENE_LENGTH_IN_FRAMES * 4}
             className={styles.legislationVideo}
           >
             <div
@@ -97,10 +111,7 @@ export const LegislationVideo = ({
               }}
             >
               <HeaderInner headerProps={headerInnerProps} />
-              <SummaryScene
-                summary={summary}
-                onTotalFrames={handleTotalFrames}
-              />
+              <SummaryScene summary={summary} />
             </div>
           </Series.Sequence>
         )}

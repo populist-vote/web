@@ -1,9 +1,13 @@
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
-import { VIDEO_FPS, VIDEO_HEIGHT, VIDEO_WIDTH } from "types/constants";
+import {
+  VIDEO_FPS,
+  VIDEO_HEIGHT,
+  VIDEO_WIDTH,
+  SCENE_LENGTH_IN_FRAMES,
+} from "types/constants";
 import type { BillResult } from "generated";
 import { useBillBySlugQuery } from "generated";
 import Link from "next/link";
@@ -26,12 +30,6 @@ const CreateVideoPage: NextPage = () => {
   const { data, isLoading, error } = useBillBySlugQuery({
     slug: slug as string,
   });
-
-  const [innerFrames, setInnerFrames] = useState(0);
-
-  const handleFrameCount = (frameCount: number) => {
-    setInnerFrames(frameCount);
-  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
@@ -57,13 +55,13 @@ const CreateVideoPage: NextPage = () => {
         }}
       >
         <h3>Debug area</h3>
-        <p>Number of Inner Sequence Frames: {innerFrames}</p>
+        <p>Total number of scenes:</p>
 
         <ul>
           {[
             {
               id: "mnhf1002023-2024",
-              description: "no summary, h&s votes, lots of d sponsors",
+              description: "1 page summary, h&s votes, lots of d sponsors",
             },
             {
               id: "mnsf18842023-2024",
@@ -74,16 +72,12 @@ const CreateVideoPage: NextPage = () => {
               description: "2 issue tags, summary, no votes, no sponsors",
             },
             {
-              id: "mnhf9172023-2024",
-              description: "3-6 sponsors",
-            },
-            {
               id: "mnhf14402023-2024",
               description: "multi sentence summary",
             },
             {
               id: "mnhf9172023-2024",
-              description: "only house vote",
+              description: "only house vote, 3-6 sponsors",
             },
             {
               id: "mnhf1732023-2024",
@@ -103,23 +97,20 @@ const CreateVideoPage: NextPage = () => {
       </div>
 
       <div style={container}>
-        <div>
-          <Player
-            component={LegislationVideo}
-            inputProps={{
-              billResult: data.billBySlug as BillResult,
-              onFrameCount: handleFrameCount,
-            }}
-            durationInFrames={2000}
-            fps={VIDEO_FPS}
-            compositionHeight={VIDEO_HEIGHT}
-            compositionWidth={VIDEO_WIDTH}
-            style={player}
-            controls
-            autoPlay
-            loop
-          />
-        </div>
+        <Player
+          component={LegislationVideo}
+          inputProps={{
+            billResult: data.billBySlug as BillResult,
+          }}
+          durationInFrames={5 * SCENE_LENGTH_IN_FRAMES}
+          fps={VIDEO_FPS}
+          compositionHeight={VIDEO_HEIGHT}
+          compositionWidth={VIDEO_WIDTH}
+          style={player}
+          controls
+          autoPlay
+          loop
+        />
       </div>
     </div>
   );

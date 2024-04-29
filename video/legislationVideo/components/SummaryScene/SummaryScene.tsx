@@ -1,15 +1,12 @@
 import React from "react";
 import { Animated, Move, Fade } from "remotion-animated";
+import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
 
 interface SummarySceneProps {
   summary: string | undefined;
-  onTotalFrames: (totalFrames: number) => void;
 }
 
-const SummaryScene: React.FC<SummarySceneProps> = ({
-  summary,
-  onTotalFrames,
-}) => {
+const SummaryScene: React.FC<SummarySceneProps> = ({ summary }) => {
   if (!summary) {
     return null;
   }
@@ -34,25 +31,23 @@ const SummaryScene: React.FC<SummarySceneProps> = ({
   }
 
   let startFrame = 0;
-  const totalFrames = parts.length * 360; // Calculate total frames
-  onTotalFrames(totalFrames); // Pass total frames to the parent
 
   return (
     <div style={{ height: "800px" }}>
       {parts.map((part, index) => {
-        startFrame = index * 360;
+        startFrame = index * SCENE_LENGTH_IN_FRAMES;
 
         return (
           <Animated
             key={index}
             in={startFrame}
-            out={startFrame + 360}
+            out={startFrame + SCENE_LENGTH_IN_FRAMES}
             animations={[
               Move({ start: startFrame, x: 0, initialX: -30 }),
               Fade({ start: startFrame, to: 1, initial: 0, duration: 30 }),
-              Move({ start: startFrame + 330, x: 30 }),
+              Move({ start: startFrame + SCENE_LENGTH_IN_FRAMES - 30, x: 30 }),
               Fade({
-                start: startFrame + 330,
+                start: startFrame + SCENE_LENGTH_IN_FRAMES - 30,
                 to: 0,
                 initial: 1,
                 duration: 30,
