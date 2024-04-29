@@ -6,6 +6,7 @@ import VoteDisplay from "./components/VoteDisplay/VoteDisplay";
 import SponsorDisplay from "./components/SponsorDisplay/SponsorDisplay";
 import TitleScene from "./components/TitleScene/TitleScene";
 import SummaryScene from "./components/SummaryScene/SummaryScene";
+import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
 
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
@@ -65,7 +66,7 @@ export const LegislationVideo = ({
       <Series>
         {title && (
           <Series.Sequence
-            durationInFrames={240}
+            durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
             <h1>{numberOfInnerSequenceFrames}</h1>
@@ -82,7 +83,9 @@ export const LegislationVideo = ({
         )}
         {summary && (
           <Series.Sequence
-            durationInFrames={totalFrames > 0 ? totalFrames : 240} // Use a default minimum duration
+            durationInFrames={
+              totalFrames > 0 ? totalFrames : SCENE_LENGTH_IN_FRAMES
+            } // Use a default minimum duration
             className={styles.legislationVideo}
           >
             <div
@@ -104,7 +107,7 @@ export const LegislationVideo = ({
 
         {legiscanData?.votes && legiscanData.votes.length > 0 && (
           <Series.Sequence
-            durationInFrames={240}
+            durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
             <HeaderInner headerProps={headerInnerProps} />
@@ -114,7 +117,7 @@ export const LegislationVideo = ({
 
         {sponsors && sponsors.length > 0 && (
           <Series.Sequence
-            durationInFrames={240}
+            durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
             <HeaderInner headerProps={headerInnerProps} />
@@ -123,7 +126,7 @@ export const LegislationVideo = ({
         )}
 
         <Series.Sequence
-          durationInFrames={240}
+          durationInFrames={SCENE_LENGTH_IN_FRAMES}
           className={styles.legislationVideo}
         >
           <Logos />
