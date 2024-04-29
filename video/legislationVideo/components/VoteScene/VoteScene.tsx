@@ -3,7 +3,7 @@ import Image from "next/legacy/image";
 import { useCurrentFrame, interpolate, Easing } from "remotion";
 import iconYay from "public/images/video-generator/yay-icon.svg";
 import iconNay from "public/images/video-generator/nay-icon.svg";
-import styles from "./VoteDisplay.module.scss";
+import styles from "./VoteScene.module.scss";
 import { Animated, Fade, Move } from "remotion-animated";
 
 interface Vote {
@@ -13,22 +13,22 @@ interface Vote {
   nay: number;
 }
 
-const VoteDisplay = ({ votes }: { votes: Vote[] }) => {
+const VoteScene = ({ votes }: { votes: Vote[] }) => {
   const lastHouseVote = getLastVote(votes, "H");
   const lastSenateVote = getLastVote(votes, "S");
 
   return (
-    <div className={styles.voteDisplay}>
+    <div className={styles.VoteScene}>
       <h1>Last Votes</h1>
       {lastHouseVote && (
-        <VoteDisplayItem
+        <VoteSceneItem
           voteTitle="HOUSE"
           numberOfYesVotes={lastHouseVote.yea ?? 0}
           numberOfNoVotes={lastHouseVote.nay ?? 0}
         />
       )}
       {lastSenateVote && (
-        <VoteDisplayItem
+        <VoteSceneItem
           voteTitle="SENATE"
           numberOfYesVotes={lastSenateVote.yea ?? 0}
           numberOfNoVotes={lastSenateVote.nay ?? 0}
@@ -38,7 +38,7 @@ const VoteDisplay = ({ votes }: { votes: Vote[] }) => {
   );
 };
 
-const VoteDisplayItem = ({
+const VoteSceneItem = ({
   voteTitle,
   numberOfYesVotes,
   numberOfNoVotes,
@@ -81,7 +81,7 @@ const VoteDisplayItem = ({
   });
 
   return (
-    <div className={styles.voteDisplay}>
+    <div className={styles.VoteScene}>
       <div className={styles.voteHeader}>
         <Animated
           animations={[
@@ -133,4 +133,4 @@ const getLastVote = (votes: Vote[], chamber: string): Vote | undefined =>
     ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .find((vote) => vote.chamber === chamber);
 
-export default VoteDisplay;
+export default VoteScene;
