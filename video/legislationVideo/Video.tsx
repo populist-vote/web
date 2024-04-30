@@ -5,6 +5,8 @@ import VoteScene from "./components/VoteScene/VoteScene";
 import SponsorScene from "./components/SponsorScene/SponsorScene";
 import TitleScene from "./components/TitleScene/TitleScene";
 import SummaryScene from "./components/SummaryScene/SummaryScene";
+import { WipeBG } from "./components/WipeBG";
+
 import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
 
 import Logos from "./components/Logos";
@@ -32,6 +34,8 @@ export const LegislationVideo = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
+      <WipeBG />
+
       <Series>
         {title && (
           <Series.Sequence
