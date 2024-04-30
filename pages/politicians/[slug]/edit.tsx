@@ -317,6 +317,14 @@ function PoliticianAPILinksForm({
       },
       {
         onSettled: (data) => {
+          if (!data?.updatePolitician) return;
+          // @ts-ignore
+          if (data.errors) {
+            // @ts-ignore
+            data.errors.forEach((error) => {
+              toast.error(error.message);
+            });
+          }
           queryClient.setQueryData(
             usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
