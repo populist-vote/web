@@ -7,6 +7,7 @@ import {
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
   SCENE_LENGTH_IN_FRAMES,
+  SUMMARY_SCENE_LENGTH_IN_FRAMES,
 } from "types/constants";
 import type { BillResult, PoliticianResult } from "generated";
 import { useBillBySlugQuery } from "generated";
@@ -162,7 +163,9 @@ const CreateVideoPage: NextPage = () => {
             summary: summary,
           }}
           durationInFrames={
-            (totalInnerScenesCount + 2) * SCENE_LENGTH_IN_FRAMES // +2 scenes is 1 for the title, 1 for end screen
+            (totalInnerScenesCount - summaryScenesCount + 2) *
+              SCENE_LENGTH_IN_FRAMES +
+            summaryScenesCount * SUMMARY_SCENE_LENGTH_IN_FRAMES // Calculates total frames based on the number of innerScenes, summaryScenes, and their respective lengths
           }
           fps={VIDEO_FPS}
           compositionHeight={VIDEO_HEIGHT}

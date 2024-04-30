@@ -8,7 +8,10 @@ import SummaryScene from "./components/SummaryScene/SummaryScene";
 import WipeOut from "./components/WipeBackground/WipeOut";
 import WipeIn from "./components/WipeBackground/WipeIn";
 
-import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
+import {
+  SCENE_LENGTH_IN_FRAMES,
+  SUMMARY_SCENE_LENGTH_IN_FRAMES,
+} from "types/constants";
 
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
@@ -55,7 +58,9 @@ export const LegislationVideo = ({
         )}
         {summary && (
           <Series.Sequence
-            durationInFrames={SCENE_LENGTH_IN_FRAMES * summaryScenesCount}
+            durationInFrames={
+              SUMMARY_SCENE_LENGTH_IN_FRAMES * summaryScenesCount
+            }
             className={styles.legislationVideo}
           >
             <WipeOut />
@@ -70,7 +75,9 @@ export const LegislationVideo = ({
               <HeaderInner headerProps={headerInnerProps} />
               <SummaryScene summary={summary} />
             </div>
-            <WipeIn delay={SCENE_LENGTH_IN_FRAMES * summaryScenesCount} />
+            <WipeIn
+              delay={SUMMARY_SCENE_LENGTH_IN_FRAMES * summaryScenesCount}
+            />
           </Series.Sequence>
         )}
 
