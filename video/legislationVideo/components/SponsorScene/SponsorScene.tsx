@@ -13,6 +13,10 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
   const avatarStaggerAmount = 10; // Stagger each avatar animation (in frames)
   const listStaggerAmount = 2; // Stagger each list item animation (in frames)
 
+  // Calculate the total delay needed for the first group of avatar animations
+  const initialGroupDelay =
+    sponsors.length >= 4 ? (sponsors.length - 1) * avatarStaggerAmount : 0;
+
   return (
     <div className={styles.SponsorScene}>
       <h1>Sponsors</h1>
@@ -81,7 +85,7 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                     Move({ y: 0, initialY: 80 }),
                     Fade({ to: 1, initial: 0 }),
                   ]}
-                  delay={20 + index * avatarStaggerAmount}
+                  delay={initialGroupDelay + 20 + index * avatarStaggerAmount} // Delay these animations to start after the initial group finishes
                   style={{ opacity: 0 }}
                 >
                   <PartyAvatar
