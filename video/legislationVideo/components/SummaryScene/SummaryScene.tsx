@@ -36,23 +36,30 @@ const SummaryScene: React.FC<SummarySceneProps> = ({ summary }) => {
     <div style={{ height: "800px" }}>
       {parts.map((part, index) => {
         startFrame = index * SCENE_LENGTH_IN_FRAMES;
+        const animations = [
+          Move({ start: startFrame, x: 0, initialX: -30 }),
+          Fade({ start: startFrame, to: 1, initial: 0, duration: 30 }),
+        ];
+
+        // Conditionally add exit animations unless it's the last part or there's only one part
+        if (parts.length > 1 && index !== parts.length - 1) {
+          animations.push(
+            Move({ start: startFrame + SCENE_LENGTH_IN_FRAMES - 30, x: 30 }),
+            Fade({
+              start: startFrame + SCENE_LENGTH_IN_FRAMES - 30,
+              to: 0,
+              initial: 1,
+              duration: 20,
+            })
+          );
+        }
 
         return (
           <Animated
             key={index}
             in={startFrame}
             out={startFrame + SCENE_LENGTH_IN_FRAMES}
-            animations={[
-              Move({ start: startFrame, x: 0, initialX: -30 }),
-              Fade({ start: startFrame, to: 1, initial: 0, duration: 30 }),
-              Move({ start: startFrame + SCENE_LENGTH_IN_FRAMES - 30, x: 30 }),
-              Fade({
-                start: startFrame + SCENE_LENGTH_IN_FRAMES - 30,
-                to: 0,
-                initial: 1,
-                duration: 30,
-              }),
-            ]}
+            animations={animations}
             style={{ opacity: 0 }}
           >
             <p>{part}</p>
