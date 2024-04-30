@@ -19,19 +19,25 @@
   }
 
   .sponsorList {
-    font-size: $text-lg;
+    font-size: $text-md;
     margin: 0;
     padding: 0;
 
     li {
       list-style-type: none;
       position: relative;
+      margin-bottom: 0.5rem; // Added margin between list items
 
       div {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         gap: 1.25rem;
+
+        svg {
+          width: 32pt;
+          margin-top: 0.4rem;
+        }
       }
     }
   }

@@ -127,7 +127,7 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
               >
                 <div>
                   <FaCircle
-                    size={24}
+                    size={32}
                     style={{
                       color:
                         sponsor.party?.name === "Democratic-Farmer-Labor"
