@@ -287,7 +287,7 @@ function PoliticianAPILinksForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, handleSubmit, formState, reset } = useForm<
+  const { register, handleSubmit, formState } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -334,7 +334,6 @@ function PoliticianAPILinksForm({
           toast.success("Politician updated", {
             position: "bottom-right",
           });
-          reset();
         },
         onError: (error) => {
           toast.error(JSON.stringify(error));
