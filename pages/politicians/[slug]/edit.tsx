@@ -287,7 +287,7 @@ function PoliticianAPILinksForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, handleSubmit, formState, reset } = useForm<
+  const { register, handleSubmit, formState } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -300,6 +300,7 @@ function PoliticianAPILinksForm({
   });
 
   const isDirty = !!Object.keys(formState.dirtyFields).length;
+  const formErrors = formState.errors;
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useUpdatePoliticianMutation();
@@ -317,16 +318,22 @@ function PoliticianAPILinksForm({
       },
       {
         onSettled: (data) => {
-          queryClient.setQueryData(
-            usePoliticianBySlugQuery.getKey({
+          if (!data?.updatePolitician) return;
+          // @ts-ignore
+          if (data.errors) {
+            // @ts-ignore
+            data.errors.forEach((error) => {
+              toast.error(error.message);
+            });
+          }
+          void queryClient.invalidateQueries({
+            queryKey: usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
             }),
-            { politicianBySlug: data?.updatePolitician }
-          );
+          });
           toast.success("Politician updated", {
             position: "bottom-right",
           });
-          reset();
         },
         onError: (error) => {
           toast.error(JSON.stringify(error));
@@ -350,21 +357,31 @@ function PoliticianAPILinksForm({
           name={"votesmartCandidateId"}
           label="VoteSmart Candidate ID"
           register={register}
+          rules={{
+            pattern: {
+              value: /^[0-9]*$/,
+              message: "Only numbers are allowed",
+            },
+          }}
+          errors={formErrors.votesmartCandidateId?.message}
         />
         <TextInput
           name={"crpCandidateId"}
           label="CRP Candidate ID"
           register={register}
+          errors={formErrors.crpCandidateId?.message}
         />
         <TextInput
           name={"fecCandidateId"}
           label="FEC Candidate ID"
           register={register}
+          errors={formErrors.fecCandidateId?.message}
         />
         <TextInput
           name={"legiscanPeopleId"}
           label="LegiScan People ID"
           register={register}
+          errors={formErrors.legiscanPeopleId?.message}
         />
       </div>
       <div className={clsx(styles.flexBaseline)}>
