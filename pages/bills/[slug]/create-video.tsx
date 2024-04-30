@@ -139,7 +139,12 @@ const CreateVideoPage: NextPage = () => {
             <li key={bill.id}>
               <Link
                 href={`/bills/${bill.id}/create-video`}
-                style={{ color: "#ffffff" }}
+                style={{
+                  color:
+                    router.asPath === `/bills/${bill.id}/create-video`
+                      ? "magenta"
+                      : "#ffffff",
+                }}
               >
                 {bill.description}
               </Link>
