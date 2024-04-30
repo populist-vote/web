@@ -325,12 +325,11 @@ function PoliticianAPILinksForm({
               toast.error(error.message);
             });
           }
-          queryClient.setQueryData(
-            usePoliticianBySlugQuery.getKey({
+          void queryClient.invalidateQueries({
+            queryKey: usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
             }),
-            { politicianBySlug: data?.updatePolitician }
-          );
+          });
           toast.success("Politician updated", {
             position: "bottom-right",
           });
@@ -358,6 +357,12 @@ function PoliticianAPILinksForm({
           name={"votesmartCandidateId"}
           label="VoteSmart Candidate ID"
           register={register}
+          rules={{
+            pattern: {
+              value: /^[0-9]*$/,
+              message: "Only numbers are allowed",
+            },
+          }}
         />
         <TextInput
           name={"crpCandidateId"}
