@@ -136,6 +136,14 @@ const CreateVideoPage: NextPage = () => {
               id: "mnhf1732023-2024",
               description: "33 sponsors",
             },
+            {
+              id: "mnsf22002023-2024",
+              description: "2 sponsors",
+            },
+            {
+              id: "mnsf1712023-2024",
+              description: "1 sponsor",
+            },
           ].map((bill) => (
             <li key={bill.id}>
               <Link
