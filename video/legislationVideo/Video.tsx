@@ -5,7 +5,8 @@ import VoteScene from "./components/VoteScene/VoteScene";
 import SponsorScene from "./components/SponsorScene/SponsorScene";
 import TitleScene from "./components/TitleScene/TitleScene";
 import SummaryScene from "./components/SummaryScene/SummaryScene";
-import { WipeBG } from "./components/WipeBG";
+import WipeOut from "./components/WipeBackground/WipeOut";
+import WipeIn from "./components/WipeBackground/WipeIn";
 
 import { SCENE_LENGTH_IN_FRAMES } from "types/constants";
 
@@ -34,8 +35,6 @@ export const LegislationVideo = ({
 
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>
-      <WipeBG />
-
       <Series>
         {title && (
           <Series.Sequence
@@ -51,6 +50,7 @@ export const LegislationVideo = ({
               startDate={billResult.session?.startDate}
               endDate={billResult.session?.endDate}
             />
+            <WipeIn />
           </Series.Sequence>
         )}
         {summary && (
@@ -58,6 +58,7 @@ export const LegislationVideo = ({
             durationInFrames={SCENE_LENGTH_IN_FRAMES * summaryScenesCount}
             className={styles.legislationVideo}
           >
+            <WipeOut />
             <div
               style={{
                 height: "100%",
@@ -69,6 +70,7 @@ export const LegislationVideo = ({
               <HeaderInner headerProps={headerInnerProps} />
               <SummaryScene summary={summary} />
             </div>
+            <WipeIn delay={SCENE_LENGTH_IN_FRAMES * summaryScenesCount} />
           </Series.Sequence>
         )}
 
@@ -77,8 +79,11 @@ export const LegislationVideo = ({
             durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
+            <WipeOut />
+
             <HeaderInner headerProps={headerInnerProps} />
             <VoteScene votes={legiscanData?.votes ?? []} />
+            <WipeIn />
           </Series.Sequence>
         )}
 
@@ -87,8 +92,11 @@ export const LegislationVideo = ({
             durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
+            <WipeOut />
+
             <HeaderInner headerProps={headerInnerProps} />
             <SponsorScene sponsors={sponsors} />
+            <WipeIn />
           </Series.Sequence>
         )}
 
@@ -96,6 +104,8 @@ export const LegislationVideo = ({
           durationInFrames={SCENE_LENGTH_IN_FRAMES}
           className={styles.legislationVideo}
         >
+          <WipeOut />
+
           <Logos />
         </Series.Sequence>
       </Series>
