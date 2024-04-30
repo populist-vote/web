@@ -1,5 +1,4 @@
 @import "styles/variables/colors";
-@import "styles/variables/fonts";
 
 .WipeBackground {
   background-color: var(--blue-darker);
@@ -7,4 +6,5 @@
   z-index: 999;
   position: absolute;
   left: 0;
+  top: 0;
 }
