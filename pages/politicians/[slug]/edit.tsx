@@ -300,6 +300,7 @@ function PoliticianAPILinksForm({
   });
 
   const isDirty = !!Object.keys(formState.dirtyFields).length;
+  const formErrors = formState.errors;
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useUpdatePoliticianMutation();
@@ -363,21 +364,25 @@ function PoliticianAPILinksForm({
               message: "Only numbers are allowed",
             },
           }}
+          errors={formErrors.votesmartCandidateId?.message}
         />
         <TextInput
           name={"crpCandidateId"}
           label="CRP Candidate ID"
           register={register}
+          errors={formErrors.crpCandidateId?.message}
         />
         <TextInput
           name={"fecCandidateId"}
           label="FEC Candidate ID"
           register={register}
+          errors={formErrors.fecCandidateId?.message}
         />
         <TextInput
           name={"legiscanPeopleId"}
           label="LegiScan People ID"
           register={register}
+          errors={formErrors.legiscanPeopleId?.message}
         />
       </div>
       <div className={clsx(styles.flexBaseline)}>
