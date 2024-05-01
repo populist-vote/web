@@ -1,34 +1,24 @@
-import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { Layout, LoaderFlag, TopNavElections } from "components";
+import { Layout, LoaderFlag, SearchInput, TopNavElections } from "components";
 import { Box } from "components/Box/Box";
 import { PoliticalScope, useElectionsIndexQuery } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import { SupportedLocale } from "types/global";
 import styles from "./index.module.scss";
 import { useRouter } from "next/router";
-import { AiOutlineSearch } from "react-icons/ai";
 import * as Separator from "@radix-ui/react-separator";
 import clsx from "clsx";
+import useDebounce from "hooks/useDebounce";
+import { dateString } from "utils/dates";
 
 export async function getServerSideProps({
   locale,
 }: {
   locale: SupportedLocale;
 }) {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(
-    useElectionsIndexQuery.getKey(),
-    useElectionsIndexQuery.fetcher()
-  );
-
-  const state = dehydrate(queryClient);
-
   return {
     props: {
-      dehydratedState: state,
       mobileNavTitle: "Elections",
       title: "Elections",
       description:
@@ -43,11 +33,15 @@ export async function getServerSideProps({
 }
 
 export default function ElectionsPage() {
-  const searchRef = useRef<HTMLInputElement>(null);
-  const [searchValue, setSearchValue] = useState<string | undefined>();
   const router = useRouter();
   const { query } = router;
-  const { scope } = query;
+  const { search, scope } = query;
+  const [searchValue, setSearchValue] = useState<string>(search as string);
+
+  const debouncedSearchQuery = useDebounce<string | null>(
+    search as string,
+    350
+  );
 
   const handleScopeChange = (newScope: PoliticalScope) => {
     if (newScope === scope) {
@@ -58,35 +52,29 @@ export default function ElectionsPage() {
     }
   };
 
-  const { data, isLoading } = useElectionsIndexQuery({
-    filter: {
-      query: searchValue,
+  const { data, isLoading } = useElectionsIndexQuery(
+    {
+      filter: {
+        query: debouncedSearchQuery,
+        politicalScope: scope as PoliticalScope,
+      },
     },
-  });
-
-  if (isLoading) {
-    return <LoaderFlag />;
-  }
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!debouncedSearchQuery || !!scope,
+    }
+  );
 
   return (
     <>
       <TopNavElections selected="Browse" electionData={undefined} />
       <div className={styles.container}>
         <Box>
-          <div className={styles.inputWithIcon}>
-            <input
-              placeholder="Search for an election"
-              ref={searchRef}
-              onChange={(e) => {
-                setSearchValue(e.target.value);
-                void router.push({
-                  query: { ...query, search: e.target.value },
-                });
-              }}
-              value={searchValue || ""}
-            />
-            <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
-          </div>
+          <SearchInput
+            placeholder="Search for an election"
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
           <Separator.Root
             className={styles.SeparatorRoot}
             decorative
@@ -144,7 +132,22 @@ export default function ElectionsPage() {
             </label>
           </div>
         </Box>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        {isLoading ? (
+          <LoaderFlag />
+        ) : (
+          <div style={{ marginTop: "1rem" }}>
+            {data?.elections.map((election) => (
+              <Box key={election.id}>
+                <div className={styles.flexBetween}>
+                  <h4 style={{ fontSize: "1.25em" }}>{election.title}</h4>
+                  <h3>{dateString(election.electionDate, true)}</h3>
+                </div>
+                <div className={styles.divider} />
+                <p className={styles.blueText}>{election.description}</p>
+              </Box>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

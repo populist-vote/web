@@ -703,6 +703,7 @@ type Mutation {
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
   pingEmbedOrigin(input: PingEmbedOriginInput!): EmbedOriginResult!
+  removePoliticianOffice(id: ID!): Boolean!
   requestPasswordReset(email: String!): Boolean!
   resetPassword(input: ResetPasswordInput!): Boolean!
   updateAddress(address: AddressInput!): AddressResult!
