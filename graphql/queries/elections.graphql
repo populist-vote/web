@@ -1,8 +1,9 @@
 query ElectionBySlug($slug: String!) {
   electionBySlug(slug: $slug) {
-    id
-    slug
-    description
+    ...electionFields
+    races {
+      ...raceFields
+    }
   }
 }
 

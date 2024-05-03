@@ -20,6 +20,8 @@ function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
   const createVotingGuide = useUpsertVotingGuideMutation();
   const router = useRouter();
 
+  if (!election) return null;
+
   const handleVotingGuideCreate = () => {
     createVotingGuide.mutate(
       {

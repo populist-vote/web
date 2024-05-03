@@ -38,7 +38,7 @@ function TopNavElections({
           </Link>
         </li>
         <li data-selected={selected === "Browse"}>
-          <Link href="/elections" shallow>
+          <Link href="/elections/browse" shallow>
             Browse
           </Link>
         </li>

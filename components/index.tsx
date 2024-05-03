@@ -43,7 +43,7 @@ import { SupportOppose } from "./SupportOppose/SupportOppose";
 import { TextInput } from "./TextInput/TextInput";
 import { TopNav } from "./TopNav/TopNav";
 import { TopNavElections } from "./TopNavElections/TopNavElections";
-import { VerticalDivider } from "./VerticalDivider/VerticalDivider";
+import { Divider } from "./Divider/Divider";
 import { VotingGuideNote } from "./VotingGuide/VotingGuideNote/VotingGuideNote";
 import { VotingGuideWelcome } from "./VotingGuide/VotingGuideWelcome";
 import { VotingGuideNav } from "./VotingGuide/VotingGuideNav/VotingGuideNav";
@@ -71,6 +71,7 @@ export {
   Candidate,
   ColoredSection,
   DashboardLink,
+  Divider,
   ElectionInfoSection,
   ElectionSelector,
   EmbedIndex,
@@ -106,7 +107,6 @@ export {
   TextInput,
   TopNav,
   TopNavElections,
-  VerticalDivider,
   VotingGuideNav,
   VotingGuideNote,
   VotingGuideWelcome,

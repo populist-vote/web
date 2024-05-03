@@ -1,9 +1,4 @@
-import {
-  FieldSet,
-  VotingGuideNote,
-  PartyAvatar,
-  VerticalDivider,
-} from "components";
+import { FieldSet, VotingGuideNote, PartyAvatar } from "components";
 import {
   PoliticalParty,
   PoliticianResult,
@@ -20,6 +15,7 @@ import { AtLeast } from "types/global";
 
 import { default as clsx } from "clsx";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
+import Divider from "components/Divider/Divider";
 
 interface EditVotingGuideCandidate {
   candidateId: string;
@@ -249,7 +245,7 @@ function Race({
             </div>
 
             {incumbentIds?.includes(politician.id) &&
-              candidates?.length > 1 && <VerticalDivider />}
+              candidates?.length > 1 && <Divider vertical />}
           </div>
         );
       })}
