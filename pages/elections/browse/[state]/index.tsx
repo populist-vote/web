@@ -2,7 +2,7 @@ import { Box, Layout, SearchInput, Select, TopNavElections } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { BiChevronLeft } from "react-icons/bi";
 import { SupportedLocale } from "types/global";
 import styles from "../../index.module.scss";
@@ -94,6 +94,14 @@ export function ElectionBrowserBreadcrumbs({
 
   const [searchValue, setSearchValue] = useState<string>(search as string);
 
+  useEffect(() => {
+    if (searchValue?.length > 0) {
+      void router.push(
+        `/elections/browse/${state?.toLowerCase()}${year ? `?year=${year}` : ""}&search=${searchValue}`
+      );
+    }
+  }, [searchValue, router, state, year]);
+
   const stateOptions = [
     ...Object.entries(states).map(([key, value]) => ({
       label: value,
@@ -102,11 +110,14 @@ export function ElectionBrowserBreadcrumbs({
     { label: "Federal", value: "FEDERAL" },
   ];
 
-  const yearOptions = [
-    { label: "2022", value: "2022" },
-    { label: "2023", value: "2023" },
-    { label: "2024", value: "2024" },
-  ];
+  const currentYear = new Date().getFullYear();
+  const yearOptions = Array.from(
+    { length: currentYear - 2021 + 1 },
+    (_, index) => {
+      const year = 2021 + index;
+      return { label: year.toString(), value: year.toString() };
+    }
+  );
 
   return (
     <div

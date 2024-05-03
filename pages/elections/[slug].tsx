@@ -41,9 +41,11 @@ export default function ElectionPage() {
   return (
     <div>
       <ElectionBrowserBreadcrumbs state={state} year={year} />
-      <ElectionHeader
-        election={data?.electionBySlug as Partial<ElectionResult>}
-      />
+      <div style={{ marginTop: "-3rem" }}>
+        <ElectionHeader
+          election={data?.electionBySlug as Partial<ElectionResult>}
+        />
+      </div>
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <ElectionRaces races={data?.electionBySlug.races as RaceResult[]} />
     </div>
