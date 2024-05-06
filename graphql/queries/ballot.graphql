@@ -63,12 +63,19 @@ fragment electionFields on ElectionResult {
   title
   description
   electionDate
+  state
 }
 
-query Elections {
+query ElectionsByUser {
   electionsByUser {
     id
     electionDate
+  }
+}
+
+query ElectionsIndex($filter: ElectionFilter) {
+  elections(filter: $filter) {
+    ...electionFields
   }
 }
 

@@ -24,6 +24,7 @@ const EmbedTypeColorMap: Record<EmbedType, Theme> = {
   RACE: "blue",
   QUESTION: "orange",
   POLL: "violet",
+  CANDIDATE_GUIDE: "aqua",
 };
 
 export function Dashboard({ organizationId }: { organizationId: string }) {

@@ -18,6 +18,6 @@
     "noUncheckedIndexedAccess": true,
     "target": "es5"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "pages/politicians/[slug]"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "pages/politicians/[slug]", "pages/elections/browse/[state]"],
   "exclude": ["node_modules", "./scripts/widget-client.ts"]
 }

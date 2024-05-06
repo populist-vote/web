@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
-import { useElectionsQuery, ElectionResult } from "generated";
+import { ElectionResult, useElectionsByUserQuery } from "generated";
 
 export function useElections(initialSelectedElectionId?: string) {
-  const electionsQuery = useElectionsQuery(
+  const electionsQuery = useElectionsByUserQuery(
     {},
     {
       retry: false,

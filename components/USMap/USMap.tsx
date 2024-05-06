@@ -1,16 +1,14 @@
-import { useRouter } from "next/router";
 import statesData from "public/states.json";
 
-export default function Map() {
-  return (
-    <div style={{ width: "100w", height: "100vh", overflow: "hidden" }}>
-      <USMap />
-    </div>
-  );
-}
-
-export function USMap() {
-  const router = useRouter();
+export function USMap({
+  handleStateClick,
+}: {
+  handleStateClick: (state: string) => void;
+}) {
+  const onStateClick = (event: React.MouseEvent<SVGElement>) => {
+    const state = event.currentTarget.getAttribute("data-state");
+    if (state) handleStateClick(state);
+  };
   return (
     <svg width="100%" height="100%" viewBox="0 0 960 600">
       {statesData.map((state, index) => {
@@ -23,11 +21,12 @@ export function USMap() {
               fill: color ?? "var(--blue)",
               transition: "0.3s",
             }}
+            data-state={state.id.toLowerCase()}
             key={index}
             stroke="var(--blue-lighter)"
             strokeWidth="1px"
             d={state.shape}
-            onClick={() => router.push("/politicians?state=" + state.id)}
+            onClick={onStateClick}
             onMouseOver={(event) => {
               if (event.target instanceof SVGElement)
                 event.target.style.fill = "var(--blue-dark)";

@@ -5,7 +5,7 @@ import { SELECTED_ELECTION } from "utils/constants";
 import { ElectionResult } from "generated";
 import styles from "./TopNavElections.module.scss";
 
-type ElectionTab = "Ballot" | "VotingGuide";
+type ElectionTab = "Ballot" | "VotingGuide" | "Browse";
 
 function TopNavElections({
   selected,
@@ -35,6 +35,11 @@ function TopNavElections({
         <li data-selected={selected === "VotingGuide"}>
           <Link href="/voting-guides" shallow>
             Voting Guides
+          </Link>
+        </li>
+        <li data-selected={selected === "Browse"}>
+          <Link href="/elections/browse" shallow>
+            Browse
           </Link>
         </li>
         {showElectionSelector && (
