@@ -37,10 +37,13 @@ export default function StateElectionBrowser() {
   const state = router.query.state as string;
   const year = router.query.year as string;
   const search = router.query.search as string;
+  const isElectionPage =
+    router.pathname.includes("/elections/") &&
+    !router.pathname.includes("/elections/browse");
 
   const { data } = useElectionsIndexQuery({
     filter: {
-      query: search,
+      query: isElectionPage ? null : search,
       state: state === "federal" ? null : (state.toUpperCase() as State),
       year: parseInt(year),
     },
@@ -95,7 +98,10 @@ export function ElectionBrowserBreadcrumbs({
   const [searchValue, setSearchValue] = useState<string>(search as string);
 
   useEffect(() => {
-    if (searchValue?.length > 0) {
+    if (
+      searchValue?.length > 0 &&
+      router.pathname.includes("/elections/browse")
+    ) {
       void router.push(
         `/elections/browse/${state?.toLowerCase()}${year ? `?year=${year}` : ""}&search=${searchValue}`
       );
@@ -119,6 +125,10 @@ export function ElectionBrowserBreadcrumbs({
     }
   );
 
+  const isElectionPage =
+    router.pathname.includes("/elections/") &&
+    !router.pathname.includes("/elections/browse");
+
   return (
     <div
       style={{
@@ -137,7 +147,10 @@ export function ElectionBrowserBreadcrumbs({
           padding: "1rem 0",
         }}
       >
-        <BiChevronLeft size={25} onClick={() => router.push("/elections")} />
+        <BiChevronLeft
+          size={25}
+          onClick={() => router.push("/elections/browse")}
+        />
         <Select
           textColor={"white"}
           backgroundColor="blue"
@@ -163,7 +176,7 @@ export function ElectionBrowserBreadcrumbs({
         />
       </div>
       <SearchInput
-        placeholder="Search for elections"
+        placeholder={`Search for ${isElectionPage ? "races" : "elections"}`}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
       />

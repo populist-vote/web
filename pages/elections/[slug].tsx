@@ -9,6 +9,7 @@ import { SupportedLocale } from "types/global";
 import { ElectionBrowserBreadcrumbs } from "./browse/[state]";
 import { getYear } from "utils/dates";
 import { ElectionRaces } from "components/Ballot/BallotRaces";
+import states from "utils/states";
 
 export async function getServerSideProps({
   locale,
@@ -31,10 +32,30 @@ export async function getServerSideProps({
 }
 
 export default function ElectionPage() {
-  const { slug } = useRouter().query as { slug: string };
-  const { data, isLoading } = useElectionBySlugQuery({ slug });
+  const { query } = useRouter();
+  const { slug, search } = query;
+  const { data, isLoading } = useElectionBySlugQuery({ slug: slug as string });
   const state = data?.electionBySlug?.state as string;
   const year = getYear(data?.electionBySlug?.electionDate).toString();
+  const races = search
+    ? (data?.electionBySlug.races.filter((race) => {
+        const searchQuery = search?.toString().toLowerCase();
+        const raceTitle = race.title.toLowerCase();
+        const officeTitle = race.office.title.toLowerCase();
+        const officeSubtitle = race.office.subtitle?.toLowerCase() || "";
+        const officeName = race.office.name?.toLowerCase() || "";
+        const raceState = race.office.state
+          ? states[race.office.state].toLowerCase()
+          : "";
+        const combinedSearchable = `${raceTitle} ${officeTitle} ${officeSubtitle} ${officeName} ${raceState}`;
+        return fuzzyMatch(combinedSearchable, searchQuery.trim());
+      }) as RaceResult[])
+    : (data?.electionBySlug.races as RaceResult[]);
+
+  function fuzzyMatch(str: string, query: string) {
+    const regex = new RegExp(query.split("").join(".*"), "i");
+    return regex.test(str);
+  }
 
   if (isLoading) return <LoaderFlag />;
 
@@ -47,7 +68,7 @@ export default function ElectionPage() {
         />
       </div>
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
-      <ElectionRaces races={data?.electionBySlug.races as RaceResult[]} />
+      <ElectionRaces races={races} />
     </div>
   );
 }
