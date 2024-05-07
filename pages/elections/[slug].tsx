@@ -67,7 +67,6 @@ export default function ElectionPage() {
           election={data?.electionBySlug as Partial<ElectionResult>}
         />
       </div>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <ElectionRaces races={races} />
     </div>
   );

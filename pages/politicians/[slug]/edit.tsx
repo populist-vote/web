@@ -43,7 +43,7 @@ function PoliticianBasicsForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, handleSubmit, formState, reset } = useForm<
+  const { register, handleSubmit, formState } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -89,21 +89,20 @@ function PoliticianBasicsForm({
         },
       },
       {
-        onSettled: (data) => {
-          queryClient.setQueryData(
-            usePoliticianBySlugQuery.getKey({
+        onSettled: () => {
+          void queryClient.invalidateQueries({
+            queryKey: usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
             }),
-            { politicianBySlug: data?.updatePolitician }
-          );
+          });
           toast.success("Politician updated", {
             position: "bottom-right",
           });
-          reset();
         },
         onError: (error) => {
           // Specify the type of 'error' as 'any'
-          alert(JSON.stringify(error));
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          toast.error((error as any).message);
         },
       }
     );
