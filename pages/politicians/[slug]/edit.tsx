@@ -84,8 +84,10 @@ function PoliticianBasicsForm({
           linkedinUrl: formData.linkedinUrl,
           phone: formData.phone,
           email: formData.email,
-          raceWins: formData.raceWins,
-          raceLosses: formData.raceLosses,
+          // @ts-expect-error this is a string
+          raceWins: parseInt(formData.raceWins),
+          // @ts-expect-error this is a string
+          raceLosses: parseInt(formData.raceLosses),
         },
       },
       {
@@ -254,8 +256,14 @@ function PoliticianBasicsForm({
           width: "100%",
         }}
       >
-        <TextInput name={"raceWins"} label="Race Wins" register={register} />
         <TextInput
+          type="number"
+          name={"raceWins"}
+          label="Race Wins"
+          register={register}
+        />
+        <TextInput
+          type="number"
           name={"raceLosses"}
           label="Race Losses"
           register={register}
