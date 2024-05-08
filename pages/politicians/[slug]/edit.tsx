@@ -338,9 +338,10 @@ function PoliticianAPILinksForm({
               slug: politician.slug as string,
             }),
           });
-          toast.success("Politician updated", {
-            position: "bottom-right",
-          });
+          if (data.updatePolitician)
+            toast.success("Politician updated", {
+              position: "bottom-right",
+            });
         },
         onError: (error) => {
           toast.error(JSON.stringify(error));
