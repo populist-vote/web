@@ -1,0 +1,50 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
+.SponsorScene {
+  .sponsorAvatars {
+    display: flex;
+    margin-bottom: 2rem;
+  }
+
+  .avatarContainer {
+    // flex: 1;
+    // max-width: 240px;
+    margin-right: 4rem;
+    justify-content: center;
+  }
+
+  .avatarName {
+    width: 240px;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .sponsorList {
+    font-size: $text-md;
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style-type: none;
+      position: relative;
+      margin-bottom: 0.5rem; // Added margin between list items
+
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1.25rem;
+
+        svg {
+          width: 32pt;
+          margin-top: 0.4rem;
+        }
+      }
+    }
+  }
+
+  .twoColumns {
+    column-count: 2;
+  }
+}

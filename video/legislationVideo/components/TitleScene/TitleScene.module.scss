@@ -1,0 +1,74 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
+.titleScene {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .legislationStatusContainer {
+    max-width: 40rem;
+
+    h1 {
+      font-weight: $weight-light;
+      font-size: $text-xl;
+    }
+
+    div > div {
+      padding: 2rem 1rem;
+    }
+  }
+
+  .issueTagsContainer {
+    margin-bottom: 4rem;
+  }
+
+  .issueTags {
+    margin: 1rem 0;
+    font-size: $text-sm;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+
+    .topContainer,
+    .middleContainer,
+    .bottomContainer {
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topContainer {
+      justify-content: flex-end;
+    }
+
+    .middleContainer {
+      justify-content: center;
+    }
+
+    .bottomContainer {
+      justify-content: flex-start;
+    }
+
+    h3,
+    h2 {
+      margin: 0;
+    }
+
+    h3 {
+      font-size: $text-md;
+    }
+
+    h2 {
+      font-size: $text-lg;
+    }
+
+    hr {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}

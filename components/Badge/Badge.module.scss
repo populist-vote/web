@@ -2,6 +2,7 @@
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
 
+$extra-large-size: 6rem;
 $large-size: 3.125rem;
 $medium-size: 2.5rem;
 $small-size: 1.825rem;
@@ -202,6 +203,13 @@ $small-size: 1.825rem;
     line-height: 1.375rem;
     min-height: $large-size;
     padding: 0 2rem;
+  }
+
+  &.extra-large {
+    font-size: 2.5rem;
+    line-height: 1.5rem;
+    min-height: $extra-large-size;
+    padding: 0 2.25rem;
   }
 
   .dismissButton:hover {

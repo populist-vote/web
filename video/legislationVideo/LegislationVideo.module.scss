@@ -1,0 +1,62 @@
+@import "styles/mixins/utils";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/layout/containers";
+
+.legislationVideo {
+  font-size: 2.25em;
+  display: flex;
+  flex-direction: column;
+  padding: 8rem 5rem 30rem 5rem;
+  position: relative;
+
+  .endTitle {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 4rem;
+    justify-content: center;
+
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .poweredBy {
+      font-size: $text-sm;
+      font-style: italic;
+      color: var(--blue-text-light);
+    }
+
+    .logo {
+      width: 14rem;
+    }
+  }
+
+  h1 {
+    font-size: $text-xxxl;
+    font-weight: $weight-semibold;
+  }
+
+  hr {
+    border: 1px solid white;
+    opacity: 0.1;
+    width: 100%;
+  }
+
+  p {
+    font-size: $text-xxl;
+    color: $blue-text-light;
+    margin: 0;
+  }
+
+  .statusContainer {
+    max-width: 600px;
+
+    h1 {
+      font-size: $text-xl;
+      font-weight: $weight-light;
+    }
+  }
+}

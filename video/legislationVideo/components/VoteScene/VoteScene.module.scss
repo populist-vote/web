@@ -1,0 +1,43 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
+.VoteScene {
+  font-family: "proxima_nova", sans-serif;
+  margin-bottom: 2rem;
+
+  h2 {
+    font-size: $text-xl;
+  }
+
+  .voteHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .voteIcons {
+      display: flex;
+      justify-content: flex-end;
+      font-size: $text-lg;
+      font-weight: $weight-semibold;
+
+      .yesVoteContainer,
+      .noVoteContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        span {
+          margin-left: 1rem;
+        }
+      }
+
+      .yesVoteContainer {
+        margin-right: 2rem;
+      }
+
+      .noVoteContainer {
+        justify-content: flex-end;
+      }
+    }
+  }
+}

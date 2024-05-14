@@ -18,6 +18,11 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@remotion/cli": "4.0.141",
+    "@remotion/paths": "4.0.141",
+    "@remotion/player": "4.0.141",
+    "@remotion/renderer": "4.0.141",
+    "@remotion/shapes": "4.0.141",
     "@szhsin/react-menu": "^4.1.0",
     "@tanstack/match-sorter-utils": "^8.11.8",
     "@tanstack/react-query": "^5.27.5",
@@ -45,9 +50,12 @@
     "recharts": "^2.12.2",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
+    "remotion": "4.0.141",
+    "remotion-animated": "^2.0.0",
     "sass": "^1.71.1",
     "sharp": "^0.33.2",
-    "webpack": "^5.90.3"
+    "webpack": "^5.90.3",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

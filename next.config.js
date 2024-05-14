@@ -63,6 +63,7 @@ const nextConfig = {
       },
     ];
   },
+  transpilePackages: ["remotion-animated"],
 };
 
 module.exports = withPWA(nextConfig);

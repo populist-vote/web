@@ -1,0 +1,10 @@
+@import "styles/variables/colors";
+
+.WipeBackground {
+  background-color: var(--blue-darker);
+  height: 100%;
+  z-index: 999;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
