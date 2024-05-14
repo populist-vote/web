@@ -2,6 +2,7 @@
 @import "styles/variables/colors";
 @import "styles/variables/fonts";
 @import "styles/mixins/utils";
+@import "styles/mixins/media";
 
 .hero {
   margin-top: 0;
@@ -109,6 +110,17 @@
 .flexChild {
   flex: 1;
   width: 0;
+}
+
+.divider {
+  width: 100%;
+  margin: 1rem 0;
+  border-bottom: 1px solid $blue-dark;
+
+  @include for-tablet-down {
+    margin: 2rem 0;
+    border-bottom: 1px solid $blue-darker;
+  }
 }
 
 .widgetContainer {
@@ -244,6 +256,63 @@
   margin-top: 1rem;
 }
 
+.radioLabel {
+  background: $background-secondary;
+  color: $white;
+  border-radius: 25px;
+  border: 1px solid $blue;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: ease-in-out all 0.3s;
+
+  &.aquaLabel {
+    border: 1px solid $aqua;
+  }
+
+  &.yellowLabel {
+    border: 1px solid $yellow;
+  }
+
+  &.salmonLabel {
+    border: 1px solid $salmon;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.filters,
+.filtersContainer {
+  input[type="radio"]:checked + label {
+    background: $blue;
+    color: $white;
+
+    &.aquaLabel {
+      background: $aqua;
+      color: $grey-darkest;
+    }
+
+    &.yellowLabel {
+      background: $yellow;
+      color: $grey-darkest;
+    }
+
+    &.salmonLabel {
+      background: $salmon;
+      color: $grey-darkest;
+    }
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+}
+
 // Radix UI styles
 
 .SeparatorRoot {
@@ -266,7 +335,8 @@
   line-height: 1;
   color: $white;
   background-color: $blue-dark;
-  box-shadow: hsl(206 22% 7% / 35%) 0 10px 38px -10px,
+  box-shadow:
+    hsl(206 22% 7% / 35%) 0 10px 38px -10px,
     hsl(206 22% 7% / 20%) 0 10px 20px -15px;
   user-select: none;
   animation-duration: 400ms;

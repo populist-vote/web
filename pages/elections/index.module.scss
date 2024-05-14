@@ -1,0 +1,30 @@
+@import "styles/layout/containers.scss";
+@import "/components/Layout/Layout.module.scss";
+@import "styles/mixins/media";
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+
+.container {
+  margin-top: 1.5rem;
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @include for-tablet-up {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+}
+
+.blueText {
+  margin: 0;
+  color: $blue-text-light;
+  font-size: $text-md;
+}
+
+.breadcrumbsContainer {
+  margin: 1rem 0;
+}

@@ -25,7 +25,7 @@ export function SearchInput({
               query: { ...query, search: e.target.value },
             },
             undefined,
-            { scroll: false }
+            { scroll: false, shallow: true }
           );
         }}
         value={searchValue || ""}

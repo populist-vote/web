@@ -51,36 +51,6 @@
     }
   }
 
-  .radioLabel {
-    background: $background-secondary;
-    color: $white;
-    border-radius: 25px;
-    border: 1px solid $blue;
-    padding: 0.5rem 1rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: ease-in-out all 0.3s;
-
-    &.aquaLabel {
-      border: 1px solid $aqua;
-    }
-
-    &.yellowLabel {
-      border: 1px solid $yellow;
-    }
-
-    &.salmonLabel {
-      border: 1px solid $salmon;
-    }
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
   form {
     width: 100%;
   }
@@ -94,30 +64,6 @@
     &.wide {
       width: 21rem;
     }
-  }
-
-  input[type="radio"]:checked + label {
-    background: $blue;
-    color: $white;
-
-    &.aquaLabel {
-      background: $aqua;
-      color: $grey-darkest;
-    }
-
-    &.yellowLabel {
-      background: $yellow;
-      color: $grey-darkest;
-    }
-
-    &.salmonLabel {
-      background: $salmon;
-      color: $grey-darkest;
-    }
-  }
-
-  input[type="radio"] {
-    display: none;
   }
 
   .pillSelect {

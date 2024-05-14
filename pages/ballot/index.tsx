@@ -21,8 +21,8 @@ import {
 } from "utils/constants";
 
 import {
-  useElectionsQuery,
   useElectionVotingGuideByUserIdQuery,
+  useElectionsIndexQuery,
 } from "generated";
 
 import { SupportedLocale } from "types/global";
@@ -41,8 +41,8 @@ export async function getServerSideProps({
     Just want to note in case it causes server side issues.
   */
   await queryClient.prefetchQuery({
-    queryKey: useElectionsQuery.getKey(),
-    queryFn: useElectionsQuery.fetcher(),
+    queryKey: useElectionsIndexQuery.getKey(),
+    queryFn: useElectionsIndexQuery.fetcher(),
   });
 
   const state = dehydrate(queryClient);

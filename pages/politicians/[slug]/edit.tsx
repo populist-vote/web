@@ -43,7 +43,7 @@ function PoliticianBasicsForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, handleSubmit, formState, reset } = useForm<
+  const { register, handleSubmit, formState } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -84,26 +84,27 @@ function PoliticianBasicsForm({
           linkedinUrl: formData.linkedinUrl,
           phone: formData.phone,
           email: formData.email,
-          raceWins: formData.raceWins,
-          raceLosses: formData.raceLosses,
+          // @ts-expect-error this is a string
+          raceWins: parseInt(formData.raceWins),
+          // @ts-expect-error this is a string
+          raceLosses: parseInt(formData.raceLosses),
         },
       },
       {
-        onSettled: (data) => {
-          queryClient.setQueryData(
-            usePoliticianBySlugQuery.getKey({
+        onSettled: () => {
+          void queryClient.invalidateQueries({
+            queryKey: usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
             }),
-            { politicianBySlug: data?.updatePolitician }
-          );
+          });
           toast.success("Politician updated", {
             position: "bottom-right",
           });
-          reset();
         },
         onError: (error) => {
           // Specify the type of 'error' as 'any'
-          alert(JSON.stringify(error));
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          toast.error((error as any).message);
         },
       }
     );
@@ -255,8 +256,14 @@ function PoliticianBasicsForm({
           width: "100%",
         }}
       >
-        <TextInput name={"raceWins"} label="Race Wins" register={register} />
         <TextInput
+          type="number"
+          name={"raceWins"}
+          label="Race Wins"
+          register={register}
+        />
+        <TextInput
+          type="number"
           name={"raceLosses"}
           label="Race Losses"
           register={register}
@@ -331,9 +338,10 @@ function PoliticianAPILinksForm({
               slug: politician.slug as string,
             }),
           });
-          toast.success("Politician updated", {
-            position: "bottom-right",
-          });
+          if (data.updatePolitician)
+            toast.success("Politician updated", {
+              position: "bottom-right",
+            });
         },
         onError: (error) => {
           toast.error(JSON.stringify(error));
