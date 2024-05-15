@@ -114,7 +114,7 @@ export function PollEmbedForm({
     upsertPoll.mutate(
       {
         input: {
-          id: embed?.attributes.pollId as string,
+          id: embed?.attributes?.pollId as string,
           prompt,
           allowAnonymousResponses,
           allowWriteInResponses,

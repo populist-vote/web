@@ -28,12 +28,14 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
     id,
   });
 
+  if (isLoading) return <LoaderFlag />;
+
   const billIds = data?.embedById?.attributes?.billIds as string[];
   const billId = data?.embedById?.attributes?.billId as string;
   const politicianId = data?.embedById?.attributes?.politicianId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
   const embed = data?.embedById as EmbedResult;
-  const renderOptions = embed.attributes.renderOptions;
+  const renderOptions = embed?.attributes?.renderOptions;
 
   const renderPreviewByType = () => {
     switch (embedType) {
@@ -61,7 +63,7 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
             politicianId={politicianId}
             origin={window.location.origin}
             embedId={id}
-            renderOptions={embed.attributes.renderOptions}
+            renderOptions={renderOptions}
           />
         );
       case EmbedType.Race:
@@ -70,7 +72,7 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
             raceId={raceId}
             embedId={id}
             origin={window.location.origin}
-            renderOptions={embed.attributes.renderOptions}
+            renderOptions={renderOptions}
           />
         );
       case EmbedType.Question:
@@ -79,8 +81,6 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
         return <PollWidget embedId={id} origin={window.location.origin} />;
     }
   };
-
-  if (isLoading) return <LoaderFlag />;
 
   return (
     <div className={styles.content}>

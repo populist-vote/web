@@ -111,7 +111,7 @@ export function QuestionEmbedForm({
     upsertQuestion.mutate(
       {
         input: {
-          id: embed?.attributes.questionId as string,
+          id: embed?.attributes?.questionId as string,
           prompt,
           responseCharLimit:
             enforceCharLimit && responseCharLimit ? responseCharLimit : null,
