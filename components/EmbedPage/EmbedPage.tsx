@@ -35,7 +35,7 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
   const politicianId = data?.embedById?.attributes?.politicianId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
   const embed = data?.embedById as EmbedResult;
-  const renderOptions = embed?.attributes?.renderOptions;
+  const renderOptions = embed.attributes?.renderOptions;
 
   const renderPreviewByType = () => {
     switch (embedType) {
