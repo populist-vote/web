@@ -11,6 +11,8 @@ import {
 } from "types/constants";
 import type { BillResult, PoliticianResult } from "generated";
 import { useBillBySlugQuery } from "generated";
+import { calculateScenes } from "../../../utils/calculateScenes";
+
 import Link from "next/link";
 
 const container: React.CSSProperties = {
@@ -24,45 +26,6 @@ const container: React.CSSProperties = {
 const player: React.CSSProperties = {
   width: "50%",
 };
-
-function calculateScenes(
-  summary: string | null,
-  billResult: BillResult["legiscanData"],
-  sponsors: PoliticianResult[]
-) {
-  let totalInnerScenes = 0;
-  let summaryScenes = 0;
-
-  if (summary) {
-    const sentences = summary.match(/[^\.!\?]+[\.!\?]+/g) || [];
-    const parts = [];
-    let currentPart = "";
-
-    sentences.forEach((sentence) => {
-      if ((currentPart + sentence).split(" ").length > 30) {
-        parts.push(currentPart.trim());
-        currentPart = sentence;
-      } else {
-        currentPart += " " + sentence;
-      }
-    });
-
-    if (currentPart) {
-      parts.push(currentPart.trim());
-    }
-
-    summaryScenes = parts.length;
-    totalInnerScenes += summaryScenes;
-  }
-
-  if (billResult?.votes && billResult.votes.length > 0) totalInnerScenes += 1;
-  if (sponsors && sponsors.length > 0) totalInnerScenes += 1;
-
-  return {
-    totalInnerScenesCount: totalInnerScenes,
-    summaryScenesCount: summaryScenes,
-  };
-}
 
 const CreateVideoPage: NextPage = () => {
   const router = useRouter();
