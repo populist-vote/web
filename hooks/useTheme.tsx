@@ -7,16 +7,17 @@ function useTheme(): { theme: Theme } {
   const theme = router.asPath.includes("legislation-tracker")
     ? "green"
     : router.asPath.includes("legislation")
-    ? "yellow"
-    : router.asPath.includes("politician")
-    ? "aqua"
-    : router.asPath.includes("race")
-    ? "blue"
-    : router.asPath.includes("question")
-    ? "orange"
-    : router.asPath.includes("poll")
-    ? "violet"
-    : "yellow";
+      ? "yellow"
+      : router.asPath.includes("politician") ||
+          router.asPath.includes("candidate-guide")
+        ? "aqua"
+        : router.asPath.includes("race")
+          ? "blue"
+          : router.asPath.includes("question")
+            ? "orange"
+            : router.asPath.includes("poll")
+              ? "violet"
+              : "yellow";
 
   return { theme };
 }

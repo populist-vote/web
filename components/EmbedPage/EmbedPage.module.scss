@@ -20,6 +20,9 @@
     position: sticky;
     top: 2rem;
     align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
   }
 
   .options {

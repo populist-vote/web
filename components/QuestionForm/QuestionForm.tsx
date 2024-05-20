@@ -46,34 +46,14 @@ type NewQuestionEmbedForm = {
   allowAnonymousResponses?: boolean;
 };
 
-function NewQuestionEmbed() {
-  return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <h1>New Question Embed</h1>
-      </div>
-
-      <Box>
-        <QuestionEmbedForm buttonLabel="Create Embed" />
-      </Box>
-    </>
-  );
-}
-
-export function QuestionEmbedForm({
+export function QuestionForm({
   buttonLabel = "Save",
-  embed,
+  questionId,
   candidateGuideId,
   onSuccess,
 }: {
   buttonLabel: string;
-  embed?: EmbedResult;
+  questionId?: string;
   candidateGuideId?: string;
   onSuccess?: () => void;
 }) {
@@ -82,8 +62,16 @@ export function QuestionEmbedForm({
   const queryClient = useQueryClient();
   const { slug } = query;
   const { user } = useAuth();
-  const upsertEmbed = useUpsertEmbedMutation();
   const upsertQuestion = useUpsertQuestionMutation();
+
+  const { data, isLoading } = useQuestionByIdQuery(
+    {
+      id: questionId as string,
+    },
+    {
+      enabled: !!questionId,
+    }
+  );
 
   const {
     register,
@@ -94,11 +82,11 @@ export function QuestionEmbedForm({
   } = useForm<NewQuestionEmbedForm>({
     mode: "onChange",
     defaultValues: {
-      prompt: embed?.question?.prompt,
-      enforceCharLimit: !!embed?.question?.responseCharLimit,
-      responseCharLimit: embed?.question?.responseCharLimit || 140,
-      responsePlaceholderText: embed?.question?.responsePlaceholderText || "",
-      allowAnonymousResponses: embed?.question?.allowAnonymousResponses,
+      prompt: data.questionById?.prompt,
+      enforceCharLimit: !!data.questionById.responseCharLimit,
+      responseCharLimit: data.questionById.responseCharLimit || 140,
+      responsePlaceholderText: data.questionById?.responsePlaceholderText || "",
+      allowAnonymousResponses: data.questionById?.allowAnonymousResponses,
     },
   });
 
@@ -115,7 +103,7 @@ export function QuestionEmbedForm({
     upsertQuestion.mutate(
       {
         input: {
-          id: embed?.attributes?.questionId as string,
+          id: data.questionById.id as string,
           prompt,
           responseCharLimit:
             enforceCharLimit && responseCharLimit ? responseCharLimit : null,
@@ -136,48 +124,7 @@ export function QuestionEmbedForm({
             }
           );
         },
-        onSuccess: (data) => {
-          reset(data.upsertQuestion);
-          if (candidateGuideId) {
-            if (onSuccess) onSuccess();
-            return;
-          } // Don't create an embed if this is a candidate guide question
-          upsertEmbed.mutate(
-            {
-              input: {
-                id: embed?.id as string,
-                name: "Question Embed",
-                embedType: EmbedType.Question,
-                organizationId: user?.organizationId as string,
-                attributes: {
-                  questionId: data.upsertQuestion.id,
-                },
-              },
-            },
-            {
-              onSuccess: (data) => {
-                toast("Embed saved!", {
-                  type: "success",
-                  position: "bottom-right",
-                  autoClose: 1000,
-                });
-                void queryClient.invalidateQueries({
-                  queryKey: useEmbedByIdQuery.getKey({
-                    id: router.query.id as string,
-                  }),
-                });
-                void router.push(
-                  `/dashboard/${slug}/embeds/question/${data.upsertEmbed.id}/manage`,
-                  undefined,
-                  {
-                    shallow: true,
-                    scroll: false,
-                  }
-                );
-              },
-            }
-          );
-        },
+        onSuccess: (data) => {},
       }
     );
   };

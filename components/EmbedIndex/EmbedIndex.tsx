@@ -30,6 +30,7 @@ function EmbedIndex({
   const router = useRouter();
   const { theme } = useTheme();
   const { search } = router.query;
+
   const [searchValue, setSearchValue] = useState(search);
 
   const onRowClick = (row: Row<EmbedResult>) =>
@@ -79,6 +80,17 @@ function EmbedIndex({
             selected={embedType === EmbedType.Politician}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
+            }
+          />
+        </Link>
+        <Link href={`/dashboard/${slug}/embeds/candidate-guide`}>
+          <Badge
+            theme="aqua"
+            clickable
+            label="Candidate Guide"
+            selected={embedType === EmbedType.CandidateGuide}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "candidate-guide")
             }
           />
         </Link>

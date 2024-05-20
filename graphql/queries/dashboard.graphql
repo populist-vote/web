@@ -49,6 +49,42 @@ fragment EmbedBillFields on BillResult {
   }
 }
 
+fragment CandidateGuideFields on CandidateGuideResult {
+  id
+  name
+  organizationId
+  questions {
+    id
+    prompt
+    responseCharLimit
+    responsePlaceholderText
+    allowAnonymousResponses
+    submissions {
+      id
+      response
+      sentiment
+      createdAt
+      updatedAt
+      respondent {
+        name
+        email
+      }
+    }
+    submissionCountByDate {
+      date
+      count
+    }
+    commonWords {
+      word
+      count
+    }
+    sentimentCounts {
+      sentiment
+      count
+    }
+  }
+}
+
 fragment EmbedFields on EmbedResult {
   id
   name
@@ -70,6 +106,9 @@ fragment EmbedFields on EmbedResult {
   }
   politician {
     fullName
+  }
+  candidateGuide {
+    ...CandidateGuideFields
   }
   question {
     id
@@ -140,6 +179,39 @@ query Audience($organizationId: ID!) {
         name
         email
       }
+    }
+  }
+}
+
+query QuestionById($id: ID!) {
+  questionById(id: $id) {
+    id
+    prompt
+    responseCharLimit
+    responsePlaceholderText
+    allowAnonymousResponses
+    submissions {
+      id
+      response
+      sentiment
+      createdAt
+      updatedAt
+      respondent {
+        name
+        email
+      }
+    }
+    submissionCountByDate {
+      date
+      count
+    }
+    commonWords {
+      word
+      count
+    }
+    sentimentCounts {
+      sentiment
+      count
     }
   }
 }
