@@ -17,11 +17,11 @@ import styles from "components/EmbedIndex/EmbedIndex.module.scss";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import { Modal } from "components/Modal/Modal";
-import { QuestionEmbedForm } from "../../question/new";
 import clsx from "clsx";
 import { ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
 import { useQueryClient } from "@tanstack/react-query";
+import { QuestionForm } from "components/QuestionForm/QuestionForm";
 
 export async function getServerSideProps({
   query,
@@ -69,20 +69,23 @@ export default function CandidateGuideEmbedManagePage() {
         accessorKey: "prompt",
       },
       {
-        header: "Actions",
+        id: "Actions",
         cell: (info) => {
           return (
-            <div className={styles.actions}>
+            <div className={styles.flexRight}>
               <Button
                 theme="blue"
                 variant="secondary"
                 size="small"
                 label="Edit"
-                onClick={() =>
-                  router.push(
-                    `/dashboard/${id}/embeds/candidate-guide/${id}/manage?isQuestionFormOpen=true&questionId=${info.row.original.id}`
-                  )
-                }
+                onClick={() => {
+                  router
+                    .push(
+                      `/dashboard/${id}/embeds/candidate-guide/${id}/manage?isModalOpen=true&questionId=${info.row.original.id}`
+                    )
+                    .catch((e) => console.error(e))
+                    .finally(() => setIsModalOpen(true));
+                }}
               />
               <Button
                 theme="blue"
@@ -96,14 +99,21 @@ export default function CandidateGuideEmbedManagePage() {
         },
       },
     ],
-    [handleDeleteQuestion]
+    [handleDeleteQuestion, id, router]
   );
 
-  const isQuestionFormOpen =
-    router.query.isQuestionFormOpen === "true" || false;
-  const [isModalOpen, setIsModalOpen] = useState(isQuestionFormOpen);
+  const [isModalOpen, setIsModalOpen] = useState(
+    router.query.isModalOpen == "true" || false
+  );
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    void router.push(
+      `/dashboard/${id}/embeds/candidate-guide/${id}/manage`,
+      undefined,
+      { shallow: true }
+    );
+    setIsModalOpen(false);
+  };
 
   const handleNewQuestionSuccess = () => {
     void queryClient.invalidateQueries({
@@ -142,8 +152,7 @@ export default function CandidateGuideEmbedManagePage() {
               onClick={openModal}
             />
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-              <h2>Add Question</h2>
-              <QuestionEmbedForm
+              <QuestionForm
                 buttonLabel="Add Question"
                 candidateGuideId={candidateGuide?.id as string}
                 onSuccess={handleNewQuestionSuccess}

@@ -1,44 +1,15 @@
-import { Button, Divider, Layout, TextInput } from "components";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ReactNode } from "react";
-import { SupportedLocale } from "types/global";
-import { DashboardTopNav } from "../..";
-import nextI18nextConfig from "next-i18next.config";
+import { Button, Divider, LoaderFlag, TextInput } from "components";
 import { useRouter } from "next/router";
 import {
-  EmbedResult,
-  EmbedType,
-  useEmbedByIdQuery,
-  useUpsertEmbedMutation,
+  QuestionResult,
+  useQuestionByIdQuery,
   useUpsertQuestionMutation,
 } from "generated";
-import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
-import { Box } from "components/Box/Box";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { useForm } from "react-hook-form";
-import { useQueryClient } from "@tanstack/react-query";
 
-export async function getServerSideProps({
-  query,
-  locale,
-}: {
-  query: { slug: string };
-  locale: SupportedLocale;
-}) {
-  return {
-    props: {
-      slug: query.slug,
-      ...(await serverSideTranslations(
-        locale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-}
-
-type NewQuestionEmbedForm = {
+type QuestionForm = {
   prompt: string;
   enforceCharLimit?: boolean;
   responseCharLimit?: number | null;
@@ -47,23 +18,16 @@ type NewQuestionEmbedForm = {
 };
 
 export function QuestionForm({
-  buttonLabel = "Save",
-  questionId,
   candidateGuideId,
   onSuccess,
 }: {
   buttonLabel: string;
-  questionId?: string;
   candidateGuideId?: string;
   onSuccess?: () => void;
 }) {
   const router = useRouter();
   const { query } = router;
-  const queryClient = useQueryClient();
-  const { slug } = query;
-  const { user } = useAuth();
-  const upsertQuestion = useUpsertQuestionMutation();
-
+  const { questionId } = query;
   const { data, isLoading } = useQuestionByIdQuery(
     {
       id: questionId as string,
@@ -72,27 +36,48 @@ export function QuestionForm({
       enabled: !!questionId,
     }
   );
+  const question = data?.questionById;
+
+  if (isLoading) return <LoaderFlag />;
+  return (
+    <QuestionFormInner
+      question={question as QuestionResult}
+      candidateGuideId={candidateGuideId}
+      onSuccess={onSuccess}
+    />
+  );
+}
+
+function QuestionFormInner({
+  question,
+  candidateGuideId,
+  onSuccess,
+}: {
+  question?: QuestionResult;
+  candidateGuideId?: string;
+  onSuccess?: () => void;
+}) {
+  const upsertQuestion = useUpsertQuestionMutation();
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { isValid, isDirty, isSubmitting },
-    reset,
-  } = useForm<NewQuestionEmbedForm>({
+  } = useForm<QuestionForm>({
     mode: "onChange",
     defaultValues: {
-      prompt: data.questionById?.prompt,
-      enforceCharLimit: !!data.questionById.responseCharLimit,
-      responseCharLimit: data.questionById.responseCharLimit || 140,
-      responsePlaceholderText: data.questionById?.responsePlaceholderText || "",
-      allowAnonymousResponses: data.questionById?.allowAnonymousResponses,
+      prompt: question?.prompt,
+      enforceCharLimit: !!question?.responseCharLimit,
+      responseCharLimit: question?.responseCharLimit || 140,
+      responsePlaceholderText: question?.responsePlaceholderText || "",
+      allowAnonymousResponses: question?.allowAnonymousResponses,
     },
   });
 
   const watchCharacterLimit = watch("enforceCharLimit");
 
-  const handleCreateEmbed = (data: NewQuestionEmbedForm) => {
+  const handleCreateEmbed = (data: QuestionForm) => {
     const {
       prompt,
       enforceCharLimit,
@@ -103,7 +88,7 @@ export function QuestionForm({
     upsertQuestion.mutate(
       {
         input: {
-          id: data.questionById.id as string,
+          id: question?.id as string,
           prompt,
           responseCharLimit:
             enforceCharLimit && responseCharLimit ? responseCharLimit : null,
@@ -124,13 +109,16 @@ export function QuestionForm({
             }
           );
         },
-        onSuccess: (data) => {},
+        onSuccess: () => {
+          if (onSuccess) onSuccess();
+        },
       }
     );
   };
 
   return (
     <form onSubmit={handleSubmit(handleCreateEmbed)}>
+      <h2>{!!question ? "Update" : "Add"} Question</h2>
       <div
         style={{
           display: "grid",
@@ -223,7 +211,7 @@ export function QuestionForm({
           size="medium"
           variant="primary"
           width="fit-content"
-          label={buttonLabel}
+          label={"Save"}
           type="submit"
           disabled={
             !isDirty || !isValid || isSubmitting || upsertQuestion.isPending
@@ -233,12 +221,3 @@ export function QuestionForm({
     </form>
   );
 }
-
-NewQuestionEmbed.getLayout = (page: ReactNode) => (
-  <Layout>
-    <DashboardTopNav />
-    {page}
-  </Layout>
-);
-
-export default NewQuestionEmbed;
