@@ -29,14 +29,16 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
     <div style={style} className={styleClasses}>
       <header className={styles.header}>
         <span className={styles.sectionTitle}>{label}</span>
-        <Link href={createVideoUrl}>
-          <Button
-            variant="primary"
-            size="medium"
-            label="Generate Video Content"
-            width="16rem"
-          />
-        </Link>
+        {router.pathname.includes("bill") && (
+          <Link href={createVideoUrl}>
+            <Button
+              variant="primary"
+              size="medium"
+              label="Generate Video Content"
+              width="16rem"
+            />
+          </Link>
+        )}
       </header>
       <div className={styles.content}>{children}</div>
     </div>
