@@ -41,6 +41,7 @@ export const LegislationVideo = ({
       <Series>
         {title && (
           <Series.Sequence
+            name="Title"
             durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
@@ -58,6 +59,7 @@ export const LegislationVideo = ({
         )}
         {summary && (
           <Series.Sequence
+            name="Summary"
             durationInFrames={
               SUMMARY_SCENE_LENGTH_IN_FRAMES * summaryScenesCount
             }
@@ -83,6 +85,7 @@ export const LegislationVideo = ({
 
         {legiscanData?.votes && legiscanData.votes.length > 0 && (
           <Series.Sequence
+            name="Votes"
             durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
@@ -96,6 +99,7 @@ export const LegislationVideo = ({
 
         {sponsors && sponsors.length > 0 && (
           <Series.Sequence
+            name="Sponsors"
             durationInFrames={SCENE_LENGTH_IN_FRAMES}
             className={styles.legislationVideo}
           >
@@ -108,6 +112,7 @@ export const LegislationVideo = ({
         )}
 
         <Series.Sequence
+          name="End"
           durationInFrames={SCENE_LENGTH_IN_FRAMES}
           className={styles.legislationVideo}
         >
