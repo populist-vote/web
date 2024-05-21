@@ -1,6 +1,6 @@
 import React from "react";
 import { Animated, Move, Fade } from "remotion-animated";
-import { SUMMARY_SCENE_LENGTH_IN_FRAMES } from "types/constants";
+import { SUMMARY_SCENE_LENGTH_IN_FRAMES } from "../../../../types/constants";
 
 interface SummarySceneProps {
   summary: string | undefined;

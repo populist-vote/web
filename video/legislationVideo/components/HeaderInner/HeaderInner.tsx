@@ -1,5 +1,5 @@
 import React from "react";
-import { splitAtDigitAndJoin } from "utils/strings";
+import { splitAtDigitAndJoin } from "../../../../utils/strings";
 import type { BillResult } from "generated";
 import styles from "./HeaderInner.module.scss";
 import StatusBadge from "../../components/StatusBadge";

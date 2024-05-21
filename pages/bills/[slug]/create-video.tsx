@@ -52,7 +52,11 @@ const CreateVideoPage: NextPage = () => {
     billResult.legiscanData,
     sponsors
   );
-
+  console.log("inputProps: ", {
+    billResult: data.billBySlug as BillResult,
+    summaryScenesCount: summaryScenesCount,
+    summary: summary,
+  });
   return (
     <div>
       <h1>Generate Video Content</h1>

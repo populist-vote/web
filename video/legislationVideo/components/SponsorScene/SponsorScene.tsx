@@ -1,5 +1,5 @@
 import React from "react";
-import { PartyAvatar } from "components";
+import { PartyAvatar } from "../../../../components";
 import styles from "./SponsorScene.module.scss";
 import type { PoliticianResult, PoliticalParty } from "generated";
 import { Animated, Fade, Move } from "remotion-animated";

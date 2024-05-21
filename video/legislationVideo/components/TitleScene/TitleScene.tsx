@@ -1,11 +1,11 @@
 import React from "react";
 import { Animated } from "remotion-animated";
 import { Move, Fade } from "remotion-animated";
-import { IssueTags, LegislationStatusBox } from "components";
-import { splitAtDigitAndJoin } from "utils/strings";
+import { IssueTags, LegislationStatusBox } from "../../../../components";
+import { splitAtDigitAndJoin } from "../../../../utils/strings";
 import { AnimatedDivider } from "../AnimatedDivider";
 import styles from "./TitleScene.module.scss";
-import { getYear } from "utils/dates";
+import { getYear } from "../../../../utils/dates";
 import { BillStatus, IssueTagResult, State } from "generated";
 
 interface TitleSceneProps {

@@ -11,7 +11,7 @@ import WipeIn from "./components/WipeBackground/WipeIn";
 import {
   SCENE_LENGTH_IN_FRAMES,
   SUMMARY_SCENE_LENGTH_IN_FRAMES,
-} from "types/constants";
+} from "../../types/constants";
 
 import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";

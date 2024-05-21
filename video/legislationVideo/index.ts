@@ -1,4 +1,3 @@
-// import { registerRoot } from "remotion";
-// import { LegislationVideo } from "./Video";
-
-// registerRoot(LegislationVideo);
+import { registerRoot } from "remotion";
+import { RemotionRoot } from "./Root";
+registerRoot(RemotionRoot);

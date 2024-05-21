@@ -1,7 +1,7 @@
-@import "styles/mixins/utils";
-@import "styles/variables/colors";
-@import "styles/variables/fonts";
-@import "styles/layout/containers";
+@import "../../styles/mixins/utils.scss";
+@import "../../styles/variables/colors.scss";
+@import "../../styles/variables/fonts.scss";
+@import "../../styles/layout/containers.scss";
 
 .legislationVideo {
   font-size: 2.25em;

@@ -1,7 +1,7 @@
 import React from "react";
-import { LogoText } from "components/Logo";
+import { LogoText } from "../../../components/Logo";
 import Image from "next/legacy/image";
-import MPRLogo from "public/images/video-generator/MPR-logo.png";
+import MPRLogo from "../../../public/images/video-generator/MPR-logo.png";
 import styles from "../LegislationVideo.module.scss";
 import { Animated, Fade, Move } from "remotion-animated";
 
