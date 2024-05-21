@@ -1,5 +1,6 @@
 import { Composition } from "remotion";
 import { LegislationVideo } from "./Video";
+import "../../styles/main.scss";
 
 export const RemotionRoot: React.FC = () => {
   return (
