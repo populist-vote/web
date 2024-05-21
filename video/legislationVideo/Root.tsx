@@ -2,16 +2,18 @@ import { Composition } from "remotion";
 import { LegislationVideo } from "./Video";
 import "../../styles/main.scss";
 
+import { VIDEO_WIDTH, VIDEO_HEIGHT, VIDEO_FPS } from "../../types/constants";
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
         id="LegislationVideo"
         component={LegislationVideo}
-        durationInFrames={60}
-        fps={30}
-        width={1280}
-        height={720}
+        durationInFrames={2400}
+        fps={VIDEO_FPS}
+        width={VIDEO_WIDTH}
+        height={VIDEO_HEIGHT}
         defaultProps={{
           billResult: {
             id: "f0065055-431c-420d-bd94-bc53ca0f51b0",

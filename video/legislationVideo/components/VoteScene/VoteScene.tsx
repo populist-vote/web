@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useCurrentFrame, interpolate, Easing } from "remotion";
 import iconYay from "../../../../public/images/video-generator/yay-icon.svg";
 import iconNay from "../../../../public/images/video-generator/nay-icon.svg";

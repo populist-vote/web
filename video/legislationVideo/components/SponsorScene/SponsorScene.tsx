@@ -1,7 +1,8 @@
 import React from "react";
-import { PartyAvatar } from "../../../../components";
+// import { PartyAvatar } from "../../../../components";
 import styles from "./SponsorScene.module.scss";
-import type { PoliticianResult, PoliticalParty } from "generated";
+// import type { PoliticianResult, PoliticalParty } from "generated";
+import type { PoliticianResult } from "generated";
 import { Animated, Fade, Move } from "remotion-animated";
 import { FaCircle } from "react-icons/fa";
 
@@ -32,7 +33,8 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                 delay={20 + index * avatarStaggerAmount}
                 style={{ opacity: 0 }}
               >
-                <PartyAvatar
+                partyavatar
+                {/* <PartyAvatar
                   theme={"dark"}
                   isEndorsement={false}
                   iconSize="600px"
@@ -42,7 +44,7 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                   badgeSize="3rem"
                   badgeFontSize="2rem"
                   size={240}
-                />
+                /> */}
                 <div className={styles.avatarName}>{sponsor.fullName}</div>
               </Animated>
             </div>
@@ -61,7 +63,8 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                   delay={20 + index * avatarStaggerAmount}
                   style={{ opacity: 0 }}
                 >
-                  <PartyAvatar
+                  partyavatar
+                  {/* <PartyAvatar
                     theme={"dark"}
                     isEndorsement={false}
                     iconSize="600px"
@@ -71,7 +74,7 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                     badgeSize="3rem"
                     badgeFontSize="2rem"
                     size={240}
-                  />
+                  /> */}
                   <div className={styles.avatarName}>{sponsor.fullName}</div>
                 </Animated>
               </div>
@@ -88,7 +91,8 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                   delay={initialGroupDelay + 20 + index * avatarStaggerAmount} // Delay these animations to start after the initial group finishes
                   style={{ opacity: 0 }}
                 >
-                  <PartyAvatar
+                  partyavatar
+                  {/* <PartyAvatar
                     theme={"dark"}
                     isEndorsement={false}
                     iconSize="600px"
@@ -98,7 +102,7 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                     badgeSize="3rem"
                     badgeFontSize="2rem"
                     size={240}
-                  />
+                  /> */}
                   <div className={styles.avatarName}>{sponsor.fullName}</div>
                 </Animated>
               </div>
