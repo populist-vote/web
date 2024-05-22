@@ -52,6 +52,8 @@ fragment EmbedBillFields on BillResult {
 fragment CandidateGuideFields on CandidateGuideResult {
   id
   name
+  createdAt
+  updatedAt
   organizationId
   questions {
     id
@@ -213,5 +215,11 @@ query QuestionById($id: ID!) {
       sentiment
       count
     }
+  }
+}
+
+query CandidateGuidesByOrganization($organizationId: ID!) {
+  candidateGuidesByOrganization(organizationId: $organizationId) {
+    ...CandidateGuideFields
   }
 }

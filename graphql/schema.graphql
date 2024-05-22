@@ -348,8 +348,7 @@ type CandidateGuideResult {
   organization: OrganizationResult!
   organizationId: ID!
   questions: [QuestionResult!]!
-  race: RaceResult!
-  raceId: ID!
+  races: [RaceResult!]!
   updatedAt: DateTime!
 }
 
@@ -1099,6 +1098,7 @@ type Query {
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
   billsByIds(ids: [ID!]!): [BillResult!]!
   candidateGuideById(id: ID!): CandidateGuideResult!
+  candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
   """
   Provides current user based on JWT found in client's access_token cookie
   """
@@ -1637,6 +1637,7 @@ input UpsertCandidateGuideInput {
   id: UUID
   name: String
   organizationId: UUID
+  raceIds: [UUID!]
   userId: UUID
 }
 

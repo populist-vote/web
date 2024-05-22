@@ -1,18 +1,15 @@
-import { EmbedIndex, Layout } from "components";
+import { Layout } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useMemo } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  BillResult,
-  EmbedResult,
-  EmbedType,
-  useEmbedsByOrganizationQuery,
-} from "generated";
+import { EmbedResult, useCandidateGuidesByOrganizationQuery } from "generated";
 import { getRelativeTimeString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
+import { Table } from "components/Table/Table";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps({
   query,
@@ -34,54 +31,47 @@ export async function getServerSideProps({
 }
 
 export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
+  const router = useRouter();
   const { user } = useAuth({ redirectTo: "/login" });
-  const { data, isLoading } = useEmbedsByOrganizationQuery({
-    id: user?.organizationId as string,
-    filter: {
-      embedType: EmbedType.CandidateGuide,
-    },
+  const { data, isLoading } = useCandidateGuidesByOrganizationQuery({
+    organizationId: user?.organizationId as string,
   });
 
   const candidateGuideColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {
-        accessorKey: "race.title",
-        header: "Race",
-        size: 300,
-        cell: (info) => {
-          return ((info.getValue() as BillResult[]) || [])
-            .map((b) => b.billNumber)
-            .join(", ");
-        },
+        accessorKey: "name",
+        header: "Name",
       },
       {
         accessorKey: "createdAt",
         header: "Created",
         cell: (info) =>
           new Date(info.getValue() as string).toLocaleDateString(),
-        size: 100,
       },
       {
         accessorKey: "updatedAt",
         header: "Last Updated",
         cell: (info) =>
           getRelativeTimeString(new Date(info.getValue() as string)),
-        size: 110,
       },
     ],
     []
   );
 
-  const embeds = (data?.embedsByOrganization || []) as EmbedResult[];
+  const guides = data?.candidateGuidesByOrganization || [];
 
   return (
-    <EmbedIndex
-      isLoading={isLoading}
-      slug={slug}
-      title={"Candidate Guide Embeds"}
-      embeds={embeds}
+    <Table
+      // @ts-expect-error React table types are difficult to work with
       columns={candidateGuideColumns}
-      embedType={EmbedType.CandidateGuide}
+      data={guides}
+      isLoading={isLoading}
+      emptyStateMessage="No candidate guides found."
+      onRowClick={(row) =>
+        router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
+      }
+      initialState={{}}
     />
   );
 }

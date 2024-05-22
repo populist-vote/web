@@ -20,10 +20,11 @@ type QuestionForm = {
 export function QuestionForm({
   candidateGuideId,
   onSuccess,
+  allowAnonymousResponsesToggle = true,
 }: {
-  buttonLabel: string;
   candidateGuideId?: string;
   onSuccess?: () => void;
+  allowAnonymousResponsesToggle?: boolean;
 }) {
   const router = useRouter();
   const { query } = router;
@@ -44,16 +45,19 @@ export function QuestionForm({
       question={question as QuestionResult}
       candidateGuideId={candidateGuideId}
       onSuccess={onSuccess}
+      allowAnonymousResponsesToggle={allowAnonymousResponsesToggle}
     />
   );
 }
 
 function QuestionFormInner({
   question,
+  allowAnonymousResponsesToggle = true,
   candidateGuideId,
   onSuccess,
 }: {
   question?: QuestionResult;
+  allowAnonymousResponsesToggle?: boolean;
   candidateGuideId?: string;
   onSuccess?: () => void;
 }) {
@@ -152,12 +156,14 @@ function QuestionFormInner({
               gap: "0.75rem",
             }}
           >
-            <Checkbox
-              id="allowAnonymousResponses"
-              name="allowAnonymousResponses"
-              label="Allow Anonymous Responses"
-              register={register}
-            />
+            {allowAnonymousResponsesToggle && (
+              <Checkbox
+                id="allowAnonymousResponses"
+                name="allowAnonymousResponses"
+                label="Allow Anonymous Responses"
+                register={register}
+              />
+            )}
             <div
               style={{
                 display: "flex",

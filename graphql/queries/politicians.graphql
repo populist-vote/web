@@ -338,3 +338,9 @@ query PoliticalParties {
     name
   }
 }
+
+query PoliticianByIntakeToken($token: String!) {
+  politicianByIntakeToken(token: $token) {
+    ...BasicInfo
+  }
+}

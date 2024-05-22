@@ -1,13 +1,6 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "components";
 import { Modal } from "components/Modal/Modal";
-import {
-  EmbedType,
-  useEmbedsByOrganizationQuery,
-  useOrganizationBySlugQuery,
-  useUpsertCandidateGuideMutation,
-  useUpsertEmbedMutation,
-} from "generated";
+import { useUpsertCandidateGuideMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -35,15 +28,6 @@ export function NewEmbedModal({
   }, [onClose, router.events]);
 
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
-  const upsertEmbedMutation = useUpsertEmbedMutation();
-  const queryClient = useQueryClient();
-  const { data: organizationData, isLoading } = useOrganizationBySlugQuery(
-    { slug },
-    { retry: false }
-  );
-  const organizationId = organizationData?.organizationBySlug.id as string;
-
-  if (isLoading) return null;
 
   const handleNewCandidateGuideEmbed = () => {
     // Create the candidate_guide record, then pass its ID to create a new embed record
@@ -53,31 +37,8 @@ export function NewEmbedModal({
       },
       {
         onSuccess: (data) => {
-          upsertEmbedMutation.mutate(
-            {
-              input: {
-                name: "Candidate Guide",
-                embedType: EmbedType.CandidateGuide,
-                organizationId,
-                populistUrl: "https://populist.us",
-                attributes: {
-                  candidateGuideId: data.upsertCandidateGuide.id,
-                },
-              },
-            },
-            {
-              onSuccess: (data) => {
-                void queryClient.invalidateQueries({
-                  queryKey: useEmbedsByOrganizationQuery.getKey({
-                    id: organizationId,
-                  }),
-                });
-                void router.push(
-                  `/dashboard/${slug}/embeds/candidate-guide/${data.upsertEmbed.id}/manage`
-                );
-                onClose();
-              },
-            }
+          void router.push(
+            `/dashboard/${slug}/candidate-guides/${data.upsertCandidateGuide.id}`
           );
         },
       }
@@ -150,6 +111,7 @@ export function NewEmbedModal({
             variant="super"
             size="large"
             label="Candidate Guide"
+            disabled={upsertCandidateGuideMutation.isPending}
             onClick={handleNewCandidateGuideEmbed}
           />
         </div>

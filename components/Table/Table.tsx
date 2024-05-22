@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 
 import styles from "./Table.module.scss";
 import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
@@ -114,10 +114,31 @@ function Table<T extends object>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
+    getRowId: (row) => row?.id,
     debugTable: true,
     debugHeaders: true,
     debugColumns: false,
   });
+
+  // Set all selected rows in comma separated query parameter
+  useEffect(() => {
+    const selectedRows = table.getSelectedRowModel().rows.map((row) => row.id);
+    if (selectedRows.length) {
+      void router.push({
+        query: {
+          ...router.query,
+          selectedRows: selectedRows.join(","),
+        },
+      });
+    } else {
+      void router.push({
+        query: {
+          ...router.query,
+          selectedRows: undefined,
+        },
+      });
+    }
+  }, [table.getSelectedRowModel().rows]);
 
   // This has a runtime cost, should ultimately move this into SCSS file and handle using theme classes
   const getTheme = (): TableThemeColors => {
@@ -326,6 +347,17 @@ function Table<T extends object>({
         </table>
         <div className={styles.tableMeta}>
           <small>
+            {!!table.getSelectedRowModel().rows.length && (
+              <span
+                style={{ color: "var(--blue-text-light)", marginRight: "1rem" }}
+              >
+                {table.getSelectedRowModel().rows.length +
+                  " " +
+                  "Selected of " +
+                  data.length +
+                  " Records"}
+              </span>
+            )}
             {table.getRowModel().rows.length +
               " " +
               "Row" +

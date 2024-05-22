@@ -1,9 +1,5 @@
 query CandidateGuideById($id: ID!) {
   candidateGuideById(id: $id) {
-    id
-    name
-    questions {
-      prompt
-    }
+    ...CandidateGuideFields
   }
 }

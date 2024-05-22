@@ -288,6 +288,8 @@
 
 .filters,
 .filtersContainer {
+  display: flex;
+  gap: 1rem;
   input[type="radio"]:checked + label {
     background: $blue;
     color: $white;

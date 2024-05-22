@@ -1,27 +1,59 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Table } from "components/Table/Table";
-import { RaceResult, useRaceIndexQuery } from "generated";
+import { RaceResult, State, useRaceIndexQuery } from "generated";
 import useDebounce from "hooks/useDebounce";
+import { Theme } from "hooks/useTheme";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { HTMLProps, useEffect, useMemo, useRef } from "react";
 import { dateString } from "utils/dates";
 import { titleCase } from "utils/strings";
 
-export function RaceResultsTable() {
+function IndeterminateCheckbox({
+  indeterminate,
+  className = "",
+  ...rest
+}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
+  const ref = useRef<HTMLInputElement>(null!);
+
+  useEffect(() => {
+    if (typeof indeterminate === "boolean") {
+      ref.current.indeterminate = !rest.checked && indeterminate;
+    }
+  }, [ref, indeterminate, rest.checked]);
+
+  return (
+    <input
+      type="checkbox"
+      ref={ref}
+      className={className + " cursor-pointer"}
+      {...rest}
+    />
+  );
+}
+
+export function RaceResultsTable({
+  theme = "aqua",
+  multiSelect = false,
+}: {
+  theme?: Theme;
+  multiSelect?: boolean;
+}) {
   const router = useRouter();
   const { query } = router;
-  const { search, selected } = query;
+  const { state, search, selected } = query;
   const shouldFetchRaceResults = !!search;
 
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
     350
   );
-  const { data } = useRaceIndexQuery(
+  const { data, isLoading } = useRaceIndexQuery(
     {
       pageSize: 50,
       filter: {
         query: debouncedSearchQuery || null,
+        state: state as State,
       },
     },
     {
@@ -37,6 +69,30 @@ export function RaceResultsTable() {
 
   const columns = useMemo<ColumnDef<RaceResult>[]>(
     () => [
+      {
+        id: "select",
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <div className="px-1">
+            <IndeterminateCheckbox
+              {...{
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          </div>
+        ),
+      },
       {
         accessorKey: "office.title",
         header: "Office",
@@ -66,33 +122,41 @@ export function RaceResultsTable() {
   );
 
   const onRowClick = (row: Row<RaceResult>) => {
-    void router.replace(
-      {
-        query: { ...query, selected: row.original.id },
-      },
-      undefined,
-      {
-        scroll: false,
-        shallow: true,
-      }
-    );
+    if (multiSelect) {
+      row.toggleSelected();
+    } else {
+      void router.replace(
+        {
+          query: { ...query, selected: row.original.id },
+        },
+        undefined,
+        {
+          scroll: false,
+          shallow: true,
+        }
+      );
+    }
   };
 
+  if (isLoading) return <LoaderFlag />;
+
   return (
-    <Table
-      data={raceResults}
-      columns={columns}
-      initialState={{
-        pagination: {
-          pageSize: 10,
-        },
-        columnVisibility: {
-          party: false,
-        },
-      }}
-      theme="aqua"
-      onRowClick={onRowClick}
-      selectedRowId={selected as string}
-    />
+    <>
+      <Table
+        data={raceResults}
+        columns={columns}
+        initialState={{
+          pagination: {
+            pageSize: 10,
+          },
+          columnVisibility: {
+            select: multiSelect,
+          },
+        }}
+        theme={theme}
+        onRowClick={onRowClick}
+        selectedRowId={selected as string}
+      />
+    </>
   );
 }
