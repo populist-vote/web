@@ -1,7 +1,10 @@
 import { WebpackOverrideFn } from "@remotion/bundler";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import type { Configuration } from "webpack";
 
-export const enableTypescriptAliases: WebpackOverrideFn = (config) => {
+export const enableTypescriptAliases: (
+  config: Configuration
+) => Configuration = (config) => {
   return {
     ...config,
     resolve: {

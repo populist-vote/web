@@ -8,7 +8,8 @@ export const CompositionProps = z.object({
 });
 
 export const defaultMyCompProps: z.infer<typeof CompositionProps> = {
-  defaultTitle: "Next.js and Remotion",
+  title: "Next.js and Remotion",
+  billTitle: "Your Bill Title Here",
 };
 
 export const DURATION_IN_FRAMES = 200;

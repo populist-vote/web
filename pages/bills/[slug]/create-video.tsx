@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
 import {
-  CompositionProps,
+  // CompositionProps,
   defaultMyCompProps,
   VIDEO_FPS,
   VIDEO_HEIGHT,
@@ -35,18 +35,20 @@ const player: React.CSSProperties = {
 };
 
 const CreateVideoPage: NextPage = () => {
-  const [text, setText] = useState<string>(defaultMyCompProps.defaultTitle);
+  const [text, setText] = useState<string>(defaultMyCompProps.title);
 
-  const inputProps: z.infer<typeof CompositionProps> = useMemo(() => {
-    return {
-      title: text,
-    };
-  }, [text]);
   const router = useRouter();
   const { slug } = router.query;
   const { data, isLoading, error } = useBillBySlugQuery({
     slug: slug as string,
   });
+
+  const inputProps = useMemo(() => {
+    return {
+      title: text,
+      billTitle: data?.billBySlug?.title || "", // Add billTitle here
+    };
+  }, [text, data]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
@@ -66,11 +68,11 @@ const CreateVideoPage: NextPage = () => {
     billResult.legiscanData,
     sponsors
   );
-  // console.log("inputProps: ", {
-  //   billResult: data.billBySlug as BillResult,
-  //   summaryScenesCount: summaryScenesCount,
-  //   summary: summary,
-  // });
+  console.log("inputProps: ", {
+    billResult: data.billBySlug as BillResult,
+    summaryScenesCount: summaryScenesCount,
+    summary: summary,
+  });
   return (
     <div>
       <h1>Generate Video Content</h1>

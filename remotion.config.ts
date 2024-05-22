@@ -5,7 +5,9 @@
 
 import { Config } from "@remotion/cli/config";
 import { enableSass, enableTypescriptAliases } from "./video/webpack-override";
+
 Config.overrideWebpackConfig((config) =>
+  // @ts-expect-error
   enableSass(enableTypescriptAliases(config))
 );
 

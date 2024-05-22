@@ -1,8 +1,18 @@
 import { Composition } from "remotion";
 import { LegislationVideo } from "./Video";
 import "../../styles/main.scss";
+import { Bill, BillStatus, State } from "generated";
 
 import { VIDEO_WIDTH, VIDEO_HEIGHT, VIDEO_FPS } from "../../types/constants";
+
+type PartialBill = Partial<Bill> & {
+  id: string;
+  slug: string;
+  title: string;
+  billNumber: string;
+  status: BillStatus;
+  state: State;
+};
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -23,8 +33,8 @@ export const RemotionRoot: React.FC = () => {
             populistTitle: "Housing Rights and Tenant Protections Act",
             description: null,
             billNumber: "HF917",
-            status: "IN_CONSIDERATION",
-            state: "MN",
+            status: BillStatus.InConsideration,
+            state: State.Mn,
             officialSummary: null,
             populistSummary:
               "This bill in Minnesota expands housing protections by prohibiting discrimination based on various factors and banning landlords from requiring pet declawing or devocalization. It also mandates disclosure of all nonoptional fees in lease agreements, implements inspections to prevent security deposit disputes, and provides public housing tenants facing eviction with a right to court-appointed counsel. Additionally, the bill amends statutes concerning lease covenants, tenant removal processes, emergency relief petitions, and eviction procedures, with an effective date of January 1, 2024, for these provisions.",
@@ -40,6 +50,12 @@ export const RemotionRoot: React.FC = () => {
                   date: "2023-04-19",
                   chamber: "H",
                   desc: "House: Passage, as amended",
+                  chamberId: 0, // Add appropriate value
+                  nv: 0, // Add appropriate value
+                  passed: 0, // Add appropriate value
+                  rollCallId: 0, // Add appropriate value
+                  stateLink: "hi",
+                  url: "null",
                 },
               ],
             },
@@ -51,6 +67,7 @@ export const RemotionRoot: React.FC = () => {
                 slug: "mohamud-noor",
                 party: {
                   name: "Democratic-Farmer-Labor",
+                  id: "party",
                 },
                 thumbnailImageUrl:
                   "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/mohamud-noor-160.jpg",
@@ -62,68 +79,9 @@ export const RemotionRoot: React.FC = () => {
                 currentOffice: {
                   id: "9bf3d35d-32e4-441a-9d47-992e0dcf7832",
                   officeType: null,
-                  state: "MN",
+                  state: State.Mn,
                   district: "60B",
-                },
-              },
-              {
-                id: "bd2a1b8c-f3b3-4151-a4fa-8435bdf7bd49",
-                slug: "esther-agbaje",
-                party: {
-                  name: "Democratic-Farmer-Labor",
-                },
-                thumbnailImageUrl:
-                  "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/esther-agbaje-160.jpg",
-                assets: {
-                  thumbnailImage160:
-                    "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/esther-agbaje-160.jpg",
-                },
-                fullName: "Esther Agbaje",
-                currentOffice: {
-                  id: "f8c51607-eb84-4016-abce-3e5f1e41af3c",
-                  officeType: null,
-                  state: "MN",
-                  district: "59B",
-                },
-              },
-              {
-                id: "d69a0bab-260f-49c7-9c49-dbd636ac9c20",
-                slug: "aisha-gomez",
-                party: {
-                  name: "Democratic-Farmer-Labor",
-                },
-                thumbnailImageUrl:
-                  "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/aisha-gomez-160.jpg",
-                assets: {
-                  thumbnailImage160:
-                    "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/aisha-gomez-160.jpg",
-                },
-                fullName: "Aisha Gomez",
-                currentOffice: {
-                  id: "f2e07491-e514-46c5-b0b8-ad1b85c03656",
-                  officeType: null,
-                  state: "MN",
-                  district: "62B",
-                },
-              },
-              {
-                id: "e6df17ba-5e31-4743-8076-9bd621cfe888",
-                slug: "michael-howard",
-                party: {
-                  name: "Democratic-Farmer-Labor",
-                },
-                thumbnailImageUrl:
-                  "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/michael-howard-160.jpg",
-                assets: {
-                  thumbnailImage160:
-                    "https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/politician-thumbnails/michael-howard-160.jpg",
-                },
-                fullName: "Michael Howard",
-                currentOffice: {
-                  id: "9021ffba-3414-4c54-a6b6-1e89a2ed24f9",
-                  officeType: null,
-                  state: "MN",
-                  district: "50A",
+                  electionScope: "STATE",
                 },
               },
             ],
@@ -138,7 +96,7 @@ export const RemotionRoot: React.FC = () => {
               oppose: null,
             },
             usersVote: null,
-          },
+          } as PartialBill,
           summaryScenesCount: 3,
           summary:
             "This bill in Minnesota expands housing protections by prohibiting discrimination based on various factors and banning landlords from requiring pet declawing or devocalization. It also mandates disclosure of all nonoptional fees in lease agreements, implements inspections to prevent security deposit disputes, and provides public housing tenants facing eviction with a right to court-appointed counsel. Additionally, the bill amends statutes concerning lease covenants, tenant removal processes, emergency relief petitions, and eviction procedures, with an effective date of January 1, 2024, for these provisions.",
