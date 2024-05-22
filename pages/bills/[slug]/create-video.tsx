@@ -3,6 +3,8 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
 import {
+  CompositionProps,
+  defaultMyCompProps,
   VIDEO_FPS,
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
@@ -13,7 +15,12 @@ import type { BillResult, PoliticianResult } from "generated";
 import { useBillBySlugQuery } from "generated";
 import { calculateScenes } from "../../../utils/calculateScenes";
 
+import React, { useMemo, useState } from "react";
+
 import Link from "next/link";
+
+import { RenderControls } from "../../../components/Video/RenderControls";
+import { Spacing } from "../../../components/Video/Spacing";
 
 const container: React.CSSProperties = {
   maxWidth: 768,
@@ -28,6 +35,13 @@ const player: React.CSSProperties = {
 };
 
 const CreateVideoPage: NextPage = () => {
+  const [text, setText] = useState<string>(defaultMyCompProps.defaultTitle);
+
+  const inputProps: z.infer<typeof CompositionProps> = useMemo(() => {
+    return {
+      title: text,
+    };
+  }, [text]);
   const router = useRouter();
   const { slug } = router.query;
   const { data, isLoading, error } = useBillBySlugQuery({
@@ -52,11 +66,11 @@ const CreateVideoPage: NextPage = () => {
     billResult.legiscanData,
     sponsors
   );
-  console.log("inputProps: ", {
-    billResult: data.billBySlug as BillResult,
-    summaryScenesCount: summaryScenesCount,
-    summary: summary,
-  });
+  // console.log("inputProps: ", {
+  //   billResult: data.billBySlug as BillResult,
+  //   summaryScenesCount: summaryScenesCount,
+  //   summary: summary,
+  // });
   return (
     <div>
       <h1>Generate Video Content</h1>
@@ -150,6 +164,15 @@ const CreateVideoPage: NextPage = () => {
           autoPlay
           loop
         />
+        <RenderControls
+          text={text}
+          setText={setText}
+          inputProps={inputProps}
+        ></RenderControls>
+        <Spacing></Spacing>
+        <Spacing></Spacing>
+        <Spacing></Spacing>
+        <Spacing></Spacing>
       </div>
     </div>
   );

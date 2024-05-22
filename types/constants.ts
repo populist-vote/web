@@ -7,6 +7,10 @@ export const CompositionProps = z.object({
   billTitle: z.string(), // Add the billTitle property
 });
 
+export const defaultMyCompProps: z.infer<typeof CompositionProps> = {
+  defaultTitle: "Next.js and Remotion",
+};
+
 export const DURATION_IN_FRAMES = 200;
 export const VIDEO_WIDTH = 1080;
 export const VIDEO_HEIGHT = 1920;
