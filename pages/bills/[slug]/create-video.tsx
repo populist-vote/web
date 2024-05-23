@@ -3,7 +3,6 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
 import {
-  // CompositionProps,
   defaultMyCompProps,
   VIDEO_FPS,
   VIDEO_HEIGHT,
@@ -15,7 +14,7 @@ import type { BillResult, PoliticianResult } from "generated";
 import { useBillBySlugQuery } from "generated";
 import { calculateScenes } from "../../../utils/calculateScenes";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 import Link from "next/link";
 
@@ -43,13 +42,6 @@ const CreateVideoPage: NextPage = () => {
     slug: slug as string,
   });
 
-  const inputProps = useMemo(() => {
-    return {
-      title: text,
-      billTitle: data?.billBySlug?.title || "", // Add billTitle here
-    };
-  }, [text, data]);
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
   if (!data?.billBySlug) return null;
@@ -68,11 +60,15 @@ const CreateVideoPage: NextPage = () => {
     billResult.legiscanData,
     sponsors
   );
-  console.log("inputProps: ", {
-    billResult: data.billBySlug as BillResult,
+
+  const inputProps = {
+    billResult: billResult || {},
     summaryScenesCount: summaryScenesCount,
     summary: summary,
-  });
+    title: billResult?.title || "Default Title",
+    billTitle: billResult?.billTitle || "Default Bill Title",
+  };
+
   return (
     <div>
       <h1>Generate Video Content</h1>
@@ -149,7 +145,7 @@ const CreateVideoPage: NextPage = () => {
         <Player
           component={LegislationVideo}
           inputProps={{
-            billResult: data.billBySlug as BillResult,
+            billResult: billResult,
             summaryScenesCount: summaryScenesCount,
             summary: summary,
           }}

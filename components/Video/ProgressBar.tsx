@@ -9,7 +9,8 @@ export const ProgressBar: React.FC<{
       height: 10,
       borderRadius: 5,
       appearance: "none",
-      backgroundColor: "var(--unfocused-border-color)",
+      backgroundColor: "#666666",
+      // backgroundColor: "var(--unfocused-border-color)",
       marginTop: 10,
       marginBottom: 25,
     };
@@ -17,7 +18,8 @@ export const ProgressBar: React.FC<{
 
   const fill: React.CSSProperties = useMemo(() => {
     return {
-      backgroundColor: "var(--foreground)",
+      // backgroundColor: "var(--foreground)",
+      backgroundColor: "#ccccc",
       height: 10,
       borderRadius: 5,
       transition: "width 0.1s ease-in-out",

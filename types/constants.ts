@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const COMP_NAME = "MyComp";
+export const COMP_NAME = "LegislationVideo";
 
 export const CompositionProps = z.object({
   title: z.string(),

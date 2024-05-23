@@ -2,6 +2,7 @@ import { z } from "zod";
 import { useCallback, useMemo, useState } from "react";
 import { getProgress, renderVideo } from "../lambda/api";
 import { CompositionProps } from "../types/constants";
+import { inputPropsKey } from "@remotion/lambda/defaults";
 
 export type State =
   | {
@@ -44,6 +45,8 @@ export const useRendering = (
   });
 
   const renderMedia = useCallback(async () => {
+    console.log("useRendering inputProps", inputProps);
+
     setState({
       status: "invoking",
     });
