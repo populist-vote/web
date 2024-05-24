@@ -3,6 +3,7 @@ import {
   PoliticalScope,
   ElectionScope,
   BillStatus,
+  State,
 } from "generated";
 
 export const COMP_NAME = "LegislationVideo";
@@ -18,6 +19,7 @@ export type CompositionProps = {
 export const defaultMyCompProps: CompositionProps = {
   title: "Default Title",
   billTitle: "Default Bill Title",
+  billNumber: "SF1884",
   billResult: {
     id: "f0065055-431c-420d-bd94-bc53ca0f51b0",
     slug: "mnhf9172023-2024",
@@ -59,6 +61,7 @@ export const defaultMyCompProps: CompositionProps = {
         },
       },
     ],
+    state: "MN" as State,
     status: "PROPOSED" as unknown as BillStatus, // Adjusting to valid BillStatus value
     updatedAt: "2023-01-01T00:00:00Z", // Default DateTime value
     arguments: [],
@@ -90,7 +93,7 @@ export const defaultMyCompProps: CompositionProps = {
       // Added missing properties with default values
       amendments: [],
       billId: 5,
-      billNumber: "defaultBillNumber",
+      billNumber: "SF1884",
       billType: "defaultBillType",
     },
   },

@@ -27,7 +27,12 @@ const TitleScene: React.FC<TitleSceneProps> = ({
   startDate,
   endDate,
 }) => {
+  console.log("TitleScene billNumber", billNumber);
   const issueTagNames = issueTags.map((tag) => tag.name);
+  const formattedState = state ? splitAtDigitAndJoin(state) : "U.S.";
+  const formattedBillNumber = billNumber
+    ? splitAtDigitAndJoin(billNumber)
+    : "No Bill Number";
 
   return (
     <div className={styles.titleScene}>
@@ -62,8 +67,8 @@ const TitleScene: React.FC<TitleSceneProps> = ({
             style={{ opacity: 0 }}
           >
             <h2>
-              {state ? `${state} - ` : "U.S. - "}
-              {splitAtDigitAndJoin(billNumber)}
+              {formattedState ? `${formattedState} - ` : "U.S. - "}
+              {splitAtDigitAndJoin(formattedBillNumber)}
             </h2>
           </Animated>
         </div>
