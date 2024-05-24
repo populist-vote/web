@@ -343,6 +343,7 @@ type Candidate {
 
 type CandidateGuideResult {
   createdAt: DateTime!
+  embeds: [EmbedResult!]!
   id: ID!
   name: String
   organization: OrganizationResult!

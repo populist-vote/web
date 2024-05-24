@@ -21,6 +21,9 @@ import {
   CandidateGuideResult,
   useUpsertCandidateGuideMutation,
   UpsertCandidateGuideInput,
+  useRemoveCandidateGuideRaceMutation,
+  EmbedResult,
+  useDeleteEmbedMutation,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -28,7 +31,7 @@ import styles from "components/EmbedIndex/EmbedIndex.module.scss";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { Modal } from "components/Modal/Modal";
 import clsx from "clsx";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
 import { useQueryClient } from "@tanstack/react-query";
 import { QuestionForm } from "components/QuestionForm/QuestionForm";
@@ -53,6 +56,31 @@ export async function getServerSideProps({
       )),
     },
   };
+}
+
+export default function CandidateGuideManagePage() {
+  const router = useRouter();
+  const { slug, id } = router.query as { slug: string; id: string };
+  const { data, isLoading } = useCandidateGuideByIdQuery({ id });
+  const candidateGuide = data?.candidateGuideById as CandidateGuideResult;
+
+  if (isLoading) return <LoaderFlag />;
+
+  return (
+    <>
+      <EmbedHeader
+        title={candidateGuide?.name || "Untitled"}
+        embedType={EmbedType.CandidateGuide}
+      />
+      <div className={styles.sections}>
+        <CandidateGuideConfiguration candidateGuide={candidateGuide} />
+        <QuestionsSection candidateGuide={candidateGuide} />
+        <RacesSection slug={slug} candidateGuide={candidateGuide} />
+      </div>
+
+      <div className={styles.flexBetween}></div>
+    </>
+  );
 }
 
 function CandidateGuideConfiguration({
@@ -119,31 +147,6 @@ function CandidateGuideConfiguration({
         </form>
       </Box>
     </section>
-  );
-}
-
-export default function CandidateGuideManagePage() {
-  const router = useRouter();
-  const { slug, id } = router.query as { slug: string; id: string };
-  const { data, isLoading } = useCandidateGuideByIdQuery({ id });
-  const candidateGuide = data?.candidateGuideById as CandidateGuideResult;
-
-  if (isLoading) return <LoaderFlag />;
-
-  return (
-    <>
-      <EmbedHeader
-        title={candidateGuide?.name || "Untitled"}
-        embedType={EmbedType.CandidateGuide}
-      />
-      <div className={styles.sections}>
-        <CandidateGuideConfiguration candidateGuide={candidateGuide} />
-        <QuestionsSection candidateGuide={candidateGuide} />
-        <RacesSection slug={slug} candidateGuide={candidateGuide} />
-      </div>
-
-      <div className={styles.flexBetween}></div>
-    </>
   );
 }
 
@@ -280,11 +283,13 @@ function RacesSection({
   slug: string;
 }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { state, search, selectedRows } = router.query;
   const [searchValue, setSearchValue] = useState(search as string);
   const [isModalOpen, setIsModalOpen] = useState(
     router.query.isModalOpen == "true" || false
   );
+  const embeds = candidateGuide?.embeds || [];
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     void router.push(
@@ -302,6 +307,7 @@ function RacesSection({
     });
 
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
+
   const handleSelectedRows = () => {
     const selectedRowArray = (selectedRows as string)?.split(",");
     upsertCandidateGuideMutation.mutate(
@@ -313,10 +319,14 @@ function RacesSection({
       },
       {
         onSuccess: () => {
-          void router.push(
-            `/dashboard/${slug}/candidate-guides/${candidateGuide.id}`
-          );
-          closeModal();
+          queryClient
+            .invalidateQueries({
+              queryKey: useCandidateGuideByIdQuery.getKey({
+                id: candidateGuide.id,
+              }),
+            })
+            .catch((e) => console.error(e))
+            .finally(() => closeModal());
         },
       }
     );
@@ -380,10 +390,95 @@ function RacesSection({
           </div>
         </Modal>
       </div>
-      <Box>
-        <span className={styles.noResults}>No Races</span>
-      </Box>
+      {!!embeds.length && (
+        <CandidateGuideEmbedTable
+          candidateGuideId={candidateGuide.id}
+          embeds={embeds}
+        />
+      )}
+      {!embeds.length && (
+        <Box>
+          <span className={styles.noResults}>No Races</span>
+        </Box>
+      )}
     </section>
+  );
+}
+
+function CandidateGuideEmbedTable({
+  candidateGuideId,
+  embeds,
+}: {
+  candidateGuideId: string;
+  embeds: EmbedResult[];
+}) {
+  const router = useRouter();
+  const { slug } = router.query as { slug: string };
+  const queryClient = useQueryClient();
+  const removeRace = useRemoveCandidateGuideRaceMutation();
+  const deleteEmbed = useDeleteEmbedMutation();
+
+  const handleRemoveRace = async (embedId: string, raceId: string) => {
+    await removeRace
+      .mutateAsync({
+        candidateGuideId: candidateGuideId,
+        raceId,
+      })
+      .then(() => {
+        deleteEmbed.mutate({ id: embedId });
+      });
+    void queryClient.invalidateQueries({
+      queryKey: useCandidateGuideByIdQuery.getKey({ id: candidateGuideId }),
+    });
+  };
+
+  const handleRowClick = (row: Row<EmbedResult>) =>
+    void router.push(`/dashboard/${slug}/embeds/candidate-guide/${row.id}`);
+
+  const columns = useMemo<ColumnDef<EmbedResult>[]>(
+    () => [
+      {
+        header: "Race Title",
+        accessorKey: "race.title",
+      },
+      {
+        id: "Actions",
+        cell: (info) => {
+          return (
+            <div className={styles.flexRight}>
+              <Button
+                theme="blue"
+                variant="secondary"
+                size="small"
+                label="Delete"
+                onClick={(e) => {
+                  e?.stopPropagation();
+                  void window.confirm(
+                    "Are you sure you want to remove this race from this guide?"
+                  ) &&
+                    handleRemoveRace(
+                      info.row.original.id,
+                      info.row.original.race?.id as string
+                    );
+                }}
+              />
+            </div>
+          );
+        },
+      },
+    ],
+    []
+  );
+
+  return (
+    <Table
+      columns={columns}
+      initialState={{}}
+      data={embeds}
+      theme="blue"
+      paginate={false}
+      onRowClick={handleRowClick}
+    />
   );
 }
 

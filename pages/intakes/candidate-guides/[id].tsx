@@ -59,8 +59,7 @@ export default function CandidateGuideIntake() {
     }
   };
 
-  if (!politician || !questions || !organizationData)
-    return <small>Something went wrong.</small>;
+  if (!politician) return <small>No politician data attached.</small>;
 
   return (
     <BasicLayout>

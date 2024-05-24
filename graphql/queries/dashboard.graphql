@@ -55,6 +55,13 @@ fragment CandidateGuideFields on CandidateGuideResult {
   createdAt
   updatedAt
   organizationId
+  embeds {
+    id
+    race {
+      id
+      title
+    }
+  }
   questions {
     id
     prompt
@@ -100,17 +107,9 @@ fragment EmbedFields on EmbedResult {
   }
   createdAt
   updatedAt
-  bill {
-    ...EmbedBillFields
-  }
-  bills {
-    ...EmbedBillFields
-  }
+
   politician {
     fullName
-  }
-  candidateGuide {
-    ...CandidateGuideFields
   }
   question {
     id
@@ -171,6 +170,17 @@ fragment EmbedFields on EmbedResult {
   }
   race {
     title
+    office {
+      name
+    }
+    state
+    election {
+      date
+      name
+    }
+  }
+  candidateGuide {
+    ...CandidateGuideFields
   }
 }
 

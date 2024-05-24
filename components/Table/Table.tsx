@@ -71,6 +71,7 @@ type TableProps<T extends object> = {
   selectedRowId?: string;
   globalFilter?: string;
   useSearchQueryAsFilter?: boolean;
+  paginate?: boolean;
 };
 
 function Table<T extends object>({
@@ -82,6 +83,7 @@ function Table<T extends object>({
   onRowClick,
   selectedRowId,
   useSearchQueryAsFilter = false,
+  paginate = true,
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
     initialState.sorting || []
@@ -102,7 +104,13 @@ function Table<T extends object>({
     filterFns: {
       fuzzy: fuzzyFilter,
     },
-    initialState,
+    initialState: {
+      ...initialState,
+      pagination: {
+        ...initialState.pagination,
+        pageSize: paginate ? 10 : data.length,
+      },
+    },
     autoResetPageIndex: false,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -278,7 +286,7 @@ function Table<T extends object>({
 
   return (
     <>
-      <PageIndex />
+      {paginate && <PageIndex />}
       <div className={styles.container} style={styleVars}>
         <table>
           <thead>

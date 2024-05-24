@@ -96,11 +96,15 @@ export function RaceResultsTable({
       {
         accessorKey: "office.title",
         header: "Office",
+        size: 300,
+      },
+      {
+        accessorKey: "party",
       },
       {
         accessorKey: "office.subtitle",
         header: "Location",
-        size: 200,
+        size: 300,
       },
       {
         accessorKey: "raceType",
@@ -110,7 +114,6 @@ export function RaceResultsTable({
           const party = info.row.getValue("party") as string;
           return titleCase(`${raceType} ${party ? "- " + party : ""}`);
         },
-        size: 50,
       },
       {
         accessorKey: "electionDate",
@@ -138,7 +141,19 @@ export function RaceResultsTable({
     }
   };
 
-  if (isLoading) return <LoaderFlag />;
+  if (isLoading)
+    return (
+      <div
+        style={{
+          width: "100%",
+          minWidth: "796px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <LoaderFlag />;
+      </div>
+    );
 
   return (
     <>
@@ -151,6 +166,7 @@ export function RaceResultsTable({
           },
           columnVisibility: {
             select: multiSelect,
+            party: false,
           },
         }}
         theme={theme}

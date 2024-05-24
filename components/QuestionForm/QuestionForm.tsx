@@ -75,7 +75,7 @@ function QuestionFormInner({
       enforceCharLimit: !!question?.responseCharLimit,
       responseCharLimit: question?.responseCharLimit || 140,
       responsePlaceholderText: question?.responsePlaceholderText || "",
-      allowAnonymousResponses: question?.allowAnonymousResponses,
+      allowAnonymousResponses: question?.allowAnonymousResponses || false,
     },
   });
 
@@ -97,7 +97,7 @@ function QuestionFormInner({
           responseCharLimit:
             enforceCharLimit && responseCharLimit ? responseCharLimit : null,
           responsePlaceholderText,
-          allowAnonymousResponses: data.allowAnonymousResponses,
+          allowAnonymousResponses: data.allowAnonymousResponses || false,
           candidateGuideId,
         },
       },

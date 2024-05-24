@@ -49,7 +49,7 @@ function Button({
   /** Can be used in conjunction with hideLabel to show/hide button text */
   label: string;
   /** Function to handle click events */
-  onClick?: () => unknown | undefined;
+  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   wrapText?: boolean;
   size: ButtonSize;
   theme?: ButtonTheme;

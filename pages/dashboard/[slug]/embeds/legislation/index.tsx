@@ -40,7 +40,7 @@ export async function getServerSideProps({
 }
 
 export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
-  const { user } = useAuth({ redirectTo: "/login" });
+  // const { user } = useAuth({ redirectTo: "/login" });
   const { data, isLoading } = useEmbedsByOrganizationQuery({
     id: user?.organizationId as string,
     filter: {

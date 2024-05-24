@@ -94,3 +94,7 @@ mutation DeleteQuestion($id: ID!) {
     id
   }
 }
+
+mutation RemoveCandidateGuideRace($candidateGuideId: ID!, $raceId: ID!) {
+  removeCandidateGuideRace(candidateGuideId: $candidateGuideId, raceId: $raceId)
+}
