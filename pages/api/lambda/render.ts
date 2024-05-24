@@ -6,10 +6,20 @@ import {
 import { DISK, RAM, REGION, SITE_NAME, TIMEOUT } from "../../../config.mjs";
 import { executeApi } from "../../../helpers/api-response";
 import { RenderRequest } from "../../../types/schema";
+// import util from "util";
 
 const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
   RenderRequest,
   async (req, body) => {
+    console.log(
+      "5. before rendermediaonlambda body: ",
+      JSON.stringify(body, null, 2)
+    );
+
+    // console.log(
+    //   "5. before rendermediaonlambda body: ",
+    //   util.inspect(body, { showHidden: false, depth: null, colors: true })
+    // );
     if (req.method !== "POST") {
       throw new Error("Only POST requests are allowed");
     }
@@ -30,14 +40,6 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
         "The environment variable REMOTION_AWS_SECRET_ACCESS_KEY is missing. Add it to your .env file."
       );
     }
-    console.log(
-      "before rendermediaonlambda body: ",
-      JSON.stringify(body, null, 2)
-    );
-    console.log(
-      "before rendermediaonlambda body.inputProps: ",
-      JSON.stringify(body.inputProps, null, 2)
-    );
 
     const result = await renderMediaOnLambda({
       codec: "h264",
@@ -55,8 +57,9 @@ const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
         type: "download",
         fileName: "video.mp4",
       },
+      logLevel: "verbose",
     });
-    console.log("renderMediaONLambda result", result);
+    console.log("6. renderMediaONLambda result", result);
     return result;
   }
 );

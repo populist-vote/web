@@ -25,7 +25,8 @@ const HeaderInner: React.FC<HeaderInnerProps> = ({ headerProps }) => {
         </div>
         <div className={styles.bottomContainer}>
           <h3>
-            {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
+            {state || "U.S."} -{" "}
+            {billNumber ? splitAtDigitAndJoin(billNumber) : ""}
           </h3>
           <h2>{title}</h2>
         </div>

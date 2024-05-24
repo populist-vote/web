@@ -16,6 +16,7 @@ export const RenderControls: React.FC<{
   inputProps: z.infer<typeof CompositionProps>;
 }> = ({ text, setText, inputProps }) => {
   const { renderMedia, state, undo } = useRendering(COMP_NAME, inputProps);
+  // console.log("2. RenderControls inputProps:", inputProps);
 
   return (
     <InputContainer>

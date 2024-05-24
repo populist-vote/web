@@ -34,7 +34,7 @@ const player: React.CSSProperties = {
 };
 
 const CreateVideoPage: NextPage = () => {
-  const [text, setText] = useState<string>(defaultMyCompProps.title);
+  const [text, setText] = useState<string>(defaultMyCompProps.billResult.title);
 
   const router = useRouter();
   const { slug } = router.query;
@@ -61,13 +61,19 @@ const CreateVideoPage: NextPage = () => {
     sponsors
   );
 
+  // const description = billResult?.description ?? "";
+
   const inputProps = {
-    billResult: billResult || {},
+    // billResult: billResult || {},
     summaryScenesCount: summaryScenesCount,
-    summary: summary,
-    title: billResult?.title || "Default Title",
-    billTitle: billResult?.billTitle || "Default Bill Title",
+    summary: summary ?? "",
+    // fullTextUrl: billResult.fullTextUrl ?? undefined, // Ensure fullTextUrl is string or undefined
+
+    // title: billResult?.title || "Default Title",
+    // billTitle: billResult?.billTitle || "Default Bill Title",
   };
+
+  console.log("1. create-video inputProps:", inputProps);
 
   return (
     <div>
