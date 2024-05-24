@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { z, ZodType } from "zod";
 
 export type ApiResponse<Res> =
   | {
@@ -12,17 +11,16 @@ export type ApiResponse<Res> =
     };
 
 export const executeApi =
-  <Res, Req extends ZodType>(
-    schema: Req,
+  <Res, Req>(
     handler: (
       req: NextApiRequest,
-      body: z.infer<Req>,
+      body: Req,
       res: NextApiResponse<ApiResponse<Res>>
     ) => Promise<Res>
   ) =>
   async (req: NextApiRequest, res: NextApiResponse<ApiResponse<Res>>) => {
     try {
-      const parsed = schema.parse(req.body);
+      const parsed = req.body as Req;
       const data = await handler(req, parsed, res);
       res.status(200).json({
         type: "success",

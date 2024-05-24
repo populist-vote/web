@@ -1,9 +1,8 @@
-import { z } from "zod";
 import type { RenderMediaOnLambdaOutput } from "@remotion/lambda/client";
 import {
+  RenderRequest,
   ProgressRequest,
   ProgressResponse,
-  RenderRequest,
 } from "../types/schema";
 import { CompositionProps } from "../types/constants";
 import { ApiResponse } from "../helpers/api-response";
@@ -32,16 +31,13 @@ export const renderVideo = async ({
   inputProps,
 }: {
   id: string;
-  inputProps: z.infer<typeof CompositionProps>;
+  inputProps: CompositionProps;
 }) => {
-  const body: z.infer<typeof RenderRequest> = {
+  const body: RenderRequest = {
     id,
     inputProps,
   };
 
-  // console.log("renderVideo inputProps:", JSON.stringify(inputProps, null, 2));
-  // console.log("renderVideo body:", JSON.stringify(body, null, 2));
-  // console.log("4a. renderVideo inputProps:", inputProps);
   console.log("4. renderVideo body:", body);
   return makeRequest<RenderMediaOnLambdaOutput>("/api/lambda/render", body);
 };
@@ -53,7 +49,7 @@ export const getProgress = async ({
   id: string;
   bucketName: string;
 }) => {
-  const body: z.infer<typeof ProgressRequest> = {
+  const body: ProgressRequest = {
     id,
     bucketName,
   };

@@ -5,10 +5,9 @@ import {
 } from "@remotion/lambda/client";
 import { DISK, RAM, REGION, TIMEOUT } from "../../../config.mjs";
 import { executeApi } from "../../../helpers/api-response";
-import { ProgressRequest, ProgressResponse } from "../../../types/schema";
+import type { ProgressRequest, ProgressResponse } from "../../../types/schema"; // Import as type
 
-const progress = executeApi<ProgressResponse, typeof ProgressRequest>(
-  ProgressRequest,
+const progress = executeApi<ProgressResponse, ProgressRequest>(
   async (req, body) => {
     if (req.method !== "POST") {
       throw new Error("Only POST requests are allowed");

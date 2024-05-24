@@ -5,21 +5,16 @@ import {
 } from "@remotion/lambda/client";
 import { DISK, RAM, REGION, SITE_NAME, TIMEOUT } from "../../../config.mjs";
 import { executeApi } from "../../../helpers/api-response";
-import { RenderRequest } from "../../../types/schema";
-// import util from "util";
+import type { RenderRequest } from "../../../types/schema"; // Import as type
 
-const render = executeApi<RenderMediaOnLambdaOutput, typeof RenderRequest>(
-  RenderRequest,
+// Removed the import of RenderRequest as a value since it's used as a type
+const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
   async (req, body) => {
     console.log(
       "5. before rendermediaonlambda body: ",
       JSON.stringify(body, null, 2)
     );
 
-    // console.log(
-    //   "5. before rendermediaonlambda body: ",
-    //   util.inspect(body, { showHidden: false, depth: null, colors: true })
-    // );
     if (req.method !== "POST") {
       throw new Error("Only POST requests are allowed");
     }

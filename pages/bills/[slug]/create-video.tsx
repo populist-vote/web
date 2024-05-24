@@ -64,7 +64,7 @@ const CreateVideoPage: NextPage = () => {
   // const description = billResult?.description ?? "";
 
   const inputProps = {
-    // billResult: billResult || {},
+    billResult: billResult || {},
     summaryScenesCount: summaryScenesCount,
     summary: summary ?? "",
     // fullTextUrl: billResult.fullTextUrl ?? undefined, // Ensure fullTextUrl is string or undefined
