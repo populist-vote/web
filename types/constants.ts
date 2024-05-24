@@ -1,4 +1,9 @@
-import { BillResult } from "generated";
+import {
+  BillResult,
+  PoliticalScope,
+  ElectionScope,
+  BillStatus,
+} from "generated";
 
 export const COMP_NAME = "LegislationVideo";
 
@@ -22,27 +27,14 @@ export const defaultMyCompProps: CompositionProps = {
     description: "Default Description",
     fullTextUrl:
       "https://www.revisor.mn.gov/bills/bill.php?b=House&f=HF0917&ssn=0&y=2023",
-    legiscanData: {
-      votes: [
-        {
-          yea: 70,
-          absent: 0,
-          nay: 57,
-          total: 127,
-          date: "2023-04-19",
-          chamber: "H",
-          desc: "House: Passage, as amended",
-          chamberId: 0,
-          nv: 0,
-          passed: 0,
-          rollCallId: 0,
-          stateLink: "hi",
-          url: "null",
-        },
-      ],
-    },
-    legiscanCommitteeName: "Hello",
+    history: {}, // Assuming history is a JSON object, provide a default value
     issueTags: [],
+    politicalScope: "NATIONAL" as unknown as PoliticalScope, // Adjusting to valid PoliticalScope value
+    publicVotes: {
+      support: 0,
+      neutral: 0,
+      oppose: 0,
+    },
     sponsors: [
       {
         id: "55e96d90-d741-4244-9405-7c901bb1828a",
@@ -61,24 +53,46 @@ export const defaultMyCompProps: CompositionProps = {
         currentOffice: {
           id: "9bf3d35d-32e4-441a-9d47-992e0dcf7832",
           officeType: null,
-          state: "CA",
+          state: null, // Adjusting to valid Maybe<State> value
           district: "60B",
-          electionScope: "STATE",
+          electionScope: "STATE" as unknown as ElectionScope, // Adjusting to valid ElectionScope value
         },
       },
     ],
+    status: "PROPOSED" as unknown as BillStatus, // Adjusting to valid BillStatus value
+    updatedAt: "2023-01-01T00:00:00Z", // Default DateTime value
+    arguments: [],
     session: {
       name: "2023 Regular Session",
       startDate: "2023-01-03",
       endDate: "2024-05-20",
+      congressName: "118th Congress", // Added missing properties with default values
+      description: "Regular session for the year 2023-2024",
     },
-    publicVotes: {
-      support: null,
-      neutral: null,
-      oppose: null,
+    legiscanData: {
+      votes: [
+        {
+          yea: 70,
+          absent: 0,
+          nay: 57,
+          total: 127,
+          date: "2023-04-19",
+          chamber: "H",
+          desc: "House: Passage, as amended",
+          chamberId: 0,
+          nv: 0,
+          passed: 0,
+          rollCallId: 0, // Changed to a valid number
+          stateLink: "hi",
+          url: "null",
+        },
+      ],
+      // Added missing properties with default values
+      amendments: [],
+      billId: 5,
+      billNumber: "defaultBillNumber",
+      billType: "defaultBillType",
     },
-    usersVote: null,
-    arguments: [],
   },
   summaryScenesCount: 3,
   summary: "Default Summary",

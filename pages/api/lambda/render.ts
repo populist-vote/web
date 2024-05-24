@@ -5,9 +5,8 @@ import {
 } from "@remotion/lambda/client";
 import { DISK, RAM, REGION, SITE_NAME, TIMEOUT } from "../../../config.mjs";
 import { executeApi } from "../../../helpers/api-response";
-import type { RenderRequest } from "../../../types/schema"; // Import as type
+import type { RenderRequest } from "../../../types/schema";
 
-// Removed the import of RenderRequest as a value since it's used as a type
 const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
   async (req, body) => {
     console.log(
