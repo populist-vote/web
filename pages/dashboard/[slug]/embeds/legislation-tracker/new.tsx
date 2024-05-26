@@ -54,7 +54,6 @@ function NewLegislationEmbed() {
           id: embedId as string,
           name: "Legislation Tracker Embed",
           embedType: EmbedType.LegislationTracker,
-          populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
           attributes: {
             billIds: selectedBills.map((b) => b.id),

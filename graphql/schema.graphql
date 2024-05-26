@@ -341,6 +341,18 @@ type Candidate {
   suffix: String!
 }
 
+type CandidateGuideResult {
+  createdAt: DateTime!
+  embeds: [EmbedResult!]!
+  id: ID!
+  name: String
+  organization: OrganizationResult!
+  organizationId: ID!
+  questions: [QuestionResult!]!
+  races: [RaceResult!]!
+  updatedAt: DateTime!
+}
+
 enum Chamber {
   ASSEMBLY
   HOUSE
@@ -539,6 +551,7 @@ type EmbedResult {
   attributes: JSON!
   bill: BillResult
   bills: [BillResult!]
+  candidateGuide: CandidateGuideResult
   createdAt: DateTime!
   createdBy: UserResult!
   createdById: ID!
@@ -550,7 +563,6 @@ type EmbedResult {
   origins: [EmbedOriginResult!]!
   politician: PoliticianResult
   poll: PollResult
-  populistUrl: String!
   question: QuestionResult
   race: RaceResult
   updatedAt: DateTime!
@@ -687,6 +699,7 @@ type Mutation {
   deleteArgument(id: String!): DeleteArgumentResult!
   deleteBallotMeasure(id: String!): DeleteBallotMeasureResult!
   deleteBill(id: String!): DeleteBillResult!
+  deleteCandidateGuide(id: String!): Boolean!
   deleteElection(id: String!): DeleteElectionResult!
   deleteEmbed(id: UUID!): DeleteEmbedResult!
   deleteIssueTag(id: String!): DeleteIssueTagResult!
@@ -700,10 +713,12 @@ type Mutation {
   deleteVotingGuide(id: ID!): DeleteVotingGuideResult!
   deleteVotingGuideCandidateNote(candidateId: ID!, votingGuideId: ID!): VotingGuideCandidateResult!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
+  generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!): String!
   insertPolitician(input: InsertPoliticianInput!): PoliticianResult!
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
   pingEmbedOrigin(input: PingEmbedOriginInput!): EmbedOriginResult!
+  removeCandidateGuideRace(candidateGuideId: ID!, raceId: ID!): Boolean!
   removePoliticianOffice(id: ID!): Boolean!
   requestPasswordReset(email: String!): Boolean!
   resetPassword(input: ResetPasswordInput!): Boolean!
@@ -719,6 +734,7 @@ type Mutation {
   upsertBallotMeasure(electionId: UUID!, input: UpsertBallotMeasureInput!): BallotMeasureResult!
   upsertBill(input: UpsertBillInput!): BillResult!
   upsertBillPublicVote(billId: ID!, position: ArgumentPosition): UpsertBillPublicVoteResult!
+  upsertCandidateGuide(input: UpsertCandidateGuideInput!): CandidateGuideResult!
   upsertElection(input: UpsertElectionInput!): ElectionResult!
   upsertEmbed(input: UpsertEmbedInput!): EmbedResult!
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
@@ -1082,6 +1098,8 @@ type Query {
   billYears: [Int!]!
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
   billsByIds(ids: [ID!]!): [BillResult!]!
+  candidateGuideById(id: ID!): CandidateGuideResult!
+  candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
   """
   Provides current user based on JWT found in client's access_token cookie
   """
@@ -1126,8 +1144,10 @@ type Query {
   ): OrganizationResultConnection!
   politicalParties: [PoliticalParty!]!
   politicianById(id: ID!): PoliticianResult
+  politicianByIntakeToken(token: String!): PoliticianResult
   politicianBySlug(slug: String!): PoliticianResult
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
+  questionById(id: ID!): QuestionResult!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(after: String, before: String, filter: RaceFilter, first: Int, last: Int): RaceResultConnection!
@@ -1166,8 +1186,10 @@ type QuestionResult {
 }
 
 type QuestionSubmissionResult {
+  candidateId: ID
   createdAt: DateTime!
   id: ID!
+  politician: PoliticianResult
   respondent: RespondentResult
   respondentId: ID
   response: String!
@@ -1194,6 +1216,7 @@ type RaceResult {
   candidates: [PoliticianResult!]!
   description: String
   earlyVotingBeginsDate: NaiveDate
+  election: ElectionResult!
   electionDate: NaiveDate
   electionId: ID
   id: ID!
@@ -1611,6 +1634,14 @@ type UpsertBillPublicVoteResult {
   publicVotes: PublicVotes!
 }
 
+input UpsertCandidateGuideInput {
+  id: UUID
+  name: String
+  organizationId: UUID
+  raceIds: [UUID!]
+  userId: UUID
+}
+
 input UpsertElectionInput {
   description: String
   """Must use format YYYY-MM-DD"""
@@ -1629,7 +1660,6 @@ input UpsertEmbedInput {
   id: UUID
   name: String
   organizationId: UUID
-  populistUrl: String
 }
 
 input UpsertIssueTagInput {
@@ -1707,6 +1737,7 @@ input UpsertPollSubmissionInput {
 
 input UpsertQuestionInput {
   allowAnonymousResponses: Boolean
+  candidateGuideId: UUID
   embedId: UUID
   id: UUID
   name: String
@@ -1716,6 +1747,7 @@ input UpsertQuestionInput {
 }
 
 input UpsertQuestionSubmissionInput {
+  candidateId: UUID
   id: UUID
   questionId: UUID!
   respondentId: UUID

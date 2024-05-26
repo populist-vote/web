@@ -48,7 +48,6 @@ function NewRaceEmbed() {
           id: embedId as string,
           name: "Race Embed",
           embedType: EmbedType.Race,
-          populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
           attributes: {
             raceId: selected as string,

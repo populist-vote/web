@@ -140,7 +140,6 @@ export function PollEmbedForm({
               input: {
                 id: embed?.id as string,
                 name: "Poll Embed",
-                populistUrl: "https://populist.us",
                 embedType: EmbedType.Poll,
                 organizationId: user?.organizationId as string,
                 attributes: {

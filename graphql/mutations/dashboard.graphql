@@ -6,7 +6,6 @@ mutation UpsertEmbed($input: UpsertEmbedInput!) {
     attributes
     createdAt
     updatedAt
-    populistUrl
   }
 }
 
@@ -27,8 +26,14 @@ mutation UpsertQuestion($input: UpsertQuestionInput!) {
   }
 }
 
-mutation UpsertQuestionSubmission($respondentInput: UpsertRespondentInput, $questionSubmissionInput: UpsertQuestionSubmissionInput!) {
-  upsertQuestionSubmission(respondentInput: $respondentInput, questionSubmissionInput: $questionSubmissionInput) {
+mutation UpsertQuestionSubmission(
+  $respondentInput: UpsertRespondentInput
+  $questionSubmissionInput: UpsertQuestionSubmissionInput!
+) {
+  upsertQuestionSubmission(
+    respondentInput: $respondentInput
+    questionSubmissionInput: $questionSubmissionInput
+  ) {
     id
     response
     respondent {
@@ -49,8 +54,14 @@ mutation UpsertPoll($input: UpsertPollInput!) {
   }
 }
 
-mutation UpsertPollSubmission($respondentInput: UpsertRespondentInput, $pollSubmissionInput: UpsertPollSubmissionInput!) {
-  upsertPollSubmission(respondentInput: $respondentInput, pollSubmissionInput: $pollSubmissionInput) {
+mutation UpsertPollSubmission(
+  $respondentInput: UpsertRespondentInput
+  $pollSubmissionInput: UpsertPollSubmissionInput!
+) {
+  upsertPollSubmission(
+    respondentInput: $respondentInput
+    pollSubmissionInput: $pollSubmissionInput
+  ) {
     id
     option {
       optionText

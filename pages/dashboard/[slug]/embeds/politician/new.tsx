@@ -47,7 +47,6 @@ function NewPoliticianEmbed() {
           id: embedId as string,
           name: "Politician Embed",
           embedType: EmbedType.Politician,
-          populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
           attributes: {
             politicianId: selected as string,

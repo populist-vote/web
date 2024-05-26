@@ -138,7 +138,6 @@ export function QuestionEmbedForm({
               input: {
                 id: embed?.id as string,
                 name: "Question Embed",
-                populistUrl: "https://populist.us",
                 embedType: EmbedType.Question,
                 organizationId: user?.organizationId as string,
                 attributes: {

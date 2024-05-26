@@ -44,7 +44,6 @@ function NewLegislationEmbed() {
           id: embedId as string,
           name: "Legislation Embed",
           embedType: EmbedType.Legislation,
-          populistUrl: "https://populist.us",
           organizationId: user?.organizationId as string,
           attributes: {
             billId: selected as string,

@@ -131,7 +131,6 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           name: data.name,
           description: data.description,
           id: embed?.id,
-          populistUrl: `${window.location.origin}/embed/${embed?.id}`,
           organizationId: user?.organizationId as string,
           embedType: embed?.embedType,
           attributes: {
