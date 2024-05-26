@@ -21,7 +21,7 @@ export function CandidateGuideEmbed({
   candidateGuideId: string;
   origin: string;
 }) {
-  const { data, isLoading } = useCandidateGuideByIdQuery({
+  const { data: _data, isLoading } = useCandidateGuideByIdQuery({
     id: candidateGuideId,
   });
 
@@ -30,7 +30,7 @@ export function CandidateGuideEmbed({
   });
 
   const race = embedData?.embedById.race;
-  const election = race.election;
+  const election = race?.election;
 
   useEmbedResizer({ origin, embedId });
   if (isLoading) return <LoaderFlag />;
@@ -40,7 +40,7 @@ export function CandidateGuideEmbed({
       <header className={styles.header}>
         <strong>Candidate Guide</strong>
         <strong>
-          {getYear(election.electionDate)} - {election.name}
+          {getYear(election?.electionDate)} - {election?.title}
         </strong>
       </header>
       <main>

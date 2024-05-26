@@ -175,8 +175,8 @@ fragment EmbedFields on EmbedResult {
     }
     state
     election {
-      date
-      name
+      electionDate
+      title
     }
   }
   candidateGuide {
