@@ -1,14 +1,17 @@
-import { Layout } from "components";
+import { EmbedIndex, Layout } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useMemo } from "react";
 import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import { ColumnDef } from "@tanstack/react-table";
-import { EmbedResult, useCandidateGuidesByOrganizationQuery } from "generated";
+import {
+  CandidateGuideResult,
+  EmbedType,
+  useCandidateGuidesByOrganizationQuery,
+} from "generated";
 import { getRelativeTimeString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
-import { Table } from "components/Table/Table";
 import { useRouter } from "next/router";
 
 export async function getServerSideProps({
@@ -37,7 +40,7 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
     organizationId: user?.organizationId as string,
   });
 
-  const candidateGuideColumns = useMemo<ColumnDef<EmbedResult>[]>(
+  const candidateGuideColumns = useMemo<ColumnDef<CandidateGuideResult>[]>(
     () => [
       {
         accessorKey: "name",
@@ -62,17 +65,30 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
   const guides = data?.candidateGuidesByOrganization || [];
 
   return (
-    <Table
+    <EmbedIndex
       // @ts-expect-error React table types are difficult to work with
       columns={candidateGuideColumns}
-      data={guides}
+      // @ts-expect-error React table types are difficult to work with
+      embeds={guides}
+      embedType={EmbedType.CandidateGuide}
+      title="Candidate Guides"
       isLoading={isLoading}
       emptyStateMessage="No candidate guides found."
       onRowClick={(row) =>
         router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
       }
-      initialState={{}}
     />
+    // <Table
+    //   // @ts-expect-error React table types are difficult to work with
+    //   columns={candidateGuideColumns}
+    //   data={guides}
+    //   isLoading={isLoading}
+    //   emptyStateMessage="No candidate guides found."
+    //   onRowClick={(row) =>
+    //     router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
+    //   }
+    //   initialState={{}}
+    // />
   );
 }
 

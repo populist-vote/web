@@ -19,6 +19,7 @@ function EmbedIndex({
   embedType,
   embeds,
   columns,
+  onRowClick,
 }: {
   isLoading: boolean;
   slug: string;
@@ -26,6 +27,7 @@ function EmbedIndex({
   embedType: EmbedType;
   embeds: EmbedResult[];
   columns: ColumnDef<EmbedResult>[];
+  onRowClick?: (row: Row<EmbedResult>) => void;
 }) {
   const router = useRouter();
   const { theme } = useTheme();
@@ -33,7 +35,7 @@ function EmbedIndex({
 
   const [searchValue, setSearchValue] = useState(search);
 
-  const onRowClick = (row: Row<EmbedResult>) =>
+  const handleRowClick = (row: Row<EmbedResult>) =>
     router.push(
       `/dashboard/${slug}/embeds/${embedType.toLowerCase().replace("_", "-")}/${
         row.original.id
@@ -171,7 +173,7 @@ function EmbedIndex({
             data={embeds || []}
             columns={columns}
             initialState={{}}
-            onRowClick={onRowClick}
+            onRowClick={onRowClick ? onRowClick : handleRowClick}
             theme={theme}
             useSearchQueryAsFilter={true}
           />

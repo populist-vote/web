@@ -139,11 +139,9 @@ function Table<T extends object>({
         },
       });
     } else {
+      const { selectedRows: _, ...queryWithoutSelectedRows } = router.query;
       void router.push({
-        query: {
-          ...router.query,
-          selectedRows: undefined,
-        },
+        query: queryWithoutSelectedRows,
       });
     }
   }, [table.getSelectedRowModel().rows]);

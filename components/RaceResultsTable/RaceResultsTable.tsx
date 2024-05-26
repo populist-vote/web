@@ -1,5 +1,4 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Table } from "components/Table/Table";
 import { RaceResult, State, useRaceIndexQuery } from "generated";
 import useDebounce from "hooks/useDebounce";
@@ -48,7 +47,7 @@ export function RaceResultsTable({
     search as string,
     350
   );
-  const { data, isLoading } = useRaceIndexQuery(
+  const { data } = useRaceIndexQuery(
     {
       pageSize: 50,
       filter: {
@@ -111,7 +110,7 @@ export function RaceResultsTable({
         header: "Type",
         cell: (info) => {
           const raceType = info.getValue() as string;
-          const party = info.row.getValue("party") as string;
+          const party = (info.row.getValue("party") as { name: string }).name;
           return titleCase(`${raceType} ${party ? "- " + party : ""}`);
         },
       },
@@ -140,20 +139,6 @@ export function RaceResultsTable({
       );
     }
   };
-
-  if (isLoading)
-    return (
-      <div
-        style={{
-          width: "100%",
-          minWidth: "796px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <LoaderFlag />;
-      </div>
-    );
 
   return (
     <>

@@ -38,6 +38,7 @@ import { QuestionForm } from "components/QuestionForm/QuestionForm";
 import { useForm } from "react-hook-form";
 import { RaceResultsTable } from "components/RaceResultsTable/RaceResultsTable";
 import { PoliticalScopeFilters } from "components/PoliticianFilters/PoliticianFilters";
+import { confirmDialog } from "utils/messages";
 
 export async function getServerSideProps({
   query,
@@ -318,15 +319,13 @@ function RacesSection({
         },
       },
       {
-        onSuccess: () => {
-          queryClient
-            .invalidateQueries({
-              queryKey: useCandidateGuideByIdQuery.getKey({
-                id: candidateGuide.id,
-              }),
-            })
-            .catch((e) => console.error(e))
-            .finally(() => closeModal());
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: useCandidateGuideByIdQuery.getKey({
+              id: candidateGuide.id,
+            }),
+          });
+          closeModal();
         },
       }
     );
@@ -451,15 +450,16 @@ function CandidateGuideEmbedTable({
                 variant="secondary"
                 size="small"
                 label="Delete"
-                onClick={(e) => {
+                onClick={async (e) => {
                   e?.stopPropagation();
-                  void window.confirm(
+                  await confirmDialog(
                     "Are you sure you want to remove this race from this guide?"
-                  ) &&
+                  ).then(() =>
                     handleRemoveRace(
                       info.row.original.id,
                       info.row.original.race?.id as string
-                    );
+                    )
+                  );
                 }}
               />
             </div>
