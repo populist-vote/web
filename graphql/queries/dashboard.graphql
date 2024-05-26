@@ -107,7 +107,12 @@ fragment EmbedFields on EmbedResult {
   }
   createdAt
   updatedAt
-
+  bills {
+    ...EmbedBillFields
+  }
+  bill {
+    ...EmbedBillFields
+  }
   politician {
     fullName
   }
