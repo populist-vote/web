@@ -1,7 +1,16 @@
-import { Player } from "@remotion/player";
-import type { NextPage } from "next";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import type { NextPage } from "next";
+import { Player } from "@remotion/player";
+import { useBillBySlugQuery } from "generated";
+import type { BillResult, PoliticianResult } from "generated";
+
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
+import { calculateScenes } from "../../../utils/calculateScenes";
+import { RenderControls } from "../../../components/Video/RenderControls";
+import { Spacing } from "../../../components/Video/Spacing";
+
 import {
   defaultMyCompProps,
   VIDEO_FPS,
@@ -10,16 +19,6 @@ import {
   SCENE_LENGTH_IN_FRAMES,
   SUMMARY_SCENE_LENGTH_IN_FRAMES,
 } from "types/constants";
-import type { BillResult, PoliticianResult } from "generated";
-import { useBillBySlugQuery } from "generated";
-import { calculateScenes } from "../../../utils/calculateScenes";
-
-import React, { useState } from "react";
-
-import Link from "next/link";
-
-import { RenderControls } from "../../../components/Video/RenderControls";
-import { Spacing } from "../../../components/Video/Spacing";
 
 const container: React.CSSProperties = {
   maxWidth: 768,
@@ -73,7 +72,7 @@ const CreateVideoPage: NextPage = () => {
     // billTitle: billResult?.billTitle || "Default Bill Title",
   };
 
-  console.log("1. create-video inputProps:", inputProps);
+  // console.log("1. create-video inputProps:", inputProps);
 
   return (
     <div>
