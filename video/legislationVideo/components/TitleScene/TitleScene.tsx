@@ -27,7 +27,6 @@ const TitleScene: React.FC<TitleSceneProps> = ({
   startDate,
   endDate,
 }) => {
-  console.log("TitleScene billNumber", billNumber);
   const issueTagNames = issueTags.map((tag) => tag.name);
   const formattedState = state ? splitAtDigitAndJoin(state) : "U.S.";
   const formattedBillNumber = billNumber
