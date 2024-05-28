@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import type { NextPage } from "next";
@@ -12,7 +12,6 @@ import { RenderControls } from "../../../components/Video/RenderControls";
 import { Spacing } from "../../../components/Video/Spacing";
 
 import {
-  defaultMyCompProps,
   VIDEO_FPS,
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
@@ -33,8 +32,6 @@ const player: React.CSSProperties = {
 };
 
 const CreateVideoPage: NextPage = () => {
-  const [text, setText] = useState<string>(defaultMyCompProps.billResult.title);
-
   const router = useRouter();
   const { slug } = router.query;
   const { data, isLoading, error } = useBillBySlugQuery({
@@ -72,7 +69,7 @@ const CreateVideoPage: NextPage = () => {
     // billTitle: billResult?.billTitle || "Default Bill Title",
   };
 
-  // console.log("1. create-video inputProps:", inputProps);
+  console.log("1. create-video inputProps:", inputProps);
 
   return (
     <div>
@@ -167,11 +164,7 @@ const CreateVideoPage: NextPage = () => {
           autoPlay
           loop
         />
-        <RenderControls
-          text={text}
-          setText={setText}
-          inputProps={inputProps}
-        ></RenderControls>
+        <RenderControls inputProps={inputProps}></RenderControls>
         <Spacing></Spacing>
         <Spacing></Spacing>
         <Spacing></Spacing>

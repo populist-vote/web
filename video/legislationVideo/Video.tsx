@@ -21,10 +21,11 @@ export const LegislationVideo = ({
   summaryScenesCount,
   summary,
 }: {
-  billResult: BillResult;
+  billResult: BillResult | null;
   summaryScenesCount: number;
   summary: string | null;
 }) => {
+  if (!billResult) return null;
   const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
     billResult;
 

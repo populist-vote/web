@@ -5,15 +5,12 @@ import { Button } from "./Button/Button";
 import { InputContainer } from "./Container";
 import { DownloadButton } from "./DownloadButton";
 import { ErrorComp } from "./Error";
-import { Input } from "./Input";
 import { ProgressBar } from "./ProgressBar";
 import { Spacing } from "./Spacing";
 
 export const RenderControls: React.FC<{
-  text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
   inputProps: CompositionProps;
-}> = ({ text, setText, inputProps }) => {
+}> = ({ inputProps }) => {
   const { renderMedia, state, undo } = useRendering(COMP_NAME, inputProps);
   // console.log("2. RenderControls inputProps:", inputProps);
 
@@ -23,11 +20,6 @@ export const RenderControls: React.FC<{
       state.status === "invoking" ||
       state.status === "error" ? (
         <>
-          <Input
-            disabled={state.status === "invoking"}
-            setText={setText}
-            text={text}
-          />
           <Spacing />
           <AlignEnd>
             <Button
