@@ -57,16 +57,10 @@ const CreateVideoPage: NextPage = () => {
     sponsors
   );
 
-  // const description = billResult?.description ?? "";
-
   const inputProps = {
     billResult: billResult || {},
     summaryScenesCount: summaryScenesCount,
     summary: summary ?? "",
-    // fullTextUrl: billResult.fullTextUrl ?? undefined, // Ensure fullTextUrl is string or undefined
-
-    // title: billResult?.title || "Default Title",
-    // billTitle: billResult?.billTitle || "Default Bill Title",
   };
 
   console.log("1. create-video inputProps:", inputProps);
