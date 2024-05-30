@@ -15,11 +15,15 @@
 
 import type { BillResult, PoliticianResult } from "generated";
 
-export function calculateScenes(
-  summary: string | null,
-  billResult: BillResult["legiscanData"],
-  sponsors: PoliticianResult[]
-) {
+export function calculateScenes(billResult: BillResult) {
+  const summary =
+    billResult?.populistSummary ||
+    billResult?.description ||
+    billResult?.officialSummary ||
+    null;
+
+  const sponsors = billResult?.sponsors as PoliticianResult[];
+
   let totalInnerScenes = 0;
   let summaryScenes = 0;
 
@@ -45,7 +49,11 @@ export function calculateScenes(
     totalInnerScenes += summaryScenes;
   }
 
-  if (billResult?.votes && billResult.votes.length > 0) totalInnerScenes += 1;
+  if (
+    billResult?.legiscanData?.votes &&
+    billResult.legiscanData?.votes.length > 0
+  )
+    totalInnerScenes += 1;
   if (sponsors && sponsors.length > 0) totalInnerScenes += 1;
 
   return {

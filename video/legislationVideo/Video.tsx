@@ -19,11 +19,9 @@ import styles from "./LegislationVideo.module.scss";
 export const LegislationVideo = ({
   billResult,
   summaryScenesCount,
-  summary,
 }: {
   billResult: BillResult | null;
   summaryScenesCount: number;
-  summary: string | null;
 }) => {
   if (!billResult) return null;
   const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
@@ -36,6 +34,12 @@ export const LegislationVideo = ({
     session: billResult.session,
     status: status,
   };
+
+  const summary =
+    billResult?.populistSummary ||
+    billResult?.description ||
+    billResult?.officialSummary ||
+    null;
 
   return (
     <AbsoluteFill style={{ backgroundColor: "var(--black)" }}>

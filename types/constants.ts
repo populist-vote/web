@@ -5,14 +5,11 @@ export const COMP_NAME = "LegislationVideo";
 export type CompositionProps = {
   billResult: BillResult | null;
   summaryScenesCount: number;
-  summary: string;
 };
 
 export const defaultMyCompProps: CompositionProps = {
   billResult: null,
   summaryScenesCount: 3,
-  summary:
-    "This bill in Minnesota expands housing protections by prohibiting discrimination based on various factors and banning landlords from requiring pet declawing or devocalization. It also mandates disclosure of all nonoptional fees in lease agreements, implements inspections to prevent security deposit disputes, and provides public housing tenants facing eviction with a right to court-appointed counsel. Additionally, the bill amends statutes concerning lease covenants, tenant removal processes, emergency relief petitions, and eviction procedures, with an effective date of January 1, 2024, for these provisions.",
 };
 
 export const DURATION_IN_FRAMES = 200;

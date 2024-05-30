@@ -2,7 +2,6 @@ import { Composition } from "remotion";
 import { LegislationVideo } from "./Video";
 import "../../styles/main.scss";
 
-//todo: calculate durationInFrames, maybe use calculateMetaData.
 import {
   defaultMyCompProps,
   VIDEO_WIDTH,

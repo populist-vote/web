@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import { Player } from "@remotion/player";
 import { useBillBySlugQuery } from "generated";
-import type { BillResult, PoliticianResult } from "generated";
+import type { BillResult } from "generated";
 
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
 import { calculateScenes } from "../../../utils/calculateScenes";
@@ -43,27 +43,14 @@ const CreateVideoPage: NextPage = () => {
   if (!data?.billBySlug) return null;
 
   const billResult = data.billBySlug as BillResult;
-  const sponsors = billResult?.sponsors as PoliticianResult[];
 
-  const summary =
-    billResult?.populistSummary ||
-    billResult?.description ||
-    billResult?.officialSummary ||
-    null;
-
-  const { totalInnerScenesCount, summaryScenesCount } = calculateScenes(
-    summary,
-    billResult.legiscanData,
-    sponsors
-  );
+  const { totalInnerScenesCount, summaryScenesCount } =
+    calculateScenes(billResult);
 
   const inputProps = {
     billResult: billResult || {},
     summaryScenesCount: summaryScenesCount,
-    summary: summary ?? "",
   };
-
-  console.log("1. create-video inputProps:", inputProps);
 
   return (
     <div>
@@ -143,7 +130,6 @@ const CreateVideoPage: NextPage = () => {
           inputProps={{
             billResult: billResult,
             summaryScenesCount: summaryScenesCount,
-            summary: summary,
           }}
           durationInFrames={
             (totalInnerScenesCount - summaryScenesCount + 2) *
