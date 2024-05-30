@@ -7,6 +7,7 @@ import TitleScene from "./components/TitleScene/TitleScene";
 import SummaryScene from "./components/SummaryScene/SummaryScene";
 import WipeOut from "./components/WipeBackground/WipeOut";
 import WipeIn from "./components/WipeBackground/WipeIn";
+import { calculateScenes } from "../../utils/calculateScenes";
 
 import {
   SCENE_LENGTH_IN_FRAMES,
@@ -18,12 +19,12 @@ import styles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
   billResult,
-  summaryScenesCount,
 }: {
   billResult: BillResult | null;
-  summaryScenesCount: number;
 }) => {
   if (!billResult) return null;
+
+  const { summaryScenesCount } = calculateScenes(billResult);
   const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
     billResult;
 

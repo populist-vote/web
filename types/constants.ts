@@ -4,12 +4,10 @@ export const COMP_NAME = "LegislationVideo";
 
 export type CompositionProps = {
   billResult: BillResult | null;
-  summaryScenesCount: number;
 };
 
 export const defaultMyCompProps: CompositionProps = {
   billResult: null,
-  summaryScenesCount: 3,
 };
 
 export const DURATION_IN_FRAMES = 200;

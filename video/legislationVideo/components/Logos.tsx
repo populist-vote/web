@@ -9,7 +9,6 @@ const Logos = () => {
   return (
     <section className={styles.endTitle}>
       <div>
-        logo
         <Image height={346} width={826} src={MPRLogo} alt="MPR Logo" />
       </div>
       <Animated

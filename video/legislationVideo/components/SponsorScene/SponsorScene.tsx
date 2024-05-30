@@ -61,7 +61,6 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                   delay={20 + index * avatarStaggerAmount}
                   style={{ opacity: 0 }}
                 >
-                  partyavatar
                   <PartyAvatar
                     theme={"dark"}
                     isEndorsement={false}
@@ -89,7 +88,6 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                   delay={initialGroupDelay + 20 + index * avatarStaggerAmount} // Delay these animations to start after the initial group finishes
                   style={{ opacity: 0 }}
                 >
-                  partyavatar
                   <PartyAvatar
                     theme={"dark"}
                     isEndorsement={false}

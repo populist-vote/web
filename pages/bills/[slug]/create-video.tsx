@@ -49,7 +49,6 @@ const CreateVideoPage: NextPage = () => {
 
   const inputProps = {
     billResult: billResult || {},
-    summaryScenesCount: summaryScenesCount,
   };
 
   return (
