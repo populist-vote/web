@@ -13,12 +13,13 @@ import { RenderControls } from "../../../components/Video/RenderControls";
 import { calculateScenes } from "../../../utils/calculateScenes";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
 
-import { Layout } from "components";
+import { Layout, Button } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { BsChevronLeft } from "react-icons/bs";
 
 import { SupportedLocale } from "types/global";
-import styles from "../BillBySlug.module.scss";
+import billBySlugStyles from "../BillBySlug.module.scss";
+import styles from "./CreateVideo.module.scss";
 
 import {
   SCENE_LENGTH_IN_FRAMES,
@@ -27,18 +28,6 @@ import {
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
 } from "types/constants";
-
-const container: React.CSSProperties = {
-  maxWidth: 768,
-  margin: "auto",
-  marginBottom: 20,
-  padding: 10,
-  backgroundColor: "var(--blue-darker)",
-};
-
-const player: React.CSSProperties = {
-  width: "50%",
-};
 
 interface Params extends NextParsedUrlQuery {
   slug: string;
@@ -111,13 +100,13 @@ const CreateVideoPage: NextPage = ({
   return (
     <>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
-        <nav className={styles.pageHeader}>
-          <button className={styles.backLink} onClick={backAction}>
+        <nav className={billBySlugStyles.pageHeader}>
+          <button className={billBySlugStyles.backLink} onClick={backAction}>
             <BsChevronLeft size={"1.875rem"} />{" "}
             <span>{billResult.billNumber}</span>
           </button>
         </nav>
-        <div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <h1>Generate Video Content</h1>
 
           <p>
@@ -128,30 +117,44 @@ const CreateVideoPage: NextPage = ({
             link.
           </p>
 
-          <div style={container}>
-            <Player
-              component={LegislationVideo}
-              inputProps={{
-                billResult: billResult,
-              }}
-              durationInFrames={
-                (totalInnerScenesCount - summaryScenesCount + 2) *
-                  SCENE_LENGTH_IN_FRAMES +
-                summaryScenesCount * SUMMARY_SCENE_LENGTH_IN_FRAMES // Calculates total frames based on the number of innerScenes, summaryScenes, and their respective lengths
-              }
-              fps={VIDEO_FPS}
-              compositionHeight={VIDEO_HEIGHT}
-              compositionWidth={VIDEO_WIDTH}
-              style={player}
-              controls
-              autoPlay
-              loop
-            />
-            <RenderControls inputProps={inputProps}></RenderControls>
+          <div className={styles.videoAndControlsContainer}>
+            <div>
+              <h3>Preview</h3>
+              <div className={styles.playerContainer}>
+                <Player
+                  component={LegislationVideo}
+                  inputProps={{
+                    billResult: billResult,
+                  }}
+                  durationInFrames={
+                    (totalInnerScenesCount - summaryScenesCount + 2) *
+                      SCENE_LENGTH_IN_FRAMES +
+                    summaryScenesCount * SUMMARY_SCENE_LENGTH_IN_FRAMES // Calculates total frames based on the number of innerScenes, summaryScenes, and their respective lengths
+                  }
+                  fps={VIDEO_FPS}
+                  compositionHeight={VIDEO_HEIGHT}
+                  compositionWidth={VIDEO_WIDTH}
+                  controls
+                  autoPlay
+                  loop
+                  // className={styles.player}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
+            </div>
+            <div>
+              <h3>Options</h3>
+              <div>
+                <Button variant="primary" size="large" label="Update Address" />
+                <RenderControls inputProps={inputProps}></RenderControls>
+              </div>
+            </div>
           </div>
         </div>
       </Layout>
-      <footer className={styles.supportOpposeMobileContainer}></footer>
+      <footer
+        className={billBySlugStyles.supportOpposeMobileContainer}
+      ></footer>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
-import { Spacing } from "../Spacing";
 import { Spinner } from "../Spinner/Spinner";
-import styles from "./styles.module.css";
+// import styles from "./styles.module.css";
+import styles from "../../Button/Button.module.scss";
 
 const ButtonForward: React.ForwardRefRenderFunction<
   HTMLButtonElement,
@@ -26,7 +26,6 @@ const ButtonForward: React.ForwardRefRenderFunction<
       {loading && (
         <>
           <Spinner size={20}></Spinner>
-          <Spacing></Spacing>
         </>
       )}
       {children}

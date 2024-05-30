@@ -1,0 +1,25 @@
+@import "styles/variables/fonts";
+@import "styles/variables/colors";
+@import "styles/modules/page.module.scss";
+@import "styles/layout/containers";
+@import "styles/mixins/media";
+@import "styles/mixins/utils";
+
+.videoAndControlsContainer {
+  h3 {
+    font-weight: $weight-semibold;
+  }
+
+  display: flex;
+  align-items: flex-start;
+
+  > div {
+    flex: 1;
+  }
+
+  .playerContainer {
+    padding: 1rem;
+    height: 640px;
+    background-color: $blue-darker;
+  }
+}
