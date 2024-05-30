@@ -18,7 +18,6 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@react-spring/web": "^9.7.3",
     "@remotion/cli": "4.0.141",
     "@remotion/paths": "4.0.141",
     "@remotion/player": "4.0.141",
