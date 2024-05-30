@@ -16,6 +16,7 @@ import { useState } from "react";
 import { BiChevronLeft } from "react-icons/bi";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import clsx from "clsx";
+import { animated } from "@react-spring/web";
 
 export function CandidateGuideEmbed({
   embedId,
@@ -62,7 +63,10 @@ export function CandidateGuideEmbed({
   if (isLoading) return <LoaderFlag />;
 
   return (
-    <div className={styles.widgetContainer} style={{ maxWidth: "900px" }}>
+    <div
+      className={styles.widgetContainer}
+      style={{ width: "720px", height: "auto" }}
+    >
       <header className={styles.header}>
         <strong>Candidate Guide</strong>
         <strong>
@@ -97,7 +101,7 @@ export function CandidateGuideEmbed({
             </div>
           </>
         ) : (
-          <>
+          <animated.div>
             <div className={styles.flexBetween}>
               <div>
                 <h4>Question</h4>
@@ -142,7 +146,7 @@ export function CandidateGuideEmbed({
                 </>
               ))}
             </div>
-          </>
+          </animated.div>
         )}
       </main>
       <WidgetFooter />

@@ -17,7 +17,7 @@ import nextI18nextConfig from "next-i18next.config";
 import { ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
 import { IssueTagsTableCell } from "components/IssueTags/IssueTagsTableCell";
-import styles from "../../../../../../components/Dashboard/Dashboard.module.scss";
+import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
 
 export async function getServerSideProps({
   query,
@@ -156,7 +156,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
           </h2>
         </Box>
       </section>
-      <section className={styles.container}>
+      <section className={styles.section}>
         <h3>Questions</h3>
         <Table
           // @ts-expect-error react-table
@@ -168,7 +168,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
           paginate={false}
         />
       </section>
-      <section className={styles.container}>
+      <section className={styles.section}>
         <h3>Responses</h3>
         {submissions?.length === 0 ? (
           <Box>

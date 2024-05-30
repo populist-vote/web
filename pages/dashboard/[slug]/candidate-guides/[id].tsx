@@ -39,6 +39,7 @@ import { useForm } from "react-hook-form";
 import { RaceResultsTable } from "components/RaceResultsTable/RaceResultsTable";
 import { PoliticalScopeFilters } from "components/PoliticianFilters/PoliticianFilters";
 import { confirmDialog } from "utils/messages";
+import { toast } from "react-toastify";
 
 export async function getServerSideProps({
   query,
@@ -194,7 +195,7 @@ function QuestionsSection({
                     .push(
                       `/dashboard/${slug}/candidate-guides/${candidateGuide.id}?isModalOpen=true&questionId=${info.row.original.id}`
                     )
-                    .catch((e) => console.error(e))
+                    .catch((e) => toast.error(e))
                     .finally(() => setIsModalOpen(true));
                 }}
               />
@@ -214,7 +215,7 @@ function QuestionsSection({
         },
       },
     ],
-    [handleDeleteQuestion, candidateGuide.id, router]
+    [handleDeleteQuestion, candidateGuide.id, router, slug]
   );
 
   const [isModalOpen, setIsModalOpen] = useState(
@@ -418,19 +419,22 @@ function CandidateGuideEmbedTable({
   const removeRace = useRemoveCandidateGuideRaceMutation();
   const deleteEmbed = useDeleteEmbedMutation();
 
-  const handleRemoveRace = async (embedId: string, raceId: string) => {
-    await removeRace
-      .mutateAsync({
-        candidateGuideId: candidateGuideId,
-        raceId,
-      })
-      .then(() => {
-        deleteEmbed.mutate({ id: embedId });
+  const handleRemoveRace = useCallback(
+    async (embedId: string, raceId: string) => {
+      await removeRace
+        .mutateAsync({
+          candidateGuideId: candidateGuideId,
+          raceId,
+        })
+        .then(() => {
+          deleteEmbed.mutate({ id: embedId });
+        });
+      void queryClient.invalidateQueries({
+        queryKey: useCandidateGuideByIdQuery.getKey({ id: candidateGuideId }),
       });
-    void queryClient.invalidateQueries({
-      queryKey: useCandidateGuideByIdQuery.getKey({ id: candidateGuideId }),
-    });
-  };
+    },
+    [candidateGuideId, deleteEmbed, queryClient, removeRace]
+  );
 
   const handleRowClick = (row: Row<EmbedResult>) =>
     void router.push(`/dashboard/${slug}/embeds/candidate-guide/${row.id}`);
@@ -468,7 +472,7 @@ function CandidateGuideEmbedTable({
         },
       },
     ],
-    []
+    [handleRemoveRace]
   );
 
   return (

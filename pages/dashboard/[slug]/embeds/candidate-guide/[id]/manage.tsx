@@ -21,7 +21,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
 import { FaCopy } from "react-icons/fa";
 import { toast } from "react-toastify";
-import styles from "../../../../../../components/Dashboard/Dashboard.module.scss";
+import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
 import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { EmbedDeployments } from "components/EmbedPage/EmbedPage";
 
@@ -146,7 +146,7 @@ export default function CandidateGuideEmbedPage() {
         embedType={EmbedType.CandidateGuide}
         selectedTab="Manage"
       />
-      <section>
+      <section className={styles.section}>
         <h3>Preview</h3>
         <Box width="fit-content">
           <CandidateGuideEmbed
@@ -156,7 +156,7 @@ export default function CandidateGuideEmbedPage() {
           />
         </Box>
       </section>
-      <section className={styles.container}>
+      <section className={styles.section}>
         <div className={styles.flexBetween}>
           <h3>Candidates</h3>
           <div className={styles.flexBetween}>
@@ -172,11 +172,11 @@ export default function CandidateGuideEmbedPage() {
           paginate={false}
         />
       </section>
-      <section className={styles.container}>
+      <section className={styles.section}>
         <h3>Embed Code</h3>
         <EmbedCodeBlock id={id as string} />
       </section>
-      <section className={styles.container}>
+      <section className={styles.section}>
         <EmbedDeployments embed={data?.embedById as EmbedResult} />
       </section>
     </>
