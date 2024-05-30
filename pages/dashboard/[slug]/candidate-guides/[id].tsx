@@ -71,6 +71,7 @@ export default function CandidateGuideManagePage() {
     <>
       <EmbedHeader
         title={candidateGuide?.name || "Untitled"}
+        backLink={`/dashboard/${slug}/embeds/candidate-guide`}
         embedType={EmbedType.CandidateGuide}
       />
       <div className={styles.sections}>

@@ -74,9 +74,7 @@
 }
 
 .flexBetween {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex-between(1rem);
 }
 
 .flexLeft {

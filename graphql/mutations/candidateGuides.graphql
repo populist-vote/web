@@ -1,0 +1,9 @@
+mutation GenerateCandidateGuideIntakeLink(
+  $candidateGuideId: ID!
+  $politicianId: ID!
+) {
+  generateIntakeTokenLink(
+    candidateGuideId: $candidateGuideId
+    politicianId: $politicianId
+  )
+}

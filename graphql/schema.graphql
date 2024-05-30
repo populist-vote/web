@@ -1176,12 +1176,14 @@ type QuestionResult {
   commonWords: [CommonWordsResult!]!
   createdAt: DateTime!
   id: ID!
+  issueTags: [IssueTagResult!]!
   prompt: String!
   responseCharLimit: Int
   responsePlaceholderText: String
   sentimentCounts: [SentimentCountResult!]!
   submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [QuestionSubmissionResult!]!
+  submissionsByRace(raceId: ID!): [QuestionSubmissionResult!]!
   updatedAt: DateTime!
 }
 

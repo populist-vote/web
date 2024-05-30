@@ -30,3 +30,30 @@
     font-size: 1rem;
   }
 }
+
+.questionButton {
+  text-align: left;
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid $grey-light;
+  background-color: $grey-lighter;
+  cursor: pointer;
+}
+
+.questionContainer {
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: column;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}

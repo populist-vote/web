@@ -77,7 +77,7 @@ type TableProps<T extends object> = {
 function Table<T extends object>({
   data,
   columns,
-  initialState,
+  initialState = {},
   metaRight,
   theme = "yellow",
   onRowClick,
@@ -122,7 +122,7 @@ function Table<T extends object>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
-    getRowId: (row) => row?.id,
+    getRowId: (row) => row.id,
     debugTable: true,
     debugHeaders: true,
     debugColumns: false,

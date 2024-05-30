@@ -30,6 +30,39 @@ query EmbedById($id: ID!) {
   }
 }
 
+query CandidateGuideEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedBasics
+    candidateGuide {
+      ...CandidateGuideFields
+    }
+  }
+}
+
+query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
+  candidateGuideById(id: $candidateGuideId) {
+    questions {
+      id
+      prompt
+      submissionsByRace(raceId: $raceId) {
+        id
+        response
+        sentiment
+        createdAt
+        updatedAt
+        politician {
+          id
+          slug
+          fullName
+          party {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+
 fragment EmbedBillFields on BillResult {
   id
   slug
@@ -68,30 +101,26 @@ fragment CandidateGuideFields on CandidateGuideResult {
     responseCharLimit
     responsePlaceholderText
     allowAnonymousResponses
-    submissions {
-      id
-      response
-      sentiment
-      createdAt
-      updatedAt
-      respondent {
-        name
-        email
-      }
-    }
-    submissionCountByDate {
-      date
-      count
-    }
-    commonWords {
-      word
-      count
-    }
-    sentimentCounts {
-      sentiment
-      count
+    issueTags {
+      slug
+      name
     }
   }
+}
+
+fragment EmbedBasics on EmbedResult {
+  id
+  name
+  description
+  embedType
+  attributes
+  organizationId
+  origins {
+    url
+    lastPingAt
+  }
+  createdAt
+  updatedAt
 }
 
 fragment EmbedFields on EmbedResult {
@@ -174,6 +203,7 @@ fragment EmbedFields on EmbedResult {
     }
   }
   race {
+    id
     title
     office {
       name
@@ -207,6 +237,10 @@ query QuestionById($id: ID!) {
     responseCharLimit
     responsePlaceholderText
     allowAnonymousResponses
+    issueTags {
+      slug
+      name
+    }
     submissions {
       id
       response

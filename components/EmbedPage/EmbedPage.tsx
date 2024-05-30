@@ -126,19 +126,7 @@ function EmbedPage({
         <h3>Embed Code</h3>
         <EmbedCodeBlock id={id} />
       </div>
-      <div className={styles.deployments}>
-        <h3>Deployments</h3>
-        <Box>
-          {embed.origins.length == 0 && (
-            <small className={styles.noResults}>No deployments</small>
-          )}
-          {embed.origins.map(({ url }) => (
-            <a href={url} key={url} className={styles.flexLeft}>
-              {url} <FaExternalLinkSquareAlt />
-            </a>
-          ))}
-        </Box>
-      </div>
+      <EmbedDeployments embed={embed} />
       <div className={styles.dangerZone}>
         <h3>Danger Zone</h3>
         <DeleteEmbedButton id={id} embedType={embedType} />
@@ -148,6 +136,24 @@ function EmbedPage({
 }
 
 export { EmbedPage };
+
+export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
+  return (
+    <div className={styles.deployments}>
+      <h3>Deployments</h3>
+      <Box>
+        {embed.origins.length == 0 && (
+          <small className={styles.noResults}>No deployments</small>
+        )}
+        {embed.origins.map(({ url }) => (
+          <a href={url} key={url} className={styles.flexLeft}>
+            {url} <FaExternalLinkSquareAlt />
+          </a>
+        ))}
+      </Box>
+    </div>
+  );
+}
 
 export function DeleteEmbedButton({
   id,

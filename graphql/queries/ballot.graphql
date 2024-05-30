@@ -35,6 +35,7 @@ fragment raceFields on RaceResult {
     id
     slug
     fullName
+    email
     party {
       name
     }
