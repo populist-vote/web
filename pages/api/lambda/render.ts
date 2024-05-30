@@ -46,6 +46,7 @@ const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
       region: REGION as AwsRegion,
       serveUrl: SITE_NAME,
       composition: body.id,
+      outName: videoTitle,
       inputProps: body.inputProps,
       framesPerLambda: undefined,
       downloadBehavior: {
