@@ -40,8 +40,6 @@ export const useRendering = (id: string, inputProps: CompositionProps) => {
   });
 
   const renderMedia = useCallback(async () => {
-    console.log("3. useRendering inputProps", inputProps);
-
     setState({
       status: "invoking",
     });
