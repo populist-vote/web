@@ -30,6 +30,12 @@ const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
       );
     }
 
+    if (!body.inputProps.billResult) {
+      throw new Error("billResult is null or undefined");
+    }
+
+    const videoTitle = body.inputProps.billResult.slug + ".mp4";
+
     const result = await renderMediaOnLambda({
       codec: "h264",
       functionName: speculateFunctionName({
@@ -44,7 +50,7 @@ const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
       framesPerLambda: undefined,
       downloadBehavior: {
         type: "download",
-        fileName: "video.mp4",
+        fileName: videoTitle,
       },
     });
     return result;
