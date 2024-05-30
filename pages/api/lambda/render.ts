@@ -9,11 +9,6 @@ import type { RenderRequest } from "../../../types/schema";
 
 const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
   async (req, body) => {
-    console.log(
-      "5. before rendermediaonlambda body: ",
-      JSON.stringify(body, null, 2)
-    );
-
     if (req.method !== "POST") {
       throw new Error("Only POST requests are allowed");
     }
@@ -51,9 +46,7 @@ const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
         type: "download",
         fileName: "video.mp4",
       },
-      logLevel: "verbose",
     });
-    console.log("6. renderMediaONLambda result", result);
     return result;
   }
 );
