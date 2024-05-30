@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 import { BillWidget } from "components/BillWidget/BillWidget";
+import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
@@ -54,6 +55,7 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
   const billIds = data?.embedById?.attributes?.billIds;
   const politicianId = data?.embedById?.attributes?.politicianId;
   const raceId = data?.embedById?.attributes?.raceId;
+  const candidateGuideId = data?.embedById?.attributes?.candidateGuideId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
 
   useEffect(() => {
@@ -110,6 +112,14 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
       return <QuestionWidget embedId={embedId} origin={resolvedOrigin} />;
     case EmbedType.Poll:
       return <PollWidget embedId={embedId} origin={resolvedOrigin} />;
+    case EmbedType.CandidateGuide:
+      return (
+        <CandidateGuideEmbed
+          embedId={embedId}
+          origin={resolvedOrigin}
+          candidateGuideId={candidateGuideId}
+        />
+      );
     default:
       return <div>This embed type has not been implemented yet.</div>;
   }
