@@ -25,14 +25,23 @@ export const LegislationVideo = ({
   if (!billResult) return null;
 
   const { summaryScenesCount } = calculateScenes(billResult);
-  const { populistTitle, title, issueTags, legiscanData, sponsors, status } =
-    billResult;
+  const {
+    populistTitle,
+    title,
+    issueTags,
+    legiscanData,
+    sponsors,
+    status,
+    billNumber,
+    state,
+    session,
+  } = billResult;
 
   const headerInnerProps = {
     title: populistTitle ?? title,
-    billNumber: billResult.billNumber,
-    state: billResult.state,
-    session: billResult.session,
+    billNumber: billNumber,
+    state: state,
+    session: session,
     status: status,
   };
 
