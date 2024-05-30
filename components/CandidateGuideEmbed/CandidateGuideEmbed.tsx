@@ -3,6 +3,7 @@ import styles from "./CandidateGuideEmbed.module.scss";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import Divider from "components/Divider/Divider";
 import {
+  PoliticalParty,
   State,
   useCandidateGuideSubmissionsByRaceIdQuery,
   useEmbedByIdQuery,
@@ -13,6 +14,8 @@ import { getYear } from "utils/dates";
 import { LanguageSelect } from "components/LanguageSelect/LanguageSelect";
 import { useState } from "react";
 import { BiChevronLeft } from "react-icons/bi";
+import { PartyAvatar } from "components/Avatar/Avatar";
+import clsx from "clsx";
 
 export function CandidateGuideEmbed({
   embedId,
@@ -109,12 +112,34 @@ export function CandidateGuideEmbed({
                 <BiChevronLeft /> Back
               </button>
             </div>
-            <div>
-              {submissions.map((s) => (
-                <div key={s.id} className={styles.submission}>
-                  <h4>{s.politician?.fullName}</h4>
-                  <p>{s.response}</p>
-                </div>
+            <div className={styles.submissionsContainer}>
+              {submissions.map((s, i) => (
+                <>
+                  <div key={s.id} className={styles.submission}>
+                    <div className={styles.avatarContainer}>
+                      <PartyAvatar
+                        theme={"light"}
+                        size={80}
+                        hasIconMenu
+                        iconSize="1.25rem"
+                        party={s.politician?.party as PoliticalParty}
+                        src={s.politician?.assets?.thumbnailImage160 as string}
+                        alt={s.politician?.fullName as string}
+                        target={"_blank"}
+                        rel={"noopener noreferrer"}
+                      />
+                      <span className={clsx(styles.link, styles.avatarName)}>
+                        {s.politician?.fullName}
+                      </span>
+                    </div>
+                    <div>
+                      <p>{s.response}</p>
+                    </div>
+                  </div>
+                  {i !== submissions.length - 1 && (
+                    <Divider color="var(--grey-light)" />
+                  )}
+                </>
               ))}
             </div>
           </>

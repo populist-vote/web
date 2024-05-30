@@ -68,7 +68,7 @@ type TableProps<T extends object> = {
   metaRight?: React.ReactNode;
   theme?: TableTheme;
   onRowClick?: (row: Row<T>) => void;
-  selectedRowId?: string;
+  selectedRowId?: string | null;
   globalFilter?: string;
   useSearchQueryAsFilter?: boolean;
   paginate?: boolean;

@@ -1,6 +1,6 @@
-import { Box, Layout } from "components";
+import { Box, Layout, LoaderFlag } from "components";
 import { useRouter } from "next/router";
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import {
@@ -17,6 +17,7 @@ import nextI18nextConfig from "next-i18next.config";
 import { ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
 import { IssueTagsTableCell } from "components/IssueTags/IssueTagsTableCell";
+import styles from "../../../../../../components/Dashboard/Dashboard.module.scss";
 
 export async function getServerSideProps({
   query,
@@ -40,29 +41,39 @@ export async function getServerSideProps({
 export default function CandidateGuideEmbedPageSubmissions() {
   const router = useRouter();
   const { slug, id } = router.query;
-  const { data } = useEmbedByIdQuery({
+  const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery({
     id: id as string,
   });
   const title = data?.embedById.race?.title as string;
   const embed = data?.embedById;
   const candidateGuide = embed?.candidateGuide;
   const questions = candidateGuide?.questions;
-  // need to query for submissions by raceId
 
-  const { data: submissionsData } = useCandidateGuideSubmissionsByRaceIdQuery(
-    {
-      candidateGuideId: candidateGuide?.id as string,
-      raceId: embed?.race?.id as string,
-    },
-    {
-      enabled: !!(candidateGuide?.id && embed?.race?.id),
-    }
+  const { data: submissionsData, isLoading: isSubmissionsDataLoading } =
+    useCandidateGuideSubmissionsByRaceIdQuery(
+      {
+        candidateGuideId: candidateGuide?.id as string,
+        raceId: embed?.race?.id as string,
+      },
+      {
+        enabled: !!(candidateGuide?.id && embed?.race?.id),
+      }
+    );
+
+  const [selectedQuestion, setSelectedQuestion] = useState<string | null>(
+    router.query.selected as string
   );
-  const submissions = submissionsData?.candidateGuideById.questions?.find(
-    (question) => question.id === router.query.selected
-  )?.submissionsByRace;
+
+  const submissions = useMemo(() => {
+    return (
+      submissionsData?.candidateGuideById.questions?.find(
+        (question) => question.id === selectedQuestion
+      )?.submissionsByRace || []
+    );
+  }, [selectedQuestion, submissionsData]);
 
   const handleSelectedQuestion = (questionId: string) => {
+    setSelectedQuestion(questionId);
     void router.push(
       `/dashboard/${router.query.slug}/embeds/candidate-guide/${id}/submissions?selected=${questionId}`
     );
@@ -106,6 +117,20 @@ export default function CandidateGuideEmbedPageSubmissions() {
     []
   );
 
+  // Count the number of unique candidates that have submitted
+  const numSubmissions = submissionsData?.candidateGuideById.questions
+    ?.flatMap((question) => question.submissionsByRace)
+    .filter((submission, index, self) => {
+      return (
+        self.findIndex(
+          (s) => s.politician?.id === submission.politician?.id
+        ) === index
+      );
+    }).length;
+  const numCandidates = embed?.race?.candidates.length;
+
+  if (isEmbedLoading || isSubmissionsDataLoading) return <LoaderFlag />;
+
   return (
     <>
       <EmbedHeader
@@ -120,33 +145,46 @@ export default function CandidateGuideEmbedPageSubmissions() {
       <section>
         <Box>
           <h2>
-            4
+            {numSubmissions}
             <span style={{ color: "var(--blue-text)", margin: "0 1rem" }}>
               /
             </span>
-            5 <span style={{ fontSize: "0.75em" }}>submissions</span>
+            {numCandidates}{" "}
+            <span style={{ fontSize: "0.75em" }}>
+              candidates have submitted
+            </span>
           </h2>
         </Box>
       </section>
-      <section>
+      <section className={styles.container}>
         <h3>Questions</h3>
         <Table
-          // @ts-ignore
+          // @ts-expect-error react-table
           columns={questionColumns}
           data={questions || []}
           initialState={{}}
           onRowClick={(row) => handleSelectedQuestion(row.original.id)}
-          selectedRowId={router.query.selected as string}
+          selectedRowId={selectedQuestion}
+          paginate={false}
         />
       </section>
-      <section>
+      <section className={styles.container}>
         <h3>Responses</h3>
-        <Table
-          // @ts-ignore
-          columns={submissionsColumns}
-          data={submissions || []}
-          initialState={{}}
-        />
+        {submissions?.length === 0 ? (
+          <Box>
+            <span className={styles.noResults}>
+              {!selectedQuestion ? "Select a question" : "No responses"}
+            </span>
+          </Box>
+        ) : (
+          <Table
+            // @ts-expect-error react-table
+            columns={submissionsColumns}
+            data={submissions}
+            initialState={{}}
+            paginate={false}
+          />
+        )}
       </section>
     </>
   );

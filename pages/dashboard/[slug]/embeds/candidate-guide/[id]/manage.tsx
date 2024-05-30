@@ -1,12 +1,13 @@
 import { Box, Button, Layout, LoaderFlag } from "components";
 import { useRouter } from "next/router";
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import {
   EmbedResult,
   EmbedType,
   PoliticianResult,
+  useCandidateGuideSubmissionsByRaceIdQuery,
   useEmbedByIdQuery,
   useGenerateCandidateGuideIntakeLinkMutation,
   useRaceByIdQuery,
@@ -49,28 +50,59 @@ export default function CandidateGuideEmbedPage() {
   const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery({
     id: id as string,
   });
+
+  const candidateGuide = data?.embedById?.candidateGuide;
+  const raceId = data?.embedById?.race?.id as string;
   const { data: raceData, isLoading: isRaceLoading } = useRaceByIdQuery({
-    id: data?.embedById?.race?.id as string,
+    id: raceId,
   });
+
+  const { data: submissionsData } = useCandidateGuideSubmissionsByRaceIdQuery(
+    {
+      candidateGuideId: candidateGuide?.id as string,
+      raceId: raceId,
+    },
+    {
+      enabled: !!(candidateGuide?.id && raceId),
+    }
+  );
+
+  const allSubmissions = submissionsData?.candidateGuideById.questions?.flatMap(
+    (question) => question.submissionsByRace
+  );
+
   const candidates = raceData?.raceById?.candidates || [];
   const title = data?.embedById.race?.title as string;
   const candidateGuideId = data?.embedById.candidateGuide?.id as string;
   const intakeLinkMutation = useGenerateCandidateGuideIntakeLinkMutation();
 
-  const handleCopyIntakeLink = (politicianId: string) => {
-    intakeLinkMutation.mutate(
-      {
-        candidateGuideId,
-        politicianId,
-      },
-      {
-        onSuccess: (data) => {
-          void navigator.clipboard.writeText(data.generateIntakeTokenLink);
-          toast.success("Copied to clipboard!");
+  const handleCopyIntakeLink = useCallback(
+    (politicianId: string, candidateGuideId: string) => {
+      intakeLinkMutation.mutate(
+        {
+          candidateGuideId,
+          politicianId,
         },
-      }
-    );
-  };
+        {
+          onSuccess: (data) => {
+            void navigator.clipboard.writeText(data.generateIntakeTokenLink);
+            toast.success("Copied to clipboard!");
+          },
+        }
+      );
+    },
+    [intakeLinkMutation]
+  );
+
+  const candidateRespondedAt = useCallback(
+    (politicianId: string) => {
+      const createdAt = allSubmissions?.find(
+        (s) => s.politician?.id === politicianId
+      )?.createdAt;
+      return createdAt ? new Date(createdAt).toLocaleDateString() : "No";
+    },
+    [allSubmissions]
+  );
 
   const candidateColumns = useMemo<ColumnDef<PoliticianResult>[]>(
     () => [
@@ -87,20 +119,22 @@ export default function CandidateGuideEmbedPage() {
         accessorKey: "id",
         cell: (row) => (
           <FaCopy
-            onClick={() => handleCopyIntakeLink(row.getValue() as string)}
+            onClick={() =>
+              handleCopyIntakeLink(row.getValue() as string, candidateGuideId)
+            }
           />
         ),
       },
-      {
-        header: "Last Emailed",
-        accessorKey: "lastEmailedAt",
-      },
+      // {
+      //   header: "Last Emailed",
+      //   accessorKey: "lastEmailedAt",
+      // },
       {
         header: "Responded",
-        accessorKey: "respondedAt",
+        cell: (info) => candidateRespondedAt(info.row.original.id as string),
       },
     ],
-    []
+    [candidateRespondedAt, candidateGuideId, handleCopyIntakeLink]
   );
 
   if (isEmbedLoading || isRaceLoading) return <LoaderFlag />;
@@ -114,7 +148,7 @@ export default function CandidateGuideEmbedPage() {
       />
       <section>
         <h3>Preview</h3>
-        <Box>
+        <Box width="fit-content">
           <CandidateGuideEmbed
             embedId={id as string}
             candidateGuideId={candidateGuideId}
@@ -132,7 +166,7 @@ export default function CandidateGuideEmbedPage() {
         </div>
         <Table
           data={candidates}
-          // @ts-ignore
+          // @ts-expect-error react-table
           columns={candidateColumns}
           initialState={{}}
           paginate={false}

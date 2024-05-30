@@ -11,6 +11,7 @@
   background-color: $grey-light;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid $grey;
+  min-width: 600px;
 
   strong {
     text-transform: uppercase;
@@ -56,4 +57,18 @@
   text-transform: uppercase;
   border: none;
   cursor: pointer;
+}
+
+.submissionsContainer {
+  margin-top: 2rem;
+}
+
+.submission {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 1.5rem;
+
+  p {
+    font-size: $text-xl;
+  }
 }

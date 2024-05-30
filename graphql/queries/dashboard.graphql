@@ -57,6 +57,9 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
           party {
             name
           }
+          assets {
+            thumbnailImage160
+          }
         }
       }
     }
@@ -212,6 +215,9 @@ fragment EmbedFields on EmbedResult {
     election {
       electionDate
       title
+    }
+    candidates {
+      id
     }
   }
   candidateGuide {
