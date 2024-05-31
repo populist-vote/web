@@ -128,7 +128,7 @@ const CreateVideoPage: NextPage = ({
   const { totalInnerScenesCount, summaryScenesCount } = calculateScenes(
     inputProps?.billResult
   );
-  console.log(JSON.stringify(inputProps, null, 2));
+
   return (
     <>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
