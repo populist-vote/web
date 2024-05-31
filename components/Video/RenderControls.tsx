@@ -1,13 +1,13 @@
 import { useRendering } from "../../helpers/use-rendering";
 import { CompositionProps, COMP_NAME } from "../../types/constants";
 import { DownloadButton } from "./DownloadButton/DownloadButton";
-import { ErrorComp } from "./Error";
+import { StatusText } from "./StatusText";
 import { ProgressBar } from "./ProgressBar";
 
 export const RenderControls: React.FC<{
   inputProps: CompositionProps;
 }> = ({ inputProps }) => {
-  const { renderMedia, state, undo } = useRendering(COMP_NAME, inputProps);
+  const { renderMedia, state } = useRendering(COMP_NAME, inputProps);
 
   return (
     <div>
@@ -23,18 +23,12 @@ export const RenderControls: React.FC<{
             Download Video
           </DownloadButton>
           {state.status === "error" && (
-            <ErrorComp message={state.error.message} />
+            <StatusText status="error" errorMessage={state.error.message} />
           )}
         </>
       )}
       {(state.status === "rendering" || state.status === "done") && (
         <>
-          <ProgressBar
-            progress={state.status === "rendering" ? state.progress : 1}
-          />
-          <DownloadButton secondary onClick={undo}>
-            Regenerate
-          </DownloadButton>
           <DownloadButton
             href={state.status === "done" ? state.url : undefined}
             state={state}
@@ -43,6 +37,10 @@ export const RenderControls: React.FC<{
           >
             Download Video
           </DownloadButton>
+          <ProgressBar
+            progress={state.status === "rendering" ? state.progress : 1}
+          />
+          {state.status === "rendering" && <StatusText status="rendering" />}
         </>
       )}
     </div>
