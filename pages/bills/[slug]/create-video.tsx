@@ -144,7 +144,22 @@ const CreateVideoPage: NextPage = ({
             </div>
             <div>
               <h3>Options</h3>
-              <div className={styles.playerContainer}>checkmarks</div>
+              <div className={styles.optionsContainer}>
+                <ul>
+                  <li>
+                    <input type="checkbox" />
+                    Summary
+                  </li>
+                  <li>
+                    <input type="checkbox" />
+                    Sponsors
+                  </li>
+                  <li>
+                    <input type="checkbox" />
+                    Last Votes
+                  </li>
+                </ul>
+              </div>
               <RenderControls inputProps={inputProps}></RenderControls>
             </div>
           </div>
