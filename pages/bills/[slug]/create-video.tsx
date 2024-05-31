@@ -112,7 +112,7 @@ const CreateVideoPage: NextPage = ({
           <p>
             Generate a 9:16 video perfect for sharing on TikTok, Instagram, and
             other social media platforms. Customize your video to suit your
-            needs and, when you're ready, click "Generate Video". After the
+            needs and, when you're ready, click "Download Video". After the
             video is processed, you can download it directly from the provided
             link.
           </p>
