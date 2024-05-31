@@ -2,7 +2,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import type { GetServerSideProps, NextPage } from "next";
 import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { useRouter } from "next/router";
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useMemo } from "react";
 
 import { Player } from "@remotion/player";
 import type { BillResult } from "generated";
@@ -72,6 +72,10 @@ const CreateVideoPage: NextPage = ({
     slug: slug as string,
   });
 
+  const [isSummaryChecked, setIsSummaryChecked] = useState(true);
+  const [isVotesChecked, setIsVotesChecked] = useState(true);
+  const [isSponsorsChecked, setIsSponsorsChecked] = useState(true);
+
   const backAction = useCallback(() => {
     const { referrer } = document;
     if (
@@ -84,19 +88,45 @@ const CreateVideoPage: NextPage = ({
     }
   }, [router]);
 
+  const billResult = data?.billBySlug as BillResult;
+
+  const inputProps = useMemo(() => {
+    return billResult
+      ? {
+          billResult: {
+            ...billResult,
+            populistSummary: isSummaryChecked
+              ? billResult.populistSummary
+              : null,
+            description: isSummaryChecked ? billResult.description : null,
+            officialSummary: isSummaryChecked
+              ? billResult.officialSummary
+              : null,
+            legiscanData: {
+              ...billResult.legiscanData,
+              votes:
+                isVotesChecked && billResult.legiscanData?.votes
+                  ? billResult.legiscanData.votes
+                  : null,
+            },
+            sponsors: isSponsorsChecked ? billResult.sponsors : [],
+          },
+        }
+      : null;
+  }, [billResult, isSummaryChecked, isVotesChecked, isSponsorsChecked]);
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
   if (!data?.billBySlug) return null;
 
-  const billResult = data.billBySlug as BillResult;
-
   const { totalInnerScenesCount, summaryScenesCount } =
     calculateScenes(billResult);
 
-  const inputProps = {
-    billResult: billResult || {},
-  };
+  if (!inputProps) {
+    return <div>Loading...</div>; // or handle the null case appropriately
+  }
 
+  console.log(JSON.stringify(inputProps, null, 2));
   return (
     <>
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
@@ -122,6 +152,7 @@ const CreateVideoPage: NextPage = ({
               <h3>Preview</h3>
               <div className={styles.playerContainer}>
                 <Player
+                  key={JSON.stringify(inputProps)}
                   component={LegislationVideo}
                   inputProps={{
                     billResult: billResult,
@@ -137,7 +168,6 @@ const CreateVideoPage: NextPage = ({
                   controls
                   autoPlay
                   loop
-                  // className={styles.player}
                   style={{ width: "100%", height: "100%" }}
                 />
               </div>
@@ -147,16 +177,40 @@ const CreateVideoPage: NextPage = ({
               <div className={styles.optionsContainer}>
                 <ul>
                   <li>
-                    <input type="checkbox" />
+                    <input
+                      type="checkbox"
+                      checked={isSummaryChecked}
+                      onChange={(e) => setIsSummaryChecked(e.target.checked)}
+                      disabled={
+                        !billResult.populistSummary &&
+                        !billResult.description &&
+                        !billResult.officialSummary
+                      }
+                    />
                     Summary
                   </li>
                   <li>
-                    <input type="checkbox" />
-                    Sponsors
+                    <input
+                      type="checkbox"
+                      checked={isVotesChecked}
+                      onChange={(e) => setIsVotesChecked(e.target.checked)}
+                      disabled={
+                        !billResult.legiscanData?.votes ||
+                        billResult.legiscanData.votes.length === 0
+                      }
+                    />
+                    Last Votes
                   </li>
                   <li>
-                    <input type="checkbox" />
-                    Last Votes
+                    <input
+                      type="checkbox"
+                      checked={isSponsorsChecked}
+                      onChange={(e) => setIsSponsorsChecked(e.target.checked)}
+                      disabled={
+                        !billResult.sponsors || billResult.sponsors.length === 0
+                      }
+                    />
+                    Sponsors
                   </li>
                 </ul>
               </div>
