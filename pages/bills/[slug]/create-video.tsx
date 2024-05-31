@@ -91,41 +91,43 @@ const CreateVideoPage: NextPage = ({
   const billResult = data?.billBySlug as BillResult;
 
   const inputProps = useMemo(() => {
-    return billResult
-      ? {
-          billResult: {
-            ...billResult,
-            populistSummary: isSummaryChecked
-              ? billResult.populistSummary
-              : null,
-            description: isSummaryChecked ? billResult.description : null,
-            officialSummary: isSummaryChecked
-              ? billResult.officialSummary
-              : null,
-            legiscanData: {
-              ...billResult.legiscanData,
-              votes:
-                isVotesChecked && billResult.legiscanData?.votes
-                  ? billResult.legiscanData.votes
-                  : null,
-            },
-            sponsors: isSponsorsChecked ? billResult.sponsors : [],
-          },
-        }
-      : null;
+    if (!billResult) return null;
+
+    const updatedBillResult: BillResult = { ...billResult };
+
+    if (!isSummaryChecked) {
+      updatedBillResult.populistSummary = undefined;
+      updatedBillResult.description = undefined;
+      updatedBillResult.officialSummary = undefined;
+    }
+
+    if (!isVotesChecked && updatedBillResult.legiscanData) {
+      updatedBillResult.legiscanData = {
+        ...updatedBillResult.legiscanData,
+        votes: [],
+      };
+    }
+
+    if (!isSponsorsChecked) {
+      updatedBillResult.sponsors = [];
+    }
+
+    return {
+      billResult: updatedBillResult,
+    };
   }, [billResult, isSummaryChecked, isVotesChecked, isSponsorsChecked]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
   if (!data?.billBySlug) return null;
 
-  const { totalInnerScenesCount, summaryScenesCount } =
-    calculateScenes(billResult);
-
   if (!inputProps) {
-    return <div>Loading...</div>; // or handle the null case appropriately
+    return <div>Loading...</div>;
   }
 
+  const { totalInnerScenesCount, summaryScenesCount } = calculateScenes(
+    inputProps?.billResult
+  );
   console.log(JSON.stringify(inputProps, null, 2));
   return (
     <>
@@ -152,11 +154,14 @@ const CreateVideoPage: NextPage = ({
               <h3>Preview</h3>
               <div className={styles.playerContainer}>
                 <Player
-                  key={JSON.stringify(inputProps)}
+                  key={JSON.stringify({
+                    billResult: inputProps.billResult,
+                    isSummaryChecked,
+                    isVotesChecked,
+                    isSponsorsChecked,
+                  })}
                   component={LegislationVideo}
-                  inputProps={{
-                    billResult: billResult,
-                  }}
+                  inputProps={inputProps}
                   durationInFrames={
                     (totalInnerScenesCount - summaryScenesCount + 2) *
                       SCENE_LENGTH_IN_FRAMES +
@@ -168,7 +173,11 @@ const CreateVideoPage: NextPage = ({
                   controls
                   autoPlay
                   loop
-                  style={{ width: "100%", height: "100%" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "#111",
+                  }}
                 />
               </div>
             </div>
