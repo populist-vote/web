@@ -8,7 +8,9 @@ export const StatusText: React.FC<{
     <div>
       {status === "rendering" && (
         <>
-          <span>Generating Video...</span>
+          <span style={{ color: "var(--blue-text-light", fontStyle: "italic" }}>
+            Generating Video...
+          </span>
         </>
       )}
       {status === "error" && (
