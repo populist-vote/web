@@ -13,7 +13,7 @@ import { RenderControls } from "../../../components/Video/RenderControls";
 import { calculateScenes } from "../../../utils/calculateScenes";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
 
-import { Layout, Button } from "components";
+import { Layout } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { BsChevronLeft } from "react-icons/bs";
 
@@ -144,8 +144,7 @@ const CreateVideoPage: NextPage = ({
             </div>
             <div>
               <h3>Options</h3>
-              <div>
-                <Button variant="primary" size="large" label="Update Address" />
+              <div className={styles.playerContainer}>
                 <RenderControls inputProps={inputProps}></RenderControls>
               </div>
             </div>

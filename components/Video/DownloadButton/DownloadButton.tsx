@@ -1,8 +1,21 @@
 import React, { forwardRef } from "react";
 import Link from "next/link";
+import clsx from "clsx";
 import { Spinner } from "../Spinner/Spinner";
-import styles from "./DownloadButton.module.scss";
+import styles from "../../Button/Button.module.scss";
 import { State } from "../../../helpers/use-rendering";
+
+type ButtonVariant = "primary" | "secondary" | "text" | "super";
+type ButtonSize = "small" | "medium" | "large" | "responsive";
+type ButtonTheme =
+  | "blue"
+  | "yellow"
+  | "red"
+  | "aqua"
+  | "grey"
+  | "orange"
+  | "violet"
+  | "green";
 
 const ButtonForward: React.ForwardRefRenderFunction<
   HTMLButtonElement,
@@ -15,9 +28,23 @@ const ButtonForward: React.ForwardRefRenderFunction<
     href?: string;
     state?: State;
     undo?: () => void;
+    variant?: ButtonVariant;
+    size?: ButtonSize;
+    theme?: ButtonTheme;
   }
 > = (
-  { onClick, disabled, children, loading, secondary, href, state, undo },
+  {
+    onClick,
+    disabled,
+    children,
+    loading,
+    href,
+    state,
+    undo,
+    variant = "primary",
+    size = "large",
+    theme = "blue",
+  },
   ref
 ) => {
   const isRendering = state?.status === "rendering";
@@ -40,12 +67,13 @@ const ButtonForward: React.ForwardRefRenderFunction<
     </>
   );
 
-  const buttonClassName = [
-    styles.button,
-    secondary ? styles.secondarybutton : undefined,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const buttonClassName = clsx(
+    styles.common,
+    theme && styles[theme],
+    variant && styles[variant],
+    size && styles[size],
+    isRendering && styles.loading
+  );
 
   const buttonProps = {
     ref,
