@@ -1,7 +1,6 @@
 import { useRendering } from "../../helpers/use-rendering";
 import { CompositionProps, COMP_NAME } from "../../types/constants";
 import { Button } from "./Button/Button";
-import { InputContainer } from "./Container";
 import { DownloadButton } from "./DownloadButton";
 import { ErrorComp } from "./Error";
 import { ProgressBar } from "./ProgressBar";
@@ -12,7 +11,7 @@ export const RenderControls: React.FC<{
   const { renderMedia, state, undo } = useRendering(COMP_NAME, inputProps);
 
   return (
-    <InputContainer>
+    <div>
       {state.status === "init" ||
       state.status === "invoking" ||
       state.status === "error" ? (
@@ -37,6 +36,6 @@ export const RenderControls: React.FC<{
           <DownloadButton undo={undo} state={state} />
         </>
       ) : null}
-    </InputContainer>
+    </div>
   );
 };
