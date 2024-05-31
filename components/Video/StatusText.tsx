@@ -15,7 +15,9 @@ export const StatusText: React.FC<{
       )}
       {status === "error" && (
         <>
-          <strong>Error:</strong> {errorMessage}
+          <span style={{ color: "var(--red", fontStyle: "italic" }}>
+            <strong>Error:</strong> {errorMessage}
+          </span>
         </>
       )}
     </div>
