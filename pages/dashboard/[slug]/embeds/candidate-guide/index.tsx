@@ -7,6 +7,7 @@ import { DashboardTopNav } from "../..";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   CandidateGuideResult,
+  EmbedResult,
   EmbedType,
   useCandidateGuidesByOrganizationQuery,
 } from "generated";
@@ -58,6 +59,11 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
         cell: (info) =>
           getRelativeTimeString(new Date(info.getValue() as string)),
       },
+      {
+        accessorKey: "embeds",
+        header: "Embeds",
+        cell: (info) => (info.getValue() as Array<EmbedResult>).length,
+      },
     ],
     []
   );
@@ -78,17 +84,6 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
         router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
       }
     />
-    // <Table
-    //   // @ts-expect-error React table types are difficult to work with
-    //   columns={candidateGuideColumns}
-    //   data={guides}
-    //   isLoading={isLoading}
-    //   emptyStateMessage="No candidate guides found."
-    //   onRowClick={(row) =>
-    //     router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
-    //   }
-    //   initialState={{}}
-    // />
   );
 }
 

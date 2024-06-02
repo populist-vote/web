@@ -208,7 +208,7 @@ function Table<T extends object>({
       default:
         return {
           background: "var(--blue-darker)",
-          color: "var(--blue-text)",
+          color: "var(--blue-text-light)",
           selectedRow: "transparent",
           border: "var(--blue-dark)",
           index: {

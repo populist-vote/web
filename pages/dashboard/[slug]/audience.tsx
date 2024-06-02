@@ -50,10 +50,13 @@ function Audience({ slug }: { slug: string }) {
     organizationId: organizationQuery.data?.organizationBySlug?.id as string,
   });
 
-  const respondents =
-    audienceQuery.data?.respondentsByOrganizationId?.edges.map(
-      (edge) => edge.node
-    ) || [];
+  const respondents = useMemo(
+    () =>
+      audienceQuery.data?.respondentsByOrganizationId?.edges.map(
+        (edge) => edge.node
+      ),
+    [audienceQuery.data]
+  );
 
   const { isLoading, user } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,
@@ -77,8 +80,8 @@ function Audience({ slug }: { slug: string }) {
 
   return organizationQuery.isLoading || isLoading || !user ? (
     <LoaderFlag />
-  ) : respondents.length === 0 ? (
-    <div>
+  ) : respondents?.length === 0 ? (
+    <div style={{ width: "100%" }}>
       <h3 style={{ marginTop: 0 }}>All Respondents</h3>
       <small>
         No respondents yet.{" "}
@@ -89,10 +92,10 @@ function Audience({ slug }: { slug: string }) {
       </small>
     </div>
   ) : (
-    <div>
+    <div style={{ width: "100%" }}>
       <h3 style={{ marginTop: 0 }}>All Respondents</h3>
       <Table
-        data={respondents}
+        data={respondents || []}
         initialState={{
           pagination: {
             pageSize: 10,
@@ -107,14 +110,7 @@ function Audience({ slug }: { slug: string }) {
 Audience.getLayout = (page: ReactNode) => (
   <Layout>
     <DashboardTopNav />
-    <div
-      style={{
-        display: "flex",
-        padding: "1.5rem 0",
-      }}
-    >
-      {page}
-    </div>
+    {page}
   </Layout>
 );
 
