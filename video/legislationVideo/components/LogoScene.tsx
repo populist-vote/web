@@ -5,7 +5,7 @@ import MPRLogo from "../../../public/images/video-generator/MPR-logo.png";
 import styles from "../LegislationVideo.module.scss";
 import { Animated, Fade, Move } from "remotion-animated";
 
-const Logos = () => {
+const LogoScene = () => {
   return (
     <section className={styles.endTitle}>
       <div>
@@ -27,4 +27,4 @@ const Logos = () => {
   );
 };
 
-export default Logos;
+export default LogoScene;

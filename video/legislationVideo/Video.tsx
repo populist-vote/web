@@ -1,22 +1,22 @@
-import { AbsoluteFill, Series } from "remotion";
 import { useMemo } from "react";
+import { AbsoluteFill, Series } from "remotion";
 
 import type { BillResult } from "generated";
-import HeaderInner from "./components/HeaderInner/HeaderInner";
-import VoteScene from "./components/VoteScene/VoteScene";
-import SponsorScene from "./components/SponsorScene/SponsorScene";
-import TitleScene from "./components/TitleScene/TitleScene";
-import SummaryScene from "./components/SummaryScene/SummaryScene";
-import WipeOut from "./components/WipeBackground/WipeOut";
-import WipeIn from "./components/WipeBackground/WipeIn";
 import { calculateScenes } from "../../utils/calculateScenes";
+import HeaderInner from "./components/HeaderInner/HeaderInner";
+import SponsorScene from "./components/SponsorScene/SponsorScene";
+import SummaryScene from "./components/SummaryScene/SummaryScene";
+import TitleScene from "./components/TitleScene/TitleScene";
+import VoteScene from "./components/VoteScene/VoteScene";
+import LogoScene from "./components/LogoScene";
+import WipeIn from "./components/WipeBackground/WipeIn";
+import WipeOut from "./components/WipeBackground/WipeOut";
 
 import {
   SCENE_LENGTH_IN_FRAMES,
   SUMMARY_SCENE_LENGTH_IN_FRAMES,
 } from "../../types/constants";
 
-import Logos from "./components/Logos";
 import styles from "./LegislationVideo.module.scss";
 
 export const LegislationVideo = ({
@@ -136,7 +136,7 @@ export const LegislationVideo = ({
           >
             <WipeOut />
 
-            <Logos />
+            <LogoScene />
           </Series.Sequence>
         </Series>
       </AbsoluteFill>
