@@ -119,7 +119,7 @@ function BillIndex(props: BillIndexProps) {
             />
           </section>
         </div>
-        <div style={{ marginBottom: "3rem" }}>
+        <div style={{ marginBottom: "3rem", width: "100%" }}>
           <BillResultsTable theme={theme} />
         </div>
         <Separator.Root

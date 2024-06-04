@@ -1,8 +1,8 @@
 import React from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { useCurrentFrame, interpolate, Easing } from "remotion";
-import iconYay from "public/images/video-generator/yay-icon.svg";
-import iconNay from "public/images/video-generator/nay-icon.svg";
+import iconYay from "../../../../public/images/video-generator/yay-icon.svg";
+import iconNay from "../../../../public/images/video-generator/nay-icon.svg";
 import styles from "./VoteScene.module.scss";
 import { Animated, Fade, Move } from "remotion-animated";
 

@@ -1,190 +1,245 @@
-import { Player } from "@remotion/player";
-import type { NextPage } from "next";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
+import type { GetServerSideProps, NextPage } from "next";
+import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { useRouter } from "next/router";
+import React, { useCallback, useState, useMemo } from "react";
+
+import { Player } from "@remotion/player";
+import type { BillResult } from "generated";
+import { BillBySlugQuery, useBillBySlugQuery } from "generated";
+
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { RenderControls } from "../../../components/Video/RenderControls";
+import { calculateScenes } from "../../../utils/calculateScenes";
 import { LegislationVideo } from "../../../video/legislationVideo/Video";
+
+import { Layout } from "components";
+import nextI18nextConfig from "next-i18next.config";
+import { BsChevronLeft } from "react-icons/bs";
+
+import { SupportedLocale } from "types/global";
+import billBySlugStyles from "../BillBySlug.module.scss";
+import styles from "./CreateVideo.module.scss";
+
 import {
+  SCENE_LENGTH_IN_FRAMES,
+  SUMMARY_SCENE_LENGTH_IN_FRAMES,
   VIDEO_FPS,
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
-  SCENE_LENGTH_IN_FRAMES,
-  SUMMARY_SCENE_LENGTH_IN_FRAMES,
 } from "types/constants";
-import type { BillResult, PoliticianResult } from "generated";
-import { useBillBySlugQuery } from "generated";
-import Link from "next/link";
+import { useAuth } from "hooks/useAuth";
+import { isPremium } from "utils/user";
 
-const container: React.CSSProperties = {
-  maxWidth: 768,
-  margin: "auto",
-  marginBottom: 20,
-  padding: 10,
-  backgroundColor: "var(--blue-darker)",
-};
-
-const player: React.CSSProperties = {
-  width: "50%",
-};
-
-function calculateScenes(
-  summary: string | null,
-  billResult: BillResult["legiscanData"],
-  sponsors: PoliticianResult[]
-) {
-  let totalInnerScenes = 0;
-  let summaryScenes = 0;
-
-  if (summary) {
-    const sentences = summary.match(/[^\.!\?]+[\.!\?]+/g) || [];
-    const parts = [];
-    let currentPart = "";
-
-    sentences.forEach((sentence) => {
-      if ((currentPart + sentence).split(" ").length > 30) {
-        parts.push(currentPart.trim());
-        currentPart = sentence;
-      } else {
-        currentPart += " " + sentence;
-      }
-    });
-
-    if (currentPart) {
-      parts.push(currentPart.trim());
-    }
-
-    summaryScenes = parts.length;
-    totalInnerScenes += summaryScenes;
-  }
-
-  if (billResult?.votes && billResult.votes.length > 0) totalInnerScenes += 1;
-  if (sponsors && sponsors.length > 0) totalInnerScenes += 1;
-
-  return {
-    totalInnerScenesCount: totalInnerScenes,
-    summaryScenesCount: summaryScenes,
-  };
+interface Params extends NextParsedUrlQuery {
+  slug: string;
 }
 
-const CreateVideoPage: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { slug } = ctx.params as Params;
+  const locale = ctx.locale as SupportedLocale;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: useBillBySlugQuery.getKey({ slug }),
+    queryFn: useBillBySlugQuery.fetcher({ slug }),
+  });
+  const state = dehydrate(queryClient);
+
+  const data = state.queries[0]?.state.data as BillBySlugQuery;
+
+  return {
+    notFound: state.queries.length === 0 || !data?.billBySlug,
+    props: {
+      dehydratedState: state,
+      mobileNavTitle: data?.billBySlug?.billNumber,
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
+    },
+  };
+};
+
+const CreateVideoPage: NextPage = ({
+  mobileNavTitle,
+}: {
+  mobileNavTitle?: string;
+}) => {
   const router = useRouter();
   const { slug } = router.query;
   const { data, isLoading, error } = useBillBySlugQuery({
     slug: slug as string,
   });
+  const { user } = useAuth();
+
+  const isPremiumUser = isPremium(user);
+
+  if (!isPremiumUser) {
+    void router.push("/");
+  }
+
+  const [isSummaryChecked, setIsSummaryChecked] = useState(true);
+  const [isVotesChecked, setIsVotesChecked] = useState(true);
+  const [isSponsorsChecked, setIsSponsorsChecked] = useState(true);
+
+  const backAction = useCallback(() => {
+    const { referrer } = document;
+    if (
+      referrer === "" ||
+      new URL(referrer).origin !== window.location.origin
+    ) {
+      void router.push("/bills");
+    } else {
+      router.back();
+    }
+  }, [router]);
+
+  const billResult = data?.billBySlug as BillResult;
+
+  const inputProps = useMemo(() => {
+    if (!billResult) return null;
+
+    const updatedBillResult: BillResult = { ...billResult };
+
+    if (!isSummaryChecked) {
+      updatedBillResult.populistSummary = undefined;
+      updatedBillResult.description = undefined;
+      updatedBillResult.officialSummary = undefined;
+    }
+
+    if (!isVotesChecked && updatedBillResult.legiscanData) {
+      updatedBillResult.legiscanData = {
+        ...updatedBillResult.legiscanData,
+        votes: [],
+      };
+    }
+
+    if (!isSponsorsChecked) {
+      updatedBillResult.sponsors = [];
+    }
+
+    return {
+      billResult: updatedBillResult,
+    };
+  }, [billResult, isSummaryChecked, isVotesChecked, isSponsorsChecked]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.toString()}</div>;
   if (!data?.billBySlug) return null;
 
-  const billResult = data.billBySlug as BillResult;
-  const sponsors = billResult?.sponsors as PoliticianResult[];
-
-  const summary =
-    billResult?.populistSummary ||
-    billResult?.description ||
-    billResult?.officialSummary ||
-    null;
+  if (!inputProps) {
+    return <div>Loading...</div>;
+  }
 
   const { totalInnerScenesCount, summaryScenesCount } = calculateScenes(
-    summary,
-    billResult.legiscanData,
-    sponsors
+    inputProps?.billResult
   );
 
   return (
-    <div>
-      <h1>Generate Video Content</h1>
+    <>
+      <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
+        <nav className={billBySlugStyles.pageHeader}>
+          <button className={billBySlugStyles.backLink} onClick={backAction}>
+            <BsChevronLeft size={"1.875rem"} />{" "}
+            <span>{billResult.billNumber}</span>
+          </button>
+        </nav>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <h1>Generate Video Content</h1>
+          <p>
+            Generate a 9:16 video perfect for sharing on TikTok, Instagram, and
+            other social media platforms. Customize your video to suit your
+            needs and, when you're ready, click "Download Video". After the
+            video is processed, you can download it directly from the provided
+            link.
+          </p>
 
-      <p>
-        Generate a 9:16 video perfect for sharing on TikTok, Instagram, and
-        other social media platforms. Customize your video to suit your needs
-        and, when you're ready, click "Generate Video". After the video is
-        processed, you can download it directly from the provided link.
-      </p>
-
-      <div
-        style={{
-          padding: "2rem",
-          backgroundColor: "var(--blue-darkest)",
-          width: "400px",
-          position: "absolute",
-        }}
-      >
-        <h3>Debug area</h3>
-        <ul>
-          {[
-            {
-              id: "mnhf1002023-2024",
-              description: "1 page summary, h&s votes, lots of d sponsors",
-            },
-            {
-              id: "mnsf18842023-2024",
-              description: "no summary, no votes, 3 dem sponsors",
-            },
-            {
-              id: "us-hb2772-2023-2024",
-              description: "2 issue tags, summary, no votes, no sponsors",
-            },
-            {
-              id: "mnhf14402023-2024",
-              description: "multi sentence summary",
-            },
-            {
-              id: "mnhf9172023-2024",
-              description: "only house vote, 3-6 sponsors",
-            },
-            {
-              id: "mnhf1732023-2024",
-              description: "33 sponsors",
-            },
-            {
-              id: "mnsf22002023-2024",
-              description: "2 sponsors",
-            },
-            {
-              id: "mnsf1712023-2024",
-              description: "1 sponsor",
-            },
-          ].map((bill) => (
-            <li key={bill.id}>
-              <Link
-                href={`/bills/${bill.id}/create-video`}
-                style={{
-                  color:
-                    router.asPath === `/bills/${bill.id}/create-video`
-                      ? "magenta"
-                      : "#ffffff",
-                }}
-              >
-                {bill.description}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div style={container}>
-        <Player
-          component={LegislationVideo}
-          inputProps={{
-            billResult: data.billBySlug as BillResult,
-            summaryScenesCount: summaryScenesCount,
-            summary: summary,
-          }}
-          durationInFrames={
-            (totalInnerScenesCount - summaryScenesCount + 2) *
-              SCENE_LENGTH_IN_FRAMES +
-            summaryScenesCount * SUMMARY_SCENE_LENGTH_IN_FRAMES // Calculates total frames based on the number of innerScenes, summaryScenes, and their respective lengths
-          }
-          fps={VIDEO_FPS}
-          compositionHeight={VIDEO_HEIGHT}
-          compositionWidth={VIDEO_WIDTH}
-          style={player}
-          controls
-          autoPlay
-          loop
-        />
-      </div>
-    </div>
+          <div className={styles.videoAndControlsContainer}>
+            <div>
+              <h3>Preview</h3>
+              <div className={styles.playerContainer}>
+                <Player
+                  key={JSON.stringify({
+                    billResult: inputProps.billResult,
+                    isSummaryChecked,
+                    isVotesChecked,
+                    isSponsorsChecked,
+                  })}
+                  component={LegislationVideo}
+                  inputProps={inputProps}
+                  durationInFrames={
+                    (totalInnerScenesCount - summaryScenesCount + 2) *
+                      SCENE_LENGTH_IN_FRAMES +
+                    summaryScenesCount * SUMMARY_SCENE_LENGTH_IN_FRAMES // Calculates total frames based on the number of innerScenes, summaryScenes, and their respective lengths
+                  }
+                  fps={VIDEO_FPS}
+                  compositionHeight={VIDEO_HEIGHT}
+                  compositionWidth={VIDEO_WIDTH}
+                  controls
+                  autoPlay
+                  loop
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "#111",
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+              <h3>Options</h3>
+              <div className={styles.optionsContainer}>
+                <ul>
+                  <li>
+                    <input
+                      type="checkbox"
+                      checked={isSummaryChecked}
+                      onChange={(e) => setIsSummaryChecked(e.target.checked)}
+                      disabled={
+                        !billResult.populistSummary &&
+                        !billResult.description &&
+                        !billResult.officialSummary
+                      }
+                    />
+                    Summary
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      checked={isVotesChecked}
+                      onChange={(e) => setIsVotesChecked(e.target.checked)}
+                      disabled={
+                        !billResult.legiscanData?.votes ||
+                        billResult.legiscanData.votes.length === 0
+                      }
+                    />
+                    Last Votes
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      checked={isSponsorsChecked}
+                      onChange={(e) => setIsSponsorsChecked(e.target.checked)}
+                      disabled={
+                        !billResult.sponsors || billResult.sponsors.length === 0
+                      }
+                    />
+                    Sponsors
+                  </li>
+                </ul>
+              </div>
+              <RenderControls inputProps={inputProps}></RenderControls>
+            </div>
+          </div>
+        </div>
+      </Layout>
+      <footer
+        className={billBySlugStyles.supportOpposeMobileContainer}
+      ></footer>
+    </>
   );
 };
 

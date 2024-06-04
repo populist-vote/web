@@ -1,7 +1,7 @@
 import React from "react";
-import { Badge } from "components/Badge/Badge";
+import { Badge } from "../../../components/Badge/Badge";
 import { FaCircle } from "react-icons/fa";
-import { titleCase } from "utils/strings";
+import { titleCase } from "../../../utils/strings";
 import { getStatusInfo } from "utils/bill";
 import type { BillStatus } from "generated";
 

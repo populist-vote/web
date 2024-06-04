@@ -18,6 +18,15 @@
     "noUncheckedIndexedAccess": true,
     "target": "es5"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "pages/politicians/[slug]", "pages/elections/browse/[state]", "pages/dashboard/[slug]/embeds/candidate-guide/[id]"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.js",
+    "pages/politicians/[slug]",
+    "pages/elections/browse/[state]",
+    "pages/dashboard/[slug]/embeds/candidate-guide/[id]",
+    "deploy.mjs"
+  ],
   "exclude": ["node_modules", "./scripts/widget-client.ts"]
 }

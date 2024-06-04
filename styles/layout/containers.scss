@@ -1,8 +1,8 @@
 /* stylelint-disable selector-class-pattern */
-@import "styles/variables/colors";
-@import "styles/variables/fonts";
-@import "styles/mixins/utils";
-@import "styles/mixins/media";
+@import "../variables/colors.scss";
+@import "../variables/fonts.scss";
+@import "../mixins/utils.scss";
+@import "../mixins/media.scss";
 
 .hero {
   margin-top: 0;

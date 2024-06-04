@@ -1,15 +1,14 @@
-import { z } from "zod";
 import { CompositionProps } from "./constants";
 
-export const RenderRequest = z.object({
-  id: z.string(),
-  inputProps: CompositionProps,
-});
+export interface RenderRequest {
+  id: string;
+  inputProps: CompositionProps;
+}
 
-export const ProgressRequest = z.object({
-  bucketName: z.string(),
-  id: z.string(),
-});
+export interface ProgressRequest {
+  bucketName: string;
+  id: string;
+}
 
 export type ProgressResponse =
   | {

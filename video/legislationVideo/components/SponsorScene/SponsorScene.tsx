@@ -1,5 +1,5 @@
 import React from "react";
-import { PartyAvatar } from "components";
+import { PartyAvatar } from "../../../../components";
 import styles from "./SponsorScene.module.scss";
 import type { PoliticianResult, PoliticalParty } from "generated";
 import { Animated, Fade, Move } from "remotion-animated";
@@ -42,6 +42,7 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                   badgeSize="3rem"
                   badgeFontSize="2rem"
                   size={240}
+                  isRemotionImage
                 />
                 <div className={styles.avatarName}>{sponsor.fullName}</div>
               </Animated>

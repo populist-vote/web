@@ -1,9 +1,14 @@
-import { z } from "zod";
+import { BillResult } from "generated";
 
-export const CompositionProps = z.object({
-  title: z.string(),
-  billTitle: z.string(), // Add the billTitle property
-});
+export const COMP_NAME = "LegislationVideo";
+
+export type CompositionProps = {
+  billResult: BillResult | null;
+};
+
+export const defaultMyCompProps: CompositionProps = {
+  billResult: null,
+};
 
 export const DURATION_IN_FRAMES = 200;
 export const VIDEO_WIDTH = 1080;

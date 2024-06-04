@@ -2,9 +2,9 @@
 /* stylelint-disable declaration-colon-newline-after */
 /* stylelint-disable indentation */
 
-@import "styles/mixins/media";
-@import "base/normalize";
-@import "base/typography";
+@import "./mixins/media";
+@import "./base/normalize";
+@import "./typography";
 
 ::selection {
   background: var(--aqua-light);

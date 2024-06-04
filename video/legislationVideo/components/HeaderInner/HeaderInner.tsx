@@ -1,5 +1,5 @@
 import React from "react";
-import { splitAtDigitAndJoin } from "utils/strings";
+import { splitAtDigitAndJoin } from "../../../../utils/strings";
 import type { BillResult } from "generated";
 import styles from "./HeaderInner.module.scss";
 import StatusBadge from "../../components/StatusBadge";
@@ -25,7 +25,8 @@ const HeaderInner: React.FC<HeaderInnerProps> = ({ headerProps }) => {
         </div>
         <div className={styles.bottomContainer}>
           <h3>
-            {state || "U.S."} - {splitAtDigitAndJoin(billNumber)}
+            {state || "U.S."} -{" "}
+            {billNumber ? splitAtDigitAndJoin(billNumber) : ""}
           </h3>
           <h2>{title}</h2>
         </div>

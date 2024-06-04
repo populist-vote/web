@@ -1,11 +1,11 @@
 import React from "react";
 import { Animated } from "remotion-animated";
 import { Move, Fade } from "remotion-animated";
-import { IssueTags, LegislationStatusBox } from "components";
-import { splitAtDigitAndJoin } from "utils/strings";
+import { IssueTags, LegislationStatusBox } from "../../../../components";
+import { splitAtDigitAndJoin } from "../../../../utils/strings";
 import { AnimatedDivider } from "../AnimatedDivider";
 import styles from "./TitleScene.module.scss";
-import { getYear } from "utils/dates";
+import { getYear } from "../../../../utils/dates";
 import { BillStatus, IssueTagResult, State } from "generated";
 
 interface TitleSceneProps {
@@ -28,6 +28,10 @@ const TitleScene: React.FC<TitleSceneProps> = ({
   endDate,
 }) => {
   const issueTagNames = issueTags.map((tag) => tag.name);
+  const formattedState = state ? splitAtDigitAndJoin(state) : "U.S.";
+  const formattedBillNumber = billNumber
+    ? splitAtDigitAndJoin(billNumber)
+    : "No Bill Number";
 
   return (
     <div className={styles.titleScene}>
@@ -62,8 +66,8 @@ const TitleScene: React.FC<TitleSceneProps> = ({
             style={{ opacity: 0 }}
           >
             <h2>
-              {state ? `${state} - ` : "U.S. - "}
-              {splitAtDigitAndJoin(billNumber)}
+              {formattedState ? `${formattedState} - ` : "U.S. - "}
+              {splitAtDigitAndJoin(formattedBillNumber)}
             </h2>
           </Animated>
         </div>

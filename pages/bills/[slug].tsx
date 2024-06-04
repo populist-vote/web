@@ -112,7 +112,8 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
         <nav className={styles.pageHeader}>
           <button className={styles.backLink} onClick={backAction}>
-            <BsChevronLeft size={"1.875rem"} /> <span>{bill.billNumber}</span>
+            <BsChevronLeft size={"1.875rem"} />
+            <span>{bill.billNumber}</span>
           </button>
           <div className={styles.supportOpposeDesktopContainer}>
             {$supportOppose}

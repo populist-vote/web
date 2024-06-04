@@ -14,11 +14,17 @@
     "prepare": "husky install",
     "test": "npx playwright test"
   },
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
   "dependencies": {
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@remotion/bundler": "4.0.141",
     "@remotion/cli": "4.0.141",
+    "@remotion/lambda": "4.0.141",
     "@remotion/paths": "4.0.141",
     "@remotion/player": "4.0.141",
     "@remotion/renderer": "4.0.141",
@@ -30,6 +36,7 @@
     "@tanstack/react-table": "^8.13.2",
     "@vercel/og": "^0.6.2",
     "clsx": "^2.1.0",
+    "css-loader": "5.2.7",
     "graphql": "16.5.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.9.0",
@@ -53,7 +60,10 @@
     "remotion": "4.0.141",
     "remotion-animated": "^2.0.0",
     "sass": "^1.71.1",
+    "sass-loader": "14.2.1",
     "sharp": "^0.33.2",
+    "style-loader": "2.0.0",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "webpack": "^5.90.3",
     "zod": "^3.22.4"
   },

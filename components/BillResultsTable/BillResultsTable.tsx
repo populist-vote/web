@@ -74,9 +74,10 @@ function BillResultsTable({
     }
   );
 
-  const billResults = data?.bills.edges.map((edge) => edge.node) as
-    | BillResult[]
-    | [];
+  const billResults = useMemo(
+    () => data?.bills.edges.map((edge) => edge.node) as BillResult[] | [],
+    [data]
+  );
 
   const columns = useMemo<ColumnDef<BillResult>[]>(
     () => [

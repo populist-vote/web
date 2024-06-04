@@ -1,15 +1,22 @@
 import React from "react";
-import { LogoText } from "components/Logo";
-import Image from "next/legacy/image";
-import MPRLogo from "public/images/video-generator/MPR-logo.png";
 import styles from "../LegislationVideo.module.scss";
 import { Animated, Fade, Move } from "remotion-animated";
+import { LogoText } from "components";
+import { Img, staticFile } from "remotion";
 
-const Logos = () => {
+// Need to make this dynamic
+const MPRLogoPath = "/images/mpr-logo.png";
+
+const LogoScene = () => {
   return (
     <section className={styles.endTitle}>
       <div>
-        <Image src={MPRLogo} alt="MPR Logo" />
+        <Img
+          height={346}
+          width={826}
+          src={staticFile(MPRLogoPath)}
+          alt="MPR Logo"
+        />
       </div>
       <Animated
         animations={[Move({ y: 0, initialY: 20 }), Fade({ to: 1, initial: 0 })]}
@@ -27,4 +34,4 @@ const Logos = () => {
   );
 };
 
-export default Logos;
+export default LogoScene;
