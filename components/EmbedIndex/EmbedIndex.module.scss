@@ -1,1 +1,24 @@
 @import "styles/layout/containers";
+
+.sections {
+  margin-top: 3rem;
+  h3 {
+    font-weight: 600;
+  }
+
+  .inlineHeading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+}
+
+.raceRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-weight: 600;
+}

@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 
 import styles from "./Table.module.scss";
 import { FaChevronLeft, FaChevronRight, FaCircle } from "react-icons/fa";
@@ -68,20 +68,22 @@ type TableProps<T extends object> = {
   metaRight?: React.ReactNode;
   theme?: TableTheme;
   onRowClick?: (row: Row<T>) => void;
-  selectedRowId?: string;
+  selectedRowId?: string | null;
   globalFilter?: string;
   useSearchQueryAsFilter?: boolean;
+  paginate?: boolean;
 };
 
 function Table<T extends object>({
   data,
   columns,
-  initialState,
+  initialState = {},
   metaRight,
   theme = "yellow",
   onRowClick,
   selectedRowId,
   useSearchQueryAsFilter = false,
+  paginate = true,
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
     initialState.sorting || []
@@ -102,7 +104,13 @@ function Table<T extends object>({
     filterFns: {
       fuzzy: fuzzyFilter,
     },
-    initialState,
+    initialState: {
+      ...initialState,
+      pagination: {
+        ...initialState.pagination,
+        pageSize: paginate ? 10 : data.length,
+      },
+    },
     autoResetPageIndex: false,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -114,10 +122,29 @@ function Table<T extends object>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
+    getRowId: (row) => row.id,
     debugTable: true,
     debugHeaders: true,
     debugColumns: false,
   });
+
+  // Set all selected rows in comma separated query parameter
+  useEffect(() => {
+    const selectedRows = table.getSelectedRowModel().rows.map((row) => row.id);
+    if (selectedRows.length) {
+      void router.push({
+        query: {
+          ...router.query,
+          selectedRows: selectedRows.join(","),
+        },
+      });
+    } else {
+      const { selectedRows: _, ...queryWithoutSelectedRows } = router.query;
+      void router.push({
+        query: queryWithoutSelectedRows,
+      });
+    }
+  }, [table.getSelectedRowModel().rows]);
 
   // This has a runtime cost, should ultimately move this into SCSS file and handle using theme classes
   const getTheme = (): TableThemeColors => {
@@ -181,7 +208,7 @@ function Table<T extends object>({
       default:
         return {
           background: "var(--blue-darker)",
-          color: "var(--blue-text)",
+          color: "var(--blue-text-light)",
           selectedRow: "transparent",
           border: "var(--blue-dark)",
           index: {
@@ -257,7 +284,7 @@ function Table<T extends object>({
 
   return (
     <>
-      <PageIndex />
+      {paginate && <PageIndex />}
       <div className={styles.container} style={styleVars}>
         <table>
           <thead>
@@ -326,6 +353,17 @@ function Table<T extends object>({
         </table>
         <div className={styles.tableMeta}>
           <small>
+            {!!table.getSelectedRowModel().rows.length && (
+              <span
+                style={{ color: "var(--blue-text-light)", marginRight: "1rem" }}
+              >
+                {table.getSelectedRowModel().rows.length +
+                  " " +
+                  "Selected of " +
+                  data.length +
+                  " Records"}
+              </span>
+            )}
             {table.getRowModel().rows.length +
               " " +
               "Row" +

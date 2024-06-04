@@ -19,6 +19,7 @@ function EmbedIndex({
   embedType,
   embeds,
   columns,
+  onRowClick,
 }: {
   isLoading: boolean;
   slug: string;
@@ -26,13 +27,15 @@ function EmbedIndex({
   embedType: EmbedType;
   embeds: EmbedResult[];
   columns: ColumnDef<EmbedResult>[];
+  onRowClick?: (row: Row<EmbedResult>) => void;
 }) {
   const router = useRouter();
   const { theme } = useTheme();
   const { search } = router.query;
+
   const [searchValue, setSearchValue] = useState(search);
 
-  const onRowClick = (row: Row<EmbedResult>) =>
+  const handleRowClick = (row: Row<EmbedResult>) =>
     router.push(
       `/dashboard/${slug}/embeds/${embedType.toLowerCase().replace("_", "-")}/${
         row.original.id
@@ -79,6 +82,17 @@ function EmbedIndex({
             selected={embedType === EmbedType.Politician}
             onClick={() =>
               localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
+            }
+          />
+        </Link>
+        <Link href={`/dashboard/${slug}/embeds/candidate-guide`}>
+          <Badge
+            theme="aqua"
+            clickable
+            label="Candidate Guide"
+            selected={embedType === EmbedType.CandidateGuide}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "candidate-guide")
             }
           />
         </Link>
@@ -159,7 +173,7 @@ function EmbedIndex({
             data={embeds || []}
             columns={columns}
             initialState={{}}
-            onRowClick={onRowClick}
+            onRowClick={onRowClick ? onRowClick : handleRowClick}
             theme={theme}
             useSearchQueryAsFilter={true}
           />

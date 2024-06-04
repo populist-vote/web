@@ -1,4 +1,4 @@
-import { Button, Layout, TextInput } from "components";
+import { Button, Divider, Layout, TextInput } from "components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
@@ -69,9 +69,13 @@ function NewQuestionEmbed() {
 export function QuestionEmbedForm({
   buttonLabel = "Save",
   embed,
+  candidateGuideId,
+  onSuccess,
 }: {
   buttonLabel: string;
   embed?: EmbedResult;
+  candidateGuideId?: string;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const { query } = router;
@@ -117,6 +121,7 @@ export function QuestionEmbedForm({
             enforceCharLimit && responseCharLimit ? responseCharLimit : null,
           responsePlaceholderText,
           allowAnonymousResponses: data.allowAnonymousResponses,
+          candidateGuideId,
         },
       },
       {
@@ -133,6 +138,10 @@ export function QuestionEmbedForm({
         },
         onSuccess: (data) => {
           reset(data.upsertQuestion);
+          if (candidateGuideId) {
+            if (onSuccess) onSuccess();
+            return;
+          } // Don't create an embed if this is a candidate guide question
           upsertEmbed.mutate(
             {
               input: {
@@ -179,17 +188,9 @@ export function QuestionEmbedForm({
         style={{
           display: "grid",
           gridTemplateRows: "auto 1fr",
-          gap: "1.75rem",
         }}
       >
-        <section
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 4fr",
-            gap: "1rem",
-          }}
-        >
-          <h3>Prompt</h3>
+        <section>
           <TextInput
             id="prompt"
             name="prompt"
@@ -201,11 +202,11 @@ export function QuestionEmbedForm({
             }}
           />
         </section>
+        <Divider />
         <section
           style={{
             display: "grid",
             gap: "1rem",
-            borderTop: "1px solid var(--blue-dark)",
             padding: "1rem 0",
           }}
         >
@@ -256,11 +257,13 @@ export function QuestionEmbedForm({
               name="responsePlaceholderText"
               label="Response Placeholder Text"
               size="small"
-              placeholder="What placeholder text would you like users to see?"
+              placeholder="What placeholder text would you like respondents to see?"
               register={register}
             />
           </div>
         </section>
+        <Divider />
+        <section></section>
       </div>
       <div
         style={{

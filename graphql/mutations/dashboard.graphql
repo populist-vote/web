@@ -75,9 +75,26 @@ mutation UpsertPollSubmission(
   }
 }
 
+mutation UpsertCandidateGuide($input: UpsertCandidateGuideInput!) {
+  upsertCandidateGuide(input: $input) {
+    id
+    name
+  }
+}
+
 mutation PingEmbedOrigin($input: PingEmbedOriginInput!) {
   pingEmbedOrigin(input: $input) {
     url
     lastPingAt
   }
+}
+
+mutation DeleteQuestion($id: ID!) {
+  deleteQuestion(id: $id) {
+    id
+  }
+}
+
+mutation RemoveCandidateGuideRace($candidateGuideId: ID!, $raceId: ID!) {
+  removeCandidateGuideRace(candidateGuideId: $candidateGuideId, raceId: $raceId)
 }

@@ -30,6 +30,42 @@ query EmbedById($id: ID!) {
   }
 }
 
+query CandidateGuideEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedBasics
+    candidateGuide {
+      ...CandidateGuideFields
+    }
+  }
+}
+
+query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
+  candidateGuideById(id: $candidateGuideId) {
+    questions {
+      id
+      prompt
+      submissionsByRace(raceId: $raceId) {
+        id
+        response
+        sentiment
+        createdAt
+        updatedAt
+        politician {
+          id
+          slug
+          fullName
+          party {
+            name
+          }
+          assets {
+            thumbnailImage160
+          }
+        }
+      }
+    }
+  }
+}
+
 fragment EmbedBillFields on BillResult {
   id
   slug
@@ -49,6 +85,47 @@ fragment EmbedBillFields on BillResult {
   }
 }
 
+fragment CandidateGuideFields on CandidateGuideResult {
+  id
+  name
+  createdAt
+  updatedAt
+  organizationId
+  embeds {
+    id
+    race {
+      id
+      title
+    }
+  }
+  questions {
+    id
+    prompt
+    responseCharLimit
+    responsePlaceholderText
+    allowAnonymousResponses
+    issueTags {
+      slug
+      name
+    }
+  }
+}
+
+fragment EmbedBasics on EmbedResult {
+  id
+  name
+  description
+  embedType
+  attributes
+  organizationId
+  origins {
+    url
+    lastPingAt
+  }
+  createdAt
+  updatedAt
+}
+
 fragment EmbedFields on EmbedResult {
   id
   name
@@ -62,10 +139,10 @@ fragment EmbedFields on EmbedResult {
   }
   createdAt
   updatedAt
-  bill {
+  bills {
     ...EmbedBillFields
   }
-  bills {
+  bill {
     ...EmbedBillFields
   }
   politician {
@@ -129,7 +206,22 @@ fragment EmbedFields on EmbedResult {
     }
   }
   race {
+    id
     title
+    office {
+      name
+    }
+    state
+    election {
+      electionDate
+      title
+    }
+    candidates {
+      id
+    }
+  }
+  candidateGuide {
+    ...CandidateGuideFields
   }
 }
 
@@ -141,5 +233,48 @@ query Audience($organizationId: ID!) {
         email
       }
     }
+  }
+}
+
+query QuestionById($id: ID!) {
+  questionById(id: $id) {
+    id
+    prompt
+    responseCharLimit
+    responsePlaceholderText
+    allowAnonymousResponses
+    issueTags {
+      slug
+      name
+    }
+    submissions {
+      id
+      response
+      sentiment
+      createdAt
+      updatedAt
+      respondent {
+        name
+        email
+      }
+    }
+    submissionCountByDate {
+      date
+      count
+    }
+    commonWords {
+      word
+      count
+    }
+    sentimentCounts {
+      sentiment
+      count
+    }
+  }
+}
+
+query CandidateGuidesByOrganization($organizationId: ID!) {
+  candidateGuidesByOrganization(organizationId: $organizationId) {
+    ...CandidateGuideFields
   }
 }

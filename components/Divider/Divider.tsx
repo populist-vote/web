@@ -16,16 +16,26 @@ export function Divider({
     [styles.vertical as string]: vertical,
   });
 
-  const dividerStyle = {
-    borderTop: vertical ? "none" : `1px solid ${color}`,
-    borderLeft: vertical ? `1px solid ${color}` : "none",
-    flex: vertical ? "0 0 auto" : "1 0 0", // Use flex-grow for horizontal divider
-    margin: vertical ? "0 8px" : "16px 0",
-    minHeight: vertical ? "1.5rem" : "auto",
-    [`--divider-color`]: color,
+  const horizontalStyle = {
+    border: "none",
+    height: "1px",
+    backgroundColor: color,
   };
 
-  return <hr className={dividerClass} style={dividerStyle} />;
+  const verticalStyle = {
+    borderTop: "none",
+    borderLeft: `1px solid ${color}`,
+    flex: "0 0 auto",
+    margin: "0 8px",
+    minHeight: "1.5rem",
+  };
+
+  return (
+    <hr
+      className={dividerClass}
+      style={vertical ? verticalStyle : horizontalStyle}
+    />
+  );
 }
 
 export default Divider;

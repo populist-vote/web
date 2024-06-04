@@ -1,0 +1,5 @@
+query CandidateGuideById($id: ID!) {
+  candidateGuideById(id: $id) {
+    ...CandidateGuideFields
+  }
+}

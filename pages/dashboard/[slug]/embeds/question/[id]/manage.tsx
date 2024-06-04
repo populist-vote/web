@@ -65,7 +65,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   ) : (
     <>
       <EmbedHeader title={prompt} embedType={EmbedType.Question} />
-      <EmbedPageTabs embedType={EmbedType.Question} />
+      <EmbedPageTabs embedType={EmbedType.Question} selectedTab="Manage" />
       <EmbedPage id={id} embedType={EmbedType.Question} />
     </>
   );

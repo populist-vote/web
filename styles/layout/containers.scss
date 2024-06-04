@@ -74,9 +74,7 @@
 }
 
 .flexBetween {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include flex-between(1rem);
 }
 
 .flexLeft {
@@ -288,6 +286,8 @@
 
 .filters,
 .filtersContainer {
+  display: flex;
+  gap: 1rem;
   input[type="radio"]:checked + label {
     background: $blue;
     color: $white;

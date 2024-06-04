@@ -106,7 +106,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
   ) : (
     <>
       <EmbedHeader title={prompt} embedType={EmbedType.Question} />
-      <EmbedPageTabs embedType={EmbedType.Question} />
+      <EmbedPageTabs embedType={EmbedType.Question} selectedTab="Submissions" />
       <div className={styles.container}>
         <section className={styles.basics}>
           <Box width="fit-content">

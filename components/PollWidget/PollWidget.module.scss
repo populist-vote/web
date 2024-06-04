@@ -13,6 +13,10 @@
   text-align: center;
   cursor: pointer;
 
+  input[type="radio"] {
+    display: none;
+  }
+
   &[data-selected="true"] {
     background: $blue;
     color: $white;

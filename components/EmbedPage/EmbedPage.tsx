@@ -22,8 +22,17 @@ import { PollWidget } from "components/PollWidget/PollWidget";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { RaceWidget } from "components/RaceWidget/RaceWidget";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
+import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
 
-function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
+function EmbedPage({
+  id,
+  embedType,
+  children,
+}: {
+  id: string;
+  embedType: EmbedType;
+  children?: React.ReactNode;
+}) {
   const { data, isLoading } = useEmbedByIdQuery({
     id,
   });
@@ -33,9 +42,11 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
   const billIds = data?.embedById?.attributes?.billIds as string[];
   const billId = data?.embedById?.attributes?.billId as string;
   const politicianId = data?.embedById?.attributes?.politicianId as string;
+  const candidateGuideId = data?.embedById?.attributes
+    ?.candidateGuideId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
   const embed = data?.embedById as EmbedResult;
-  const renderOptions = embed?.attributes?.renderOptions;
+  const renderOptions = embed.attributes?.renderOptions;
 
   const renderPreviewByType = () => {
     switch (embedType) {
@@ -79,14 +90,25 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
         return <QuestionWidget embedId={id} origin={window.location.origin} />;
       case EmbedType.Poll:
         return <PollWidget embedId={id} origin={window.location.origin} />;
+      case EmbedType.CandidateGuide:
+        return (
+          <CandidateGuideEmbed
+            embedId={id}
+            candidateGuideId={candidateGuideId}
+            origin={window.location.origin}
+          />
+        );
     }
   };
 
   return (
     <div className={styles.content}>
       <div className={clsx(styles.preview)}>
-        <h3>Preview</h3>
-        <Box>{renderPreviewByType()}</Box>
+        <div>
+          <h3>Preview</h3>
+          <Box>{renderPreviewByType()}</Box>
+        </div>
+        <div className={styles.children}>{children}</div>
       </div>
       <div className={clsx(styles.options)}>
         <h3>Configuration</h3>
@@ -104,19 +126,7 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
         <h3>Embed Code</h3>
         <EmbedCodeBlock id={id} />
       </div>
-      <div className={styles.deployments}>
-        <h3>Deployments</h3>
-        <Box>
-          {embed.origins.length == 0 && (
-            <small className={styles.noResults}>No deployments</small>
-          )}
-          {embed.origins.map(({ url }) => (
-            <a href={url} key={url} className={styles.flexLeft}>
-              {url} <FaExternalLinkSquareAlt />
-            </a>
-          ))}
-        </Box>
-      </div>
+      <EmbedDeployments embed={embed} />
       <div className={styles.dangerZone}>
         <h3>Danger Zone</h3>
         <DeleteEmbedButton id={id} embedType={embedType} />
@@ -126,6 +136,24 @@ function EmbedPage({ id, embedType }: { id: string; embedType: EmbedType }) {
 }
 
 export { EmbedPage };
+
+export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
+  return (
+    <div className={styles.deployments}>
+      <h3>Deployments</h3>
+      <Box>
+        {embed.origins.length == 0 && (
+          <small className={styles.noResults}>No deployments</small>
+        )}
+        {embed.origins.map(({ url }) => (
+          <a href={url} key={url} className={styles.flexLeft}>
+            {url} <FaExternalLinkSquareAlt />
+          </a>
+        ))}
+      </Box>
+    </div>
+  );
+}
 
 export function DeleteEmbedButton({
   id,

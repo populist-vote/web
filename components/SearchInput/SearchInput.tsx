@@ -17,6 +17,14 @@ export function SearchInput({
   return (
     <div className={styles.inputWithIcon}>
       <input
+        // Only inline styles work within a modal for whatever reason
+        style={{
+          border: "none",
+          outline: "none",
+          width: "100%",
+          padding: "0.5rem",
+          borderRadius: "25px",
+        }}
         placeholder={placeholder}
         onChange={(e) => {
           setSearchValue(e.target.value);

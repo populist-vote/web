@@ -35,7 +35,7 @@ function Populist({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <SEO {...pageProps} />
       <link rel="stylesheet"></link>
-
+      <div id="modal-root" />
       {process.env.NODE_ENV === "production" &&
         process.env.GOOGLE_ANALYTICS_ID && (
           <>

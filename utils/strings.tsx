@@ -9,7 +9,7 @@ function titleCase(str: string): string {
 }
 
 function kebabCase(str: string): string {
-  return str.toLowerCase().split(" ").join("-");
+  return str.toLowerCase().replace("_", "-").split(" ").join("-");
 }
 
 function pascalCaseToScreamingSnakeCase(str: string): string {

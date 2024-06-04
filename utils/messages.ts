@@ -28,3 +28,11 @@ export function getOriginHost(origin: string) {
     return { origin: "", originHost: "" };
   }
 }
+
+export function confirmDialog(msg: string) {
+  return new Promise(function (resolve, reject) {
+    const confirmed = window.confirm(msg);
+
+    return confirmed ? resolve(true) : reject(false);
+  });
+}

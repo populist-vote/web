@@ -15,7 +15,7 @@
   text-transform: uppercase;
 
   input[type="radio"] {
-    position: absolute;
+    position: fixed;
     opacity: 0;
     pointer-events: none;
   }

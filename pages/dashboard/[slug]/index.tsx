@@ -10,11 +10,12 @@ import { BillFiltersParams } from "pages/bills";
 import { SupportedLocale } from "types/global";
 import { MdSpaceDashboard } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useTheme } from "hooks/useTheme";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 import { BsPeopleFill } from "react-icons/bs";
 import { Dashboard } from "components/Dashboard/Dashboard";
+import { NewEmbedModal } from "components/NewEmbedModal/NewEmbedModal";
 
 export async function getServerSideProps({
   query,
@@ -58,8 +59,14 @@ export function DashboardTopNav() {
   const router = useRouter();
   const { theme } = useTheme();
   const { slug } = router.query;
+  const [isNewEmbedModalOpen, setIsNewEmbedModalOpen] = useState(false);
   return (
     <TopNav>
+      <NewEmbedModal
+        slug={slug as string}
+        isOpen={isNewEmbedModalOpen}
+        onClose={() => setIsNewEmbedModalOpen(false)}
+      />
       <ul>
         <li
           data-selected={router.asPath == `/dashboard/${slug}`}
@@ -106,20 +113,14 @@ export function DashboardTopNav() {
         </li>
       </ul>
       <div>
-        <Link
-          href={{
-            pathname: `/dashboard/[slug]/embeds/new`,
-            query: { slug: router.query.slug },
-          }}
-        >
-          <Button
-            variant="primary"
-            size="medium"
-            theme={theme}
-            label="New Embed"
-            wrapText={false}
-          />
-        </Link>
+        <Button
+          variant="primary"
+          size="medium"
+          theme={theme}
+          label="New Embed"
+          wrapText={false}
+          onClick={() => setIsNewEmbedModalOpen(true)}
+        />
       </div>
     </TopNav>
   );

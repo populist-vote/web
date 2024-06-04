@@ -13,23 +13,9 @@ import states from "utils/states";
 function PoliticianIndexFilters(props: PoliticianIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const {
-    state = null,
-    scope = null,
-    chamber = null,
-    search = "",
-  } = props.query || query;
+  const { state = null, chamber = null, search = "" } = props.query || query;
 
   const [searchValue, setSearchValue] = useState<string | null>(search || "");
-
-  const handleScopeChange = (newScope: PoliticalScope) => {
-    if (newScope === scope) {
-      const { scope: _, ...newQuery } = query;
-      void router.push({ query: newQuery });
-    } else {
-      void router.push({ query: { ...query, scope: newScope } });
-    }
-  };
 
   const handleChamberSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const chamber = e.target.value as Chambers;
@@ -86,53 +72,72 @@ function PoliticianIndexFilters(props: PoliticianIndexProps) {
             { value: Chambers.Senate, label: "Senate" },
           ]}
         />
-        <input
-          name="scope"
-          id="federal-radio"
-          type="radio"
-          value={PoliticalScope.Federal}
-          checked={scope === PoliticalScope.Federal}
-          onClick={() => handleScopeChange(PoliticalScope.Federal)}
-          onChange={() => null}
-        />
-        <label
-          htmlFor="federal-radio"
-          className={clsx(styles.radioLabel, styles.aquaLabel)}
-        >
-          Federal
-        </label>
-        <input
-          name="scope"
-          id="state-radio"
-          type="radio"
-          value={PoliticalScope.State}
-          checked={scope === PoliticalScope.State}
-          onClick={() => handleScopeChange(PoliticalScope.State)}
-          onChange={() => null}
-        />
-        <label
-          htmlFor="state-radio"
-          className={clsx(styles.radioLabel, styles.yellowLabel)}
-        >
-          State
-        </label>
-        <input
-          name="scope"
-          id="local-radio"
-          type="radio"
-          value={PoliticalScope.Local}
-          checked={scope === PoliticalScope.Local}
-          onClick={() => handleScopeChange(PoliticalScope.Local)}
-          onChange={() => null}
-        />
-        <label
-          htmlFor="local-radio"
-          className={clsx(styles.radioLabel, styles.salmonLabel)}
-        >
-          Local
-        </label>
+        <PoliticalScopeFilters />
       </div>
     </Box>
+  );
+}
+
+export function PoliticalScopeFilters() {
+  const router = useRouter();
+  const { query } = router;
+  const { scope = null } = query;
+  const handleScopeChange = (newScope: PoliticalScope) => {
+    if (newScope === scope) {
+      const { scope: _, ...newQuery } = query;
+      void router.push({ query: newQuery });
+    } else {
+      void router.push({ query: { ...query, scope: newScope } });
+    }
+  };
+  return (
+    <div className={styles.filtersContainer}>
+      <input
+        name="scope"
+        id="federal-radio"
+        type="radio"
+        value={PoliticalScope.Federal}
+        checked={scope === PoliticalScope.Federal}
+        onClick={() => handleScopeChange(PoliticalScope.Federal)}
+        onChange={() => null}
+      />
+      <label
+        htmlFor="federal-radio"
+        className={clsx(styles.radioLabel, styles.aquaLabel)}
+      >
+        Federal
+      </label>
+      <input
+        name="scope"
+        id="state-radio"
+        type="radio"
+        value={PoliticalScope.State}
+        checked={scope === PoliticalScope.State}
+        onClick={() => handleScopeChange(PoliticalScope.State)}
+        onChange={() => null}
+      />
+      <label
+        htmlFor="state-radio"
+        className={clsx(styles.radioLabel, styles.yellowLabel)}
+      >
+        State
+      </label>
+      <input
+        name="scope"
+        id="local-radio"
+        type="radio"
+        value={PoliticalScope.Local}
+        checked={scope === PoliticalScope.Local}
+        onClick={() => handleScopeChange(PoliticalScope.Local)}
+        onChange={() => null}
+      />
+      <label
+        htmlFor="local-radio"
+        className={clsx(styles.radioLabel, styles.salmonLabel)}
+      >
+        Local
+      </label>
+    </div>
   );
 }
 
