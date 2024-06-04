@@ -140,7 +140,6 @@ const CreateVideoPage: NextPage = ({
         </nav>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <h1>Generate Video Content</h1>
-
           <p>
             Generate a 9:16 video perfect for sharing on TikTok, Instagram, and
             other social media platforms. Customize your video to suit your

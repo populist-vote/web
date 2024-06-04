@@ -7,7 +7,7 @@
   font-size: 2.25em;
   display: flex;
   flex-direction: column;
-  padding: 8rem 5rem 30rem 5rem;
+  padding: 8rem 5rem 30rem;
   position: relative;
 
   .endTitle {
@@ -30,7 +30,8 @@
     }
 
     .logo {
-      width: 14rem;
+      margin: 0;
+      width: 18rem;
     }
   }
 

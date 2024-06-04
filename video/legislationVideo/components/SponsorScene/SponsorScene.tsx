@@ -42,6 +42,7 @@ const SponsorScene: React.FC<SponsorSceneProps> = ({ sponsors }) => {
                   badgeSize="3rem"
                   badgeFontSize="2rem"
                   size={240}
+                  isRemotionImage
                 />
                 <div className={styles.avatarName}>{sponsor.fullName}</div>
               </Animated>

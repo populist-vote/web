@@ -49,6 +49,7 @@ const render = executeApi<RenderMediaOnLambdaOutput, RenderRequest>(
       outName: videoTitle,
       inputProps: body.inputProps,
       framesPerLambda: undefined,
+      logLevel: "verbose",
       downloadBehavior: {
         type: "download",
         fileName: videoTitle,

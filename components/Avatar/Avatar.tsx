@@ -78,6 +78,7 @@ interface AvatarProps {
   labelLeft?: LabelLeftProps;
   opaque?: boolean;
   onClick?: () => void;
+  isRemotionImage?: boolean;
 }
 
 interface PartyAvatarProps extends AvatarProps {
@@ -267,6 +268,7 @@ function Avatar(props: AvatarProps): JSX.Element {
     handleIconClick,
     labelLeft,
     opaque = false,
+    isRemotionImage = false,
   } = props;
 
   const styleVars: CSSProperties & {
@@ -291,6 +293,7 @@ function Avatar(props: AvatarProps): JSX.Element {
       height={props.size}
       className={cx}
       alt={props.alt}
+      isRemotionImage={isRemotionImage}
     />
   );
 
