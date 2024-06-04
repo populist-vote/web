@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Button } from "components";
 import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
-import { Role } from "generated";
+import { isPremium } from "utils/user";
 
 export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
 
@@ -28,11 +28,7 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
   });
 
   const { user } = useAuth();
-
-  const isPremiumUser =
-    user?.role === Role.Premium ||
-    user?.role === Role.Staff ||
-    user?.role === Role.Superuser;
+  const isPremiumUser = isPremium(user);
 
   return (
     <div style={style} className={styleClasses}>
