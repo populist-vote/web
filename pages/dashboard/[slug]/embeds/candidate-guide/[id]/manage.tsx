@@ -1,6 +1,6 @@
 import { Box, Button, Layout, LoaderFlag } from "components";
 import { useRouter } from "next/router";
-import { ReactNode, useCallback, useMemo } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import {
@@ -71,7 +71,10 @@ export default function CandidateGuideEmbedPage() {
     (question) => question.submissionsByRace
   );
 
-  const candidates = raceData?.raceById?.candidates || [];
+  const candidates = useMemo(
+    () => raceData?.raceById?.candidates || [],
+    [raceData]
+  );
   const title = data?.embedById.race?.title as string;
   const candidateGuideId = data?.embedById.candidateGuide?.id as string;
   const intakeLinkMutation = useGenerateCandidateGuideIntakeLinkMutation();
@@ -104,6 +107,63 @@ export default function CandidateGuideEmbedPage() {
     [allSubmissions]
   );
 
+  const getIntakeLink = useCallback(
+    async (politicianId: string) => {
+      return new Promise<string>((resolve, reject) => {
+        intakeLinkMutation.mutate(
+          {
+            candidateGuideId,
+            politicianId,
+          },
+          {
+            onSuccess: (data) => {
+              resolve(data.generateIntakeTokenLink);
+            },
+            onError: (error) => {
+              reject(error);
+            },
+          }
+        );
+      });
+    },
+    [intakeLinkMutation, candidateGuideId]
+  );
+
+  const [isExportLoading, setIsExportLoading] = useState(false);
+
+  const generateCsvData = useCallback(async () => {
+    const csvData = [["Candidate", "Email", "Form Link", "Responded"]];
+
+    for (const candidate of candidates) {
+      const formLink = await getIntakeLink(candidate.id as string);
+      csvData.push([
+        candidate.fullName,
+        candidate.email || "",
+        formLink,
+        candidateRespondedAt(candidate.id as string),
+      ]);
+    }
+
+    return csvData;
+  }, [candidates, candidateRespondedAt, getIntakeLink]);
+
+  const handleTableExport = useCallback(async () => {
+    setIsExportLoading(true);
+    try {
+      const csvData = await generateCsvData();
+      const csv = csvData.map((row) => row.join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "candidate-guide-data.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setIsExportLoading(false);
+    }
+  }, [generateCsvData]);
+
   const candidateColumns = useMemo<ColumnDef<PoliticianResult>[]>(
     () => [
       {
@@ -125,10 +185,6 @@ export default function CandidateGuideEmbedPage() {
           />
         ),
       },
-      // {
-      //   header: "Last Emailed",
-      //   accessorKey: "lastEmailedAt",
-      // },
       {
         header: "Responded",
         cell: (info) => candidateRespondedAt(info.row.original.id as string),
@@ -160,8 +216,19 @@ export default function CandidateGuideEmbedPage() {
         <div className={styles.flexBetween}>
           <h3>Candidates</h3>
           <div className={styles.flexBetween}>
-            <Button label="Export All Data" size="medium" variant="primary" />
-            <Button label="Email All" size="medium" variant="primary" />
+            <Button
+              label="Export All Data"
+              size="medium"
+              variant="primary"
+              onClick={handleTableExport}
+              disabled={isExportLoading}
+            />
+            <Button
+              label="Email All"
+              size="medium"
+              variant="primary"
+              disabled
+            />
           </div>
         </div>
         <Table
