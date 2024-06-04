@@ -28,6 +28,8 @@ import {
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
 } from "types/constants";
+import { useAuth } from "hooks/useAuth";
+import { isPremium } from "utils/user";
 
 interface Params extends NextParsedUrlQuery {
   slug: string;
@@ -71,6 +73,13 @@ const CreateVideoPage: NextPage = ({
   const { data, isLoading, error } = useBillBySlugQuery({
     slug: slug as string,
   });
+  const { user } = useAuth();
+
+  const isPremiumUser = isPremium(user);
+
+  if (!isPremiumUser) {
+    void router.push("/");
+  }
 
   const [isSummaryChecked, setIsSummaryChecked] = useState(true);
   const [isVotesChecked, setIsVotesChecked] = useState(true);

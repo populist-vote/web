@@ -4,6 +4,8 @@ import styles from "./FlagSection.module.scss";
 import clsx from "clsx";
 import { Button } from "components";
 import { useRouter } from "next/router";
+import { useAuth } from "hooks/useAuth";
+import { Role } from "generated";
 
 export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
 
@@ -25,11 +27,18 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
     ...(!!color ? { [styles[color] as string]: true } : {}),
   });
 
+  const { user } = useAuth();
+
+  const isPremiumUser =
+    user?.role === Role.Premium ||
+    user?.role === Role.Staff ||
+    user?.role === Role.Superuser;
+
   return (
     <div style={style} className={styleClasses}>
       <header className={styles.header}>
         <span className={styles.sectionTitle}>{label}</span>
-        {router.pathname.includes("bill") && (
+        {router.pathname.includes("bill") && isPremiumUser && (
           <Link href={createVideoUrl}>
             <Button
               variant="primary"
