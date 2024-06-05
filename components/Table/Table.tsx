@@ -108,7 +108,9 @@ function Table<T extends object>({
       ...initialState,
       pagination: {
         ...initialState.pagination,
-        pageSize: paginate ? initialState?.pagination?.pageSize : data.length,
+        pageSize: paginate
+          ? initialState?.pagination?.pageSize || 10
+          : data.length,
       },
     },
     autoResetPageIndex: false,
@@ -250,7 +252,7 @@ function Table<T extends object>({
           </Button>
         </div>
         <span className={styles.pageDots}>
-          {[...Array(table.getPageCount())].map((_, i) => (
+          {[...Array(table.getPageCount() || 0)].map((_, i) => (
             <FaCircle
               size={"0.5em"}
               key={i}

@@ -1183,7 +1183,7 @@ type QuestionResult {
   sentimentCounts: [SentimentCountResult!]!
   submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [QuestionSubmissionResult!]!
-  submissionsByCandidateId(politicianId: ID!): [QuestionSubmissionResult!]!
+  submissionsByCandidateId(candidateId: ID!): [QuestionSubmissionResult!]!
   submissionsByRace(raceId: ID!): [QuestionSubmissionResult!]!
   updatedAt: DateTime!
 }

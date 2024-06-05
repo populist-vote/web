@@ -299,10 +299,11 @@ function RacesSection({
       `/dashboard/${slug}/candidate-guides/${candidateGuide.id}`,
       undefined,
       {
-        shallow: true,
+        shallow: false,
       }
     );
     setIsModalOpen(false);
+    setSearchValue("");
   };
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     router.push({

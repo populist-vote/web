@@ -12,7 +12,7 @@ query CandidateGuideIntakeQuestions($candidateGuideId: ID!, $candidateId: ID!) {
         slug
         name
       }
-      submissionsByCandidateId(politicianId: $candidateId) {
+      submissionsByCandidateId(candidateId: $candidateId) {
         id
         response
         createdAt

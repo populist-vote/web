@@ -46,12 +46,12 @@ export function RaceResultsTable({
   const router = useRouter();
   const { query } = router;
   const { state, search, selected, scope } = query;
-  const shouldFetchRaceResults = !!search;
-
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
     350
   );
+  const shouldFetchRaceResults = !!debouncedSearchQuery || !!state || !!scope;
+
   const { data } = useRaceIndexQuery(
     {
       pageSize: 50,
