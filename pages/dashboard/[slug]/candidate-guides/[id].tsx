@@ -344,7 +344,7 @@ function RacesSection({
           label="Add Race"
           onClick={openModal}
         />
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Modal isOpen={isModalOpen} onClose={closeModal} width={"920px"}>
           <h2>Add Races</h2>
           <Divider />
           <div className={styles.flexBetween}>

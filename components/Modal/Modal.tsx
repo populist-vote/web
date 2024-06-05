@@ -7,9 +7,10 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  width?: string;
 }
 
-export function Modal({ isOpen, onClose, children }: ModalProps) {
+export function Modal({ isOpen, onClose, children, width }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(isOpen);
 
@@ -52,6 +53,35 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose, handleClose]);
+
+  const modalStyle = {
+    width: width || "auto",
+  };
+
+  const overlayClassName = isVisible ? styles.open : styles.close;
+  const modalClassName = isVisible ? styles.open : styles.close;
+
+  if (!isOpen && !isVisible) return null;
+  return ReactDOM.createPortal(
+    <>
+      <div
+        className={`${styles.overlay} ${overlayClassName}`}
+        tabIndex={-1}
+        role="dialog"
+      ></div>
+      <div
+        className={`${styles.modal} ${modalClassName}`}
+        ref={modalRef}
+        style={modalStyle}
+      >
+        <button className={styles.closeButton} onClick={handleClose}>
+          &times;
+        </button>
+        {children}
+      </div>
+    </>,
+    document.getElementById("modal-root") as HTMLElement
+  );
 
   if (!isOpen && !isVisible) return null;
 

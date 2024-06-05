@@ -1,6 +1,11 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
-import { RaceResult, State, useRaceIndexQuery } from "generated";
+import {
+  PoliticalScope,
+  RaceResult,
+  State,
+  useRaceIndexQuery,
+} from "generated";
 import useDebounce from "hooks/useDebounce";
 import { Theme } from "hooks/useTheme";
 import { useRouter } from "next/router";
@@ -40,7 +45,7 @@ export function RaceResultsTable({
 }) {
   const router = useRouter();
   const { query } = router;
-  const { state, search, selected } = query;
+  const { state, search, selected, scope } = query;
   const shouldFetchRaceResults = !!search;
 
   const debouncedSearchQuery = useDebounce<string | null>(
@@ -53,6 +58,7 @@ export function RaceResultsTable({
       filter: {
         query: debouncedSearchQuery || null,
         state: state as State,
+        politicalScope: scope as string as PoliticalScope,
       },
     },
     {
@@ -149,7 +155,7 @@ export function RaceResultsTable({
         columns={columns}
         initialState={{
           pagination: {
-            pageSize: 10,
+            pageSize: 5,
           },
           columnVisibility: {
             select: multiSelect,

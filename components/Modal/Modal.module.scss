@@ -10,9 +10,9 @@
   padding: 20px;
   box-shadow: 0 2px 5px $blue-dark-alpha-8;
   z-index: 1000;
-  min-width: 600px;
-  width: max-content;
+  min-width: max-content;
   max-width: 90%;
+  max-height: 90%;
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;

@@ -108,7 +108,7 @@ function Table<T extends object>({
       ...initialState,
       pagination: {
         ...initialState.pagination,
-        pageSize: paginate ? 10 : data.length,
+        pageSize: paginate ? initialState?.pagination?.pageSize : data.length,
       },
     },
     autoResetPageIndex: false,
@@ -357,17 +357,15 @@ function Table<T extends object>({
               <span
                 style={{ color: "var(--blue-text-light)", marginRight: "1rem" }}
               >
-                {table.getSelectedRowModel().rows.length +
-                  " " +
-                  "Selected of " +
-                  data.length +
-                  " Records"}
+                {table.getSelectedRowModel().rows.length + " " + "Selected of "}
               </span>
             )}
-            {table.getRowModel().rows.length +
-              " " +
-              "Row" +
-              `${table.getRowModel().rows.length > 1 ? "s," : ","}`}{" "}
+            <small>
+              {data.length} Results{" "}
+              <span style={{ margin: "0 0.5rem", color: "var(--blue-text)" }}>
+                /
+              </span>{" "}
+            </small>
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </small>
