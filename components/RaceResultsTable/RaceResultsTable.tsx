@@ -140,6 +140,8 @@ export function RaceResultsTable({
     }
   };
 
+  if (raceResults.length == 0) return null;
+
   return (
     <>
       <Table

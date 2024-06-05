@@ -355,6 +355,7 @@ function RacesSection({
                 backgroundColor={"blue"}
                 value={state as string}
                 options={[
+                  { value: "", label: "All States" },
                   { value: "CO", label: "Colorado" },
                   { value: "MN", label: "Minnesota" },
                 ]}
@@ -374,21 +375,23 @@ function RacesSection({
           </div>
           <Divider />
           <RaceResultsTable multiSelect theme="blue" />
-          <div
-            style={{
-              marginTop: "1rem",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Button
-              theme="blue"
-              variant="primary"
-              size="medium"
-              label="Add Selected Races"
-              onClick={handleSelectedRows}
-            />
-          </div>
+          {selectedRows && selectedRows?.length > 0 && (
+            <div
+              style={{
+                marginTop: "1rem",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Button
+                theme="blue"
+                variant="primary"
+                size="medium"
+                label="Add Selected Races"
+                onClick={handleSelectedRows}
+              />
+            </div>
+          )}
         </Modal>
       </div>
       {!!embeds.length && (
