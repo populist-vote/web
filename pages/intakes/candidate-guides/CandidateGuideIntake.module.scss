@@ -1,3 +1,6 @@
+@import "styles/variables/colors";
+@import "styles/layout/containers";
+
 .container {
   display: flex;
   justify-content: center;
@@ -8,5 +11,20 @@
 
   section {
     width: 100%;
+  }
+}
+
+.branding {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+  width: max-content;
+  align-items: center;
+  margin: 3rem auto;
+
+  .poweredBy {
+    font-size: 3em;
+    font-style: italic;
+    color: $white;
   }
 }

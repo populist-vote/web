@@ -1,11 +1,15 @@
 import {
+  Badge,
   BasicLayout,
+  Box,
   Button,
   Divider,
   LoaderFlag,
+  LogoText,
   TextInput,
 } from "components";
 import {
+  RaceResult,
   State,
   useCandidateGuideIntakeQuestionsQuery,
   useOrganizationByIdQuery,
@@ -19,7 +23,7 @@ import { useForm } from "react-hook-form";
 import states from "utils/states";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { RaceWidget } from "components/RaceWidget/RaceWidget";
+import { Race } from "components/Ballot/Race";
 
 export default function CandidateGuideIntake() {
   const { id, token } = useRouter().query;
@@ -120,10 +124,6 @@ export default function CandidateGuideIntake() {
             fill out answers to the following questions created by the politics
             team at MPR News. Your answers will be shared with the public.
           </p>
-          <RaceWidget
-            raceId={race?.id as string}
-            origin={window.location.origin}
-          />
           <Divider />
         </div>
         {hasSubmitted ? (
@@ -157,14 +157,46 @@ export default function CandidateGuideIntake() {
             ))}
             <div
               style={{
-                marginTop: "1rem",
+                margin: "3rem 0",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <Button label="Submit" size="large" variant="primary" />
             </div>
+            <Divider />
           </section>
         )}
       </form>
+      <section>
+        <div className={styles.branding}>
+          <span className={styles.poweredBy}>Powered by</span>
+          <LogoText />
+        </div>
+        <div>
+          <div className={styles.flexBetween}>
+            <div className={styles.flexEvenly}>
+              <h3>{race?.office.name}</h3>
+              <Divider vertical color="var(--grey-dark)" />
+              <h3>{states[race?.state as State]}</h3>
+            </div>
+            <div className={styles.flexBetween}>
+              <Badge size="small" theme="blue" variant="solid">
+                {race.voteType}
+              </Badge>
+              {race.numElect && (
+                <Badge size="small" theme="blue" variant="solid">
+                  Elect {race.numElect}
+                </Badge>
+              )}
+            </div>
+          </div>
+          <Box>
+            <Race race={race as RaceResult} theme="dark" itemId={race.id} />
+          </Box>
+        </div>
+      </section>
     </BasicLayout>
   );
 }
