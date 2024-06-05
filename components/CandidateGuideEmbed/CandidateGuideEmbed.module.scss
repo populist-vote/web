@@ -47,6 +47,15 @@
   flex-direction: column;
 }
 
+.raceContainer {
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .backButton {
   display: flex;
   align-items: center;

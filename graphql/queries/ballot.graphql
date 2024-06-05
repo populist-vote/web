@@ -1,8 +1,9 @@
-fragment raceFields on RaceResult {
+fragment RaceFields on RaceResult {
   id
   raceType
   voteType
   title
+  state
   party {
     name
   }
@@ -84,7 +85,7 @@ query ElectionById($id: ID!) {
   electionById(id: $id) {
     ...electionFields
     racesByUserDistricts {
-      ...raceFields
+      ...RaceFields
     }
   }
 }
@@ -94,7 +95,7 @@ query ElectionVotingGuideRaces($electionId: ID!, $votingGuideId: ID!) {
   electionById(id: $electionId) {
     ...electionFields
     racesByVotingGuide(votingGuideId: $votingGuideId) {
-      ...raceFields
+      ...RaceFields
     }
   }
 }

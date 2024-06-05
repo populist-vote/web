@@ -36,6 +36,13 @@ query CandidateGuideEmbedById($id: ID!) {
     candidateGuide {
       ...CandidateGuideFields
     }
+    race {
+      ...RaceFields
+      election {
+        title
+        electionDate
+      }
+    }
   }
 }
 

@@ -2,20 +2,20 @@ query ElectionBySlug($slug: String!) {
   electionBySlug(slug: $slug) {
     ...electionFields
     races {
-      ...raceFields
+      ...RaceFields
     }
   }
 }
 
 query RaceById($id: String!) {
   raceById(id: $id) {
-    ...raceFields
+    ...RaceFields
   }
 }
 
 query RaceBySlug($slug: String!) {
   raceBySlug(slug: $slug) {
-    ...raceFields
+    ...RaceFields
   }
 }
 
@@ -23,7 +23,7 @@ query RaceIndex($pageSize: Int, $cursor: String, $filter: RaceFilter) {
   races(first: $pageSize, after: $cursor, filter: $filter) {
     edges {
       node {
-        ...raceFields
+        ...RaceFields
       }
     }
   }
