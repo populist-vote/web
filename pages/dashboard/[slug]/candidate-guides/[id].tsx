@@ -234,9 +234,14 @@ function QuestionsSection({
   };
 
   const handleNewQuestionSuccess = () => {
-    void queryClient.invalidateQueries({
-      queryKey: useCandidateGuideByIdQuery.getKey({ id: candidateGuide.id }),
-    });
+    void Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: useCandidateGuideByIdQuery.getKey({ id: candidateGuide.id }),
+      }),
+      queryClient.invalidateQueries({
+        queryKey: ["QuestionById"],
+      }),
+    ]);
     closeModal();
   };
 
