@@ -1,7 +1,9 @@
 @import "styles/layout/containers";
 
 .sections {
-  margin-top: 3rem;
+  section {
+    margin-top: 2rem;
+  }
   h3 {
     font-weight: 600;
   }

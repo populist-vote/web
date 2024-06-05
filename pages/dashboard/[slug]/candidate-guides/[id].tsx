@@ -24,6 +24,7 @@ import {
   useRemoveCandidateGuideRaceMutation,
   EmbedResult,
   useDeleteEmbedMutation,
+  useDeleteCandidateGuideMutation,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -65,6 +66,15 @@ export default function CandidateGuideManagePage() {
   const { slug, id } = router.query as { slug: string; id: string };
   const { data, isLoading } = useCandidateGuideByIdQuery({ id });
   const candidateGuide = data?.candidateGuideById as CandidateGuideResult;
+  const deleteCandidateGuideMutation = useDeleteCandidateGuideMutation();
+
+  const handleDeleteCandidateGuide = async () => {
+    await confirmDialog(
+      "Are you sure you want to delete this candidate guide? All associated data and embeds will be destroyed permanently."
+    );
+    await deleteCandidateGuideMutation.mutateAsync({ id });
+    await router.push(`/dashboard/${slug}/embeds/candidate-guide`);
+  };
 
   if (isLoading) return <LoaderFlag />;
 
@@ -79,6 +89,16 @@ export default function CandidateGuideManagePage() {
         <CandidateGuideConfiguration candidateGuide={candidateGuide} />
         <QuestionsSection candidateGuide={candidateGuide} />
         <RacesSection slug={slug} candidateGuide={candidateGuide} />
+        <section>
+          <h3>Danger Zone</h3>
+          <Button
+            theme="red"
+            variant="primary"
+            size="medium"
+            label="Delete Candidate Guide"
+            onClick={handleDeleteCandidateGuide}
+          />
+        </section>
       </div>
 
       <div className={styles.flexBetween}></div>

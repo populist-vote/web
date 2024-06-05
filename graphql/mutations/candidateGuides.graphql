@@ -7,3 +7,7 @@ mutation GenerateCandidateGuideIntakeLink(
     politicianId: $politicianId
   )
 }
+
+mutation DeleteCandidateGuide($id: ID!) {
+  deleteCandidateGuide(id: $id)
+}

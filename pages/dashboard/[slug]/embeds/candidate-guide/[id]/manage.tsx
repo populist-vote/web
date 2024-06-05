@@ -164,6 +164,8 @@ export default function CandidateGuideEmbedPage() {
     }
   }, [generateCsvData]);
 
+  const { slug } = router.query;
+
   const candidateColumns = useMemo<ColumnDef<PoliticianResult>[]>(
     () => [
       {
@@ -197,7 +199,11 @@ export default function CandidateGuideEmbedPage() {
 
   return (
     <>
-      <EmbedHeader title={title} embedType={EmbedType.CandidateGuide} />
+      <EmbedHeader
+        title={title}
+        embedType={EmbedType.CandidateGuide}
+        backLink={`/dashboard/${slug}/candidate-guides/${candidateGuide?.id}`}
+      />
       <EmbedPageTabs
         embedType={EmbedType.CandidateGuide}
         selectedTab="Manage"
