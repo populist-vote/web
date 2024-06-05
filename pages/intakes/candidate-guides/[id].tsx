@@ -98,7 +98,7 @@ export default function CandidateGuideIntake() {
   if (!politician) return <small>No politician data attached.</small>;
 
   return (
-    <BasicLayout>
+    <BasicLayout hideAuthButtons hideTextMenu>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Image
