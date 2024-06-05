@@ -140,7 +140,13 @@ export default function CandidateGuideIntake() {
             {questions?.map((question) => (
               <div key={question.id}>
                 <h2>{question.prompt}</h2>
-                <TextInput name={question.id} textarea register={register} />
+                <TextInput
+                  name={question.id}
+                  textarea
+                  register={register}
+                  placeholder={question.responsePlaceholderText as string}
+                  charLimit={question.responseCharLimit as number}
+                />
               </div>
             ))}
             <div
