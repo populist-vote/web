@@ -6,14 +6,17 @@ export function useEmbedResizer({
   embedId,
 }: {
   origin: string;
-  embedId: string;
+  embedId?: string;
 }) {
   return useEffect(() => {
     const observer = new ResizeObserver((entries) => {
       const entry = entries[0];
       if (!entry) return;
       emitData<IResizeHeightMessage>(
-        { resizeHeight: entry.contentRect.height, embedId },
+        {
+          resizeHeight: entry.contentRect.height,
+          embedId: embedId || "populist-embed",
+        },
         origin
       );
     });

@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import states from "utils/states";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { RaceWidget } from "components/RaceWidget/RaceWidget";
 
 export default function CandidateGuideIntake() {
   const { id, token } = useRouter().query;
@@ -39,6 +40,7 @@ export default function CandidateGuideIntake() {
     id: data?.candidateGuideById.organizationId as string,
   });
   const politician = politicianData?.politicianByIntakeToken;
+  const race = politician?.upcomingRace;
   const questions = data?.candidateGuideById.questions;
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -95,7 +97,7 @@ export default function CandidateGuideIntake() {
 
   if (isLoading || isPoliticianLoading) return <LoaderFlag />;
 
-  if (!politician) return <small>No politician data attached.</small>;
+  if (!politician || !race) return <small>No politician data attached.</small>;
 
   return (
     <BasicLayout hideAuthButtons hideTextMenu>
@@ -118,6 +120,10 @@ export default function CandidateGuideIntake() {
             fill out answers to the following questions created by the politics
             team at MPR News. Your answers will be shared with the public.
           </p>
+          <RaceWidget
+            raceId={race?.id as string}
+            origin={window.location.origin}
+          />
           <Divider />
         </div>
         {hasSubmitted ? (

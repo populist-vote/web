@@ -342,5 +342,8 @@ query PoliticalParties {
 query PoliticianByIntakeToken($token: String!) {
   politicianByIntakeToken(token: $token) {
     ...BasicInfo
+    upcomingRace {
+      id
+    }
   }
 }

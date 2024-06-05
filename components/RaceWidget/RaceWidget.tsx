@@ -18,9 +18,9 @@ export function RaceWidget({
   renderOptions,
 }: {
   raceId: string;
-  embedId: string;
   origin: string;
-  renderOptions: RaceWidgetRenderOptions;
+  embedId?: string;
+  renderOptions?: RaceWidgetRenderOptions;
 }) {
   const { data, isLoading, error } = useRaceByIdQuery(
     { id: raceId },

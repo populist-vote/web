@@ -139,10 +139,10 @@ function Race({
       b: PoliticianResult
     ) => {
       const votePercentageA =
-        results.votesByCandidate.find((c) => c.candidateId === a.id)
+        results?.votesByCandidate.find((c) => c.candidateId === a.id)
           ?.votePercentage || 0;
       const votePercentageB =
-        results.votesByCandidate.find((c) => c.candidateId === b.id)
+        results?.votesByCandidate.find((c) => c.candidateId === b.id)
           ?.votePercentage || 0;
       return votePercentageA > votePercentageB ? -1 : 1;
     };
@@ -187,7 +187,7 @@ function Race({
           politician?.slug
         )}${appendString}`;
 
-        const votePercentage = results.votesByCandidate.find(
+        const votePercentage = results?.votesByCandidate.find(
           (c) => c.candidateId === politician.id
         )?.votePercentage;
 
@@ -195,7 +195,7 @@ function Race({
           ?.map((w) => w.id)
           .includes(politician.id);
 
-        const isOpaque = !!results.winners && !isWinner;
+        const isOpaque = !!results?.winners && !isWinner;
 
         const labelLeftProps = {
           text: votePercentage ? `${votePercentage}%` : null,
