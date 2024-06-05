@@ -343,6 +343,7 @@ type Candidate {
 
 type CandidateGuideResult {
   createdAt: DateTime!
+  embeds: [EmbedResult!]!
   id: ID!
   name: String
   organization: OrganizationResult!
@@ -1182,6 +1183,7 @@ type QuestionResult {
   sentimentCounts: [SentimentCountResult!]!
   submissionCountByDate: [SubmissionCountByDateResult!]!
   submissions: [QuestionSubmissionResult!]!
+  submissionsByCandidateId(politicianId: ID!): [QuestionSubmissionResult!]!
   submissionsByRace(raceId: ID!): [QuestionSubmissionResult!]!
   updatedAt: DateTime!
 }

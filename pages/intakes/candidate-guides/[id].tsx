@@ -1,7 +1,13 @@
-import { BasicLayout, Button, Divider, TextInput } from "components";
+import {
+  BasicLayout,
+  Button,
+  Divider,
+  LoaderFlag,
+  TextInput,
+} from "components";
 import {
   State,
-  useCandidateGuideByIdQuery,
+  useCandidateGuideIntakeQuestionsQuery,
   useOrganizationByIdQuery,
   usePoliticianByIntakeTokenQuery,
   useUpsertQuestionSubmissionMutation,
@@ -11,35 +17,63 @@ import { useRouter } from "next/router";
 import styles from "./CandidateGuideIntake.module.scss";
 import { useForm } from "react-hook-form";
 import states from "utils/states";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function CandidateGuideIntake() {
   const { id, token } = useRouter().query;
-  const { data } = useCandidateGuideByIdQuery({
-    id: id as string,
-  });
+  const { data: politicianData, isLoading: isPoliticianLoading } =
+    usePoliticianByIntakeTokenQuery({
+      token: token as string,
+    });
+  const { data, isLoading } = useCandidateGuideIntakeQuestionsQuery(
+    {
+      candidateGuideId: id as string,
+      candidateId: politicianData?.politicianByIntakeToken?.id as string,
+    },
+    {
+      enabled: !!politicianData?.politicianByIntakeToken?.id,
+    }
+  );
   const { data: organizationData } = useOrganizationByIdQuery({
     id: data?.candidateGuideById.organizationId as string,
-  });
-  const { data: politicianData } = usePoliticianByIntakeTokenQuery({
-    token: token as string,
   });
   const politician = politicianData?.politicianByIntakeToken;
   const questions = data?.candidateGuideById.questions;
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const existingSubmissions = questions?.reduce(
+    (acc, question) => ({
+      ...acc,
+      [question.id]: question.submissionsByCandidateId[0]?.response ?? "",
+    }),
+    {}
+  );
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm<Record<string, string>>({
+    defaultValues: existingSubmissions,
+  });
+
+  useEffect(() => {
+    if (existingSubmissions) {
+      Object.entries(existingSubmissions).forEach(([questionId, response]) => {
+        setValue(questionId, response as string);
+      });
+    }
+  }, [existingSubmissions, setValue]);
 
   const upsertSubmission = useUpsertQuestionSubmissionMutation();
 
   const onSubmit = (data: Record<string, string>) => {
     try {
       for (const [questionId, response] of Object.entries(data)) {
+        const existingSubmissionId = questions?.find(
+          (question) => question.id === questionId
+        )?.submissionsByCandidateId[0]?.id;
         upsertSubmission.mutate(
           {
             questionSubmissionInput: {
+              id: existingSubmissionId,
               questionId,
               candidateId: politician?.id,
               response: response as string,
@@ -58,6 +92,8 @@ export default function CandidateGuideIntake() {
       setHasSubmitted(true);
     }
   };
+
+  if (isLoading || isPoliticianLoading) return <LoaderFlag />;
 
   if (!politician) return <small>No politician data attached.</small>;
 

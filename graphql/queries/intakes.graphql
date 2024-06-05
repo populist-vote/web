@@ -1,0 +1,23 @@
+query CandidateGuideIntakeQuestions($candidateGuideId: ID!, $candidateId: ID!) {
+  candidateGuideById(id: $candidateGuideId) {
+    id
+    organizationId
+    questions {
+      id
+      prompt
+      responseCharLimit
+      responsePlaceholderText
+      allowAnonymousResponses
+      issueTags {
+        slug
+        name
+      }
+      submissionsByCandidateId(politicianId: $candidateId) {
+        id
+        response
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
