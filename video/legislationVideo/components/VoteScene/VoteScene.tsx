@@ -14,8 +14,16 @@ interface Vote {
 }
 
 const VoteScene = ({ votes }: { votes: Vote[] }) => {
-  const lastHouseVote = getLastVote(votes, "H");
-  const lastSenateVote = getLastVote(votes, "S");
+  const lastHouseVote = votes
+    ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .filter((vote) => vote.chamber === "H")
+    .slice(-1)
+    .pop();
+  const lastSenateVote = votes
+    ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .filter((vote) => vote.chamber === "S")
+    .slice(-1)
+    .pop();
 
   return (
     <div className={styles.VoteScene}>
@@ -127,10 +135,5 @@ const VoteSceneItem = ({
     </div>
   );
 };
-
-const getLastVote = (votes: Vote[], chamber: string): Vote | undefined =>
-  votes
-    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .find((vote) => vote.chamber === chamber);
 
 export default VoteScene;
