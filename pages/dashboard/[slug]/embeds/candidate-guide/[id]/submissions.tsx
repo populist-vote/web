@@ -107,8 +107,8 @@ export default function CandidateGuideEmbedPageSubmissions() {
         accessorKey: "response",
       },
       {
-        header: "Submitted",
-        accessorKey: "createdAt",
+        header: "Last Submitted At",
+        accessorKey: "updatedAt",
         cell: (info) => {
           return new Date(info.getValue() as string).toLocaleDateString();
         },

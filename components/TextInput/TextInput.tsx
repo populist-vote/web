@@ -2,10 +2,12 @@ import clsx from "clsx";
 import styles from "./TextInput.module.scss";
 import {
   ChangeHandler,
+  Control,
   FieldValues,
   Path,
   RegisterOptions,
   UseFormRegister,
+  useWatch,
 } from "react-hook-form";
 import { ReactNode } from "react";
 
@@ -24,6 +26,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   onChange?: ChangeHandler | (() => void);
   placeholder?: string;
   register?: UseFormRegister<TFormValues>;
+  control?: Control<TFormValues>;
   rules?: RegisterOptions;
   watch?: string;
   type?: TextInputType;
@@ -44,13 +47,14 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   type = "text",
   register,
   rules,
-  watch,
   icon,
   textarea = false,
+  control,
   charLimit,
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || `input-${name}`;
+  const currentValue = useWatch({ control, name });
 
   const inputClasses = clsx(styles.inputContainer, styles[size as string], {
     [styles.hideLabel as string]: hideLabel,
@@ -59,8 +63,8 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   const hasErrors = Array.isArray(errors)
     ? errors.length > 0
     : typeof errors === "string"
-    ? errors.length > 0
-    : !!errors;
+      ? errors.length > 0
+      : !!errors;
 
   const errorMessage = () => {
     if (typeof errors !== "string" && typeof errors !== "boolean") {
@@ -99,7 +103,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
       {charLimit && (
         <span className={styles.charLimit}>
           <strong style={{ color: "var(--blue-text)" }}>
-            {charLimit - (watch ? watch?.toString().length : 0)}
+            {charLimit - (currentValue ? currentValue?.toString().length : 0)}
           </strong>{" "}
           characters remaining
         </span>

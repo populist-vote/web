@@ -99,10 +99,10 @@ export default function CandidateGuideEmbedPage() {
 
   const candidateRespondedAt = useCallback(
     (politicianId: string) => {
-      const createdAt = allSubmissions?.find(
+      const updatedAt = allSubmissions?.find(
         (s) => s.politician?.id === politicianId
-      )?.createdAt;
-      return createdAt ? new Date(createdAt).toLocaleDateString() : "No";
+      )?.updatedAt;
+      return updatedAt ? new Date(updatedAt).toLocaleDateString() : "No";
     },
     [allSubmissions]
   );
@@ -132,7 +132,7 @@ export default function CandidateGuideEmbedPage() {
   const [isExportLoading, setIsExportLoading] = useState(false);
 
   const generateCsvData = useCallback(async () => {
-    const csvData = [["Candidate", "Email", "Form Link", "Responded"]];
+    const csvData = [["Candidate", "Email", "Form Link", "Last Response"]];
 
     for (const candidate of candidates) {
       const formLink = await getIntakeLink(candidate.id as string);
@@ -188,7 +188,7 @@ export default function CandidateGuideEmbedPage() {
         ),
       },
       {
-        header: "Responded",
+        header: "Last Submitted At",
         cell: (info) => candidateRespondedAt(info.row.original.id as string),
       },
     ],

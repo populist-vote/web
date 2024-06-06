@@ -86,16 +86,16 @@ export function CandidateGuideEmbed({
           {/* <LanguageSelect /> */}
         </div>
         <Divider color="var(--grey-light)" />
-        <div className={styles.raceContainer}>
-          <Race
-            race={race as RaceResult}
-            itemId={race?.id as string}
-            theme="light"
-          />
-        </div>
 
         {!selectedQuestion ? (
           <>
+            <div className={styles.raceContainer}>
+              <Race
+                race={race as RaceResult}
+                itemId={race?.id as string}
+                theme="light"
+              />
+            </div>
             <h4>Questions</h4>
             <div className={styles.questionContainer}>
               {embedData?.embedById.candidateGuide?.questions.map((q) => (

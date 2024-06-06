@@ -56,7 +56,9 @@ export default function CandidateGuideIntake() {
     {}
   );
 
-  const { register, handleSubmit, setValue } = useForm<Record<string, string>>({
+  const { register, handleSubmit, setValue, control } = useForm<
+    Record<string, string>
+  >({
     defaultValues: existingSubmissions,
   });
 
@@ -152,6 +154,7 @@ export default function CandidateGuideIntake() {
                   register={register}
                   placeholder={question.responsePlaceholderText as string}
                   charLimit={question.responseCharLimit as number}
+                  control={control}
                 />
               </div>
             ))}

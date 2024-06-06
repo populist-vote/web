@@ -31,7 +31,7 @@ export function QuestionWidget({
   const embed = data?.embedById;
   const {
     register,
-    watch,
+    control,
     handleSubmit,
     formState: { isValid, isDirty, isSubmitting },
   } = useForm<QuestionWidgetForm>();
@@ -103,7 +103,7 @@ export function QuestionWidget({
             rules={{
               required: true,
             }}
-            watch={watch("response")}
+            control={control}
           />
           <br />
           <TextInput
