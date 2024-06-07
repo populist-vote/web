@@ -45,7 +45,7 @@ type NameSectionProps = {
 
 const NameSection = ({ firstName, lastName }: NameSectionProps) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, formState, reset } =
+  const { register, control, handleSubmit, formState, reset } =
     useForm<NameSectionProps>({
       mode: "onChange",
       defaultValues: {
@@ -88,6 +88,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
               placeholder={"First name"}
               hideLabel
               register={register}
+              control={control}
             />
 
             <TextInput
@@ -97,6 +98,7 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
               placeholder={"Last name"}
               hideLabel
               register={register}
+              control={control}
             />
           </div>
           <Button
@@ -115,14 +117,15 @@ const NameSection = ({ firstName, lastName }: NameSectionProps) => {
 
 const UsernameSection = ({ username }: { username: string }) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, formState, reset, setError } = useForm<{
-    username: string;
-  }>({
-    mode: "onChange",
-    defaultValues: {
-      username,
-    },
-  });
+  const { register, control, handleSubmit, formState, reset, setError } =
+    useForm<{
+      username: string;
+    }>({
+      mode: "onChange",
+      defaultValues: {
+        username,
+      },
+    });
   const updateUsernameMutation = useUpdateUsernameMutation({
     onSuccess: ({ updateUsername }) => {
       reset(updateUsername);
@@ -158,6 +161,7 @@ const UsernameSection = ({ username }: { username: string }) => {
             hideLabel
             errors={errors.username?.message}
             register={register}
+            control={control}
             rules={{
               required: "Username is required",
               pattern: usernameRegex,
@@ -178,14 +182,15 @@ const UsernameSection = ({ username }: { username: string }) => {
 };
 
 const EmailSection = ({ email }: { email: string }) => {
-  const { register, handleSubmit, formState, reset, setError } = useForm<{
-    email: string;
-  }>({
-    mode: "onChange",
-    defaultValues: {
-      email,
-    },
-  });
+  const { register, control, handleSubmit, formState, reset, setError } =
+    useForm<{
+      email: string;
+    }>({
+      mode: "onChange",
+      defaultValues: {
+        email,
+      },
+    });
   const updateEmailMutation = useUpdateEmailMutation({
     onSuccess: ({ updateEmail }: { updateEmail: { email: string } }) => {
       reset(updateEmail);
@@ -213,6 +218,7 @@ const EmailSection = ({ email }: { email: string }) => {
             hideLabel
             errors={errors.email?.message}
             register={register}
+            control={control}
             rules={{
               required: "Email is required",
               pattern: {
@@ -243,7 +249,7 @@ const AddressSection = ({
   userId: string;
 }) => {
   const queryClient = useQueryClient();
-  const { register, handleSubmit, formState, reset, setError, watch } =
+  const { register, control, handleSubmit, formState, reset, setError, watch } =
     useForm<AddressResult>({
       mode: "onChange",
       defaultValues: address,
@@ -298,6 +304,7 @@ const AddressSection = ({
             placeholder={"Street address"}
             hideLabel
             register={register}
+            control={control}
             rules={{ required: "Address line 1 is required" }}
           />
 
@@ -309,6 +316,7 @@ const AddressSection = ({
             placeholder={"Apartment, unit, suite, floor #, etc."}
             hideLabel
             register={register}
+            control={control}
           />
           <div className={profileStyles.location}>
             <TextInput
@@ -319,6 +327,7 @@ const AddressSection = ({
               placeholder={"City"}
               hideLabel
               register={register}
+              control={control}
               rules={{ required: "City is required" }}
             />
 
@@ -356,6 +365,7 @@ const AddressSection = ({
               placeholder={"Zip code"}
               hideLabel
               register={register}
+              control={control}
               rules={{
                 required: "Zip code is required",
                 pattern: /^[0-9]{5}$/,
@@ -452,19 +462,26 @@ const DeleteAccountSection = () => {
 };
 
 const PasswordSection = () => {
-  const { register, handleSubmit, formState, getValues, reset, setError } =
-    useForm<{
-      oldPassword: string;
-      newPassword: string;
-      newPasswordConfirmation: string;
-    }>({
-      mode: "onChange",
-      defaultValues: {
-        oldPassword: "",
-        newPassword: "",
-        newPasswordConfirmation: "",
-      },
-    });
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState,
+    getValues,
+    reset,
+    setError,
+  } = useForm<{
+    oldPassword: string;
+    newPassword: string;
+    newPasswordConfirmation: string;
+  }>({
+    mode: "onChange",
+    defaultValues: {
+      oldPassword: "",
+      newPassword: "",
+      newPasswordConfirmation: "",
+    },
+  });
 
   const debouncedPassword = useDebounce(getValues("newPassword"), 500);
 
@@ -535,6 +552,7 @@ const PasswordSection = () => {
             autoComplete="current-password"
             hideLabel
             register={register}
+            control={control}
             rules={{
               validate: (value: string) =>
                 getValues("newPassword").length === 0 ||
@@ -551,6 +569,7 @@ const PasswordSection = () => {
             autoComplete="new-password"
             hideLabel
             register={register}
+            control={control}
             rules={{
               validate: () => isPasswordValid,
             }}
@@ -564,6 +583,7 @@ const PasswordSection = () => {
             autoComplete="new-password"
             hideLabel
             register={register}
+            control={control}
             rules={{
               required: "Password confirmation is required",
               validate: (value: string) =>

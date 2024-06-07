@@ -19,6 +19,7 @@ function ResetPasswordForm() {
 
   const {
     register,
+    control,
     handleSubmit,
     getValues,
     formState: { errors },
@@ -99,6 +100,7 @@ function ResetPasswordForm() {
               name="password"
               placeholder="Password"
               register={register}
+              control={control}
               rules={{
                 required: "Password is required",
                 validate: () => isPasswordValid,
@@ -116,6 +118,7 @@ function ResetPasswordForm() {
               name="confirmPassword"
               placeholder="Confirm Password"
               register={register}
+              control={control}
               autoComplete="new-password"
               rules={{
                 required: "Confirm password is required",

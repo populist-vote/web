@@ -130,7 +130,7 @@ function CandidateGuideConfiguration({
     );
   };
 
-  const { register, handleSubmit, formState } = useForm<
+  const { register, control, handleSubmit, formState } = useForm<
     Partial<UpsertCandidateGuideInput>
   >({
     mode: "onChange",
@@ -158,6 +158,7 @@ function CandidateGuideConfiguration({
             placeholder="Untitled"
             size="small"
             register={register}
+            control={control}
           />
           <Button
             theme="blue"

@@ -25,8 +25,8 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   value?: string;
   onChange?: ChangeHandler | (() => void);
   placeholder?: string;
-  register?: UseFormRegister<TFormValues>;
-  control?: Control<TFormValues>;
+  register: UseFormRegister<TFormValues>;
+  control: Control<TFormValues>;
   rules?: RegisterOptions;
   watch?: string;
   type?: TextInputType;
@@ -46,15 +46,15 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   placeholder,
   type = "text",
   register,
+  control,
   rules,
   icon,
   textarea = false,
-  control,
   charLimit,
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || `input-${name}`;
-  const currentValue = useWatch({ control, name });
+  const currentValue = useWatch({ name, control });
 
   const inputClasses = clsx(styles.inputContainer, styles[size as string], {
     [styles.hideLabel as string]: hideLabel,

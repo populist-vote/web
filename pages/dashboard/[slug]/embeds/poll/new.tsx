@@ -209,6 +209,7 @@ export function PollEmbedForm({
             size="medium"
             placeholder="What question would you like to ask?"
             register={register}
+            control={control}
             rules={{
               required: "Prompt is required",
             }}
@@ -233,6 +234,7 @@ export function PollEmbedForm({
                 size="small"
                 placeholder="Enter an answer for this question"
                 register={register}
+                control={control}
                 rules={{
                   required: "Two or more choices are required",
                 }}

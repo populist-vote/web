@@ -14,6 +14,7 @@ function LogIn() {
   const { t } = useTranslation(["auth", "common"]);
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isValid, isDirty },
   } = useForm({ mode: "onChange" });
@@ -72,6 +73,7 @@ function LogIn() {
               type="text"
               placeholder={t("email-or-username")}
               register={register}
+              control={control}
             />
           </div>
           <div
@@ -82,6 +84,7 @@ function LogIn() {
             <PasswordInput
               name="password"
               register={register}
+              control={control}
               rules={{ required: t("password-is-required") }}
               autoComplete="current-password"
             />

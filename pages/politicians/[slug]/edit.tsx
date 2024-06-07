@@ -43,7 +43,7 @@ function PoliticianBasicsForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, handleSubmit, formState } = useForm<
+  const { register, control, handleSubmit, formState } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -120,20 +120,42 @@ function PoliticianBasicsForm({
           gap: "1rem",
         }}
       >
-        <TextInput name={"firstName"} label="First Name" register={register} />
+        <TextInput
+          name={"firstName"}
+          label="First Name"
+          register={register}
+          control={control}
+        />
         <TextInput
           name={"middleName"}
           label="Middle Name"
           register={register}
+          control={control}
         />
-        <TextInput name={"lastName"} label="Last Name" register={register} />
-        <TextInput name={"suffix"} label="Suffix" register={register} />
+        <TextInput
+          name={"lastName"}
+          label="Last Name"
+          register={register}
+          control={control}
+        />
+        <TextInput
+          name={"suffix"}
+          label="Suffix"
+          register={register}
+          control={control}
+        />
         <TextInput
           name={"preferredName"}
           label="Preferred Name"
           register={register}
+          control={control}
         />
-        <TextInput name={"slug"} label="Slug" register={register} />
+        <TextInput
+          name={"slug"}
+          label="Slug"
+          register={register}
+          control={control}
+        />
       </div>
 
       <div
@@ -183,11 +205,13 @@ function PoliticianBasicsForm({
         name={"biography"}
         label="Biography"
         register={register}
+        control={control}
       />
       <TextInput
         name={"biographySource"}
         label="Biography Source"
         register={register}
+        control={control}
       />
       <div
         style={{
@@ -202,37 +226,49 @@ function PoliticianBasicsForm({
           name={"officialWebsiteUrl"}
           label="Official Website Url"
           register={register}
+          control={control}
         />
         <TextInput
           name={"campaignWebsiteUrl"}
           label="Campaign Website Url"
           register={register}
+          control={control}
         />
         <TextInput
           name={"facebookUrl"}
           label="Facebook Url"
           register={register}
+          control={control}
         />
         <TextInput
           name={"twitterUrl"}
           label="Twitter Url"
           register={register}
+          control={control}
         />
         <TextInput
           name={"instagramUrl"}
           label="Instagram Url"
           register={register}
+          control={control}
         />
-        <TextInput name={"tiktokUrl"} label="TikTok Url" register={register} />
+        <TextInput
+          name={"tiktokUrl"}
+          label="TikTok Url"
+          register={register}
+          control={control}
+        />
         <TextInput
           name={"youtubeUrl"}
           label="YouTube Url"
           register={register}
+          control={control}
         />
         <TextInput
           name={"linkedinUrl"}
           label="LinkedIn Url"
           register={register}
+          control={control}
         />
       </div>
       <div
@@ -244,8 +280,18 @@ function PoliticianBasicsForm({
           width: "100%",
         }}
       >
-        <TextInput name={"phone"} label="Phone" register={register} />
-        <TextInput name={"email"} label="Email" register={register} />
+        <TextInput
+          name={"phone"}
+          label="Phone"
+          register={register}
+          control={control}
+        />
+        <TextInput
+          name={"email"}
+          label="Email"
+          register={register}
+          control={control}
+        />
       </div>
       <div
         style={{
@@ -261,12 +307,14 @@ function PoliticianBasicsForm({
           name={"raceWins"}
           label="Race Wins"
           register={register}
+          control={control}
         />
         <TextInput
           type="number"
           name={"raceLosses"}
           label="Race Losses"
           register={register}
+          control={control}
         />
       </div>
       <div className={clsx(styles.flexBaseline)}>
@@ -294,7 +342,7 @@ function PoliticianAPILinksForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, handleSubmit, formState } = useForm<
+  const { register, control, handleSubmit, formState } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -326,9 +374,9 @@ function PoliticianAPILinksForm({
       {
         onSettled: (data) => {
           if (!data?.updatePolitician) return;
-          // @ts-ignore
+          // @ts-expect-error - not sure whats going on with this type breadth
           if (data.errors) {
-            // @ts-ignore
+            // @ts-expect-error - ""
             data.errors.forEach((error) => {
               toast.error(error.message);
             });
@@ -365,6 +413,7 @@ function PoliticianAPILinksForm({
           name={"votesmartCandidateId"}
           label="VoteSmart Candidate ID"
           register={register}
+          control={control}
           rules={{
             pattern: {
               value: /^[0-9]*$/,
@@ -377,18 +426,21 @@ function PoliticianAPILinksForm({
           name={"crpCandidateId"}
           label="CRP Candidate ID"
           register={register}
+          control={control}
           errors={formErrors.crpCandidateId?.message}
         />
         <TextInput
           name={"fecCandidateId"}
           label="FEC Candidate ID"
           register={register}
+          control={control}
           errors={formErrors.fecCandidateId?.message}
         />
         <TextInput
           name={"legiscanPeopleId"}
           label="LegiScan People ID"
           register={register}
+          control={control}
           errors={formErrors.legiscanPeopleId?.message}
         />
       </div>

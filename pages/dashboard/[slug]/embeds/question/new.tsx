@@ -87,6 +87,7 @@ export function QuestionEmbedForm({
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     formState: { isValid, isDirty, isSubmitting },
@@ -197,6 +198,7 @@ export function QuestionEmbedForm({
             size="small"
             placeholder="What question would you like to ask?"
             register={register}
+            control={control}
             rules={{
               required: "Prompt is required",
             }}
@@ -245,6 +247,7 @@ export function QuestionEmbedForm({
                     id="responseCharLimit"
                     name="responseCharLimit"
                     register={register}
+                    control={control}
                     rules={{
                       valueAsNumber: true,
                     }}
@@ -259,6 +262,7 @@ export function QuestionEmbedForm({
               size="small"
               placeholder="What placeholder text would you like respondents to see?"
               register={register}
+              control={control}
             />
           </div>
         </section>

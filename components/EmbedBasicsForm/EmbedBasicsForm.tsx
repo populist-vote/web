@@ -108,22 +108,23 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const upsertEmbed = useUpsertEmbedMutation();
   const queryClient = useQueryClient();
 
-  const { register, handleSubmit } = useForm<UpsertEmbedInputWithOptions>({
-    defaultValues: {
-      name: embed?.name,
-      description: embed?.description,
-      renderOptions: {
-        issueTags: embed?.attributes?.renderOptions?.issueTags,
-        summary: embed?.attributes?.renderOptions?.summary,
-        sponsors: embed?.attributes?.renderOptions?.sponsors,
-        upcomingRace: embed?.attributes?.renderOptions?.upcomingRace,
-        stats: embed?.attributes?.renderOptions?.stats,
-        endorsements: embed?.attributes?.renderOptions?.endorsements,
-        socials: embed?.attributes?.renderOptions?.socials,
-        publicVoting: embed?.attributes?.renderOptions?.publicVoting,
+  const { register, control, handleSubmit } =
+    useForm<UpsertEmbedInputWithOptions>({
+      defaultValues: {
+        name: embed?.name,
+        description: embed?.description,
+        renderOptions: {
+          issueTags: embed?.attributes?.renderOptions?.issueTags,
+          summary: embed?.attributes?.renderOptions?.summary,
+          sponsors: embed?.attributes?.renderOptions?.sponsors,
+          upcomingRace: embed?.attributes?.renderOptions?.upcomingRace,
+          stats: embed?.attributes?.renderOptions?.stats,
+          endorsements: embed?.attributes?.renderOptions?.endorsements,
+          socials: embed?.attributes?.renderOptions?.socials,
+          publicVoting: embed?.attributes?.renderOptions?.publicVoting,
+        },
       },
-    },
-  });
+    });
   const onSubmit = (data: UpsertEmbedInputWithOptions) => {
     upsertEmbed.mutate(
       {
@@ -182,6 +183,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           placeholder={"My Embed"}
           size="small"
           register={register}
+          control={control}
         />
         <TextInput
           name="description"
@@ -190,6 +192,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           placeholder={"Legislative poll on prop 13"}
           size="small"
           register={register}
+          control={control}
         />
         <div
           style={{

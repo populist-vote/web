@@ -111,6 +111,7 @@ export function QuestionWidget({
             name="name"
             placeholder={`Name ${allowAnonymousResponses ? "(Optional)" : ""}`}
             register={register}
+            control={control}
             rules={{
               required: !allowAnonymousResponses,
             }}
@@ -121,6 +122,7 @@ export function QuestionWidget({
             name="email"
             placeholder={`Email ${allowAnonymousResponses ? "(Optional)" : ""}`}
             register={register}
+            control={control}
             rules={{
               required: !allowAnonymousResponses,
               pattern: {

@@ -28,6 +28,7 @@ export function PollWidget({
   const { data, isLoading, error } = useEmbedByIdQuery({ id: embedId });
   const {
     register,
+    control,
     handleSubmit,
     watch,
     formState: { isValid, isDirty, isSubmitting },
@@ -116,6 +117,7 @@ export function PollWidget({
               name="writeInResponse"
               placeholder="Write-in Response"
               register={register}
+              control={control}
             />
           )}
           <small className={styles.consent}>
@@ -126,6 +128,7 @@ export function PollWidget({
             name="name"
             placeholder={`Name ${allowAnonymousResponses ? "(Optional)" : ""}`}
             register={register}
+            control={control}
             rules={{
               required: !allowAnonymousResponses,
             }}
@@ -135,6 +138,7 @@ export function PollWidget({
             name="email"
             placeholder={`Email ${allowAnonymousResponses ? "(Optional)" : ""}`}
             register={register}
+            control={control}
             rules={{
               required: !allowAnonymousResponses,
               pattern: {

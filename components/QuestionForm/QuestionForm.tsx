@@ -65,6 +65,7 @@ function QuestionFormInner({
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     formState: { isValid, isDirty, isSubmitting },
@@ -136,6 +137,7 @@ function QuestionFormInner({
             size="small"
             placeholder="What question would you like to ask?"
             register={register}
+            control={control}
             rules={{
               required: "Prompt is required",
             }}
@@ -186,6 +188,7 @@ function QuestionFormInner({
                     id="responseCharLimit"
                     name="responseCharLimit"
                     register={register}
+                    control={control}
                     rules={{
                       valueAsNumber: true,
                     }}
@@ -200,6 +203,7 @@ function QuestionFormInner({
               size="small"
               placeholder="What placeholder text would you like respondents to see?"
               register={register}
+              control={control}
             />
           </div>
         </section>

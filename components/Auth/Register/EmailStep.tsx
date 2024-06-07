@@ -28,6 +28,7 @@ function EmailStep() {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     setError,
@@ -163,6 +164,7 @@ function EmailStep() {
               placeholder={t("email")}
               aria-invalid={errors.email ? "true" : "false"}
               register={register}
+              control={control}
               rules={{
                 // Need to update email synchronously so that we can revalidate it on each form submission
                 onChange: (e) =>
@@ -186,6 +188,7 @@ function EmailStep() {
               placeholder={t("password")}
               aria-invalid={errors.password ? "true" : "false"}
               register={register}
+              control={control}
               rules={{
                 required: t("password-is-required"),
                 validate: () => isPasswordValid,
