@@ -25,7 +25,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 1.5rem 0.25rem;
+    padding: 1.5rem 0.5rem;
   }
 
   .officeDisplay {
@@ -59,6 +59,7 @@
   .divider {
     width: 100%;
     border-bottom: 1px solid $grey-light;
+    margin: 0;
   }
 
   .endorsementSection {

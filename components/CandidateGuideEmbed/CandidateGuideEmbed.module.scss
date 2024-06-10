@@ -26,8 +26,8 @@
   align-items: center;
   h2 {
     text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 500;
+    font-size: 1em;
   }
 }
 
@@ -68,7 +68,11 @@
 }
 
 .submissionsContainer {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
+}
+
+.avatarContainer {
+  margin: 0;
 }
 
 .submission {
@@ -78,5 +82,21 @@
 
   p {
     font-size: $text-md;
+    font-weight: 400;
+    margin-top: 0;
+  }
+}
+
+.questionHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.question {
+  h3 {
+    font-size: 1.4em;
+    font-weight: 500;
+    font-family: $font-secondary;
+    margin-top: 0.5rem;
   }
 }

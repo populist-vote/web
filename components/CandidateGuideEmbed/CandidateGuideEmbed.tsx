@@ -112,19 +112,17 @@ export function CandidateGuideEmbed({
           </>
         ) : (
           <div>
-            <div className={styles.flexBetween}>
-              <div>
-                <h4>Question</h4>
-                <h3 style={{ fontWeight: "bold" }}>
-                  {selectedQuestion.prompt}
-                </h3>
-              </div>
+            <div className={styles.questionHeader}>
+              <h4>Question</h4>
               <button
                 className={styles.backButton}
                 onClick={() => setSelectedQuestionId(null)}
               >
                 <BiChevronLeft /> Back
               </button>
+            </div>
+            <div className={styles.question}>
+              <h3>{selectedQuestion.prompt}</h3>
             </div>
             <div className={styles.submissionsContainer}>
               {submissions.map((s, i) => (
