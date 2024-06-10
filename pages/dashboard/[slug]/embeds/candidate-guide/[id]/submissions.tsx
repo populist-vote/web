@@ -166,6 +166,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
           onRowClick={(row) => handleSelectedQuestion(row.original.id)}
           selectedRowId={selectedQuestion}
           paginate={false}
+          theme="aqua"
         />
       </section>
       <section className={styles.section}>

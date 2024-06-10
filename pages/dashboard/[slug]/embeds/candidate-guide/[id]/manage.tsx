@@ -241,6 +241,7 @@ export default function CandidateGuideEmbedPage() {
           data={candidates}
           // @ts-expect-error react-table
           columns={candidateColumns}
+          theme="aqua"
           initialState={{}}
           paginate={false}
         />

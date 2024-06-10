@@ -291,7 +291,7 @@ function QuestionsSection({
           columns={questionColumns}
           initialState={{}}
           data={questions || []}
-          theme={"blue"}
+          theme={"aqua"}
         />
       )}
 
