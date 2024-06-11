@@ -82,7 +82,7 @@ function Audience({ slug }: { slug: string }) {
     <LoaderFlag />
   ) : respondents?.length === 0 ? (
     <div style={{ width: "100%" }}>
-      <h3 style={{ marginTop: 0 }}>All Respondents</h3>
+      <h3>All Respondents</h3>
       <small>
         No respondents yet.{" "}
         <Link href={`/dashboard/${query.slug}/embeds/new`}>
@@ -93,7 +93,7 @@ function Audience({ slug }: { slug: string }) {
     </div>
   ) : (
     <div style={{ width: "100%" }}>
-      <h3 style={{ marginTop: 0 }}>All Respondents</h3>
+      <h3>All Respondents</h3>
       <Table
         data={respondents || []}
         initialState={{
