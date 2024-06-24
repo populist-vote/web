@@ -53,9 +53,14 @@ export default function CandidateGuideEmbedPage() {
 
   const candidateGuide = data?.embedById?.candidateGuide;
   const raceId = data?.embedById?.race?.id as string;
-  const { data: raceData, isLoading: isRaceLoading } = useRaceByIdQuery({
-    id: raceId,
-  });
+  const { data: raceData, isLoading: isRaceLoading } = useRaceByIdQuery(
+    {
+      id: raceId,
+    },
+    {
+      enabled: !!raceId,
+    }
+  );
 
   const { data: submissionsData } = useCandidateGuideSubmissionsByRaceIdQuery(
     {

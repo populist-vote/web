@@ -142,10 +142,10 @@ export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
     <div className={styles.deployments}>
       <h3>Deployments</h3>
       <Box>
-        {embed.origins.length == 0 && (
+        {embed.origins?.length == 0 && (
           <small className={styles.noResults}>No deployments</small>
         )}
-        {embed.origins.map(({ url }) => (
+        {embed.origins?.map(({ url }) => (
           <a href={url} key={url} className={styles.flexLeft}>
             {url} <FaExternalLinkSquareAlt />
           </a>

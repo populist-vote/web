@@ -6,6 +6,7 @@ fragment RaceFields on RaceResult {
   state
   party {
     name
+    fecCode
   }
   electionDate
   office {
