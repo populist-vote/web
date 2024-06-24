@@ -5,12 +5,11 @@ import Divider from "components/Divider/Divider";
 import {
   PoliticalParty,
   RaceResult,
-  State,
   useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
 } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import states from "utils/states";
+
 import { getYear } from "utils/dates";
 import { useState } from "react";
 import { BiChevronLeft } from "react-icons/bi";
@@ -81,7 +80,7 @@ export function CandidateGuideEmbed({
           <div className={styles.flexEvenly}>
             <h2>{race?.office.name}</h2>
             <Divider vertical color="var(--grey-dark)" />
-            <h2>{states[race?.state as State]}</h2>
+            <h2>{race?.office?.subtitle}</h2>
           </div>
           {/* <LanguageSelect /> */}
         </div>
