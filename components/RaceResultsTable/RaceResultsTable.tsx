@@ -57,7 +57,7 @@ export function RaceResultsTable({
       pageSize: 50,
       filter: {
         query: debouncedSearchQuery || null,
-        state: state as State,
+        state: state === "" ? null : (state as State) ?? null,
         politicalScope: scope as string as PoliticalScope,
       },
     },
