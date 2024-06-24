@@ -1,6 +1,11 @@
 import { Layout, LoaderFlag, TopNavElections } from "components";
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
-import { ElectionResult, RaceResult, useElectionBySlugQuery } from "generated";
+import {
+  ElectionResult,
+  RaceResult,
+  State,
+  useElectionBySlugQuery,
+} from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
@@ -33,9 +38,14 @@ export async function getServerSideProps({
 
 export default function ElectionPage() {
   const { query } = useRouter();
-  const { slug, search } = query;
-  const { data, isLoading } = useElectionBySlugQuery({ slug: slug as string });
-  const state = data?.electionBySlug?.state as string;
+  const { slug, search, state } = query;
+  const { data, isLoading } = useElectionBySlugQuery({
+    slug: slug as string,
+    raceFilter: {
+      state: State[state as keyof typeof State],
+    },
+  });
+
   const year = getYear(data?.electionBySlug?.electionDate).toString();
   const races = search
     ? (data?.electionBySlug.races.filter((race) => {
@@ -61,7 +71,7 @@ export default function ElectionPage() {
 
   return (
     <div>
-      <ElectionBrowserBreadcrumbs state={state} year={year} />
+      <ElectionBrowserBreadcrumbs state={state as string} year={year} />
       <div style={{ marginTop: "-3rem" }}>
         <ElectionHeader
           election={data?.electionBySlug as Partial<ElectionResult>}

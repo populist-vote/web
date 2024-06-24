@@ -116,7 +116,7 @@ export function RaceResultsTable({
         header: "Type",
         cell: (info) => {
           const raceType = info.getValue() as string;
-          const party = (info.row.getValue("party") as { name: string }).name;
+          const party = (info.row.getValue("party") as { name: string })?.name;
           return titleCase(`${raceType} ${party ? "- " + party : ""}`);
         },
       },

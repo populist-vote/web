@@ -1,7 +1,7 @@
-query ElectionBySlug($slug: String!) {
+query ElectionBySlug($slug: String!, $raceFilter: ElectionRaceFilter) {
   electionBySlug(slug: $slug) {
     ...electionFields
-    races {
+    races(filter: $raceFilter) {
       ...RaceFields
     }
   }

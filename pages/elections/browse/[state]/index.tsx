@@ -63,7 +63,11 @@ export default function StateElectionBrowser() {
         }}
       >
         {elections.map((election) => (
-          <Link href={`/elections/${election.slug}`} passHref key={election.id}>
+          <Link
+            href={`/elections/${election.slug}?state=${state}`}
+            passHref
+            key={election.id}
+          >
             <Box isLink>
               <div className={styles.flexBetween}>
                 <h4 style={{ fontSize: "1.25em", color: "var(--white)" }}>

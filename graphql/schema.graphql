@@ -517,11 +517,15 @@ input ElectionFilter {
   year: Int
 }
 
+input ElectionRaceFilter {
+  state: State
+}
+
 type ElectionResult {
   description: String
   electionDate: NaiveDate!
   id: ID!
-  races: [RaceResult!]!
+  races(filter: ElectionRaceFilter): [RaceResult!]!
   """Show races relevant to the user based on their address"""
   racesByUserDistricts: [RaceResult!]!
   racesByVotingGuide(votingGuideId: ID!): [RaceResult!]!
@@ -699,7 +703,7 @@ type Mutation {
   deleteArgument(id: String!): DeleteArgumentResult!
   deleteBallotMeasure(id: String!): DeleteBallotMeasureResult!
   deleteBill(id: String!): DeleteBillResult!
-  deleteCandidateGuide(id: String!): Boolean!
+  deleteCandidateGuide(id: ID!): Boolean!
   deleteElection(id: String!): DeleteElectionResult!
   deleteEmbed(id: UUID!): DeleteEmbedResult!
   deleteIssueTag(id: String!): DeleteIssueTagResult!
