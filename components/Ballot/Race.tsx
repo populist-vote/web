@@ -259,7 +259,13 @@ function Race({
   ) : (
     <FieldSet
       heading={raceType}
-      color={party?.name === "Republican" ? "red" : "blue"}
+      color={
+        party?.fecCode === "REP"
+          ? "red"
+          : party?.fecCode === "DEM"
+            ? "blue"
+            : "violet"
+      }
       className={clsx(styles.scrollSnap)}
     >
       {$raceContent}
