@@ -1,4 +1,4 @@
-import { Box, Button, Layout, LoaderFlag } from "components";
+import { Box, Button, Layout, LoaderFlag, TextInput } from "components";
 import { useRouter } from "next/router";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
@@ -11,19 +11,24 @@ import {
   useEmbedByIdQuery,
   useGenerateCandidateGuideIntakeLinkMutation,
   useRaceByIdQuery,
+  useUpdatePoliticianMutation,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
-import { ColumnDef } from "@tanstack/react-table";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
 import { FaCopy } from "react-icons/fa";
 import { toast } from "react-toastify";
 import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
 import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { EmbedDeployments } from "components/EmbedPage/EmbedPage";
+import { GrEdit } from "react-icons/gr";
+import { Modal } from "components/Modal/Modal";
+import { useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
 
 export async function getServerSideProps({
   query,
@@ -180,6 +185,7 @@ export default function CandidateGuideEmbedPage() {
       {
         header: "Email",
         accessorKey: "email",
+        cell: (row) => <EmailCell row={row} />,
       },
       {
         header: "Form Link",
@@ -259,6 +265,95 @@ export default function CandidateGuideEmbedPage() {
         <EmbedDeployments embed={data?.embedById as EmbedResult} />
       </section>
     </>
+  );
+}
+
+function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ email: string }>({
+    defaultValues: {
+      email: row.getValue() as string,
+    },
+  });
+
+  const upsertPolitician = useUpdatePoliticianMutation();
+
+  const queryClient = useQueryClient();
+
+  const onSubmit = (data: { email: string }) => {
+    try {
+      upsertPolitician.mutate(
+        {
+          input: {
+            id: row.row.original.id,
+            email: data.email as string,
+          },
+        },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["RaceById"] });
+            toast.success("Email updated successfully");
+          },
+          onError: () => {
+            toast.error("Failed to update email");
+          },
+        }
+      );
+    } catch (error) {
+      toast.error("Form submission error");
+    } finally {
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "auto 1fr",
+      }}
+    >
+      {!!row.getValue() && (
+        <span style={{ marginRight: "1rem" }}>{row.getValue() as string}</span>
+      )}
+      <GrEdit onClick={() => setIsOpen(true)} />
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <div style={{ padding: "1.5rem", width: "32rem" }}>
+          <h3>Update email for {row.row.original.fullName}</h3>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
+          >
+            <TextInput
+              name="email"
+              label="Email"
+              register={register}
+              rules={{
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: "Invalid email address",
+                },
+              }}
+              control={control}
+              errors={errors?.email?.message}
+            />
+            <Button
+              label="Save"
+              size="medium"
+              variant="primary"
+              type="submit"
+              disabled={upsertPolitician.isPending}
+            />
+          </form>
+        </div>
+      </Modal>
+    </div>
   );
 }
 
