@@ -24,6 +24,7 @@ import states from "utils/states";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Race } from "components/Ballot/Race";
+import clsx from "clsx";
 
 export default function CandidateGuideIntake() {
   const { id, token } = useRouter().query;
@@ -108,7 +109,7 @@ export default function CandidateGuideIntake() {
   return (
     <BasicLayout hideAuthButtons hideTextMenu>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
-        <div>
+        <div className={styles.introduction}>
           <Image
             alt="thumbnail"
             width={160}
@@ -118,7 +119,7 @@ export default function CandidateGuideIntake() {
                 .thumbnailImage160 as string
             }
           />
-          <h1>Hi, {politician?.fullName}</h1>
+          <h1>Hi {politician?.fullName},</h1>
           <p>
             MPR News has partnered up with Populist to help you share your
             thoughts on important issues facing{" "}
@@ -144,9 +145,9 @@ export default function CandidateGuideIntake() {
             </p>
           </section>
         ) : (
-          <section>
+          <section className={styles.questionsSection}>
             {questions?.map((question) => (
-              <div key={question.id}>
+              <div key={question.id} className={styles.question}>
                 <h2>{question.prompt}</h2>
                 <TextInput
                   name={question.id}
@@ -179,10 +180,10 @@ export default function CandidateGuideIntake() {
         </div>
         <div>
           <div className={styles.flexBetween}>
-            <div className={styles.flexEvenly}>
-              <h3>{race?.office.name}</h3>
-              <Divider vertical color="var(--grey-dark)" />
-              <h3>{states[race?.state as State]}</h3>
+            <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
+              <h3 className={styles.officeName}>{race?.office.name}</h3>
+
+              <h3 className={styles.officeSubtitle}>{race?.office.subtitle}</h3>
             </div>
             <div className={styles.flexBetween}>
               <Badge size="small" theme="blue" variant="solid">
