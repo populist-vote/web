@@ -29,6 +29,7 @@ import { GrEdit } from "react-icons/gr";
 import { Modal } from "components/Modal/Modal";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 
 export async function getServerSideProps({
   query,
@@ -220,16 +221,6 @@ export default function CandidateGuideEmbedPage() {
         selectedTab="Manage"
       />
       <section className={styles.section}>
-        <h3>Preview</h3>
-        <Box width="fit-content">
-          <CandidateGuideEmbed
-            embedId={id as string}
-            candidateGuideId={candidateGuideId}
-            origin={window.location.origin}
-          />
-        </Box>
-      </section>
-      <section className={styles.section}>
         <div className={styles.flexBetween}>
           <h3>Candidates</h3>
           <div className={styles.flexBetween}>
@@ -257,9 +248,21 @@ export default function CandidateGuideEmbedPage() {
           paginate={false}
         />
       </section>
-      <section className={styles.section}>
-        <h3>Embed Code</h3>
-        <EmbedCodeBlock id={id as string} />
+      <section className={clsx(styles.section, styles.grid2)}>
+        <div>
+          <h3>Preview</h3>
+          <Box width="fit-content">
+            <CandidateGuideEmbed
+              embedId={id as string}
+              candidateGuideId={candidateGuideId}
+              origin={window.location.origin}
+            />
+          </Box>
+        </div>
+        <div style={{ width: "auto" }}>
+          <h3>Embed Code</h3>
+          <EmbedCodeBlock id={id as string} />
+        </div>
       </section>
       <section className={styles.section}>
         <EmbedDeployments embed={data?.embedById as EmbedResult} />
