@@ -7,6 +7,7 @@ import {
   EmbedResult,
   EmbedType,
   PoliticianResult,
+  Role,
   useCandidateGuideSubmissionsByRaceIdQuery,
   useEmbedByIdQuery,
   useGenerateCandidateGuideIntakeLinkMutation,
@@ -30,6 +31,7 @@ import { Modal } from "components/Modal/Modal";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useAuth } from "hooks/useAuth";
 
 export async function getServerSideProps({
   query,
@@ -272,6 +274,8 @@ export default function CandidateGuideEmbedPage() {
 }
 
 function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
+  const { user } = useAuth();
+  const canEdit = user.role == Role.Staff || user.role == Role.Superuser;
   const [isOpen, setIsOpen] = useState(false);
 
   const {
@@ -325,7 +329,7 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
       {!!row.getValue() && (
         <span style={{ marginRight: "1rem" }}>{row.getValue() as string}</span>
       )}
-      <GrEdit onClick={() => setIsOpen(true)} />
+      {canEdit && <GrEdit onClick={() => setIsOpen(true)} />}
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div style={{ padding: "1.5rem", width: "32rem" }}>
           <h3>Update email for {row.row.original.fullName}</h3>
