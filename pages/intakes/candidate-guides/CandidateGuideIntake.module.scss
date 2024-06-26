@@ -9,8 +9,33 @@
   max-width: 800px;
   margin: 0 auto;
 
+  .introduction {
+    h1 {
+      font-size: 3em;
+      font-weight: 500;
+      margin-top: 4rem;
+    }
+
+    p {
+      margin-bottom: 3rem;
+    }
+  }
+
   section {
     width: 100%;
+  }
+
+  .questionsSection {
+    h2 {
+      font-size: 1.5em;
+      font-weight: 400;
+      line-height: 1.5em;
+      margin-bottom: 1.75rem;
+    }
+  }
+
+  .question {
+    margin-bottom: 3rem;
   }
 }
 
@@ -23,8 +48,27 @@
   margin: 3rem auto;
 
   .poweredBy {
-    font-size: 3em;
+    font-size: 2em;
     font-style: italic;
     color: $white;
   }
+}
+
+.officeHeader {
+  align-items: baseline;
+
+  h3:first-child {
+    border-right: 1px solid $blue;
+  }
+}
+
+.officeName {
+  font-size: 1.75em;
+  font-weight: 400;
+  padding-right: 1.25rem;
+}
+.officeSubtitle {
+  padding-left: 1.25rem;
+  font-size: 1.25em;
+  text-transform: uppercase;
 }
