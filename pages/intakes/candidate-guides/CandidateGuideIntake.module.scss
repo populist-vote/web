@@ -1,5 +1,7 @@
 @import "styles/variables/colors";
 @import "styles/layout/containers";
+@import "styles/mixins/utils";
+@import "styles/mixins/media";
 
 .container {
   display: flex;
@@ -8,6 +10,10 @@
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
+
+  @include for-tablet-down {
+    max-width: 360px;
+  }
 
   .introduction {
     h1 {
@@ -52,6 +58,17 @@
     font-style: italic;
     color: $white;
   }
+
+  @include for-tablet-down {
+    max-width: 360px;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+
+    .poweredBy {
+      font-size: 1.2em;
+    }
+  }
 }
 
 .officeHeader {
@@ -66,9 +83,42 @@
   font-size: 1.75em;
   font-weight: 400;
   padding-right: 1.25rem;
+
+  @include for-tablet-down {
+    font-size: 1.2em;
+  }
 }
 .officeSubtitle {
   padding-left: 1.25rem;
   font-size: 1.25em;
   text-transform: uppercase;
+
+  @include for-tablet-down {
+    font-size: 1em;
+  }
+}
+
+.poweredBySection {
+  p {
+    width: 800px;
+    font-style: italic;
+    color: $blue-lighter;
+  }
+
+  @include for-tablet-down {
+    max-width: 360px;
+
+    p {
+      max-width: 360px;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.raceContainer {
+  width: 800px;
+  margin: auto;
+  @include for-tablet-down {
+    max-width: 360px;
+  }
 }
