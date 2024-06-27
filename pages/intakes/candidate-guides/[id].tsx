@@ -173,22 +173,22 @@ export default function CandidateGuideIntake() {
           </section>
         )}
       </form>
-      <section>
+      <section className={styles.poweredBySection}>
         <div className={styles.branding}>
           <span className={styles.poweredBy}>Powered by</span>
           <LogoText />
         </div>
-        <div>
+        <p>
+          Populist is a non-partisan civic content platform built on election,
+          politician, and legislation data.
+        </p>
+        <div className={styles.raceContainer}>
           <div className={styles.flexBetween}>
             <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
               <h3 className={styles.officeName}>{race?.office.name}</h3>
-
               <h3 className={styles.officeSubtitle}>{race?.office.subtitle}</h3>
             </div>
             <div className={styles.flexBetween}>
-              <Badge size="small" theme="blue" variant="solid">
-                {race.voteType}
-              </Badge>
               {race.numElect && (
                 <Badge size="small" theme="blue" variant="solid">
                   Elect {race.numElect}
