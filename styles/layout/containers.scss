@@ -23,7 +23,7 @@
 .grid2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 2.25rem;
 }
 
 .iconStack {
@@ -138,6 +138,7 @@
   align-items: center;
   width: auto;
   height: auto;
+  position: relative;
 
   main {
     width: 100%;

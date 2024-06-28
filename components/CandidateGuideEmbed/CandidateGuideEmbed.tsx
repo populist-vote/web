@@ -17,14 +17,20 @@ import { PartyAvatar } from "components/Avatar/Avatar";
 import clsx from "clsx";
 import { Race } from "components/Ballot/Race";
 
+interface CandidateGuideRenderOptions {
+  height: number;
+}
+
 export function CandidateGuideEmbed({
   embedId,
   candidateGuideId,
   origin,
+  renderOptions,
 }: {
   embedId: string;
   candidateGuideId: string;
   origin: string;
+  renderOptions: CandidateGuideRenderOptions;
 }) {
   const { data: embedData, isLoading: embedLoading } =
     useCandidateGuideEmbedByIdQuery({
@@ -65,8 +71,8 @@ export function CandidateGuideEmbed({
 
   return (
     <div
-      className={styles.widgetContainer}
-      style={{ width: "720px", height: "auto" }}
+      className={clsx(styles.widgetContainer, styles.candidateGuideContainer)}
+      style={{ height: `${renderOptions?.height || 700}px` }}
     >
       <header className={styles.header}>
         <strong>Candidate Guide</strong>

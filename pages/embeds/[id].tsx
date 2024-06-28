@@ -118,6 +118,7 @@ function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
           embedId={embedId}
           origin={resolvedOrigin}
           candidateGuideId={candidateGuideId}
+          renderOptions={renderOptions}
         />
       );
     default:

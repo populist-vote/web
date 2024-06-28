@@ -2,6 +2,10 @@
 @import "styles/layout/containers";
 @import "styles/mixins/utils";
 
+.candidateGuideContainer {
+  width: 720px;
+}
+
 .header {
   border-radius: 15px 15px 0 0;
   align-items: center;

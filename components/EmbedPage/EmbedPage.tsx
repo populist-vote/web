@@ -96,6 +96,7 @@ function EmbedPage({
             embedId={id}
             candidateGuideId={candidateGuideId}
             origin={window.location.origin}
+            renderOptions={renderOptions}
           />
         );
     }

@@ -13,6 +13,7 @@ import {
   useGenerateCandidateGuideIntakeLinkMutation,
   useRaceByIdQuery,
   useUpdatePoliticianMutation,
+  useUpsertEmbedMutation,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { SupportedLocale } from "types/global";
@@ -53,6 +54,7 @@ export async function getServerSideProps({
 }
 
 export default function CandidateGuideEmbedPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const { id } = router.query;
   const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery({
@@ -209,6 +211,46 @@ export default function CandidateGuideEmbedPage() {
     [candidateRespondedAt, candidateGuideId, handleCopyIntakeLink]
   );
 
+  const queryClient = useQueryClient();
+
+  const renderOptions = data?.embedById.attributes.renderOptions;
+
+  const { register, control, handleSubmit, formState } = useForm<{
+    height: number;
+  }>({
+    defaultValues: {
+      height: renderOptions?.height || 700,
+    },
+  });
+
+  const upsertEmbed = useUpsertEmbedMutation();
+
+  const handleRenderOptionsSave = ({ height }: { height: number }) => {
+    upsertEmbed.mutate(
+      {
+        input: {
+          id: data?.embedById.id,
+          organizationId: user.organizationId,
+          attributes: {
+            renderOptions: {
+              height,
+            },
+          },
+        },
+      },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ["EmbedById"],
+          });
+        },
+        onError: (error) => {
+          toast((error as Error).message, { type: "error" });
+        },
+      }
+    );
+  };
+
   if (isEmbedLoading || isRaceLoading) return <LoaderFlag />;
 
   return (
@@ -258,12 +300,50 @@ export default function CandidateGuideEmbedPage() {
               embedId={id as string}
               candidateGuideId={candidateGuideId}
               origin={window.location.origin}
+              renderOptions={renderOptions}
             />
           </Box>
         </div>
         <div style={{ width: "auto" }}>
-          <h3>Embed Code</h3>
-          <EmbedCodeBlock id={id as string} />
+          <div>
+            <h3>Options</h3>
+            <Box>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1.5rem",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ width: "12rem" }}>Fixed height (px)</span>
+                <TextInput
+                  hideLabel
+                  register={register}
+                  control={control}
+                  name="height"
+                  size="small"
+                  rules={{
+                    pattern: {
+                      value: /^(200|1200|[2-9]\d{2}|1[0-1]\d{2})$/,
+                      message: "Enter a value between 200 and 1200",
+                    },
+                  }}
+                />
+                <Button
+                  variant="primary"
+                  onClick={() => handleSubmit(handleRenderOptionsSave)()}
+                  label="Save"
+                  size="medium"
+                  disabled={upsertEmbed.isPending || !formState.isDirty}
+                />
+              </div>
+            </Box>
+          </div>
+          <div>
+            <h3>Embed Code</h3>
+            <EmbedCodeBlock id={id as string} />
+          </div>
         </div>
       </section>
       <section className={styles.section}>

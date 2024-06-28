@@ -16,7 +16,9 @@ const commitHash = process.env.COMMIT_HASH;
 export function DevToolbar() {
   const { user } = useAuth();
   const fps = useFps(3);
-  const [isCollapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setCollapsed] = useState(
+    localStorage.getItem("populistDevToolsOpen") == "true"
+  );
 
   if (!user || user.role !== Role.Superuser) return null;
   if (process.env.NODE_ENV === "production") return null;
@@ -29,7 +31,13 @@ export function DevToolbar() {
     >
       <button
         className={styles.iconButton}
-        onClick={() => setCollapsed(!isCollapsed)}
+        onClick={() => {
+          setCollapsed(!isCollapsed);
+          localStorage.setItem(
+            "populistDevToolsOpen",
+            isCollapsed ? "false" : "true"
+          );
+        }}
       >
         {isCollapsed ? (
           <BiChevronLeft color="var(--aqua)" />

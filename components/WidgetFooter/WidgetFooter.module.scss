@@ -3,6 +3,9 @@
 .footer {
   width: 100%;
   border-top: 1px solid $grey-light;
+  bottom: 0;
+  height: auto;
+  position: absolute;
 
   .footerContent {
     margin: 0;
