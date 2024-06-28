@@ -80,7 +80,10 @@ export function CandidateGuideEmbed({
   return (
     <div
       className={clsx(styles.widgetContainer, styles.candidateGuideContainer)}
-      style={{ height: `${renderOptions?.height || 700}px` }}
+      style={{
+        height: `${renderOptions?.height || 700}px`,
+        minHeight: "fit-content",
+      }}
     >
       <header className={styles.header}>
         <strong>Candidate Guide</strong>
