@@ -65,6 +65,14 @@ export function CandidateGuideEmbed({
       (q) => q.id == selectedQuestionId
     )?.submissionsByRace || [];
 
+  const politiciansWithSubmissions = submissions.map(
+    (submission) => submission.politician
+  );
+
+  const politiciansWithNoSubmissions = race?.candidates.filter(
+    (candidate) => !politiciansWithSubmissions.includes(candidate)
+  );
+
   useEmbedResizer({ origin, embedId });
 
   if (isLoading || embedLoading) return <LoaderFlag />;
@@ -152,6 +160,32 @@ export function CandidateGuideEmbed({
                     <div>
                       <p>{s.response}</p>
                     </div>
+                  </div>
+                  {i !== submissions.length - 1 && (
+                    <Divider color="var(--grey-light)" />
+                  )}
+                </>
+              ))}
+              {politiciansWithNoSubmissions?.map((p, i) => (
+                <>
+                  <div key={p.id} className={styles.submission}>
+                    <div className={styles.avatarContainer}>
+                      <PartyAvatar
+                        theme={"light"}
+                        size={80}
+                        hasIconMenu
+                        iconSize="1.25rem"
+                        party={p?.party as PoliticalParty}
+                        src={p?.assets?.thumbnailImage160 as string}
+                        alt={p?.fullName as string}
+                        target={"_blank"}
+                        rel={"noopener noreferrer"}
+                      />
+                      <span className={clsx(styles.link, styles.avatarName)}>
+                        {p?.fullName}
+                      </span>
+                    </div>
+                    <p className={styles.noResponse}>NO RESPONSE</p>
                   </div>
                   {i !== submissions.length - 1 && (
                     <Divider color="var(--grey-light)" />

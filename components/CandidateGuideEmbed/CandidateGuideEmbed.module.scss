@@ -4,6 +4,10 @@
 
 .candidateGuideContainer {
   width: 720px;
+
+  main {
+    position: relative;
+  }
 }
 
 .header {
@@ -73,6 +77,8 @@
 
 .submissionsContainer {
   margin-top: 1.5rem;
+  height: 400px; // @Henry this needs to be more flexible not sure how to handle since we are allowing the height of the whole embed to be modified
+  overflow: scroll;
 }
 
 .avatarContainer {
@@ -103,4 +109,17 @@
     font-family: $font-secondary;
     margin-top: 0.5rem;
   }
+}
+
+.noResponse {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  color: $grey;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: $text-md;
 }
