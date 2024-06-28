@@ -319,7 +319,7 @@ export default function CandidateGuideEmbedPage() {
                   alignItems: "baseline",
                 }}
               >
-                <span style={{ width: "12rem" }}>Fixed height (px)</span>
+                <span style={{ width: "16rem" }}>Fixed height (px)</span>
                 <TextInput
                   hideLabel
                   register={register}

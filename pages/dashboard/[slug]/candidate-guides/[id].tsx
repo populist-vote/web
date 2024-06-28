@@ -25,6 +25,7 @@ import {
   EmbedResult,
   useDeleteEmbedMutation,
   useDeleteCandidateGuideMutation,
+  useDownloadAllCandidateGuideDataMutation,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -41,6 +42,7 @@ import { RaceResultsTable } from "components/RaceResultsTable/RaceResultsTable";
 import { PoliticalScopeFilters } from "components/PoliticianFilters/PoliticianFilters";
 import { confirmDialog } from "utils/messages";
 import { toast } from "react-toastify";
+import { downloadCsv } from "utils/strings";
 
 export async function getServerSideProps({
   query,
@@ -361,17 +363,38 @@ function RacesSection({
     );
   };
 
+  const exportMutation = useDownloadAllCandidateGuideDataMutation();
+
+  const handleDataExport = () => {
+    exportMutation.mutate(
+      { candidateGuideId: candidateGuide.id },
+      {
+        onSuccess: (data) => downloadCsv(data.downloadAllCandidateGuideData),
+        onError: (error) => toast.error((error as Error).message),
+      }
+    );
+  };
+
   return (
     <section>
       <div className={clsx(styles.flexBetween, styles.inlineHeading)}>
         <h3>Races</h3>
-        <Button
-          theme="blue"
-          variant="primary"
-          size="small"
-          label="Add Race"
-          onClick={openModal}
-        />
+        <div className={styles.flexBetween}>
+          <Button
+            theme="blue"
+            variant="primary"
+            size="small"
+            label="Export All Data"
+            onClick={handleDataExport}
+          />
+          <Button
+            theme="blue"
+            variant="primary"
+            size="small"
+            label="Add Race"
+            onClick={openModal}
+          />
+        </div>
         <Modal isOpen={isModalOpen} onClose={closeModal} width={"920px"}>
           <h2>Add Races</h2>
           <Divider />

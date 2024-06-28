@@ -716,6 +716,10 @@ type Mutation {
   deleteRace(id: String!): DeleteRaceResult!
   deleteVotingGuide(id: ID!): DeleteVotingGuideResult!
   deleteVotingGuideCandidateNote(candidateId: ID!, votingGuideId: ID!): VotingGuideCandidateResult!
+  """
+  Download all candidate guide data as a CSV string, must be converted to CSV file by client
+  """
+  downloadAllCandidateGuideData(candidateGuideId: ID!, raceId: ID): String!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!): String!
   insertPolitician(input: InsertPoliticianInput!): PoliticianResult!

@@ -11,3 +11,7 @@ mutation GenerateCandidateGuideIntakeLink(
 mutation DeleteCandidateGuide($id: ID!) {
   deleteCandidateGuide(id: $id)
 }
+
+mutation DownloadAllCandidateGuideData($candidateGuideId: ID!) {
+  downloadAllCandidateGuideData(candidateGuideId: $candidateGuideId)
+}

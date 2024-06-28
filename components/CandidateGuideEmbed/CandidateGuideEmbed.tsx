@@ -70,7 +70,8 @@ export function CandidateGuideEmbed({
   );
 
   const politiciansWithNoSubmissions = race?.candidates.filter(
-    (candidate) => !politiciansWithSubmissions.includes(candidate)
+    (candidate) =>
+      !politiciansWithSubmissions.some((p) => p?.id === candidate.id)
   );
 
   useEmbedResizer({ origin, embedId });
@@ -92,7 +93,6 @@ export function CandidateGuideEmbed({
         </strong>
       </header>
       <main>
-        {/* <pre>{JSON.stringify(embedData, null, 2)}</pre> */}
         <div className={styles.title}>
           <div className={styles.flexEvenly}>
             <h2>{race?.office.name}</h2>
@@ -141,7 +141,7 @@ export function CandidateGuideEmbed({
               <h3>{selectedQuestion.prompt}</h3>
             </div>
             <div className={styles.submissionsContainer}>
-              {submissions.map((s, i) => (
+              {submissions.map((s) => (
                 <>
                   <div key={s.id} className={styles.submission}>
                     <div className={styles.avatarContainer}>
@@ -164,9 +164,7 @@ export function CandidateGuideEmbed({
                       <p>{s.response}</p>
                     </div>
                   </div>
-                  {i !== submissions.length - 1 && (
-                    <Divider color="var(--grey-light)" />
-                  )}
+                  <Divider color="var(--grey-light)" />
                 </>
               ))}
               {politiciansWithNoSubmissions?.map((p, i) => (
@@ -190,7 +188,7 @@ export function CandidateGuideEmbed({
                     </div>
                     <p className={styles.noResponse}>NO RESPONSE</p>
                   </div>
-                  {i !== submissions.length - 1 && (
+                  {i !== politiciansWithNoSubmissions.length - 1 && (
                     <Divider color="var(--grey-light)" />
                   )}
                 </>
