@@ -15,6 +15,7 @@ import {
   useOrganizationByIdQuery,
   usePoliticianByIntakeTokenQuery,
   useUpsertQuestionSubmissionMutation,
+  VoteType,
 } from "generated";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -189,6 +190,11 @@ export default function CandidateGuideIntake() {
               <h3 className={styles.officeSubtitle}>{race?.office.subtitle}</h3>
             </div>
             <div className={styles.flexBetween}>
+              {race.voteType != VoteType.Plurality && (
+                <Badge size="small" theme="blue" variant="solid">
+                  {race.voteType}
+                </Badge>
+              )}
               {race.numElect && (
                 <Badge size="small" theme="blue" variant="solid">
                   Elect {race.numElect}

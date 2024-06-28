@@ -12,7 +12,7 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
 import { getYear } from "utils/dates";
 import { useState } from "react";
-import { BiChevronLeft } from "react-icons/bi";
+import { BsChevronLeft } from "react-icons/bs";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import clsx from "clsx";
 import { Race } from "components/Ballot/Race";
@@ -92,12 +92,11 @@ export function CandidateGuideEmbed({
           {getYear(election?.electionDate)} - {election?.title}
         </strong>
       </header>
-      <main>
+      <main className={styles.contentContainer}>
         <div className={styles.title}>
-          <div className={styles.flexEvenly}>
-            <h2>{race?.office.name}</h2>
-            <Divider vertical color="var(--grey-dark)" />
-            <h2>{race?.office?.subtitle}</h2>
+          <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
+            <h2 className={styles.officeName}>{race?.office.name}</h2>
+            <h2 className={styles.officeSubtitle}>{race?.office?.subtitle}</h2>
           </div>
           {/* <LanguageSelect /> */}
         </div>
@@ -112,87 +111,89 @@ export function CandidateGuideEmbed({
                 theme="light"
               />
             </div>
-            <h4>Questions</h4>
-            <div className={styles.questionContainer}>
-              {embedData?.embedById.candidateGuide?.questions.map((q) => (
-                <button
-                  className={styles.questionButton}
-                  key={q.id}
-                  onClick={() => setSelectedQuestionId(q.id)}
-                  onKeyDown={() => setSelectedQuestionId(q.id)}
-                >
-                  {q.prompt}
-                </button>
-              ))}
+            <h4 className={styles.questionsTitle}>Questions</h4>
+            <div className={styles.overflowGradient}>
+              <div className={styles.questionsContainer}>
+                {embedData?.embedById.candidateGuide?.questions.map((q) => (
+                  <button
+                    className={styles.questionButton}
+                    key={q.id}
+                    onClick={() => setSelectedQuestionId(q.id)}
+                    onKeyDown={() => setSelectedQuestionId(q.id)}
+                  >
+                    {q.prompt}
+                  </button>
+                ))}
+              </div>
             </div>
           </>
         ) : (
-          <div>
+          <div className={styles.contentContainer}>
             <div className={styles.questionHeader}>
-              <h4>Question</h4>
+              <h4 className={styles.questionsTitle}>Question</h4>
               <button
                 className={styles.backButton}
                 onClick={() => setSelectedQuestionId(null)}
               >
-                <BiChevronLeft /> Back
+                <BsChevronLeft size={"0.75rem"} /> Back
               </button>
             </div>
             <div className={styles.question}>
               <h3>{selectedQuestion.prompt}</h3>
             </div>
-            <div className={styles.submissionsContainer}>
-              {submissions.map((s) => (
-                <>
-                  <div key={s.id} className={styles.submission}>
-                    <div className={styles.avatarContainer}>
-                      <PartyAvatar
-                        theme={"light"}
-                        size={80}
-                        hasIconMenu
-                        iconSize="1.25rem"
-                        party={s.politician?.party as PoliticalParty}
-                        src={s.politician?.assets?.thumbnailImage160 as string}
-                        alt={s.politician?.fullName as string}
-                        target={"_blank"}
-                        rel={"noopener noreferrer"}
-                      />
-                      <span className={clsx(styles.link, styles.avatarName)}>
-                        {s.politician?.fullName}
-                      </span>
+            <div className={styles.overflowGradient}>
+              <div className={styles.submissionsContainer}>
+                {submissions.map((s) => (
+                  <>
+                    <div key={s.id} className={styles.submission}>
+                      <div className={styles.avatarContainer}>
+                        <PartyAvatar
+                          theme={"light"}
+                          size={80}
+                          hasIconMenu
+                          iconSize="1.25rem"
+                          party={s.politician?.party as PoliticalParty}
+                          src={
+                            s.politician?.assets?.thumbnailImage160 as string
+                          }
+                          alt={s.politician?.fullName as string}
+                          target={"_blank"}
+                          rel={"noopener noreferrer"}
+                        />
+                        <span className={clsx(styles.link, styles.avatarName)}>
+                          {s.politician?.fullName}
+                        </span>
+                      </div>
+                      <div>
+                        <p>{s.response}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p>{s.response}</p>
+                  </>
+                ))}
+                {politiciansWithNoSubmissions?.map((p) => (
+                  <>
+                    <div key={p.id} className={styles.submission}>
+                      <div className={styles.avatarContainer}>
+                        <PartyAvatar
+                          theme={"light"}
+                          size={80}
+                          hasIconMenu
+                          iconSize="1.25rem"
+                          party={p?.party as PoliticalParty}
+                          src={p?.assets?.thumbnailImage160 as string}
+                          alt={p?.fullName as string}
+                          target={"_blank"}
+                          rel={"noopener noreferrer"}
+                        />
+                        <span className={clsx(styles.link, styles.avatarName)}>
+                          {p?.fullName}
+                        </span>
+                      </div>
+                      <p className={styles.noResponse}>NO RESPONSE</p>
                     </div>
-                  </div>
-                  <Divider color="var(--grey-light)" />
-                </>
-              ))}
-              {politiciansWithNoSubmissions?.map((p, i) => (
-                <>
-                  <div key={p.id} className={styles.submission}>
-                    <div className={styles.avatarContainer}>
-                      <PartyAvatar
-                        theme={"light"}
-                        size={80}
-                        hasIconMenu
-                        iconSize="1.25rem"
-                        party={p?.party as PoliticalParty}
-                        src={p?.assets?.thumbnailImage160 as string}
-                        alt={p?.fullName as string}
-                        target={"_blank"}
-                        rel={"noopener noreferrer"}
-                      />
-                      <span className={clsx(styles.link, styles.avatarName)}>
-                        {p?.fullName}
-                      </span>
-                    </div>
-                    <p className={styles.noResponse}>NO RESPONSE</p>
-                  </div>
-                  {i !== politiciansWithNoSubmissions.length - 1 && (
-                    <Divider color="var(--grey-light)" />
-                  )}
-                </>
-              ))}
+                  </>
+                ))}
+              </div>
             </div>
           </div>
         )}
