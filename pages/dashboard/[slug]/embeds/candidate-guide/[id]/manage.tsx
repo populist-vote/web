@@ -231,6 +231,7 @@ export default function CandidateGuideEmbedPage() {
         input: {
           id: data?.embedById.id,
           organizationId: user.organizationId,
+          name: data?.embedById.name,
           attributes: {
             renderOptions: {
               height,

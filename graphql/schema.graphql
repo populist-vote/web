@@ -116,6 +116,7 @@ input BeginUserRegistrationInput {
   password: String!
 }
 
+"""Legiscan Bill object"""
 type Bill {
   amendments: [BillAmendment!]!
   billId: Int!
@@ -716,6 +717,7 @@ type Mutation {
   deleteRace(id: String!): DeleteRaceResult!
   deleteVotingGuide(id: ID!): DeleteVotingGuideResult!
   deleteVotingGuideCandidateNote(candidateId: ID!, votingGuideId: ID!): VotingGuideCandidateResult!
+  downloadAllCandidateGuideDataAsCsvString(candidateGuideId: ID!, raceId: ID!): String!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!): String!
   insertPolitician(input: InsertPoliticianInput!): PoliticianResult!
