@@ -99,7 +99,7 @@ export function RaceResultsTable({
         ),
       },
       {
-        accessorKey: "office.title",
+        accessorKey: "office.name",
         header: "Office",
         size: 300,
       },
