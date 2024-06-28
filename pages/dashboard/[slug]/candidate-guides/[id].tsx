@@ -189,10 +189,10 @@ function QuestionsSection({
     async (questionId: string) => {
       await deleteQuestionMutation.mutateAsync({ id: questionId });
       void queryClient.invalidateQueries({
-        queryKey: useCandidateGuideByIdQuery.getKey({ id: candidateGuide.id }),
+        queryKey: ["CandidateGuideById"],
       });
     },
-    [deleteQuestionMutation, candidateGuide.id, queryClient]
+    [deleteQuestionMutation, queryClient]
   );
 
   const questionColumns = useMemo<ColumnDef<QuestionResult>[]>(
@@ -338,8 +338,9 @@ function RacesSection({
 
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
 
+  const selectedRowArray = (selectedRows as string)?.split(",");
+
   const handleSelectedRows = () => {
-    const selectedRowArray = (selectedRows as string)?.split(",");
     upsertCandidateGuideMutation.mutate(
       {
         input: {
@@ -416,6 +417,7 @@ function RacesSection({
                 size="medium"
                 label="Add Selected Races"
                 onClick={handleSelectedRows}
+                disabled={upsertCandidateGuideMutation.isPending}
               />
             </div>
           )}
