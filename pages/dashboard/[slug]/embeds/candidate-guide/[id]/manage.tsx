@@ -329,8 +329,8 @@ export default function CandidateGuideEmbedPage() {
                   rules={{
                     pattern: {
                       value:
-                        /^(6[5-9][0-9]{2}|7[0-9]{3}|8[0-9]{3}|9[0-9]{3}|10[0-9]{3}|11[0-9]{3}|12[0-4][0-9]{2})$/,
-                      message: "Enter a value between 650 and 1250",
+                        /^(600|6[0-9]{2}|7[0-9]{2}|8[0-9]{2}|9[0-9]{2}|1[0-4][0-9]{2}|1500)$/,
+                      message: "Enter a value between 600 and 1500",
                     },
                   }}
                   errors={formState.errors.height?.message}
