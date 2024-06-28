@@ -232,7 +232,9 @@ export default function CandidateGuideEmbedPage() {
           id: data?.embedById.id,
           organizationId: user.organizationId,
           name: data?.embedById.name,
+          embedType: EmbedType.CandidateGuide,
           attributes: {
+            ...data?.embedById.attributes,
             renderOptions: {
               height,
             },
@@ -242,7 +244,7 @@ export default function CandidateGuideEmbedPage() {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ["EmbedById"],
+            queryKey: ["EmbedById", { id: data?.embedById.id }],
           });
         },
         onError: (error) => {
@@ -314,7 +316,7 @@ export default function CandidateGuideEmbedPage() {
                   display: "flex",
                   gap: "1.5rem",
                   justifyContent: "space-evenly",
-                  alignItems: "center",
+                  alignItems: "baseline",
                 }}
               >
                 <span style={{ width: "12rem" }}>Fixed height (px)</span>
@@ -326,10 +328,13 @@ export default function CandidateGuideEmbedPage() {
                   size="small"
                   rules={{
                     pattern: {
-                      value: /^(200|1200|[2-9]\d{2}|1[0-1]\d{2})$/,
-                      message: "Enter a value between 200 and 1200",
+                      value:
+                        /^(6[5-9][0-9]{2}|7[0-9]{3}|8[0-9]{3}|9[0-9]{3}|10[0-9]{3}|11[0-9]{3}|12[0-4][0-9]{2})$/,
+                      message: "Enter a value between 650 and 1250",
                     },
                   }}
+                  errors={formState.errors.height?.message}
+                  useToastError
                 />
                 <Button
                   variant="primary"
