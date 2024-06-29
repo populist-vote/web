@@ -72,10 +72,14 @@ export default function CandidateGuideEmbedPageSubmissions() {
     );
   }, [selectedQuestion, submissionsData]);
 
-  const handleSelectedQuestion = (questionId: string) => {
+  const handleSelectedQuestion = async (questionId: string) => {
     setSelectedQuestion(questionId);
-    void router.push(
-      `/dashboard/${router.query.slug}/embeds/candidate-guide/${id}/submissions?selected=${questionId}`
+    await router.push(
+      `/dashboard/${router.query.slug}/embeds/candidate-guide/${id}/submissions?selected=${questionId}`,
+      undefined,
+      {
+        scroll: false,
+      }
     );
   };
 
