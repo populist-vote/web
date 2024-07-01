@@ -14,6 +14,7 @@ import {
   useCandidateGuideIntakeQuestionsQuery,
   useOrganizationByIdQuery,
   usePoliticianByIntakeTokenQuery,
+  useRaceByIdQuery,
   useUpsertQuestionSubmissionMutation,
   VoteType,
 } from "generated";
@@ -28,7 +29,7 @@ import { Race } from "components/Ballot/Race";
 import clsx from "clsx";
 
 export default function CandidateGuideIntake() {
-  const { id, token } = useRouter().query;
+  const { id, token, raceId } = useRouter().query;
   const { data: politicianData, isLoading: isPoliticianLoading } =
     usePoliticianByIntakeTokenQuery({
       token: token as string,
@@ -45,8 +46,17 @@ export default function CandidateGuideIntake() {
   const { data: organizationData } = useOrganizationByIdQuery({
     id: data?.candidateGuideById.organizationId as string,
   });
+
+  const { data: raceData, isLoading: isRaceLoading } = useRaceByIdQuery(
+    {
+      id: raceId as string,
+    },
+    {
+      enabled: !!raceId,
+    }
+  );
   const politician = politicianData?.politicianByIntakeToken;
-  const race = politician?.upcomingRace;
+  const race = raceData ? raceData.raceById : politician?.upcomingRace;
   const questions = data?.candidateGuideById.questions;
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -103,7 +113,7 @@ export default function CandidateGuideIntake() {
     }
   };
 
-  if (isLoading || isPoliticianLoading) return <LoaderFlag />;
+  if (isLoading || isPoliticianLoading || isRaceLoading) return <LoaderFlag />;
 
   if (!politician || !race) return <small>No politician data attached.</small>;
 

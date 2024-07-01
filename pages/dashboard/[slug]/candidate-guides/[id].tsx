@@ -66,7 +66,12 @@ export async function getServerSideProps({
 export default function CandidateGuideManagePage() {
   const router = useRouter();
   const { slug, id } = router.query as { slug: string; id: string };
-  const { data, isLoading } = useCandidateGuideByIdQuery({ id });
+  const { data, isLoading } = useCandidateGuideByIdQuery(
+    { id },
+    {
+      staleTime: 1000 * 60 * 5,
+    }
+  );
   const candidateGuide = data?.candidateGuideById as CandidateGuideResult;
   const deleteCandidateGuideMutation = useDeleteCandidateGuideMutation();
 
@@ -218,7 +223,7 @@ function QuestionsSection({
                     .push(
                       `/dashboard/${slug}/candidate-guides/${candidateGuide.id}?isModalOpen=true&questionId=${info.row.original.id}`
                     )
-                    .catch((e) => toast.error(e))
+                    .catch((e: Error) => toast.error(e.message))
                     .finally(() => setIsModalOpen(true));
                 }}
               />
