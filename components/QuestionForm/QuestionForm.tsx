@@ -1,13 +1,23 @@
-import { Button, Divider, LoaderFlag, TextInput } from "components";
+import {
+  Badge,
+  Button,
+  Divider,
+  LoaderFlag,
+  Select,
+  TextInput,
+} from "components";
 import { useRouter } from "next/router";
 import {
   QuestionResult,
+  useIssueTagsQuery,
   useQuestionByIdQuery,
   useUpsertQuestionMutation,
 } from "generated";
 import { toast } from "react-toastify";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { BsXCircleFill } from "react-icons/bs";
 
 type QuestionForm = {
   prompt: string;
@@ -62,6 +72,23 @@ function QuestionFormInner({
   onSuccess?: () => void;
 }) {
   const upsertQuestion = useUpsertQuestionMutation();
+  const { data, isLoading } = useIssueTagsQuery();
+
+  const labelOptions = data?.allIssueTags;
+  const [selectedLabels, setSelectedLabels] = useState<
+    {
+      id: string;
+      label: string;
+    }[]
+  >([]);
+
+  const optionsObject: { label: string; value: string }[] = [
+    { label: "Select a Tag", value: "default" },
+  ];
+
+  labelOptions?.map((label: { name: string; id: string }) =>
+    optionsObject.push({ label: label.name, value: label.id })
+  );
 
   const {
     register,
@@ -98,6 +125,7 @@ function QuestionFormInner({
           responseCharLimit:
             enforceCharLimit && responseCharLimit ? responseCharLimit : null,
           responsePlaceholderText,
+          issueTagIds: selectedLabels.map((label) => label.id),
           allowAnonymousResponses: data.allowAnonymousResponses || false,
           candidateGuideId,
         },
@@ -121,6 +149,24 @@ function QuestionFormInner({
     );
   };
 
+  const handleLabelSelect = (id: string) => {
+    const selectedLabel = optionsObject.find((option) => option.value === id)!;
+    if (
+      selectedLabel.value !== "default" &&
+      !selectedLabels.find((label) => label.id === selectedLabel.value)
+    ) {
+      setSelectedLabels((previous) => [
+        ...previous,
+        {
+          id: selectedLabel.value,
+          label: selectedLabel.label,
+        },
+      ]);
+    }
+  };
+
+  if (isLoading) return <LoaderFlag />;
+
   return (
     <form onSubmit={handleSubmit(handleCreateEmbed)}>
       <h2>{!!question ? "Update" : "Add"} Question</h2>
@@ -142,6 +188,43 @@ function QuestionFormInner({
               required: "Prompt is required",
             }}
           />
+        </section>
+        <section>
+          <h4>Question Tags</h4>
+          <Select
+            backgroundColor="blue"
+            value={
+              selectedLabels.length > 0
+                ? selectedLabels[selectedLabels.length - 1]!.id
+                : "default"
+            }
+            options={optionsObject}
+            onChange={(e) => handleLabelSelect(e.target.value)}
+          />
+        </section>
+        <section
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1rem",
+            padding: "1rem 0",
+          }}
+        >
+          {selectedLabels.map(function (label) {
+            return (
+              <Badge key={label.id}>
+                {label.label}
+                <BsXCircleFill
+                  color="var(--grey)"
+                  onClick={() =>
+                    setSelectedLabels(
+                      selectedLabels.filter((b) => b.id !== label.id)
+                    )
+                  }
+                />
+              </Badge>
+            );
+          })}
         </section>
         <Divider />
         <section
