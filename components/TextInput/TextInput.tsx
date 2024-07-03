@@ -36,7 +36,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   placeholder?: string;
   register: UseFormRegister<TFormValues>;
   control: Control<TFormValues>;
-  rules?: RegisterOptions;
+  rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
   watch?: string;
   type?: TextInputType;
   icon?: ReactNode;
