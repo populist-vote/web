@@ -1,4 +1,5 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Table } from "components/Table/Table";
 import {
   PoliticalScope,
@@ -6,6 +7,7 @@ import {
   State,
   useRaceIndexQuery,
 } from "generated";
+import { useAuth } from "hooks/useAuth";
 import useDebounce from "hooks/useDebounce";
 import { Theme } from "hooks/useTheme";
 import { useRouter } from "next/router";
@@ -45,22 +47,38 @@ export function RaceResultsTable({
   multiSelect?: boolean;
   selectedRows?: string[];
 }) {
+  const { user } = useAuth();
+  const defaultState = user?.userProfile?.address?.state || null;
   const router = useRouter();
   const { query } = router;
-  const { state, search, selected, scope } = query;
+
+  const currentYear = new Date().getFullYear().toString();
+  const {
+    state = defaultState,
+    search,
+    selected,
+    year = currentYear,
+    scope,
+  } = query;
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
     350
   );
   const shouldFetchRaceResults = !!debouncedSearchQuery || !!state || !!scope;
 
-  const { data } = useRaceIndexQuery(
+  const { data, isLoading } = useRaceIndexQuery(
     {
       pageSize: 250,
       filter: {
         query: debouncedSearchQuery || null,
-        state: state === "" ? null : (state as State) ?? null,
+        state:
+          state === ""
+            ? null
+            : state == "All States"
+              ? null
+              : (state as string as State),
         politicalScope: scope as string as PoliticalScope,
+        year: parseInt(year as string),
       },
     },
     {
@@ -150,6 +168,8 @@ export function RaceResultsTable({
   };
 
   if (raceResults.length == 0) return null;
+
+  if (isLoading) return <LoaderFlag />;
 
   return (
     <>

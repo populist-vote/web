@@ -43,6 +43,7 @@ import { PoliticalScopeFilters } from "components/PoliticianFilters/PoliticianFi
 import { confirmDialog } from "utils/messages";
 import { toast } from "react-toastify";
 import { downloadCsv } from "utils/strings";
+import { useAuth } from "hooks/useAuth";
 
 export async function getServerSideProps({
   query,
@@ -318,9 +319,17 @@ function RacesSection({
   candidateGuide: CandidateGuideResult;
   slug: string;
 }) {
+  const { user } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { state, search, selectedRows } = router.query;
+  const currentYear = new Date().getFullYear().toString();
+  const defaultState = user?.userProfile?.address?.state || null;
+  const {
+    state = defaultState,
+    search,
+    year = currentYear,
+    selectedRows,
+  } = router.query;
   const [searchValue, setSearchValue] = useState(search as string);
   const [isModalOpen, setIsModalOpen] = useState(
     router.query.isModalOpen == "true" || false
@@ -343,7 +352,10 @@ function RacesSection({
     router.push({
       query: { ...router.query, state: e.target.value },
     });
-
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    router.push({
+      query: { ...router.query, year: e.target.value },
+    });
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
 
   const selectedRowArray = (selectedRows as string)?.split(",");
@@ -419,6 +431,17 @@ function RacesSection({
                   { value: "MN", label: "Minnesota" },
                 ]}
                 onChange={handleStateChange}
+              />
+              <Select
+                textColor="white"
+                backgroundColor={"blue"}
+                value={year as string}
+                options={[
+                  { value: "2024", label: "2024" },
+                  { value: "2023", label: "2023" },
+                  { value: "2022", label: "2022" },
+                ]}
+                onChange={handleYearChange}
               />
             </div>
           </div>
