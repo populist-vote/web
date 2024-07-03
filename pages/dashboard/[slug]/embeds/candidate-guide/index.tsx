@@ -1,4 +1,4 @@
-import { EmbedIndex, Layout } from "components";
+import { Box, EmbedIndex, Layout, LoaderFlag, PartyAvatar } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useMemo } from "react";
@@ -9,11 +9,15 @@ import {
   CandidateGuideResult,
   EmbedResult,
   EmbedType,
+  PoliticalParty,
   useCandidateGuidesByOrganizationQuery,
+  useRecentCandidateGuideQuestionSubmissionsQuery,
 } from "generated";
 import { getRelativeTimeString } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
+import clsx from "clsx";
+import styles from "./index.module.scss";
 
 export async function getServerSideProps({
   query,
@@ -39,6 +43,14 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
   const { user } = useAuth({ redirectTo: "/login" });
   const { data, isLoading } = useCandidateGuidesByOrganizationQuery({
     organizationId: user?.organizationId as string,
+  });
+
+  const {
+    data: recentSubmissionsData,
+    isLoading: isRecentSubmissionsDataLoading,
+  } = useRecentCandidateGuideQuestionSubmissionsQuery({
+    organizationId: user?.organizationId as string,
+    limit: 5,
   });
 
   const candidateGuideColumns = useMemo<ColumnDef<CandidateGuideResult>[]>(
@@ -71,19 +83,99 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
   const guides = data?.candidateGuidesByOrganization || [];
 
   return (
-    <EmbedIndex
-      // @ts-expect-error React table types are difficult to work with
-      columns={candidateGuideColumns}
-      // @ts-expect-error React table types are difficult to work with
-      embeds={guides}
-      embedType={EmbedType.CandidateGuide}
-      title="Candidate Guides"
-      isLoading={isLoading}
-      emptyStateMessage="No candidate guides found."
-      onRowClick={(row) =>
-        router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
-      }
-    />
+    <>
+      <EmbedIndex
+        // @ts-expect-error React table types are difficult to work with
+        columns={candidateGuideColumns}
+        // @ts-expect-error React table types are difficult to work with
+        embeds={guides}
+        embedType={EmbedType.CandidateGuide}
+        title="Candidate Guides"
+        isLoading={isLoading}
+        emptyStateMessage="No candidate guides found."
+        onRowClick={(row) =>
+          router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
+        }
+      />
+      {isRecentSubmissionsDataLoading ? (
+        <LoaderFlag />
+      ) : (
+        <div>
+          <h2>Recent Submissions</h2>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "1rem",
+            }}
+          >
+            {recentSubmissionsData?.recentCandidateGuideQuestionSubmissionsByOrganization?.map(
+              (submission) => (
+                <div style={{ marginBottom: "1rem" }} key={submission.id}>
+                  <Box>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "1rem",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <div>
+                        <div className={styles.avatarContainer}>
+                          <PartyAvatar
+                            theme={"light"}
+                            size={80}
+                            iconSize="1.25rem"
+                            party={
+                              submission.politician?.party as PoliticalParty
+                            }
+                            src={
+                              submission.politician?.assets
+                                ?.thumbnailImage160 as string
+                            }
+                            alt={submission.politician?.fullName as string}
+                            target={"_blank"}
+                            rel={"noopener noreferrer"}
+                          />
+                          <span
+                            className={clsx(styles.link, styles.avatarName)}
+                          >
+                            {submission.politician?.fullName}
+                          </span>
+                        </div>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            color: "var(--blue-text-light)",
+                            fontSize: "1em",
+                          }}
+                        >
+                          {submission.question.prompt}
+                        </p>
+                        <p>{submission.response}</p>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        marginTop: "1rem",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        width: "100%",
+                      }}
+                    >
+                      <small>
+                        {getRelativeTimeString(new Date(submission.updatedAt))}
+                      </small>
+                    </div>
+                  </Box>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

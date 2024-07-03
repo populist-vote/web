@@ -188,10 +188,10 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
 function QuestionSubmissionsTable({
   submissions,
 }: {
-  submissions: QuestionSubmissionResult[];
+  submissions: Partial<QuestionSubmissionResult>[];
 }) {
   const { theme } = useTheme();
-  const columns = useMemo<ColumnDef<QuestionSubmissionResult>[]>(
+  const columns = useMemo<ColumnDef<Partial<QuestionSubmissionResult>>[]>(
     () => [
       {
         header: "Response",

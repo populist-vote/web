@@ -15,6 +15,9 @@ const commitHash = require("child_process")
   .trim();
 
 const nextConfig = {
+  experimental: {
+    scrollRestoration: false,
+  },
   reactStrictMode: true,
   i18n,
   images: {

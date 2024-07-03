@@ -143,7 +143,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
         {deployments?.map((deployment: EnhancedEmbedOriginResult) => (
           <Link
             href={deployment.url}
-            key={deployment.url}
+            key={`${deployment.embedId + deployment.url}`}
             target="_blank"
             rel="noreferrer"
             className={styles.linkParent}

@@ -33,6 +33,7 @@ import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
+// import * as Switch from "@radix-ui/react-switch";
 
 export async function getServerSideProps({
   query,
@@ -57,9 +58,14 @@ export default function CandidateGuideEmbedPage() {
   const { user } = useAuth();
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery({
-    id: id as string,
-  });
+  const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery(
+    {
+      id: id as string,
+    },
+    {
+      staleTime: 1000 * 60 * 5,
+    }
+  );
 
   const candidateGuide = data?.embedById?.candidateGuide;
   const raceId = data?.embedById?.race?.id as string;
@@ -69,6 +75,7 @@ export default function CandidateGuideEmbedPage() {
     },
     {
       enabled: !!raceId,
+      staleTime: 1000 * 60 * 5,
     }
   );
 
@@ -79,6 +86,7 @@ export default function CandidateGuideEmbedPage() {
     },
     {
       enabled: !!(candidateGuide?.id && raceId),
+      staleTime: 1000 * 60 * 5,
     }
   );
 
@@ -100,6 +108,7 @@ export default function CandidateGuideEmbedPage() {
         {
           candidateGuideId,
           politicianId,
+          raceId,
         },
         {
           onSuccess: (data) => {
@@ -129,6 +138,7 @@ export default function CandidateGuideEmbedPage() {
           {
             candidateGuideId,
             politicianId,
+            raceId,
           },
           {
             onSuccess: (data) => {
@@ -141,7 +151,7 @@ export default function CandidateGuideEmbedPage() {
         );
       });
     },
-    [intakeLinkMutation, candidateGuideId]
+    [intakeLinkMutation, candidateGuideId, raceId]
   );
 
   const [isExportLoading, setIsExportLoading] = useState(false);
@@ -271,6 +281,15 @@ export default function CandidateGuideEmbedPage() {
         <div className={styles.flexBetween}>
           <h3>Candidates</h3>
           <div className={styles.flexBetween}>
+            {/* TODO: Handle submission lock */}
+            {/* <div style={{ display: "flex", alignItems: "center" }}>
+              <label htmlFor="lock-submissions" style={{ paddingRight: 15 }}>
+                Lock submissions
+              </label>
+              <Switch.Root className={styles.SwitchRoot} id="lock-submissions">
+                <Switch.Thumb className={styles.SwitchThumb} />
+              </Switch.Root>
+            </div> */}
             <Button
               label="Export All Data"
               size="medium"

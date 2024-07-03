@@ -57,6 +57,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
       },
       {
         enabled: !!(candidateGuide?.id && embed?.race?.id),
+        staleTime: 1000 * 60 * 5,
       }
     );
 

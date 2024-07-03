@@ -131,6 +131,10 @@ a {
   box-sizing: border-box;
 }
 
+button {
+  all: unset;
+}
+
 p {
   font-family: "proxima_nova", sans-serif;
   font-weight: 300;

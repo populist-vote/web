@@ -53,6 +53,7 @@ function EmbedById({ slug, id }: { slug: string; id: string }) {
     },
     {
       retry: false,
+      staleTime: 1000 * 60 * 5,
     }
   );
 

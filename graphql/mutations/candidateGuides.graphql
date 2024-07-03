@@ -1,10 +1,12 @@
 mutation GenerateCandidateGuideIntakeLink(
   $candidateGuideId: ID!
   $politicianId: ID!
+  $raceId: ID!
 ) {
   generateIntakeTokenLink(
     candidateGuideId: $candidateGuideId
     politicianId: $politicianId
+    raceId: $raceId
   )
 }
 

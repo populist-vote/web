@@ -721,8 +721,12 @@ type Mutation {
   """
   downloadAllCandidateGuideData(candidateGuideId: ID!, raceId: ID): String!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
-  generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!): String!
+  generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!, raceId: ID!): String!
   insertPolitician(input: InsertPoliticianInput!): PoliticianResult!
+  """
+  Locks all existing question submissions for a candidate guide — new responses are still permitted
+  """
+  lockAllCandidateQuideQuestions(candidateGuideId: ID!): Boolean!
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
   pingEmbedOrigin(input: PingEmbedOriginInput!): EmbedOriginResult!
@@ -1107,6 +1111,10 @@ type Query {
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
   billsByIds(ids: [ID!]!): [BillResult!]!
   candidateGuideById(id: ID!): CandidateGuideResult!
+  """
+  Returns number of submissions per set of questions in a candidate guide
+  """
+  candidateGuideSubmissionCount(candidateGuideId: ID!): Int!
   candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
   """
   Provides current user based on JWT found in client's access_token cookie
@@ -1159,6 +1167,7 @@ type Query {
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!
   races(after: String, before: String, filter: RaceFilter, first: Int, last: Int): RaceResultConnection!
+  recentCandidateGuideQuestionSubmissionsByOrganization(limit: Int, organizationId: ID!): [QuestionSubmissionResult!]!
   recentDeployments(limit: Int, organizationId: ID!): [EnhancedEmbedOriginResult!]!
   respondentsByOrganizationId(after: String, before: String, first: Int, last: Int, organizationId: ID!): RespondentResultConnection!
   """Get all users"""
@@ -1201,6 +1210,8 @@ type QuestionSubmissionResult {
   createdAt: DateTime!
   id: ID!
   politician: PoliticianResult
+  question: QuestionResult!
+  questionId: ID!
   respondent: RespondentResult
   respondentId: ID
   response: String!

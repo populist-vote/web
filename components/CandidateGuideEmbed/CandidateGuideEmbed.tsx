@@ -33,9 +33,14 @@ export function CandidateGuideEmbed({
   renderOptions: CandidateGuideRenderOptions;
 }) {
   const { data: embedData, isLoading: embedLoading } =
-    useCandidateGuideEmbedByIdQuery({
-      id: embedId,
-    });
+    useCandidateGuideEmbedByIdQuery(
+      {
+        id: embedId,
+      },
+      {
+        staleTime: 1000 * 60 * 5,
+      }
+    );
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(
     null
@@ -56,6 +61,7 @@ export function CandidateGuideEmbed({
       },
       {
         enabled: race?.id !== undefined,
+        staleTime: 1000 * 60 * 5,
       }
     );
 
@@ -150,7 +156,6 @@ export function CandidateGuideEmbed({
                         <PartyAvatar
                           theme={"light"}
                           size={80}
-                          hasIconMenu
                           iconSize="1.25rem"
                           party={s.politician?.party as PoliticalParty}
                           src={
@@ -177,7 +182,6 @@ export function CandidateGuideEmbed({
                         <PartyAvatar
                           theme={"light"}
                           size={80}
-                          hasIconMenu
                           iconSize="1.25rem"
                           party={p?.party as PoliticalParty}
                           src={p?.assets?.thumbnailImage160 as string}

@@ -285,3 +285,34 @@ query CandidateGuidesByOrganization($organizationId: ID!) {
     ...CandidateGuideFields
   }
 }
+
+query RecentCandidateGuideQuestionSubmissions(
+  $organizationId: ID!
+  $limit: Int
+) {
+  recentCandidateGuideQuestionSubmissionsByOrganization(
+    organizationId: $organizationId
+    limit: $limit
+  ) {
+    id
+    response
+    sentiment
+    createdAt
+    updatedAt
+    politician {
+      id
+      slug
+      fullName
+      party {
+        name
+      }
+      assets {
+        thumbnailImage160
+      }
+    }
+    question {
+      id
+      prompt
+    }
+  }
+}
