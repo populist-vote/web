@@ -39,9 +39,11 @@ function IndeterminateCheckbox({
 export function RaceResultsTable({
   theme = "aqua",
   multiSelect = false,
+  selectedRows = [],
 }: {
   theme?: Theme;
   multiSelect?: boolean;
+  selectedRows?: string[];
 }) {
   const router = useRouter();
   const { query } = router;
@@ -89,7 +91,8 @@ export function RaceResultsTable({
           <div className="px-1">
             <IndeterminateCheckbox
               {...{
-                checked: row.getIsSelected(),
+                checked:
+                  row.getIsSelected() || selectedRows.includes(row.original.id),
                 disabled: !row.getCanSelect(),
                 indeterminate: row.getIsSomeSelected(),
                 onChange: row.getToggleSelectedHandler(),

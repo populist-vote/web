@@ -326,6 +326,7 @@ function RacesSection({
     router.query.isModalOpen == "true" || false
   );
   const embeds = candidateGuide?.embeds || [];
+  const selectedRaceIds = embeds.map((embed) => embed.race?.id) as string[];
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     void router.push(
@@ -352,7 +353,9 @@ function RacesSection({
       {
         input: {
           id: candidateGuide.id,
-          raceIds: selectedRowArray,
+          raceIds: selectedRowArray.filter(
+            (id) => !selectedRaceIds.includes(id)
+          ),
         },
       },
       {
@@ -430,7 +433,11 @@ function RacesSection({
             <PoliticalScopeFilters />
           </div>
           <Divider />
-          <RaceResultsTable multiSelect theme="blue" />
+          <RaceResultsTable
+            multiSelect
+            theme="blue"
+            selectedRows={selectedRaceIds}
+          />
           {selectedRows && selectedRows?.length > 0 && (
             <div
               style={{
