@@ -168,7 +168,7 @@ function QuestionFormInner({
   if (isLoading) return <LoaderFlag />;
 
   return (
-    <form onSubmit={handleSubmit(handleCreateEmbed)}>
+    <form onSubmit={handleSubmit(handleCreateEmbed)} style={{ width: "36rem" }}>
       <h2>{!!question ? "Update" : "Add"} Question</h2>
       <div
         style={{
