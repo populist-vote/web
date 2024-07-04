@@ -64,7 +64,7 @@ export function RaceResultsTable({
     search as string,
     350
   );
-  const shouldFetchRaceResults = !!debouncedSearchQuery || !!state || !!scope;
+  const shouldFetchRaceResults = !!debouncedSearchQuery;
 
   const { data, isLoading } = useRaceIndexQuery(
     {
