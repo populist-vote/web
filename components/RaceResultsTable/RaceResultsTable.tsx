@@ -68,7 +68,7 @@ export function RaceResultsTable({
 
   const { data, isLoading } = useRaceIndexQuery(
     {
-      pageSize: 250,
+      pageSize: 500,
       filter: {
         query: debouncedSearchQuery || null,
         state:
