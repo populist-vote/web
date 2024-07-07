@@ -98,11 +98,16 @@ fragment CandidateGuideFields on CandidateGuideResult {
   createdAt
   updatedAt
   organizationId
+  submissionCount
   embeds {
     id
+    candidateGuideSubmissionCountByRace
     race {
       id
       title
+      candidates {
+        id
+      }
     }
   }
   questions {

@@ -26,6 +26,7 @@ import {
   useDeleteEmbedMutation,
   useDeleteCandidateGuideMutation,
   useDownloadAllCandidateGuideDataMutation,
+  PoliticianResult,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -534,6 +535,15 @@ function CandidateGuideEmbedTable({
       {
         header: "Race Title",
         accessorKey: "race.title",
+      },
+      {
+        header: "Candidates",
+        accessorKey: "race.candidates",
+        cell: (info) => (info.getValue() as PoliticianResult[]).length,
+      },
+      {
+        header: "Submissions",
+        accessorKey: "candidateGuideSubmissionCountByRace",
       },
       {
         id: "Actions",

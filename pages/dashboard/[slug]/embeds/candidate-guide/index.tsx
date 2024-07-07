@@ -76,11 +76,18 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
         header: "Embeds",
         cell: (info) => (info.getValue() as Array<EmbedResult>).length,
       },
+      {
+        accessorKey: "submissionCount",
+        header: "Submissions",
+        cell: (info) => info.getValue() as number,
+      },
     ],
     []
   );
 
   const guides = data?.candidateGuidesByOrganization || [];
+
+  if (isLoading || isRecentSubmissionsDataLoading) return <LoaderFlag />;
 
   return (
     <>
@@ -91,90 +98,82 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
         embeds={guides}
         embedType={EmbedType.CandidateGuide}
         title="Candidate Guides"
-        isLoading={isLoading}
+        isLoading={false}
         emptyStateMessage="No candidate guides found."
         onRowClick={(row) =>
           router.push(`/dashboard/${slug}/candidate-guides/${row.original.id}`)
         }
       />
-      {isRecentSubmissionsDataLoading ? (
-        <LoaderFlag />
-      ) : (
-        <div>
-          <h2>Recent Submissions</h2>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1rem",
-            }}
-          >
-            {recentSubmissionsData?.recentCandidateGuideQuestionSubmissionsByOrganization?.map(
-              (submission) => (
-                <div style={{ marginBottom: "1rem" }} key={submission.id}>
-                  <Box>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "1rem",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <div>
-                        <div className={styles.avatarContainer}>
-                          <PartyAvatar
-                            theme={"light"}
-                            size={80}
-                            iconSize="1.25rem"
-                            party={
-                              submission.politician?.party as PoliticalParty
-                            }
-                            src={
-                              submission.politician?.assets
-                                ?.thumbnailImage160 as string
-                            }
-                            alt={submission.politician?.fullName as string}
-                            target={"_blank"}
-                            rel={"noopener noreferrer"}
-                          />
-                          <span
-                            className={clsx(styles.link, styles.avatarName)}
-                          >
-                            {submission.politician?.fullName}
-                          </span>
-                        </div>
-                      </div>
-                      <div>
-                        <p
-                          style={{
-                            color: "var(--blue-text-light)",
-                            fontSize: "1em",
-                          }}
-                        >
-                          {submission.question.prompt}
-                        </p>
-                        <p>{submission.response}</p>
+      <div>
+        <h2>Recent Submissions</h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
+          {recentSubmissionsData?.recentCandidateGuideQuestionSubmissionsByOrganization?.map(
+            (submission) => (
+              <div style={{ marginBottom: "1rem" }} key={submission.id}>
+                <Box>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <div>
+                      <div className={styles.avatarContainer}>
+                        <PartyAvatar
+                          theme={"dark"}
+                          size={80}
+                          iconSize="1.25rem"
+                          party={submission.politician?.party as PoliticalParty}
+                          src={
+                            submission.politician?.assets
+                              ?.thumbnailImage160 as string
+                          }
+                          alt={submission.politician?.fullName as string}
+                          target={"_blank"}
+                          rel={"noopener noreferrer"}
+                        />
+                        <span className={clsx(styles.link, styles.avatarName)}>
+                          {submission.politician?.fullName}
+                        </span>
                       </div>
                     </div>
-                    <div
-                      style={{
-                        marginTop: "1rem",
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        width: "100%",
-                      }}
-                    >
-                      <small>
-                        {getRelativeTimeString(new Date(submission.updatedAt))}
-                      </small>
+                    <div>
+                      <p
+                        style={{
+                          color: "var(--blue-text-light)",
+                          fontSize: "1.2em",
+                        }}
+                      >
+                        {submission.question.prompt}
+                      </p>
+                      <p>{submission.response}</p>
                     </div>
-                  </Box>
-                </div>
-              )
-            )}
-          </div>
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "1rem",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      width: "100%",
+                    }}
+                  >
+                    <small>
+                      {getRelativeTimeString(new Date(submission.updatedAt))}
+                    </small>
+                  </div>
+                </Box>
+              </div>
+            )
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 }

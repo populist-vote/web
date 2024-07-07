@@ -350,6 +350,11 @@ type CandidateGuideResult {
   organizationId: ID!
   questions: [QuestionResult!]!
   races: [RaceResult!]!
+  """
+  Returns the total number of question submissions in the candidate guide divided by the number of questions
+  in the candidate guide to get the number of intake submissions per candidate guide.
+  """
+  submissionCount: Int!
   updatedAt: DateTime!
 }
 
@@ -556,6 +561,12 @@ type EmbedResult {
   bill: BillResult
   bills: [BillResult!]
   candidateGuide: CandidateGuideResult
+  """
+  Each candidate guide embed is associated with a single race. This field returns the
+  the number of questions submitted by candidates in this race, divided by the number
+  of questions in a candidate guide
+  """
+  candidateGuideSubmissionCountByRace: Int
   createdAt: DateTime!
   createdBy: UserResult!
   createdById: ID!
@@ -1111,10 +1122,6 @@ type Query {
   bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
   billsByIds(ids: [ID!]!): [BillResult!]!
   candidateGuideById(id: ID!): CandidateGuideResult!
-  """
-  Returns number of submissions per set of questions in a candidate guide
-  """
-  candidateGuideSubmissionCount(candidateGuideId: ID!): Int!
   candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
   """
   Provides current user based on JWT found in client's access_token cookie
