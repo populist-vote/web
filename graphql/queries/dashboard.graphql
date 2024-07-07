@@ -270,6 +270,7 @@ query QuestionById($id: ID!) {
     responsePlaceholderText
     allowAnonymousResponses
     issueTags {
+      id
       slug
       name
     }

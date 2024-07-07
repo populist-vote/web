@@ -1,6 +1,7 @@
 import {
   Button,
   Divider,
+  IssueTags,
   Layout,
   LoaderFlag,
   SearchInput,
@@ -535,6 +536,12 @@ function QuestionsSection({
       {
         header: "Prompt",
         accessorKey: "prompt",
+      },
+      {
+        header: "Related Tags",
+        cell: (info) => {
+          return <IssueTags tags={info.row.original.issueTags} />;
+        },
       },
       {
         id: "Actions",

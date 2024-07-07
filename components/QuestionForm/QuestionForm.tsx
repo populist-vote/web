@@ -25,6 +25,7 @@ type QuestionForm = {
   responseCharLimit?: number | null;
   responsePlaceholderText?: string | null;
   allowAnonymousResponses?: boolean;
+  issueTagsIds: string[];
 };
 
 export function QuestionForm({
@@ -75,12 +76,16 @@ function QuestionFormInner({
   const { data, isLoading } = useIssueTagsQuery();
 
   const labelOptions = data?.allIssueTags;
+  const existingLabels = question?.issueTags.map((issue) => ({
+    id: issue.id,
+    label: issue.name,
+  }));
   const [selectedLabels, setSelectedLabels] = useState<
     {
       id: string;
       label: string;
     }[]
-  >([]);
+  >(existingLabels || []);
 
   const optionsObject: { label: string; value: string }[] = [
     { label: "Select a Tag", value: "default" },
@@ -104,6 +109,7 @@ function QuestionFormInner({
       responseCharLimit: question?.responseCharLimit || 140,
       responsePlaceholderText: question?.responsePlaceholderText || "",
       allowAnonymousResponses: question?.allowAnonymousResponses || false,
+      issueTagsIds: selectedLabels.map((label) => label.id),
     },
   });
 
@@ -210,21 +216,19 @@ function QuestionFormInner({
             padding: "1rem 0",
           }}
         >
-          {selectedLabels.map(function (label) {
-            return (
-              <Badge key={label.id}>
-                {label.label}
-                <BsXCircleFill
-                  color="var(--grey)"
-                  onClick={() =>
-                    setSelectedLabels(
-                      selectedLabels.filter((b) => b.id !== label.id)
-                    )
-                  }
-                />
-              </Badge>
-            );
-          })}
+          {selectedLabels.map((label) => (
+            <Badge key={label.id}>
+              {label.label}
+              <BsXCircleFill
+                color="var(--grey)"
+                onClick={() =>
+                  setSelectedLabels(
+                    selectedLabels.filter((b) => b.id !== label.id)
+                  )
+                }
+              />
+            </Badge>
+          ))}
         </section>
         <Divider />
         <section
