@@ -23,7 +23,7 @@ import nextI18nextConfig from "next-i18next.config";
 import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
-import { FaCopy } from "react-icons/fa";
+import { FaCopy, FaExternalLinkSquareAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
 import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
@@ -69,8 +69,11 @@ export default function CandidateGuideEmbedPage() {
     }
   );
 
-  const candidateGuide = data?.embedById?.candidateGuide;
-  const raceId = data?.embedById?.race?.id as string;
+  const embed = data?.embedById;
+  const previewUrl = `${window.location.origin}/embeds/preview/${embed?.id}`;
+
+  const candidateGuide = embed?.candidateGuide;
+  const raceId = embed?.race?.id as string;
   const { data: raceData, isLoading: isRaceLoading } = useRaceByIdQuery(
     {
       id: raceId,
@@ -100,8 +103,8 @@ export default function CandidateGuideEmbedPage() {
     () => raceData?.raceById?.candidates || [],
     [raceData]
   );
-  const title = data?.embedById.race?.title as string;
-  const candidateGuideId = data?.embedById.candidateGuide?.id as string;
+  const title = embed?.race?.title as string;
+  const candidateGuideId = embed?.candidateGuide?.id as string;
   const intakeLinkMutation = useGenerateCandidateGuideIntakeLinkMutation();
 
   const handleCopyIntakeLink = useCallback(
@@ -179,7 +182,7 @@ export default function CandidateGuideEmbedPage() {
 
   const queryClient = useQueryClient();
 
-  const renderOptions = data?.embedById.attributes.renderOptions;
+  const renderOptions = embed?.attributes.renderOptions;
 
   const { register, control, handleSubmit, formState } = useForm<{
     height: number;
@@ -195,12 +198,12 @@ export default function CandidateGuideEmbedPage() {
     upsertEmbed.mutate(
       {
         input: {
-          id: data?.embedById.id,
+          id: embed?.id,
           organizationId: user.organizationId,
-          name: data?.embedById.name,
+          name: embed?.name,
           embedType: EmbedType.CandidateGuide,
           attributes: {
-            ...data?.embedById.attributes,
+            ...embed?.attributes,
             renderOptions: {
               height,
             },
@@ -210,7 +213,7 @@ export default function CandidateGuideEmbedPage() {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ["EmbedById", { id: data?.embedById.id }],
+            queryKey: ["EmbedById", { id: embed?.id }],
           });
         },
         onError: (error) => {
@@ -316,10 +319,34 @@ export default function CandidateGuideEmbedPage() {
             <h3>Embed Code</h3>
             <EmbedCodeBlock id={id as string} />
           </div>
+          <div>
+            <h3>Public Preview</h3>
+            <Box>
+              <div className={styles.flexBetween}>
+                <a
+                  href={previewUrl}
+                  key={previewUrl}
+                  className={clsx(styles.flexLeft, styles.flexBetween)}
+                >
+                  <FaExternalLinkSquareAlt /> {previewUrl}
+                </a>
+                <FaCopy
+                  style={{ cursor: "pointer" }}
+                  color="var(--blue-text-light)"
+                  onClick={() => {
+                    void navigator.clipboard.writeText(previewUrl);
+                    toast.success("Copied to clipboard!", {
+                      position: "bottom-right",
+                    });
+                  }}
+                />
+              </div>
+            </Box>
+          </div>
         </div>
       </section>
       <section className={styles.section}>
-        <EmbedDeployments embed={data?.embedById as EmbedResult} />
+        <EmbedDeployments embed={embed as EmbedResult} />
       </section>
     </>
   );
