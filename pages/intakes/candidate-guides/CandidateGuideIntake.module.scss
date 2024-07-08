@@ -38,6 +38,10 @@
       line-height: 1.5em;
       margin-bottom: 1.75rem;
     }
+
+    textarea {
+      height: 12rem;
+    }
   }
 
   .question {
@@ -99,6 +103,8 @@
 }
 
 .poweredBySection {
+  margin-top: 5rem;
+
   p {
     width: 800px;
     font-style: italic;
@@ -107,6 +113,7 @@
 
   @include for-tablet-down {
     max-width: 360px;
+    margin-top: 0;
 
     p {
       max-width: 360px;
@@ -120,5 +127,46 @@
   margin: auto;
   @include for-tablet-down {
     max-width: 360px;
+  }
+}
+
+.politicianAvatarUpload {
+  padding: 2rem 0 0;
+
+  p {
+    width: 800px;
+    font-style: italic;
+    color: $blue-lighter;
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 0;
+  }
+
+  hr {
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  @include for-tablet-down {
+    padding: 1rem 0;
+    max-width: 360px;
+
+    p {
+      max-width: 360px;
+      margin-bottom: 2rem;
+    }
+
+    hr {
+      margin-top: 3rem;
+    }
+  }
+}
+
+.submissionConfirmedSection {
+  hr {
+    margin-top: 4rem;
   }
 }
