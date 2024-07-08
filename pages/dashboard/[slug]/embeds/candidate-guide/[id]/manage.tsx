@@ -9,6 +9,7 @@ import {
   PoliticianResult,
   Role,
   useCandidateGuideSubmissionsByRaceIdQuery,
+  useDownloadAllCandidateGuideDataMutation,
   useEmbedByIdQuery,
   useGenerateCandidateGuideIntakeLinkMutation,
   useRaceByIdQuery,
@@ -33,6 +34,7 @@ import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
+import { downloadCsv } from "utils/strings";
 // import * as Switch from "@radix-ui/react-switch";
 
 export async function getServerSideProps({
@@ -131,63 +133,17 @@ export default function CandidateGuideEmbedPage() {
     [allSubmissions]
   );
 
-  const getIntakeLink = useCallback(
-    async (politicianId: string) => {
-      return new Promise<string>((resolve, reject) => {
-        intakeLinkMutation.mutate(
-          {
-            candidateGuideId,
-            politicianId,
-            raceId,
-          },
-          {
-            onSuccess: (data) => {
-              resolve(data.generateIntakeTokenLink);
-            },
-            onError: (error) => {
-              reject(error);
-            },
-          }
-        );
-      });
-    },
-    [intakeLinkMutation, candidateGuideId, raceId]
-  );
+  const exportMutation = useDownloadAllCandidateGuideDataMutation();
 
-  const [isExportLoading, setIsExportLoading] = useState(false);
-
-  const generateCsvData = useCallback(async () => {
-    const csvData = [["Candidate", "Email", "Form Link", "Last Response"]];
-
-    for (const candidate of candidates) {
-      const formLink = await getIntakeLink(candidate.id as string);
-      csvData.push([
-        candidate.fullName,
-        candidate.email || "",
-        formLink,
-        candidateRespondedAt(candidate.id as string),
-      ]);
-    }
-
-    return csvData;
-  }, [candidates, candidateRespondedAt, getIntakeLink]);
-
-  const handleTableExport = useCallback(async () => {
-    setIsExportLoading(true);
-    try {
-      const csvData = await generateCsvData();
-      const csv = csvData.map((row) => row.join(",")).join("\n");
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "candidate-guide-data.csv";
-      a.click();
-      URL.revokeObjectURL(url);
-    } finally {
-      setIsExportLoading(false);
-    }
-  }, [generateCsvData]);
+  const handleDataExport = () => {
+    exportMutation.mutate(
+      { candidateGuideId, raceId },
+      {
+        onSuccess: (data) => downloadCsv(data.downloadAllCandidateGuideData),
+        onError: (error) => toast.error((error as Error).message),
+      }
+    );
+  };
 
   const { slug } = router.query;
 
@@ -281,21 +237,12 @@ export default function CandidateGuideEmbedPage() {
         <div className={styles.flexBetween}>
           <h3>Candidates</h3>
           <div className={styles.flexBetween}>
-            {/* TODO: Handle submission lock */}
-            {/* <div style={{ display: "flex", alignItems: "center" }}>
-              <label htmlFor="lock-submissions" style={{ paddingRight: 15 }}>
-                Lock submissions
-              </label>
-              <Switch.Root className={styles.SwitchRoot} id="lock-submissions">
-                <Switch.Thumb className={styles.SwitchThumb} />
-              </Switch.Root>
-            </div> */}
             <Button
               label="Export All Data"
               size="medium"
               variant="primary"
-              onClick={handleTableExport}
-              disabled={isExportLoading}
+              onClick={handleDataExport}
+              disabled={exportMutation.isPending}
             />
             <Button
               label="Email All"
