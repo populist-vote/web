@@ -89,11 +89,10 @@ export default function CandidateGuideIntake() {
     [data?.candidateGuideById.questions]
   );
 
-  const { register, handleSubmit, setValue, getValues, control } = useForm<
-    Record<string, string>
-  >({
-    defaultValues: existingSubmissionsHash,
-  });
+  const { register, handleSubmit, setValue, getValues, control, formState } =
+    useForm<Record<string, string>>({
+      defaultValues: existingSubmissionsHash,
+    });
 
   const [hasSubmitted, setHasSubmitted] = useState(
     !!existingSubmissionsArray?.length
@@ -138,6 +137,8 @@ export default function CandidateGuideIntake() {
               await queryClient.invalidateQueries({
                 queryKey: ["CandidateGuideIntakeQuestions"],
               });
+              setHasSubmitted(true);
+              setIsEditing(false);
             },
             onError: (error) => {
               throw error;
@@ -147,9 +148,6 @@ export default function CandidateGuideIntake() {
       }
     } catch (error) {
       toast(error as string);
-    } finally {
-      setHasSubmitted(true);
-      setIsEditing(false);
     }
   };
 
@@ -232,7 +230,12 @@ export default function CandidateGuideIntake() {
                 alignItems: "center",
               }}
             >
-              <Button label="Submit" size="large" variant="primary" />
+              <Button
+                label="Submit"
+                size="large"
+                variant="primary"
+                disabled={!formState.isDirty}
+              />
             </div>
             <Divider />
           </section>

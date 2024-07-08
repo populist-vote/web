@@ -24,6 +24,12 @@
       color: $blue-dark;
     }
   }
+
+  &:focus {
+    box-shadow:
+      0 0 0 2px $blue-lighter,
+      0 0 8px 2px rgba($blue-lighter, 0.5);
+  }
 }
 
 .buttonLabel {
@@ -70,7 +76,9 @@ $small-size: 1.825rem;
   color: $textColor;
 
   &:focus {
-    box-shadow: 0 0 0 2px $colorLighter, 0 0 8px 2px rgba($colorLighter, 0.5);
+    box-shadow:
+      0 0 0 2px $colorLight,
+      0 0 5px 2px $colorLight;
   }
 
   &:active {
@@ -119,7 +127,9 @@ $small-size: 1.825rem;
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px $colorLighter, 0 0 8px 2px rgba($colorLighter, 0.5);
+    box-shadow:
+      0 0 0 2px $colorLighter,
+      0 0 8px 2px rgba($colorLighter, 0.5);
   }
 
   &:active {
@@ -161,7 +171,9 @@ $small-size: 1.825rem;
   }
 
   &:focus {
-    box-shadow: 0 0 0 2px $colorLighter, 0 0 8px 2px rgba($colorLighter, 0.5);
+    box-shadow:
+      0 0 0 2px $colorLighter,
+      0 0 8px 2px rgba($colorLighter, 0.5);
   }
 
   &:active {
