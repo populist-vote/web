@@ -72,36 +72,48 @@ export default function CandidateGuideIntake() {
   const race = raceData ? raceData.raceById : politician?.upcomingRace;
   const questions = data?.candidateGuideById.questions;
 
-  const existingSubmissions = useMemo(
+  const existingSubmissionsArray = useMemo(
+    () => questions?.flatMap((question) => question.submissionsByCandidateId),
+    [questions]
+  );
+
+  const existingSubmissionsHash = useMemo(
     () =>
-      questions?.reduce(
+      data?.candidateGuideById.questions?.reduce(
         (acc, question) => ({
           ...acc,
           [question.id]: question.submissionsByCandidateId[0]?.response ?? "",
         }),
         {}
       ),
-    [questions]
+    [data?.candidateGuideById.questions]
   );
 
   const { register, handleSubmit, setValue, getValues, control } = useForm<
     Record<string, string>
   >({
-    defaultValues: existingSubmissions,
+    defaultValues: existingSubmissionsHash,
   });
 
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [isEditing, setIsEditing] = useState(hasSubmitted);
+  const [hasSubmitted, setHasSubmitted] = useState(
+    !!existingSubmissionsArray?.length
+  );
+  const [isEditing, setIsEditing] = useState(!hasSubmitted);
 
   useEffect(() => {
-    if (existingSubmissions) {
-      Object.entries(existingSubmissions).forEach(([questionId, response]) => {
-        setValue(questionId, response as string);
-      });
+    if (existingSubmissionsHash) {
+      Object.entries(existingSubmissionsHash).forEach(
+        ([questionId, response]) => {
+          setValue(questionId, response as string);
+        }
+      );
+    }
+
+    if (!!existingSubmissionsArray?.length) {
       setHasSubmitted(true);
       setIsEditing(false);
     }
-  }, [data, existingSubmissions, setValue]);
+  }, [data, existingSubmissionsHash, existingSubmissionsArray, setValue]);
 
   const upsertSubmission = useUpsertQuestionSubmissionMutation();
   const queryClient = useQueryClient();
