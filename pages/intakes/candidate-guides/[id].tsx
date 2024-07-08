@@ -26,7 +26,7 @@ import { useRouter } from "next/router";
 import styles from "./CandidateGuideIntake.module.scss";
 import { useForm } from "react-hook-form";
 import states from "utils/states";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 import { Race } from "components/Ballot/Race";
 import clsx from "clsx";
@@ -170,30 +170,39 @@ export default function CandidateGuideIntake() {
   const race = raceData ? raceData.raceById : politician?.upcomingRace;
   const questions = data?.candidateGuideById.questions;
 
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-  const existingSubmissions = questions?.reduce(
-    (acc, question) => ({
-      ...acc,
-      [question.id]: question.submissionsByCandidateId[0]?.response ?? "",
-    }),
-    {}
+  const existingSubmissions = useMemo(
+    () =>
+      questions?.reduce(
+        (acc, question) => ({
+          ...acc,
+          [question.id]: question.submissionsByCandidateId[0]?.response ?? "",
+        }),
+        {}
+      ),
+    [questions]
   );
 
-  const { register, handleSubmit, setValue, control } = useForm<
+  const { register, handleSubmit, setValue, getValues, control } = useForm<
     Record<string, string>
   >({
     defaultValues: existingSubmissions,
   });
+
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isEditing, setIsEditing] = useState(hasSubmitted);
 
   useEffect(() => {
     if (existingSubmissions) {
       Object.entries(existingSubmissions).forEach(([questionId, response]) => {
         setValue(questionId, response as string);
       });
+      setHasSubmitted(true);
+      setIsEditing(false);
     }
-  }, [existingSubmissions, setValue]);
+  }, [data, existingSubmissions, setValue]);
 
   const upsertSubmission = useUpsertQuestionSubmissionMutation();
+  const queryClient = useQueryClient();
 
   const onSubmit = (data: Record<string, string>) => {
     try {
@@ -211,6 +220,11 @@ export default function CandidateGuideIntake() {
             },
           },
           {
+            onSuccess: async () => {
+              await queryClient.invalidateQueries({
+                queryKey: ["CandidateGuideIntakeQuestions"],
+              });
+            },
             onError: (error) => {
               throw error;
             },
@@ -221,6 +235,7 @@ export default function CandidateGuideIntake() {
       toast(error as string);
     } finally {
       setHasSubmitted(true);
+      setIsEditing(false);
     }
   };
 
@@ -251,7 +266,7 @@ export default function CandidateGuideIntake() {
           </p>
           <Divider />
         </div>
-        {hasSubmitted ? (
+        {!isEditing ? (
           <section className={styles.submissionConfirmedSection}>
             <h2>Thank you for your submission!</h2>
             <p>
@@ -266,6 +281,21 @@ export default function CandidateGuideIntake() {
               .
             </p>
             <Divider />
+            <section className={styles.submissionPreview}>
+              {questions?.map((question) => (
+                <div key={question.id} className={styles.question}>
+                  <h2>{question.prompt}</h2>
+                  <p>{getValues(question.id)}</p>
+                  <Button
+                    label="Edit Response"
+                    size="large"
+                    variant="primary"
+                    onClick={() => setIsEditing(true)}
+                  />
+                </div>
+              ))}
+              <Divider />
+            </section>
           </section>
         ) : (
           <section className={styles.questionsSection}>

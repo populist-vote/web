@@ -170,3 +170,15 @@
     margin-top: 4rem;
   }
 }
+
+.submissionPreview {
+  h2 {
+    margin-top: 5rem;
+  }
+  p {
+    width: 800px;
+    font-style: italic;
+    color: $blue-lighter;
+    margin-bottom: 2rem;
+  }
+}
