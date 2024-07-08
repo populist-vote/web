@@ -147,8 +147,12 @@ export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
           <small className={styles.noResults}>No deployments</small>
         )}
         {embed.origins?.map(({ url }) => (
-          <a href={url} key={url} className={styles.flexLeft}>
-            {url} <FaExternalLinkSquareAlt />
+          <a
+            href={url}
+            key={url}
+            className={clsx(styles.flexLeft, styles.flexBetween)}
+          >
+            <FaExternalLinkSquareAlt /> {url}
           </a>
         ))}
       </Box>

@@ -33,7 +33,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   };
 }
 
-function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
+export function EmbedPage({ embedId, origin, originHost }: EmbedPageProps) {
   const resolvedOrigin =
     originHost || (typeof location === "undefined" ? "" : location.href);
 

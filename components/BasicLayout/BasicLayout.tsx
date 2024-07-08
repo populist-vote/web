@@ -14,23 +14,34 @@ import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import { OrganizationResult, useOrganizationByIdQuery } from "generated";
 import styles from "./BasicLayout.module.scss";
 import useDeviceInfo from "hooks/useDeviceInfo";
+import clsx from "clsx";
 
 function BasicLayout({
   children,
+  hideHeader = false,
   hideAuthButtons = false,
   hideFooter = false,
   hideTextMenu = true,
+  withBackdrop = false,
 }: PropsWithChildren<{
+  hideHeader?: boolean;
   hideAuthButtons?: boolean;
   hideFooter?: boolean;
   hideTextMenu?: boolean;
+  withBackdrop?: boolean;
 }>) {
   return (
-    <div className={styles.container}>
-      <BasicHeader
-        hideAuthButtons={hideAuthButtons}
-        hideTextMenu={hideTextMenu}
-      />
+    <div
+      className={clsx(styles.container, {
+        [styles.withBackdrop as string]: withBackdrop,
+      })}
+    >
+      {!hideHeader && (
+        <BasicHeader
+          hideAuthButtons={hideAuthButtons}
+          hideTextMenu={hideTextMenu}
+        />
+      )}
       <main className={styles.content}>{children}</main>
       {hideFooter ? <footer /> : <Footer />}
     </div>
