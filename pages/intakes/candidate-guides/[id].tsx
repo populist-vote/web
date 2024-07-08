@@ -7,7 +7,6 @@ import {
   LoaderFlag,
   LogoText,
   TextInput,
-  PartyAvatar,
 } from "components";
 import {
   RaceResult,
@@ -19,7 +18,6 @@ import {
   useUpsertQuestionSubmissionMutation,
   VoteType,
   PoliticianResult,
-  usePoliticianBySlugQuery,
 } from "generated";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -32,111 +30,7 @@ import { Race } from "components/Ballot/Race";
 import clsx from "clsx";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
-import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
-
-function PoliticianAvatar({
-  politician,
-}: {
-  politician: Partial<PoliticianResult>;
-}) {
-  const [uploading, setUploading] = useState<boolean>(false);
-  const queryClient = useQueryClient();
-
-  const avatarUrl = politician?.assets?.thumbnailImage400;
-
-  const onDropAccepted = (files: FileWithPath[]) => {
-    setUploading(true);
-    const formData = new FormData();
-    const uploadAvatarPictureOperations = `
-      {
-        "query":"mutation UploadPoliticianPicture($slug: String, $file: Upload) {uploadPoliticianPicture(slug: $slug, file: $file) }",
-        "variables":{
-            "slug": "${politician.slug}",
-            "file": null
-        }
-      }
-      `;
-
-    formData.append("operations", uploadAvatarPictureOperations);
-    const map = `{"file": ["variables.file"]}`;
-    formData.append("map", map);
-    if (files[0]) formData.append("file", files[0]);
-
-    fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    })
-      .then(() => {
-        queryClient
-          .invalidateQueries({
-            queryKey: usePoliticianBySlugQuery.getKey({
-              slug: politician.slug as string,
-            }),
-          })
-          .catch((err) => toast.error(err));
-        document.location.reload();
-      })
-      .catch((error) => toast.error(error))
-      .finally(() => setUploading(false));
-  };
-
-  const onDropRejected = (e: FileRejection[]) => {
-    e.forEach((file) => {
-      toast.error(file.errors[0]?.message);
-    });
-  };
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDropAccepted,
-    onDropRejected,
-    multiple: false,
-    maxSize: 2 * 1024 * 1024,
-  });
-
-  const label = isDragActive
-    ? "Drop image here"
-    : !avatarUrl
-      ? "Upload profile picture"
-      : "Change profile picture";
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      {uploading ? (
-        <LoaderFlag />
-      ) : (
-        <PartyAvatar
-          key={politician?.id}
-          badgeSize={"3.125rem"}
-          badgeFontSize={"2rem"}
-          borderWidth="6px"
-          size={200}
-          party={politician?.party}
-          src={
-            (politician?.assets?.thumbnailImage400 ||
-              politician?.thumbnailImageUrl ||
-              politician?.votesmartCandidateBio?.candidate.photo) as string
-          }
-          fallbackSrc={PERSON_FALLBACK_IMAGE_400_URL}
-          alt={politician?.fullName as string}
-          hasIconMenu={true}
-        />
-      )}
-      <div {...getRootProps()} style={{ marginTop: "2rem" }}>
-        <input {...getInputProps()} />
-        <Button variant="secondary" size="large" theme="blue" label={label} />
-      </div>
-      {/* <h1 className={styles.fullName}>{politician?.fullName}</h1> */}
-    </div>
-  );
-}
+import { PoliticianAvatar } from "pages/politicians/[slug]/edit";
 
 export default function CandidateGuideIntake() {
   const { id, token, raceId } = useRouter().query;
@@ -153,9 +47,14 @@ export default function CandidateGuideIntake() {
       enabled: !!politicianData?.politicianByIntakeToken?.id,
     }
   );
-  const { data: organizationData } = useOrganizationByIdQuery({
-    id: data?.candidateGuideById.organizationId as string,
-  });
+  const { data: organizationData } = useOrganizationByIdQuery(
+    {
+      id: data?.candidateGuideById.organizationId as string,
+    },
+    {
+      enabled: !!data?.candidateGuideById.organizationId,
+    }
+  );
 
   const organizationLogoUrl =
     organizationData?.organizationById.assets.bannerImage;
@@ -335,7 +234,7 @@ export default function CandidateGuideIntake() {
           image or you aren't happy with it, please upload a headshot of
           yourself so citizens can put a face to your name.
         </p>
-        <PoliticianAvatar politician={politician} />
+        <PoliticianAvatar politician={politician} hideName />
         <Divider />
       </section>
 
