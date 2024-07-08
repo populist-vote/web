@@ -10,6 +10,12 @@
   align-items: center;
   min-height: 100vh;
 
+  &.withBackdrop {
+    background-image: linear-gradient(rgba(0 33 53 / 0.2), rgba(0 33 53 / 1)),
+      url("/images/landing/bg.avif");
+    background-size: cover;
+  }
+
   header,
   nav {
     padding: 1rem;
