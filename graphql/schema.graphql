@@ -866,6 +866,7 @@ type OfficeResultEdge {
 }
 
 type OrganizationAssets {
+  bannerImage: String
   thumbnailImage160: String
   thumbnailImage400: String
 }

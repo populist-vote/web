@@ -47,6 +47,9 @@ export default function CandidateGuideIntake() {
     id: data?.candidateGuideById.organizationId as string,
   });
 
+  const organizationLogoUrl =
+    organizationData?.organizationById.assets.bannerImage;
+
   const { data: raceData, isLoading: isRaceLoading } = useRaceByIdQuery(
     {
       id: raceId as string,
@@ -118,18 +121,16 @@ export default function CandidateGuideIntake() {
   if (!politician || !race) return <small>No politician data attached.</small>;
 
   return (
-    <BasicLayout hideAuthButtons hideTextMenu>
+    <BasicLayout hideHeader hideFooter>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.introduction}>
           <Image
-            alt="thumbnail"
-            width={160}
-            height={160}
-            src={
-              organizationData?.organizationById.assets
-                .thumbnailImage160 as string
-            }
+            src={organizationLogoUrl as string}
+            alt="Organization Logo"
+            height={100}
+            width={300}
           />
+          <Divider />
           <h1>Hi {politician?.fullName},</h1>
           <p>
             MPR News has partnered up with Populist to help you share your

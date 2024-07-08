@@ -15,8 +15,8 @@ export default function EmbedPreview() {
   const { data: organizationData, isLoading } = useOrganizationByIdQuery({
     id: organizationId as string,
   });
-  const organizationLogoUrl =
-    organizationData?.organizationById?.assets.thumbnailImage160;
+  const organization = organizationData?.organizationById;
+  const organizationLogoUrl = organization?.assets.bannerImage;
 
   return (
     <BasicLayout hideHeader hideFooter withBackdrop>
@@ -33,12 +33,16 @@ export default function EmbedPreview() {
         {isLoading ? (
           <LoaderFlag />
         ) : (
-          <Image
-            src={organizationLogoUrl as string}
-            alt="Organization Logo"
-            height={80}
-            width={80}
-          />
+          <div style={{ width: "100%", justifyContent: "flex-start" }}>
+            {organizationLogoUrl && (
+              <Image
+                src={organizationLogoUrl as string}
+                alt="Organization Logo"
+                height={100}
+                width={300}
+              />
+            )}
+          </div>
         )}
         <EmbedPage
           embedId={id as string}
