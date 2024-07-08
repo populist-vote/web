@@ -17,16 +17,20 @@ import {
   useRaceByIdQuery,
   useUpsertQuestionSubmissionMutation,
   VoteType,
+  PoliticianResult,
 } from "generated";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "./CandidateGuideIntake.module.scss";
 import { useForm } from "react-hook-form";
 import states from "utils/states";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 import { Race } from "components/Ballot/Race";
 import clsx from "clsx";
+
+import { useQueryClient } from "@tanstack/react-query";
+import { PoliticianAvatar } from "pages/politicians/[slug]/edit";
 
 export default function CandidateGuideIntake() {
   const { id, token, raceId } = useRouter().query;
@@ -43,9 +47,14 @@ export default function CandidateGuideIntake() {
       enabled: !!politicianData?.politicianByIntakeToken?.id,
     }
   );
-  const { data: organizationData } = useOrganizationByIdQuery({
-    id: data?.candidateGuideById.organizationId as string,
-  });
+  const { data: organizationData } = useOrganizationByIdQuery(
+    {
+      id: data?.candidateGuideById.organizationId as string,
+    },
+    {
+      enabled: !!data?.candidateGuideById.organizationId,
+    }
+  );
 
   const organizationLogoUrl =
     organizationData?.organizationById.assets.bannerImage;
@@ -58,34 +67,56 @@ export default function CandidateGuideIntake() {
       enabled: !!raceId,
     }
   );
-  const politician = politicianData?.politicianByIntakeToken;
+  const politician =
+    politicianData?.politicianByIntakeToken as PoliticianResult;
   const race = raceData ? raceData.raceById : politician?.upcomingRace;
   const questions = data?.candidateGuideById.questions;
 
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-  const existingSubmissions = questions?.reduce(
-    (acc, question) => ({
-      ...acc,
-      [question.id]: question.submissionsByCandidateId[0]?.response ?? "",
-    }),
-    {}
+  const existingSubmissionsArray = useMemo(
+    () => questions?.flatMap((question) => question.submissionsByCandidateId),
+    [questions]
   );
 
-  const { register, handleSubmit, setValue, control } = useForm<
+  const existingSubmissionsHash = useMemo(
+    () =>
+      data?.candidateGuideById.questions?.reduce(
+        (acc, question) => ({
+          ...acc,
+          [question.id]: question.submissionsByCandidateId[0]?.response ?? "",
+        }),
+        {}
+      ),
+    [data?.candidateGuideById.questions]
+  );
+
+  const { register, handleSubmit, setValue, getValues, control } = useForm<
     Record<string, string>
   >({
-    defaultValues: existingSubmissions,
+    defaultValues: existingSubmissionsHash,
   });
 
+  const [hasSubmitted, setHasSubmitted] = useState(
+    !!existingSubmissionsArray?.length
+  );
+  const [isEditing, setIsEditing] = useState(!hasSubmitted);
+
   useEffect(() => {
-    if (existingSubmissions) {
-      Object.entries(existingSubmissions).forEach(([questionId, response]) => {
-        setValue(questionId, response as string);
-      });
+    if (existingSubmissionsHash) {
+      Object.entries(existingSubmissionsHash).forEach(
+        ([questionId, response]) => {
+          setValue(questionId, response as string);
+        }
+      );
     }
-  }, [existingSubmissions, setValue]);
+
+    if (!!existingSubmissionsArray?.length) {
+      setHasSubmitted(true);
+      setIsEditing(false);
+    }
+  }, [data, existingSubmissionsHash, existingSubmissionsArray, setValue]);
 
   const upsertSubmission = useUpsertQuestionSubmissionMutation();
+  const queryClient = useQueryClient();
 
   const onSubmit = (data: Record<string, string>) => {
     try {
@@ -103,6 +134,11 @@ export default function CandidateGuideIntake() {
             },
           },
           {
+            onSuccess: async () => {
+              await queryClient.invalidateQueries({
+                queryKey: ["CandidateGuideIntakeQuestions"],
+              });
+            },
             onError: (error) => {
               throw error;
             },
@@ -113,6 +149,7 @@ export default function CandidateGuideIntake() {
       toast(error as string);
     } finally {
       setHasSubmitted(true);
+      setIsEditing(false);
     }
   };
 
@@ -141,8 +178,8 @@ export default function CandidateGuideIntake() {
           </p>
           <Divider />
         </div>
-        {hasSubmitted ? (
-          <section>
+        {!isEditing ? (
+          <section className={styles.submissionConfirmedSection}>
             <h2>Thank you for your submission!</h2>
             <p>
               Your responses have been submitted. If you have any questions or
@@ -155,6 +192,22 @@ export default function CandidateGuideIntake() {
               </a>
               .
             </p>
+            <Divider />
+            <section className={styles.submissionPreview}>
+              {questions?.map((question) => (
+                <div key={question.id} className={styles.question}>
+                  <h2>{question.prompt}</h2>
+                  <p>{getValues(question.id)}</p>
+                  <Button
+                    label="Edit Response"
+                    size="large"
+                    variant="primary"
+                    onClick={() => setIsEditing(true)}
+                  />
+                </div>
+              ))}
+              <Divider />
+            </section>
           </section>
         ) : (
           <section className={styles.questionsSection}>
@@ -185,6 +238,18 @@ export default function CandidateGuideIntake() {
           </section>
         )}
       </form>
+
+      <section className={styles.politicianAvatarUpload}>
+        <h2>Your Profile Picture</h2>
+        <p>
+          We try to use up to date photos when possible, but if we don't have an
+          image or you aren't happy with it, please upload a headshot of
+          yourself so citizens can put a face to your name.
+        </p>
+        <PoliticianAvatar politician={politician} hideName />
+        <Divider />
+      </section>
+
       <section className={styles.poweredBySection}>
         <div className={styles.branding}>
           <span className={styles.poweredBy}>Powered by</span>

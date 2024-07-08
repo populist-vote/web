@@ -464,16 +464,23 @@ function PoliticianAPILinksForm({
   );
 }
 
-function PoliticianAvatar({
+export function PoliticianAvatar({
   politician,
+  hideName = false,
 }: {
   politician: Partial<PoliticianResult>;
+  hideName?: boolean;
 }) {
   const [uploading, setUploading] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const { query } = useRouter();
+  const intakeToken = query.token as string;
 
   const [avatarUrl, setAvatarUrl] = useState(
-    politician?.assets?.thumbnailImage400
+    () =>
+      politician?.assets?.thumbnailImage400 ||
+      politician?.thumbnailImageUrl ||
+      politician?.votesmartCandidateBio?.candidate.photo
   );
 
   const onDropAccepted = (files: FileWithPath[]) => {
@@ -484,7 +491,7 @@ function PoliticianAvatar({
         "query":"mutation UploadPoliticianPicture($slug: String, $intakeToken: String, $file: Upload) {uploadPoliticianPicture(slug: $slug, intakeToken: $intakeToken, file: $file) }",
         "variables":{
             "slug": "${politician.slug}",
-            "intakeToken": "",
+            "intakeToken": "${intakeToken || ""}",
             "file": null
         }
       }
@@ -500,7 +507,7 @@ function PoliticianAvatar({
       body: formData,
       credentials: "include",
     })
-      .then((data) => {
+      .then(async (data) => {
         queryClient
           .invalidateQueries({
             queryKey: usePoliticianBySlugQuery.getKey({
@@ -508,9 +515,8 @@ function PoliticianAvatar({
             }),
           })
           .catch((err) => toast.error(err));
-        const json = data.json();
-        // @ts-expect-error - promise resolved above
-        setAvatarUrl(json.uploadPoliticianPicture);
+        const json = await data.json();
+        setAvatarUrl(json.data.uploadPoliticianPicture);
       })
       .catch((error) => toast.error(error))
       .finally(() => setUploading(false));
@@ -553,11 +559,7 @@ function PoliticianAvatar({
           borderWidth="6px"
           size={200}
           party={politician?.party}
-          src={
-            (politician?.assets?.thumbnailImage400 ||
-              politician?.thumbnailImageUrl ||
-              politician?.votesmartCandidateBio?.candidate.photo) as string
-          }
+          src={avatarUrl as string}
           fallbackSrc={PERSON_FALLBACK_IMAGE_400_URL}
           alt={politician?.fullName as string}
           hasIconMenu={true}
@@ -567,7 +569,7 @@ function PoliticianAvatar({
         <input {...getInputProps()} />
         <Button variant="secondary" size="large" theme="blue" label={label} />
       </div>
-      <h1 className={styles.fullName}>{politician?.fullName}</h1>
+      {!hideName && <h1 className={styles.fullName}>{politician?.fullName}</h1>}
     </div>
   );
 }
