@@ -565,7 +565,7 @@ export function PoliticianAvatar({
           hasIconMenu={true}
         />
       )}
-      <div {...getRootProps()} style={{ marginTop: "1rem" }}>
+      <div {...getRootProps()} style={{ marginTop: "2rem" }}>
         <input {...getInputProps()} />
         <Button variant="secondary" size="large" theme="blue" label={label} />
       </div>
