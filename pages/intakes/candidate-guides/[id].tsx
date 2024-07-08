@@ -228,6 +228,7 @@ export default function CandidateGuideIntake() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                gap: "1rem",
               }}
             >
               <Button
@@ -236,6 +237,14 @@ export default function CandidateGuideIntake() {
                 variant="primary"
                 disabled={!formState.isDirty}
               />
+              {hasSubmitted && isEditing && (
+                <Button
+                  label="Cancel"
+                  size="large"
+                  variant="secondary"
+                  onClick={() => setIsEditing(false)}
+                />
+              )}
             </div>
             <Divider />
           </section>
