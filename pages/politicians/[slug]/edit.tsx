@@ -472,16 +472,19 @@ function PoliticianAvatar({
   const [uploading, setUploading] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const avatarUrl = politician?.assets?.thumbnailImage400;
+  const [avatarUrl, setAvatarUrl] = useState(
+    politician?.assets?.thumbnailImage400
+  );
 
   const onDropAccepted = (files: FileWithPath[]) => {
     setUploading(true);
     const formData = new FormData();
     const uploadAvatarPictureOperations = `
       {
-        "query":"mutation UploadPoliticianPicture($slug: String, $file: Upload) {uploadPoliticianPicture(slug: $slug, file: $file) }",
+        "query":"mutation UploadPoliticianPicture($slug: String, $intakeToken: String, $file: Upload) {uploadPoliticianPicture(slug: $slug, intakeToken: $intakeToken, file: $file) }",
         "variables":{
             "slug": "${politician.slug}",
+            "intakeToken": "",
             "file": null
         }
       }
@@ -497,7 +500,7 @@ function PoliticianAvatar({
       body: formData,
       credentials: "include",
     })
-      .then(() => {
+      .then((data) => {
         queryClient
           .invalidateQueries({
             queryKey: usePoliticianBySlugQuery.getKey({
@@ -505,7 +508,9 @@ function PoliticianAvatar({
             }),
           })
           .catch((err) => toast.error(err));
-        document.location.reload();
+        const json = data.json();
+        // @ts-expect-error - promise resolved above
+        setAvatarUrl(json.uploadPoliticianPicture);
       })
       .catch((error) => toast.error(error))
       .finally(() => setUploading(false));
