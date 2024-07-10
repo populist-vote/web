@@ -120,6 +120,7 @@ export default function CandidateGuideIntake() {
   const onSubmit = (data: Record<string, string>) => {
     try {
       for (const [questionId, response] of Object.entries(data)) {
+        if (!response) continue;
         const existingSubmissionId = questions?.find(
           (question) => question.id === questionId
         )?.submissionsByCandidateId[0]?.id;
