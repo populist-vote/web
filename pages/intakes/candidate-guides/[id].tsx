@@ -254,11 +254,14 @@ export default function CandidateGuideIntake() {
       <section className={styles.politicianAvatarUpload}>
         <h2>Your Profile Picture</h2>
         <p>
-          We try to use up to date photos when possible, but if we don't have an
-          image or you aren't happy with it, please upload a headshot of
-          yourself so citizens can put a face to your name.
+          If the photo we have of you below is missing, or you're not happy with
+          it, please upload one that clearly shows your face.
         </p>
         <PoliticianAvatar politician={politician} hideName />
+        <p className={styles.uploadNote}>
+          For best results upload a square image that is at least 400 x 400
+          pixels.
+        </p>
         <Divider />
       </section>
 
