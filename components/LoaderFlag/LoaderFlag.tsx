@@ -12,7 +12,13 @@ function LoaderFlag({ height }: { height?: number }): JSX.Element {
         height: "100%",
       }}
     >
-      <Image src={loaderBlue} priority alt="flag loading" height={height} />
+      <Image
+        src={loaderBlue}
+        priority
+        alt="flag loading"
+        height={height}
+        unoptimized
+      />
     </div>
   );
 }
