@@ -120,10 +120,11 @@ export default function CandidateGuideIntake() {
   const onSubmit = (data: Record<string, string>) => {
     try {
       for (const [questionId, response] of Object.entries(data)) {
-        if (!response) continue;
         const existingSubmissionId = questions?.find(
           (question) => question.id === questionId
         )?.submissionsByCandidateId[0]?.id;
+
+        if (!response && !existingSubmissionId) continue;
         upsertSubmission.mutate(
           {
             questionSubmissionInput: {
@@ -236,7 +237,7 @@ export default function CandidateGuideIntake() {
                 label="Submit"
                 size="large"
                 variant="primary"
-                disabled={!formState.isDirty}
+                disabled={!formState.isDirty || upsertSubmission.isPending}
               />
               {hasSubmitted && isEditing && (
                 <Button
