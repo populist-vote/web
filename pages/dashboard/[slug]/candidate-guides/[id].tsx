@@ -123,6 +123,7 @@ function CandidateGuideConfiguration({
 }) {
   const queryClient = useQueryClient();
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
+
   const onSubmit = async (data: Partial<UpsertCandidateGuideInput>) => {
     await upsertCandidateGuideMutation.mutate(
       {
@@ -140,8 +141,92 @@ function CandidateGuideConfiguration({
     );
   };
 
-  const handleCloseAll = async () => {
-    await upsertCandidateGuideMutation.mutate(
+  const { register, control, handleSubmit, formState } = useForm<
+    Partial<UpsertCandidateGuideInput>
+  >({
+    mode: "onChange",
+    defaultValues: {
+      name: candidateGuide?.name || "",
+    },
+  });
+
+  return (
+    <section>
+      <div className={styles.flexBetween}>
+        <h3>Configuration</h3>
+        <div
+          className={styles.flexBetween}
+          style={{ color: "var(--blue-text)", fontWeight: 500 }}
+        >
+          <span>
+            Created {new Date(candidateGuide?.createdAt).toLocaleString()}
+          </span>
+          <Divider vertical />
+          <span>
+            Last Updated {new Date(candidateGuide?.updatedAt).toLocaleString()}
+          </span>
+        </div>
+      </div>
+      <Box>
+        <div className={styles.flexBetween}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "end",
+              gap: "1rem",
+              minWidth: "16rem",
+              width: "40%",
+            }}
+          >
+            <TextInput
+              name="name"
+              label="Name"
+              placeholder="Untitled"
+              size="small"
+              register={register}
+              control={control}
+            />
+            {formState.isDirty && formState.isValid && (
+              <Button
+                theme="blue"
+                variant="primary"
+                type="submit"
+                size="medium"
+                label="Save"
+              />
+            )}
+          </form>
+          <Divider vertical height="4rem" />
+          <SubmissionsManagement candidateGuide={candidateGuide} />
+        </div>
+      </Box>
+    </section>
+  );
+}
+
+function SubmissionsManagement({
+  candidateGuide,
+}: {
+  candidateGuide: CandidateGuideResult;
+}) {
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeDate = candidateGuide?.submissionsCloseAt;
+  const areSubmissionsOpen = !closeDate || new Date(closeDate) > new Date();
+  const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
+  const { register, handleSubmit } = useForm<
+    Partial<UpsertCandidateGuideInput>
+  >({
+    mode: "onChange",
+    defaultValues: {
+      submissionsCloseAt: candidateGuide?.submissionsCloseAt,
+    },
+  });
+
+  const handleCloseAll = () => {
+    upsertCandidateGuideMutation.mutate(
       {
         input: {
           id: candidateGuide?.id,
@@ -181,8 +266,8 @@ function CandidateGuideConfiguration({
     );
   };
 
-  const handleDateSave = async (data: Partial<UpsertCandidateGuideInput>) => {
-    await upsertCandidateGuideMutation.mutate(
+  const handleDateSave = (data: Partial<UpsertCandidateGuideInput>) => {
+    upsertCandidateGuideMutation.mutate(
       {
         input: {
           id: candidateGuide?.id,
@@ -202,18 +287,6 @@ function CandidateGuideConfiguration({
       }
     );
   };
-
-  const { register, control, handleSubmit, formState } = useForm<
-    Partial<UpsertCandidateGuideInput>
-  >({
-    mode: "onChange",
-    defaultValues: {
-      name: candidateGuide?.name || "",
-    },
-  });
-
-  const closeDate = candidateGuide?.submissionsCloseAt;
-  const areSubmissionsOpen = !closeDate || new Date(closeDate) > new Date();
 
   const renderSubmissionState = () => {
     let text = "";
@@ -236,158 +309,114 @@ function CandidateGuideConfiguration({
       <span
         style={{
           color,
-          marginRight: "6rem",
           fontWeight: 500,
           fontSize: "1.25em",
           textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-          minWidth: "max-content",
+          width: "100%",
         }}
       >
         {text}
       </span>
     );
   };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
-    <section>
-      <div className={styles.flexBetween}>
-        <h3>Configuration</h3>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "flex-start",
+        flexDirection: "column",
+        gap: "0.5rem",
+        width: "100%",
+      }}
+    >
+      <label
+        htmlFor="airplane-mode"
+        style={{ paddingBottom: "0.5rem", fontWeight: 500 }}
+      >
+        Submissions
+      </label>
+      <div
+        className={styles.flexBetween}
+        style={{ width: "100%", justifyContent: "flex-end" }}
+      >
+        {renderSubmissionState()}
         <div
           className={styles.flexBetween}
-          style={{ color: "var(--blue-text)", fontWeight: 500 }}
+          style={{ width: "100%", justifyContent: "flex-end" }}
         >
-          <span>
-            Created {new Date(candidateGuide?.createdAt).toLocaleString()}
-          </span>
-          <Divider vertical />
-          <span>
-            Last Updated {new Date(candidateGuide?.updatedAt).toLocaleString()}
-          </span>
-        </div>
-      </div>
-      <Box>
-        <div className={styles.flexBetween}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "end",
-              gap: "1rem",
-              width: "40%",
-            }}
-          >
-            <TextInput
-              name="name"
-              label="Name"
-              placeholder="Untitled"
+          {areSubmissionsOpen && (
+            <Button
+              variant="primary"
               size="small"
-              register={register}
-              control={control}
+              label="Close All"
+              onClick={handleCloseAll}
             />
-            {formState.isDirty && formState.isValid && (
-              <Button
-                theme="blue"
-                variant="primary"
-                type="submit"
-                size="medium"
-                label="Save"
-              />
-            )}
-            <Divider vertical height="4rem" />
-          </form>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              flexDirection: "column",
-              gap: "0.5rem",
-            }}
+          )}
+          {!areSubmissionsOpen && (
+            <Button
+              variant="secondary"
+              size="small"
+              label="Open All"
+              onClick={handleOpenAll}
+            />
+          )}
+          <Divider vertical />
+          <Button
+            variant="secondary"
+            size="small"
+            label="Set Close Date"
+            onClick={() => setIsModalOpen(true)}
+          />
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            width="36rem"
           >
-            <label
-              htmlFor="airplane-mode"
-              style={{ paddingBottom: "0.5rem", fontWeight: 500 }}
-            >
-              Submissions
-            </label>
-            <div className={styles.flexBetween}>
-              {renderSubmissionState()}
-              {areSubmissionsOpen && (
+            <form onSubmit={handleSubmit(handleDateSave)}>
+              <h2>Set Close Date</h2>
+              <div className={styles.flexColumn}>
+                <label htmlFor="submissionsCloseAt">
+                  Last day for responses to be submitted
+                </label>
+                <input
+                  type="datetime-local"
+                  {...register("submissionsCloseAt")}
+                />
+              </div>
+              <Divider />
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "1rem",
+                }}
+              >
                 <Button
                   variant="primary"
-                  size="small"
-                  label="Close All"
-                  onClick={handleCloseAll}
+                  size="medium"
+                  label="Save"
+                  type="submit"
                 />
-              )}
-              {!areSubmissionsOpen && (
                 <Button
+                  size="medium"
+                  label="Cancel"
                   variant="secondary"
-                  size="small"
-                  label="Open All"
-                  onClick={handleOpenAll}
+                  onClick={() => setIsModalOpen(false)}
                 />
-              )}
-              <Divider vertical />
-              <Button
-                variant="secondary"
-                size="small"
-                label="Set Close Date"
-                onClick={() => setIsModalOpen(true)}
-              />
-              <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                width="36rem"
-              >
-                <form onSubmit={handleSubmit(handleDateSave)}>
-                  <h2>Set Close Date</h2>
-                  <div className={styles.flexColumn}>
-                    <label htmlFor="submissionsCloseAt">
-                      Last day for responses to be submitted
-                    </label>
-                    <input
-                      type="datetime-local"
-                      {...register("submissionsCloseAt")}
-                    />
-                  </div>
-                  <Divider />
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: "1rem",
-                    }}
-                  >
-                    <Button
-                      variant="primary"
-                      size="medium"
-                      label="Save"
-                      type="submit"
-                    />
-                    <Button
-                      size="medium"
-                      label="Cancel"
-                      variant="secondary"
-                      onClick={() => setIsModalOpen(false)}
-                    />
-                  </div>
-                </form>
-              </Modal>
-              <Button
-                variant="secondary"
-                size="small"
-                label="Clear Date"
-                onClick={handleOpenAll}
-              />
-            </div>
-          </div>
+              </div>
+            </form>
+          </Modal>
+          <Button
+            variant="secondary"
+            size="small"
+            label="Clear Date"
+            onClick={handleOpenAll}
+            disabled={!closeDate}
+          />
         </div>
-      </Box>
-    </section>
+      </div>
+    </div>
   );
 }
 
