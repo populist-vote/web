@@ -51,9 +51,9 @@ function Button({
   /** Function to handle click events */
   onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   wrapText?: boolean;
-  size: ButtonSize;
+  size?: ButtonSize;
   theme?: ButtonTheme;
-  variant: ButtonVariant;
+  variant?: ButtonVariant;
   type?: "submit" | "button";
   [x: string]: unknown;
 }>) {

@@ -120,6 +120,13 @@
   width: 0;
 }
 
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .divider {
   width: 100%;
   margin: 1rem 0;
@@ -385,7 +392,7 @@
 .SwitchRoot {
   width: 42px;
   height: 25px;
-  background-color: $blue-darker;
+  background-color: $blue-dark;
   border-radius: 9999px;
   position: relative;
   -webkit-tap-highlight-color: $blue-text-light;

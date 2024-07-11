@@ -1,5 +1,5 @@
 import { BasicLayout, LoaderFlag } from "components";
-import EmbedPage from "../[id]";
+import { Embed } from "../[id]";
 import { useRouter } from "next/router";
 import { getOriginHost } from "utils/messages";
 import { useEmbedByIdQuery, useOrganizationByIdQuery } from "generated";
@@ -44,11 +44,13 @@ export default function EmbedPreview() {
             )}
           </div>
         )}
-        <EmbedPage
-          embedId={id as string}
-          origin={origin}
-          originHost={originHost}
-        />
+        <div style={{ width: "720px" }}>
+          <Embed
+            embedId={id as string}
+            origin={origin}
+            originHost={originHost}
+          />
+        </div>
       </div>
     </BasicLayout>
   );

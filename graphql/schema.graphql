@@ -355,6 +355,8 @@ type CandidateGuideResult {
   in the candidate guide to get the number of intake submissions per candidate guide.
   """
   submissionCount: Int!
+  submissionsCloseAt: DateTime
+  submissionsOpenAt: DateTime
   updatedAt: DateTime!
 }
 
@@ -734,12 +736,9 @@ type Mutation {
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!, raceId: ID!): String!
   insertPolitician(input: InsertPoliticianInput!): PoliticianResult!
-  """
-  Locks all existing question submissions for a candidate guide — new responses are still permitted
-  """
-  lockAllCandidateQuideQuestions(candidateGuideId: ID!): Boolean!
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
+  openAllCandidateGuideSubmissions(candidateGuideId: ID!): Boolean!
   pingEmbedOrigin(input: PingEmbedOriginInput!): EmbedOriginResult!
   removeCandidateGuideRace(candidateGuideId: ID!, raceId: ID!): Boolean!
   removePoliticianOffice(id: ID!): Boolean!
@@ -1671,6 +1670,8 @@ input UpsertCandidateGuideInput {
   name: String
   organizationId: UUID
   raceIds: [UUID!]
+  submissionsCloseAt: DateTime
+  submissionsOpenAt: DateTime
   userId: UUID
 }
 

@@ -99,6 +99,8 @@ fragment CandidateGuideFields on CandidateGuideResult {
   updatedAt
   organizationId
   submissionCount
+  submissionsOpenAt
+  submissionsCloseAt
   embeds {
     id
     candidateGuideSubmissionCountByRace

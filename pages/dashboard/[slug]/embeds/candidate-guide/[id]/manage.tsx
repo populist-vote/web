@@ -267,7 +267,7 @@ export default function CandidateGuideEmbedPage() {
       <section className={clsx(styles.section, styles.grid2)}>
         <div>
           <h3>Preview</h3>
-          <Box width="fit-content">
+          <Box width="100%">
             <CandidateGuideEmbed
               embedId={id as string}
               candidateGuideId={candidateGuideId}

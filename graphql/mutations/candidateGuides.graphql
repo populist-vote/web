@@ -20,3 +20,7 @@ mutation DownloadAllCandidateGuideData($candidateGuideId: ID!, $raceId: ID) {
     raceId: $raceId
   )
 }
+
+mutation OpenAllCandidateGuideSubmissions($candidateGuideId: ID!) {
+  openAllCandidateGuideSubmissions(candidateGuideId: $candidateGuideId)
+}
