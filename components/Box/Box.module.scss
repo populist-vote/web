@@ -5,6 +5,7 @@
   flex-direction: var(--flex-direction);
   justify-content: center;
   width: var(--box-width);
+  max-width: var(--box-max-width);
   padding: var(--box-padding);
   background-color: $blue-darker;
   border-radius: 30px;
