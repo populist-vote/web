@@ -123,6 +123,7 @@ export default function CandidateGuideIntake() {
   )?.id;
 
   const areSubmissionsClosed =
+    data?.candidateGuideById.submissionsCloseAt !== null &&
     new Date(data?.candidateGuideById.submissionsCloseAt) < new Date();
 
   const onSubmit = (data: Record<string, string>) => {
