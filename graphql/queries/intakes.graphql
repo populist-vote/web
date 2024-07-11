@@ -2,6 +2,14 @@ query CandidateGuideIntakeQuestions($candidateGuideId: ID!, $candidateId: ID!) {
   candidateGuideById(id: $candidateGuideId) {
     id
     organizationId
+    submissionsOpenAt
+    submissionsCloseAt
+    embeds {
+      id
+      race {
+        id
+      }
+    }
     questions {
       id
       prompt

@@ -236,7 +236,7 @@ function CandidateGuideConfiguration({
       <span
         style={{
           color,
-          marginRight: "12rem",
+          marginRight: "6rem",
           fontWeight: 500,
           fontSize: "1.25em",
           textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
@@ -276,6 +276,7 @@ function CandidateGuideConfiguration({
               justifyContent: "center",
               alignItems: "end",
               gap: "1rem",
+              width: "40%",
             }}
           >
             <TextInput
@@ -295,8 +296,8 @@ function CandidateGuideConfiguration({
                 label="Save"
               />
             )}
+            <Divider vertical height="4rem" />
           </form>
-          <Divider vertical height="4rem" />
           <div
             style={{
               display: "flex",

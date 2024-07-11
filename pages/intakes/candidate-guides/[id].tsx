@@ -33,7 +33,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PoliticianAvatar } from "pages/politicians/[slug]/edit";
 
 export default function CandidateGuideIntake() {
-  const { id, token, raceId } = useRouter().query;
+  const router = useRouter();
+  const { id, token, raceId } = router.query;
   const { data: politicianData, isLoading: isPoliticianLoading } =
     usePoliticianByIntakeTokenQuery({
       token: token as string,
@@ -117,6 +118,13 @@ export default function CandidateGuideIntake() {
   const upsertSubmission = useUpsertQuestionSubmissionMutation();
   const queryClient = useQueryClient();
 
+  const embedId = data?.candidateGuideById.embeds.find(
+    (e) => e?.race?.id === raceId
+  )?.id;
+
+  const areSubmissionsClosed =
+    new Date(data?.candidateGuideById.submissionsCloseAt) < new Date();
+
   const onSubmit = (data: Record<string, string>) => {
     try {
       for (const [questionId, response] of Object.entries(data)) {
@@ -178,6 +186,7 @@ export default function CandidateGuideIntake() {
           </p>
           <Divider />
         </div>
+
         {!isEditing ? (
           <section className={styles.submissionConfirmedSection}>
             <h2>Thank you for your submission!</h2>
@@ -190,25 +199,72 @@ export default function CandidateGuideIntake() {
               >
                 info@populist.us
               </a>
-              .
             </p>
+            {areSubmissionsClosed && (
+              <Box>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    gap: "1.5rem",
+                    padding: "3rem",
+                  }}
+                >
+                  <h2>Submissions are now closed.</h2>
+                  {embedId && (
+                    <Button
+                      label="Preview Candidate Guide"
+                      onClick={() => router.push(`/embeds/preview/${embedId}`)}
+                    />
+                  )}
+                </div>
+              </Box>
+            )}
             <Divider />
             <section className={styles.submissionPreview}>
               {questions?.map((question) => (
                 <div key={question.id} className={styles.question}>
                   <h2>{question.prompt}</h2>
                   <p>{getValues(question.id)}</p>
-                  <Button
-                    label="Edit Response"
-                    size="large"
-                    variant="primary"
-                    onClick={() => setIsEditing(true)}
-                  />
+                  {!areSubmissionsClosed && (
+                    <Button
+                      label="Edit Response"
+                      size="large"
+                      variant="primary"
+                      onClick={() => setIsEditing(true)}
+                    />
+                  )}
                 </div>
               ))}
               <Divider />
             </section>
           </section>
+        ) : areSubmissionsClosed ? (
+          <>
+            <Box>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  gap: "1.5rem",
+                  padding: "3rem",
+                }}
+              >
+                <h2>Submissions are now closed.</h2>
+                {embedId && (
+                  <Button
+                    label="Preview Candidate Guide"
+                    onClick={() => router.push(`/embeds/preview/${embedId}`)}
+                  />
+                )}
+              </div>
+            </Box>
+            <Divider />
+          </>
         ) : (
           <section className={styles.questionsSection}>
             {questions?.map((question) => (
