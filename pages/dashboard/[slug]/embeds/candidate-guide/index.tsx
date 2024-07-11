@@ -13,7 +13,7 @@ import {
   useCandidateGuidesByOrganizationQuery,
   useRecentCandidateGuideQuestionSubmissionsQuery,
 } from "generated";
-import { getRelativeTimeString } from "utils/dates";
+import { getRelativeTimeString, renderSubmissionState } from "utils/dates";
 import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
 import clsx from "clsx";
@@ -80,6 +80,11 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
         accessorKey: "submissionCount",
         header: "Submissions",
         cell: (info) => info.getValue() as number,
+      },
+      {
+        accessorKey: "submissionsCloseAt",
+        header: "Status",
+        cell: (info) => renderSubmissionState(info.getValue() as string),
       },
     ],
     []

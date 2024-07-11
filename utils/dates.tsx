@@ -123,3 +123,35 @@ export function isSameDate(date1: Date, date2: Date): boolean {
     date1.getDate() === date2.getDate()
   );
 }
+
+export function renderSubmissionState(closeDate: string | null) {
+  let text = "";
+  let color = "";
+  if (closeDate) {
+    if (new Date(closeDate) < new Date()) {
+      text = "Closed";
+      color = "var(--red)";
+    } else {
+      const formattedDate = new Date(closeDate).toLocaleDateString();
+      text = `Open until ${formattedDate}`;
+      color = "var(--green-support)";
+    }
+  } else {
+    text = "Open";
+    color = "var(--green-support)";
+  }
+
+  return (
+    <span
+      style={{
+        color,
+        fontWeight: 500,
+        fontSize: "1em",
+        textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+        width: "100%",
+      }}
+    >
+      {text}
+    </span>
+  );
+}

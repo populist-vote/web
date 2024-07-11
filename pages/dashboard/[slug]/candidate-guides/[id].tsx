@@ -46,6 +46,7 @@ import { confirmDialog } from "utils/messages";
 import { toast } from "react-toastify";
 import { downloadCsv } from "utils/strings";
 import { useAuth } from "hooks/useAuth";
+import { renderSubmissionState } from "utils/dates";
 
 export async function getServerSideProps({
   query,
@@ -248,7 +249,7 @@ function SubmissionsManagement({
 
   const openAllMutation = useOpenAllCandidateGuideSubmissionsMutation();
 
-  const handleOpenAll = async () => {
+  const handleOpenAll = () => {
     openAllMutation.mutate(
       {
         candidateGuideId: candidateGuide?.id as string,
@@ -281,44 +282,13 @@ function SubmissionsManagement({
               id: candidateGuide?.id as string,
             }),
           });
-          setIsModalOpen(false);
           toast.success("Close date has been set.");
         },
+        onSettled: () => setIsModalOpen(false),
       }
     );
   };
 
-  const renderSubmissionState = () => {
-    let text = "";
-    let color = "";
-    if (closeDate) {
-      if (new Date(closeDate) < new Date()) {
-        text = "Closed";
-        color = "var(--red)";
-      } else {
-        const formattedDate = new Date(closeDate).toLocaleDateString();
-        text = `Open until ${formattedDate}`;
-        color = "var(--green-support)";
-      }
-    } else {
-      text = "Open";
-      color = "var(--green-support)";
-    }
-
-    return (
-      <span
-        style={{
-          color,
-          fontWeight: 500,
-          fontSize: "1.25em",
-          textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-          width: "100%",
-        }}
-      >
-        {text}
-      </span>
-    );
-  };
   return (
     <div
       style={{
@@ -329,17 +299,14 @@ function SubmissionsManagement({
         width: "100%",
       }}
     >
-      <label
-        htmlFor="airplane-mode"
-        style={{ paddingBottom: "0.5rem", fontWeight: 500 }}
-      >
+      <span style={{ paddingBottom: "0.5rem", fontWeight: 500 }}>
         Submissions
-      </label>
+      </span>
       <div
         className={styles.flexBetween}
         style={{ width: "100%", justifyContent: "flex-end" }}
       >
-        {renderSubmissionState()}
+        {renderSubmissionState(closeDate)}
         <div
           className={styles.flexBetween}
           style={{ width: "100%", justifyContent: "flex-end" }}
@@ -379,6 +346,7 @@ function SubmissionsManagement({
                   Last day for responses to be submitted
                 </label>
                 <input
+                  id="submissionsCloseAt"
                   type="datetime-local"
                   {...register("submissionsCloseAt")}
                 />
