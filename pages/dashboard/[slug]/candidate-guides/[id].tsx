@@ -222,7 +222,11 @@ function SubmissionsManagement({
   >({
     mode: "onChange",
     defaultValues: {
-      submissionsCloseAt: candidateGuide?.submissionsCloseAt,
+      submissionsCloseAt: candidateGuide?.submissionsCloseAt
+        ? new Date(candidateGuide.submissionsCloseAt)
+            .toISOString()
+            .split("T", 1)[0]
+        : "",
     },
   });
 
@@ -321,7 +325,7 @@ function SubmissionsManagement({
           )}
           {!areSubmissionsOpen && (
             <Button
-              variant="secondary"
+              variant="primary"
               size="small"
               label="Open All"
               onClick={handleOpenAll}
@@ -347,7 +351,7 @@ function SubmissionsManagement({
                 </label>
                 <input
                   id="submissionsCloseAt"
-                  type="datetime-local"
+                  type="date"
                   {...register("submissionsCloseAt")}
                 />
               </div>

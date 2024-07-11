@@ -132,7 +132,9 @@ export function renderSubmissionState(closeDate: string | null) {
       text = "Closed";
       color = "var(--red)";
     } else {
-      const formattedDate = new Date(closeDate).toLocaleDateString();
+      const formattedDate = new Date(
+        closeDate.replace(/-/g, "/").replace(/T.+/, "")
+      ).toLocaleDateString();
       text = `Open until ${formattedDate}`;
       color = "var(--green-support)";
     }
