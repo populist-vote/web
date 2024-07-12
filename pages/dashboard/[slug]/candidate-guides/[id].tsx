@@ -745,15 +745,18 @@ function CandidateGuideEmbedTable({
       {
         header: "Race Title",
         accessorKey: "race.title",
+        size: 350,
       },
       {
         header: "Candidates",
         accessorKey: "race.candidates",
         cell: (info) => (info.getValue() as PoliticianResult[]).length,
+        size: 40,
       },
       {
         header: "Submissions",
         accessorKey: "candidateGuideSubmissionCountByRace",
+        size: 40,
       },
       {
         id: "Actions",

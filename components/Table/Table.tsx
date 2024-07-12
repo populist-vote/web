@@ -298,7 +298,10 @@ function Table<T extends object>({
                       key={header.id}
                       colSpan={header.colSpan}
                       style={{
-                        width: header.getSize(),
+                        width:
+                          header.getSize() === Number.MAX_SAFE_INTEGER
+                            ? "auto"
+                            : header.getSize(),
                       }}
                     >
                       {header.isPlaceholder ? null : (
@@ -340,7 +343,15 @@ function Table<T extends object>({
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (
-                      <td key={cell.id}>
+                      <td
+                        key={cell.id}
+                        style={{
+                          width:
+                            cell.column.getSize() === Number.MAX_SAFE_INTEGER
+                              ? "auto"
+                              : cell.column.getSize(),
+                        }}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
