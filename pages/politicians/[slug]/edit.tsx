@@ -38,10 +38,18 @@ import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
 import { useEffect, useState } from "react";
 import { OfficeResultsTable } from "components/OfficeResultsTable/OfficeResultsTable";
 
-function PoliticianBasicsForm({
+export function PoliticianBasicsForm({
   politician,
+  hideDoneButton = false,
+  hideSlug = false,
+  hideBioSource = false,
+  hideOfficialWebsite = false,
 }: {
   politician: Partial<PoliticianResult>;
+  hideDoneButton?: boolean;
+  hideSlug?: boolean;
+  hideBioSource?: boolean;
+  hideOfficialWebsite?: boolean;
 }) {
   const { register, control, handleSubmit, formState } = useForm<
     Partial<PoliticianResult>
@@ -150,12 +158,14 @@ function PoliticianBasicsForm({
           register={register}
           control={control}
         />
-        <TextInput
-          name={"slug"}
-          label="Slug"
-          register={register}
-          control={control}
-        />
+        {!hideSlug && (
+          <TextInput
+            name={"slug"}
+            label="Slug"
+            register={register}
+            control={control}
+          />
+        )}
       </div>
 
       <div
@@ -207,12 +217,14 @@ function PoliticianBasicsForm({
         register={register}
         control={control}
       />
-      <TextInput
-        name={"biographySource"}
-        label="Biography Source"
-        register={register}
-        control={control}
-      />
+      {!hideBioSource && (
+        <TextInput
+          name={"biographySource"}
+          label="Biography Source"
+          register={register}
+          control={control}
+        />
+      )}
       <div
         style={{
           display: "grid",
@@ -222,12 +234,14 @@ function PoliticianBasicsForm({
           width: "100%",
         }}
       >
-        <TextInput
-          name={"officialWebsiteUrl"}
-          label="Official Website Url"
-          register={register}
-          control={control}
-        />
+        {!hideOfficialWebsite && (
+          <TextInput
+            name={"officialWebsiteUrl"}
+            label="Official Website Url"
+            register={register}
+            control={control}
+          />
+        )}
         <TextInput
           name={"campaignWebsiteUrl"}
           label="Campaign Website Url"
@@ -325,13 +339,15 @@ function PoliticianBasicsForm({
           size="large"
           disabled={!isDirty || isPending}
         />
-        <Button
-          type="button"
-          variant="secondary"
-          label="Done"
-          size="large"
-          onClick={() => router.push(`/politicians/${politician.slug}`)}
-        />
+        {!hideDoneButton && (
+          <Button
+            type="button"
+            variant="secondary"
+            label="Done"
+            size="large"
+            onClick={() => router.push(`/politicians/${politician.slug}`)}
+          />
+        )}
       </div>
     </form>
   );

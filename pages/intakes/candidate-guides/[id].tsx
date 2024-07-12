@@ -30,7 +30,10 @@ import { Race } from "components/Ballot/Race";
 import clsx from "clsx";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { PoliticianAvatar } from "pages/politicians/[slug]/edit";
+import {
+  PoliticianAvatar,
+  PoliticianBasicsForm,
+} from "pages/politicians/[slug]/edit";
 
 export default function CandidateGuideIntake() {
   const router = useRouter();
@@ -311,7 +314,7 @@ export default function CandidateGuideIntake() {
       </form>
 
       <section className={styles.politicianAvatarUpload}>
-        <h2>Your Profile Picture</h2>
+        <h2>Your Information</h2>
         <p>
           If the photo we have of you below is missing, or you're not happy with
           it, please upload one that clearly shows your face.
@@ -321,6 +324,16 @@ export default function CandidateGuideIntake() {
           For best results upload a square image that is at least 400 x 400
           pixels.
         </p>
+
+        <Box>
+          <PoliticianBasicsForm
+            politician={politician}
+            hideDoneButton
+            hideSlug
+            hideBioSource
+            hideOfficialWebsite
+          />
+        </Box>
         <Divider />
       </section>
 
