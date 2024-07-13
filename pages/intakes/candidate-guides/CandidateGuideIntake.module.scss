@@ -32,6 +32,10 @@
   }
 
   .questionsSection {
+    hr {
+      margin-bottom: 3rem;
+    }
+
     h2 {
       font-size: 1.5em;
       font-weight: 400;
@@ -149,7 +153,7 @@
 
   h2 {
     text-align: center;
-    margin-top: 0;
+    margin: 2rem 0;
   }
 
   hr {
@@ -183,6 +187,11 @@
 }
 
 .submissionConfirmedSection {
+  margin-bottom: 3rem;
+
+  p {
+    margin: 0;
+  }
   hr {
     margin-top: 4rem;
     @include for-tablet-down {
@@ -209,5 +218,12 @@
 
   p {
     text-align: center;
+  }
+}
+
+.submissionClosedSection {
+  margin-bottom: 2rem;
+  hr {
+    margin-top: 3rem;
   }
 }

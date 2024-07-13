@@ -188,23 +188,11 @@ export default function CandidateGuideIntake() {
             fill out answers to the following questions created by the politics
             team at MPR News. Your answers will be shared with the public.
           </p>
-          <Divider />
         </div>
 
         {!isEditing ? (
-          <section className={styles.submissionConfirmedSection}>
-            <h2>Thank you for your submission!</h2>
-            <p>
-              Your responses have been submitted. If you have any questions or
-              concerns, please reach out to us at{" "}
-              <a
-                style={{ color: "var(--blue-text-light)" }}
-                href="mailto:info@populist.us"
-              >
-                info@populist.us
-              </a>
-            </p>
-            {areSubmissionsClosed && (
+          <>
+            <section className={styles.submissionConfirmedSection}>
               <Box>
                 <div
                   style={{
@@ -213,21 +201,53 @@ export default function CandidateGuideIntake() {
                     alignItems: "center",
                     flexDirection: "column",
                     gap: "1.5rem",
-                    padding: "3rem",
+                    padding: "2rem",
                   }}
                 >
-                  <h2>Submissions are now closed.</h2>
-                  {embedId && (
-                    <Button
-                      label="Preview Candidate Guide"
-                      onClick={() => router.push(`/embeds/preview/${embedId}`)}
-                    />
-                  )}
+                  <h2>Thank you for your submission!</h2>
+                  <p>
+                    Your responses have been submitted. If you have any
+                    questions or concerns, please reach out to us at{" "}
+                    <a
+                      style={{ color: "var(--blue-text-light)" }}
+                      href="mailto:info@populist.us"
+                    >
+                      info@populist.us
+                    </a>
+                  </p>
                 </div>
               </Box>
+            </section>
+
+            {areSubmissionsClosed && (
+              <section className={styles.submissionClosedSection}>
+                <Box>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      gap: "1.5rem",
+                      padding: "2rem",
+                    }}
+                  >
+                    <h2>Submissions are now closed.</h2>
+                    {embedId && (
+                      <Button
+                        label="Preview Candidate Guide"
+                        onClick={() =>
+                          router.push(`/embeds/preview/${embedId}`)
+                        }
+                      />
+                    )}
+                  </div>
+                </Box>
+              </section>
             )}
-            <Divider />
+
             <section className={styles.submissionPreview}>
+              <Divider />
               {questions?.map((question) => (
                 <div key={question.id} className={styles.question}>
                   <h2>{question.prompt}</h2>
@@ -244,9 +264,9 @@ export default function CandidateGuideIntake() {
               ))}
               <Divider />
             </section>
-          </section>
+          </>
         ) : areSubmissionsClosed ? (
-          <>
+          <section className={styles.submissionClosedSection}>
             <Box>
               <div
                 style={{
@@ -268,9 +288,10 @@ export default function CandidateGuideIntake() {
               </div>
             </Box>
             <Divider />
-          </>
+          </section>
         ) : (
           <section className={styles.questionsSection}>
+            <Divider />
             {questions?.map((question) => (
               <div key={question.id} className={styles.question}>
                 <h2>{question.prompt}</h2>
@@ -314,18 +335,19 @@ export default function CandidateGuideIntake() {
       </form>
 
       <section className={styles.politicianAvatarUpload}>
-        <h2>Your Information</h2>
-        <p>
-          If the photo we have of you below is missing, or you're not happy with
-          it, please upload one that clearly shows your face.
-        </p>
-        <PoliticianAvatar politician={politician} hideName />
-        <p className={styles.uploadNote}>
-          For best results upload a square image that is at least 400 x 400
-          pixels.
-        </p>
-
         <Box>
+          <h2>Edit Your Information</h2>
+
+          <p>
+            If the photo we have of you below is missing, or you're not happy
+            with it, please upload one that clearly shows your face.
+          </p>
+          <PoliticianAvatar politician={politician} hideName />
+          <p className={styles.uploadNote}>
+            For best results upload a square image that is at least 400 x 400
+            pixels.
+          </p>
+
           <PoliticianBasicsForm
             politician={politician}
             hideDoneButton
