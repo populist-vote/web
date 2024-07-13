@@ -104,16 +104,21 @@
 
 .poweredBySection {
   margin-top: 5rem;
+  margin-bottom: 5rem;
 
   p {
     width: 800px;
     font-style: italic;
     color: $blue-lighter;
+    margin: auto;
+    margin-bottom: 3rem;
+    text-align: center;
   }
 
   @include for-tablet-down {
     max-width: 360px;
     margin-top: 0;
+    margin-bottom: 0;
 
     p {
       max-width: 360px;
@@ -137,7 +142,9 @@
     width: 800px;
     font-style: italic;
     color: $blue-lighter;
+    margin: auto;
     margin-bottom: 3rem;
+    text-align: center;
   }
 
   h2 {
@@ -148,6 +155,16 @@
   hr {
     margin-top: 4rem;
     margin-bottom: 1rem;
+  }
+
+  .uploadNote {
+    font-size: $text-md;
+    text-align: center;
+    margin-top: 2rem;
+
+    @include for-tablet-down {
+      font-size: $text-sm;
+    }
   }
 
   @include for-tablet-down {
@@ -168,6 +185,9 @@
 .submissionConfirmedSection {
   hr {
     margin-top: 4rem;
+    @include for-tablet-down {
+      margin-top: 3rem;
+    }
   }
 }
 
@@ -183,12 +203,11 @@
   }
 }
 
-.uploadNote {
-  font-size: $text-md;
-  text-align: center;
-  margin-top: 2rem;
+.editProfilePicContainer {
+  width: 800px;
+  margin: auto;
 
-  @include for-tablet-down {
-    font-size: $text-sm;
+  p {
+    text-align: center;
   }
 }

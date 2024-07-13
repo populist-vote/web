@@ -58,6 +58,7 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
       {
         accessorKey: "name",
         header: "Name",
+        size: 400,
       },
       {
         accessorKey: "createdAt",
@@ -75,11 +76,13 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
         accessorKey: "embeds",
         header: "Embeds",
         cell: (info) => (info.getValue() as Array<EmbedResult>).length,
+        size: 5,
       },
       {
         accessorKey: "submissionCount",
         header: "Submissions",
         cell: (info) => info.getValue() as number,
+        size: 5,
       },
       {
         accessorKey: "submissionsCloseAt",

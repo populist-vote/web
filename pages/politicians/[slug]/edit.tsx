@@ -38,12 +38,20 @@ import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
 import { useEffect, useState } from "react";
 import { OfficeResultsTable } from "components/OfficeResultsTable/OfficeResultsTable";
 
-function PoliticianBasicsForm({
+export function PoliticianBasicsForm({
   politician,
+  hideDoneButton = false,
+  hideSlug = false,
+  hideBioSource = false,
+  hideOfficialWebsite = false,
 }: {
   politician: Partial<PoliticianResult>;
+  hideDoneButton?: boolean;
+  hideSlug?: boolean;
+  hideBioSource?: boolean;
+  hideOfficialWebsite?: boolean;
 }) {
-  const { register, control, handleSubmit, formState } = useForm<
+  const { register, control, handleSubmit, formState, reset } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -62,6 +70,8 @@ function PoliticianBasicsForm({
   const handleSave = (formData: Partial<PoliticianResult>) => {
     return mutate(
       {
+        intakeToken: (router.query.token as string) || "",
+        slug: politician.slug as string,
         input: {
           id: politician.id,
           slug: formData.slug,
@@ -91,20 +101,25 @@ function PoliticianBasicsForm({
         },
       },
       {
-        onSettled: () => {
+        onSuccess: () => {
           void queryClient.invalidateQueries({
-            queryKey: usePoliticianBySlugQuery.getKey({
-              slug: politician.slug as string,
-            }),
+            queryKey: [
+              usePoliticianBySlugQuery.getKey({
+                slug: politician.slug as string,
+              }),
+            ],
           });
-          toast.success("Politician updated", {
+          reset(formData);
+          toast.success("Record has been updated", {
             position: "bottom-right",
           });
         },
         onError: (error) => {
           // Specify the type of 'error' as 'any'
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          toast.error((error as any).message);
+          toast.error((error as any).message, {
+            position: "bottom-right",
+          });
         },
       }
     );
@@ -150,12 +165,14 @@ function PoliticianBasicsForm({
           register={register}
           control={control}
         />
-        <TextInput
-          name={"slug"}
-          label="Slug"
-          register={register}
-          control={control}
-        />
+        {!hideSlug && (
+          <TextInput
+            name={"slug"}
+            label="Slug"
+            register={register}
+            control={control}
+          />
+        )}
       </div>
 
       <div
@@ -207,12 +224,14 @@ function PoliticianBasicsForm({
         register={register}
         control={control}
       />
-      <TextInput
-        name={"biographySource"}
-        label="Biography Source"
-        register={register}
-        control={control}
-      />
+      {!hideBioSource && (
+        <TextInput
+          name={"biographySource"}
+          label="Biography Source"
+          register={register}
+          control={control}
+        />
+      )}
       <div
         style={{
           display: "grid",
@@ -222,12 +241,14 @@ function PoliticianBasicsForm({
           width: "100%",
         }}
       >
-        <TextInput
-          name={"officialWebsiteUrl"}
-          label="Official Website Url"
-          register={register}
-          control={control}
-        />
+        {!hideOfficialWebsite && (
+          <TextInput
+            name={"officialWebsiteUrl"}
+            label="Official Website Url"
+            register={register}
+            control={control}
+          />
+        )}
         <TextInput
           name={"campaignWebsiteUrl"}
           label="Campaign Website Url"
@@ -325,13 +346,15 @@ function PoliticianBasicsForm({
           size="large"
           disabled={!isDirty || isPending}
         />
-        <Button
-          type="button"
-          variant="secondary"
-          label="Done"
-          size="large"
-          onClick={() => router.push(`/politicians/${politician.slug}`)}
-        />
+        {!hideDoneButton && (
+          <Button
+            type="button"
+            variant="secondary"
+            label="Done"
+            size="large"
+            onClick={() => router.push(`/politicians/${politician.slug}`)}
+          />
+        )}
       </div>
     </form>
   );
@@ -342,7 +365,7 @@ function PoliticianAPILinksForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, control, handleSubmit, formState } = useForm<
+  const { register, control, handleSubmit, formState, reset } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -363,6 +386,8 @@ function PoliticianAPILinksForm({
   const handleSave = (formData: Partial<PoliticianResult>) => {
     return mutate(
       {
+        intakeToken: router.query.token as string,
+        slug: politician.slug as string,
         input: {
           id: politician.id,
           votesmartCandidateId: formData.votesmartCandidateId,
@@ -378,7 +403,9 @@ function PoliticianAPILinksForm({
           if (data.errors) {
             // @ts-expect-error - ""
             data.errors.forEach((error) => {
-              toast.error(error.message);
+              toast.error(error.message, {
+                position: "bottom-right",
+              });
             });
           }
           void queryClient.invalidateQueries({
@@ -387,12 +414,15 @@ function PoliticianAPILinksForm({
             }),
           });
           if (data.updatePolitician)
-            toast.success("Politician updated", {
+            toast.success("Record has been updated", {
               position: "bottom-right",
             });
+          reset(formData);
         },
         onError: (error) => {
-          toast.error(JSON.stringify(error));
+          toast.error(JSON.stringify(error), {
+            position: "bottom-right",
+          });
         },
       }
     );
@@ -514,11 +544,19 @@ export function PoliticianAvatar({
               slug: politician.slug as string,
             }),
           })
-          .catch((err) => toast.error(err));
+          .catch((err) =>
+            toast.error(err, {
+              position: "bottom-right",
+            })
+          );
         const json = await data.json();
         setAvatarUrl(json.data.uploadPoliticianPicture);
       })
-      .catch((error) => toast.error(error))
+      .catch((error) =>
+        toast.error(error, {
+          position: "bottom-right",
+        })
+      )
       .finally(() => setUploading(false));
   };
 
@@ -579,6 +617,7 @@ function PoliticianOffices({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
+  const router = useRouter();
   const currentOffice = politician.currentOffice;
   const updatePolitician = useUpdatePoliticianMutation();
   const handleRemoveOffice = (_officeId: string) => {
@@ -586,6 +625,8 @@ function PoliticianOffices({
       "Are you sure you want to remove this politician's current office?"
     ) &&
       updatePolitician.mutate({
+        intakeToken: router.query.token as string,
+        slug: politician.slug as string,
         input: {
           id: politician.id,
           officeId: "SET_NULL",
