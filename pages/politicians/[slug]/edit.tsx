@@ -99,7 +99,7 @@ export function PoliticianBasicsForm({
         },
       },
       {
-        onSettled: () => {
+        onSuccess: () => {
           void queryClient.invalidateQueries({
             queryKey: usePoliticianBySlugQuery.getKey({
               slug: politician.slug as string,
@@ -112,7 +112,9 @@ export function PoliticianBasicsForm({
         onError: (error) => {
           // Specify the type of 'error' as 'any'
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          toast.error((error as any).message);
+          toast.error((error as any).message, {
+            position: "bottom-right",
+          });
         },
       }
     );
@@ -394,7 +396,9 @@ function PoliticianAPILinksForm({
           if (data.errors) {
             // @ts-expect-error - ""
             data.errors.forEach((error) => {
-              toast.error(error.message);
+              toast.error(error.message, {
+                position: "bottom-right",
+              });
             });
           }
           void queryClient.invalidateQueries({
@@ -408,7 +412,9 @@ function PoliticianAPILinksForm({
             });
         },
         onError: (error) => {
-          toast.error(JSON.stringify(error));
+          toast.error(JSON.stringify(error), {
+            position: "bottom-right",
+          });
         },
       }
     );
@@ -530,11 +536,19 @@ export function PoliticianAvatar({
               slug: politician.slug as string,
             }),
           })
-          .catch((err) => toast.error(err));
+          .catch((err) =>
+            toast.error(err, {
+              position: "bottom-right",
+            })
+          );
         const json = await data.json();
         setAvatarUrl(json.data.uploadPoliticianPicture);
       })
-      .catch((error) => toast.error(error))
+      .catch((error) =>
+        toast.error(error, {
+          position: "bottom-right",
+        })
+      )
       .finally(() => setUploading(false));
   };
 
