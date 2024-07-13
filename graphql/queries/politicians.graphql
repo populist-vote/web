@@ -49,6 +49,8 @@ fragment BasicInfo on PoliticianResult {
   fullName
   preferredName
   homeState
+  phone
+  email
   party {
     id
     name
@@ -328,6 +330,7 @@ query PoliticianEmbedById($id: ID!) {
 mutation UpdatePolitician($input: UpdatePoliticianInput!) {
   updatePolitician(input: $input) {
     ...BasicInfo
+    ...Bio
     ...ApiLinks
   }
 }

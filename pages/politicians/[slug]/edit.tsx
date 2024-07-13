@@ -105,7 +105,7 @@ export function PoliticianBasicsForm({
               slug: politician.slug as string,
             }),
           });
-          toast.success("Politician updated", {
+          toast.success("Record has been updated", {
             position: "bottom-right",
           });
         },
@@ -403,7 +403,7 @@ function PoliticianAPILinksForm({
             }),
           });
           if (data.updatePolitician)
-            toast.success("Politician updated", {
+            toast.success("Record has been updated", {
               position: "bottom-right",
             });
         },

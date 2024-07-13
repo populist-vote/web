@@ -33,6 +33,7 @@ query CandidateGuideIntakeQuestions($candidateGuideId: ID!, $candidateId: ID!) {
 query PoliticianByIntakeToken($token: String!) {
   politicianByIntakeToken(token: $token) {
     ...BasicInfo
+    ...Bio
     upcomingRace {
       ...RaceFields
     }
