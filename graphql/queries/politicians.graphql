@@ -327,8 +327,12 @@ query PoliticianEmbedById($id: ID!) {
   }
 }
 
-mutation UpdatePolitician($input: UpdatePoliticianInput!) {
-  updatePolitician(input: $input) {
+mutation UpdatePolitician(
+  $intakeToken: String!
+  $slug: String!
+  $input: UpdatePoliticianInput!
+) {
+  updatePolitician(intakeToken: $intakeToken, slug: $slug, input: $input) {
     ...BasicInfo
     ...Bio
     ...ApiLinks

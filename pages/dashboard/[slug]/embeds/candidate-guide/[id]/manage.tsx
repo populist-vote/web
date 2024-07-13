@@ -376,6 +376,8 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
     try {
       upsertPolitician.mutate(
         {
+          intakeToken: "",
+          slug: "",
           input: {
             id: row.row.original.id,
             email: data.email as string,

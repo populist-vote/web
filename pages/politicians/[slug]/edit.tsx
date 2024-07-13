@@ -51,7 +51,7 @@ export function PoliticianBasicsForm({
   hideBioSource?: boolean;
   hideOfficialWebsite?: boolean;
 }) {
-  const { register, control, handleSubmit, formState } = useForm<
+  const { register, control, handleSubmit, formState, reset } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -70,6 +70,8 @@ export function PoliticianBasicsForm({
   const handleSave = (formData: Partial<PoliticianResult>) => {
     return mutate(
       {
+        intakeToken: (router.query.token as string) || "",
+        slug: politician.slug as string,
         input: {
           id: politician.id,
           slug: formData.slug,
@@ -101,10 +103,13 @@ export function PoliticianBasicsForm({
       {
         onSuccess: () => {
           void queryClient.invalidateQueries({
-            queryKey: usePoliticianBySlugQuery.getKey({
-              slug: politician.slug as string,
-            }),
+            queryKey: [
+              usePoliticianBySlugQuery.getKey({
+                slug: politician.slug as string,
+              }),
+            ],
           });
+          reset(formData);
           toast.success("Record has been updated", {
             position: "bottom-right",
           });
@@ -360,7 +365,7 @@ function PoliticianAPILinksForm({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
-  const { register, control, handleSubmit, formState } = useForm<
+  const { register, control, handleSubmit, formState, reset } = useForm<
     Partial<PoliticianResult>
   >({
     defaultValues: {
@@ -381,6 +386,8 @@ function PoliticianAPILinksForm({
   const handleSave = (formData: Partial<PoliticianResult>) => {
     return mutate(
       {
+        intakeToken: router.query.token as string,
+        slug: politician.slug as string,
         input: {
           id: politician.id,
           votesmartCandidateId: formData.votesmartCandidateId,
@@ -410,6 +417,7 @@ function PoliticianAPILinksForm({
             toast.success("Record has been updated", {
               position: "bottom-right",
             });
+          reset(formData);
         },
         onError: (error) => {
           toast.error(JSON.stringify(error), {
@@ -609,6 +617,7 @@ function PoliticianOffices({
 }: {
   politician: Partial<PoliticianResult>;
 }) {
+  const router = useRouter();
   const currentOffice = politician.currentOffice;
   const updatePolitician = useUpdatePoliticianMutation();
   const handleRemoveOffice = (_officeId: string) => {
@@ -616,6 +625,8 @@ function PoliticianOffices({
       "Are you sure you want to remove this politician's current office?"
     ) &&
       updatePolitician.mutate({
+        intakeToken: router.query.token as string,
+        slug: politician.slug as string,
         input: {
           id: politician.id,
           officeId: "SET_NULL",
