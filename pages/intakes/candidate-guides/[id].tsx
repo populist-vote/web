@@ -194,16 +194,7 @@ export default function CandidateGuideIntake() {
           <>
             <section className={styles.submissionConfirmedSection}>
               <Box>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    gap: "1.5rem",
-                    padding: "2rem",
-                  }}
-                >
+                <div className={styles.submissionConfirmedMessage}>
                   <h2>Thank you for your submission!</h2>
                   <p>
                     Your responses have been submitted. If you have any
@@ -214,6 +205,7 @@ export default function CandidateGuideIntake() {
                     >
                       info@populist.us
                     </a>
+                    .
                   </p>
                 </div>
               </Box>
@@ -222,16 +214,7 @@ export default function CandidateGuideIntake() {
             {areSubmissionsClosed && (
               <section className={styles.submissionClosedSection}>
                 <Box>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      gap: "1.5rem",
-                      padding: "2rem",
-                    }}
-                  >
+                  <div className={styles.submissionClosedMessage}>
                     <h2>Submissions are now closed.</h2>
                     {embedId && (
                       <Button
@@ -268,16 +251,7 @@ export default function CandidateGuideIntake() {
         ) : areSubmissionsClosed ? (
           <section className={styles.submissionClosedSection}>
             <Box>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  gap: "1.5rem",
-                  padding: "3rem",
-                }}
-              >
+              <div className={styles.submissionClosedMessage}>
                 <h2>Submissions are now closed.</h2>
                 {embedId && (
                   <Button

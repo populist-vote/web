@@ -165,10 +165,6 @@
     font-size: $text-md;
     text-align: center;
     margin-top: 2rem;
-
-    @include for-tablet-down {
-      font-size: $text-sm;
-    }
   }
 
   @include for-tablet-down {
@@ -176,12 +172,16 @@
     max-width: 360px;
 
     p {
-      max-width: 360px;
+      width: 100%;
       margin-bottom: 2rem;
     }
 
     hr {
       margin-top: 3rem;
+    }
+
+    .uploadNote {
+      font-size: $text-sm;
     }
   }
 }
@@ -189,6 +189,22 @@
 .submissionConfirmedSection {
   margin-bottom: 3rem;
 
+  @include for-tablet-down {
+    margin-bottom: 1rem;
+  }
+}
+
+.submissionConfirmedMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+  }
   p {
     margin: 0;
   }
@@ -198,17 +214,34 @@
       margin-top: 3rem;
     }
   }
+  a {
+    font-family: $font-secondary;
+  }
+
+  @include for-tablet-down {
+    padding: 0rem;
+  }
 }
 
 .submissionPreview {
   h2 {
     margin-top: 5rem;
   }
+
   p {
     width: 800px;
     font-style: italic;
     color: $blue-lighter;
     margin-bottom: 2rem;
+  }
+
+  @include for-tablet-down {
+    h2 {
+      margin-top: 3rem;
+    }
+    p {
+      max-width: 360px;
+    }
   }
 }
 
@@ -225,5 +258,22 @@
   margin-bottom: 2rem;
   hr {
     margin-top: 3rem;
+  }
+}
+
+.submissionClosedMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+
+  h2 {
+    text-align: center;
+  }
+
+  @include for-tablet-down {
+    padding: 0rem;
   }
 }
