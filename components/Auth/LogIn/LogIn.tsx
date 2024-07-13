@@ -32,7 +32,11 @@ function LogIn() {
     },
     onSuccess: () =>
       getCurrentUser.refetch().then((result) => {
-        if (result.data?.currentUser) void router.push("/home");
+        if (result.data?.currentUser) {
+          if (router.query.next) {
+            void router.push(`/${router.query.next}`);
+          } else void router.push("/home");
+        }
       }),
   });
 

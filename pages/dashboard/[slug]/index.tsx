@@ -49,7 +49,10 @@ function DashboardIndex({ slug }: { slug: string }) {
   const organizationId = organizationQuery.data?.organizationBySlug
     ?.id as string;
 
-  const { isLoading } = useAuth({ organizationId });
+  const { isLoading } = useAuth({
+    redirectTo: `/login?next=dashboard/${slug}`,
+    organizationId,
+  });
   return organizationQuery.isLoading || isLoading ? null : (
     <Dashboard organizationId={organizationId} />
   );
