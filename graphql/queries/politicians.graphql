@@ -48,6 +48,7 @@ fragment BasicInfo on PoliticianResult {
   suffix
   fullName
   preferredName
+  dateOfBirth
   homeState
   phone
   email

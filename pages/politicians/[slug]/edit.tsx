@@ -80,6 +80,7 @@ export function PoliticianBasicsForm({
           lastName: formData.lastName,
           suffix: formData.suffix,
           preferredName: formData.preferredName,
+          dateOfBirth: formData.dateOfBirth,
           homeState: formData.homeState,
           partyId: formData.partyId,
           biography: formData.biography,
@@ -164,6 +165,14 @@ export function PoliticianBasicsForm({
           label="Preferred Name"
           register={register}
           control={control}
+        />
+        <TextInput
+          type="date"
+          name={"dateOfBirth"}
+          label="Date of Birth"
+          register={register}
+          control={control}
+          helperText="Only age will be made public, not the full date of birth"
         />
         {!hideSlug && (
           <TextInput

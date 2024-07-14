@@ -10,10 +10,19 @@ import {
   useWatch,
 } from "react-hook-form";
 import { ReactNode } from "react";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 type TextInputSize = "small" | "medium" | "large";
 
-type TextInputType = "text" | "password" | "email" | "tel" | "number";
+type TextInputType =
+  | "text"
+  | "password"
+  | "email"
+  | "tel"
+  | "number"
+  | "date"
+  | "datetime-local";
 
 export type TextInputProps<TFormValues extends FieldValues> = {
   id?: string;
@@ -33,8 +42,27 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   icon?: ReactNode;
   textarea?: boolean;
   charLimit?: number;
+  helperText?: string;
   [x: string]: unknown;
 };
+
+function HelperText({ text }: { text: string }) {
+  return (
+    <Tooltip.Provider delayDuration={300}>
+      <Tooltip.Root>
+        <Tooltip.Trigger className={styles.TooltipTrigger}>
+          <BsInfoCircleFill size={16} />
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content className={styles.TooltipContent} sideOffset={5}>
+            {text}
+            <Tooltip.Arrow className={styles.TooltipArrow} />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
+  );
+}
 
 function TextInput<TFormValues extends Record<string, unknown>>({
   id,
@@ -51,6 +79,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   icon,
   textarea = false,
   charLimit,
+  helperText,
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || `input-${name}`;
@@ -76,7 +105,14 @@ function TextInput<TFormValues extends Record<string, unknown>>({
 
   return (
     <div className={inputClasses}>
-      <label htmlFor={inputId}>{label}</label>
+      <label htmlFor={inputId} className={styles.label}>
+        <span>{label}</span>
+        {helperText && (
+          <span>
+            <HelperText text={helperText} />
+          </span>
+        )}
+      </label>
       <div className={styles.inputWithIcon}>
         {textarea ? (
           <textarea

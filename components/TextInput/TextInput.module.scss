@@ -1,5 +1,6 @@
 @import "styles/variables/fonts";
 @import "styles/variables/colors";
+@import "styles/layout/containers";
 
 .inputContainer {
   width: 100%;
@@ -22,6 +23,19 @@
 
   label {
     font-weight: 500;
+  }
+
+  .label {
+    button,
+    svg {
+      margin: 0;
+      font-size: 1em;
+      margin-left: 0.5rem;
+    }
+
+    svg {
+      color: $blue-lighter;
+    }
   }
 
   input,
