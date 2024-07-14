@@ -7,6 +7,7 @@ import {
   EnhancedEmbedOriginResult,
   useEmbedsActivityQuery,
   useEmbedsDeploymentsQuery,
+  useTotalCandidateGuideSubmissionsQuery,
 } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -34,7 +35,14 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
 
   const activity = data?.embedsActivity as EmbedsCountResult[];
 
-  if (isLoading)
+  const {
+    data: candidateGuideSubmissionsData,
+    isLoading: candidateGuideSubmissionsLoading,
+  } = useTotalCandidateGuideSubmissionsQuery({
+    organizationId,
+  });
+
+  if (isLoading || candidateGuideSubmissionsLoading)
     return (
       <div className={styles.centered}>
         <LoaderFlag />
@@ -43,13 +51,24 @@ export function Dashboard({ organizationId }: { organizationId: string }) {
 
   return (
     <div className={styles.container}>
-      <ActivityTiles activity={activity} />
+      <ActivityTiles
+        activity={activity}
+        totalCandidateGuideSubmissions={
+          candidateGuideSubmissionsData?.totalCandidateGuideSubmissions || 0
+        }
+      />
       <RecentDeployments organizationId={organizationId} />
     </div>
   );
 }
 
-function ActivityTiles({ activity }: { activity: EmbedsCountResult[] }) {
+function ActivityTiles({
+  activity,
+  totalCandidateGuideSubmissions,
+}: {
+  activity: EmbedsCountResult[];
+  totalCandidateGuideSubmissions: number;
+}) {
   const { query } = useRouter();
   return (
     <section>
@@ -75,6 +94,12 @@ function ActivityTiles({ activity }: { activity: EmbedsCountResult[] }) {
                   embedType == EmbedType.Question) && (
                   <div>
                     <h1>{embedCounts.submissions}</h1>
+                    <h4 style={{ color: `var(--${theme})` }}>Submissions</h4>
+                  </div>
+                )}
+                {embedType == EmbedType.CandidateGuide && (
+                  <div>
+                    <h1>{totalCandidateGuideSubmissions}</h1>
                     <h4 style={{ color: `var(--${theme})` }}>Submissions</h4>
                   </div>
                 )}

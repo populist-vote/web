@@ -323,3 +323,7 @@ query RecentCandidateGuideQuestionSubmissions(
     }
   }
 }
+
+query TotalCandidateGuideSubmissions($organizationId: ID!) {
+  totalCandidateGuideSubmissions(organizationId: $organizationId)
+}
