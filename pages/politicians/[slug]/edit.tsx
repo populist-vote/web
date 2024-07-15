@@ -44,12 +44,14 @@ export function PoliticianBasicsForm({
   hideSlug = false,
   hideBioSource = false,
   hideOfficialWebsite = false,
+  hideRaceWinsLosses = false,
 }: {
   politician: Partial<PoliticianResult>;
   hideDoneButton?: boolean;
   hideSlug?: boolean;
   hideBioSource?: boolean;
   hideOfficialWebsite?: boolean;
+  hideRaceWinsLosses?: boolean;
 }) {
   const { register, control, handleSubmit, formState, reset } = useForm<
     Partial<PoliticianResult>
@@ -128,14 +130,7 @@ export function PoliticianBasicsForm({
 
   return (
     <form onSubmit={handleSubmit(handleSave)} className={styles.editForm}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: "auto auto",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "1rem",
-        }}
-      >
+      <div className={styles.editForm3Cols}>
         <TextInput
           name={"firstName"}
           label="First Name"
@@ -184,15 +179,7 @@ export function PoliticianBasicsForm({
         )}
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: "1fr",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1rem",
-          width: "100%",
-        }}
-      >
+      <div className={styles.editForm2Cols}>
         <div className={clsx(styles.inputContainer, styles.large)}>
           <label htmlFor="homeState">State</label>
           <select
@@ -241,15 +228,7 @@ export function PoliticianBasicsForm({
           control={control}
         />
       )}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: "1fr 1fr",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1rem",
-          width: "100%",
-        }}
-      >
+      <div className={styles.editForm2Cols}>
         {!hideOfficialWebsite && (
           <TextInput
             name={"officialWebsiteUrl"}
@@ -301,15 +280,7 @@ export function PoliticianBasicsForm({
           control={control}
         />
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: "1fr",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1rem",
-          width: "100%",
-        }}
-      >
+      <div className={styles.editForm2Cols}>
         <TextInput
           name={"phone"}
           label="Phone"
@@ -323,30 +294,24 @@ export function PoliticianBasicsForm({
           control={control}
         />
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: "1fr",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1rem",
-          width: "100%",
-        }}
-      >
-        <TextInput
-          type="number"
-          name={"raceWins"}
-          label="Race Wins"
-          register={register}
-          control={control}
-        />
-        <TextInput
-          type="number"
-          name={"raceLosses"}
-          label="Race Losses"
-          register={register}
-          control={control}
-        />
-      </div>
+      {!hideRaceWinsLosses && (
+        <div className={styles.editForm2Cols}>
+          <TextInput
+            type="number"
+            name={"raceWins"}
+            label="Race Wins"
+            register={register}
+            control={control}
+          />
+          <TextInput
+            type="number"
+            name={"raceLosses"}
+            label="Race Losses"
+            register={register}
+            control={control}
+          />
+        </div>
+      )}
       <div className={clsx(styles.flexBaseline)}>
         <Button
           type="submit"

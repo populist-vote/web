@@ -318,8 +318,8 @@ export default function CandidateGuideIntake() {
           </p>
           <PoliticianAvatar politician={politician} hideName />
           <p className={styles.uploadNote}>
-            For best results upload a square image that is at least 400 x 400
-            pixels.
+            For best results upload a square image smaller than 2mb that is at
+            least 400 x 400 pixels.
           </p>
 
           <PoliticianBasicsForm
@@ -328,6 +328,7 @@ export default function CandidateGuideIntake() {
             hideSlug
             hideBioSource
             hideOfficialWebsite
+            hideRaceWinsLosses
           />
         </Box>
         <Divider />

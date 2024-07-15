@@ -31,7 +31,7 @@ export function Divider({
     flex: "0 0 auto",
     margin: "0 8px",
     minHeight: "1.5rem",
-    height: height || "auto",
+    height: height || "100%",
   };
 
   return (

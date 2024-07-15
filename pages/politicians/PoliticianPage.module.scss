@@ -134,3 +134,26 @@ div.pill {
     margin: 1.5rem;
   }
 }
+
+.editForm3Cols {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+
+  @include for-tablet-down {
+    grid-template-columns: auto;
+  }
+}
+
+.editForm2Cols {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+
+  @include for-tablet-down {
+    grid-template-columns: auto;
+  }
+}
