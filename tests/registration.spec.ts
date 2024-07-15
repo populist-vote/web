@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test("User registration flow works as expected", async ({ page }) => {
   await page.goto("/register");
   await page.locator('h1:has-text("Get Started")');
