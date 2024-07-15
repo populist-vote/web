@@ -50,7 +50,7 @@ function HelperText({ text }: { text: string }) {
   return (
     <Tooltip.Provider delayDuration={300}>
       <Tooltip.Root>
-        <Tooltip.Trigger className={styles.TooltipTrigger}>
+        <Tooltip.Trigger className={styles.TooltipTrigger} type="button">
           <BsInfoCircleFill size={16} />
         </Tooltip.Trigger>
         <Tooltip.Portal>
