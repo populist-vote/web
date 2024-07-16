@@ -21,6 +21,10 @@
   const loading = attributes.loading || "lazy";
 
   // Set up iframe element
+  const iframeId = `populist-iframe-${attributes.embedId}`;
+  if (document.getElementById(iframeId)) {
+    return; // Prevent creating duplicate iframes
+  }
   const iframeElement = document.createElement("iframe");
   const iframeAttributes = {
     class: "populist-frame populist-frame--loading",
@@ -62,9 +66,8 @@
   if (!existingContainer) {
     const iframeContainer = document.createElement("div");
     iframeContainer.setAttribute("class", containerName);
-    iframeContainer.setAttribute("id", `populist-iframe-${attributes.embedId}`);
+    iframeContainer.setAttribute("id", iframeId);
     iframeContainer.appendChild(iframeElement);
-
     script.insertAdjacentElement("afterend", iframeContainer);
   } else {
     while (existingContainer.firstChild) existingContainer.firstChild.remove();
