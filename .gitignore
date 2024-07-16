@@ -50,7 +50,6 @@ generated.ts
 .eslintcache
 /test-results/
 /playwright-report/
-/playwright/.cache/
-/playwright/.auth/
+/playwright
 
 certificates

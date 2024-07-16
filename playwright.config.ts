@@ -46,6 +46,15 @@ const config: PlaywrightTestConfig = {
 
   /* Configure projects for major browsers */
   projects: [
+    {
+      name: "setup db",
+      testMatch: /global\.setup\.ts/,
+      teardown: "cleanup db",
+    },
+    {
+      name: "cleanup db",
+      testMatch: /global\.teardown\.ts/,
+    },
     { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
       name: "chromium",
@@ -53,28 +62,33 @@ const config: PlaywrightTestConfig = {
         ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/user.json",
       },
+      dependencies: ["setup db"],
     },
 
-    {
-      name: "firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        storageState: "playwright/.auth/user.json",
-      },
-    },
+    // {
+    //   name: "firefox",
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //     storageState: "playwright/.auth/user.json",
+    //   },
+    //   dependencies: ["setup db"],
+    // },
     // {
     //   name: "webkit",
     //   use: {
     //     ...devices["Desktop Safari"],
+    //     storageState: "playwright/.auth/user.json",
     //   },
     // },
 
     /* Test against mobile viewports. */
     // {
-    //   name: 'Mobile Chrome',
+    //   name: "Mobile Chrome",
     //   use: {
-    //     ...devices['Pixel 5'],
+    //     ...devices["Pixel 5"],
+    //     storageState: "playwright/.auth/user.json",
     //   },
+    //   dependencies: ["setup db"],
     // },
     // {
     //   name: "Mobile Safari",
@@ -99,7 +113,7 @@ const config: PlaywrightTestConfig = {
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-  // outputDir: 'test-results/',
+  outputDir: "test-results/",
 
   /* Run your local dev server before starting the tests */
   webServer: process.env.PLAYWRIGHT_TEST_BASE_URL
