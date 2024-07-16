@@ -115,6 +115,7 @@ export function CandidateGuideEmbed({
                 race={race as RaceResult}
                 itemId={race?.id as string}
                 theme="light"
+                isEmbedded={true}
               />
             </div>
             <h4 className={styles.questionsTitle}>Questions</h4>
