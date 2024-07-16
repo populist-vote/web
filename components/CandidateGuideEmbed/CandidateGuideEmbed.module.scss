@@ -3,7 +3,7 @@
 @import "styles/mixins/utils";
 
 .candidateGuideContainer {
-  width: 100%;
+  width: 720px;
 
   main {
     position: relative;
@@ -17,7 +17,7 @@
   justify-content: space-between;
   width: 100%;
   background-color: $grey-light;
-  padding: 0.75rem 1rem !important;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid $grey;
 
   strong {
@@ -60,7 +60,6 @@
 }
 
 .questionsTitle {
-  margin-top: 0;
   margin-bottom: 0.5rem !important;
   font-size: 0.8em;
 }
@@ -205,12 +204,10 @@
   font-size: 1.75em;
   font-weight: 500 !important;
   padding-right: 1rem;
-  margin: 0;
 }
 .officeSubtitle {
   padding-left: 1rem;
   font-size: 1.25em;
   font-weight: 500 !important;
   text-transform: uppercase;
-  margin: 0;
 }
