@@ -81,7 +81,7 @@ export default function CandidateGuideManagePage() {
 
   const handleDeleteCandidateGuide = async () => {
     await confirmDialog(
-      "Are you sure you want to delete this candidate guide? All associated data and embeds will be destroyed permanently."
+      "Are you sure you want to delete this candidate guide? All associated data——INCLUDING SUBMISSIONS TO QUESTIONS AND ALL EMBEDS——will be destroyed permanently."
     );
     await deleteCandidateGuideMutation.mutateAsync({ id });
     await router.push(`/dashboard/${slug}/embeds/candidate-guide`);

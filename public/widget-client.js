@@ -16,6 +16,10 @@
     var src = "".concat(populistOrigin, "/embeds/").concat(attributes.embedId, "?").concat(new URLSearchParams(params));
     var loading = attributes.loading || "lazy";
     // Set up iframe element
+    var iframeId = "populist-iframe-".concat(attributes.embedId);
+    if (document.getElementById(iframeId)) {
+        return; // Prevent creating duplicate iframes
+    }
     var iframeElement = document.createElement("iframe");
     var iframeAttributes = {
         class: "populist-frame populist-frame--loading",
@@ -42,7 +46,7 @@
     if (!existingContainer) {
         var iframeContainer = document.createElement("div");
         iframeContainer.setAttribute("class", containerName);
-        iframeContainer.setAttribute("id", "populist-iframe-".concat(attributes.embedId));
+        iframeContainer.setAttribute("id", iframeId);
         iframeContainer.appendChild(iframeElement);
         script.insertAdjacentElement("afterend", iframeContainer);
     }

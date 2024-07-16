@@ -7,6 +7,7 @@ import {
   RaceResult,
   useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
+  VoteType,
 } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
@@ -16,6 +17,7 @@ import { BsChevronLeft } from "react-icons/bs";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import clsx from "clsx";
 import { Race } from "components/Ballot/Race";
+import { Badge } from "components/Badge/Badge";
 
 interface CandidateGuideRenderOptions {
   height: number;
@@ -80,6 +82,9 @@ export function CandidateGuideEmbed({
       !politiciansWithSubmissions.some((p) => p?.id === candidate.id)
   );
 
+  const shouldDisplayRaceLabels =
+    race?.voteType === VoteType.RankedChoice || (race?.numElect ?? 0) > 1;
+
   useEmbedResizer({ origin, embedId });
 
   if (isLoading || embedLoading) return <LoaderFlag />;
@@ -99,13 +104,32 @@ export function CandidateGuideEmbed({
         </strong>
       </header>
       <main className={styles.contentContainer}>
-        <div className={styles.title}>
-          <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
-            <h2 className={styles.officeName}>{race?.office.name}</h2>
-            <h2 className={styles.officeSubtitle}>{race?.office?.subtitle}</h2>
+        <div className={styles.titleSection}>
+          <div className={styles.title}>
+            <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
+              <h2 className={styles.officeName}>{race?.office.name}</h2>
+              <h2 className={styles.officeSubtitle}>
+                {race?.office?.subtitle}
+              </h2>
+            </div>
+            {/* <LanguageSelect /> */}
           </div>
-          {/* <LanguageSelect /> */}
+          {shouldDisplayRaceLabels && (
+            <section className={styles.raceLabels}>
+              {race?.voteType === VoteType.RankedChoice && (
+                <Badge size="small" theme="grey" lightBackground>
+                  Ranked Choice Vote
+                </Badge>
+              )}
+              {(race?.numElect ?? 0) > 1 && (
+                <Badge size="small" theme="grey" lightBackground>
+                  Elect {race?.numElect}
+                </Badge>
+              )}
+            </section>
+          )}
         </div>
+
         <Divider color="var(--grey-light)" />
 
         {!selectedQuestion ? (
@@ -115,6 +139,7 @@ export function CandidateGuideEmbed({
                 race={race as RaceResult}
                 itemId={race?.id as string}
                 theme="light"
+                isEmbedded={true}
               />
             </div>
             <h4 className={styles.questionsTitle}>Questions</h4>

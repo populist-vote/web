@@ -68,11 +68,9 @@ export function RaceWidget({
             )}
           </section>
         )}
-
         <div className={styles.raceContainer}>
           <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
         </div>
-
         {race?.voteType === VoteType.RankedChoice && (
           <span className={styles.resultsInfoLabel}>
             Percentages are first choice votes.
