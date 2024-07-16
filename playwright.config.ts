@@ -46,15 +46,6 @@ const config: PlaywrightTestConfig = {
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: "setup db",
-      testMatch: /global\.setup\.ts/,
-      teardown: "cleanup db",
-    },
-    {
-      name: "cleanup db",
-      testMatch: /global\.teardown\.ts/,
-    },
     { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
       name: "chromium",
@@ -62,7 +53,6 @@ const config: PlaywrightTestConfig = {
         ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/user.json",
       },
-      dependencies: ["setup db"],
     },
 
     // {
@@ -71,7 +61,6 @@ const config: PlaywrightTestConfig = {
     //     ...devices["Desktop Firefox"],
     //     storageState: "playwright/.auth/user.json",
     //   },
-    //   dependencies: ["setup db"],
     // },
     // {
     //   name: "webkit",
@@ -88,7 +77,6 @@ const config: PlaywrightTestConfig = {
     //     ...devices["Pixel 5"],
     //     storageState: "playwright/.auth/user.json",
     //   },
-    //   dependencies: ["setup db"],
     // },
     // {
     //   name: "Mobile Safari",

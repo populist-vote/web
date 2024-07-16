@@ -144,7 +144,7 @@ function BallotContent({
               showElectionSelector
               electionData={electionData}
             />
-            <div data-testid="ballot-page">
+            <div data-test-id="ballot-page">
               <Election electionId={selectedElectionId} />
             </div>
           </VotingGuideProvider>

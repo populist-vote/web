@@ -126,6 +126,24 @@ export default function CandidateGuideEmbedPage() {
     [intakeLinkMutation]
   );
 
+  const gotoIntakeLink = useCallback(
+    (politicianId: string, candidateGuideId: string) => {
+      intakeLinkMutation.mutate(
+        {
+          candidateGuideId,
+          politicianId,
+          raceId,
+        },
+        {
+          onSuccess: async (data) => {
+            await router.push(data.generateIntakeTokenLink);
+          },
+        }
+      );
+    },
+    [intakeLinkMutation]
+  );
+
   const candidateRespondedAt = useCallback(
     (politicianId: string) => {
       const updatedAt = allSubmissions?.find(
@@ -165,11 +183,20 @@ export default function CandidateGuideEmbedPage() {
         header: "Form Link",
         accessorKey: "id",
         cell: (row) => (
-          <FaCopy
-            onClick={() =>
-              handleCopyIntakeLink(row.getValue() as string, candidateGuideId)
-            }
-          />
+          <div className={styles.flexBaseline}>
+            <FaCopy
+              data-test-id="copy-intake-link"
+              onClick={() =>
+                handleCopyIntakeLink(row.getValue() as string, candidateGuideId)
+              }
+            />
+            <FaExternalLinkSquareAlt
+              data-test-id="goto-intake-link"
+              onClick={() =>
+                gotoIntakeLink(row.getValue() as string, candidateGuideId)
+              }
+            />
+          </div>
         ),
       },
       {
@@ -177,7 +204,12 @@ export default function CandidateGuideEmbedPage() {
         cell: (info) => candidateRespondedAt(info.row.original.id as string),
       },
     ],
-    [candidateRespondedAt, candidateGuideId, handleCopyIntakeLink]
+    [
+      candidateRespondedAt,
+      candidateGuideId,
+      handleCopyIntakeLink,
+      gotoIntakeLink,
+    ]
   );
 
   const queryClient = useQueryClient();

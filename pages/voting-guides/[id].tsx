@@ -47,7 +47,7 @@ export default function VotingGuidePage() {
         <VotingGuideNav />
         <br />
         <section
-          data-testid="voting-guide-page"
+          data-test-id="voting-guide-page"
           className={styles.votingGuidesPageContainer}
         >
           <Election

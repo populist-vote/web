@@ -63,7 +63,7 @@ function LogIn() {
         </Trans>
       </p>
       <div className={styles.formWrapper}>
-        <form onSubmit={handleSubmit(submitForm)} data-testid="login-form">
+        <form onSubmit={handleSubmit(submitForm)} data-test-id="login-form">
           <div
             className={`${styles.inputWrapper} ${
               errors.emailOrUsername && styles.invalid

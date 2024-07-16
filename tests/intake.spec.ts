@@ -45,12 +45,16 @@ test("Candidate guide setup and intake pages works as expected", async ({
     .getByRole("checkbox")
     .check();
   await page.getByRole("button", { name: "Add Selected Races" }).click();
-  // await page.goto(
-  //   "/intakes/candidate-guides/3e9d3d55-8a9c-4d84-9322-0e7bf5642be6?raceId=a9892790-f0d4-49ec-8706-6bb0a9c597ea&token=fe3fb70d4c957559d8e5bb1a5ee85e080b44300d620de91c2a5c1dce5e5dca01"
-  // );
-  // await page.locator("textarea").first().fill("Test response for an intake");
-  // await page.locator("textarea").nth(2).fill("Another response");
-  // await page.getByRole("button", { name: "Submit" }).click();
-  // await page.getByText("Test response for an intake").click();
-  // await page.getByText("Another response").click();
+
+  await page.getByText("MN - Mayor - Bemidji, MN - General - 2024").click();
+  await page.getByTestId("goto-intake-link").first().click();
+  await page.locator("textarea").first().fill("Test response for an intake");
+  await page.locator("textarea").nth(2).fill("Another response");
+  await page.getByRole("button", { name: "Submit" }).click();
+  await page.getByText("Test response for an intake");
+  await page.getByText("Another response");
+  await page.getByText("Thank you for your submission!");
+
+  // Cleanup
+  // Delete this guide and all its data -- need to manually delete embeds as of now.
 });

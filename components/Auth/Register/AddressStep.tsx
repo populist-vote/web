@@ -81,7 +81,10 @@ function AddressStep() {
       <h2>{t("where-are-you-registered-copy")}</h2>
       <p className={styles.subtitle}>{t("we-use-your-address-copy")}</p>
       <div className={styles.formWrapper}>
-        <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-2">
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          data-test-id="register-form-2"
+        >
           <div
             className={`${styles.inputWrapper} ${
               errors?.address?.line1 && styles.invalid

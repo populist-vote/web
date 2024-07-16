@@ -151,7 +151,10 @@ function EmailStep() {
         </span>
       </p>
       <div className={styles.formWrapper}>
-        <form onSubmit={handleSubmit(submitForm)} data-testid="register-form-1">
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          data-test-id="register-form-1"
+        >
           <div
             className={clsx(
               styles.inputWrapper,
