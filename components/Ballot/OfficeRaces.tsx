@@ -40,12 +40,7 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
 
       <div className={cardCx}>
         {sortedRaces.map((race) => (
-          <Race
-            race={race}
-            key={race.id}
-            itemId={race.id}
-            incumbentIds={incumbentIds}
-          />
+          <Race race={race} key={race.id} itemId={race.id} />
         ))}
       </div>
     </>

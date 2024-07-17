@@ -343,7 +343,7 @@ export default function CandidateGuideIntake() {
           Populist is a non-partisan civic content platform built on election,
           politician, and legislation data.
         </p>
-        <div className={styles.raceContainer}>
+        <div className={styles.racePreviewContainer}>
           <div className={styles.flexBetween}>
             <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
               <h3 className={styles.officeName}>{race?.office.name}</h3>
@@ -363,7 +363,9 @@ export default function CandidateGuideIntake() {
             </div>
           </div>
           <Box>
-            <Race race={race as RaceResult} theme="dark" itemId={race.id} />
+            <div className={styles.raceContainer}>
+              <Race race={race as RaceResult} theme="dark" itemId={race.id} />
+            </div>
           </Box>
         </div>
       </section>
