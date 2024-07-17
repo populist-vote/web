@@ -8,31 +8,25 @@ query UserProfile($userId: ID!) {
     profilePictureUrl
     address {
       city
-        country
-        line1
-        line2
-        postalCode
-        state
+      country
+      line1
+      line2
+      postalCode
+      state
     }
   }
 }
 
 mutation UploadProfilePicture($file: Upload!) {
-  uploadProfilePicture(file: $file) 
+  uploadProfilePicture(file: $file)
 }
 
 mutation DeleteProfilePicture {
   deleteProfilePicture
 }
 
-mutation UpdateFirstAndLastName(
-  $firstName: String!
-  $lastName: String!
-) {
-  updateFirstAndLastName(
-    firstName: $firstName
-    lastName: $lastName
-  ) {
+mutation UpdateFirstAndLastName($firstName: String!, $lastName: String!) {
+  updateFirstAndLastName(firstName: $firstName, lastName: $lastName) {
     firstName
     lastName
   }
@@ -44,12 +38,8 @@ mutation UpdateUsername($username: String!) {
   }
 }
 
-mutation UpdateAddress(
-  $address: AddressInput!
-) {
-  updateAddress(
-    address: $address
-  ) {
+mutation UpdateAddress($address: AddressInput!) {
+  updateAddress(address: $address) {
     city
     country
     state
@@ -59,26 +49,15 @@ mutation UpdateAddress(
   }
 }
 
-
-mutation UpdateEmail(
-  $email: String!
-) {
-  updateEmail(
-    email: $email
-  ) {
+mutation UpdateEmail($email: String!) {
+  updateEmail(email: $email) {
     email
   }
 }
 
-mutation UpdatePassword(
-  $oldPassword: String!
-  $newPassword: String!
-) {
+mutation UpdatePassword($oldPassword: String!, $newPassword: String!) {
   updatePassword(
-    input: {
-      oldPassword: $oldPassword
-      newPassword: $newPassword
-    }
+    input: { oldPassword: $oldPassword, newPassword: $newPassword }
   )
 }
 

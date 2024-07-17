@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaRegDotCircle } from "react-icons/fa";
 import { useState } from "react";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useAuth } from "hooks/useAuth";
@@ -18,7 +18,10 @@ import {
   AuthTokenResult,
   OrganizationResult,
 } from "generated";
-import useDeviceInfo from "hooks/useDeviceInfo";
+import { LuChevronsUpDown } from "react-icons/lu";
+
+import { useOrganizationContext } from "hooks/useOrganizationContext";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 export interface NavItem {
   label: string;
@@ -136,12 +139,14 @@ function DesktopNav({
 }) {
   const { t } = useTranslation(["auth", "common"]);
   const { asPath, pathname } = useRouter();
+  const { currentOrganizationId } = useOrganizationContext();
   const { data } = useOrganizationByIdQuery(
     {
-      id: user?.organizationId || "",
+      id: currentOrganizationId as string,
     },
     {
-      enabled: !!user?.organizationId,
+      refetchOnMount: true,
+      enabled: !!currentOrganizationId,
     }
   );
 
@@ -236,24 +241,81 @@ function DesktopNav({
 }
 
 function DashboardLink({ organization }: { organization: OrganizationResult }) {
-  const { isMobile } = useDeviceInfo();
+  const {
+    currentOrganizationId,
+    setCurrentOrganizationId,
+    availableOrganizations,
+  } = useOrganizationContext();
 
   return (
     <Link href={`/dashboard/${organization.slug}`}>
       <div className={styles.orgDashboardLink}>
-        <Avatar
-          src={
-            organization.assets?.thumbnailImage160 ||
-            ORGANIZATION_FALLBACK_IMAGE_URL
-          }
-          fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
-          alt="organization logo"
-          size={isMobile ? 35 : 60}
-        />
-        <div className={styles.stack}>
-          <h5>{organization.name}</h5>
-          <small>Dashboard</small>
+        <div className={styles.flexBetween}>
+          <Avatar
+            src={
+              organization.assets?.thumbnailImage160 ||
+              ORGANIZATION_FALLBACK_IMAGE_URL
+            }
+            fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
+            alt="organization logo"
+            size={36}
+            key={organization.slug}
+          />
+          <div className={styles.stack}>
+            <h5>{organization.name}</h5>
+            <small>Dashboard</small>
+          </div>
         </div>
+        {availableOrganizations.length > 1 && (
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger
+              className={styles.DropdownMenuTrigger}
+              asChild
+            >
+              <div className={styles.hoverButton}>
+                <LuChevronsUpDown size={24} />
+              </div>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content className={styles.DropdownMenuContent}>
+                <DropdownMenu.Label className={styles.DropdownMenuLabel}>
+                  Organizations
+                </DropdownMenu.Label>
+                <DropdownMenu.RadioGroup
+                  value={currentOrganizationId as string}
+                  onValueChange={(val) => setCurrentOrganizationId(val)}
+                >
+                  {availableOrganizations.map((org) => (
+                    <DropdownMenu.RadioItem
+                      key={org.id}
+                      className={styles.DropdownMenuRadioItem}
+                      value={org.id}
+                    >
+                      <DropdownMenu.ItemIndicator
+                        className={styles.DropdownMenuItemIndicator}
+                      >
+                        <FaRegDotCircle size={8} color="var(--aqua)" />
+                      </DropdownMenu.ItemIndicator>
+                      <div className={styles.flexBetween}>
+                        <Avatar
+                          src={
+                            org.assets?.thumbnailImage160 ||
+                            ORGANIZATION_FALLBACK_IMAGE_URL
+                          }
+                          fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
+                          alt="organization logo"
+                          size={25}
+                          key={org.slug}
+                        />
+                        {org.name}
+                      </div>
+                    </DropdownMenu.RadioItem>
+                  ))}
+                </DropdownMenu.RadioGroup>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
+        )}
       </div>
     </Link>
   );

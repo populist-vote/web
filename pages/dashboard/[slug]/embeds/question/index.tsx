@@ -12,6 +12,7 @@ import {
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { getRelativeTimeString } from "utils/dates";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -33,9 +34,10 @@ export async function getServerSideProps({
 }
 
 export default function EmbedsIndex({ slug }: { slug: string }) {
-  const { user } = useAuth({ redirectTo: "/login" });
+  const { currentOrganizationId } = useOrganizationContext();
+  useAuth({ redirectTo: "/login", organizationId: currentOrganizationId });
   const { data, isLoading } = useEmbedsByOrganizationQuery({
-    id: user?.organizationId as string,
+    id: currentOrganizationId as string,
     filter: {
       embedType: EmbedType.Question,
     },

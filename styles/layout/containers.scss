@@ -79,6 +79,16 @@
   }
 }
 
+.hoverButton {
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  transition: ease-in-out 0.2s;
+  cursor: pointer;
+  &:hover {
+    background-color: $white-alpha-2;
+  }
+}
+
 .scrollSnap {
   @include scroll-snap;
 }
@@ -418,4 +428,94 @@
 }
 .SwitchThumb[data-state="checked"] {
   transform: translateX(19px);
+}
+
+.DropdownMenuTrigger {
+  user-select: none;
+}
+
+.DropdownMenuContent,
+.DropdownMenuSubContent {
+  min-width: 220px;
+  background-color: $blue-darkest;
+  border: 1px solid $blue-text;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 5px;
+  box-shadow:
+    0 10px 38px -10px hsl(206 22% 7% / 35%),
+    0 10px 20px -15px hsl(206 22% 7% / 20%);
+  z-index: 1000;
+}
+
+.DropdownMenuItem,
+.DropdownMenuCheckboxItem,
+.DropdownMenuRadioItem,
+.DropdownMenuSubTrigger {
+  font-size: $text-md;
+  line-height: 1;
+  color: $white;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  height: auto;
+  padding: 0.5rem;
+  position: relative;
+  padding-left: 25px;
+  user-select: none;
+  outline: none;
+}
+.DropdownMenuSubTrigger[data-state="open"] {
+  background-color: $blue;
+  color: $blue-text;
+}
+.DropdownMenuItem[data-disabled],
+.DropdownMenuCheckboxItem[data-disabled],
+.DropdownMenuRadioItem[data-disabled],
+.DropdownMenuSubTrigger[data-disabled] {
+  color: $blue-dark;
+  pointer-events: "none";
+}
+.DropdownMenuItem[data-highlighted],
+.DropdownMenuCheckboxItem[data-highlighted],
+.DropdownMenuRadioItem[data-highlighted],
+.DropdownMenuSubTrigger[data-highlighted] {
+  background-color: $blue-dark;
+  color: $white;
+}
+
+.DropdownMenuLabel {
+  padding-left: 25px;
+  font-size: $text-sm;
+  font-family: $font-primary;
+  text-transform: uppercase;
+  line-height: 25px;
+  color: $blue-text;
+}
+
+.DropdownMenuSeparator {
+  height: 1px;
+  background-color: $blue-light;
+  margin: 5px;
+}
+
+.DropdownMenuItemIndicator {
+  position: absolute;
+  left: 0;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.RightSlot {
+  margin-left: auto;
+  padding-left: 20px;
+  color: $blue-text;
+}
+[data-highlighted] > .RightSlot {
+  color: white;
+}
+[data-disabled] .RightSlot {
+  color: $blue-dark;
 }

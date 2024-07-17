@@ -14,10 +14,10 @@ import {
   useRecentCandidateGuideQuestionSubmissionsQuery,
 } from "generated";
 import { getRelativeTimeString, renderSubmissionState } from "utils/dates";
-import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./index.module.scss";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -40,16 +40,21 @@ export async function getServerSideProps({
 
 export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
   const router = useRouter();
-  const { user } = useAuth({ redirectTo: "/login" });
-  const { data, isLoading } = useCandidateGuidesByOrganizationQuery({
-    organizationId: user?.organizationId as string,
-  });
+  const { currentOrganizationId } = useOrganizationContext();
+  const { data, isLoading } = useCandidateGuidesByOrganizationQuery(
+    {
+      organizationId: currentOrganizationId as string,
+    },
+    {
+      enabled: !!currentOrganizationId,
+    }
+  );
 
   const {
     data: recentSubmissionsData,
     isLoading: isRecentSubmissionsDataLoading,
   } = useRecentCandidateGuideQuestionSubmissionsQuery({
-    organizationId: user?.organizationId as string,
+    organizationId: currentOrganizationId as string,
     limit: 5,
   });
 

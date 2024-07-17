@@ -7,7 +7,7 @@ import {
   EmbedResult,
   EmbedType,
   PoliticianResult,
-  Role,
+  SystemRoleType,
   useCandidateGuideSubmissionsByRaceIdQuery,
   useDownloadAllCandidateGuideDataMutation,
   useEmbedByIdQuery,
@@ -35,6 +35,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
 import { downloadCsv } from "utils/strings";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 // import * as Switch from "@radix-ui/react-switch";
 
 export async function getServerSideProps({
@@ -57,7 +58,7 @@ export async function getServerSideProps({
 }
 
 export default function CandidateGuideEmbedPage() {
-  const { user } = useAuth();
+  const { currentOrganizationId } = useOrganizationContext();
   const router = useRouter();
   const { id } = router.query;
   const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery(
@@ -199,7 +200,7 @@ export default function CandidateGuideEmbedPage() {
       {
         input: {
           id: embed?.id,
-          organizationId: user.organizationId,
+          organizationId: currentOrganizationId as string,
           name: embed?.name,
           embedType: EmbedType.CandidateGuide,
           attributes: {
@@ -354,7 +355,9 @@ export default function CandidateGuideEmbedPage() {
 
 function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
   const { user } = useAuth();
-  const canEdit = user.role == Role.Staff || user.role == Role.Superuser;
+  const canEdit =
+    user.systemRole == SystemRoleType.Staff ||
+    user.systemRole == SystemRoleType.Superuser;
   const [isOpen, setIsOpen] = useState(false);
 
   const {

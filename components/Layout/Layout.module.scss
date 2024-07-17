@@ -18,7 +18,7 @@
   grid-template-rows: auto 10fr auto auto;
 
   @include for-tablet-up {
-    grid-template-columns: 12rem 5fr;
+    grid-template-columns: var(--nav-width) 5fr;
     grid-template-areas:
       "nav     subnav"
       "nav     content"

@@ -19,6 +19,7 @@ import { useAuth } from "hooks/useAuth";
 import { BillStatusBadge } from "components/BillStatusBadge/BillStatusBadge";
 import styles from "styles/modules/dashboard.module.scss";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -40,9 +41,13 @@ export async function getServerSideProps({
 }
 
 export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
-  const { user } = useAuth({ redirectTo: "/login" });
+  const { currentOrganizationId } = useOrganizationContext();
+  useAuth({
+    redirectTo: "/login",
+    organizationId: currentOrganizationId,
+  });
   const { data, isLoading } = useEmbedsByOrganizationQuery({
-    id: user?.organizationId as string,
+    id: currentOrganizationId as string,
     filter: {
       embedType: EmbedType.Legislation,
     },

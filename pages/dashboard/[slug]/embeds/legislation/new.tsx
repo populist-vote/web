@@ -7,9 +7,9 @@ import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
 import { useUpsertEmbedMutation, EmbedType } from "generated";
-import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { BillResultsTable } from "components/BillResultsTable/BillResultsTable";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -34,7 +34,7 @@ function NewLegislationEmbed() {
   const router = useRouter();
   const { query } = router;
   const { slug, selected, embedId } = query;
-  const { user } = useAuth();
+  const { currentOrganizationId } = useOrganizationContext();
   const upsertEmbed = useUpsertEmbedMutation();
 
   function handleCreateEmbed() {
@@ -44,7 +44,7 @@ function NewLegislationEmbed() {
           id: embedId as string,
           name: "Legislation Embed",
           embedType: EmbedType.Legislation,
-          organizationId: user?.organizationId as string,
+          organizationId: currentOrganizationId as string,
           attributes: {
             billId: selected as string,
             embedType: "legislation",

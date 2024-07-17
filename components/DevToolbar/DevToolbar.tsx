@@ -4,7 +4,7 @@ import { SiGraphql } from "react-icons/si";
 import { MdAdminPanelSettings } from "react-icons/md";
 import Link from "next/link";
 import { useAuth } from "hooks/useAuth";
-import { Role } from "generated";
+import { SystemRoleType } from "generated";
 import { useFps } from "react-fps";
 import clsx from "clsx";
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
@@ -20,7 +20,7 @@ export function DevToolbar() {
     localStorage.getItem("populistDevToolsOpen") == "true"
   );
 
-  if (!user || user.role !== Role.Superuser) return null;
+  if (!user || user.systemRole !== SystemRoleType.Superuser) return null;
   if (process.env.NODE_ENV === "production") return null;
 
   return (

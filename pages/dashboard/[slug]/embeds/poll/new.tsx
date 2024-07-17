@@ -12,13 +12,13 @@ import {
   useUpsertEmbedMutation,
   useUpsertPollMutation,
 } from "generated";
-import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { Box } from "components/Box/Box";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "hooks/useTheme";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -79,7 +79,7 @@ export function PollEmbedForm({
   const { query } = router;
   const queryClient = useQueryClient();
   const { slug } = query;
-  const { user } = useAuth();
+  const { currentOrganizationId } = useOrganizationContext();
   const upsertEmbed = useUpsertEmbedMutation();
   const upsertPoll = useUpsertPollMutation();
   const { theme } = useTheme();
@@ -141,7 +141,7 @@ export function PollEmbedForm({
                 id: embed?.id as string,
                 name: "Poll Embed",
                 embedType: EmbedType.Poll,
-                organizationId: user?.organizationId as string,
+                organizationId: currentOrganizationId as string,
                 attributes: {
                   pollId: data.upsertPoll.id,
                 },
