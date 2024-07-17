@@ -131,7 +131,7 @@
   }
 }
 
-.raceContainer {
+.racePreviewContainer {
   width: 800px;
   margin: auto;
   @include for-tablet-down {
@@ -276,4 +276,9 @@
   @include for-tablet-down {
     padding: 0rem;
   }
+}
+
+.raceContainer {
+  display: flex;
+  flex-direction: row;
 }

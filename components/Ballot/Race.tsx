@@ -25,13 +25,11 @@ interface EditVotingGuideCandidate {
 
 function Race({
   race,
-  incumbentIds,
   theme = "dark",
   isEmbedded = false,
 }: {
   race: RaceResult;
   itemId: string;
-  incumbentIds?: string[];
   theme?: "light" | "dark";
   isEmbedded?: boolean;
 }) {
@@ -122,6 +120,8 @@ function Race({
 
   const { raceType, party, candidates, results } = race;
 
+  const incumbentIds = race?.office?.incumbents?.map((i) => i.id) || [];
+
   const sortedCandidates = useMemo(() => {
     const randomizeFn = () => Math.random() - 0.5;
 
@@ -211,9 +211,17 @@ function Race({
 
         return (
           <div className={styles.flexBetween} key={politician.id}>
-            {incumbentIds?.includes(politician.id) && (
-              <span className={styles.sideText}>INCUMBENT</span>
-            )}
+            {incumbentIds?.includes(politician.id) &&
+              (theme == "dark" ? (
+                <span className={styles.sideText}>INCUMBENT</span>
+              ) : (
+                <span
+                  className={styles.sideText}
+                  style={{ color: "var(--grey)" }}
+                >
+                  INCUMBENT
+                </span>
+              ))}
 
             <div className={styles.avatarContainer}>
               <PartyAvatar
@@ -245,7 +253,12 @@ function Race({
             </div>
 
             {incumbentIds?.includes(politician.id) &&
-              candidates?.length > 1 && <Divider vertical />}
+              candidates?.length > 1 &&
+              (theme == "dark" ? (
+                <Divider vertical />
+              ) : (
+                <Divider vertical color="var(--grey-light)" />
+              ))}
           </div>
         );
       })}
