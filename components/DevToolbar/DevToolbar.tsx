@@ -20,7 +20,7 @@ export function DevToolbar() {
     localStorage.getItem("populistDevToolsOpen") == "true"
   );
 
-  if (!user || user.systemRole !== SystemRoleType.Superuser) return null;
+  if (!user || user?.systemRole !== SystemRoleType.Superuser) return null;
   if (process.env.NODE_ENV === "production") return null;
 
   return (

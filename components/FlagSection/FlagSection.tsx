@@ -28,7 +28,7 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
   });
 
   const { user } = useAuth();
-  const isStaff = user.systemRole >= SystemRoleType.Staff;
+  const isStaff = user?.systemRole >= SystemRoleType.Staff;
 
   return (
     <div style={style} className={styleClasses}>

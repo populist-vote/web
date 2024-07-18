@@ -356,8 +356,8 @@ export default function CandidateGuideEmbedPage() {
 function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
   const { user } = useAuth();
   const canEdit =
-    user.systemRole == SystemRoleType.Staff ||
-    user.systemRole == SystemRoleType.Superuser;
+    user?.systemRole == SystemRoleType.Staff ||
+    user?.systemRole == SystemRoleType.Superuser;
   const [isOpen, setIsOpen] = useState(false);
 
   const {

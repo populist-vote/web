@@ -73,7 +73,7 @@ const CreateVideoPage: NextPage = ({
     slug: slug as string,
   });
   const { user } = useAuth();
-  const isStaff = user.systemRole >= SystemRoleType.Staff;
+  const isStaff = user?.systemRole >= SystemRoleType.Staff;
 
   if (!isStaff) {
     void router.push("/");
