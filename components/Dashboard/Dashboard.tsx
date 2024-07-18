@@ -141,8 +141,8 @@ function ActivityTiles({
 }
 
 function RecentDeployments({ organizationId }: { organizationId: string }) {
-  const { query } = useRouter();
-  const slug = query.slug as string;
+  const router = useRouter();
+  const slug = router.query.slug as string;
 
   const { data, isLoading } = useEmbedsDeploymentsQuery({
     id: organizationId,
@@ -166,78 +166,81 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
         )}
 
         {deployments?.map((deployment: EnhancedEmbedOriginResult) => (
-          <Link
-            href={deployment.url}
-            key={`${deployment.embedId + deployment.url}`}
-            target="_blank"
-            rel="noreferrer"
-            className={styles.linkParent}
-          >
-            <Box key={deployment.url} isLink>
-              <div
-                className={styles.flexBaseline}
-                style={{ marginBottom: "1.25rem" }}
+          <Box key={deployment.url}>
+            <div
+              className={styles.flexBaseline}
+              style={{ marginBottom: "1.25rem" }}
+            >
+              <Badge
+                theme={EmbedTypeColorMap[deployment.embedType]}
+                size="small"
+                variant="solid"
               >
-                <Badge
-                  theme={EmbedTypeColorMap[deployment.embedType]}
-                  size="small"
-                  variant="solid"
-                >
-                  {deployment.embedType.replace("_", " ")}
-                </Badge>
-                {deployment.lastPingAt && (
-                  <div className={styles.flexRight}>
-                    <BsEyeglasses />
-                    <small>
-                      Last view{" "}
-                      {getRelativeTimeString(new Date(deployment.lastPingAt))}
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className={styles.flexBaseline}>
-                <h3>{deployment.name}</h3>
-                <Tooltip.Provider delayDuration={300}>
-                  <Tooltip.Root>
-                    <Tooltip.Trigger asChild>
-                      <Link
-                        href={`/dashboard/${slug}/embeds/${deployment.embedType}/${deployment.embedId}/manage`}
-                      >
-                        <BsCodeSquare />
-                      </Link>
-                    </Tooltip.Trigger>
-                    <Tooltip.Portal>
-                      <Tooltip.Content
-                        className={styles.TooltipContent}
-                        sideOffset={5}
-                      >
-                        Manage embed
-                        <Tooltip.Arrow className={styles.TooltipArrow} />
-                      </Tooltip.Content>
-                    </Tooltip.Portal>
-                  </Tooltip.Root>
-                </Tooltip.Provider>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "1rem",
-                  alignItems: "center",
-                  marginTop: "1rem",
-                  wordBreak: "break-all",
-                }}
+                {deployment.embedType.replace("_", " ")}
+              </Badge>
+              {deployment.lastPingAt && (
+                <div className={styles.flexRight}>
+                  <BsEyeglasses />
+                  <small>
+                    Last view{" "}
+                    {getRelativeTimeString(new Date(deployment.lastPingAt))}
+                  </small>
+                </div>
+              )}
+            </div>
+            <div className={styles.flexBaseline}>
+              <h3>{deployment.name}</h3>
+              <Tooltip.Provider delayDuration={300}>
+                <Tooltip.Root>
+                  <Tooltip.Trigger asChild>
+                    <BsCodeSquare
+                      onClick={async (e) => {
+                        e.stopPropagation();
+                        await router.push(
+                          `/dashboard/${slug}/embeds/${deployment.embedType.toLowerCase()}/${deployment.embedId}/manage`
+                        );
+                      }}
+                    />
+                  </Tooltip.Trigger>
+                  <Tooltip.Portal>
+                    <Tooltip.Content
+                      className={styles.TooltipContent}
+                      sideOffset={5}
+                    >
+                      Manage embed
+                      <Tooltip.Arrow className={styles.TooltipArrow} />
+                    </Tooltip.Content>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+              </Tooltip.Provider>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                alignItems: "center",
+                marginTop: "1rem",
+                wordBreak: "break-all",
+              }}
+            >
+              <ImageWithFallback
+                height="25"
+                width="25"
+                alt={"favicon"}
+                src={`https://www.google.com/s2/favicons?domain=${deployment.url}`}
+                fallbackSrc={"/images/favicon.ico"}
+              />
+              <Link
+                href={deployment.url}
+                key={`${deployment.embedId + deployment.url}`}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.linkParent}
               >
-                <ImageWithFallback
-                  height="25"
-                  width="25"
-                  alt={"favicon"}
-                  src={`https://www.google.com/s2/favicons?domain=${deployment.url}`}
-                  fallbackSrc={"/images/favicon.ico"}
-                />
-                <h5>{deployment.url}</h5>
-              </div>
-            </Box>
-          </Link>
+                {deployment.url}
+              </Link>
+            </div>
+          </Box>
         ))}
       </div>
     </section>

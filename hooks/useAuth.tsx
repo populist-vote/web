@@ -11,6 +11,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext<AuthTokenResult>({} as AuthTokenResult);
 
@@ -54,7 +55,6 @@ export function useAuth({
           ) {
             await router.push(redirectTo);
           }
-          setIsLoading(false);
           switch (user.systemRole) {
             case SystemRoleType.Superuser:
               return;
@@ -69,7 +69,9 @@ export function useAuth({
       }
     };
 
-    void handleRedirect().finally(() => setIsLoading(false));
+    handleRedirect()
+      .catch((e) => toast(e))
+      .finally(() => setIsLoading(false));
 
     return () => setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps

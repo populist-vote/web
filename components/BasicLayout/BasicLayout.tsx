@@ -11,7 +11,6 @@ import {
 } from "components";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { useOrganizationBySlugQuery } from "generated";
 import styles from "./BasicLayout.module.scss";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import clsx from "clsx";
@@ -57,21 +56,7 @@ function BasicHeader({
 }) {
   const { pathname } = useRouter();
   const { user } = useAuth();
-  const router = useRouter();
-  const slug = router.query.slug as string;
-
-  const { data, isLoading } = useOrganizationBySlugQuery(
-    {
-      slug,
-    },
-    {
-      enabled: !!slug,
-    }
-  );
-
   const { isMobile } = useDeviceInfo();
-  if (isLoading) return null;
-  const organization = data?.organizationBySlug;
 
   return (
     <header className={styles.header}>
@@ -104,7 +89,7 @@ function BasicHeader({
           {user && (
             <li>
               <div className={styles.linkSection}>
-                {organization && pathname === "/home" && (
+                {pathname === "/home" && (
                   <div className={styles.dashboardLink}>
                     <DashboardLink />
                   </div>
