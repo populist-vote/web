@@ -11,11 +11,10 @@ import {
 } from "components";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { useOrganizationByIdQuery } from "generated";
+import { useOrganizationBySlugQuery } from "generated";
 import styles from "./BasicLayout.module.scss";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import clsx from "clsx";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 function BasicLayout({
   children,
@@ -58,19 +57,21 @@ function BasicHeader({
 }) {
   const { pathname } = useRouter();
   const { user } = useAuth();
-  const { currentOrganizationId } = useOrganizationContext();
+  const router = useRouter();
+  const slug = router.query.slug as string;
 
-  const { data } = useOrganizationByIdQuery(
+  const { data, isLoading } = useOrganizationBySlugQuery(
     {
-      id: currentOrganizationId as string,
+      slug,
     },
     {
-      enabled: !!currentOrganizationId,
+      enabled: !!slug,
     }
   );
 
-  const organization = data?.organizationById;
   const { isMobile } = useDeviceInfo();
+  if (isLoading) return null;
+  const organization = data?.organizationBySlug;
 
   return (
     <header className={styles.header}>

@@ -9,10 +9,10 @@ import {
   EmbedResult,
   EmbedType,
   useEmbedsByOrganizationQuery,
+  useOrganizationBySlugQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { getRelativeTimeString } from "utils/dates";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -34,7 +34,15 @@ export async function getServerSideProps({
 }
 
 export default function EmbedsIndex({ slug }: { slug: string }) {
-  const { currentOrganizationId } = useOrganizationContext();
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: slug as string,
+    },
+    {
+      enabled: !!slug,
+    }
+  );
+  const currentOrganizationId = organizationData?.organizationBySlug?.id;
   useAuth({ redirectTo: "/login", organizationId: currentOrganizationId });
   const { data, isLoading } = useEmbedsByOrganizationQuery({
     id: currentOrganizationId as string,

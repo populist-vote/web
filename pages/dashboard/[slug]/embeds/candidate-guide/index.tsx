@@ -11,13 +11,13 @@ import {
   EmbedType,
   PoliticalParty,
   useCandidateGuidesByOrganizationQuery,
+  useOrganizationBySlugQuery,
   useRecentCandidateGuideQuestionSubmissionsQuery,
 } from "generated";
 import { getRelativeTimeString, renderSubmissionState } from "utils/dates";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./index.module.scss";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -40,7 +40,15 @@ export async function getServerSideProps({
 
 export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
   const router = useRouter();
-  const { currentOrganizationId } = useOrganizationContext();
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: slug as string,
+    },
+    {
+      enabled: !!slug,
+    }
+  );
+  const currentOrganizationId = organizationData?.organizationBySlug?.id;
   const { data, isLoading } = useCandidateGuidesByOrganizationQuery(
     {
       organizationId: currentOrganizationId as string,

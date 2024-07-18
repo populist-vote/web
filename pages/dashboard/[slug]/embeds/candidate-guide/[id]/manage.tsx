@@ -12,6 +12,7 @@ import {
   useDownloadAllCandidateGuideDataMutation,
   useEmbedByIdQuery,
   useGenerateCandidateGuideIntakeLinkMutation,
+  useOrganizationBySlugQuery,
   useRaceByIdQuery,
   useUpdatePoliticianMutation,
   useUpsertEmbedMutation,
@@ -35,7 +36,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
 import { downloadCsv } from "utils/strings";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 // import * as Switch from "@radix-ui/react-switch";
 
 export async function getServerSideProps({
@@ -57,8 +57,16 @@ export async function getServerSideProps({
   };
 }
 
-export default function CandidateGuideEmbedPage() {
-  const { currentOrganizationId } = useOrganizationContext();
+export default function CandidateGuideEmbedPage({ slug }: { slug: string }) {
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug,
+    },
+    {
+      enabled: !!slug,
+    }
+  );
+  const currentOrganizationId = organizationData?.organizationBySlug?.id;
   const router = useRouter();
   const { id } = router.query;
   const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery(
@@ -148,8 +156,6 @@ export default function CandidateGuideEmbedPage() {
       }
     );
   };
-
-  const { slug } = router.query;
 
   const candidateColumns = useMemo<ColumnDef<PoliticianResult>[]>(
     () => [

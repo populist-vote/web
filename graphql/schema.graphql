@@ -930,6 +930,7 @@ type OrganizationRole {
 enum OrganizationRoleType {
   ADMIN
   MEMBER
+  OWNER
   READ_ONLY
 }
 
@@ -1847,6 +1848,7 @@ input UserCountFilter {
 type UserResult {
   address: AddressResult
   addressExtendedMn: AddressExtendedMNResult
+  availableOrganizations: [OrganizationResult!]!
   email: String!
   firstName: String
   id: ID!

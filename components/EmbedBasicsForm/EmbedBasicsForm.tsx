@@ -9,9 +9,9 @@ import {
   EmbedType,
   UpsertEmbedInput,
   useEmbedByIdQuery,
+  useOrganizationBySlugQuery,
   useUpsertEmbedMutation,
 } from "generated";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 import { useRouter } from "next/router";
 import { UseFormRegister, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -106,7 +106,18 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
   const upsertEmbed = useUpsertEmbedMutation();
   const queryClient = useQueryClient();
-  const { currentOrganizationId } = useOrganizationContext();
+  const slug = router.query.slug as string;
+
+  const { data, isLoading } = useOrganizationBySlugQuery(
+    {
+      slug,
+    },
+    {
+      enabled: !!slug,
+    }
+  );
+
+  const organizationId = data?.organizationBySlug?.id;
 
   const { register, control, handleSubmit } =
     useForm<UpsertEmbedInputWithOptions>({
@@ -132,7 +143,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           name: data.name,
           description: data.description,
           id: embed?.id,
-          organizationId: currentOrganizationId as string,
+          organizationId: organizationId as string,
           embedType: embed?.embedType,
           attributes: {
             ...embed?.attributes,
@@ -166,6 +177,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         return null;
     }
   };
+
+  if (isLoading) return null;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

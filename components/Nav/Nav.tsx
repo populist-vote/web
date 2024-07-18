@@ -13,10 +13,12 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
-import { useOrganizationByIdQuery, AuthTokenResult } from "generated";
+import {
+  AuthTokenResult,
+  useAvailableOrganizationsByUserQuery,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { LuChevronsUpDown } from "react-icons/lu";
-
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 export interface NavItem {
@@ -135,20 +137,6 @@ function DesktopNav({
 }) {
   const { t } = useTranslation(["auth", "common"]);
   const { asPath, pathname } = useRouter();
-  const { currentOrganizationId } = useOrganizationContext();
-  const { data, isLoading } = useOrganizationByIdQuery(
-    {
-      id: currentOrganizationId as string,
-    },
-    {
-      refetchOnMount: true,
-      enabled: !!currentOrganizationId,
-    }
-  );
-
-  const organization = data?.organizationById;
-
-  if (isLoading) return null;
 
   return (
     <div className={styles.navContent}>
@@ -187,15 +175,14 @@ function DesktopNav({
         <div className={styles.navFooter}>
           {user ? (
             <div>
-              {organization && (
-                <li
-                  className={clsx(styles.navItem, {
-                    [styles.active as string]: pathname.includes("/dashboard"),
-                  })}
-                >
-                  <DashboardLink />
-                </li>
-              )}
+              <li
+                className={clsx(styles.navItem, {
+                  [styles.active as string]: pathname.includes("/dashboard"),
+                })}
+              >
+                <DashboardLink />
+              </li>
+
               <div className={styles.flexColumn}>
                 <Link href="/settings/profile" passHref>
                   <div className={styles.avatar}>
@@ -238,34 +225,63 @@ function DesktopNav({
 }
 
 function DashboardLink() {
-  const {
-    currentOrganizationId,
-    setCurrentOrganizationId,
-    availableOrganizations,
-  } = useOrganizationContext();
+  const router = useRouter();
+  const slug = router.query.slug;
+  const { user } = useAuth();
 
-  const organization = availableOrganizations.find(
-    (org) => org.id === currentOrganizationId
-  );
+  const { data: organizationData, isLoading: isOrganizationDataLoading } =
+    useOrganizationBySlugQuery(
+      {
+        slug: slug as string,
+      },
+      {
+        enabled: !!slug,
+      }
+    );
 
-  if (!organization) return null;
+  const { data: userData, isLoading: isAvailableOrgsDataLoading } =
+    useAvailableOrganizationsByUserQuery(
+      {
+        userId: user.id,
+      },
+      {
+        enabled: !!user,
+      }
+    );
+
+  const organization =
+    organizationData?.organizationBySlug ||
+    userData?.userProfile.availableOrganizations[0];
+
+  const availableOrganizations = userData?.userProfile.availableOrganizations;
+
+  const handleOrganizationContextChange = async (slug: string) => {
+    await router.push(`/dashboard/${slug}`);
+  };
+
+  if (
+    !availableOrganizations ||
+    isAvailableOrgsDataLoading ||
+    isOrganizationDataLoading
+  )
+    return null;
 
   return (
-    <Link href={`/dashboard/${organization.slug}`}>
+    <Link href={`/dashboard/${organization?.slug}`}>
       <div className={styles.orgDashboardLink}>
         <div className={styles.flexBetween}>
           <Avatar
             src={
-              organization.assets?.thumbnailImage160 ||
+              organization?.assets?.thumbnailImage160 ||
               ORGANIZATION_FALLBACK_IMAGE_URL
             }
             fallbackSrc={ORGANIZATION_FALLBACK_IMAGE_URL}
             alt="organization logo"
             size={36}
-            key={organization.slug}
+            key={organization?.slug}
           />
           <div className={styles.stack}>
-            <h5>{organization.name}</h5>
+            <h5>{organization?.name}</h5>
             <small>Dashboard</small>
           </div>
         </div>
@@ -285,14 +301,14 @@ function DashboardLink() {
                   Organizations
                 </DropdownMenu.Label>
                 <DropdownMenu.RadioGroup
-                  value={currentOrganizationId as string}
-                  onValueChange={(val) => setCurrentOrganizationId(val)}
+                  value={organization?.slug}
+                  onValueChange={handleOrganizationContextChange}
                 >
                   {availableOrganizations.map((org) => (
                     <DropdownMenu.RadioItem
                       key={org.id}
                       className={styles.DropdownMenuRadioItem}
-                      value={org.id}
+                      value={org.slug}
                     >
                       <DropdownMenu.ItemIndicator
                         className={styles.DropdownMenuItemIndicator}

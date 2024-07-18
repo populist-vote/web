@@ -6,14 +6,17 @@ import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
-import { useUpsertEmbedMutation, EmbedType } from "generated";
+import {
+  useUpsertEmbedMutation,
+  EmbedType,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { toast } from "react-toastify";
 import { BillResultsTable } from "components/BillResultsTable/BillResultsTable";
 import { Box } from "components/Box/Box";
 import styles from "components/Layout/Layout.module.scss";
 import { Badge } from "components/Badge/Badge";
 import { BsXCircleFill } from "react-icons/bs";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -34,11 +37,19 @@ export async function getServerSideProps({
   };
 }
 
-function NewLegislationEmbed() {
+function NewLegislationEmbed({ slug }: { slug: string }) {
   const router = useRouter();
   const { query } = router;
-  const { slug, embedId } = query;
-  const { currentOrganizationId } = useOrganizationContext();
+  const { embedId } = query;
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: slug as string,
+    },
+    {
+      enabled: !!slug,
+    }
+  );
+  const currentOrganizationId = organizationData?.organizationBySlug?.id;
   const upsertEmbed = useUpsertEmbedMutation();
   const [selectedBills, setSelectedBills] = useState<
     {

@@ -36,13 +36,13 @@ export async function getServerSideProps({
   };
 }
 
-function DashboardIndex({ slug }: { slug: string }) {
+export default function DashboardIndex({ slug }: { slug: string }) {
   const organizationQuery = useOrganizationBySlugQuery(
     {
       slug,
     },
     {
-      retry: false,
+      enabled: !!slug,
     }
   );
 
@@ -135,4 +135,3 @@ DashboardIndex.getLayout = (page: ReactNode) => (
     {page}
   </Layout>
 );
-export default DashboardIndex;

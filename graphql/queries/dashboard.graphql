@@ -287,6 +287,20 @@ query QuestionById($id: ID!) {
   }
 }
 
+query AvailableOrganizationsByUser($userId: ID!) {
+  userProfile(userId: $userId) {
+    id
+    availableOrganizations {
+      id
+      slug
+      name
+      assets {
+        thumbnailImage160
+      }
+    }
+  }
+}
+
 query CandidateGuidesByOrganization($organizationId: ID!) {
   candidateGuidesByOrganization(organizationId: $organizationId) {
     ...CandidateGuideFields

@@ -12,6 +12,7 @@ import {
   IssueTagResult,
   SessionResult,
   useEmbedsByOrganizationQuery,
+  useOrganizationBySlugQuery,
 } from "generated";
 import { Badge } from "components/Badge/Badge";
 import { getRelativeTimeString } from "utils/dates";
@@ -19,7 +20,6 @@ import { useAuth } from "hooks/useAuth";
 import { BillStatusBadge } from "components/BillStatusBadge/BillStatusBadge";
 import styles from "styles/modules/dashboard.module.scss";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -41,7 +41,10 @@ export async function getServerSideProps({
 }
 
 export default function LegislationEmbedsIndex({ slug }: { slug: string }) {
-  const { currentOrganizationId } = useOrganizationContext();
+  const { data: organizationData } = useOrganizationBySlugQuery({
+    slug,
+  });
+  const currentOrganizationId = organizationData?.organizationBySlug?.id;
   useAuth({
     redirectTo: "/login",
     organizationId: currentOrganizationId,

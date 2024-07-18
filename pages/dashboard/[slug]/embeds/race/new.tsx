@@ -5,13 +5,16 @@ import { SupportedLocale } from "types/global";
 import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
-import { useUpsertEmbedMutation, EmbedType } from "generated";
+import {
+  useUpsertEmbedMutation,
+  EmbedType,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { toast } from "react-toastify";
 import { Box } from "components/Box/Box";
 import styles from "components/EmbedIndex/EmbedIndex.module.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { RaceResultsTable } from "components/RaceResultsTable/RaceResultsTable";
-import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -32,14 +35,22 @@ export async function getServerSideProps({
   };
 }
 
-function NewRaceEmbed() {
+export default function NewRaceEmbed({ slug }: { slug: string }) {
   const router = useRouter();
   const { query } = router;
-  const { slug, selected, embedId } = query;
+  const { selected, embedId } = query;
   const upsertEmbed = useUpsertEmbedMutation();
   const { search } = router.query;
   const [searchValue, setSearchValue] = useState(search);
-  const { currentOrganizationId } = useOrganizationContext();
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: slug as string,
+    },
+    {
+      enabled: !!slug,
+    }
+  );
+  const currentOrganizationId = organizationData?.organizationBySlug?.id;
 
   function handleCreateEmbed() {
     upsertEmbed.mutate(
@@ -119,5 +130,3 @@ NewRaceEmbed.getLayout = (page: ReactNode) => (
     {page}
   </Layout>
 );
-
-export default NewRaceEmbed;
