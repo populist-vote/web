@@ -309,6 +309,7 @@ function DashboardLink() {
                       key={org.id}
                       className={styles.DropdownMenuRadioItem}
                       value={org.slug}
+                      onClick={(event) => event.stopPropagation()}
                     >
                       <DropdownMenu.ItemIndicator
                         className={styles.DropdownMenuItemIndicator}
