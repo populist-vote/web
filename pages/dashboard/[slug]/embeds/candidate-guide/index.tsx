@@ -117,6 +117,7 @@ export default function CandidateGuideEmbedIndex({ slug }: { slug: string }) {
         columns={candidateGuideColumns}
         // @ts-expect-error React table types are difficult to work with
         embeds={guides}
+        slug={slug}
         embedType={EmbedType.CandidateGuide}
         title="Candidate Guides"
         isLoading={false}
