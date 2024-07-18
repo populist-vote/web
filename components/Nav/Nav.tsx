@@ -140,7 +140,7 @@ function DesktopNav({
   const { t } = useTranslation(["auth", "common"]);
   const { asPath, pathname } = useRouter();
   const { currentOrganizationId } = useOrganizationContext();
-  const { data } = useOrganizationByIdQuery(
+  const { data, isLoading } = useOrganizationByIdQuery(
     {
       id: currentOrganizationId as string,
     },
@@ -151,6 +151,9 @@ function DesktopNav({
   );
 
   const organization = data?.organizationById;
+
+  if (isLoading) return null;
+
   return (
     <div className={styles.navContent}>
       <div className={styles.items}>
