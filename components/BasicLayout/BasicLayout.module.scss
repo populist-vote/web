@@ -123,6 +123,8 @@
 .linkSection {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 2rem;
   margin-top: 5px;
   padding-left: 1rem;

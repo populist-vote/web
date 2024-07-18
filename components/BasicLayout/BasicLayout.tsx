@@ -11,7 +11,7 @@ import {
 } from "components";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
-import { OrganizationResult, useOrganizationByIdQuery } from "generated";
+import { useOrganizationByIdQuery } from "generated";
 import styles from "./BasicLayout.module.scss";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import clsx from "clsx";
@@ -105,9 +105,7 @@ function BasicHeader({
               <div className={styles.linkSection}>
                 {organization && pathname === "/home" && (
                   <div className={styles.dashboardLink}>
-                    <DashboardLink
-                      organization={organization as OrganizationResult}
-                    />
+                    <DashboardLink />
                   </div>
                 )}
                 <Link href="/settings/profile" passHref>

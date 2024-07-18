@@ -13,11 +13,7 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
-import {
-  useOrganizationByIdQuery,
-  AuthTokenResult,
-  OrganizationResult,
-} from "generated";
+import { useOrganizationByIdQuery, AuthTokenResult } from "generated";
 import { LuChevronsUpDown } from "react-icons/lu";
 
 import { useOrganizationContext } from "hooks/useOrganizationContext";
@@ -197,9 +193,7 @@ function DesktopNav({
                     [styles.active as string]: pathname.includes("/dashboard"),
                   })}
                 >
-                  <DashboardLink
-                    organization={organization as OrganizationResult}
-                  />
+                  <DashboardLink />
                 </li>
               )}
               <div className={styles.flexColumn}>
@@ -243,12 +237,18 @@ function DesktopNav({
   );
 }
 
-function DashboardLink({ organization }: { organization: OrganizationResult }) {
+function DashboardLink() {
   const {
     currentOrganizationId,
     setCurrentOrganizationId,
     availableOrganizations,
   } = useOrganizationContext();
+
+  const organization = availableOrganizations.find(
+    (org) => org.id === currentOrganizationId
+  );
+
+  if (!organization) return null;
 
   return (
     <Link href={`/dashboard/${organization.slug}`}>
