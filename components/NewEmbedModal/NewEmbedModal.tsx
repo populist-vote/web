@@ -1,6 +1,9 @@
 import { Button } from "components";
 import { Modal } from "components/Modal/Modal";
-import { useUpsertCandidateGuideMutation } from "generated";
+import {
+  useOrganizationBySlugQuery,
+  useUpsertCandidateGuideMutation,
+} from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -15,6 +18,12 @@ export function NewEmbedModal({
   slug: string;
 }) {
   const router = useRouter();
+
+  const { data: organizationData } = useOrganizationBySlugQuery({
+    slug: slug as string,
+  });
+
+  const organizationId = organizationData?.organizationBySlug?.id;
 
   // Close modal when route chagnes
   useEffect(() => {
@@ -33,7 +42,7 @@ export function NewEmbedModal({
     // Create the candidate_guide record, then pass its ID to create a new embed record
     upsertCandidateGuideMutation.mutate(
       {
-        input: { name: "Untitled" },
+        input: { name: "Untitled", organizationId },
       },
       {
         onSuccess: (data) => {
