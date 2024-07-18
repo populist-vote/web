@@ -6,7 +6,7 @@ import React, { useCallback, useState, useMemo } from "react";
 
 import { Player } from "@remotion/player";
 import type { BillResult } from "generated";
-import { BillBySlugQuery, useBillBySlugQuery } from "generated";
+import { BillBySlugQuery, SystemRoleType, useBillBySlugQuery } from "generated";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { RenderControls } from "../../../components/Video/RenderControls";
@@ -29,7 +29,6 @@ import {
   VIDEO_WIDTH,
 } from "types/constants";
 import { useAuth } from "hooks/useAuth";
-import { isPremium } from "utils/user";
 
 interface Params extends NextParsedUrlQuery {
   slug: string;
@@ -74,10 +73,9 @@ const CreateVideoPage: NextPage = ({
     slug: slug as string,
   });
   const { user } = useAuth();
+  const isStaff = user.systemRole >= SystemRoleType.Staff;
 
-  const isPremiumUser = isPremium(user);
-
-  if (!isPremiumUser) {
+  if (!isStaff) {
     void router.push("/");
   }
 

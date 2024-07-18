@@ -29,7 +29,7 @@
 
   @include for-tablet-up {
     position: fixed;
-    width: 12rem;
+    width: var(--nav-width);
     height: 100vh;
   }
 
@@ -133,7 +133,7 @@
     justify-content: space-between;
     flex-grow: 1;
     height: 100%;
-    width: 12rem;
+    width: var(--nav-width);
 
     ul {
       padding: 0;
@@ -193,7 +193,7 @@
 
 .orgDashboardLink {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 1.25rem;
   gap: 0.75rem;

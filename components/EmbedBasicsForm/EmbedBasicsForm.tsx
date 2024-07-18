@@ -11,7 +11,7 @@ import {
   useEmbedByIdQuery,
   useUpsertEmbedMutation,
 } from "generated";
-import { useAuth } from "hooks/useAuth";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 import { useRouter } from "next/router";
 import { UseFormRegister, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -104,9 +104,9 @@ function PoliticianEmbedOptionsForm({
 
 function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
-  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
   const queryClient = useQueryClient();
+  const { currentOrganizationId } = useOrganizationContext();
 
   const { register, control, handleSubmit } =
     useForm<UpsertEmbedInputWithOptions>({
@@ -132,7 +132,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           name: data.name,
           description: data.description,
           id: embed?.id,
-          organizationId: user?.organizationId as string,
+          organizationId: currentOrganizationId as string,
           embedType: embed?.embedType,
           attributes: {
             ...embed?.attributes,

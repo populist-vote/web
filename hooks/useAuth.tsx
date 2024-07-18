@@ -1,4 +1,8 @@
-import { AuthTokenResult, Role, useCurrentUserQuery } from "../generated";
+import {
+  AuthTokenResult,
+  SystemRoleType,
+  useCurrentUserQuery,
+} from "../generated";
 import { useRouter } from "next/router";
 import {
   createContext,
@@ -23,11 +27,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth({
   redirectTo,
-  minRole = Role.Basic,
+  minRole = SystemRoleType.User,
   organizationId = null,
 }: {
   redirectTo?: string;
-  minRole?: Role;
+  minRole?: SystemRoleType;
   organizationId?: null | string;
 } = {}) {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,19 +46,22 @@ export function useAuth({
         if (!user) await router.push(redirectTo);
 
         if (user) {
-          if (organizationId && user?.organizationId !== organizationId) {
+          if (
+            organizationId &&
+            !user?.organizations.some(
+              (o) => o.organizationId === organizationId
+            )
+          ) {
             await router.push(redirectTo);
           }
           setIsLoading(false);
-          switch (user.role) {
-            case Role.Superuser:
+          switch (user.systemRole) {
+            case SystemRoleType.Superuser:
               return;
-            case Role.Staff:
-              if (minRole === Role.Staff) return;
-            case Role.Premium:
-              if (minRole === Role.Premium) return;
-            case Role.Basic:
-              if (minRole === Role.Basic) return;
+            case SystemRoleType.Staff:
+              if (minRole === SystemRoleType.Staff) return;
+            case SystemRoleType.User:
+              if (minRole === SystemRoleType.User) return;
             default:
               await router.push(redirectTo);
           }

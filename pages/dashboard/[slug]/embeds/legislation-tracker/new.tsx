@@ -7,13 +7,13 @@ import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
 import { useUpsertEmbedMutation, EmbedType } from "generated";
-import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { BillResultsTable } from "components/BillResultsTable/BillResultsTable";
 import { Box } from "components/Box/Box";
 import styles from "components/Layout/Layout.module.scss";
 import { Badge } from "components/Badge/Badge";
 import { BsXCircleFill } from "react-icons/bs";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -38,7 +38,7 @@ function NewLegislationEmbed() {
   const router = useRouter();
   const { query } = router;
   const { slug, embedId } = query;
-  const { user } = useAuth();
+  const { currentOrganizationId } = useOrganizationContext();
   const upsertEmbed = useUpsertEmbedMutation();
   const [selectedBills, setSelectedBills] = useState<
     {
@@ -54,7 +54,7 @@ function NewLegislationEmbed() {
           id: embedId as string,
           name: "Legislation Tracker Embed",
           embedType: EmbedType.LegislationTracker,
-          organizationId: user?.organizationId as string,
+          organizationId: currentOrganizationId as string,
           attributes: {
             billIds: selectedBills.map((b) => b.id),
             embedType: "legislation-tracker",

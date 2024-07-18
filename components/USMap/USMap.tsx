@@ -10,7 +10,12 @@ export function USMap({
     if (state) handleStateClick(state);
   };
   return (
-    <svg width="100%" height="100%" viewBox="0 0 960 600">
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 960 600"
+      style={{ filter: "drop-shadow(24px 12px 12px rgba(0, 0, 20, 0.55))" }}
+    >
       {statesData.map((state, index) => {
         const color = state.color;
         return (

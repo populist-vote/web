@@ -6,12 +6,12 @@ import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
 import { useUpsertEmbedMutation, EmbedType } from "generated";
-import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { Box } from "components/Box/Box";
 import styles from "components/EmbedIndex/EmbedIndex.module.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { RaceResultsTable } from "components/RaceResultsTable/RaceResultsTable";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -36,10 +36,10 @@ function NewRaceEmbed() {
   const router = useRouter();
   const { query } = router;
   const { slug, selected, embedId } = query;
-  const { user } = useAuth();
   const upsertEmbed = useUpsertEmbedMutation();
   const { search } = router.query;
   const [searchValue, setSearchValue] = useState(search);
+  const { currentOrganizationId } = useOrganizationContext();
 
   function handleCreateEmbed() {
     upsertEmbed.mutate(
@@ -48,7 +48,7 @@ function NewRaceEmbed() {
           id: embedId as string,
           name: "Race Embed",
           embedType: EmbedType.Race,
-          organizationId: user?.organizationId as string,
+          organizationId: currentOrganizationId as string,
           attributes: {
             raceId: selected as string,
           },

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Layout } from "components";
 import { useAuth } from "hooks/useAuth";
-import { Role, State, useUserCountByStateQuery } from "generated";
+import { SystemRoleType, State, useUserCountByStateQuery } from "generated";
 import styles from "./admin.module.scss";
 import clsx from "clsx";
 import { ReactNode } from "react";
@@ -18,7 +18,7 @@ const adminNavItems = [
 ];
 
 function AdminPanel() {
-  useAuth({ redirectTo: "/login", minRole: Role.Staff });
+  useAuth({ redirectTo: "/login", minRole: SystemRoleType.Staff });
 
   const { data: totalUserCount } = useUserCountByStateQuery();
   const { data: coUserCount } = useUserCountByStateQuery({ state: State.Co });

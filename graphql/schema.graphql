@@ -61,8 +61,8 @@ type ArgumentResult {
 type AuthTokenResult {
   email: String!
   id: ID!
-  organizationId: ID
-  role: Role!
+  organizations: [OrganizationRole!]!
+  systemRole: SystemRoleType!
   userProfile: UserResult!
   username: String!
 }
@@ -418,9 +418,8 @@ input CreateOrConnectPoliticianInput {
 input CreateUserInput {
   confirmationToken: String!
   email: String!
-  organizationId: UUID
   password: String!
-  role: Role
+  systemRole: SystemRoleType!
   username: String!
 }
 
@@ -923,6 +922,17 @@ type OrganizationResultEdge {
   node: OrganizationResult!
 }
 
+type OrganizationRole {
+  organizationId: UUID!
+  role: OrganizationRoleType!
+}
+
+enum OrganizationRoleType {
+  ADMIN
+  MEMBER
+  READ_ONLY
+}
+
 input OrganizationSearch {
   name: String
 }
@@ -1358,13 +1368,6 @@ type RespondentResultEdge {
   node: RespondentResult!
 }
 
-enum Role {
-  BASIC
-  PREMIUM
-  STAFF
-  SUPERUSER
-}
-
 type RollCall {
   absent: Int!
   billId: Int!
@@ -1524,6 +1527,12 @@ type Subscription {
   Heartbeat, containing the UTC timestamp of the last server-sent payload
   """
   heartbeat(interval: Int! = 1000): Heartbeat!
+}
+
+enum SystemRoleType {
+  STAFF
+  SUPERUSER
+  USER
 }
 
 type Text {

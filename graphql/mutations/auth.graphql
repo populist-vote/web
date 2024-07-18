@@ -28,8 +28,11 @@ query CurrentUser {
         state
       }
     }
-    role
-    organizationId
+    systemRole
+    organizations {
+      organizationId
+      role
+    }
   }
 }
 

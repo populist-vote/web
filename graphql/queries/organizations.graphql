@@ -28,6 +28,7 @@ query OrganizationBySlug($slug: String!) {
 
 query OrganizationById($id: ID!) {
   organizationById(id: $id) {
+    id
     slug
     name
     assets {

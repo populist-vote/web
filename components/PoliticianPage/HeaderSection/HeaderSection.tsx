@@ -8,7 +8,7 @@ import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import {
   PoliticalParty,
   PoliticianResult,
-  Role,
+  SystemRoleType,
   useUpsertVotingGuideCandidateMutation,
 } from "generated";
 import styles from "./HeaderSection.module.scss";
@@ -26,7 +26,7 @@ function HeaderSection({
 }: {
   basicInfo: Partial<PoliticianResult>;
 }) {
-  const userRole = useAuth().user?.role;
+  const userSystemRole = useAuth().user?.systemRole;
   const sectionCx = clsx(styles.center, styles.borderTop, styles.headerSection);
 
   const politician = basicInfo;
@@ -155,7 +155,8 @@ function HeaderSection({
 
       <h1 className={styles.fullName}>{politician?.fullName}</h1>
 
-      {(userRole === Role.Staff || userRole === Role.Superuser) &&
+      {(userSystemRole === SystemRoleType.Staff ||
+        userSystemRole === SystemRoleType.Superuser) &&
         !pathname.includes("/edit") && (
           <Button
             label="Edit"

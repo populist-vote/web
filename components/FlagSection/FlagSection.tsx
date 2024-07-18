@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Button } from "components";
 import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
-import { isPremium } from "utils/user";
+import { SystemRoleType } from "generated";
 
 export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
 
@@ -28,13 +28,13 @@ function FlagSection(props: FlagSectionProps): JSX.Element {
   });
 
   const { user } = useAuth();
-  const isPremiumUser = isPremium(user);
+  const isStaff = user.systemRole >= SystemRoleType.Staff;
 
   return (
     <div style={style} className={styleClasses}>
       <header className={styles.header}>
         <span className={styles.sectionTitle}>{label}</span>
-        {router.pathname.includes("bill") && isPremiumUser && (
+        {router.pathname.includes("bill") && isStaff && (
           <Link href={createVideoUrl}>
             <Button
               variant="primary"

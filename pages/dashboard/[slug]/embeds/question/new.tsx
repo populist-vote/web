@@ -12,12 +12,12 @@ import {
   useUpsertEmbedMutation,
   useUpsertQuestionMutation,
 } from "generated";
-import { useAuth } from "hooks/useAuth";
 import { toast } from "react-toastify";
 import { Box } from "components/Box/Box";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 export async function getServerSideProps({
   query,
@@ -81,7 +81,7 @@ export function QuestionEmbedForm({
   const { query } = router;
   const queryClient = useQueryClient();
   const { slug } = query;
-  const { user } = useAuth();
+  const { currentOrganizationId } = useOrganizationContext();
   const upsertEmbed = useUpsertEmbedMutation();
   const upsertQuestion = useUpsertQuestionMutation();
 
@@ -149,7 +149,7 @@ export function QuestionEmbedForm({
                 id: embed?.id as string,
                 name: "Question Embed",
                 embedType: EmbedType.Question,
-                organizationId: user?.organizationId as string,
+                organizationId: currentOrganizationId as string,
                 attributes: {
                   questionId: data.upsertQuestion.id,
                 },

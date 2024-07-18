@@ -14,7 +14,7 @@ import {
 import {
   PoliticianBasicInfoQuery,
   PoliticianResult,
-  Role,
+  SystemRoleType,
   usePoliticalPartiesQuery,
   usePoliticianBasicInfoQuery,
   usePoliticianBySlugQuery,
@@ -665,7 +665,7 @@ export default function PoliticianEditPage({
   referer?: string;
   ogParams: OGParams;
 }) {
-  useAuth({ minRole: Role.Staff, redirectTo: `/politician/${slug}` });
+  useAuth({ minRole: SystemRoleType.Staff, redirectTo: `/politician/${slug}` });
 
   const { data, isLoading } = usePoliticianBySlugQuery({
     slug: slug as string,

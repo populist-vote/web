@@ -15,6 +15,7 @@ import { OrganizationResult, useOrganizationByIdQuery } from "generated";
 import styles from "./BasicLayout.module.scss";
 import useDeviceInfo from "hooks/useDeviceInfo";
 import clsx from "clsx";
+import { useOrganizationContext } from "hooks/useOrganizationContext";
 
 function BasicLayout({
   children,
@@ -57,13 +58,14 @@ function BasicHeader({
 }) {
   const { pathname } = useRouter();
   const { user } = useAuth();
+  const { currentOrganizationId } = useOrganizationContext();
 
   const { data } = useOrganizationByIdQuery(
     {
-      id: user?.organizationId || "",
+      id: currentOrganizationId as string,
     },
     {
-      enabled: !!user?.organizationId,
+      enabled: !!currentOrganizationId,
     }
   );
 
