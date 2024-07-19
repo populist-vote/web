@@ -211,10 +211,10 @@ function Table<T extends object>({
         return {
           background: "var(--blue-darker)",
           color: "var(--blue-text-light)",
-          selectedRow: "transparent",
+          selectedRow: "rgba(255, 228, 92, 0.05)",
           border: "var(--blue-dark)",
           index: {
-            selected: "var(--blue)",
+            selected: "var(--aqua)",
             unselected: "var(--blue-dark)",
           },
         };

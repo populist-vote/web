@@ -1,4 +1,4 @@
-import { Box, Layout, LoaderFlag } from "components";
+import { Box, Button, Layout, LoaderFlag, TextInput } from "components";
 import { useRouter } from "next/router";
 import { ReactNode, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
@@ -9,15 +9,21 @@ import {
   QuestionSubmissionResult,
   useCandidateGuideSubmissionsByRaceIdQuery,
   useEmbedByIdQuery,
+  useUpsertQuestionSubmissionMutation,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
-import { ColumnDef } from "@tanstack/react-table";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
 import { IssueTagsTableCell } from "components/IssueTags/IssueTagsTableCell";
 import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
+import { useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { GrEdit } from "react-icons/gr";
+import { Modal } from "components/Modal/Modal";
+import { toast } from "react-toastify";
 
 export async function getServerSideProps({
   query,
@@ -74,14 +80,14 @@ export default function CandidateGuideEmbedPageSubmissions() {
   }, [selectedQuestion, submissionsData]);
 
   const handleSelectedQuestion = async (questionId: string) => {
+    // await router.push(
+    //   `/dashboard/${router.query.slug}/embeds/candidate-guide/${id}/submissions?selected=${questionId}`,
+    //   undefined,
+    //   {
+    //     scroll: false,
+    //   }
+    // );
     setSelectedQuestion(questionId);
-    await router.push(
-      `/dashboard/${router.query.slug}/embeds/candidate-guide/${id}/submissions?selected=${questionId}`,
-      undefined,
-      {
-        scroll: false,
-      }
-    );
   };
 
   const questionColumns = useMemo<ColumnDef<Partial<QuestionResult>>[]>(
@@ -106,14 +112,22 @@ export default function CandidateGuideEmbedPageSubmissions() {
       {
         header: "Candidate",
         accessorKey: "politician.fullName",
+        size: 100,
       },
       {
         header: "Response",
         accessorKey: "response",
+        size: 500,
+        cell: (info) => (
+          <ResponseCell
+            row={info as CellContext<QuestionSubmissionResult, unknown>}
+          />
+        ),
       },
       {
         header: "Last Submitted At",
         accessorKey: "updatedAt",
+        size: 25,
         cell: (info) => {
           return new Date(info.getValue() as string).toLocaleDateString();
         },
@@ -171,7 +185,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
           onRowClick={(row) => handleSelectedQuestion(row.original.id)}
           selectedRowId={selectedQuestion}
           paginate={false}
-          theme="aqua"
+          theme="blue"
         />
       </section>
       <section className={styles.section}>
@@ -189,10 +203,106 @@ export default function CandidateGuideEmbedPageSubmissions() {
             data={submissions}
             initialState={{}}
             paginate={false}
+            theme="blue"
           />
         )}
       </section>
     </>
+  );
+}
+
+function ResponseCell({
+  row,
+}: {
+  row: CellContext<QuestionSubmissionResult, unknown>;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ response: string }>({
+    defaultValues: {
+      response: row.getValue() as string,
+    },
+  });
+
+  const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation();
+
+  const queryClient = useQueryClient();
+
+  const onSubmit = (data: { response: string }) => {
+    console.log(row.row.original);
+    try {
+      upsertQuestionSubmission.mutate(
+        {
+          questionSubmissionInput: {
+            id: row.row.original.id,
+            questionId: row.row.original.question.id,
+            candidateId: row.row.original.politician?.id,
+            response: data.response,
+          },
+        },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({
+              queryKey: ["CandidateGuideSubmissionsByRaceId"],
+            });
+            toast.success("Submission updated successfully");
+          },
+          onError: () => {
+            toast.error("Failed to update submission");
+          },
+        }
+      );
+    } catch (error) {
+      toast.error("Form submission error");
+    } finally {
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "auto 1fr",
+        alignItems: "center",
+      }}
+    >
+      {!!row.getValue() && (
+        <span style={{ marginRight: "1rem" }}>{row.getValue() as string}</span>
+      )}
+      <GrEdit onClick={() => setIsOpen(true)} />
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <div style={{ padding: "1.5rem", width: "32rem" }}>
+          <h3>Edit Response</h3>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
+          >
+            <TextInput
+              name="response"
+              label="Response"
+              textarea
+              register={register}
+              control={control}
+              errors={errors?.response?.message}
+              style={{ minHeight: "10rem" }}
+            />
+            <Button
+              label="Save"
+              size="medium"
+              variant="primary"
+              type="submit"
+              disabled={upsertQuestionSubmission.isPending}
+            />
+          </form>
+        </div>
+      </Modal>
+    </div>
   );
 }
 

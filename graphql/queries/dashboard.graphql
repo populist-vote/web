@@ -48,6 +48,7 @@ query CandidateGuideEmbedById($id: ID!) {
 
 query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
   candidateGuideById(id: $candidateGuideId) {
+    organizationId
     questions {
       id
       prompt
@@ -67,6 +68,9 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
           assets {
             thumbnailImage160
           }
+        }
+        question {
+          id
         }
       }
     }
