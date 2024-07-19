@@ -71,6 +71,10 @@ export async function getServerSideProps({
 export default function CandidateGuideManagePage() {
   const router = useRouter();
   const { slug, id } = router.query as { slug: string; id: string };
+  const { data: organizationData } = useOrganizationBySlugQuery({
+    slug: slug as string,
+  });
+  const organizationId = organizationData?.organizationBySlug?.id as string;
   const { data, isLoading } = useCandidateGuideByIdQuery(
     { id },
     {
@@ -98,9 +102,16 @@ export default function CandidateGuideManagePage() {
         embedType={EmbedType.CandidateGuide}
       />
       <div className={styles.sections}>
-        <CandidateGuideConfiguration candidateGuide={candidateGuide} />
+        <CandidateGuideConfiguration
+          candidateGuide={candidateGuide}
+          organizationId={organizationId}
+        />
         <QuestionsSection candidateGuide={candidateGuide} />
-        <RacesSection slug={slug} candidateGuide={candidateGuide} />
+        <RacesSection
+          slug={slug}
+          candidateGuide={candidateGuide}
+          organizationId={organizationId}
+        />
         <section>
           <h3>Danger Zone</h3>
           <Button
@@ -120,15 +131,11 @@ export default function CandidateGuideManagePage() {
 
 function CandidateGuideConfiguration({
   candidateGuide,
+  organizationId,
 }: {
   candidateGuide: CandidateGuideResult;
+  organizationId: string;
 }) {
-  const router = useRouter();
-  const { slug } = router.query as { slug: string };
-  const { data: organizationData } = useOrganizationBySlugQuery({
-    slug: slug as string,
-  });
-  const organizationId = organizationData?.organizationBySlug?.id;
   const queryClient = useQueryClient();
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
 
@@ -207,7 +214,10 @@ function CandidateGuideConfiguration({
             )}
           </form>
           <Divider vertical height="4rem" />
-          <SubmissionsManagement candidateGuide={candidateGuide} />
+          <SubmissionsManagement
+            candidateGuide={candidateGuide}
+            organizationId={organizationId}
+          />
         </div>
       </Box>
     </section>
@@ -216,8 +226,10 @@ function CandidateGuideConfiguration({
 
 function SubmissionsManagement({
   candidateGuide,
+  organizationId,
 }: {
   candidateGuide: CandidateGuideResult;
+  organizationId: string;
 }) {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -242,6 +254,7 @@ function SubmissionsManagement({
       {
         input: {
           id: candidateGuide?.id,
+          organizationId,
           submissionsCloseAt: new Date().toISOString(),
         },
       },
@@ -283,6 +296,7 @@ function SubmissionsManagement({
       {
         input: {
           id: candidateGuide?.id,
+          organizationId,
           submissionsCloseAt: new Date(data.submissionsCloseAt).toISOString(),
         },
       },
@@ -533,9 +547,11 @@ function QuestionsSection({
 function RacesSection({
   candidateGuide,
   slug,
+  organizationId,
 }: {
   candidateGuide: CandidateGuideResult;
   slug: string;
+  organizationId: string;
 }) {
   const { user } = useAuth();
   const router = useRouter();
@@ -583,6 +599,7 @@ function RacesSection({
       {
         input: {
           id: candidateGuide.id,
+          organizationId,
           raceIds: selectedRowArray.filter(
             (id) => !selectedRaceIds.includes(id)
           ),
