@@ -28,6 +28,7 @@ import {
   useDownloadAllCandidateGuideDataMutation,
   PoliticianResult,
   useOpenAllCandidateGuideSubmissionsMutation,
+  useOrganizationBySlugQuery,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -122,13 +123,19 @@ function CandidateGuideConfiguration({
 }: {
   candidateGuide: CandidateGuideResult;
 }) {
+  const router = useRouter();
+  const { slug } = router.query as { slug: string };
+  const { data: organizationData } = useOrganizationBySlugQuery({
+    slug: slug as string,
+  });
+  const organizationId = organizationData?.organizationBySlug?.id;
   const queryClient = useQueryClient();
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
 
   const onSubmit = async (data: Partial<UpsertCandidateGuideInput>) => {
     await upsertCandidateGuideMutation.mutate(
       {
-        input: { id: candidateGuide?.id, name: data.name },
+        input: { id: candidateGuide?.id, name: data.name, organizationId },
       },
       {
         onSuccess: async () => {
