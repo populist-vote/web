@@ -420,7 +420,7 @@ function QuestionsSection({
 }) {
   const router = useRouter();
   const { slug } = router.query as { slug: string };
-  const questions = candidateGuide?.questions;
+  const questions = useMemo(() => candidateGuide?.questions, [candidateGuide]);
   const queryClient = useQueryClient();
   const deleteQuestionMutation = useDeleteQuestionMutation();
 
