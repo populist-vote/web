@@ -1,4 +1,4 @@
-import { Button, Layout } from "components";
+import { Button, Divider, Layout } from "components";
 import { BillSearchAndFilters } from "components/BillFilters/BillSearchAndFilters";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode } from "react";
@@ -96,6 +96,7 @@ function NewLegislationEmbed() {
       </div>
       <p>Search and select legislation to embed on your page.</p>
       <BillSearchAndFilters theme={"yellow"} />
+      <Divider />
       <BillResultsTable theme={"yellow"} />
     </>
   );

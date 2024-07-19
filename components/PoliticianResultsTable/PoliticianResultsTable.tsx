@@ -31,9 +31,13 @@ function PoliticianResultsTable() {
     }
   );
 
-  const politicianResults = data?.politicians.edges.map((edge) => edge.node) as
-    | PoliticianResult[]
-    | [];
+  const politicianResults = useMemo(
+    () =>
+      data?.politicians.edges.map((edge) => edge.node) as
+        | PoliticianResult[]
+        | [],
+    [data]
+  );
 
   const columns = useMemo<ColumnDef<PoliticianResult>[]>(
     () => [

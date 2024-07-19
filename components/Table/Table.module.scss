@@ -12,7 +12,7 @@
   overflow: auto;
 
   .addButton {
-    display: none;
+    visibility: hidden;
   }
 
   table {
@@ -45,7 +45,7 @@
       background: $black-alpha-3;
       cursor: pointer;
       .addButton {
-        display: block;
+        visibility: visible;
       }
     }
   }
