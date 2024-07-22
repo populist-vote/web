@@ -285,7 +285,7 @@ function SubmissionsManagement({
               id: candidateGuide?.id as string,
             }),
           });
-          toast.success("All submissions have been closed.");
+          toast.success("All submissions have been opened.");
         },
       }
     );
