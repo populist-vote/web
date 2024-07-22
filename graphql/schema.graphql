@@ -1221,6 +1221,7 @@ type QuestionResult {
   submissions: [QuestionSubmissionResult!]!
   submissionsByCandidateId(candidateId: ID!): [QuestionSubmissionResult!]!
   submissionsByRace(raceId: ID!): [QuestionSubmissionResult!]!
+  translations: JSON
   updatedAt: DateTime!
 }
 
@@ -1235,6 +1236,7 @@ type QuestionSubmissionResult {
   respondentId: ID
   response: String!
   sentiment: Sentiment
+  translations: JSON
   updatedAt: DateTime!
 }
 
@@ -1789,6 +1791,8 @@ input UpsertQuestionInput {
   prompt: String
   responseCharLimit: Int
   responsePlaceholderText: String
+  shouldTranslate: Boolean
+  translations: JSON
 }
 
 input UpsertQuestionSubmissionInput {
@@ -1798,6 +1802,8 @@ input UpsertQuestionSubmissionInput {
   respondentId: UUID
   response: String!
   sentiment: Sentiment
+  shouldTranslate: Boolean
+  translations: JSON
 }
 
 input UpsertRaceInput {

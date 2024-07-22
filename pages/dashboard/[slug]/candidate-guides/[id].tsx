@@ -29,6 +29,7 @@ import {
   PoliticianResult,
   useOpenAllCandidateGuideSubmissionsMutation,
   useOrganizationBySlugQuery,
+  useUpsertQuestionMutation,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -48,6 +49,10 @@ import { toast } from "react-toastify";
 import { downloadCsv } from "utils/strings";
 import { useAuth } from "hooks/useAuth";
 import { renderSubmissionState } from "utils/dates";
+import { Tooltip } from "components/Tooltip/Tooltip";
+import { GrEdit, GrTrash } from "react-icons/gr";
+import { GiWorld } from "react-icons/gi";
+import { LANGUAGES } from "utils/constants";
 
 export async function getServerSideProps({
   query,
@@ -61,7 +66,7 @@ export async function getServerSideProps({
       slug: query.slug,
       ...(await serverSideTranslations(
         locale,
-        ["auth", "common"],
+        ["auth", "common", "embeds"],
         nextI18nextConfig
       )),
     },
@@ -413,6 +418,90 @@ function SubmissionsManagement({
   );
 }
 
+function ManageQuestionTranslations({ row }: { row: Row<QuestionResult> }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { register, control, handleSubmit, formState } = useForm<{
+    translations: Record<string, string>;
+  }>({
+    defaultValues: {
+      translations: row.original.translations,
+    },
+  });
+
+  const upsertQuestion = useUpsertQuestionMutation();
+
+  const queryClient = useQueryClient();
+
+  const onSubmit = (data: { translations: Record<string, string> }) => {
+    try {
+      upsertQuestion.mutate(
+        {
+          input: {
+            id: row.original.id,
+            prompt: row.original.prompt,
+            responseCharLimit: row.original.responseCharLimit,
+            responsePlaceholderText: row.original.responsePlaceholderText,
+            allowAnonymousResponses: row.original.allowAnonymousResponses,
+            translations: data.translations,
+          },
+        },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({
+              queryKey: ["CandidateGuideSubmissionsByRaceId"],
+            });
+            toast.success("Translations updated successfully");
+          },
+          onError: () => {
+            toast.error("Failed to update translations");
+          },
+        }
+      );
+    } catch (error) {
+      toast.error("Form submission error");
+    } finally {
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <Tooltip content="Manage translations">
+      <GiWorld
+        color={"var(--blue-text-light)"}
+        onClick={() => setIsOpen(true)}
+      />
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <div style={{ padding: "1.5rem", width: "32rem" }}>
+          <h3>Translations</h3>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {LANGUAGES.filter((l) => l.code !== "en").map((locale) => {
+              const label = locale.display;
+              return (
+                <TextInput
+                  key={label}
+                  name={`translations.${locale}`}
+                  textarea
+                  label={label}
+                  register={register}
+                  control={control}
+                  style={{ marginBottom: "1rem" }}
+                />
+              );
+            })}
+            <Button
+              label="Save"
+              size="medium"
+              variant="primary"
+              disabled={!formState.isDirty}
+            />
+          </form>
+        </div>
+      </Modal>
+    </Tooltip>
+  );
+}
+
 function QuestionsSection({
   candidateGuide,
 }: {
@@ -445,31 +534,30 @@ function QuestionsSection({
         cell: (info) => {
           return (
             <div className={styles.flexRight}>
-              <Button
-                theme="blue"
-                variant="secondary"
-                size="small"
-                label="Edit"
-                onClick={() => {
-                  router
-                    .push(
-                      `/dashboard/${slug}/candidate-guides/${candidateGuide.id}?isModalOpen=true&questionId=${info.row.original.id}`
-                    )
-                    .catch((e: Error) => toast.error(e.message))
-                    .finally(() => setIsModalOpen(true));
-                }}
-              />
-              <Button
-                theme="blue"
-                variant="secondary"
-                size="small"
-                label="Delete"
-                onClick={() =>
-                  window.confirm(
-                    "Are you sure you want to delete this question?"
-                  ) && handleDeleteQuestion(info.row.original.id)
-                }
-              />
+              <Tooltip content="Edit Question">
+                <GrEdit
+                  color="var(--blue-text-light)"
+                  onClick={() => {
+                    router
+                      .push(
+                        `/dashboard/${slug}/candidate-guides/${candidateGuide.id}?isModalOpen=true&questionId=${info.row.original.id}`
+                      )
+                      .catch((e: Error) => toast.error(e.message))
+                      .finally(() => setIsModalOpen(true));
+                  }}
+                />
+              </Tooltip>
+              <ManageQuestionTranslations row={info.row} />
+              <Tooltip content="Delete Question">
+                <GrTrash
+                  color="var(--blue-text-light)"
+                  onClick={() =>
+                    window.confirm(
+                      "Are you sure you want to delete this question?"
+                    ) && handleDeleteQuestion(info.row.original.id)
+                  }
+                />
+              </Tooltip>
             </div>
           );
         },

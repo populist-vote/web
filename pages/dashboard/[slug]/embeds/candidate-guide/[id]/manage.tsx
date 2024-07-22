@@ -50,7 +50,7 @@ export async function getServerSideProps({
       slug: query.slug,
       ...(await serverSideTranslations(
         locale,
-        ["auth", "common"],
+        ["auth", "common", "embeds"],
         nextI18nextConfig
       )),
     },
@@ -274,7 +274,7 @@ export default function CandidateGuideEmbedPage({ slug }: { slug: string }) {
       <section className={clsx(styles.section, styles.grid2)}>
         <div>
           <h3>Preview</h3>
-          <Box width="100%" maxWidth="720px">
+          <Box width="720px">
             <CandidateGuideEmbed
               embedId={id as string}
               candidateGuideId={candidateGuideId}

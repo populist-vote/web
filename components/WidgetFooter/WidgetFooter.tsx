@@ -1,13 +1,15 @@
 import { Button } from "components/Button/Button";
 import { LogoTextDark } from "components/Logo";
 import styles from "./WidgetFooter.module.scss";
+import { useTranslation } from "next-i18next";
 
 export function WidgetFooter({ learnMoreHref }: { learnMoreHref?: string }) {
+  const { t } = useTranslation("common");
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.branding}>
-          <span className={styles.poweredBy}>Powered by</span>
+          <span className={styles.poweredBy}>{t("powered-by")}</span>
           <a href="https://populist.us" target="_blank" rel="noreferrer">
             <LogoTextDark />
           </a>
@@ -20,7 +22,7 @@ export function WidgetFooter({ learnMoreHref }: { learnMoreHref?: string }) {
           <Button
             variant="secondary"
             size="small"
-            label="Learn More"
+            label={t("learn-more")}
             theme="grey"
           />
         </a>

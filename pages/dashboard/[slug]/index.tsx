@@ -29,7 +29,7 @@ export async function getServerSideProps({
       slug: query.slug,
       ...(await serverSideTranslations(
         locale,
-        ["auth", "common"],
+        ["auth", "common", "embeds"],
         nextI18nextConfig
       )),
     },

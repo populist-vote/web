@@ -11,9 +11,12 @@ import {
   useEmbedByIdQuery,
   usePingEmbedOriginMutation,
 } from "generated";
-import { GetServerSidePropsContext } from "next";
 import { useEffect } from "react";
 import { getOriginHost } from "utils/messages";
+
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
 
 interface EmbedPageProps {
   embedId: string;
@@ -21,7 +24,13 @@ interface EmbedPageProps {
   originHost: string;
 }
 
-export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  query,
+  locale,
+}: {
+  query: { id: string; origin: string };
+  locale: SupportedLocale;
+}) {
   const { originHost } = getOriginHost((query.origin as string) || "");
 
   return {
@@ -29,6 +38,11 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
       embedId: query.id,
       origin: query.origin || "",
       originHost,
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common", "embeds"],
+        nextI18nextConfig
+      )),
     },
   };
 }

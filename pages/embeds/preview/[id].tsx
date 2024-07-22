@@ -4,6 +4,25 @@ import { useRouter } from "next/router";
 import { getOriginHost } from "utils/messages";
 import { useEmbedByIdQuery, useOrganizationByIdQuery } from "generated";
 import Image from "next/image";
+import { SupportedLocale } from "types/global";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nextConfig from "next-i18next.config";
+
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: SupportedLocale;
+}) {
+  return {
+    props: {
+      ...(await serverSideTranslations(
+        locale,
+        ["auth", "common", "embeds"],
+        nextI18nextConfig
+      )),
+    },
+  };
+}
 
 export default function EmbedPreview() {
   const { query } = useRouter();

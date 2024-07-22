@@ -21,6 +21,7 @@ mutation UpsertQuestion($input: UpsertQuestionInput!) {
     prompt
     responseCharLimit
     responsePlaceholderText
+    translations
     createdAt
     updatedAt
   }

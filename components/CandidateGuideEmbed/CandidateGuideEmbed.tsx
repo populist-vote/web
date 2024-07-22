@@ -18,6 +18,10 @@ import { PartyAvatar } from "components/Avatar/Avatar";
 import clsx from "clsx";
 import { Race } from "components/Ballot/Race";
 import { Badge } from "components/Badge/Badge";
+import { LanguageSelect } from "components/LanguageSelect/LanguageSelect";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { LANGUAGES } from "utils/constants";
 
 interface CandidateGuideRenderOptions {
   height: number;
@@ -34,6 +38,7 @@ export function CandidateGuideEmbed({
   origin: string;
   renderOptions: CandidateGuideRenderOptions;
 }) {
+  const { locale } = useRouter();
   const { data: embedData, isLoading: embedLoading } =
     useCandidateGuideEmbedByIdQuery(
       {
@@ -85,6 +90,24 @@ export function CandidateGuideEmbed({
   const shouldDisplayRaceLabels =
     race?.voteType === VoteType.RankedChoice || (race?.numElect ?? 0) > 1;
 
+  const shouldDisplayLanguageSelect =
+    submissionData?.candidateGuideById.questions
+      .flatMap((q) => q.submissionsByRace)
+      .some((sub) => !!sub.translations);
+
+  const availableLanguageCodes = submissionData?.candidateGuideById.questions
+    .flatMap((q) => q.submissionsByRace)
+    .flatMap((sub) =>
+      Object.entries(sub?.translations || {}).filter(([, v]) => !!v)
+    )
+    .map(([k]) => k);
+
+  const availableLanguages = LANGUAGES.filter(
+    (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
+  );
+
+  const { t } = useTranslation("embeds");
+
   useEmbedResizer({ origin, embedId });
 
   if (isLoading || embedLoading) return <LoaderFlag />;
@@ -98,7 +121,7 @@ export function CandidateGuideEmbed({
       }}
     >
       <header className={styles.header}>
-        <strong>Candidate Guide</strong>
+        <strong>{t("candidate-guide")}</strong>
         <strong>
           {getYear(election?.electionDate)} - {election?.title}
         </strong>
@@ -112,7 +135,9 @@ export function CandidateGuideEmbed({
                 {race?.office?.subtitle}
               </h2>
             </div>
-            {/* <LanguageSelect /> */}
+            {shouldDisplayLanguageSelect && (
+              <LanguageSelect languages={availableLanguages} />
+            )}
           </div>
           {shouldDisplayRaceLabels && (
             <section className={styles.raceLabels}>
@@ -142,7 +167,7 @@ export function CandidateGuideEmbed({
                 isEmbedded={true}
               />
             </div>
-            <h4 className={styles.questionsTitle}>Questions</h4>
+            <h4 className={styles.questionsTitle}>{t("questions")}</h4>
             <div className={styles.overflowGradient}>
               <div className={styles.questionsContainer}>
                 {embedData?.embedById.candidateGuide?.questions.map((q) => (
@@ -152,7 +177,9 @@ export function CandidateGuideEmbed({
                     onClick={() => setSelectedQuestionId(q.id)}
                     onKeyDown={() => setSelectedQuestionId(q.id)}
                   >
-                    {q.prompt}
+                    {locale && !!q.translations && q.translations[locale]
+                      ? q.translations[locale]
+                      : q.prompt}
                   </button>
                 ))}
               </div>
@@ -161,7 +188,7 @@ export function CandidateGuideEmbed({
         ) : (
           <div className={styles.contentContainer}>
             <div className={styles.questionHeader}>
-              <h4 className={styles.questionsTitle}>Question</h4>
+              <h4 className={styles.questionsTitle}>{t("questions")}</h4>
               <button
                 className={styles.backButton}
                 onClick={() => setSelectedQuestionId(null)}
@@ -194,9 +221,13 @@ export function CandidateGuideEmbed({
                           {s.politician?.fullName}
                         </span>
                       </div>
-                      <div>
+                      {locale && !!s.translations && s.translations[locale] ? (
+                        <p>{s.translations[locale]}</p>
+                      ) : !!s.response ? (
                         <p>{s.response}</p>
-                      </div>
+                      ) : (
+                        <p className={styles.noResponse}>NO RESPONSE</p>
+                      )}
                     </div>
                   </>
                 ))}

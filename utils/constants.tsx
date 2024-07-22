@@ -17,7 +17,7 @@ export interface LanguageCode {
 
 export const LANGUAGES: LanguageCode[] = [
   { code: "en", display: "English" },
-  { code: "es", display: "Spanish" },
+  { code: "es", display: "Español" },
   { code: "so", display: "Somali" },
   { code: "hmn", display: "Hmong" },
 ];

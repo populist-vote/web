@@ -1,9 +1,9 @@
 import { Select } from "components/Select/Select";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { LANGUAGES } from "utils/constants";
+import { LanguageCode, LANGUAGES } from "utils/constants";
 
-export function LanguageSelect() {
+export function LanguageSelect({ languages }: { languages?: LanguageCode[] }) {
   const { i18n } = useTranslation();
   const router = useRouter();
   return (
@@ -18,7 +18,7 @@ export function LanguageSelect() {
         });
       }}
       value={i18n.language}
-      options={LANGUAGES.map((l) => ({
+      options={(languages || LANGUAGES).map((l) => ({
         value: l.code,
         label: l.display,
       }))}

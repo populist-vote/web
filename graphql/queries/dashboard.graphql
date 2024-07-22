@@ -58,6 +58,7 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
         sentiment
         createdAt
         updatedAt
+        translations
         politician {
           id
           slug
@@ -122,6 +123,7 @@ fragment CandidateGuideFields on CandidateGuideResult {
     responseCharLimit
     responsePlaceholderText
     allowAnonymousResponses
+    translations
     issueTags {
       slug
       name

@@ -12,7 +12,6 @@ import {
   useUpsertQuestionSubmissionMutation,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
-import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
@@ -24,6 +23,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { GrEdit } from "react-icons/gr";
 import { Modal } from "components/Modal/Modal";
 import { toast } from "react-toastify";
+import { GiWorld } from "react-icons/gi";
+import { Tooltip } from "components/Tooltip/Tooltip";
+import { SupportedLocale } from "types/global";
+import { LANGUAGES } from "utils/constants";
 
 export async function getServerSideProps({
   query,
@@ -37,7 +40,7 @@ export async function getServerSideProps({
       slug: query.slug,
       ...(await serverSideTranslations(
         locale,
-        ["auth", "common"],
+        ["auth", "common", "embeds"],
         nextI18nextConfig
       )),
     },
@@ -118,11 +121,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
         header: "Response",
         accessorKey: "response",
         size: 500,
-        cell: (info) => (
-          <ResponseCell
-            row={info as CellContext<QuestionSubmissionResult, unknown>}
-          />
-        ),
+        cell: (info) => info.getValue(),
       },
       {
         header: "Last Submitted At",
@@ -131,6 +130,21 @@ export default function CandidateGuideEmbedPageSubmissions() {
         cell: (info) => {
           return new Date(info.getValue() as string).toLocaleDateString();
         },
+      },
+      {
+        header: "Actions",
+        accessorKey: "id",
+        size: 25,
+        cell: (info) => (
+          <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
+            <ResponseEditAction
+              row={info as CellContext<QuestionSubmissionResult, unknown>}
+            />
+            <TranslationsManagementAction
+              row={info as CellContext<QuestionSubmissionResult, unknown>}
+            />
+          </div>
+        ),
       },
     ],
     []
@@ -211,7 +225,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
   );
 }
 
-function ResponseCell({
+function ResponseEditAction({
   row,
 }: {
   row: CellContext<QuestionSubmissionResult, unknown>;
@@ -225,7 +239,7 @@ function ResponseCell({
     formState: { errors },
   } = useForm<{ response: string }>({
     defaultValues: {
-      response: row.getValue() as string,
+      response: row.row.original.response as string,
     },
   });
 
@@ -234,7 +248,6 @@ function ResponseCell({
   const queryClient = useQueryClient();
 
   const onSubmit = (data: { response: string }) => {
-    console.log(row.row.original);
     try {
       upsertQuestionSubmission.mutate(
         {
@@ -272,10 +285,9 @@ function ResponseCell({
         alignItems: "center",
       }}
     >
-      {!!row.getValue() && (
-        <span style={{ marginRight: "1rem" }}>{row.getValue() as string}</span>
-      )}
-      <GrEdit onClick={() => setIsOpen(true)} />
+      <Tooltip content="Edit Submission">
+        <GrEdit onClick={() => setIsOpen(true)} />
+      </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div style={{ padding: "1.5rem", width: "32rem" }}>
           <h3>Edit Response</h3>
@@ -303,6 +315,91 @@ function ResponseCell({
         </div>
       </Modal>
     </div>
+  );
+}
+
+function TranslationsManagementAction({
+  row,
+}: {
+  row: CellContext<QuestionSubmissionResult, unknown>;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { register, control, handleSubmit, formState } = useForm<{
+    translations: Record<string, string>;
+  }>({
+    defaultValues: {
+      translations: row.row.original.translations,
+    },
+  });
+
+  const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation();
+
+  const queryClient = useQueryClient();
+
+  const onSubmit = (data: { translations: Record<string, string> }) => {
+    try {
+      upsertQuestionSubmission.mutate(
+        {
+          questionSubmissionInput: {
+            id: row.row.original.id,
+            questionId: row.row.original.question.id,
+            candidateId: row.row.original.politician?.id,
+            response: row.row.original.response,
+            translations: data.translations,
+          },
+        },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({
+              queryKey: ["CandidateGuideSubmissionsByRaceId"],
+            });
+            toast.success("Translations updated successfully");
+          },
+          onError: () => {
+            toast.error("Failed to update translations");
+          },
+        }
+      );
+    } catch (error) {
+      toast.error("Form submission error");
+    } finally {
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <>
+      <Tooltip content="Manage translations">
+        <GiWorld onClick={() => setIsOpen(true)} />
+      </Tooltip>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <div style={{ padding: "1.5rem", width: "32rem" }}>
+          <h3>Translations</h3>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {LANGUAGES.filter((l) => l.code !== "en").map((locale) => {
+              const label = locale.display;
+              return (
+                <TextInput
+                  key={label}
+                  name={`translations.${locale}`}
+                  textarea
+                  label={label}
+                  register={register}
+                  control={control}
+                  style={{ marginBottom: "1rem" }}
+                />
+              );
+            })}
+            <Button
+              label="Save"
+              size="medium"
+              variant="primary"
+              disabled={!formState.isDirty}
+            />
+          </form>
+        </div>
+      </Modal>
+    </>
   );
 }
 
