@@ -258,7 +258,7 @@ export function CandidateGuideEmbed({
           </div>
         )}
       </main>
-      <WidgetFooter />
+      <WidgetFooter learnMoreHref={`/races/${race?.slug}`} />
     </div>
   );
 }

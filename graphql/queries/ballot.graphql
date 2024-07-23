@@ -1,5 +1,6 @@
 fragment RaceFields on RaceResult {
   id
+  slug
   raceType
   voteType
   title
