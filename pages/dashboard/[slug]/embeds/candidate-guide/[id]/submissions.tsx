@@ -115,7 +115,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
       {
         header: "Candidate",
         accessorKey: "politician.fullName",
-        size: 100,
+        size: 150,
       },
       {
         header: "Response",

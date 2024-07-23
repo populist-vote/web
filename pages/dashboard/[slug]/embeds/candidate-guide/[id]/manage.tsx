@@ -162,6 +162,7 @@ export default function CandidateGuideEmbedPage({ slug }: { slug: string }) {
       {
         header: "Candidate",
         accessorKey: "fullName",
+        size: 150,
       },
       {
         header: "Email",
