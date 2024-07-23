@@ -414,12 +414,17 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
       style={{
         display: "grid",
         gridTemplateColumns: "auto 1fr",
+        alignItems: "center",
       }}
     >
       {!!row.getValue() && (
         <span style={{ marginRight: "1rem" }}>{row.getValue() as string}</span>
       )}
-      {canEdit && <GrEdit onClick={() => setIsOpen(true)} />}
+      {canEdit && (
+        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+          <GrEdit />
+        </button>
+      )}
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div style={{ padding: "1.5rem", width: "32rem" }}>
           <h3>Update email for {row.row.original.fullName}</h3>

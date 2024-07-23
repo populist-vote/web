@@ -4,6 +4,30 @@
 @import "../mixins/utils.scss";
 @import "../mixins/media.scss";
 
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  transition: ease-in-out 0.2s;
+  font-size: 1em;
+  width: fit-content;
+
+  &:hover {
+    background-color: $white-alpha-3;
+    box-shadow: 0 0 2px $blue-text-light;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 .hero {
   margin-top: 0;
   text-align: center;

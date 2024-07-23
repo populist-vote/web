@@ -467,10 +467,9 @@ function ManageQuestionTranslations({ row }: { row: Row<QuestionResult> }) {
 
   return (
     <Tooltip content="Manage translations">
-      <GiWorld
-        color={"var(--blue-text-light)"}
-        onClick={() => setIsOpen(true)}
-      />
+      <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+        <GiWorld color={"var(--blue-text-light)"} />
+      </button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div style={{ padding: "1.5rem", width: "32rem" }}>
           <h3>Translations</h3>
@@ -480,7 +479,7 @@ function ManageQuestionTranslations({ row }: { row: Row<QuestionResult> }) {
               return (
                 <TextInput
                   key={label}
-                  name={`translations.${locale}`}
+                  name={`translations.${locale.code}`}
                   textarea
                   label={label}
                   register={register}
@@ -535,8 +534,8 @@ function QuestionsSection({
           return (
             <div className={styles.flexRight}>
               <Tooltip content="Edit Question">
-                <GrEdit
-                  color="var(--blue-text-light)"
+                <button
+                  className={styles.iconButton}
                   onClick={() => {
                     router
                       .push(
@@ -545,18 +544,22 @@ function QuestionsSection({
                       .catch((e: Error) => toast.error(e.message))
                       .finally(() => setIsModalOpen(true));
                   }}
-                />
+                >
+                  <GrEdit color="var(--blue-text-light)" />
+                </button>
               </Tooltip>
               <ManageQuestionTranslations row={info.row} />
               <Tooltip content="Delete Question">
-                <GrTrash
-                  color="var(--blue-text-light)"
+                <button
+                  className={styles.iconButton}
                   onClick={() =>
                     window.confirm(
                       "Are you sure you want to delete this question?"
                     ) && handleDeleteQuestion(info.row.original.id)
                   }
-                />
+                >
+                  <GrTrash color="var(--blue-text-light)" />
+                </button>
               </Tooltip>
             </div>
           );

@@ -126,7 +126,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
       {
         header: "Last Submitted At",
         accessorKey: "updatedAt",
-        size: 25,
+        size: 150,
         cell: (info) => {
           return new Date(info.getValue() as string).toLocaleDateString();
         },
@@ -256,6 +256,7 @@ function ResponseEditAction({
             questionId: row.row.original.question.id,
             candidateId: row.row.original.politician?.id,
             response: data.response,
+            shouldTranslate: true,
           },
         },
         {
@@ -273,7 +274,7 @@ function ResponseEditAction({
     } catch (error) {
       toast.error("Form submission error");
     } finally {
-      setIsOpen(false);
+      if (!upsertQuestionSubmission.isPending) setIsOpen(false);
     }
   };
 
@@ -286,7 +287,9 @@ function ResponseEditAction({
       }}
     >
       <Tooltip content="Edit Submission">
-        <GrEdit onClick={() => setIsOpen(true)} />
+        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+          <GrEdit />
+        </button>
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div style={{ padding: "1.5rem", width: "32rem" }}>
@@ -370,7 +373,9 @@ function TranslationsManagementAction({
   return (
     <>
       <Tooltip content="Manage translations">
-        <GiWorld onClick={() => setIsOpen(true)} />
+        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+          <GiWorld />
+        </button>
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div style={{ padding: "1.5rem", width: "32rem" }}>
@@ -380,8 +385,8 @@ function TranslationsManagementAction({
               const label = locale.display;
               return (
                 <TextInput
-                  key={label}
-                  name={`translations.${locale}`}
+                  key={locale.code}
+                  name={`translations.${locale.code}`}
                   textarea
                   label={label}
                   register={register}
