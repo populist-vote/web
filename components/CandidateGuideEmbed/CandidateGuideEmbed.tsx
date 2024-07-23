@@ -155,7 +155,7 @@ export function CandidateGuideEmbed({
           )}
         </div>
 
-        <Divider color="var(--grey-light)" />
+        <Divider color="var(--grey-light)" style={{ margin: "1rem 0" }} />
 
         {!selectedQuestion ? (
           <>
@@ -249,7 +249,27 @@ export function CandidateGuideEmbed({
                           {p?.fullName}
                         </span>
                       </div>
-                      <p className={styles.noResponse}>NO RESPONSE</p>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                        }}
+                      >
+                        <p className={styles.noResponse}>NO RESPONSE</p>
+                        {!!p.email && (
+                          <a
+                            href={`mailto:${p.email}`}
+                            target={"_blank"}
+                            rel={"noopener noreferrer"}
+                            className={styles.emailLink}
+                          >
+                            Ask this candidate a question directly.
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </>
                 ))}

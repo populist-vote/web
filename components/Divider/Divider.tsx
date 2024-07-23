@@ -7,12 +7,14 @@ interface DividerProps {
   vertical?: boolean;
   color?: string;
   height?: string;
+  style?: React.CSSProperties;
 }
 
 export function Divider({
   vertical,
   color = "var(--blue-dark)",
   height,
+  style,
 }: DividerProps) {
   const dividerClass = clsx(styles.divider, {
     [styles.vertical as string]: vertical,
@@ -23,6 +25,7 @@ export function Divider({
     border: "none",
     height: "1px",
     backgroundColor: color,
+    ...style,
   };
 
   const verticalStyle = {
@@ -32,6 +35,7 @@ export function Divider({
     margin: "0 8px",
     minHeight: "1.5rem",
     height: height || "100%",
+    ...style,
   };
 
   return (

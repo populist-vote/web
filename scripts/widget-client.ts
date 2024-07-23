@@ -8,7 +8,7 @@
   params.origin = cleanedLocation;
 
   const containerName = `.populist-${attributes.embedId}`;
-  const existingContainer = document.querySelector(containerName);
+  let existingContainer = document.querySelector(containerName);
   const id = existingContainer && existingContainer.id;
   if (id) {
     params.origin = `${cleanedLocation}#${id}`;
@@ -28,7 +28,7 @@
   const iframeElement = document.createElement("iframe");
   const iframeAttributes = {
     class: "populist-frame populist-frame--loading",
-    id: `populist-iframe-${attributes.embedId}`,
+    id: iframeId,
     title: "Populist Widget",
     scrolling: "no",
     allow: "clipboard-write",
@@ -62,17 +62,17 @@
 `;
   document.head.prepend(style);
 
-  // Insert iframe element if none exists
+  // Ensure the container div is created first
   if (!existingContainer) {
-    const iframeContainer = document.createElement("div");
-    iframeContainer.setAttribute("class", containerName);
-    iframeContainer.setAttribute("id", iframeId);
-    iframeContainer.appendChild(iframeElement);
-    script.insertAdjacentElement("afterend", iframeContainer);
-  } else {
-    while (existingContainer.firstChild) existingContainer.firstChild.remove();
-    existingContainer.appendChild(iframeElement);
+    existingContainer = document.createElement("div");
+    existingContainer.setAttribute("class", containerName);
+    existingContainer.setAttribute("id", `container-${iframeId}`);
+    script.insertAdjacentElement("afterend", existingContainer);
   }
+
+  // Clear any existing content and append the iframe
+  while (existingContainer.firstChild) existingContainer.firstChild.remove();
+  existingContainer.appendChild(iframeElement);
 
   // Resize iframe by listening to messages
   window.addEventListener("message", (event) => {

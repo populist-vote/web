@@ -23,7 +23,7 @@
     var iframeElement = document.createElement("iframe");
     var iframeAttributes = {
         class: "populist-frame populist-frame--loading",
-        id: "populist-iframe-".concat(attributes.embedId),
+        id: iframeId,
         title: "Populist Widget",
         scrolling: "no",
         allow: "clipboard-write",
@@ -42,19 +42,17 @@
     style.id = "populist-css";
     style.textContent = "\n  ".concat(containerName, ", .populist-frame {\n    border-radius: 15px;\n    width: 100%;\n  }\n\n  .populist-frame {\n    border: none;\n    color-scheme: light dark;\n  }\n  .populist-frame--loading {\n    opacity: 0;\n  }\n");
     document.head.prepend(style);
-    // Insert iframe element if none exists
+    // Ensure the container div is created first
     if (!existingContainer) {
-        var iframeContainer = document.createElement("div");
-        iframeContainer.setAttribute("class", containerName);
-        iframeContainer.setAttribute("id", iframeId);
-        iframeContainer.appendChild(iframeElement);
-        script.insertAdjacentElement("afterend", iframeContainer);
+        existingContainer = document.createElement("div");
+        existingContainer.setAttribute("class", containerName);
+        existingContainer.setAttribute("id", "container-".concat(iframeId));
+        script.insertAdjacentElement("afterend", existingContainer);
     }
-    else {
-        while (existingContainer.firstChild)
-            existingContainer.firstChild.remove();
-        existingContainer.appendChild(iframeElement);
-    }
+    // Clear any existing content and append the iframe
+    while (existingContainer.firstChild)
+        existingContainer.firstChild.remove();
+    existingContainer.appendChild(iframeElement);
     // Resize iframe by listening to messages
     window.addEventListener("message", function (event) {
         if (event.origin !== populistOrigin)

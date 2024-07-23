@@ -28,6 +28,17 @@
   }
 }
 
+.emailLink {
+  color: $blue !important;
+  transition: ease-in-out 0.3s;
+  font-size: $text-sm;
+
+  &:hover {
+    color: $blue-text !important;
+    text-decoration: dotted underline;
+  }
+}
+
 .titleSection {
   display: flex;
   flex-direction: column;
@@ -46,6 +57,7 @@
     text-transform: uppercase;
     font-weight: 500;
     font-size: 1em;
+    margin: 0;
   }
 }
 
@@ -167,6 +179,12 @@
   font-weight: 400;
   font-size: $text-md;
   font-family: $font-primary;
+}
+
+.widgetContainer {
+  main {
+    padding: 1rem;
+  }
 }
 
 .contentContainer {
