@@ -877,12 +877,9 @@ function CandidateGuideEmbedTable({
         id: "Actions",
         cell: (info) => {
           return (
-            <div className={styles.flexRight}>
-              <Button
-                theme="blue"
-                variant="secondary"
-                size="small"
-                label="Delete"
+            <Tooltip content="Remove Race">
+              <button
+                className={styles.iconButton}
                 onClick={async (e) => {
                   e?.stopPropagation();
                   await confirmDialog(
@@ -894,8 +891,10 @@ function CandidateGuideEmbedTable({
                     )
                   );
                 }}
-              />
-            </div>
+              >
+                <GrTrash color="var(--blue-text-light)" />
+              </button>
+            </Tooltip>
           );
         },
       },
