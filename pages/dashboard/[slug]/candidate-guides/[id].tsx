@@ -877,24 +877,26 @@ function CandidateGuideEmbedTable({
         id: "Actions",
         cell: (info) => {
           return (
-            <Tooltip content="Remove Race">
-              <button
-                className={styles.iconButton}
-                onClick={async (e) => {
-                  e?.stopPropagation();
-                  await confirmDialog(
-                    "Are you sure you want to remove this race from this guide?"
-                  ).then(() =>
-                    handleRemoveRace(
-                      info.row.original.id,
-                      info.row.original.race?.id as string
-                    )
-                  );
-                }}
-              >
-                <GrTrash color="var(--blue-text-light)" />
-              </button>
-            </Tooltip>
+            <div className={styles.flexRight}>
+              <Tooltip content="Remove Race">
+                <button
+                  className={styles.iconButton}
+                  onClick={async (e) => {
+                    e?.stopPropagation();
+                    await confirmDialog(
+                      "Are you sure you want to remove this race from this guide?"
+                    ).then(() =>
+                      handleRemoveRace(
+                        info.row.original.id,
+                        info.row.original.race?.id as string
+                      )
+                    );
+                  }}
+                >
+                  <GrTrash color="var(--blue-text-light)" />
+                </button>
+              </Tooltip>
+            </div>
           );
         },
       },
