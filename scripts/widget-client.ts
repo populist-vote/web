@@ -65,15 +65,23 @@
 
   // Ensure the container div is created first
   if (!existingContainer) {
-    existingContainer = document.createElement("div");
-    existingContainer.setAttribute("class", containerName);
-    existingContainer.setAttribute("id", `container-${iframeId}`);
-    script.insertAdjacentElement("afterend", existingContainer);
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === "childList") {
+          existingContainer = document.querySelector(containerName);
+          if (existingContainer) {
+            observer.disconnect();
+            existingContainer.appendChild(iframeElement);
+            break;
+          }
+        }
+      }
+    });
   }
 
   // Clear any existing content and append the iframe
-  while (existingContainer.firstChild) existingContainer.firstChild.remove();
-  existingContainer.appendChild(iframeElement);
+  while (existingContainer?.firstChild) existingContainer?.firstChild.remove();
+  existingContainer?.appendChild(iframeElement);
 
   // Resize iframe by listening to messages
   window.addEventListener("message", (event) => {
