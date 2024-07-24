@@ -1,5 +1,6 @@
 (function () {
     var script = document.currentScript;
+    script.defer = true;
     var populistOrigin = new URL(script.src).origin;
     var attributes = script.dataset;
     var params = {};
@@ -44,15 +45,24 @@
     document.head.prepend(style);
     // Ensure the container div is created first
     if (!existingContainer) {
-        existingContainer = document.createElement("div");
-        existingContainer.setAttribute("class", containerName);
-        existingContainer.setAttribute("id", "container-".concat(iframeId));
-        script.insertAdjacentElement("afterend", existingContainer);
+        var observer_1 = new MutationObserver(function (mutations) {
+            for (var _i = 0, mutations_1 = mutations; _i < mutations_1.length; _i++) {
+                var mutation = mutations_1[_i];
+                if (mutation.type === "childList") {
+                    existingContainer = document.querySelector(containerName);
+                    if (existingContainer) {
+                        observer_1.disconnect();
+                        existingContainer.appendChild(iframeElement);
+                        break;
+                    }
+                }
+            }
+        });
     }
     // Clear any existing content and append the iframe
-    while (existingContainer.firstChild)
-        existingContainer.firstChild.remove();
-    existingContainer.appendChild(iframeElement);
+    while (existingContainer === null || existingContainer === void 0 ? void 0 : existingContainer.firstChild)
+        existingContainer === null || existingContainer === void 0 ? void 0 : existingContainer.firstChild.remove();
+    existingContainer === null || existingContainer === void 0 ? void 0 : existingContainer.appendChild(iframeElement);
     // Resize iframe by listening to messages
     window.addEventListener("message", function (event) {
         if (event.origin !== populistOrigin)

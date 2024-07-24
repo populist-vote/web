@@ -7,6 +7,7 @@ import {
   RaceResult,
   useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
+  useOrganizationBySlugQuery,
   VoteType,
 } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
@@ -38,7 +39,10 @@ export function CandidateGuideEmbed({
   origin: string;
   renderOptions: CandidateGuideRenderOptions;
 }) {
-  const { locale } = useRouter();
+  const { query, locale } = useRouter();
+  const slug = query.slug as string;
+  const { data: organizationData } = useOrganizationBySlugQuery({ slug });
+  const organization = organizationData?.organizationBySlug;
   const { data: embedData, isLoading: embedLoading } =
     useCandidateGuideEmbedByIdQuery(
       {
@@ -231,48 +235,68 @@ export function CandidateGuideEmbed({
                     </div>
                   </>
                 ))}
-                {politiciansWithNoSubmissions?.map((p) => (
-                  <>
-                    <div key={p.id} className={styles.submission}>
-                      <div className={styles.avatarContainer}>
-                        <PartyAvatar
-                          theme={"light"}
-                          size={80}
-                          iconSize="1.25rem"
-                          party={p?.party as PoliticalParty}
-                          src={p?.assets?.thumbnailImage160 as string}
-                          alt={p?.fullName as string}
-                          target={"_blank"}
-                          rel={"noopener noreferrer"}
-                        />
-                        <span className={clsx(styles.link, styles.avatarName)}>
-                          {p?.fullName}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          gap: "0.5rem",
-                        }}
-                      >
-                        <p className={styles.noResponse}>NO RESPONSE</p>
-                        {!!p.email && (
-                          <a
-                            href={`mailto:${p.email}`}
+                {politiciansWithNoSubmissions?.map((p) => {
+                  const subject = `Please respond to the ${organization?.name} Q&A`;
+                  const body = `Dear ${p?.fullName},
+
+It was unfortunate to see your submission was missing. I am interested in hearing your responses to the ${organization?.name} survey prior to making my decision for the ${race?.office.name} election. Here are the questions that ${organization?.name} asks:
+
+${embedData?.embedById.candidateGuide?.questions.map((q) => q.prompt).join("\n")}
+
+Thank you for your consideration.
+
+`;
+                  const encodedSubject = encodeURIComponent(subject);
+                  const encodedBody = encodeURIComponent(body);
+                  const cc = organization?.email
+                    ? `&cc=${organization?.email}`
+                    : "";
+                  const mailto = `mailto:${p?.email}?subject=${encodedSubject}&body=${encodedBody}${cc}`;
+                  return (
+                    <>
+                      <div key={p.id} className={styles.submission}>
+                        <div className={styles.avatarContainer}>
+                          <PartyAvatar
+                            theme={"light"}
+                            size={80}
+                            iconSize="1.25rem"
+                            party={p?.party as PoliticalParty}
+                            src={p?.assets?.thumbnailImage160 as string}
+                            alt={p?.fullName as string}
                             target={"_blank"}
                             rel={"noopener noreferrer"}
-                            className={styles.emailLink}
+                          />
+                          <span
+                            className={clsx(styles.link, styles.avatarName)}
                           >
-                            Ask this candidate a question directly.
-                          </a>
-                        )}
+                            {p?.fullName}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "0.5rem",
+                          }}
+                        >
+                          <p className={styles.noResponse}>NO RESPONSE</p>
+                          {!!p.email && (
+                            <a
+                              href={mailto}
+                              target={"_blank"}
+                              rel={"noopener noreferrer"}
+                              className={styles.emailLink}
+                            >
+                              Ask this candidate a question directly.
+                            </a>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </>
-                ))}
+                    </>
+                  );
+                })}
               </div>
             </div>
           </div>

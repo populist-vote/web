@@ -116,6 +116,7 @@ input BeginUserRegistrationInput {
   password: String!
 }
 
+"""Legiscan Bill object"""
 type Bill {
   amendments: [BillAmendment!]!
   billId: Int!

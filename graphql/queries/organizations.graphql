@@ -4,6 +4,7 @@ fragment organizationFields on OrganizationResult {
   slug
   description
   thumbnailImageUrl
+  email
   assets {
     thumbnailImage160
     thumbnailImage400
