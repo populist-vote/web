@@ -1,5 +1,6 @@
 (function () {
   const script = document.currentScript as HTMLScriptElement;
+  script.defer = true;
   const populistOrigin = new URL(script.src).origin;
   const attributes = script.dataset;
   const params: Record<string, string> = {};
