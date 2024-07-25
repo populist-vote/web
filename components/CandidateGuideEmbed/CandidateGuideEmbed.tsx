@@ -13,7 +13,7 @@ import {
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
 import { getYear } from "utils/dates";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BsChevronLeft } from "react-icons/bs";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import clsx from "clsx";
@@ -39,7 +39,8 @@ export function CandidateGuideEmbed({
   origin: string;
   renderOptions: CandidateGuideRenderOptions;
 }) {
-  const { query, locale } = useRouter();
+  const router = useRouter();
+  const { query, locale } = router;
   const slug = query.slug as string;
   const { data: organizationData } = useOrganizationBySlugQuery({ slug });
   const organization = organizationData?.organizationBySlug;
@@ -111,6 +112,15 @@ export function CandidateGuideEmbed({
   );
 
   const { t } = useTranslation("embeds");
+
+  const submissionsContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToTopOfSubmissions = () => {
+    submissionsContainerRef.current?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEmbedResizer({ origin, embedId });
 
@@ -192,19 +202,22 @@ export function CandidateGuideEmbed({
         ) : (
           <div className={styles.contentContainer}>
             <div className={styles.questionHeader}>
-              <h4 className={styles.questionsTitle}>{t("questions")}</h4>
               <button
                 className={styles.backButton}
                 onClick={() => setSelectedQuestionId(null)}
               >
-                <BsChevronLeft size={"0.75rem"} /> Back
+                {selectedQuestionId && <BsChevronLeft size={"0.75rem"} />}
+                <h4 className={styles.questionsTitle}>{t("questions")}</h4>
               </button>
             </div>
             <div className={styles.question}>
               <h3>{selectedQuestion.prompt}</h3>
             </div>
             <div className={styles.overflowGradient}>
-              <div className={styles.submissionsContainer}>
+              <div
+                className={styles.submissionsContainer}
+                ref={submissionsContainerRef}
+              >
                 {submissions.map((s) => (
                   <>
                     <div key={s.id} className={styles.submission}>
@@ -296,6 +309,24 @@ Thank you for your consideration.
                     </>
                   );
                 })}
+
+                {embedData?.embedById.candidateGuide?.questions
+                  .filter((q) => q.id !== selectedQuestionId)
+                  .map((q) => (
+                    <button
+                      className={styles.questionButton}
+                      key={q.id}
+                      onClick={() => {
+                        setSelectedQuestionId(q.id);
+                        scrollToTopOfSubmissions();
+                      }}
+                    >
+                      {locale && !!q.translations && q.translations[locale]
+                        ? q.translations[locale]
+                        : q.prompt}
+                    </button>
+                  ))}
+                <br />
               </div>
             </div>
           </div>

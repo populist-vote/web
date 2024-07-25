@@ -87,11 +87,6 @@
   overflow: auto;
 }
 
-.questionsTitle {
-  margin-bottom: 0.5rem !important;
-  font-size: 0.8em;
-}
-
 .raceContainer {
   margin: 0 0 1.25rem;
   display: flex;
@@ -105,7 +100,7 @@
 
 .backButton {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: center;
   gap: 0.3rem;
   font-size: 0.8em;
@@ -113,8 +108,12 @@
   font-family: $font-primary;
   border: none;
   cursor: pointer;
-  margin-top: -1px;
-  padding: 0;
+  margin-bottom: 0.5rem;
+
+  &:hover {
+    color: $blue-text;
+    text-decoration: dotted underline;
+  }
 }
 
 .submissionsContainer {
