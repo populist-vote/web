@@ -239,13 +239,12 @@ export function CandidateGuideEmbed({
                   const subject = `Please respond to the ${organization?.name} Q&A`;
                   const body = `Dear ${p?.fullName},
 
-It was unfortunate to see your submission was missing. I am interested in hearing your responses to the ${organization?.name} survey prior to making my decision for the ${race?.office.name} election. Here are the questions that ${organization?.name} asks:
+It was unfortunate to see your submission was missing from the ${organization?.name} and Populist candidate Q&A survey. I am interested in hearing your responses prior to making my decision for the ${race?.office.name} election. The survey allows candidates to express in their own words why they are running for office. Here are the questions that ${organization?.name}  asks:
 
-${embedData?.embedById.candidateGuide?.questions.map((q) => q.prompt).join("\n")}
+${embedData?.embedById.candidateGuide?.questions.map((q, index) => `${index + 1}. ${q.prompt}`).join("\n")}
 
 Thank you for your consideration.
-
-`;
+                  `;
                   const encodedSubject = encodeURIComponent(subject);
                   const encodedBody = encodeURIComponent(body);
                   const cc = organization?.email
