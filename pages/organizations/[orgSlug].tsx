@@ -26,7 +26,7 @@ import { toast } from "react-toastify";
 function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   const isSmallScreen = useMediaQuery("(max-width: 968px)");
   const { query } = useRouter();
-  const slug = query.slug as string;
+  const slug = query.orgSlug as string;
   const { data, isLoading, error } = useOrganizationBySlugQuery({ slug });
 
   if (isLoading) return <LoaderFlag />;
@@ -161,18 +161,18 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
 export default OrganizationPage;
 
 interface Params extends NextParsedUrlQuery {
-  slug: string;
+  orgSlug: string;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale, params } = ctx;
-  const { slug } = params as Params;
+  const { orgSlug } = params as Params;
 
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: useOrganizationBySlugQuery.getKey({ slug }),
-    queryFn: useOrganizationBySlugQuery.fetcher({ slug }),
+    queryKey: useOrganizationBySlugQuery.getKey({ slug: orgSlug }),
+    queryFn: useOrganizationBySlugQuery.fetcher({ slug: orgSlug }),
   });
   const state = dehydrate(queryClient);
 
