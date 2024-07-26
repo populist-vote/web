@@ -229,13 +229,15 @@ function DashboardLink() {
   const dashboardSlug = router.query.dashboardSlug;
   const { user } = useAuth();
 
+  const hasOrgs = user.organizations.length > 0;
+
   const { data: userData, isLoading: isAvailableOrgsDataLoading } =
     useAvailableOrganizationsByUserQuery(
       {
         userId: user.id,
       },
       {
-        enabled: !!user,
+        enabled: !!user && hasOrgs,
       }
     );
 
@@ -245,9 +247,11 @@ function DashboardLink() {
         slug: dashboardSlug as string,
       },
       {
-        enabled: !!dashboardSlug,
+        enabled: !!dashboardSlug && hasOrgs,
       }
     );
+
+  if (!hasOrgs) return null;
 
   const organization =
     organizationData?.organizationBySlug ||
