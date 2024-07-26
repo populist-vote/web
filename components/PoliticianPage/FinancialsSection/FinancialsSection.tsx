@@ -12,7 +12,7 @@ import styles from "./FinancialsSection.module.scss";
 function FinancialsSection() {
   const { query } = useRouter();
   const { data, isLoading } = usePoliticianFinancialsQuery({
-    slug: query.slug as string,
+    slug: query.politicianSlug as string,
   });
 
   const { donationsSummary, donationsByIndustry } =

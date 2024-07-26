@@ -37,7 +37,7 @@ function ElectionInfoSection() {
   const { query } = useRouter();
   const sectionCx = clsx(styles.center, styles.borderTop, styles.wrapper);
   const { data, isLoading } = usePoliticianElectionInfoQuery({
-    slug: query.slug as string,
+    slug: query.politicianSlug as string,
   });
   const politicianId = data?.politicianBySlug?.id;
   const upcomingRace = data?.politicianBySlug?.upcomingRace;

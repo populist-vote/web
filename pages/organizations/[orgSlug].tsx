@@ -27,7 +27,12 @@ function OrganizationPage({ mobileNavTitle }: { mobileNavTitle: string }) {
   const isSmallScreen = useMediaQuery("(max-width: 968px)");
   const { query } = useRouter();
   const slug = query.orgSlug as string;
-  const { data, isLoading, error } = useOrganizationBySlugQuery({ slug });
+  const { data, isLoading, error } = useOrganizationBySlugQuery(
+    { slug },
+    {
+      enabled: !!slug,
+    }
+  );
 
   if (isLoading) return <LoaderFlag />;
 

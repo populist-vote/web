@@ -23,9 +23,9 @@
     "**/*.ts",
     "**/*.tsx",
     "next.config.js",
-    "pages/politicians/[slug]",
+    "pages/politicians/[politicianSlug]",
     "pages/elections/browse/[state]",
-    "pages/dashboard/[slug]/embeds/candidate-guide/[id]",
+    "pages/dashboard/[dashboardSlug]/embeds/candidate-guide/[id]",
     "deploy.mjs"
   ],
   "exclude": ["node_modules", "./scripts/widget-client.ts"]

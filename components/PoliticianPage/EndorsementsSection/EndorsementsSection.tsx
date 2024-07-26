@@ -76,7 +76,7 @@ function PoliticianEndorsement({
 function EndorsementsSection() {
   const { query } = useRouter();
   const { data, isLoading } = usePoliticianEndorsementsQuery({
-    slug: query.slug as string,
+    slug: query.politicianSlug as string,
   });
 
   const endorsements = data?.politicianBySlug?.endorsements;

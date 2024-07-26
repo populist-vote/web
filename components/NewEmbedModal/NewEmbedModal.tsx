@@ -11,17 +11,22 @@ import { useEffect } from "react";
 export function NewEmbedModal({
   isOpen,
   onClose,
-  slug,
+  dashboardSlug,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  slug: string;
+  dashboardSlug: string;
 }) {
   const router = useRouter();
 
-  const { data: organizationData } = useOrganizationBySlugQuery({
-    slug: slug as string,
-  });
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: dashboardSlug as string,
+    },
+    {
+      enabled: !!dashboardSlug,
+    }
+  );
 
   const organizationId = organizationData?.organizationBySlug?.id;
 
@@ -47,7 +52,7 @@ export function NewEmbedModal({
       {
         onSuccess: (data) => {
           void router.push(
-            `/dashboard/${slug}/candidate-guides/${data.upsertCandidateGuide.id}`
+            `/dashboard/${dashboardSlug}/candidate-guides/${data.upsertCandidateGuide.id}`
           );
         },
       }
@@ -76,43 +81,43 @@ export function NewEmbedModal({
           }}
         >
           <Link
-            href="/dashboard/[slug]/embeds/legislation/new"
-            as={`/dashboard/${slug}/embeds/legislation/new`}
+            href="/dashboard/[dashboardSlug]/embeds/legislation/new"
+            as={`/dashboard/${dashboardSlug}/embeds/legislation/new`}
           >
             <Button variant="super" size="large" label="Legislation" />
           </Link>
 
           <Link
-            href="/dashboard/[slug]/embeds/legislation-tracker/new"
-            as={`/dashboard/${slug}/embeds/legislation-tracker/new`}
+            href="/dashboard/[dashboardSlug]/embeds/legislation-tracker/new"
+            as={`/dashboard/${dashboardSlug}/embeds/legislation-tracker/new`}
           >
             <Button variant="super" size="large" label="Legislation Tracker" />
           </Link>
 
           <Link
-            href="/dashboard/[slug]/embeds/politician/new"
-            as={`/dashboard/${slug}/embeds/politician/new`}
+            href="/dashboard/[dashboardSlug]/embeds/politician/new"
+            as={`/dashboard/${dashboardSlug}/embeds/politician/new`}
           >
             <Button variant="super" size="large" label="Politician" />
           </Link>
 
           <Link
-            href="/dashboard/[slug]/embeds/race/new"
-            as={`/dashboard/${slug}/embeds/race/new`}
+            href="/dashboard/[dashboardSlug]/embeds/race/new"
+            as={`/dashboard/${dashboardSlug}/embeds/race/new`}
           >
             <Button variant="super" size="large" label="Race" />
           </Link>
 
           <Link
-            href="/dashboard/[slug]/embeds/question/new"
-            as={`/dashboard/${slug}/embeds/question/new`}
+            href="/dashboard/[dashboardSlug]/embeds/question/new"
+            as={`/dashboard/${dashboardSlug}/embeds/question/new`}
           >
             <Button variant="super" size="large" label="Question" />
           </Link>
 
           <Link
-            href="/dashboard/[slug]/embeds/poll/new"
-            as={`/dashboard/${slug}/embeds/poll/new`}
+            href="/dashboard/[dashboardSlug]/embeds/poll/new"
+            as={`/dashboard/${dashboardSlug}/embeds/poll/new`}
           >
             <Button variant="super" size="large" label="Poll" />
           </Link>

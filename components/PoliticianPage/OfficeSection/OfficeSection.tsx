@@ -8,7 +8,7 @@ function OfficeSection() {
   const cx = clsx(styles.center, styles.borderTop);
   const { query } = useRouter();
   const { data, isLoading } = usePoliticianCurrentOfficeQuery({
-    slug: query.slug as string,
+    slug: query.politicianSlug as string,
   });
 
   const officeTitle = data?.politicianBySlug?.currentOffice?.title;

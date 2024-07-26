@@ -36,15 +36,15 @@ function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
                 ratingPercent > 80
                   ? "var(--green-support)"
                   : ratingPercent > 50
-                  ? "var(--yellow)"
-                  : "var(--red)"
+                    ? "var(--yellow)"
+                    : "var(--red)"
               }`,
               color: `${
                 ratingPercent > 80
                   ? "var(--white)"
                   : ratingPercent > 50
-                  ? "var(--blue-darkest)"
-                  : "var(--white)"
+                    ? "var(--blue-darkest)"
+                    : "var(--white)"
               }`,
             }}
           >
@@ -63,7 +63,7 @@ function RatingsItem({ rating }: { rating: RatingResult; itemId: string }) {
 function RatingsSection() {
   const { query } = useRouter();
   const { data, isLoading } = usePoliticianRatingsQuery({
-    slug: query.slug as string,
+    slug: query.politicianSlug as string,
   });
   if (isLoading) return <LoaderFlag />;
 

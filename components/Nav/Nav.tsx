@@ -226,18 +226,8 @@ function DesktopNav({
 
 function DashboardLink() {
   const router = useRouter();
-  const slug = router.query.slug;
+  const dashboardSlug = router.query.dashboardSlug;
   const { user } = useAuth();
-
-  const { data: organizationData, isLoading: isOrganizationDataLoading } =
-    useOrganizationBySlugQuery(
-      {
-        slug: slug as string,
-      },
-      {
-        enabled: !!slug,
-      }
-    );
 
   const { data: userData, isLoading: isAvailableOrgsDataLoading } =
     useAvailableOrganizationsByUserQuery(
@@ -249,14 +239,24 @@ function DashboardLink() {
       }
     );
 
+  const { data: organizationData, isLoading: isOrganizationDataLoading } =
+    useOrganizationBySlugQuery(
+      {
+        slug: dashboardSlug as string,
+      },
+      {
+        enabled: !!dashboardSlug,
+      }
+    );
+
   const organization =
     organizationData?.organizationBySlug ||
     userData?.userProfile.availableOrganizations[0];
 
   const availableOrganizations = userData?.userProfile.availableOrganizations;
 
-  const handleOrganizationContextChange = async (slug: string) => {
-    await router.push(`/dashboard/${slug}`);
+  const handleOrganizationContextChange = async (dashboardSlug: string) => {
+    await router.push(`/dashboard/${dashboardSlug}`);
   };
 
   if (

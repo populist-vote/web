@@ -33,7 +33,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   PoliticianAvatar,
   PoliticianBasicsForm,
-} from "pages/politicians/[slug]/edit";
+} from "pages/politicians/[politicianSlug]/edit";
 
 export default function CandidateGuideIntake() {
   const router = useRouter();

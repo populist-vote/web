@@ -12,11 +12,11 @@ export function EmbedPageTabs({
   selectedTab?: string;
 }) {
   const router = useRouter();
-  const { slug, id } = router.query;
+  const { dashboardSlug, id } = router.query;
   const tabs = ["Manage", "Submissions"];
   const onChange = (tab: string) => {
     void router.push(
-      `/dashboard/${slug}/embeds/${kebabCase(embedType.toLowerCase())}/${id}/${tab.toLowerCase()}`
+      `/dashboard/${dashboardSlug}/embeds/${kebabCase(embedType.toLowerCase())}/${id}/${tab.toLowerCase()}`
     );
   };
 

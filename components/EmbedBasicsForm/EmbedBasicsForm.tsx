@@ -106,14 +106,14 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const router = useRouter();
   const upsertEmbed = useUpsertEmbedMutation();
   const queryClient = useQueryClient();
-  const slug = router.query.slug as string;
+  const dashboardSlug = router.query.dashboardSlug as string;
 
   const { data, isLoading } = useOrganizationBySlugQuery(
     {
-      slug,
+      slug: dashboardSlug,
     },
     {
-      enabled: !!slug,
+      enabled: !!dashboardSlug,
     }
   );
 

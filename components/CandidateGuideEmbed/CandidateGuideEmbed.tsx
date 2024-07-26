@@ -41,8 +41,15 @@ export function CandidateGuideEmbed({
 }) {
   const router = useRouter();
   const { query, locale } = router;
-  const slug = query.slug as string;
-  const { data: organizationData } = useOrganizationBySlugQuery({ slug });
+  const dashboardSlug = query.dashboardSlug as string;
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: dashboardSlug,
+    },
+    {
+      enabled: !!dashboardSlug,
+    }
+  );
   const organization = organizationData?.organizationBySlug;
   const { data: embedData, isLoading: embedLoading } =
     useCandidateGuideEmbedByIdQuery(

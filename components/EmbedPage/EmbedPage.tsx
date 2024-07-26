@@ -14,10 +14,10 @@ import styles from "./EmbedPage.module.scss";
 import { Button } from "components/Button/Button";
 import { useRouter } from "next/router";
 import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
-import { QuestionEmbedForm } from "pages/dashboard/[slug]/embeds/question/new";
+import { QuestionEmbedForm } from "pages/dashboard/[dashboardSlug]/embeds/question/new";
 import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
-import { PollEmbedForm } from "pages/dashboard/[slug]/embeds/poll/new";
+import { PollEmbedForm } from "pages/dashboard/[dashboardSlug]/embeds/poll/new";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { RaceWidget } from "components/RaceWidget/RaceWidget";
@@ -180,8 +180,8 @@ export function DeleteEmbedButton({
         {
           onSuccess: () => {
             void router.push({
-              pathname: `/dashboard/[slug]/embeds/${embedType.toLowerCase()}`,
-              query: { slug: router.query.slug },
+              pathname: `/dashboard/[dashboardSlug]/embeds/${embedType.toLowerCase()}`,
+              query: { slug: router.query.dashboardSlug },
             });
             toast("Embed deleted", {
               type: "success",

@@ -9,7 +9,7 @@ import styles from "./BioSection.module.scss";
 function BioSection() {
   const { query } = useRouter();
   const { data, isLoading } = usePoliticianBioQuery({
-    slug: query.slug as string,
+    slug: query.politicianSlug as string,
   });
   const { biography, biographySource } = data?.politicianBySlug || {};
   if (isLoading) return <LoaderFlag />;

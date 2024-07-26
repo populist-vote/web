@@ -81,7 +81,7 @@ function ActivityTiles({
             <Box key={embedType}>
               <div className={styles.tile}>
                 <Link
-                  href={`/dashboard/${query.slug}/embeds/${embedType
+                  href={`/dashboard/${query.dashboardSlug}/embeds/${embedType
                     .replace("_", "-")
                     .toLowerCase()}`}
                   passHref
@@ -142,7 +142,7 @@ function ActivityTiles({
 
 function RecentDeployments({ organizationId }: { organizationId: string }) {
   const router = useRouter();
-  const slug = router.query.slug as string;
+  const dashboardSlug = router.query.dashboardSlug as string;
 
   const { data, isLoading } = useEmbedsDeploymentsQuery({
     id: organizationId,
@@ -197,7 +197,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                       onClick={async (e) => {
                         e.stopPropagation();
                         await router.push(
-                          `/dashboard/${slug}/embeds/${deployment.embedType.toLowerCase()}/${deployment.embedId}/manage`
+                          `/dashboard/${dashboardSlug}/embeds/${deployment.embedType.toLowerCase()}/${deployment.embedId}/manage`
                         );
                       }}
                     />

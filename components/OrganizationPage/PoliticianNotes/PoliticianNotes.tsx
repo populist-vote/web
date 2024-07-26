@@ -44,7 +44,7 @@ function PoliticianNote({ politician, notes }: PoliticianNoteProps) {
 
 function PoliticianNotes() {
   const router = useRouter();
-  const slug = router.query.slug as string;
+  const slug = router.query.orgSlug as string;
   const { i18n } = useTranslation();
   const electionQuery = useElectionBySlugQuery({
     slug: "general-election-2022",

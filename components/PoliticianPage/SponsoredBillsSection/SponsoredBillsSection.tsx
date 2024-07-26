@@ -8,7 +8,7 @@ import styles from "./SponsoredBillsSection.module.scss";
 function SponsoredBillsSection() {
   const { query } = useRouter();
   const { data, isLoading } = usePoliticianSponsoredBillsQuery({
-    slug: query.slug as string,
+    slug: query.politicianSlug as string,
   });
 
   const sponsoredBills = data?.politicianBySlug?.sponsoredBills;
