@@ -8,16 +8,17 @@ import { useMemo } from "react";
 function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
   const office = races[0]?.office;
 
-  const incumbentIds = office?.incumbents?.map((i) => i.id) || [];
+  const sortedRaces = useMemo(() => {
+    const incumbentIds = office?.incumbents?.map((i) => i.id) || [];
 
-  // Display race that has incumbent first
-  const raceSortFn = (a: RaceResult, b: RaceResult) =>
-    a.candidates.some((politician) => incumbentIds.includes(politician.id)) &&
-    !b.candidates.some((politician) => incumbentIds.includes(politician.id))
-      ? -1
-      : 1;
-
-  const sortedRaces = useMemo(() => races.sort(raceSortFn), []);
+    // Display race that has incumbent first
+    const raceSortFn = (a: RaceResult, b: RaceResult) =>
+      a.candidates.some((politician) => incumbentIds.includes(politician.id)) &&
+      !b.candidates.some((politician) => incumbentIds.includes(politician.id))
+        ? -1
+        : 1;
+    return races.sort(raceSortFn);
+  }, [races, office]);
 
   const headerCx = clsx(
     styles.bold,
