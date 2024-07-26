@@ -1,5 +1,4 @@
 import { Layout } from "components";
-import * as Separator from "@radix-ui/react-separator";
 import { BillStatus, PoliticalScope, PopularitySort, State } from "generated";
 import { ReactNode } from "react";
 import Link from "next/link";
@@ -16,6 +15,7 @@ import {
   MobileTabs,
   TopNav,
   BillFiltersMobile,
+  BillResults,
   BillSearchAndFilters,
 } from "components";
 
@@ -23,7 +23,6 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBillFilters } from "hooks/useBillFilters";
 
 import styles from "./BillIndex.module.scss";
-import { BillResultsTable } from "components/BillResultsTable/BillResultsTable";
 
 export async function getServerSideProps({
   locale,
@@ -64,35 +63,24 @@ export type BillIndexProps = {
 function BillIndex(props: BillIndexProps) {
   const router = useRouter();
   const { query } = router;
-  const { scope = PoliticalScope.Federal } = query;
+  const { scope = PoliticalScope.State } = query;
   const { showFilters = "false" } = props.query || query;
   const isMobile = useMediaQuery("(max-width: 896px)");
+
   const showFiltersParam = showFilters === "true";
   const { handleScopeFilter } = useBillFilters();
-  const theme = scope === PoliticalScope.State ? "yellow" : "aqua";
 
-  if (showFiltersParam && isMobile) return <BillFiltersMobile {...props} />;
+  if (showFiltersParam && isMobile)
+    return (
+      <Layout mobileNavTitle="Legislation">
+        <BillFiltersMobile {...props} />
+      </Layout>
+    );
 
   return (
     <>
       <TopNav>
         <ul>
-          <li
-            data-selected={scope === PoliticalScope.Federal}
-            data-color="aqua"
-          >
-            <Link
-              href={{
-                pathname: "/bills",
-                query: {
-                  ...query,
-                  scope: PoliticalScope.Federal,
-                },
-              }}
-            >
-              Federal
-            </Link>
-          </li>
           <li
             data-selected={scope === PoliticalScope.State}
             data-color="yellow"
@@ -109,27 +97,31 @@ function BillIndex(props: BillIndexProps) {
               State
             </Link>
           </li>
+          <li
+            data-selected={scope === PoliticalScope.Federal}
+            data-color="aqua"
+          >
+            <Link
+              href={{
+                pathname: "/bills",
+                query: {
+                  ...query,
+                  scope: PoliticalScope.Federal,
+                },
+              }}
+            >
+              Federal
+            </Link>
+          </li>
         </ul>
       </TopNav>
       <div className={styles.container}>
         <div className={styles.desktopOnly}>
           <section>
-            <BillSearchAndFilters
-              theme={scope === PoliticalScope.State ? "yellow" : "aqua"}
-            />
+            <BillSearchAndFilters />
           </section>
         </div>
-        <div style={{ marginBottom: "3rem", width: "100%" }}>
-          <BillResultsTable theme={theme} />
-        </div>
-        <Separator.Root
-          className={styles.SeparatorRoot}
-          decorative
-          style={{
-            height: "2px",
-            backgroundColor: `var(--${theme})`,
-          }}
-        />
+        <BillResults />
         <PopularBills />
       </div>
       <div>

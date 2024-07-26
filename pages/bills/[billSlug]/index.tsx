@@ -7,8 +7,6 @@ import nextI18nextConfig from "next-i18next.config";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { BsChevronLeft } from "react-icons/bs";
-import { splitAtDigitAndJoin } from "utils/strings";
-import clsx from "clsx";
 
 import {
   IssueTags,
@@ -19,7 +17,6 @@ import {
   LegislationStatusBox,
   Button,
   SupportOppose,
-  ColoredSection,
 } from "components";
 import { CommitteeTag } from "components/PoliticianPage/CommitteesSection/CommitteesSection";
 import { SupportedLocale } from "types/global";
@@ -29,11 +26,9 @@ import {
   BillBySlugQuery,
   useBillBySlugQuery,
   IssueTagResult,
-  BillVote,
 } from "generated";
 
 import styles from "./BillBySlug.module.scss";
-import { BillVotes } from "components/BillVotes/BillVotes";
 
 interface Params extends NextParsedUrlQuery {
   billSlug: string;
@@ -47,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   await queryClient.prefetchQuery({
     queryKey: useBillBySlugQuery.getKey({ slug: billSlug }),
-    queryFn: useBillBySlugQuery.fetcher({ slug: billSlug }),
+    queryFn: () => useBillBySlugQuery.fetcher({ slug: billSlug }),
   });
   const state = dehydrate(queryClient);
 
@@ -69,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
   const router = useRouter();
-  const slug = router.query.billSlug as string;
+  const slug = router.query.slug as string;
 
   const { data, isLoading, error } = useBillBySlugQuery({ slug });
 
@@ -112,87 +107,78 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
       <Layout mobileNavTitle={mobileNavTitle} showNavLogoOnMobile>
         <nav className={styles.pageHeader}>
           <button className={styles.backLink} onClick={backAction}>
-            <BsChevronLeft size={"1.875rem"} />
-            <span>{bill.billNumber}</span>
+            <BsChevronLeft size={"1.875rem"} /> <span>{bill.billNumber}</span>
           </button>
           <div className={styles.supportOpposeDesktopContainer}>
             {$supportOppose}
           </div>
         </nav>
-        <div className={styles.flagSectionContainer}>
-          <FlagSection label={bill?.session?.name ?? ""} hideFlagForMobile>
-            <div className={styles.billContainer}>
-              <header>
-                <h3>
-                  {bill.state || "U.S."} -{" "}
-                  {splitAtDigitAndJoin(bill?.billNumber || "")}
-                </h3>
-                <h1>{bill?.populistTitle ?? bill?.title}</h1>
-                {bill?.issueTags && (
-                  <IssueTags tags={bill.issueTags as IssueTagResult[]} />
-                )}
-              </header>
-
-              <section className={styles.statusAndVotesSection}>
-                <div className={styles.statusSection}>
-                  <h4>Status</h4>
-                  <LegislationStatusBox status={bill.status} />
-                </div>
-
-                <BillVotes
-                  votes={(bill.legiscanData?.votes as BillVote[]) || []}
-                />
-              </section>
-
-              {summary && (
-                <section className={styles.center}>
-                  <ReactMarkdown>{summary}</ReactMarkdown>
-                </section>
+        <FlagSection
+          label={bill?.session?.name ?? ""}
+          hideFlagForMobile
+          style={{ marginTop: "9rem" }}
+        >
+          <div className={styles.billContainer}>
+            <header>
+              <h3>{bill?.billNumber}</h3>
+              <h1>{bill?.title}</h1>
+              {bill?.issueTags && (
+                <IssueTags tags={bill.issueTags as IssueTagResult[]} />
               )}
+            </header>
 
-              {bill?.fullTextUrl && (
-                <section
-                  className={clsx(styles.fullTextSection, styles.center)}
-                >
-                  <a
-                    href={bill?.fullTextUrl}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <Button
-                      variant="secondary"
-                      size="medium"
-                      label="Full text"
-                      width="10rem"
-                    />
-                  </a>
-                </section>
-              )}
-
+            <section className={styles.statusAndCommitteesSection}>
+              <div className={styles.statusSection}>
+                <h4>Status</h4>
+                <LegislationStatusBox status={bill.status} />
+              </div>
               {bill?.legiscanCommitteeName && (
                 <div className={styles.committeesSection}>
-                  <h4>Committees</h4>
+                  <h4>Committee</h4>
                   <CommitteeTag tag={{ text: bill.legiscanCommitteeName }} />
                 </div>
               )}
+            </section>
 
-              {bill?.sponsors && bill.sponsors.length > 0 && (
-                <ColoredSection color="var(--blue)">
-                  <h2 className={styles.gradientHeader}>Sponsors</h2>
-                  <div className={styles.sponsorsWrapper}>
-                    {bill.sponsors.map((sponsor) => (
-                      <Candidate
-                        key={sponsor.id}
-                        itemId={sponsor.id}
-                        candidate={sponsor as PoliticianResult}
-                      />
-                    ))}
-                  </div>
-                </ColoredSection>
-              )}
-            </div>
-          </FlagSection>
-        </div>
+            {summary && (
+              <section className={styles.center}>
+                <ReactMarkdown>{summary}</ReactMarkdown>
+              </section>
+            )}
+
+            {bill?.fullTextUrl && (
+              <section className={styles.center}>
+                <a
+                  href={bill?.fullTextUrl}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <Button
+                    variant="secondary"
+                    size="medium"
+                    label="Full text"
+                    width="10rem"
+                  />
+                </a>
+              </section>
+            )}
+
+            {bill?.sponsors && bill.sponsors.length > 0 && (
+              <section>
+                <h2 className={styles.gradientHeader}>Sponsors</h2>
+                <div className={styles.sponsorsWrapper}>
+                  {bill.sponsors.map((sponsor) => (
+                    <Candidate
+                      key={sponsor.id}
+                      itemId={sponsor.id}
+                      candidate={sponsor as PoliticianResult}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+        </FlagSection>
       </Layout>
       <footer className={styles.supportOpposeMobileContainer}>
         {$supportOppose}

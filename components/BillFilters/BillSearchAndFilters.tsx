@@ -21,7 +21,7 @@ import * as Separator from "@radix-ui/react-separator";
 import { useAuth } from "hooks/useAuth";
 import { SearchInput } from "components/SearchInput/SearchInput";
 
-export function BillSearchAndFilters({ theme = "yellow" }: { theme: Theme }) {
+export function BillSearchAndFilters({ theme = "yellow" }: { theme?: Theme }) {
   const { user } = useAuth();
   const router = useRouter();
   const { query } = router;
