@@ -81,7 +81,7 @@ export function DashboardTopNav() {
         >
           <Link
             href={{
-              pathname: "/dashboard/[slug]",
+              pathname: "/dashboard/[dashboardSlug]",
               query: { dashboardSlug },
             }}
           >
@@ -96,7 +96,7 @@ export function DashboardTopNav() {
         >
           <Link
             href={{
-              pathname: `/dashboard/[slug]/embeds/${
+              pathname: `/dashboard/[dashboardSlug]/embeds/${
                 localStorage.getItem(LAST_SELECTED_EMBED_TYPE) || "legislation"
               }`,
               query: { dashboardSlug },
@@ -113,7 +113,7 @@ export function DashboardTopNav() {
         >
           <Link
             href={{
-              pathname: "/dashboard/[slug]/audience",
+              pathname: "/dashboard/[dashboardSlug]/audience",
               query: { dashboardSlug },
             }}
           >
