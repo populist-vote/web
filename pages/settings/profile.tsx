@@ -269,6 +269,11 @@ const AddressSection = ({
           ],
         })
         .catch((err) => toast.error(err));
+      queryClient
+        .invalidateQueries({
+          queryKey: useUserProfileQuery.getKey({ userId }),
+        })
+        .catch((err) => toast.error(err));
       void toast.success("Address updated successfully");
     },
     onError: (error) => {
