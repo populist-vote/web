@@ -18,7 +18,7 @@ import nextI18nextConfig from "next-i18next.config";
 import { BsChevronLeft } from "react-icons/bs";
 
 import { SupportedLocale } from "types/global";
-import billBySlugStyles from "../BillBySlug.module.scss";
+import billBySlugStyles from "./BillBySlug.module.scss";
 import styles from "./CreateVideo.module.scss";
 
 import {

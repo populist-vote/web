@@ -28,7 +28,7 @@ import {
   IssueTagResult,
 } from "generated";
 
-import styles from "..BillBySlug.module.scss";
+import styles from "../BillBySlug.module.scss";
 
 interface Params extends NextParsedUrlQuery {
   billSlug: string;
