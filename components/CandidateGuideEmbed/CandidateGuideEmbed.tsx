@@ -42,14 +42,15 @@ export function CandidateGuideEmbed({
   const router = useRouter();
   const { query, locale } = router;
   const dashboardSlug = query.dashboardSlug as string;
-  const { data: organizationData } = useOrganizationBySlugQuery(
-    {
-      slug: dashboardSlug,
-    },
-    {
-      enabled: !!dashboardSlug,
-    }
-  );
+  const { data: organizationData, isLoading: organizationLoading } =
+    useOrganizationBySlugQuery(
+      {
+        slug: dashboardSlug,
+      },
+      {
+        enabled: !!dashboardSlug,
+      }
+    );
   const organization = organizationData?.organizationBySlug;
   const { data: embedData, isLoading: embedLoading } =
     useCandidateGuideEmbedByIdQuery(
@@ -131,7 +132,7 @@ export function CandidateGuideEmbed({
 
   useEmbedResizer({ origin, embedId });
 
-  if (isLoading || embedLoading) return <LoaderFlag />;
+  if (isLoading || embedLoading || organizationLoading) return <LoaderFlag />;
 
   return (
     <div
