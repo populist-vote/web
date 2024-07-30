@@ -100,7 +100,6 @@ function QuestionFormInner({
     control,
     handleSubmit,
     watch,
-    getValues,
     setValue,
     formState: { isValid, isDirty, isSubmitting },
   } = useForm<QuestionForm>({
@@ -201,14 +200,11 @@ function QuestionFormInner({
     });
   };
 
-  const values = getValues();
-
   if (isLoading) return <LoaderFlag />;
 
   return (
     <form onSubmit={handleSubmit(handleCreateEmbed)} style={{ width: "36rem" }}>
       <h2>{!!question ? "Update" : "Add"} Question</h2>
-      <pre>{JSON.stringify({ values, isDirty }, null, 4)}</pre>
       <div
         style={{
           display: "grid",
