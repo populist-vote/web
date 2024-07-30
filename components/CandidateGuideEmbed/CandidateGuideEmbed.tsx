@@ -273,18 +273,30 @@ export function CandidateGuideEmbed({
                         />
                       )}
                       {!!submission.editorial && (
-                        <div className={styles.editorialContainer}>
-                          <Image
-                            src={organization?.assets.bannerImage as string}
-                            alt="organization banner image"
-                            height={25}
-                            width={100}
-                          />
+                        <blockquote className={styles.editorialContainer}>
+                          <div
+                            className={styles.flexLeft}
+                            style={{ gap: "0.5rem" }}
+                          >
+                            <Image
+                              src={
+                                organization?.assets.thumbnailImage160 as string
+                              }
+                              alt="organization banner image"
+                              height={25}
+                              width={25}
+                              style={{ borderRadius: "50%" }}
+                            />
+                            <span className={styles.orgHeader}>
+                              {" "}
+                              from {organization?.name}
+                            </span>
+                          </div>
 
                           <Markdown className={styles.markdown}>
                             {submission.editorial}
                           </Markdown>
-                        </div>
+                        </blockquote>
                       )}
                     </div>
                   </div>
