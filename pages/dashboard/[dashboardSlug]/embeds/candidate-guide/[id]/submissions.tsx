@@ -91,6 +91,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
             )
         )
         .map((candidate) => ({
+          id: candidate.id,
           politician: candidate,
           question: { id: selectedQuestion },
           response: null,

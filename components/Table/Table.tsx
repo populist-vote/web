@@ -61,7 +61,7 @@ interface TableThemeColors {
   };
 }
 
-type TableProps<T extends object> = {
+type TableProps<T extends object & { id?: string }> = {
   data: T[];
   columns: ColumnDef<T>[];
   initialState: InitialTableState;
@@ -74,7 +74,7 @@ type TableProps<T extends object> = {
   paginate?: boolean;
 };
 
-function Table<T extends object>({
+function Table<T extends object & { id?: string }>({
   data,
   columns,
   initialState = {},
