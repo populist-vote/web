@@ -55,6 +55,7 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
       submissionsByRace(raceId: $raceId) {
         id
         response
+        editorial
         sentiment
         createdAt
         updatedAt
@@ -63,6 +64,7 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
           id
           slug
           fullName
+          email
           party {
             name
           }
@@ -114,6 +116,7 @@ fragment CandidateGuideFields on CandidateGuideResult {
       title
       candidates {
         id
+        fullName
       }
     }
   }
@@ -167,6 +170,7 @@ fragment EmbedFields on EmbedResult {
   }
   politician {
     fullName
+    email
   }
   question {
     id
@@ -177,6 +181,7 @@ fragment EmbedFields on EmbedResult {
     submissions {
       id
       response
+      editorial
       sentiment
       createdAt
       updatedAt
@@ -238,6 +243,7 @@ fragment EmbedFields on EmbedResult {
     }
     candidates {
       id
+      fullName
     }
   }
   candidateGuide {
@@ -270,6 +276,7 @@ query QuestionById($id: ID!) {
     submissions {
       id
       response
+      editorial
       sentiment
       createdAt
       updatedAt

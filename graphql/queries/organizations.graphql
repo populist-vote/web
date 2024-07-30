@@ -8,6 +8,7 @@ fragment organizationFields on OrganizationResult {
   assets {
     thumbnailImage160
     thumbnailImage400
+    bannerImage
   }
   websiteUrl
   twitterUrl

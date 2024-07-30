@@ -126,6 +126,14 @@
   gap: 1rem;
 }
 
+.editorialContainer {
+  background: $grey-lighter;
+  border-radius: 15px;
+  border: 1px solid $grey-dark;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0 0;
+}
+
 .avatarContainer {
   justify-content: flex-start;
   margin: 0;

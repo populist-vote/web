@@ -20,7 +20,7 @@ import { IssueTagsTableCell } from "components/IssueTags/IssueTagsTableCell";
 import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { GrEdit } from "react-icons/gr";
+import { GrChapterAdd, GrEdit } from "react-icons/gr";
 import { Modal } from "components/Modal/Modal";
 import { toast } from "react-toastify";
 import { GiWorld } from "react-icons/gi";
@@ -74,13 +74,31 @@ export default function CandidateGuideEmbedPageSubmissions() {
     router.query.selected as string
   );
 
+  const candidates = embed?.race?.candidates;
+
   const submissions = useMemo(() => {
-    return (
+    const subs =
       submissionsData?.candidateGuideById.questions?.find(
         (question) => question.id === selectedQuestion
-      )?.submissionsByRace || []
-    );
-  }, [selectedQuestion, submissionsData]);
+      )?.submissionsByRace || [];
+
+    const nonSubs =
+      candidates
+        ?.filter(
+          (candidate) =>
+            !subs.find(
+              (submission) => submission.politician?.id === candidate.id
+            )
+        )
+        .map((candidate) => ({
+          politician: candidate,
+          question: { id: selectedQuestion },
+          response: null,
+          updatedAt: null,
+        })) || [];
+
+    return [...subs, ...nonSubs];
+  }, [selectedQuestion, submissionsData, candidates]);
 
   const handleSelectedQuestion = async (questionId: string) => {
     await router.push(
@@ -120,7 +138,13 @@ export default function CandidateGuideEmbedPageSubmissions() {
       {
         header: "Response",
         accessorKey: "response",
-        size: 500,
+        size: 350,
+        cell: (info) => info.getValue(),
+      },
+      {
+        header: "Editorial",
+        accessorKey: "editorial",
+        size: 350,
         cell: (info) => info.getValue(),
       },
       {
@@ -128,7 +152,10 @@ export default function CandidateGuideEmbedPageSubmissions() {
         accessorKey: "updatedAt",
         size: 150,
         cell: (info) => {
-          return new Date(info.getValue() as string).toLocaleDateString();
+          // Only show date if response exists
+          return info.getValue() && !!info.row.original.response
+            ? new Date(info.getValue() as string).toLocaleDateString()
+            : null;
         },
       },
       {
@@ -138,6 +165,9 @@ export default function CandidateGuideEmbedPageSubmissions() {
         cell: (info) => (
           <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
             <ResponseEditAction
+              row={info as CellContext<QuestionSubmissionResult, unknown>}
+            />
+            <EditorialEditAction
               row={info as CellContext<QuestionSubmissionResult, unknown>}
             />
             <TranslationsManagementAction
@@ -204,11 +234,9 @@ export default function CandidateGuideEmbedPageSubmissions() {
       </section>
       <section className={styles.section}>
         <h3>Responses</h3>
-        {submissions?.length === 0 ? (
+        {!selectedQuestion ? (
           <Box>
-            <span className={styles.noResults}>
-              {!selectedQuestion ? "Select a question" : "No responses"}
-            </span>
+            <span className={styles.noResults}>Select a question</span>
           </Box>
         ) : (
           <Table
@@ -252,11 +280,11 @@ function ResponseEditAction({
       upsertQuestionSubmission.mutate(
         {
           questionSubmissionInput: {
-            id: row.row.original.id,
+            id: row.row.original?.id || null,
             questionId: row.row.original.question.id,
             candidateId: row.row.original.politician?.id,
             response: data.response,
-            shouldTranslate: true,
+            shouldTranslate: false,
           },
         },
         {
@@ -272,7 +300,7 @@ function ResponseEditAction({
         }
       );
     } catch (error) {
-      toast.error("Form submission error");
+      toast.error(`Form submission error`);
     } finally {
       if (!upsertQuestionSubmission.isPending) setIsOpen(false);
     }
@@ -305,6 +333,103 @@ function ResponseEditAction({
               register={register}
               control={control}
               errors={errors?.response?.message}
+              style={{ minHeight: "10rem" }}
+            />
+            <Button
+              label="Save"
+              size="medium"
+              variant="primary"
+              type="submit"
+              disabled={upsertQuestionSubmission.isPending}
+            />
+          </form>
+        </div>
+      </Modal>
+    </div>
+  );
+}
+
+function EditorialEditAction({
+  row,
+}: {
+  row: CellContext<QuestionSubmissionResult, unknown>;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ editorial: string }>({
+    defaultValues: {
+      editorial: row.row.original.editorial as string,
+    },
+  });
+
+  const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation();
+
+  const queryClient = useQueryClient();
+
+  const onSubmit = (data: { editorial: string }) => {
+    try {
+      upsertQuestionSubmission.mutate(
+        {
+          questionSubmissionInput: {
+            id: row.row.original?.id || null,
+            questionId: row.row.original.question.id,
+            candidateId: row.row.original.politician?.id,
+            response: row.row.original.response || "",
+            editorial: data.editorial,
+            shouldTranslate: false,
+          },
+        },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({
+              queryKey: ["CandidateGuideSubmissionsByRaceId"],
+            });
+            toast.success("Editorial updated successfully");
+          },
+          onError: () => {
+            toast.error("Failed to update editorial");
+          },
+        }
+      );
+    } catch (error) {
+      toast.error(`Form submission error`);
+    } finally {
+      if (upsertQuestionSubmission.isSuccess) setIsOpen(false);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "auto 1fr",
+        alignItems: "center",
+      }}
+    >
+      <Tooltip content="Edit Editorial">
+        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+          <GrChapterAdd />
+        </button>
+      </Tooltip>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <div style={{ padding: "1.5rem", width: "32rem" }}>
+          <h3>Edit Editorial</h3>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
+          >
+            <TextInput
+              name="editorial"
+              label="Editorial"
+              textarea
+              register={register}
+              control={control}
+              errors={errors?.editorial?.message}
               style={{ minHeight: "10rem" }}
             />
             <Button

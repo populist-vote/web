@@ -3,7 +3,10 @@ import styles from "./CandidateGuideEmbed.module.scss";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import Divider from "components/Divider/Divider";
 import {
+  OrganizationResult,
   PoliticalParty,
+  PoliticianResult,
+  QuestionResult,
   RaceResult,
   useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
@@ -23,6 +26,8 @@ import { LanguageSelect } from "components/LanguageSelect/LanguageSelect";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { LANGUAGES } from "utils/constants";
+import Markdown from "react-markdown";
+import Image from "next/image";
 
 interface CandidateGuideRenderOptions {
   height: number;
@@ -228,97 +233,91 @@ export function CandidateGuideEmbed({
                 className={styles.submissionsContainer}
                 ref={submissionsContainerRef}
               >
-                {submissions.map((s) => (
-                  <>
-                    <div key={s.id} className={styles.submission}>
-                      <div className={styles.avatarContainer}>
-                        <PartyAvatar
-                          theme={"light"}
-                          size={80}
-                          iconSize="1.25rem"
-                          party={s.politician?.party as PoliticalParty}
-                          src={
-                            s.politician?.assets?.thumbnailImage160 as string
-                          }
-                          alt={s.politician?.fullName as string}
-                          target={"_blank"}
-                          rel={"noopener noreferrer"}
-                        />
-                        <span className={clsx(styles.link, styles.avatarName)}>
-                          {s.politician?.fullName}
-                        </span>
-                      </div>
-                      {locale && !!s.translations && s.translations[locale] ? (
-                        <p>{s.translations[locale]}</p>
-                      ) : !!s.response ? (
-                        <p>{s.response}</p>
+                {submissions.map((submission) => (
+                  <div key={submission.id} className={styles.submission}>
+                    <div className={styles.avatarContainer}>
+                      <PartyAvatar
+                        theme={"light"}
+                        size={80}
+                        iconSize="1.25rem"
+                        party={submission.politician?.party as PoliticalParty}
+                        src={
+                          submission.politician?.assets
+                            ?.thumbnailImage160 as string
+                        }
+                        alt={submission.politician?.fullName as string}
+                        target={"_blank"}
+                        rel={"noopener noreferrer"}
+                      />
+                      <span className={clsx(styles.link, styles.avatarName)}>
+                        {submission.politician?.fullName}
+                      </span>
+                    </div>
+                    <div>
+                      {locale &&
+                      !!submission.translations &&
+                      submission.translations[locale] ? (
+                        <p>{submission.translations[locale]}</p>
+                      ) : !!submission.response ? (
+                        <p>{submission.response}</p>
                       ) : (
-                        <p className={styles.noResponse}>NO RESPONSE</p>
+                        <NoResponse
+                          key={submission.id}
+                          organization={organization as OrganizationResult}
+                          politician={submission.politician as PoliticianResult}
+                          questions={
+                            embedData?.embedById.candidateGuide
+                              ?.questions as Array<QuestionResult>
+                          }
+                          race={race as RaceResult}
+                        />
+                      )}
+                      {!!submission.editorial && (
+                        <div className={styles.editorialContainer}>
+                          <Image
+                            src={organization?.assets.bannerImage as string}
+                            alt="organization banner image"
+                            height={25}
+                            width={100}
+                          />
+
+                          <Markdown className={styles.markdown}>
+                            {submission.editorial}
+                          </Markdown>
+                        </div>
                       )}
                     </div>
-                  </>
+                  </div>
                 ))}
-                {politiciansWithNoSubmissions?.map((p) => {
-                  const subject = `Please respond to the ${organization?.name} Q&A`;
-                  const body = `Dear ${p?.fullName},
-
-It was unfortunate to see your submission was missing from the ${organization?.name} and Populist candidate Q&A survey. I am interested in hearing your responses prior to making my decision for the ${race?.office.name} election. The survey allows candidates to express in their own words why they are running for office. Here are the questions that ${organization?.name}  asks:
-
-${embedData?.embedById.candidateGuide?.questions.map((q, index) => `${index + 1}. ${q.prompt}`).join("\n")}
-
-Thank you for your consideration.
-                  `;
-                  const encodedSubject = encodeURIComponent(subject);
-                  const encodedBody = encodeURIComponent(body);
-                  const cc = organization?.email
-                    ? `&cc=${organization?.email}`
-                    : "";
-                  const mailto = `mailto:${p?.email}?subject=${encodedSubject}&body=${encodedBody}${cc}`;
-                  return (
-                    <>
-                      <div key={p.id} className={styles.submission}>
-                        <div className={styles.avatarContainer}>
-                          <PartyAvatar
-                            theme={"light"}
-                            size={80}
-                            iconSize="1.25rem"
-                            party={p?.party as PoliticalParty}
-                            src={p?.assets?.thumbnailImage160 as string}
-                            alt={p?.fullName as string}
-                            target={"_blank"}
-                            rel={"noopener noreferrer"}
-                          />
-                          <span
-                            className={clsx(styles.link, styles.avatarName)}
-                          >
-                            {p?.fullName}
-                          </span>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "0.5rem",
-                          }}
-                        >
-                          <p className={styles.noResponse}>NO RESPONSE</p>
-                          {!!p.email && (
-                            <a
-                              href={mailto}
-                              target={"_blank"}
-                              rel={"noopener noreferrer"}
-                              className={styles.emailLink}
-                            >
-                              Ask this candidate a question directly.
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
+                {politiciansWithNoSubmissions?.map((p) => (
+                  <div key={p.id} className={styles.submission}>
+                    <div className={styles.avatarContainer}>
+                      <PartyAvatar
+                        theme={"light"}
+                        size={80}
+                        iconSize="1.25rem"
+                        party={p?.party as PoliticalParty}
+                        src={p?.assets?.thumbnailImage160 as string}
+                        alt={p?.fullName as string}
+                        target={"_blank"}
+                        rel={"noopener noreferrer"}
+                      />
+                      <span className={clsx(styles.link, styles.avatarName)}>
+                        {p?.fullName}
+                      </span>
+                    </div>
+                    <NoResponse
+                      key={p.id}
+                      organization={organization as OrganizationResult}
+                      politician={p as PoliticianResult}
+                      questions={
+                        embedData?.embedById.candidateGuide
+                          ?.questions as Array<QuestionResult>
+                      }
+                      race={race as RaceResult}
+                    />
+                  </div>
+                ))}
 
                 {embedData?.embedById.candidateGuide?.questions
                   .filter((q) => q.id !== selectedQuestionId)
@@ -343,6 +342,56 @@ Thank you for your consideration.
         )}
       </main>
       <WidgetFooter learnMoreHref={`/races/${race?.slug}`} />
+    </div>
+  );
+}
+
+function NoResponse({
+  politician,
+  organization,
+  questions,
+  race,
+}: {
+  politician: Partial<PoliticianResult>;
+  organization?: OrganizationResult;
+  questions: Array<QuestionResult>;
+  race?: Partial<RaceResult>;
+}) {
+  const subject = `Please respond to the ${organization?.name} Q&A`;
+  const body = `Dear ${politician?.fullName},
+
+It was unfortunate to see your submission was missing from the ${organization?.name} and Populist candidate Q&A survey. I am interested in hearing your responses prior to making my decision for the ${race?.office?.name} election. The survey allows candidates to express in their own words why they are running for office. Here are the questions that ${organization?.name}  asks:
+
+${questions.map((q, index) => `${index + 1}. ${q.prompt}`).join("\n")}
+
+Thank you for your consideration.
+                `;
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedBody = encodeURIComponent(body);
+  const cc = organization?.email ? `&cc=${organization?.email}` : "";
+  const mailto = `mailto:${politician?.email}?subject=${encodedSubject}&body=${encodedBody}${cc}`;
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "0.5rem",
+      }}
+    >
+      <p className={styles.noResponse}>NO RESPONSE</p>
+      {!!politician.email && (
+        <a
+          href={mailto}
+          target={"_blank"}
+          rel={"noopener noreferrer"}
+          className={styles.emailLink}
+        >
+          Ask this candidate a question directly.
+        </a>
+      )}
     </div>
   );
 }

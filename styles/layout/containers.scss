@@ -44,6 +44,18 @@
   }
 }
 
+.markdown {
+  a {
+    color: $blue !important;
+    text-decoration: dotted underline;
+    width: fit-content;
+
+    &:hover {
+      color: $blue-dark !important;
+    }
+  }
+}
+
 .grid2 {
   display: grid;
   grid-template-columns: 1fr;
