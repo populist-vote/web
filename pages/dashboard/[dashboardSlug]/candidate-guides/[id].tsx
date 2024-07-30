@@ -1,6 +1,7 @@
 import {
   Button,
   Divider,
+  IssueTags,
   Layout,
   LoaderFlag,
   SearchInput,
@@ -515,7 +516,7 @@ function QuestionsSection({
   candidateGuide: CandidateGuideResult;
 }) {
   const router = useRouter();
-  const { slug } = router.query as { slug: string };
+  const { dashboardSlug } = router.query as { dashboardSlug: string };
   const questions = useMemo(() => candidateGuide?.questions, [candidateGuide]);
   const queryClient = useQueryClient();
   const deleteQuestionMutation = useDeleteQuestionMutation();
@@ -537,6 +538,12 @@ function QuestionsSection({
         accessorKey: "prompt",
       },
       {
+        header: "Issues",
+        cell: (info) => {
+          return <IssueTags tags={info.row.original.issueTags} />;
+        },
+      },
+      {
         id: "Actions",
         cell: (info) => {
           return (
@@ -547,7 +554,7 @@ function QuestionsSection({
                   onClick={() => {
                     router
                       .push(
-                        `/dashboard/${slug}/candidate-guides/${candidateGuide.id}?isModalOpen=true&questionId=${info.row.original.id}`
+                        `/dashboard/${dashboardSlug}/candidate-guides/${candidateGuide.id}?isModalOpen=true&questionId=${info.row.original.id}`
                       )
                       .catch((e: Error) => toast.error(e.message))
                       .finally(() => setIsModalOpen(true));
@@ -574,7 +581,7 @@ function QuestionsSection({
         },
       },
     ],
-    [handleDeleteQuestion, candidateGuide.id, router, slug]
+    [handleDeleteQuestion, candidateGuide.id, router, dashboardSlug]
   );
 
   const [isModalOpen, setIsModalOpen] = useState(
@@ -583,7 +590,7 @@ function QuestionsSection({
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     void router.push(
-      `/dashboard/${slug}/candidate-guides/${candidateGuide.id}`,
+      `/dashboard/${dashboardSlug}/candidate-guides/${candidateGuide.id}`,
       undefined,
       {
         shallow: true,

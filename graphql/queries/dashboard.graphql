@@ -270,6 +270,7 @@ query QuestionById($id: ID!) {
     responsePlaceholderText
     allowAnonymousResponses
     issueTags {
+      id
       slug
       name
     }
@@ -353,4 +354,11 @@ query RecentCandidateGuideQuestionSubmissions(
 
 query TotalCandidateGuideSubmissions($organizationId: ID!) {
   totalCandidateGuideSubmissions(organizationId: $organizationId)
+}
+
+query IssueTags {
+  allIssueTags {
+    name
+    id
+  }
 }

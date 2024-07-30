@@ -11,7 +11,7 @@ interface CheckboxProps<TFormValues extends FieldValues> {
   name: Path<TFormValues>;
   label: string;
   register: UseFormRegister<TFormValues>;
-  rules?: RegisterOptions;
+  rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
 }
 
 function Checkbox<TFormValues extends Record<string, unknown>>({

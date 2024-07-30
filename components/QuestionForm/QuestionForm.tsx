@@ -1,13 +1,23 @@
-import { Button, Divider, LoaderFlag, TextInput } from "components";
+import {
+  Badge,
+  Button,
+  Divider,
+  LoaderFlag,
+  Select,
+  TextInput,
+} from "components";
 import { useRouter } from "next/router";
 import {
   QuestionResult,
+  useIssueTagsQuery,
   useQuestionByIdQuery,
   useUpsertQuestionMutation,
 } from "generated";
 import { toast } from "react-toastify";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { BsXCircleFill } from "react-icons/bs";
 
 type QuestionForm = {
   prompt: string;
@@ -15,6 +25,7 @@ type QuestionForm = {
   responseCharLimit?: number | null;
   responsePlaceholderText?: string | null;
   allowAnonymousResponses?: boolean;
+  issueTagsIds: string[];
 };
 
 export function QuestionForm({
@@ -62,12 +73,34 @@ function QuestionFormInner({
   onSuccess?: () => void;
 }) {
   const upsertQuestion = useUpsertQuestionMutation();
+  const { data, isLoading } = useIssueTagsQuery();
+
+  const labelOptions = data?.allIssueTags;
+  const existingLabels = question?.issueTags.map((issue) => ({
+    id: issue.id,
+    label: issue.name,
+  }));
+  const [selectedLabels, setSelectedLabels] = useState<
+    {
+      id: string;
+      label: string;
+    }[]
+  >(existingLabels || []);
+
+  const optionsObject: { label: string; value: string }[] = [
+    { label: "Select a Tag", value: "default" },
+  ];
+
+  labelOptions?.map((label: { name: string; id: string }) =>
+    optionsObject.push({ label: label.name, value: label.id })
+  );
 
   const {
     register,
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { isValid, isDirty, isSubmitting },
   } = useForm<QuestionForm>({
     mode: "onChange",
@@ -77,6 +110,7 @@ function QuestionFormInner({
       responseCharLimit: question?.responseCharLimit || 140,
       responsePlaceholderText: question?.responsePlaceholderText || "",
       allowAnonymousResponses: question?.allowAnonymousResponses || false,
+      issueTagsIds: selectedLabels.map((label) => label.id),
     },
   });
 
@@ -98,6 +132,7 @@ function QuestionFormInner({
           responseCharLimit:
             enforceCharLimit && responseCharLimit ? responseCharLimit : null,
           responsePlaceholderText,
+          issueTagIds: selectedLabels.map((label) => label.id),
           allowAnonymousResponses: data.allowAnonymousResponses || false,
           candidateGuideId,
         },
@@ -121,8 +156,54 @@ function QuestionFormInner({
     );
   };
 
+  const handleLabelSelect = (id: string) => {
+    const selectedLabel = optionsObject.find((option) => option.value === id)!;
+    if (
+      selectedLabel.value !== "default" &&
+      !selectedLabels.find((label) => label.id === selectedLabel.value)
+    ) {
+      setSelectedLabels((previous) => {
+        const updatedLabels = [
+          ...previous,
+          {
+            id: selectedLabel.value,
+            label: selectedLabel.label,
+          },
+        ];
+
+        setValue(
+          "issueTagsIds",
+          updatedLabels.map((label) => label.id),
+          {
+            shouldDirty: true,
+          }
+        );
+
+        return updatedLabels;
+      });
+    }
+  };
+
+  const handleRemoveTag = (id: string) => () => {
+    setSelectedLabels(() => {
+      const updatedLabels = selectedLabels.filter((label) => label.id !== id);
+
+      setValue(
+        "issueTagsIds",
+        updatedLabels.map((label) => label.id),
+        {
+          shouldDirty: true,
+        }
+      );
+
+      return updatedLabels;
+    });
+  };
+
+  if (isLoading) return <LoaderFlag />;
+
   return (
-    <form onSubmit={handleSubmit(handleCreateEmbed)}>
+    <form onSubmit={handleSubmit(handleCreateEmbed)} style={{ width: "36rem" }}>
       <h2>{!!question ? "Update" : "Add"} Question</h2>
       <div
         style={{
@@ -142,6 +223,37 @@ function QuestionFormInner({
               required: "Prompt is required",
             }}
           />
+        </section>
+        <section>
+          <h4>Question Tags</h4>
+          <Select
+            backgroundColor="blue"
+            value={
+              selectedLabels.length > 0
+                ? selectedLabels[selectedLabels.length - 1]!.id
+                : "default"
+            }
+            options={optionsObject}
+            onChange={(e) => handleLabelSelect(e.target.value)}
+          />
+        </section>
+        <section
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1rem",
+            padding: "1rem 0",
+          }}
+        >
+          {selectedLabels.map((label) => (
+            <Badge key={label.id}>
+              {label.label}
+              <BsXCircleFill
+                color="var(--grey)"
+                onClick={handleRemoveTag(label.id)}
+              />
+            </Badge>
+          ))}
         </section>
         <Divider />
         <section
