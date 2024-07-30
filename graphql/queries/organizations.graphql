@@ -32,6 +32,7 @@ query OrganizationById($id: ID!) {
     id
     slug
     name
+    email
     assets {
       thumbnailImage160
       bannerImage

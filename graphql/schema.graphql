@@ -1229,6 +1229,7 @@ type QuestionResult {
 type QuestionSubmissionResult {
   candidateId: ID
   createdAt: DateTime!
+  editorial: String
   id: ID!
   politician: PoliticianResult
   question: QuestionResult!
@@ -1798,6 +1799,7 @@ input UpsertQuestionInput {
 
 input UpsertQuestionSubmissionInput {
   candidateId: UUID
+  editorial: String
   id: UUID
   questionId: UUID!
   respondentId: UUID

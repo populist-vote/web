@@ -7,7 +7,7 @@ import {
   RaceResult,
   useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
-  useOrganizationBySlugQuery,
+  useOrganizationByIdQuery,
   VoteType,
 } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
@@ -40,18 +40,7 @@ export function CandidateGuideEmbed({
   renderOptions: CandidateGuideRenderOptions;
 }) {
   const router = useRouter();
-  const { query, locale } = router;
-  const dashboardSlug = query.dashboardSlug as string;
-  const { data: organizationData, isLoading: organizationLoading } =
-    useOrganizationBySlugQuery(
-      {
-        slug: dashboardSlug,
-      },
-      {
-        enabled: !!dashboardSlug,
-      }
-    );
-  const organization = organizationData?.organizationBySlug;
+  const { locale } = router;
   const { data: embedData, isLoading: embedLoading } =
     useCandidateGuideEmbedByIdQuery(
       {
@@ -61,6 +50,19 @@ export function CandidateGuideEmbed({
         staleTime: 1000 * 60 * 5,
       }
     );
+
+  const organizationId = embedData?.embedById.organizationId;
+
+  const { data: organizationData, isLoading: organizationLoading } =
+    useOrganizationByIdQuery(
+      {
+        id: organizationId as string,
+      },
+      {
+        enabled: !!organizationId,
+      }
+    );
+  const organization = organizationData?.organizationById;
 
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(
     null
