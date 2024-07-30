@@ -77,7 +77,10 @@ export default function CandidateGuideIntake() {
   const questions = data?.candidateGuideById.questions;
 
   const existingSubmissionsArray = useMemo(
-    () => questions?.flatMap((question) => question.submissionsByCandidateId),
+    () =>
+      questions
+        ?.flatMap((question) => question.submissionsByCandidateId)
+        .filter((submission) => submission && !!submission.response),
     [questions]
   );
 
