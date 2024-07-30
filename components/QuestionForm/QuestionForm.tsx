@@ -100,6 +100,8 @@ function QuestionFormInner({
     control,
     handleSubmit,
     watch,
+    getValues,
+    setValue,
     formState: { isValid, isDirty, isSubmitting },
   } = useForm<QuestionForm>({
     mode: "onChange",
@@ -161,21 +163,52 @@ function QuestionFormInner({
       selectedLabel.value !== "default" &&
       !selectedLabels.find((label) => label.id === selectedLabel.value)
     ) {
-      setSelectedLabels((previous) => [
-        ...previous,
-        {
-          id: selectedLabel.value,
-          label: selectedLabel.label,
-        },
-      ]);
+      setSelectedLabels((previous) => {
+        const updatedLabels = [
+          ...previous,
+          {
+            id: selectedLabel.value,
+            label: selectedLabel.label,
+          },
+        ];
+
+        setValue(
+          "issueTagsIds",
+          updatedLabels.map((label) => label.id),
+          {
+            shouldDirty: true,
+          }
+        );
+
+        return updatedLabels;
+      });
     }
   };
+
+  const handleRemoveTag = (id: string) => () => {
+    setSelectedLabels(() => {
+      const updatedLabels = selectedLabels.filter((label) => label.id !== id);
+
+      setValue(
+        "issueTagsIds",
+        updatedLabels.map((label) => label.id),
+        {
+          shouldDirty: true,
+        }
+      );
+
+      return updatedLabels;
+    });
+  };
+
+  const values = getValues();
 
   if (isLoading) return <LoaderFlag />;
 
   return (
     <form onSubmit={handleSubmit(handleCreateEmbed)} style={{ width: "36rem" }}>
       <h2>{!!question ? "Update" : "Add"} Question</h2>
+      <pre>{JSON.stringify({ values, isDirty }, null, 4)}</pre>
       <div
         style={{
           display: "grid",
@@ -221,11 +254,7 @@ function QuestionFormInner({
               {label.label}
               <BsXCircleFill
                 color="var(--grey)"
-                onClick={() =>
-                  setSelectedLabels(
-                    selectedLabels.filter((b) => b.id !== label.id)
-                  )
-                }
+                onClick={handleRemoveTag(label.id)}
               />
             </Badge>
           ))}
