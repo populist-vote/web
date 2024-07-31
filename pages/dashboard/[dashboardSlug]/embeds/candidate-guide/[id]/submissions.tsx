@@ -140,6 +140,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
   >(
     () => [
       {
+        id: "fullName",
         header: "Candidate",
         accessorKey: "politician.fullName",
         size: 170,
@@ -255,7 +256,14 @@ export default function CandidateGuideEmbedPageSubmissions() {
             // @ts-expect-error react-table
             columns={submissionsColumns}
             data={submissions}
-            initialState={{}}
+            initialState={{
+              sorting: [
+                {
+                  id: "fullName",
+                  desc: false,
+                },
+              ],
+            }}
             paginate={false}
             theme="blue"
           />
