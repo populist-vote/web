@@ -13,6 +13,7 @@
   min-width: min-content;
   max-width: 90%;
   max-height: 90%;
+  overflow: auto;
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;

@@ -77,29 +77,7 @@ export function Modal({ isOpen, onClose, children, width }: ModalProps) {
         <button className={styles.closeButton} onClick={handleClose}>
           &times;
         </button>
-        {children}
-      </div>
-    </>,
-    document.getElementById("modal-root") as HTMLElement
-  );
-
-  if (!isOpen && !isVisible) return null;
-
-  return ReactDOM.createPortal(
-    <>
-      <div
-        className={`${styles.overlay} ${isVisible ? styles.open : styles.close}`}
-        tabIndex={-1}
-        role="dialog"
-      ></div>
-      <div
-        className={`${styles.modal} ${isVisible ? styles.open : styles.close}`}
-        ref={modalRef}
-      >
-        <button className={styles.closeButton} onClick={handleClose}>
-          &times;
-        </button>
-        {children}
+        <div className={styles.content}>{children}</div>
       </div>
     </>,
     document.getElementById("modal-root") as HTMLElement
