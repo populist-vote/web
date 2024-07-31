@@ -79,9 +79,13 @@ export default function CandidateGuideEmbedPageSubmissions() {
     router.query.selected as string
   );
 
-  const selectedQuestion = questions?.find(
-    (q) => q.id === selectedQuestionId
-  ) as Partial<QuestionResult>;
+  const selectedQuestion = useMemo(
+    () =>
+      questions?.find(
+        (q) => q.id === selectedQuestionId
+      ) as Partial<QuestionResult>,
+    [selectedQuestionId, questions]
+  );
 
   const candidates = embed?.race?.candidates;
 
@@ -100,7 +104,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
             )
         )
         .map((candidate) => ({
-          id: candidate.id,
+          id: undefined,
           politician: candidate,
           question: { id: selectedQuestionId },
           response: null,
@@ -450,8 +454,8 @@ function EditorialEditAction({
             await queryClient.invalidateQueries({
               queryKey: ["CandidateGuideSubmissionsByRaceId"],
             });
-            await toast.success("Editorial updated successfully");
-            await setIsOpen(false);
+            toast.success("Editorial updated successfully");
+            setIsOpen(false);
           },
           onError: () => {
             toast.error("Failed to update editorial");
@@ -460,6 +464,8 @@ function EditorialEditAction({
       );
     } catch (error) {
       toast.error(`Form submission error`);
+    } finally {
+      if (!upsertQuestionSubmission.isPending) setIsOpen(false);
     }
   };
 
@@ -479,6 +485,7 @@ function EditorialEditAction({
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2 style={{ textAlign: "center" }}>Edit Editorial</h2>
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
+          <h3>{selectedQuestion.prompt ?? row.row.original.question.prompt}</h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
