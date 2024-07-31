@@ -437,7 +437,7 @@ function EditorialEditAction({
         {
           questionSubmissionInput: {
             id: row.row.original?.id || null,
-            questionId: row.row.original.question.id ?? selectedQuestion.id,
+            questionId: selectedQuestion.id ?? row.row.original.question.id,
             candidateId: row.row.original.politician?.id,
             response: row.row.original.response || "",
             editorial: data.editorial,
