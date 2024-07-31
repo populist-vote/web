@@ -26,7 +26,7 @@ import { Table } from "components/Table/Table";
 import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { GrChapterAdd, GrEdit } from "react-icons/gr";
+import { GrEdit, GrInfo } from "react-icons/gr";
 import { Modal } from "components/Modal/Modal";
 import { toast } from "react-toastify";
 import { Tooltip } from "components/Tooltip/Tooltip";
@@ -134,7 +134,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
       {
         header: "Candidate",
         accessorKey: "politician.fullName",
-        size: 150,
+        size: 170,
       },
       {
         header: "Response",
@@ -291,6 +291,7 @@ function ResponseEditAction({
             candidateId: row.row.original.politician?.id,
             response: data.response,
             translations: data.translations,
+            editorial: row.row.original.editorial,
             shouldTranslate: false,
           },
         },
@@ -421,7 +422,6 @@ function EditorialEditAction({
     editorial: string;
     translations: Record<string, string>;
   }) => {
-    alert(data);
     try {
       upsertQuestionSubmission.mutate(
         {
@@ -440,7 +440,8 @@ function EditorialEditAction({
             await queryClient.invalidateQueries({
               queryKey: ["CandidateGuideSubmissionsByRaceId"],
             });
-            toast.success("Editorial updated successfully");
+            await toast.success("Editorial updated successfully");
+            await setIsOpen(false);
           },
           onError: () => {
             toast.error("Failed to update editorial");
@@ -449,8 +450,6 @@ function EditorialEditAction({
       );
     } catch (error) {
       toast.error(`Form submission error`);
-    } finally {
-      if (upsertQuestionSubmission.isSuccess) setIsOpen(false);
     }
   };
 
@@ -464,7 +463,7 @@ function EditorialEditAction({
     >
       <Tooltip content="Edit Editorial">
         <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
-          <GrChapterAdd />
+          <GrInfo />
         </button>
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
