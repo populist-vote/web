@@ -75,20 +75,20 @@ export default function CandidateGuideEmbedPageSubmissions() {
       }
     );
 
-  const [selectedQuestion, setSelectedQuestion] = useState<string | null>(
+  const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(
     router.query.selected as string
   );
 
-  const selectedQuestionPrompt = questions?.find(
-    (q) => q.id === selectedQuestion
-  )?.prompt;
+  const selectedQuestion = questions?.find(
+    (q) => q.id === selectedQuestionId
+  ) as Partial<QuestionResult>;
 
   const candidates = embed?.race?.candidates;
 
   const submissions = useMemo(() => {
     const subs =
       submissionsData?.candidateGuideById.questions?.find(
-        (question) => question.id === selectedQuestion
+        (question) => question.id === selectedQuestionId
       )?.submissionsByRace || [];
 
     const nonSubs =
@@ -102,13 +102,13 @@ export default function CandidateGuideEmbedPageSubmissions() {
         .map((candidate) => ({
           id: candidate.id,
           politician: candidate,
-          question: { id: selectedQuestion },
+          question: { id: selectedQuestionId },
           response: null,
           updatedAt: null,
         })) || [];
 
     return [...subs, ...nonSubs];
-  }, [selectedQuestion, submissionsData, candidates]);
+  }, [selectedQuestionId, submissionsData, candidates]);
 
   const handleSelectedQuestion = async (questionId: string) => {
     await router.push(
@@ -118,7 +118,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
         scroll: false,
       }
     );
-    setSelectedQuestion(questionId);
+    setSelectedQuestionId(questionId);
   };
 
   const questionColumns = useMemo<ColumnDef<Partial<QuestionResult>>[]>(
@@ -175,16 +175,17 @@ export default function CandidateGuideEmbedPageSubmissions() {
           <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
             <ResponseEditAction
               row={info as CellContext<QuestionSubmissionResult, unknown>}
-              selectedQuestionPrompt={selectedQuestionPrompt as string}
+              selectedQuestion={selectedQuestion}
             />
             <EditorialEditAction
               row={info as CellContext<QuestionSubmissionResult, unknown>}
+              selectedQuestion={selectedQuestion}
             />
           </div>
         ),
       },
     ],
-    [selectedQuestionPrompt]
+    [selectedQuestion]
   );
 
   // Count the number of unique candidates that have submitted
@@ -234,7 +235,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
           data={questions || []}
           initialState={{}}
           onRowClick={(row) => handleSelectedQuestion(row.original.id)}
-          selectedRowId={selectedQuestion}
+          selectedRowId={selectedQuestionId}
           paginate={false}
           theme="blue"
         />
@@ -262,10 +263,10 @@ export default function CandidateGuideEmbedPageSubmissions() {
 
 function ResponseEditAction({
   row,
-  selectedQuestionPrompt,
+  selectedQuestion,
 }: {
   row: CellContext<QuestionSubmissionResult, unknown>;
-  selectedQuestionPrompt: string;
+  selectedQuestion: Partial<QuestionResult>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -294,7 +295,7 @@ function ResponseEditAction({
         {
           questionSubmissionInput: {
             id: row.row.original?.id || null,
-            questionId: row.row.original.question.id,
+            questionId: selectedQuestion.id ?? row.row.original.question.id,
             candidateId: row.row.original.politician?.id,
             response: data.response,
             translations: data.translations,
@@ -337,7 +338,7 @@ function ResponseEditAction({
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2 style={{ textAlign: "center" }}>Edit Response</h2>
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
-          <h3>{row.row.original.question.prompt || selectedQuestionPrompt}</h3>
+          <h3>{selectedQuestion.prompt ?? row.row.original.question.prompt}</h3>
           <form
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
           >
@@ -404,8 +405,10 @@ function ResponseEditAction({
 
 function EditorialEditAction({
   row,
+  selectedQuestion,
 }: {
   row: CellContext<QuestionSubmissionResult, unknown>;
+  selectedQuestion: Partial<QuestionResult>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -434,7 +437,7 @@ function EditorialEditAction({
         {
           questionSubmissionInput: {
             id: row.row.original?.id || null,
-            questionId: row.row.original.question.id,
+            questionId: row.row.original.question.id ?? selectedQuestion.id,
             candidateId: row.row.original.politician?.id,
             response: row.row.original.response || "",
             editorial: data.editorial,
