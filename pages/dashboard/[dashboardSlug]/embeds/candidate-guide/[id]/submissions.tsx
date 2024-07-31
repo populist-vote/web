@@ -468,8 +468,8 @@ function EditorialEditAction({
         </button>
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <h2 style={{ textAlign: "center" }}>Edit Editorial</h2>
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
-          <h3>Edit Editorial</h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
