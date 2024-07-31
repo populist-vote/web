@@ -266,7 +266,7 @@ function ResponseEditAction({
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<{ response: string; translations: Record<string, string> }>({
     defaultValues: {
       response: row.row.original.response as string,
@@ -385,7 +385,7 @@ function ResponseEditAction({
               variant="primary"
               type="submit"
               onClick={() => handleSubmit(onSubmit)()}
-              disabled={upsertQuestionSubmission.isPending}
+              disabled={upsertQuestionSubmission.isPending || !isDirty}
             />
           </div>
         </div>
@@ -405,7 +405,7 @@ function EditorialEditAction({
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<{ editorial: string; translations: Record<string, string> }>({
     defaultValues: {
       editorial: row.row.original.editorial as string,
@@ -524,7 +524,7 @@ function EditorialEditAction({
               variant="primary"
               type="submit"
               onClick={() => handleSubmit(onSubmit)()}
-              disabled={upsertQuestionSubmission.isPending}
+              disabled={upsertQuestionSubmission.isPending || !isDirty}
             />
           </div>
         </div>
