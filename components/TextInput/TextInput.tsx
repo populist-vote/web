@@ -11,7 +11,7 @@ import {
 } from "react-hook-form";
 import { ReactNode } from "react";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { BsInfoCircleFill } from "react-icons/bs";
+import { BsInfoCircleFill, BsMarkdown } from "react-icons/bs";
 
 type TextInputSize = "small" | "medium" | "large";
 
@@ -43,6 +43,7 @@ export type TextInputProps<TFormValues extends FieldValues> = {
   textarea?: boolean;
   charLimit?: number;
   helperText?: string;
+  markdown?: boolean;
   [x: string]: unknown;
 };
 
@@ -56,6 +57,24 @@ function HelperText({ text }: { text: string }) {
         <Tooltip.Portal>
           <Tooltip.Content className={styles.TooltipContent} sideOffset={5}>
             {text}
+            <Tooltip.Arrow className={styles.TooltipArrow} />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
+  );
+}
+
+function MarkdownHelperText() {
+  return (
+    <Tooltip.Provider delayDuration={300}>
+      <Tooltip.Root>
+        <Tooltip.Trigger className={styles.TooltipTrigger} type="button">
+          <BsMarkdown size={16} />
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content className={styles.TooltipContent} sideOffset={5}>
+            This field supports markdown formatting.
             <Tooltip.Arrow className={styles.TooltipArrow} />
           </Tooltip.Content>
         </Tooltip.Portal>
@@ -80,6 +99,7 @@ function TextInput<TFormValues extends Record<string, unknown>>({
   textarea = false,
   charLimit,
   helperText,
+  markdown,
   ...rest
 }: TextInputProps<TFormValues>) {
   const inputId = id || `input-${name}`;
@@ -110,6 +130,11 @@ function TextInput<TFormValues extends Record<string, unknown>>({
         {helperText && (
           <span>
             <HelperText text={helperText} />
+          </span>
+        )}
+        {markdown && (
+          <span>
+            <MarkdownHelperText />
           </span>
         )}
       </label>

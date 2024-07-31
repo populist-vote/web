@@ -1,4 +1,11 @@
-import { Box, Button, Layout, LoaderFlag, TextInput } from "components";
+import {
+  Box,
+  Button,
+  Divider,
+  Layout,
+  LoaderFlag,
+  TextInput,
+} from "components";
 import { useRouter } from "next/router";
 import { ReactNode, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
@@ -16,14 +23,12 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { Table } from "components/Table/Table";
-import { IssueTagsTableCell } from "components/IssueTags/IssueTagsTableCell";
 import styles from "../../../../../../components/EmbedPage/EmbedPage.module.scss";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import { GrChapterAdd, GrEdit } from "react-icons/gr";
+import { GrEdit, GrInfo } from "react-icons/gr";
 import { Modal } from "components/Modal/Modal";
 import { toast } from "react-toastify";
-import { GiWorld } from "react-icons/gi";
 import { Tooltip } from "components/Tooltip/Tooltip";
 import { SupportedLocale } from "types/global";
 import { LANGUAGES } from "utils/constants";
@@ -118,11 +123,6 @@ export default function CandidateGuideEmbedPageSubmissions() {
         header: "Prompt",
         accessorKey: "prompt",
       },
-      {
-        header: "Issue",
-        accessorKey: "issueTags",
-        cell: (info) => IssueTagsTableCell({ info }),
-      },
     ],
     []
   );
@@ -134,24 +134,28 @@ export default function CandidateGuideEmbedPageSubmissions() {
       {
         header: "Candidate",
         accessorKey: "politician.fullName",
-        size: 150,
+        size: 170,
       },
       {
         header: "Response",
         accessorKey: "response",
         size: 350,
-        cell: (info) => info.getValue(),
+        cell: (info) => (
+          <span className={styles.clamp}>{info.getValue() as string}</span>
+        ),
       },
       {
         header: "Editorial",
         accessorKey: "editorial",
         size: 350,
-        cell: (info) => info.getValue(),
+        cell: (info) => (
+          <span className={styles.clamp}>{info.getValue() as string}</span>
+        ),
       },
       {
-        header: "Last Submitted At",
+        header: "Last Update",
         accessorKey: "updatedAt",
-        size: 150,
+        size: 180,
         cell: (info) => {
           // Only show date if response exists
           return info.getValue() && !!info.row.original.response
@@ -169,9 +173,6 @@ export default function CandidateGuideEmbedPageSubmissions() {
               row={info as CellContext<QuestionSubmissionResult, unknown>}
             />
             <EditorialEditAction
-              row={info as CellContext<QuestionSubmissionResult, unknown>}
-            />
-            <TranslationsManagementAction
               row={info as CellContext<QuestionSubmissionResult, unknown>}
             />
           </div>
@@ -265,10 +266,11 @@ function ResponseEditAction({
     register,
     control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<{ response: string }>({
+    formState: { errors, isDirty },
+  } = useForm<{ response: string; translations: Record<string, string> }>({
     defaultValues: {
       response: row.row.original.response as string,
+      translations: row.row.original.translations,
     },
   });
 
@@ -276,7 +278,10 @@ function ResponseEditAction({
 
   const queryClient = useQueryClient();
 
-  const onSubmit = (data: { response: string }) => {
+  const onSubmit = (data: {
+    response: string;
+    translations: Record<string, string>;
+  }) => {
     try {
       upsertQuestionSubmission.mutate(
         {
@@ -285,6 +290,8 @@ function ResponseEditAction({
             questionId: row.row.original.question.id,
             candidateId: row.row.original.politician?.id,
             response: data.response,
+            translations: data.translations,
+            editorial: row.row.original.editorial,
             shouldTranslate: false,
           },
         },
@@ -321,10 +328,10 @@ function ResponseEditAction({
         </button>
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div style={{ padding: "1.5rem", width: "32rem" }}>
-          <h3>Edit Response</h3>
+        <h2 style={{ textAlign: "center" }}>Edit Response</h2>
+        <div style={{ padding: "0 1.5rem", width: "45rem" }}>
+          <h3>{row.row.original.question.prompt}</h3>
           <form
-            onSubmit={handleSubmit(onSubmit)}
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
           >
             <TextInput
@@ -334,16 +341,54 @@ function ResponseEditAction({
               register={register}
               control={control}
               errors={errors?.response?.message}
-              style={{ minHeight: "10rem" }}
+              charLimit={row.row.original.question.responseCharLimit as number}
+              style={{ minHeight: "15rem" }}
+            />
+            <Divider />
+            <h3 style={{ textAlign: "center", margin: 0 }}>Translations</h3>
+            {LANGUAGES.filter((l) => l.code !== "en").map((locale) => {
+              const label = locale.display;
+              return (
+                <TextInput
+                  key={locale.code}
+                  name={`translations.response.${locale.code}`}
+                  textarea
+                  charLimit={
+                    row.row.original.question.responseCharLimit as number
+                  }
+                  label={label}
+                  register={register}
+                  control={control}
+                />
+              );
+            })}
+          </form>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              justifyContent: "center",
+              marginTop: "1rem",
+            }}
+          >
+            <Button
+              label="Cancel"
+              size="medium"
+              variant="secondary"
+              onClick={(e) => {
+                e?.preventDefault;
+                setIsOpen(false);
+              }}
             />
             <Button
               label="Save"
               size="medium"
               variant="primary"
               type="submit"
-              disabled={upsertQuestionSubmission.isPending}
+              onClick={() => handleSubmit(onSubmit)()}
+              disabled={upsertQuestionSubmission.isPending || !isDirty}
             />
-          </form>
+          </div>
         </div>
       </Modal>
     </div>
@@ -361,10 +406,11 @@ function EditorialEditAction({
     register,
     control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<{ editorial: string }>({
+    formState: { errors, isDirty },
+  } = useForm<{ editorial: string; translations: Record<string, string> }>({
     defaultValues: {
       editorial: row.row.original.editorial as string,
+      translations: row.row.original.translations,
     },
   });
 
@@ -372,7 +418,10 @@ function EditorialEditAction({
 
   const queryClient = useQueryClient();
 
-  const onSubmit = (data: { editorial: string }) => {
+  const onSubmit = (data: {
+    editorial: string;
+    translations: Record<string, string>;
+  }) => {
     try {
       upsertQuestionSubmission.mutate(
         {
@@ -382,6 +431,7 @@ function EditorialEditAction({
             candidateId: row.row.original.politician?.id,
             response: row.row.original.response || "",
             editorial: data.editorial,
+            translations: data.translations,
             shouldTranslate: false,
           },
         },
@@ -390,7 +440,8 @@ function EditorialEditAction({
             await queryClient.invalidateQueries({
               queryKey: ["CandidateGuideSubmissionsByRaceId"],
             });
-            toast.success("Editorial updated successfully");
+            await toast.success("Editorial updated successfully");
+            await setIsOpen(false);
           },
           onError: () => {
             toast.error("Failed to update editorial");
@@ -399,8 +450,6 @@ function EditorialEditAction({
       );
     } catch (error) {
       toast.error(`Form submission error`);
-    } finally {
-      if (upsertQuestionSubmission.isSuccess) setIsOpen(false);
     }
   };
 
@@ -414,12 +463,12 @@ function EditorialEditAction({
     >
       <Tooltip content="Edit Editorial">
         <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
-          <GrChapterAdd />
+          <GrInfo />
         </button>
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div style={{ padding: "1.5rem", width: "32rem" }}>
-          <h3>Edit Editorial</h3>
+        <h2 style={{ textAlign: "center" }}>Edit Editorial</h2>
+        <div style={{ padding: "0 1.5rem", width: "45rem" }}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
@@ -427,110 +476,59 @@ function EditorialEditAction({
             <TextInput
               name="editorial"
               label="Editorial"
+              markdown
               textarea
               register={register}
               control={control}
               errors={errors?.editorial?.message}
               style={{ minHeight: "10rem" }}
             />
-            <Button
-              label="Save"
-              size="medium"
-              variant="primary"
-              type="submit"
-              disabled={upsertQuestionSubmission.isPending}
-            />
-          </form>
-        </div>
-      </Modal>
-    </div>
-  );
-}
-
-function TranslationsManagementAction({
-  row,
-}: {
-  row: CellContext<QuestionSubmissionResult, unknown>;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { register, control, handleSubmit, formState } = useForm<{
-    translations: Record<string, string>;
-  }>({
-    defaultValues: {
-      translations: row.row.original.translations,
-    },
-  });
-
-  const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation();
-
-  const queryClient = useQueryClient();
-
-  const onSubmit = (data: { translations: Record<string, string> }) => {
-    try {
-      upsertQuestionSubmission.mutate(
-        {
-          questionSubmissionInput: {
-            id: row.row.original.id,
-            questionId: row.row.original.question.id,
-            candidateId: row.row.original.politician?.id,
-            response: row.row.original.response,
-            translations: data.translations,
-          },
-        },
-        {
-          onSuccess: async () => {
-            await queryClient.invalidateQueries({
-              queryKey: ["CandidateGuideSubmissionsByRaceId"],
-            });
-            toast.success("Translations updated successfully");
-          },
-          onError: () => {
-            toast.error("Failed to update translations");
-          },
-        }
-      );
-    } catch (error) {
-      toast.error("Form submission error");
-    } finally {
-      setIsOpen(false);
-    }
-  };
-
-  return (
-    <>
-      <Tooltip content="Manage translations">
-        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
-          <GiWorld />
-        </button>
-      </Tooltip>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div style={{ padding: "1.5rem", width: "32rem" }}>
-          <h3>Translations</h3>
-          <form onSubmit={handleSubmit(onSubmit)}>
+            <Divider />
+            <h3 style={{ textAlign: "center", margin: 0 }}>Translations</h3>
             {LANGUAGES.filter((l) => l.code !== "en").map((locale) => {
               const label = locale.display;
               return (
                 <TextInput
                   key={locale.code}
-                  name={`translations.${locale.code}`}
+                  name={`translations.editorial.${locale.code}`}
+                  markdown
                   textarea
                   label={label}
                   register={register}
                   control={control}
-                  style={{ marginBottom: "1rem" }}
                 />
               );
             })}
+          </form>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              justifyContent: "center",
+              marginTop: "1rem",
+            }}
+          >
+            <Button
+              label="Cancel"
+              size="medium"
+              variant="secondary"
+              onClick={(e) => {
+                e?.preventDefault;
+                setIsOpen(false);
+              }}
+            />
             <Button
               label="Save"
               size="medium"
               variant="primary"
-              disabled={!formState.isDirty}
+              type="submit"
+              onClick={() => handleSubmit(onSubmit)()}
+              disabled={upsertQuestionSubmission.isPending || !isDirty}
             />
-          </form>
+          </div>
         </div>
       </Modal>
-    </>
+    </div>
   );
 }
 

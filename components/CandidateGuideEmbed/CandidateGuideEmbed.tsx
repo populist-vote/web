@@ -256,8 +256,8 @@ export function CandidateGuideEmbed({
                     <div>
                       {locale &&
                       !!submission.translations &&
-                      submission.translations[locale] ? (
-                        <p>{submission.translations[locale]}</p>
+                      submission.translations.response?.[locale] ? (
+                        <p>{submission.translations.response?.[locale]}</p>
                       ) : !!submission.response ? (
                         <p>{submission.response}</p>
                       ) : (
@@ -276,7 +276,7 @@ export function CandidateGuideEmbed({
                         <blockquote className={styles.editorialContainer}>
                           <div
                             className={styles.flexLeft}
-                            style={{ gap: "0.5rem" }}
+                            style={{ gap: "0.5rem", marginBottom: "1rem" }}
                           >
                             <Image
                               src={
