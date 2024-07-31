@@ -38,10 +38,10 @@ export function Modal({ isOpen, onClose, children, width }: ModalProps) {
     };
 
     if (isOpen) {
-      document.body.style.overflow = "hidden";
       document.addEventListener("keydown", handleKeyDown);
       document.addEventListener("mousedown", handleClickOutside);
       setTimeout(() => setIsVisible(true), 10); // Delay to allow animation
+      document.body.style.overflow = "hidden";
     } else {
       setIsVisible(false);
       document.body.style.overflow = "auto";
