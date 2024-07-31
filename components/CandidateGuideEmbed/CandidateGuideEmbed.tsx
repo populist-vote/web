@@ -113,12 +113,12 @@ export function CandidateGuideEmbed({
   const shouldDisplayLanguageSelect =
     submissionData?.candidateGuideById.questions
       .flatMap((q) => q.submissionsByRace)
-      .some((sub) => !!sub.translations);
+      .some((sub) => !!sub.translations.response);
 
   const availableLanguageCodes = submissionData?.candidateGuideById.questions
     .flatMap((q) => q.submissionsByRace)
     .flatMap((sub) =>
-      Object.entries(sub?.translations || {}).filter(([, v]) => !!v)
+      Object.entries(sub?.translations.response || {}).filter(([, v]) => !!v)
     )
     .map(([k]) => k);
 
