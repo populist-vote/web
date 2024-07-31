@@ -74,6 +74,8 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
         }
         question {
           id
+          prompt
+          responseCharLimit
         }
       }
     }

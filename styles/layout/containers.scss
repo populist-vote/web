@@ -28,6 +28,10 @@
   }
 }
 
+.clamp {
+  @include clamp-ellipsis(2);
+}
+
 .hero {
   margin-top: 0;
   text-align: center;
