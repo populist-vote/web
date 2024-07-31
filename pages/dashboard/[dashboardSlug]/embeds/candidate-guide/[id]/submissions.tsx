@@ -79,6 +79,10 @@ export default function CandidateGuideEmbedPageSubmissions() {
     router.query.selected as string
   );
 
+  const selectedQuestionPrompt = questions?.find(
+    (q) => q.id === selectedQuestion
+  )?.prompt;
+
   const candidates = embed?.race?.candidates;
 
   const submissions = useMemo(() => {
@@ -171,6 +175,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
           <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
             <ResponseEditAction
               row={info as CellContext<QuestionSubmissionResult, unknown>}
+              selectedQuestionPrompt={selectedQuestionPrompt as string}
             />
             <EditorialEditAction
               row={info as CellContext<QuestionSubmissionResult, unknown>}
@@ -179,7 +184,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
         ),
       },
     ],
-    []
+    [selectedQuestionPrompt]
   );
 
   // Count the number of unique candidates that have submitted
@@ -257,8 +262,10 @@ export default function CandidateGuideEmbedPageSubmissions() {
 
 function ResponseEditAction({
   row,
+  selectedQuestionPrompt,
 }: {
   row: CellContext<QuestionSubmissionResult, unknown>;
+  selectedQuestionPrompt: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -330,7 +337,7 @@ function ResponseEditAction({
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2 style={{ textAlign: "center" }}>Edit Response</h2>
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
-          <h3>{row.row.original.question.prompt}</h3>
+          <h3>{row.row.original.question.prompt || selectedQuestionPrompt}</h3>
           <form
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
           >
