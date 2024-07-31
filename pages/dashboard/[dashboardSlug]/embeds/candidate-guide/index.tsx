@@ -186,7 +186,7 @@ export default function CandidateGuideEmbedIndex({
                       >
                         {submission.question.prompt}
                       </p>
-                      <p>{submission.response}</p>
+                      <p>{submission?.response}</p>
                     </div>
                   </div>
                   <div

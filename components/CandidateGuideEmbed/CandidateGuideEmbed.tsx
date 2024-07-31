@@ -113,12 +113,12 @@ export function CandidateGuideEmbed({
   const shouldDisplayLanguageSelect =
     submissionData?.candidateGuideById.questions
       .flatMap((q) => q.submissionsByRace)
-      .some((sub) => !!sub.translations.response);
+      .some((sub) => !!sub.translations?.response);
 
   const availableLanguageCodes = submissionData?.candidateGuideById.questions
     .flatMap((q) => q.submissionsByRace)
     .flatMap((sub) =>
-      Object.entries(sub?.translations.response || {}).filter(([, v]) => !!v)
+      Object.entries(sub?.translations?.response || {}).filter(([, v]) => !!v)
     )
     .map(([k]) => k);
 
@@ -256,8 +256,8 @@ export function CandidateGuideEmbed({
                     <div>
                       {locale &&
                       !!submission.translations &&
-                      submission.translations.response?.[locale] ? (
-                        <p>{submission.translations.response?.[locale]}</p>
+                      submission.translations?.response?.[locale] ? (
+                        <p>{submission.translations?.response?.[locale]}</p>
                       ) : !!submission.response ? (
                         <p>{submission.response}</p>
                       ) : (
