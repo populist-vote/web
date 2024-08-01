@@ -16,9 +16,9 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: $grey-light;
+  background-color: $grey-lighter;
   padding: 0.75rem 1rem !important;
-  border-bottom: 1px solid $grey;
+  border-bottom: 1px solid $grey-light;
 
   strong {
     text-transform: uppercase;
@@ -103,7 +103,6 @@
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
-  font-size: 0.8em;
   text-transform: uppercase;
   font-family: $font-primary;
   border: none;
@@ -132,6 +131,7 @@
   line-height: 1.6;
   position: relative;
   background: #ededed;
+  margin-left: 0;
 
   .orgHeader {
     font-size: 0.8em;
@@ -174,7 +174,7 @@
 
 .question {
   h3 {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: 500;
     font-family: $font-secondary;
     margin: 0.5rem 0;
@@ -193,6 +193,15 @@
   font-weight: 400;
   font-size: $text-md;
   font-family: $font-primary;
+}
+
+.noResponseContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0;
 }
 
 .widgetContainer {
@@ -258,4 +267,10 @@
   font-size: 1.25em;
   font-weight: 500 !important;
   text-transform: uppercase;
+}
+
+.questionsTitle {
+  margin: 0;
+  font-size: 0.8em;
+  font-weight: 500;
 }

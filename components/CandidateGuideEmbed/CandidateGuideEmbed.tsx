@@ -226,7 +226,9 @@ export function CandidateGuideEmbed({
               </button>
             </div>
             <div className={styles.question}>
-              <h3>{selectedQuestion.prompt}</h3>
+              <h3 className={styles.questionButton}>
+                {selectedQuestion.prompt}
+              </h3>
             </div>
             <div className={styles.overflowGradient}>
               <div
@@ -289,7 +291,7 @@ export function CandidateGuideEmbed({
                             />
                             <span className={styles.orgHeader}>
                               {" "}
-                              from {organization?.name}
+                              From {organization?.name}
                             </span>
                           </div>
 
@@ -384,15 +386,7 @@ Thank you for your consideration.
   const mailto = `mailto:${politician?.email}?subject=${encodedSubject}&body=${encodedBody}${cc}`;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "0.5rem",
-      }}
-    >
+    <div className={styles.noResponseContainer}>
       <p className={styles.noResponse}>NO RESPONSE</p>
       {!!politician.email && (
         <a
@@ -401,7 +395,7 @@ Thank you for your consideration.
           rel={"noopener noreferrer"}
           className={styles.emailLink}
         >
-          Ask this candidate a question directly.
+          Ask this candidate a question directly
         </a>
       )}
     </div>
