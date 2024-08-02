@@ -28,6 +28,7 @@ import { useTranslation } from "next-i18next";
 import { LANGUAGES } from "utils/constants";
 import Markdown from "react-markdown";
 import Image from "next/image";
+import rehypeExternalLinks from "rehype-external-links";
 
 interface CandidateGuideRenderOptions {
   height: number;
@@ -295,7 +296,12 @@ export function CandidateGuideEmbed({
                             </span>
                           </div>
 
-                          <Markdown className={styles.markdown}>
+                          <Markdown
+                            className={styles.markdown}
+                            rehypePlugins={[
+                              [rehypeExternalLinks, { target: "_blank" }],
+                            ]}
+                          >
                             {submission.editorial}
                           </Markdown>
                         </blockquote>
