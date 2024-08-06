@@ -114,7 +114,9 @@ export function CandidateGuideEmbed({
   const shouldDisplayLanguageSelect =
     submissionData?.candidateGuideById.questions
       .flatMap((q) => q.submissionsByRace)
-      .some((sub) => !!sub.translations?.response);
+      .some((sub) =>
+        Object.entries(sub?.translations?.response || {}).some(([, v]) => !!v)
+      );
 
   const availableLanguageCodes = submissionData?.candidateGuideById.questions
     .flatMap((q) => q.submissionsByRace)
