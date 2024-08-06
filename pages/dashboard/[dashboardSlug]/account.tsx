@@ -32,6 +32,7 @@ import { FaTrash } from "react-icons/fa";
 import { Modal } from "components/Modal/Modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { getRelativeTimeString } from "utils/dates";
+import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
 
 export async function getServerSideProps({
   query,
@@ -57,6 +58,103 @@ interface OrganizationDetailsForm {
   websiteUrl: string | null | undefined;
   email: string | null | undefined;
   description: string | null | undefined;
+}
+
+function AvatarSection({ organization }: { organization: OrganizationResult }) {
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [avatarUrl, setAvatarUrl] = useState(
+    () => organization.assets.thumbnailImage400
+  );
+  const queryClient = useQueryClient();
+
+  const onDropAccepted = (files: FileWithPath[]) => {
+    setUploading(true);
+    const formData = new FormData();
+    const uploadOrganizationThumbnailOperation = `
+      {
+        "query":"mutation UploadOrganizationThumbnail($id: String, $file: Upload) {uploadOrganizationThumbnail(id: $id, file: $file) }",
+        "variables":{
+            "id": "${organization.id}",
+            "file": null
+        }
+      }
+      `;
+
+    formData.append("operations", uploadOrganizationThumbnailOperation);
+    const map = `{"file": ["variables.file"]}`;
+    formData.append("map", map);
+    if (files[0]) formData.append("file", files[0]);
+
+    fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    })
+      .then(async (data) => {
+        queryClient
+          .invalidateQueries({
+            queryKey: ["OrganizationAccount"],
+          })
+          .catch((err) => toast.error(err));
+        const json = await data.json();
+        setAvatarUrl(json.data.uploadOrganizationThumbnail);
+      })
+      .catch((error) => toast.error(error))
+      .finally(() => setUploading(false));
+  };
+
+  const onDropRejected = (e: FileRejection[]) => {
+    e.forEach((file) => {
+      toast.error(file.errors[0]?.message);
+    });
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDropAccepted,
+    onDropRejected,
+    multiple: false,
+    maxSize: 2 * 1024 * 1024,
+  });
+
+  const label = isDragActive
+    ? "Drop image here"
+    : !avatarUrl
+      ? "Upload avatar image"
+      : "Change avatar image";
+
+  return (
+    <section>
+      <h2>Avatar</h2>
+      <div className={styles.avatarSection}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {uploading ? (
+            <LoaderFlag />
+          ) : (
+            <OrganizationAvatar
+              src={avatarUrl as string}
+              size={200}
+              alt="Organization Logo"
+            />
+          )}
+          <div {...getRootProps()} style={{ marginTop: "2rem" }}>
+            <input {...getInputProps()} />
+            <Button
+              variant="secondary"
+              size="large"
+              theme="blue"
+              label={label}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function DetailsSection({
@@ -378,16 +476,9 @@ export default function Account({ dashboardSlug }: { dashboardSlug: string }) {
 
   return (
     <div className={styles.profile}>
-      <section>
-        <h2>Avatar</h2>
-        <div className={styles.avatarSection}>
-          <OrganizationAvatar
-            src={data?.organizationBySlug.assets.thumbnailImage160 as string}
-            size={200}
-            alt="Organization Logo"
-          />
-        </div>
-      </section>
+      <AvatarSection
+        organization={data?.organizationBySlug as OrganizationResult}
+      />
       <DetailsSection
         organization={data?.organizationBySlug as OrganizationResult}
       />
