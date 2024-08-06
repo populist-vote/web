@@ -40,9 +40,15 @@ mutation BeginUserRegistration(
   $email: String!
   $password: String!
   $address: AddressInput
+  $inviteToken: String
 ) {
   beginUserRegistration(
-    input: { email: $email, password: $password, address: $address }
+    input: {
+      email: $email
+      password: $password
+      address: $address
+      inviteToken: $inviteToken
+    }
   ) {
     userId
   }

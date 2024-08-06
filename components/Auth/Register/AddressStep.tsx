@@ -19,6 +19,7 @@ import { useTranslation } from "next-i18next";
 function AddressStep() {
   const router = useRouter();
   const { query } = router;
+  const { inviteToken } = query as { inviteToken: string };
   const { t } = useTranslation(["auth", "common"]);
 
   const {
@@ -61,6 +62,7 @@ function AddressStep() {
     handleUserRegistration.mutate({
       ...loginFormState,
       address: null,
+      inviteToken,
     });
   };
 
@@ -73,6 +75,7 @@ function AddressStep() {
         ...data.address,
         country: "USA",
       },
+      inviteToken,
     } as BeginUserRegistrationInput);
   };
 
