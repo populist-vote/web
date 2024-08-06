@@ -11,10 +11,13 @@
   }
 
   section {
-    border-bottom: 1px solid var(--blue-darker);
     display: grid;
     grid-template-columns: 1fr 3fr;
     padding: 3rem 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--blue-darker);
+    }
 
     form {
       display: grid;

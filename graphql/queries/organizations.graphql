@@ -35,6 +35,7 @@ query OrganizationAccount($slug: String!) {
     }
 
     pendingInvites {
+      token
       email
       role
       createdAt

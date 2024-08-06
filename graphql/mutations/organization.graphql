@@ -8,3 +8,7 @@ mutation UpdateOrganization($input: UpdateOrganizationInput!) {
     websiteUrl
   }
 }
+
+mutation DeleteOrganizationUser($id: ID!, $userId: ID!) {
+  deleteOrganizationUser(id: $id, userId: $userId)
+}

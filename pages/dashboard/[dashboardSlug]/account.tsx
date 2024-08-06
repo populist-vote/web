@@ -11,6 +11,8 @@ import {
   OrganizationResult,
   OrganizationRoleType,
   PendingInviteResult,
+  useDeleteInviteMutation,
+  useDeleteOrganizationUserMutation,
   useInviteUserMutation,
   useOrganizationAccountQuery,
   useUpdateOrganizationMutation,
@@ -262,6 +264,33 @@ function MembersSection({
 
   const inviteUserMutation = useInviteUserMutation();
 
+  const deleteOrgUserMutation = useDeleteOrganizationUserMutation();
+
+  const handleDeleteOrgUser = (userId: string) => {
+    try {
+      confirm("Are you sure you want to delete this user?") &&
+        deleteOrgUserMutation.mutate(
+          {
+            id: organization.id,
+            userId,
+          },
+          {
+            onSuccess: () => {
+              void queryClient.invalidateQueries({
+                queryKey: ["OrganizationAccount"],
+              });
+              toast.success("User deleted successfully");
+            },
+            onError: (error) => {
+              toast.error("Failed to delete user: " + error);
+            },
+          }
+        );
+    } catch (error) {
+      toast.error("Failed to delete user: " + error);
+    }
+  };
+
   const queryClient = useQueryClient();
 
   const handleInviteMember = (data: Partial<OrganizationMemberResult>) => {
@@ -317,9 +346,13 @@ function MembersSection({
       {
         id: "actions",
         header: "",
-        cell: () => (
+        cell: (info) => (
           <div style={{ float: "right" }}>
-            <FaTrash />
+            <FaTrash
+              onClick={() =>
+                handleDeleteOrgUser(info.row.original.id as string)
+              }
+            />
           </div>
         ),
       },
@@ -402,6 +435,32 @@ export function PendingInvites({
 }: {
   organization: OrganizationResult;
 }) {
+  const deleteInviteMutation = useDeleteInviteMutation();
+  const queryClient = useQueryClient();
+  const handleDeleteInvite = (token: string) => {
+    try {
+      confirm("Are you sure you want to delete this invite?") &&
+        deleteInviteMutation.mutate(
+          {
+            token,
+          },
+          {
+            onSuccess: () => {
+              void queryClient.invalidateQueries({
+                queryKey: ["OrganizationAccount"],
+              });
+              toast.success("Invite deleted successfully");
+            },
+            onError: (error) => {
+              toast.error("Failed to delete invite: " + error);
+            },
+          }
+        );
+    } catch (error) {
+      toast.error("Failed to delete invite: " + error);
+    }
+  };
+
   const columns = useMemo<ColumnDef<Partial<PendingInviteResult>>[]>(
     () => [
       {
@@ -417,15 +476,26 @@ export function PendingInvites({
       {
         accessorKey: "createdAt",
         header: "Invited At",
-        cell: (info) =>
-          getRelativeTimeString(new Date(info.getValue() as string)),
+        cell: (info) => (
+          <span className={styles.flexBetween}>
+            {getRelativeTimeString(new Date(info.getValue() as string))}
+            <Badge size="small" theme="aqua">
+              Pending
+            </Badge>
+          </span>
+        ),
       },
       {
         id: "actions",
         header: "",
-        cell: () => (
+        cell: (info) => (
           <div style={{ float: "right" }}>
-            <FaTrash />
+            <FaTrash
+              onClick={() =>
+                info.row.original.token &&
+                handleDeleteInvite(info.row.original.token)
+              }
+            />
           </div>
         ),
       },
@@ -435,7 +505,7 @@ export function PendingInvites({
 
   return (
     <section>
-      <h2>Pending Invites</h2>
+      <h2>Invites</h2>
       {organization.pendingInvites.length === 0 ? (
         <span className={styles.noResults}>NO INVITES</span>
       ) : (

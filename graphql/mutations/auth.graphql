@@ -73,3 +73,7 @@ mutation DeleteAccountByEmail($email: String!) {
 mutation InviteUser($input: InviteUserInput!) {
   inviteUser(input: $input)
 }
+
+mutation DeleteInvite($token: ID!) {
+  deleteInvite(token: $token)
+}

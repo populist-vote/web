@@ -743,9 +743,11 @@ type Mutation {
   deleteCandidateGuide(id: ID!): Boolean!
   deleteElection(id: String!): DeleteElectionResult!
   deleteEmbed(id: UUID!): DeleteEmbedResult!
+  deleteInvite(token: ID!): Boolean!
   deleteIssueTag(id: String!): DeleteIssueTagResult!
   deleteOffice(id: String!): DeleteOfficeResult!
   deleteOrganization(id: String!): DeleteOrganizationResult!
+  deleteOrganizationUser(id: ID!, userId: ID!): Boolean!
   deletePolitician(id: String!): DeletePoliticianResult!
   deletePoll(id: ID!): DeletePollResult!
   deleteProfilePicture: Boolean!
@@ -777,6 +779,7 @@ type Mutation {
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updatePolitician(input: UpdatePoliticianInput!, intakeToken: String!, slug: String!): PoliticianResult!
   updateUsername(username: String!): UpdateUsernameResult!
+  uploadOrganizationThumbnail(file: Upload!, id: ID!): String!
   uploadPoliticianPicture(file: Upload!, intakeToken: String!, slug: String!): String!
   uploadProfilePicture(file: Upload!): String!
   upsertBallotMeasure(electionId: UUID!, input: UpsertBallotMeasureInput!): BallotMeasureResult!
@@ -1003,6 +1006,7 @@ type PendingInviteResult {
   createdAt: DateTime!
   email: String!
   role: OrganizationRoleType
+  token: ID!
 }
 
 input PingEmbedOriginInput {
