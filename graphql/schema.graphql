@@ -113,6 +113,7 @@ enum BallotMeasureStatus {
 input BeginUserRegistrationInput {
   address: AddressInput
   email: String!
+  inviteToken: String
   password: String!
 }
 
@@ -408,12 +409,28 @@ input CreateOrConnectIssueTagInput {
 
 input CreateOrConnectOrganizationInput {
   connect: [String!]
-  create: [UpsertOrganizationInput!]
+  create: [CreateOrganizationInput!]
 }
 
 input CreateOrConnectPoliticianInput {
   connect: [String!]
   create: [InsertPoliticianInput!]
+}
+
+input CreateOrganizationInput {
+  assets: JSON
+  description: String
+  email: String
+  facebookUrl: String
+  headquartersAddressId: UUID
+  headquartersPhone: String
+  instagramUrl: String
+  name: String!
+  taxClassification: String
+  thumbnailImageUrl: String
+  twitterUrl: String
+  votesmartSigId: Int
+  websiteUrl: String
 }
 
 input CreateUserInput {
@@ -680,6 +697,13 @@ input InsertPoliticianInput {
   youtubeUrl: String
 }
 
+input InviteUserInput {
+  email: String!
+  organizationId: ID
+  politicianId: ID
+  role: OrganizationRoleType
+}
+
 type IssueTagResult {
   ballotMeasures: [BallotMeasureResult!]!
   bills: [BillResult!]!
@@ -736,6 +760,7 @@ type Mutation {
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!, raceId: ID!): String!
   insertPolitician(input: InsertPoliticianInput!): PoliticianResult!
+  inviteUser(input: InviteUserInput!): String!
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
   openAllCandidateGuideSubmissions(candidateGuideId: ID!): Boolean!
@@ -748,6 +773,7 @@ type Mutation {
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
+  updateOrganization(input: UpdateOrganizationInput!): OrganizationResult!
   updatePassword(input: UpdatePasswordInput!): Boolean!
   updatePolitician(input: UpdatePoliticianInput!, intakeToken: String!, slug: String!): PoliticianResult!
   updateUsername(username: String!): UpdateUsernameResult!
@@ -761,7 +787,6 @@ type Mutation {
   upsertEmbed(input: UpsertEmbedInput!): EmbedResult!
   upsertIssueTag(input: UpsertIssueTagInput!): IssueTagResult!
   upsertOffice(input: UpsertOfficeInput!): OfficeResult!
-  upsertOrganization(input: UpsertOrganizationInput!): OrganizationResult!
   upsertPoll(input: UpsertPollInput!): PollResult!
   upsertPollSubmission(pollSubmissionInput: UpsertPollSubmissionInput!, respondentInput: UpsertRespondentInput): PollSubmissionResult!
   upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
@@ -870,6 +895,19 @@ type OrganizationAssets {
   thumbnailImage400: String
 }
 
+type OrganizationAttributes {
+  supportedLanguages: [String!]
+}
+
+type OrganizationMemberResult {
+  email: String!
+  firstName: String
+  id: ID!
+  lastName: String
+  profilePictureUrl: String
+  role: OrganizationRoleType!
+}
+
 type OrganizationPoliticianNoteResult {
   createdAt: DateTime!
   electionId: ID!
@@ -886,6 +924,7 @@ type OrganizationPoliticianNoteResult {
 
 type OrganizationResult {
   assets: OrganizationAssets!
+  attributes: OrganizationAttributes!
   description: String
   email: String
   facebookUrl: String
@@ -894,7 +933,9 @@ type OrganizationResult {
   id: ID!
   instagramUrl: String
   issueTags: [IssueTagResult!]!
+  members: [OrganizationMemberResult!]!
   name: String!
+  pendingInvites: [PendingInviteResult!]!
   politicianNotes(electionId: ID!): [OrganizationPoliticianNoteResult!]!
   slug: String!
   taxClassification: String
@@ -955,6 +996,13 @@ type PasswordEntropyResult {
   message: String
   score: Int!
   valid: Boolean!
+}
+
+type PendingInviteResult {
+  acceptedAt: DateTime
+  createdAt: DateTime!
+  email: String!
+  role: OrganizationRoleType
 }
 
 input PingEmbedOriginInput {
@@ -1579,6 +1627,25 @@ type UpdateNameResult {
   lastName: String
 }
 
+input UpdateOrganizationInput {
+  assets: JSON
+  description: String
+  email: String
+  facebookUrl: String
+  headquartersAddressId: UUID
+  headquartersPhone: String
+  id: UUID!
+  instagramUrl: String
+  issueTags: CreateOrConnectIssueTagInput
+  name: String
+  slug: String
+  taxClassification: String
+  thumbnailImageUrl: String
+  twitterUrl: String
+  votesmartSigId: Int
+  websiteUrl: String
+}
+
 input UpdatePasswordInput {
   newPassword: String!
   oldPassword: String!
@@ -1739,25 +1806,6 @@ input UpsertOfficeInput {
   subtitleShort: String
   termLength: Int
   title: String
-}
-
-input UpsertOrganizationInput {
-  assets: JSON
-  description: String
-  email: String
-  facebookUrl: String
-  headquartersAddressId: UUID
-  headquartersPhone: String
-  id: UUID
-  instagramUrl: String
-  issueTags: CreateOrConnectIssueTagInput
-  name: String
-  slug: String
-  taxClassification: String
-  thumbnailImageUrl: String
-  twitterUrl: String
-  votesmartSigId: Int
-  websiteUrl: String
 }
 
 input UpsertPollInput {

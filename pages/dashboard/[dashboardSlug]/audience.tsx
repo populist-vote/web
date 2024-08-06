@@ -54,7 +54,7 @@ function Audience({ dashboardSlug }: { dashboardSlug: string }) {
     () =>
       audienceQuery.data?.respondentsByOrganizationId?.edges.map(
         (edge) => edge.node
-      ),
+      ) || [],
     [audienceQuery.data]
   );
 
@@ -95,7 +95,7 @@ function Audience({ dashboardSlug }: { dashboardSlug: string }) {
     <div style={{ width: "100%" }}>
       <h3>All Respondents</h3>
       <Table
-        data={respondents || []}
+        data={respondents}
         initialState={{
           pagination: {
             pageSize: 10,

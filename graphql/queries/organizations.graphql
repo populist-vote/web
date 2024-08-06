@@ -22,6 +22,30 @@ fragment organizationFields on OrganizationResult {
   }
 }
 
+query OrganizationAccount($slug: String!) {
+  organizationBySlug(slug: $slug) {
+    ...organizationFields
+    members {
+      id
+      firstName
+      lastName
+      email
+      profilePictureUrl
+      role
+    }
+
+    pendingInvites {
+      email
+      role
+      createdAt
+    }
+
+    attributes {
+      supportedLanguages
+    }
+  }
+}
+
 query OrganizationBySlug($slug: String!) {
   organizationBySlug(slug: $slug) {
     ...organizationFields
