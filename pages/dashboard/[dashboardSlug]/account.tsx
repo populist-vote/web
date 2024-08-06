@@ -476,6 +476,7 @@ export function PendingInvites({
       {
         accessorKey: "createdAt",
         header: "Invited At",
+        size: 350,
         cell: (info) => (
           <span className={styles.flexBetween}>
             {getRelativeTimeString(new Date(info.getValue() as string))}
