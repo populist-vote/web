@@ -34,6 +34,8 @@ function FinancialsSection() {
     []
   );
 
+  const donationsData = donationsByIndustry?.sectors || [];
+
   if (isLoading) return <LoaderFlag />;
   if (!donationsSummary && !donationsByIndustry) return null;
 
@@ -91,7 +93,7 @@ function FinancialsSection() {
 
           <Table
             theme="green"
-            data={donationsByIndustry?.sectors || []}
+            data={donationsData}
             columns={columns}
             initialState={{
               pagination: {

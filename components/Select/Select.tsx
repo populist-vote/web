@@ -2,10 +2,11 @@ import clsx from "clsx";
 import { CSSProperties } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import styles from "./Select.module.scss";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
-type SelectProps = {
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  value: string;
+type SelectProps<TFormValues extends FieldValues> = {
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: string;
   options: { value: string; label: string }[];
   textColor?: string;
   accentColor?: string;
@@ -16,9 +17,12 @@ type SelectProps = {
   disabled?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSelect?: any;
+  name?: Path<TFormValues>;
+  register?: UseFormRegister<TFormValues>;
+  rules?: Record<string, unknown>;
 };
 
-function Select({
+function Select<TFormValues extends Record<string, unknown>>({
   onChange,
   value,
   options,
@@ -28,8 +32,12 @@ function Select({
   border = "none",
   uppercase = false,
   placeholder,
+  register,
+  name,
+  rules,
+
   ...props
-}: SelectProps) {
+}: SelectProps<TFormValues>) {
   const styleVars: CSSProperties & {
     "--select-text-color": string;
     "--select-accent-color": string;
@@ -49,6 +57,7 @@ function Select({
     <div style={styleVars} className={cx}>
       <select
         className={styles.select}
+        {...(register && name && register(name, rules))}
         onChange={onChange}
         value={value}
         {...props}

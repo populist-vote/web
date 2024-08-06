@@ -69,3 +69,7 @@ mutation ResetPassword($newPassword: String!, $resetToken: String!) {
 mutation DeleteAccountByEmail($email: String!) {
   deleteAccountByEmail(email: $email)
 }
+
+mutation InviteUser($input: InviteUserInput!) {
+  inviteUser(input: $input)
+}

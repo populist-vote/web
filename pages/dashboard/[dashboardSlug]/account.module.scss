@@ -1,0 +1,26 @@
+@import "styles/layout/containers.scss";
+
+.profile {
+  h2 {
+    margin: 0;
+  }
+
+  .avatarSection {
+    display: flex;
+    justify-content: center;
+  }
+
+  section {
+    border-bottom: 1px solid var(--blue-darker);
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    padding: 3rem 0;
+
+    form {
+      display: grid;
+      grid-template-rows: auto;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+  }
+}

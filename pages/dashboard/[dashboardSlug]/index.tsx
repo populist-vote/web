@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { BillFiltersParams } from "pages/bills";
 import { SupportedLocale } from "types/global";
 import { MdSpaceDashboard } from "react-icons/md";
-import { BiCodeBlock } from "react-icons/bi";
+import { BiCodeBlock, BiCog } from "react-icons/bi";
 import { ReactNode, useState } from "react";
 import { useTheme } from "hooks/useTheme";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
@@ -118,6 +118,19 @@ export function DashboardTopNav() {
             }}
           >
             <BsPeopleFill /> Audience
+          </Link>
+        </li>
+        <li
+          data-selected={router.asPath == `/dashboard/${dashboardSlug}/account`}
+          data-color={theme}
+        >
+          <Link
+            href={{
+              pathname: "/dashboard/[dashboardSlug]/account",
+              query: { dashboardSlug },
+            }}
+          >
+            <BiCog /> Account
           </Link>
         </li>
       </ul>
