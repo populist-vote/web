@@ -285,7 +285,7 @@ function Table<T extends object & { id?: string }>({
   };
 
   return (
-    <>
+    <div>
       {paginate && <PageIndex />}
       <div className={styles.container} style={styleVars}>
         <table>
@@ -385,7 +385,7 @@ function Table<T extends object & { id?: string }>({
           {metaRight}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
