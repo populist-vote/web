@@ -18,6 +18,7 @@ import { getRelativeTimeString, renderSubmissionState } from "utils/dates";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./index.module.scss";
+import Link from "next/link";
 
 export async function getServerSideProps({
   query,
@@ -158,24 +159,32 @@ export default function CandidateGuideEmbedIndex({
                     }}
                   >
                     <div>
-                      <div className={styles.avatarContainer}>
-                        <PartyAvatar
-                          theme={"dark"}
-                          size={80}
-                          iconSize="1.25rem"
-                          party={submission.politician?.party as PoliticalParty}
-                          src={
-                            submission.politician?.assets
-                              ?.thumbnailImage160 as string
-                          }
-                          alt={submission.politician?.fullName as string}
-                          target={"_blank"}
-                          rel={"noopener noreferrer"}
-                        />
-                        <span className={clsx(styles.link, styles.avatarName)}>
-                          {submission.politician?.fullName}
-                        </span>
-                      </div>
+                      <Link
+                        href={`/politicians/${submission.politician?.slug}`}
+                      >
+                        <div className={styles.avatarContainer}>
+                          <PartyAvatar
+                            theme={"dark"}
+                            size={80}
+                            iconSize="1.25rem"
+                            party={
+                              submission.politician?.party as PoliticalParty
+                            }
+                            src={
+                              submission.politician?.assets
+                                ?.thumbnailImage160 as string
+                            }
+                            alt={submission.politician?.fullName as string}
+                            target={"_blank"}
+                            rel={"noopener noreferrer"}
+                          />
+                          <span
+                            className={clsx(styles.link, styles.avatarName)}
+                          >
+                            {submission.politician?.fullName}
+                          </span>
+                        </div>
+                      </Link>
                     </div>
                     <div>
                       <p
