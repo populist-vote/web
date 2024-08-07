@@ -285,7 +285,7 @@ function Table<T extends object & { id?: string }>({
   };
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       {paginate && <PageIndex />}
       <div className={styles.container} style={styleVars}>
         <table>
