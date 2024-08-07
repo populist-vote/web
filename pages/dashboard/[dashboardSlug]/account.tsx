@@ -517,7 +517,7 @@ export function PendingInvites({
             pagination: { pageSize: 10 },
           }}
           data={organization.pendingInvites || []}
-          paginate={organization.pendingInvites.length > 10}
+          paginate={false}
         />
       )}
     </section>
