@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
   const router = useRouter();
-  const slug = router.query.slug as string;
+  const slug = router.query.billSlug as string;
 
   const { data, isLoading, error } = useBillBySlugQuery({ slug });
 
