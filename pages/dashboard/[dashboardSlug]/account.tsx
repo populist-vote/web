@@ -419,7 +419,7 @@ function MembersSection({
         <Table
           columns={columns}
           initialState={{
-            sorting: [{ id: "name", desc: false }],
+            sorting: [{ id: "role", desc: false }],
             pagination: { pageSize: 10 },
           }}
           data={orgMembers}
