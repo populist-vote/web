@@ -329,7 +329,7 @@ function MembersSection({
         header: "Name",
         cell: (info) => (
           <div>
-            {`${info.row.original.firstName} ${info.row.original.lastName} `}{" "}
+            {`${info.row.original.firstName ?? ""} ${info.row.original.lastName ?? ""} `}{" "}
           </div>
         ),
       },
