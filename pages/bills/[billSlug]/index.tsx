@@ -1,10 +1,8 @@
 import { useMemo, useCallback } from "react";
 import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { NextParsedUrlQuery } from "next/dist/server/request-meta";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { BsChevronLeft } from "react-icons/bs";
 
@@ -23,36 +21,16 @@ import { SupportedLocale } from "types/global";
 
 import {
   PoliticianResult,
-  BillBySlugQuery,
   useBillBySlugQuery,
   IssueTagResult,
 } from "generated";
 
 import styles from "../BillBySlug.module.scss";
 
-interface Params extends NextParsedUrlQuery {
-  billSlug: string;
-}
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { billSlug } = ctx.params as Params;
   const locale = ctx.locale as SupportedLocale;
-
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: useBillBySlugQuery.getKey({ slug: billSlug }),
-    queryFn: () => useBillBySlugQuery.fetcher({ slug: billSlug }),
-  });
-  const state = dehydrate(queryClient);
-
-  const data = state.queries[0]?.state.data as BillBySlugQuery;
-
   return {
-    notFound: state.queries.length === 0 || !data?.billBySlug,
     props: {
-      dehydratedState: state,
-      mobileNavTitle: data?.billBySlug?.billNumber,
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],

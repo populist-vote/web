@@ -230,7 +230,11 @@ export function CandidateGuideEmbed({
             </div>
             <div className={styles.question}>
               <h3 className={styles.questionButton}>
-                {selectedQuestion.prompt}
+                {locale &&
+                !!selectedQuestion.translations &&
+                selectedQuestion.translations[locale]
+                  ? selectedQuestion.translations[locale]
+                  : selectedQuestion.prompt}
               </h3>
             </div>
             <div className={styles.overflowGradient}>
