@@ -29,6 +29,7 @@ import { LANGUAGES } from "utils/constants";
 import Markdown from "react-markdown";
 import Image from "next/image";
 import rehypeExternalLinks from "rehype-external-links";
+import { FaLanguage } from "react-icons/fa6";
 
 interface CandidateGuideRenderOptions {
   height: number;
@@ -168,7 +169,10 @@ export function CandidateGuideEmbed({
               </h2>
             </div>
             {shouldDisplayLanguageSelect && (
-              <LanguageSelect languages={availableLanguages} />
+              <div className={styles.flexBetween}>
+                <FaLanguage size={25} color="var(--grey-darker)" />
+                <LanguageSelect languages={availableLanguages} />
+              </div>
             )}
           </div>
           {shouldDisplayRaceLabels && (
