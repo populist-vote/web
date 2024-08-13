@@ -202,6 +202,15 @@ export function CandidateGuideEmbed({
                 theme="light"
                 isEmbedded={true}
               />
+              {race?.results.precinctReportingPercentage && (
+                <div className={styles.resultsInfo}>
+                  <Badge size="small" theme="grey" lightBackground>
+                    {race?.results?.precinctReportingPercentage}% precincts
+                    reporting
+                  </Badge>
+                  <p>Vote totals update every 10 minutes after polls close.</p>
+                </div>
+              )}
             </div>
             <h4 className={styles.questionsTitle}>{t("questions")}</h4>
             <div className={styles.overflowGradient}>
