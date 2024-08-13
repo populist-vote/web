@@ -208,9 +208,7 @@ export function CandidateGuideEmbed({
                     {race?.results?.precinctReportingPercentage}% precincts
                     reporting
                   </Badge>
-                  <p>
-                    Polls are closed - vote totals will update every 10 minutes.
-                  </p>
+                  <p>Vote totals update every 10 minutes after polls close.</p>
                 </div>
               )}
             </div>
