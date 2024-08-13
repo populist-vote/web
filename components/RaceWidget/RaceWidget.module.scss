@@ -65,7 +65,7 @@
   gap: 1rem;
   margin: 0 1rem 0.5rem;
 
-  @include for-tablet-down {
+  @include for-phone-only {
     flex-direction: column;
     text-align: center;
   }
@@ -89,7 +89,7 @@
     margin: 0;
   }
 
-  @include for-tablet-down {
+  @include for-phone-only {
     flex-direction: column;
     text-align: center;
   }
