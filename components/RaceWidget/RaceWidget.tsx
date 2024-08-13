@@ -54,28 +54,39 @@ export function RaceWidget({
         </span>
       </header>
       <main>
-        {shouldDisplayRaceLabels && (
-          <section className={styles.raceLabels}>
-            {race?.voteType === VoteType.RankedChoice && (
-              <Badge size="small" theme="grey" lightBackground>
-                Ranked Choice Vote
-              </Badge>
-            )}
-            {(race?.numElect ?? 0) > 1 && (
-              <Badge size="small" theme="grey" lightBackground>
-                Elect {race?.numElect}
-              </Badge>
-            )}
-          </section>
-        )}
         <div className={styles.raceContainer}>
+          {shouldDisplayRaceLabels && (
+            <div className={styles.raceLabelsContainer}>
+              <section className={styles.raceLabels}>
+                {race?.voteType === VoteType.RankedChoice && (
+                  <Badge size="small" theme="grey" lightBackground>
+                    Ranked Choice Vote
+                  </Badge>
+                )}
+                {(race?.numElect ?? 0) > 1 && (
+                  <Badge size="small" theme="grey" lightBackground>
+                    Elect {race?.numElect}
+                  </Badge>
+                )}
+              </section>
+              {race?.voteType === VoteType.RankedChoice && (
+                <span className={styles.resultsInfoLabel}>
+                  Percentages are first choice votes.
+                </span>
+              )}
+            </div>
+          )}
           <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
+          {race?.results.precinctReportingPercentage && (
+            <div className={styles.resultsInfo}>
+              <Badge size="small" theme="grey" lightBackground>
+                {race?.results?.precinctReportingPercentage}% precincts
+                reporting
+              </Badge>
+              <p>Vote totals update every 10 minutes after polls close.</p>
+            </div>
+          )}
         </div>
-        {race?.voteType === VoteType.RankedChoice && (
-          <span className={styles.resultsInfoLabel}>
-            Percentages are first choice votes.
-          </span>
-        )}
       </main>
       <WidgetFooter learnMoreHref={"/ballot"} />
     </article>

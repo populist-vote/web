@@ -10,13 +10,6 @@
   main {
     width: 100%;
     padding: 1rem 0;
-
-    .raceLabels {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
   }
 }
 
@@ -55,12 +48,49 @@
   font-style: italic;
   font-weight: 400;
   color: $grey-darker;
-  margin: 1rem 0 0.25rem 0;
 }
 
 .raceContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 0 1rem;
-  margin-bottom: 2rem;
+  gap: 0.5rem;
+}
+
+.raceLabelsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 1rem 0.5rem;
+
+  @include for-tablet-down {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.raceLabels {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.resultsInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 1rem;
+
+  p {
+    font-size: 0.9em;
+    font-style: italic;
+    margin: 0;
+  }
+
+  @include for-tablet-down {
+    flex-direction: column;
+    text-align: center;
+  }
 }
