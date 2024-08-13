@@ -61,7 +61,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: column;
   width: 100%;
+  gap: 1rem;
 
   h2 {
     text-transform: uppercase;
@@ -70,9 +72,8 @@
     margin: 0;
   }
 
-  @include for-tablet-down {
-    flex-direction: column;
-    gap: 1rem;
+  @include for-tablet-up {
+    flex-direction: row;
   }
 }
 
