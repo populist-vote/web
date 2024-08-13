@@ -1354,6 +1354,9 @@ type RaceResultEdge {
 }
 
 type RaceResultsResult {
+  numPrecinctsReporting: Int
+  precinctReportingPercentage: Float
+  totalPrecincts: Int
   totalVotes: Int
   votesByCandidate: [RaceCandidateResult!]!
   winners: [PoliticianResult!]
