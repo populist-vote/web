@@ -1,4 +1,4 @@
-import { FieldSet, VotingGuideNote, PartyAvatar, Badge } from "components";
+import { FieldSet, VotingGuideNote, PartyAvatar } from "components";
 import {
   PoliticalParty,
   PoliticianResult,
@@ -265,46 +265,24 @@ function Race({
     </>
   );
 
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-      {raceType === RaceType.General ? (
-        <div className={clsx(styles.raceContent, styles.scrollSnap)}>
-          {$raceContent}
-        </div>
-      ) : (
-        <FieldSet
-          heading={raceType}
-          color={
-            party?.fecCode === "REP"
-              ? "red"
-              : party?.fecCode === "DEM"
-                ? "blue"
-                : "violet"
-          }
-          className={clsx(styles.scrollSnap)}
-        >
-          {$raceContent}
-        </FieldSet>
-      )}
-      {results?.precinctReportingPercentage && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "1.5rem",
-          }}
-        >
-          <Badge size="small" theme="grey">
-            {results?.precinctReportingPercentage}% precincts reporting
-          </Badge>{" "}
-          <span style={{ fontStyle: "italic", color: "var(--grey-dark)" }}>
-            {" "}
-            Results updated every 10 minutes after polls close
-          </span>
-        </div>
-      )}
+  return raceType === RaceType.General ? (
+    <div className={clsx(styles.raceContent, styles.scrollSnap)}>
+      {$raceContent}
     </div>
+  ) : (
+    <FieldSet
+      heading={raceType}
+      color={
+        party?.fecCode === "REP"
+          ? "red"
+          : party?.fecCode === "DEM"
+            ? "blue"
+            : "violet"
+      }
+      className={clsx(styles.scrollSnap)}
+    >
+      {$raceContent}
+    </FieldSet>
   );
 }
 
