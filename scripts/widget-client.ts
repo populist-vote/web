@@ -50,7 +50,7 @@
   style.textContent = `
   ${containerName}, .populist-frame {
     border-radius: 15px;
-    *width: 100%;
+    width: 100%;
   }
 
   .populist-frame {
