@@ -155,13 +155,15 @@ export function CandidateGuideEmbed({
     >
       <header className={styles.header}>
         <strong>{t("candidate-guide")}</strong>
-        <strong>
-          {getYear(election?.electionDate)} - {election?.title}
-        </strong>
+        <span className={styles.electionInfo}>
+          <strong>
+            {getYear(election?.electionDate)} - {election?.title}
+          </strong>
+        </span>
       </header>
       <main className={styles.contentContainer}>
         <div className={styles.titleSection}>
-          <div className={styles.title}>
+          <div className={styles.titleAndLanguage}>
             <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
               <h2 className={styles.officeName}>{race?.office.name}</h2>
               <h2 className={styles.officeSubtitle}>
