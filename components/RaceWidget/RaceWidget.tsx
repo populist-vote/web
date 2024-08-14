@@ -77,7 +77,7 @@ export function RaceWidget({
             </div>
           )}
           <Race race={race} itemId={race.id} theme="light" isEmbedded={true} />
-          {race?.results.precinctReportingPercentage && (
+          {race?.results.precinctReportingPercentage != null && (
             <div className={styles.resultsInfo}>
               <Badge size="small" theme="grey" lightBackground>
                 {race?.results?.precinctReportingPercentage}% precincts
