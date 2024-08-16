@@ -2,30 +2,39 @@
 
 .modal {
   position: fixed;
-  top: 50%;
+  top: 15%;
   left: 50%;
   border-radius: 30px;
-  transform: translate(-50%, -50%);
+  border: 1px solid $blue-dark;
+  transform: translateX(-50%);
   background: $blue-darkest;
   padding: 20px;
-  box-shadow: 0 2px 5px $blue-dark-alpha-8;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
   min-width: min-content;
   max-width: 90%;
   max-height: 90%;
-  overflow: auto;
+  overflow: hidden; /* Important for animating height */
   transition:
     opacity 0.3s ease,
-    transform 0.3s ease;
+    transform 0.3s ease,
+    max-height 0.5s ease,
+    /* Smooth height animation */ padding 0.3s ease; /* Smooth padding animation */
+
+  height: auto; /* Allows the height to be auto-adjusted */
 
   &.open {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateX(-50%) scale(1);
+    max-height: 90%; /* Allows content to expand within limits */
+    padding: 20px; /* Ensures padding is applied consistently */
   }
 
   &.close {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translateX(-50%) scale(0.9);
+    max-height: 0; /* Collapses the modal height smoothly */
+    padding: 0; /* Reduces padding for smoother collapse */
   }
 }
 
@@ -34,9 +43,8 @@
   top: 0;
   left: 0;
   right: 0;
-  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 999;
   transition: opacity 0.3s ease;
 

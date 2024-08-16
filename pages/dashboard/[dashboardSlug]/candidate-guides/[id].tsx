@@ -918,7 +918,11 @@ function CandidateGuideEmbedTable({
   return (
     <Table
       columns={columns}
-      initialState={{}}
+      initialState={{
+        pagination: {
+          pageSize: embeds.length,
+        },
+      }}
       data={embeds}
       theme="blue"
       paginate={false}

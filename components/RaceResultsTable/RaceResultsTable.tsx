@@ -111,7 +111,8 @@ export function RaceResultsTable({
               {...{
                 checked:
                   row.getIsSelected() || selectedRows.includes(row.original.id),
-                disabled: !row.getCanSelect(),
+                disabled:
+                  !row.getCanSelect() || selectedRows.includes(row.original.id),
                 indeterminate: row.getIsSomeSelected(),
                 onChange: row.getToggleSelectedHandler(),
               }}
