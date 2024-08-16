@@ -7,7 +7,6 @@ import { DashboardTopNav } from "../..";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   CandidateGuideResult,
-  EmbedResult,
   EmbedType,
   PoliticalParty,
   useCandidateGuidesByOrganizationQuery,
@@ -96,9 +95,9 @@ export default function CandidateGuideEmbedIndex({
           getRelativeTimeString(new Date(info.getValue() as string)),
       },
       {
-        accessorKey: "embeds",
+        accessorKey: "embedCount",
         header: "Embeds",
-        cell: (info) => (info.getValue() as Array<EmbedResult>).length,
+        cell: (info) => info.getValue(),
         size: 5,
       },
       {
@@ -118,26 +117,28 @@ export default function CandidateGuideEmbedIndex({
 
   const guides = data?.candidateGuidesByOrganization || [];
 
-  if (isLoading || isRecentSubmissionsDataLoading) return <LoaderFlag />;
-
   return (
     <>
-      <EmbedIndex
-        // @ts-expect-error React table types are difficult to work with
-        columns={candidateGuideColumns}
-        // @ts-expect-error React table types are difficult to work with
-        embeds={guides}
-        slug={dashboardSlug}
-        embedType={EmbedType.CandidateGuide}
-        title="Candidate Guides"
-        isLoading={false}
-        emptyStateMessage="No candidate guides found."
-        onRowClick={(row) =>
-          router.push(
-            `/dashboard/${dashboardSlug}/candidate-guides/${row.original.id}`
-          )
-        }
-      />
+      {isLoading || !data ? (
+        <LoaderFlag />
+      ) : (
+        <EmbedIndex
+          // @ts-expect-error React table types are difficult to work with
+          columns={candidateGuideColumns}
+          // @ts-expect-error React table types are difficult to work with
+          embeds={guides}
+          slug={dashboardSlug}
+          embedType={EmbedType.CandidateGuide}
+          title="Candidate Guides"
+          isLoading={false}
+          emptyStateMessage="No candidate guides found."
+          onRowClick={(row) =>
+            router.push(
+              `/dashboard/${dashboardSlug}/candidate-guides/${row.original.id}`
+            )
+          }
+        />
+      )}
       <div>
         <h2>Recent Submissions</h2>
         <div
@@ -147,71 +148,75 @@ export default function CandidateGuideEmbedIndex({
             gap: "1rem",
           }}
         >
-          {recentSubmissionsData?.recentCandidateGuideQuestionSubmissionsByOrganization?.map(
-            (submission) => (
-              <div style={{ marginBottom: "1rem" }} key={submission.id}>
-                <Box>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "1rem",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div>
-                      <Link
-                        href={`/politicians/${submission.politician?.slug}`}
-                      >
-                        <div className={styles.avatarContainer}>
-                          <PartyAvatar
-                            theme={"dark"}
-                            size={80}
-                            iconSize="1.25rem"
-                            party={
-                              submission.politician?.party as PoliticalParty
-                            }
-                            src={
-                              submission.politician?.assets
-                                ?.thumbnailImage160 as string
-                            }
-                            alt={submission.politician?.fullName as string}
-                            target={"_blank"}
-                            rel={"noopener noreferrer"}
-                          />
-                          <span
-                            className={clsx(styles.link, styles.avatarName)}
-                          >
-                            {submission.politician?.fullName}
-                          </span>
-                        </div>
-                      </Link>
+          {isRecentSubmissionsDataLoading ? (
+            <LoaderFlag />
+          ) : (
+            recentSubmissionsData?.recentCandidateGuideQuestionSubmissionsByOrganization?.map(
+              (submission) => (
+                <div style={{ marginBottom: "1rem" }} key={submission.id}>
+                  <Box>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "1rem",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <div>
+                        <Link
+                          href={`/politicians/${submission.politician?.slug}`}
+                        >
+                          <div className={styles.avatarContainer}>
+                            <PartyAvatar
+                              theme={"dark"}
+                              size={80}
+                              iconSize="1.25rem"
+                              party={
+                                submission.politician?.party as PoliticalParty
+                              }
+                              src={
+                                submission.politician?.assets
+                                  ?.thumbnailImage160 as string
+                              }
+                              alt={submission.politician?.fullName as string}
+                              target={"_blank"}
+                              rel={"noopener noreferrer"}
+                            />
+                            <span
+                              className={clsx(styles.link, styles.avatarName)}
+                            >
+                              {submission.politician?.fullName}
+                            </span>
+                          </div>
+                        </Link>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            color: "var(--blue-text-light)",
+                            fontSize: "1.2em",
+                          }}
+                        >
+                          {submission.question.prompt}
+                        </p>
+                        <p>{submission?.response}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p
-                        style={{
-                          color: "var(--blue-text-light)",
-                          fontSize: "1.2em",
-                        }}
-                      >
-                        {submission.question.prompt}
-                      </p>
-                      <p>{submission?.response}</p>
+                    <div
+                      style={{
+                        marginTop: "1rem",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        width: "100%",
+                      }}
+                    >
+                      <small>
+                        {getRelativeTimeString(new Date(submission.updatedAt))}
+                      </small>
                     </div>
-                  </div>
-                  <div
-                    style={{
-                      marginTop: "1rem",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      width: "100%",
-                    }}
-                  >
-                    <small>
-                      {getRelativeTimeString(new Date(submission.updatedAt))}
-                    </small>
-                  </div>
-                </Box>
-              </div>
+                  </Box>
+                </div>
+              )
             )
           )}
         </div>

@@ -319,7 +319,14 @@ query AvailableOrganizationsByUser($userId: ID!) {
 
 query CandidateGuidesByOrganization($organizationId: ID!) {
   candidateGuidesByOrganization(organizationId: $organizationId) {
-    ...CandidateGuideFields
+    id
+    name
+    createdAt
+    updatedAt
+    embedCount
+    submissionCount
+    submissionsOpenAt
+    submissionsCloseAt
   }
 }
 

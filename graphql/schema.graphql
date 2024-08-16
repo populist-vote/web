@@ -345,6 +345,7 @@ type Candidate {
 
 type CandidateGuideResult {
   createdAt: DateTime!
+  embedCount: Int!
   embeds: [EmbedResult!]!
   id: ID!
   name: String
