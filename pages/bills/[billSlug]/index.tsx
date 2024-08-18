@@ -87,9 +87,9 @@ function BillPage({ mobileNavTitle }: { mobileNavTitle?: string }) {
           <button className={styles.backLink} onClick={backAction}>
             <BsChevronLeft size={"1.875rem"} /> <span>{bill.billNumber}</span>
           </button>
-          <div className={styles.supportOpposeDesktopContainer}>
+          {/* <div className={styles.supportOpposeDesktopContainer}>
             {$supportOppose}
-          </div>
+          </div> */}
         </nav>
         <FlagSection
           label={bill?.session?.name ?? ""}

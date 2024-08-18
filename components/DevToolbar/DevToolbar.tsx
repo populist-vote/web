@@ -5,7 +5,6 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import Link from "next/link";
 import { useAuth } from "hooks/useAuth";
 import { SystemRoleType } from "generated";
-import { useFps } from "react-fps";
 import clsx from "clsx";
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import { useState } from "react";
@@ -15,7 +14,6 @@ const commitHash = process.env.COMMIT_HASH;
 
 export function DevToolbar() {
   const { user } = useAuth();
-  const fps = useFps(3);
   const [isCollapsed, setCollapsed] = useState(
     localStorage.getItem("populistDevToolsOpen") == "true"
   );
@@ -69,37 +67,10 @@ export function DevToolbar() {
         <Link href="/admin" className={styles.iconButton}>
           <MdAdminPanelSettings color="var(--aqua)" />
         </Link>
-        <div
-          className={styles.flexBetween}
-          style={{
-            display: "inline-block",
-            fontVariantNumeric: "tabular-nums",
-            width: "140px",
-          }}
-        >
-          <small>
-            FPS:{" "}
-            <span
-              style={{
-                color: "var(--aqua)",
-              }}
-            >
-              {fps.currentFps}
-            </span>
-          </small>
-          <small
-            style={{
-              color: "var(--grey)",
-              width: "70px",
-              marginLeft: "0.5rem",
-              display: "inline-block",
-            }}
-          >
-            ({fps.avgFps} avg)
-          </small>
-        </div>
       </div>
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="relative" />
+      <div style={{ marginLeft: "1rem" }}>
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="relative" />
+      </div>
     </div>
   );
 }

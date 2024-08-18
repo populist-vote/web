@@ -49,3 +49,7 @@ export const LAST_SELECTED_EMBED_TYPE = "last-selected-embed-type";
 
 // Session Storage
 export const SELECTED_ELECTION = "populist-selected-election";
+
+export const FEATURES = {
+  VIDEO_GENERATION: "video-generation",
+};

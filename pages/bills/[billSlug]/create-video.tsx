@@ -9,17 +9,17 @@ import type { BillResult } from "generated";
 import { BillBySlugQuery, SystemRoleType, useBillBySlugQuery } from "generated";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { RenderControls } from "../../components/Video/RenderControls";
-import { calculateScenes } from "../../utils/calculateScenes";
-import { LegislationVideo } from "../../video/legislationVideo/Video";
+import { RenderControls } from "../../../components/Video/RenderControls";
+import { calculateScenes } from "../../../utils/calculateScenes";
+import { LegislationVideo } from "../../../video/legislationVideo/Video";
 
 import { Layout } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { BsChevronLeft } from "react-icons/bs";
 
 import { SupportedLocale } from "types/global";
-import billBySlugStyles from "./BillBySlug.module.scss";
-import styles from "./CreateVideo.module.scss";
+import billBySlugStyles from "../BillBySlug.module.scss";
+import styles from "../CreateVideo.module.scss";
 
 import {
   SCENE_LENGTH_IN_FRAMES,
@@ -68,9 +68,9 @@ const CreateVideoPage: NextPage = ({
   mobileNavTitle?: string;
 }) => {
   const router = useRouter();
-  const { slug } = router.query;
+  const { billSlug } = router.query;
   const { data, isLoading, error } = useBillBySlugQuery({
-    slug: slug as string,
+    slug: billSlug as string,
   });
   const { user } = useAuth();
   const isStaff = user?.systemRole >= SystemRoleType.Staff;
@@ -145,7 +145,13 @@ const CreateVideoPage: NextPage = ({
             <span>{billResult.billNumber}</span>
           </button>
         </nav>
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "6rem",
+          }}
+        >
           <h1>Generate Video Content</h1>
           <p>
             Generate a 9:16 video perfect for sharing on TikTok, Instagram, and
