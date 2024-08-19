@@ -24,7 +24,7 @@ export function Modal({ isOpen, onClose, children, width }: ModalProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        onClose();
+        handleClose();
       }
     };
 

@@ -676,7 +676,7 @@ function RacesSection({
       `/dashboard/${slug}/candidate-guides/${candidateGuide.id}`,
       undefined,
       {
-        shallow: false,
+        shallow: true,
       }
     );
     setIsModalOpen(false);
@@ -817,10 +817,12 @@ function RacesSection({
         </Modal>
       </div>
       {!!embeds.length && (
-        <CandidateGuideEmbedTable
-          candidateGuideId={candidateGuide.id}
-          embeds={embeds}
-        />
+        <div>
+          <CandidateGuideEmbedTable
+            candidateGuideId={candidateGuide.id}
+            embeds={embeds}
+          />
+        </div>
       )}
       {!embeds.length && (
         <Box>
@@ -839,10 +841,14 @@ function CandidateGuideEmbedTable({
   embeds: EmbedResult[];
 }) {
   const router = useRouter();
-  const { dashboardSlug } = router.query as { dashboardSlug: string };
+  const { dashboardSlug, search } = router.query as {
+    dashboardSlug: string;
+    search: string | null;
+  };
   const queryClient = useQueryClient();
   const removeRace = useRemoveCandidateGuideRaceMutation();
   const deleteEmbed = useDeleteEmbedMutation();
+  const [searchValue, setSearchValue] = useState(search as string);
 
   const handleRemoveRace = useCallback(
     async (embedId: string, raceId: string) => {
@@ -916,18 +922,29 @@ function CandidateGuideEmbedTable({
   );
 
   return (
-    <Table
-      columns={columns}
-      initialState={{
-        pagination: {
-          pageSize: embeds.length,
-        },
-      }}
-      data={embeds}
-      theme="blue"
-      paginate={false}
-      onRowClick={handleRowClick}
-    />
+    <div>
+      <div style={{ marginBottom: "1rem" }}>
+        <Box>
+          <SearchInput
+            placeholder="Search for existing candidate guide races"
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+        </Box>
+      </div>
+      <Table
+        columns={columns}
+        initialState={{
+          pagination: {
+            pageSize: 10,
+          },
+        }}
+        data={embeds}
+        theme="blue"
+        onRowClick={handleRowClick}
+        useSearchQueryAsFilter={true}
+      />
+    </div>
   );
 }
 
