@@ -19,10 +19,14 @@ import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
 import { PollEmbedForm } from "pages/dashboard/[dashboardSlug]/embeds/poll/new";
 import { PollWidget } from "components/PollWidget/PollWidget";
-import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { RaceWidget } from "components/RaceWidget/RaceWidget";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
+import { RiExternalLinkFill, RiEyeFill } from "react-icons/ri";
+import { getRelativeTimeString } from "utils/dates";
+import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallback";
+import Link from "next/link";
+import { Tooltip } from "components/Tooltip/Tooltip";
 
 function EmbedPage({
   id,
@@ -138,22 +142,58 @@ export { EmbedPage };
 
 export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
   return (
-    <div className={styles.deployments}>
+    <div className={styles.deploymentsContainer}>
       <h3>Deployments</h3>
-      <Box>
-        {embed.origins?.length == 0 && (
+
+      {embed.origins?.length == 0 && (
+        <Box>
           <small className={styles.noResults}>No deployments</small>
-        )}
-        {embed.origins?.map(({ url }) => (
-          <a
-            href={url}
-            key={url}
-            className={clsx(styles.flexLeft, styles.flexBetween)}
-          >
-            <FaExternalLinkSquareAlt /> {url}
-          </a>
+        </Box>
+      )}
+      <div className={styles.deployments}>
+        {embed.origins?.map(({ url, lastPingAt }) => (
+          <div className={styles.deploymentRow} key={url}>
+            <div className={styles.flexBetween}>
+              <ImageWithFallback
+                height="25"
+                width="25"
+                alt={"favicon"}
+                src={`https://www.google.com/s2/favicons?domain=${url}`}
+                fallbackSrc={"/images/favicon.ico"}
+              />
+              <Link
+                href={url}
+                key={`${embed.id + url}`}
+                target="_blank"
+                rel="noreferrer"
+                className={clsx(styles.linkParent, styles.clamp1)}
+              >
+                {url}
+              </Link>
+            </div>
+            <div className={styles.flexBetween} style={{ width: "100%" }}>
+              {lastPingAt && (
+                <div className={styles.flexRight}>
+                  <RiEyeFill color="var(--salmon)" />
+                  <small style={{ fontStyle: "italic" }}>
+                    Last view {getRelativeTimeString(new Date(lastPingAt))}
+                  </small>
+                </div>
+              )}
+              <div>
+                <Tooltip content="Visit Page">
+                  <button
+                    className={styles.iconButton}
+                    onClick={() => window.open(url, "_blank")}
+                  >
+                    <RiExternalLinkFill color="var(--blue-text-light)" />
+                  </button>
+                </Tooltip>
+              </div>
+            </div>
+          </div>
         ))}
-      </Box>
+      </div>
     </div>
   );
 }

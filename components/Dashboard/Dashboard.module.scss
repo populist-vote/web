@@ -30,9 +30,7 @@
 
       > * {
         width: 100%;
-        align-content: center;
-        text-align: center;
-        justify-content: center;
+        place-content: center;
         text-transform: uppercase;
         margin: 0.5rem 0;
       }
@@ -44,29 +42,7 @@
     }
   }
 
-  .deployments {
-    display: grid;
-    gap: 1rem;
-  }
 
-  .deploymentRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-color: $blue-darker;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
-
-    h3 {
-      margin: 0;
-    }
-
-    &:hover {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-  }
 
   .dotSpread {
     display: inline-flex;

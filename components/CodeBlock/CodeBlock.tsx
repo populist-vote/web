@@ -50,7 +50,7 @@ function CodeBlock({
           />
         </div>
         <pre>
-          <code className={language === "html" ? "html" : "jsx"}>{text}</code>
+          <code>{text}</code>
         </pre>
       </div>
     </>

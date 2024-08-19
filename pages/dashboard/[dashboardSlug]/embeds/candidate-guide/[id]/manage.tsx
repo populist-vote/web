@@ -71,8 +71,15 @@ export default function CandidateGuideEmbedPage({
     }
   );
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
+
   const router = useRouter();
   const { id } = router.query;
+
+  useAuth({
+    organizationId: currentOrganizationId,
+    redirectTo: `/login?next=dashboard/${dashboardSlug}/embeds/candidate-guide/${id}/manage`,
+  });
+
   const { data, isLoading: isEmbedLoading } = useCandidateGuideEmbedByIdQuery(
     {
       id: id as string,

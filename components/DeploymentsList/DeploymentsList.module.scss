@@ -1,0 +1,27 @@
+@import "styles/variables/colors";
+@import "styles/layout/containers";
+@import "styles/mixins/media";
+
+.deployments {
+  display: grid;
+  gap: 1rem;
+}
+
+.deploymentRow {
+  display: grid;
+  grid-template-columns: 16rem 10rem 3fr 2fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: $blue-darker;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+
+  h3 {
+    margin: 0;
+  }
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+}

@@ -32,6 +32,10 @@
   @include clamp-ellipsis(2);
 }
 
+.clamp1 {
+  @include clamp-ellipsis(1);
+}
+
 .hero {
   margin-top: 0;
   text-align: center;
@@ -150,6 +154,7 @@
   display: flex;
   justify-content: right;
   align-items: center;
+  flex-direction: row;
 }
 
 .flexEvenly {

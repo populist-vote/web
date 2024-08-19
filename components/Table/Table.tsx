@@ -93,8 +93,6 @@ function Table<T extends object & { id?: string }>({
   const router = useRouter();
   const { search } = router.query;
 
-  console.log(paginate, initialState.pagination, data.length);
-
   const table = useReactTable({
     data,
     columns,

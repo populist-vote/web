@@ -16,6 +16,7 @@ import {
   QuestionSubmissionResult,
   useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
+  useOrganizationBySlugQuery,
   useUpsertQuestionSubmissionMutation,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
@@ -32,6 +33,7 @@ import { toast } from "react-toastify";
 import { Tooltip } from "components/Tooltip/Tooltip";
 import { SupportedLocale } from "types/global";
 import { LANGUAGES } from "utils/constants";
+import { useAuth } from "hooks/useAuth";
 
 export async function getServerSideProps({
   query,
@@ -55,6 +57,21 @@ export async function getServerSideProps({
 export default function CandidateGuideEmbedPageSubmissions() {
   const router = useRouter();
   const { dashboardSlug, id } = router.query;
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: dashboardSlug as string,
+    },
+    {
+      enabled: !!dashboardSlug,
+    }
+  );
+  const currentOrganizationId = organizationData?.organizationBySlug?.id;
+
+  useAuth({
+    organizationId: currentOrganizationId,
+    redirectTo: `/login?next=dashboard/${dashboardSlug}/embeds/candidate-guide/${id}/manage`,
+  });
+
   const { data, isLoading: isEmbedLoading } = useCandidateGuideEmbedByIdQuery({
     id: id as string,
   });

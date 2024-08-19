@@ -4,7 +4,6 @@ import styles from "./Dashboard.module.scss";
 import {
   EmbedType,
   EmbedsCountResult,
-  EnhancedEmbedOriginResult,
   useEmbedsActivityQuery,
   useEmbedsDeploymentsQuery,
   useTotalCandidateGuideSubmissionsQuery,
@@ -12,14 +11,11 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallback";
-import { getRelativeTimeString } from "utils/dates";
-import { BsCodeSquare, BsEyeglasses } from "react-icons/bs";
 import { Theme } from "hooks/useTheme";
-import { Tooltip } from "components/Tooltip/Tooltip";
-import { kebabCase } from "utils/strings";
 
-const EmbedTypeColorMap: Record<EmbedType, Theme> = {
+import { DeploymentsList } from "components/DeploymentsList/DeploymentsList";
+
+export const EmbedTypeColorMap: Record<EmbedType, Theme> = {
   LEGISLATION: "yellow",
   LEGISLATION_TRACKER: "green",
   POLITICIAN: "aqua",
@@ -142,9 +138,6 @@ function ActivityTiles({
 }
 
 function RecentDeployments({ organizationId }: { organizationId: string }) {
-  const router = useRouter();
-  const dashboardSlug = router.query.dashboardSlug as string;
-
   const { data, isLoading } = useEmbedsDeploymentsQuery({
     id: organizationId,
   });
@@ -161,74 +154,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
   return (
     <section>
       <h2 style={{ textAlign: "center" }}>Recent Deployments</h2>
-      <div className={styles.deployments}>
-        {deployments?.length == 0 && (
-          <small className={styles.noResults}>No deployments</small>
-        )}
-
-        {deployments?.map((deployment: EnhancedEmbedOriginResult) => (
-          <div className={styles.deploymentRow} key={deployment.url}>
-            <h3>{deployment.name}</h3>
-            <Badge
-              theme={EmbedTypeColorMap[deployment.embedType]}
-              size="small"
-              variant="solid"
-            >
-              {deployment.embedType.replace("_", " ")}
-            </Badge>
-
-            <div
-              style={{
-                display: "flex",
-                gap: "1rem",
-                alignItems: "center",
-                wordBreak: "break-all",
-              }}
-            >
-              <ImageWithFallback
-                height="25"
-                width="25"
-                alt={"favicon"}
-                src={`https://www.google.com/s2/favicons?domain=${deployment.url}`}
-                fallbackSrc={"/images/favicon.ico"}
-              />
-              <Link
-                href={deployment.url}
-                key={`${deployment.embedId + deployment.url}`}
-                target="_blank"
-                rel="noreferrer"
-                className={styles.linkParent}
-              >
-                {deployment.url}
-              </Link>
-            </div>
-            {deployment.lastPingAt && (
-              <div className={styles.flexRight}>
-                <BsEyeglasses />
-                <small>
-                  Last view{" "}
-                  {getRelativeTimeString(new Date(deployment.lastPingAt))}
-                </small>
-              </div>
-            )}
-            <div className={styles.flexRight}>
-              <Tooltip content="Manage Embed">
-                <button
-                  className={styles.iconButton}
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    await router.push(
-                      `/dashboard/${dashboardSlug}/embeds/${kebabCase(deployment.embedType.toLowerCase())}/${deployment.embedId}/manage`
-                    );
-                  }}
-                >
-                  <BsCodeSquare color="var(--blue-text-light)" />
-                </button>
-              </Tooltip>
-            </div>
-          </div>
-        ))}
-      </div>
+      <DeploymentsList deployments={deployments || []} />
     </section>
   );
 }
