@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 import { BillWidget } from "components/BillWidget/BillWidget";
 import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
-import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
+import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
 import { RaceWidget } from "components/RaceWidget/RaceWidget";
@@ -67,7 +67,6 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
 
   const billId = data?.embedById?.attributes?.billId;
   const billIds = data?.embedById?.attributes?.billIds;
-  const politicianId = data?.embedById?.attributes?.politicianId;
   const raceId = data?.embedById?.attributes?.raceId;
   const candidateGuideId = data?.embedById?.attributes?.candidateGuideId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
@@ -106,8 +105,7 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
       );
     case EmbedType.Politician:
       return (
-        <PoliticianWidget
-          politicianId={politicianId}
+        <PoliticianEmbed
           embedId={embedId}
           origin={resolvedOrigin}
           renderOptions={renderOptions}

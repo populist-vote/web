@@ -2,8 +2,8 @@ import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
 import {
   EmbedType,
-  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
+  useRaceEmbedByIdQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
@@ -54,7 +54,7 @@ function EmbedById({
     }
   );
 
-  const embedQuery = useEmbedByIdQuery(
+  const embedQuery = useRaceEmbedByIdQuery(
     {
       id,
     },
@@ -71,14 +71,12 @@ function EmbedById({
     userQuery.isLoading || embedQuery.isLoading || organizationQuery.isLoading;
 
   const embed = embedQuery.data?.embedById;
-  const bill = embed?.bill;
-  const title = embed?.name || `${bill?.state} ${bill?.billNumber}`;
 
   return organizationQuery.isLoading || isLoading ? (
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={title} embedType={EmbedType.Race} />
+      <EmbedHeader title={embed?.name || ""} embedType={EmbedType.Race} />
       <EmbedPage id={id} embedType={EmbedType.Race} />
     </>
   );

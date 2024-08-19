@@ -16,7 +16,8 @@ import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallbac
 import { getRelativeTimeString } from "utils/dates";
 import { BsCodeSquare, BsEyeglasses } from "react-icons/bs";
 import { Theme } from "hooks/useTheme";
-import * as Tooltip from "@radix-ui/react-tooltip";
+import { Tooltip } from "components/Tooltip/Tooltip";
+import { kebabCase } from "utils/strings";
 
 const EmbedTypeColorMap: Record<EmbedType, Theme> = {
   LEGISLATION: "yellow",
@@ -160,66 +161,27 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
   return (
     <section>
       <h2 style={{ textAlign: "center" }}>Recent Deployments</h2>
-      <div className={styles.tiles}>
+      <div className={styles.deployments}>
         {deployments?.length == 0 && (
           <small className={styles.noResults}>No deployments</small>
         )}
 
         {deployments?.map((deployment: EnhancedEmbedOriginResult) => (
-          <Box key={deployment.url}>
-            <div
-              className={styles.flexBaseline}
-              style={{ marginBottom: "1.25rem" }}
+          <div className={styles.deploymentRow} key={deployment.url}>
+            <h3>{deployment.name}</h3>
+            <Badge
+              theme={EmbedTypeColorMap[deployment.embedType]}
+              size="small"
+              variant="solid"
             >
-              <Badge
-                theme={EmbedTypeColorMap[deployment.embedType]}
-                size="small"
-                variant="solid"
-              >
-                {deployment.embedType.replace("_", " ")}
-              </Badge>
-              {deployment.lastPingAt && (
-                <div className={styles.flexRight}>
-                  <BsEyeglasses />
-                  <small>
-                    Last view{" "}
-                    {getRelativeTimeString(new Date(deployment.lastPingAt))}
-                  </small>
-                </div>
-              )}
-            </div>
-            <div className={styles.flexBaseline}>
-              <h3>{deployment.name}</h3>
-              <Tooltip.Provider delayDuration={300}>
-                <Tooltip.Root>
-                  <Tooltip.Trigger asChild>
-                    <BsCodeSquare
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        await router.push(
-                          `/dashboard/${dashboardSlug}/embeds/${deployment.embedType.toLowerCase()}/${deployment.embedId}/manage`
-                        );
-                      }}
-                    />
-                  </Tooltip.Trigger>
-                  <Tooltip.Portal>
-                    <Tooltip.Content
-                      className={styles.TooltipContent}
-                      sideOffset={5}
-                    >
-                      Manage embed
-                      <Tooltip.Arrow className={styles.TooltipArrow} />
-                    </Tooltip.Content>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-              </Tooltip.Provider>
-            </div>
+              {deployment.embedType.replace("_", " ")}
+            </Badge>
+
             <div
               style={{
                 display: "flex",
                 gap: "1rem",
                 alignItems: "center",
-                marginTop: "1rem",
                 wordBreak: "break-all",
               }}
             >
@@ -240,7 +202,31 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
                 {deployment.url}
               </Link>
             </div>
-          </Box>
+            {deployment.lastPingAt && (
+              <div className={styles.flexRight}>
+                <BsEyeglasses />
+                <small>
+                  Last view{" "}
+                  {getRelativeTimeString(new Date(deployment.lastPingAt))}
+                </small>
+              </div>
+            )}
+            <div className={styles.flexRight}>
+              <Tooltip content="Manage Embed">
+                <button
+                  className={styles.iconButton}
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    await router.push(
+                      `/dashboard/${dashboardSlug}/embeds/${kebabCase(deployment.embedType.toLowerCase())}/${deployment.embedId}/manage`
+                    );
+                  }}
+                >
+                  <BsCodeSquare color="var(--blue-text-light)" />
+                </button>
+              </Tooltip>
+            </div>
+          </div>
         ))}
       </div>
     </section>

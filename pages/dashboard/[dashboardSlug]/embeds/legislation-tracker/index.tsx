@@ -9,7 +9,7 @@ import {
   BillResult,
   EmbedResult,
   EmbedType,
-  useEmbedsByOrganizationQuery,
+  useLegislationTrackerEmbedsByOrganizationQuery,
   useOrganizationBySlugQuery,
 } from "generated";
 import { getRelativeTimeString } from "utils/dates";
@@ -34,7 +34,7 @@ export async function getServerSideProps({
   };
 }
 
-export default function LegislationEmbedsIndex({
+export default function LegislationTrackerEmbedsIndex({
   dashboardSlug,
 }: {
   dashboardSlug: string;
@@ -49,12 +49,14 @@ export default function LegislationEmbedsIndex({
   );
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
   useAuth({ redirectTo: "/login", organizationId: currentOrganizationId });
-  const { data, isLoading } = useEmbedsByOrganizationQuery({
-    id: currentOrganizationId as string,
-    filter: {
-      embedType: EmbedType.LegislationTracker,
+  const { data, isLoading } = useLegislationTrackerEmbedsByOrganizationQuery(
+    {
+      id: currentOrganizationId as string,
     },
-  });
+    {
+      enabled: !!currentOrganizationId,
+    }
+  );
 
   const legislationTrackerColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
@@ -100,7 +102,7 @@ export default function LegislationEmbedsIndex({
   );
 }
 
-LegislationEmbedsIndex.getLayout = (page: ReactNode) => (
+LegislationTrackerEmbedsIndex.getLayout = (page: ReactNode) => (
   <Layout>
     <DashboardTopNav />
     {page}

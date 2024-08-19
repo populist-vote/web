@@ -3,8 +3,8 @@ import { EmbedPage } from "components/EmbedPage/EmbedPage";
 import {
   EmbedType,
   PollResult,
-  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
+  usePollEmbedByIdQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
@@ -45,7 +45,7 @@ function EmbedById({
   dashboardSlug: string;
   id: string;
 }) {
-  const { data, isLoading: embedLoading } = useEmbedByIdQuery({
+  const { data, isLoading: embedLoading } = usePollEmbedByIdQuery({
     id,
   });
 

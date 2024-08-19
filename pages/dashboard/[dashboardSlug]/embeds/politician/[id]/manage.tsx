@@ -2,8 +2,8 @@ import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
 import {
   EmbedType,
-  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
+  usePoliticianEmbedByIdQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
@@ -53,7 +53,7 @@ function EmbedById({
     }
   );
 
-  const embedQuery = useEmbedByIdQuery(
+  const embedQuery = usePoliticianEmbedByIdQuery(
     {
       id,
     },
@@ -62,7 +62,7 @@ function EmbedById({
     }
   );
 
-  const politicianName = embedQuery.data?.embedById?.politician?.fullName || "";
+  const politicianName = embedQuery.data?.embedById.politician?.fullName || "";
 
   const { isLoading, user } = useAuth({
     organizationId: organizationQuery.data?.organizationBySlug?.id,

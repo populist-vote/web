@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
 import { Button } from "components/Button/Button";
 import { useRouter } from "next/router";
-import { PoliticianWidget } from "components/PoliticianWidget/PoliticianWidget";
+import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
 import { QuestionEmbedForm } from "pages/dashboard/[dashboardSlug]/embeds/question/new";
 import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
@@ -41,7 +41,6 @@ function EmbedPage({
 
   const billIds = data?.embedById?.attributes?.billIds as string[];
   const billId = data?.embedById?.attributes?.billId as string;
-  const politicianId = data?.embedById?.attributes?.politicianId as string;
   const candidateGuideId = data?.embedById?.attributes
     ?.candidateGuideId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
@@ -70,8 +69,7 @@ function EmbedPage({
         );
       case EmbedType.Politician:
         return (
-          <PoliticianWidget
-            politicianId={politicianId}
+          <PoliticianEmbed
             origin={window.location.origin}
             embedId={id}
             renderOptions={renderOptions}
@@ -115,9 +113,9 @@ function EmbedPage({
         <h3>Configuration</h3>
         <Box>
           {embedType == EmbedType.Question ? (
-            <QuestionEmbedForm buttonLabel="Save" embed={embed} />
+            <QuestionEmbedForm buttonLabel="Save" embedId={embed.id} />
           ) : embedType == EmbedType.Poll ? (
-            <PollEmbedForm buttonLabel="Save" embed={embed} />
+            <PollEmbedForm buttonLabel="Save" embedId={embed.id} />
           ) : (
             <EmbedBasicsForm embed={embed} />
           )}

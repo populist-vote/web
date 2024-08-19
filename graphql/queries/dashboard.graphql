@@ -18,30 +18,65 @@ query EmbedsDeployments($id: ID!) {
   }
 }
 
-query EmbedsByOrganization($id: ID!, $filter: EmbedFilter) {
-  embedsByOrganization(organizationId: $id, filter: $filter) {
-    ...EmbedFields
-  }
-}
-
-query EmbedById($id: ID!) {
-  embedById(id: $id) {
-    ...EmbedFields
-  }
-}
-
-query CandidateGuideEmbedById($id: ID!) {
-  embedById(id: $id) {
+query LegislationEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(
+    organizationId: $id
+    filter: { embedType: LEGISLATION }
+  ) {
     ...EmbedBasics
-    candidateGuide {
-      ...CandidateGuideFields
+    bill {
+      ...EmbedBillFields
     }
+  }
+}
+
+query LegislationTrackerEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(
+    organizationId: $id
+    filter: { embedType: LEGISLATION_TRACKER }
+  ) {
+    ...EmbedBasics
+    bills {
+      ...EmbedBillFields
+    }
+  }
+}
+
+query PoliticianEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(organizationId: $id, filter: { embedType: POLITICIAN }) {
+    ...EmbedBasics
+    politician {
+      fullName
+    }
+  }
+}
+
+query QuestionEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(organizationId: $id, filter: { embedType: QUESTION }) {
+    ...EmbedBasics
+    question {
+      id
+      prompt
+    }
+  }
+}
+
+query PollEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(organizationId: $id, filter: { embedType: POLL }) {
+    ...EmbedBasics
+    poll {
+      id
+      prompt
+    }
+  }
+}
+
+query RaceEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(organizationId: $id, filter: { embedType: RACE }) {
+    ...EmbedBasics
     race {
-      ...RaceFields
-      election {
-        title
-        electionDate
-      }
+      id
+      title
     }
   }
 }
@@ -138,118 +173,13 @@ fragment CandidateGuideFields on CandidateGuideResult {
 
 fragment EmbedBasics on EmbedResult {
   id
-  name
-  description
-  embedType
-  attributes
-  organizationId
-  origins {
-    url
-    lastPingAt
-  }
   createdAt
   updatedAt
 }
 
-fragment EmbedFields on EmbedResult {
-  id
-  name
-  description
-  embedType
-  attributes
-  organizationId
-  origins {
-    url
-    lastPingAt
-  }
-  createdAt
-  updatedAt
+fragment LegislationTrackerEmbedFields on EmbedResult {
   bills {
     ...EmbedBillFields
-  }
-  bill {
-    ...EmbedBillFields
-  }
-  politician {
-    fullName
-    email
-  }
-  question {
-    id
-    prompt
-    responseCharLimit
-    responsePlaceholderText
-    allowAnonymousResponses
-    submissions {
-      id
-      response
-      editorial
-      sentiment
-      createdAt
-      updatedAt
-      respondent {
-        name
-        email
-      }
-    }
-    submissionCountByDate {
-      date
-      count
-    }
-    commonWords {
-      word
-      count
-    }
-    sentimentCounts {
-      sentiment
-      count
-    }
-  }
-  poll {
-    id
-    prompt
-    options {
-      id
-      optionText
-    }
-    allowAnonymousResponses
-    allowWriteInResponses
-    submissions {
-      id
-      option {
-        id
-        optionText
-      }
-      createdAt
-      updatedAt
-      respondent {
-        name
-        email
-      }
-    }
-    submissionCountByDate {
-      date
-      count
-    }
-  }
-  race {
-    id
-    title
-    office {
-      name
-    }
-    state
-    election {
-      electionDate
-      title
-    }
-    candidates {
-      id
-      fullName
-    }
-  }
-  candidateGuide {
-    ...CandidateGuideFields
   }
 }
 

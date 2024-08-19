@@ -1,7 +1,7 @@
 import { Button, LoaderFlag } from "components";
 import { PoliticalParty, usePoliticianEmbedByIdQuery } from "generated";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
-import styles from "./PoliticianWidget.module.scss";
+import styles from "./PoliticianEmbed.module.scss";
 import { OrganizationAvatar, PartyAvatar } from "components/Avatar/Avatar";
 import { dateString } from "utils/dates";
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
@@ -19,30 +19,28 @@ import { GiWireframeGlobe } from "react-icons/gi";
 import Link from "next/link";
 import { useState } from "react";
 
-export interface PoliticianWidgetRenderOptions {
+export interface PoliticianEmbedRenderOptions {
   upcomingRace: boolean;
   stats: boolean;
   endorsements: boolean;
   socials: boolean;
 }
 
-export function PoliticianWidget({
-  politicianId,
+export function PoliticianEmbed({
   embedId,
   origin,
   renderOptions,
 }: {
-  politicianId: string;
   embedId: string;
   origin: string;
-  renderOptions: PoliticianWidgetRenderOptions;
+  renderOptions: PoliticianEmbedRenderOptions;
 }) {
   const { data, isLoading, error } = usePoliticianEmbedByIdQuery({
-    id: politicianId,
+    id: embedId,
   });
   useEmbedResizer({ origin, embedId });
 
-  const politician = data?.politicianById;
+  const politician = data?.embedById.politician;
   const biography = politician?.biography;
   const biographySource = politician?.biographySource;
   const officeTitle = `${politician?.currentOffice?.title} - ${politician?.currentOffice?.subtitleShort}`;

@@ -2,8 +2,8 @@ import { Layout, LoaderFlag } from "components";
 import {
   EmbedType,
   PollResult,
-  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
+  usePollEmbedByIdQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
@@ -62,7 +62,7 @@ function EmbedById({
     )}`,
   });
 
-  const { data, isLoading: embedLoading } = useEmbedByIdQuery({
+  const { data, isLoading: embedLoading } = usePollEmbedByIdQuery({
     id,
   });
 

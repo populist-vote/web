@@ -14,8 +14,8 @@ import {
   EmbedType,
   QuestionResult,
   QuestionSubmissionResult,
+  useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
-  useEmbedByIdQuery,
   useUpsertQuestionSubmissionMutation,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
@@ -55,7 +55,7 @@ export async function getServerSideProps({
 export default function CandidateGuideEmbedPageSubmissions() {
   const router = useRouter();
   const { dashboardSlug, id } = router.query;
-  const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery({
+  const { data, isLoading: isEmbedLoading } = useCandidateGuideEmbedByIdQuery({
     id: id as string,
   });
   const title = data?.embedById.race?.title as string;

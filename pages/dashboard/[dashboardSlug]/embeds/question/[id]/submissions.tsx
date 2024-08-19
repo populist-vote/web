@@ -3,8 +3,8 @@ import {
   EmbedType,
   QuestionSubmissionResult,
   Sentiment,
-  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
+  useQuestionEmbedByIdQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
@@ -71,7 +71,7 @@ function EmbedById({
     )}`,
   });
 
-  const { data, isLoading: embedLoading } = useEmbedByIdQuery({
+  const { data, isLoading: embedLoading } = useQuestionEmbedByIdQuery({
     id,
   });
 

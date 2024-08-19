@@ -11,7 +11,7 @@ import {
   EmbedType,
   IssueTagResult,
   SessionResult,
-  useEmbedsByOrganizationQuery,
+  useLegislationEmbedsByOrganizationQuery,
   useOrganizationBySlugQuery,
 } from "generated";
 import { Badge } from "components/Badge/Badge";
@@ -58,12 +58,15 @@ export default function LegislationEmbedsIndex({
     redirectTo: "/login",
     organizationId: currentOrganizationId,
   });
-  const { data, isLoading } = useEmbedsByOrganizationQuery({
-    id: currentOrganizationId as string,
-    filter: {
-      embedType: EmbedType.Legislation,
+  const { data, isLoading } = useLegislationEmbedsByOrganizationQuery(
+    {
+      id: currentOrganizationId as string,
     },
-  });
+    {
+      enabled: !!currentOrganizationId,
+    }
+  );
+
   const legislationColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {

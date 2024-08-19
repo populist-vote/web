@@ -6,10 +6,9 @@ import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
 import {
-  EmbedResult,
   EmbedType,
-  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
+  usePollEmbedByIdQuery,
   useUpsertEmbedMutation,
   useUpsertPollMutation,
 } from "generated";
@@ -70,10 +69,10 @@ function NewPollEmbed() {
 
 export function PollEmbedForm({
   buttonLabel = "Save",
-  embed,
+  embedId,
 }: {
   buttonLabel: string;
-  embed?: EmbedResult;
+  embedId?: string;
 }) {
   const router = useRouter();
   const { query } = router;
@@ -91,7 +90,10 @@ export function PollEmbedForm({
   const upsertEmbed = useUpsertEmbedMutation();
   const upsertPoll = useUpsertPollMutation();
   const { theme } = useTheme();
-
+  const { data: embedData } = usePollEmbedByIdQuery({
+    id: embedId as string,
+  });
+  const embed = embedData?.embedById;
   const {
     register,
     control,
@@ -174,7 +176,7 @@ export function PollEmbedForm({
                   autoClose: 1000,
                 });
                 void queryClient.invalidateQueries({
-                  queryKey: useEmbedByIdQuery.getKey({
+                  queryKey: usePollEmbedByIdQuery.getKey({
                     id: router.query.id as string,
                   }),
                 });
@@ -225,7 +227,6 @@ export function PollEmbedForm({
         </section>
         <section>
           <h3>Choices</h3>
-
           {fields.map((field, index) => (
             <div
               style={{

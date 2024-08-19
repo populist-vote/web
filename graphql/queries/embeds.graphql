@@ -1,0 +1,165 @@
+fragment EmbedFields on EmbedResult {
+  id
+  name
+  description
+  embedType
+  attributes
+  organizationId
+  origins {
+    url
+    lastPingAt
+  }
+  createdAt
+  updatedAt
+}
+
+query EmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+  }
+}
+
+query LegislationEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    bill {
+      ...EmbedBillFields
+    }
+  }
+}
+
+query LegislationTrackerEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    bills {
+      ...EmbedBillFields
+    }
+  }
+}
+
+query PoliticianEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    politician {
+      ...BasicInfo
+      ...Bio
+      ...Endorsements
+      ...ElectionInfo
+      raceWins
+      raceLosses
+      yearsInPublicOffice
+      currentOffice {
+        title
+        subtitleShort
+      }
+    }
+  }
+}
+
+query CandidateGuideEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    candidateGuide {
+      ...CandidateGuideFields
+    }
+    race {
+      ...RaceFields
+      election {
+        title
+        electionDate
+      }
+    }
+  }
+}
+
+query RaceEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    race {
+      id
+      title
+      office {
+        name
+      }
+      state
+      election {
+        electionDate
+        title
+      }
+      candidates {
+        id
+        fullName
+      }
+    }
+  }
+}
+
+query QuestionEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    question {
+      id
+      prompt
+      responseCharLimit
+      responsePlaceholderText
+      allowAnonymousResponses
+      submissions {
+        id
+        response
+        editorial
+        sentiment
+        createdAt
+        updatedAt
+        respondent {
+          name
+          email
+        }
+      }
+      submissionCountByDate {
+        date
+        count
+      }
+      commonWords {
+        word
+        count
+      }
+      sentimentCounts {
+        sentiment
+        count
+      }
+    }
+  }
+}
+
+query PollEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    poll {
+      id
+      prompt
+      options {
+        id
+        optionText
+      }
+      allowAnonymousResponses
+      allowWriteInResponses
+      submissions {
+        id
+        option {
+          id
+          optionText
+        }
+        createdAt
+        updatedAt
+        respondent {
+          name
+          email
+        }
+      }
+      submissionCountByDate {
+        date
+        count
+      }
+    }
+  }
+}

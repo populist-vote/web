@@ -169,7 +169,7 @@ function Table<T extends object & { id?: string }>({
           background: "rgba(142 234 120 / 0.05)",
           color: "var(--green)",
           selectedRow: "rgba(142 234 120 / 0.1)",
-          border: "var(--green-dark)",
+          border: "rgba(142 234 120 / 0.15)",
           index: {
             selected: "var(--green)",
             unselected: "var(--green-dark)",

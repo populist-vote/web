@@ -6,10 +6,9 @@ import { DashboardTopNav } from "../..";
 import nextI18nextConfig from "next-i18next.config";
 import { useRouter } from "next/router";
 import {
-  EmbedResult,
   EmbedType,
-  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
+  useQuestionEmbedByIdQuery,
   useUpsertEmbedMutation,
   useUpsertQuestionMutation,
 } from "generated";
@@ -68,12 +67,12 @@ function NewQuestionEmbed() {
 
 export function QuestionEmbedForm({
   buttonLabel = "Save",
-  embed,
+  embedId,
   candidateGuideId,
   onSuccess,
 }: {
   buttonLabel: string;
-  embed?: EmbedResult;
+  embedId?: string;
   candidateGuideId?: string;
   onSuccess?: () => void;
 }) {
@@ -89,6 +88,12 @@ export function QuestionEmbedForm({
       enabled: !!dashboardSlug,
     }
   );
+  const { data: emebdData } = useQuestionEmbedByIdQuery({
+    id: embedId as string,
+  });
+
+  const embed = emebdData?.embedById;
+
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
   const upsertEmbed = useUpsertEmbedMutation();
   const upsertQuestion = useUpsertQuestionMutation();
@@ -171,7 +176,7 @@ export function QuestionEmbedForm({
                   autoClose: 1000,
                 });
                 void queryClient.invalidateQueries({
-                  queryKey: useEmbedByIdQuery.getKey({
+                  queryKey: useQuestionEmbedByIdQuery.getKey({
                     id: router.query.id as string,
                   }),
                 });

@@ -4,6 +4,7 @@ import { TextInput } from "components/TextInput/TextInput";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import {
   useEmbedByIdQuery,
+  useQuestionEmbedByIdQuery,
   useUpsertQuestionSubmissionMutation,
 } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
@@ -27,7 +28,7 @@ export function QuestionWidget({
 }) {
   useEmbedResizer({ origin, embedId });
   const [isSuccess, setIsSuccess] = useState(false);
-  const { data, isLoading, error } = useEmbedByIdQuery({ id: embedId });
+  const { data, isLoading, error } = useQuestionEmbedByIdQuery({ id: embedId });
   const embed = data?.embedById;
   const {
     register,

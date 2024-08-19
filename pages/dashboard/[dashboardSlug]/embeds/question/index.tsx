@@ -8,8 +8,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import {
   EmbedResult,
   EmbedType,
-  useEmbedsByOrganizationQuery,
   useOrganizationBySlugQuery,
+  useQuestionEmbedsByOrganizationQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import { getRelativeTimeString } from "utils/dates";
@@ -48,12 +48,14 @@ export default function EmbedsIndex({
   );
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
   useAuth({ redirectTo: "/login", organizationId: currentOrganizationId });
-  const { data, isLoading } = useEmbedsByOrganizationQuery({
-    id: currentOrganizationId as string,
-    filter: {
-      embedType: EmbedType.Question,
+  const { data, isLoading } = useQuestionEmbedsByOrganizationQuery(
+    {
+      id: currentOrganizationId as string,
     },
-  });
+    {
+      enabled: !!currentOrganizationId,
+    }
+  );
   const columns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {

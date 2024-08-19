@@ -1,7 +1,10 @@
 import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import styles from "./PollWidget.module.scss";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
-import { useEmbedByIdQuery, useUpsertPollSubmissionMutation } from "generated";
+import {
+  usePollEmbedByIdQuery,
+  useUpsertPollSubmissionMutation,
+} from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Button } from "components/Button/Button";
 import { useForm } from "react-hook-form";
@@ -25,7 +28,7 @@ export function PollWidget({
 }) {
   useEmbedResizer({ origin, embedId });
   const [isSuccess, setIsSuccess] = useState(false);
-  const { data, isLoading, error } = useEmbedByIdQuery({ id: embedId });
+  const { data, isLoading, error } = usePollEmbedByIdQuery({ id: embedId });
   const {
     register,
     control,
@@ -66,7 +69,7 @@ export function PollWidget({
         onSuccess: () => {
           setIsSuccess(true);
           void queryClient.invalidateQueries({
-            queryKey: useEmbedByIdQuery.getKey({ id: embedId }),
+            queryKey: usePollEmbedByIdQuery.getKey({ id: embedId }),
           });
         },
       }

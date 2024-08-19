@@ -8,9 +8,9 @@ import {
   EmbedType,
   PoliticianResult,
   SystemRoleType,
+  useCandidateGuideEmbedByIdQuery,
   useCandidateGuideSubmissionsByRaceIdQuery,
   useDownloadAllCandidateGuideDataMutation,
-  useEmbedByIdQuery,
   useGenerateCandidateGuideIntakeLinkMutation,
   useOrganizationBySlugQuery,
   useRaceByIdQuery,
@@ -73,7 +73,7 @@ export default function CandidateGuideEmbedPage({
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading: isEmbedLoading } = useEmbedByIdQuery(
+  const { data, isLoading: isEmbedLoading } = useCandidateGuideEmbedByIdQuery(
     {
       id: id as string,
     },

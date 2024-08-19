@@ -2,7 +2,7 @@ import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
 import {
   EmbedType,
-  useEmbedByIdQuery,
+  useLegislationEmbedByIdQuery,
   useOrganizationBySlugQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
@@ -53,7 +53,7 @@ function EmbedById({
     }
   );
 
-  const embedQuery = useEmbedByIdQuery(
+  const embedQuery = useLegislationEmbedByIdQuery(
     {
       id,
     },

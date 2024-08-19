@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { BillWidgetRenderOptions } from "components/BillWidget/BillWidget";
 import { Button } from "components/Button/Button";
 import { Checkbox } from "components/Checkbox/Checkbox";
-import { PoliticianWidgetRenderOptions } from "components/PoliticianWidget/PoliticianWidget";
+import { PoliticianEmbedRenderOptions } from "components/PoliticianEmbed/PoliticianEmbed";
 import { TextInput } from "components/TextInput/TextInput";
 import {
   EmbedResult,
@@ -17,7 +17,7 @@ import { UseFormRegister, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
-  renderOptions: BillWidgetRenderOptions | PoliticianWidgetRenderOptions;
+  renderOptions: BillWidgetRenderOptions | PoliticianEmbedRenderOptions;
 };
 
 function BillEmbedOptionsForm({

@@ -312,22 +312,6 @@ query PoliticianBySlug($slug: String!) {
   }
 }
 
-query PoliticianEmbedById($id: ID!) {
-  politicianById(id: $id) {
-    ...BasicInfo
-    ...Bio
-    ...Endorsements
-    ...ElectionInfo
-    raceWins
-    raceLosses
-    yearsInPublicOffice
-    currentOffice {
-      title
-      subtitleShort
-    }
-  }
-}
-
 mutation UpdatePolitician(
   $intakeToken: String!
   $slug: String!
