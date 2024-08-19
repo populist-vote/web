@@ -71,6 +71,7 @@ type TableProps<T extends object & { id?: string }> = {
   selectedRowId?: string | null;
   globalFilter?: string;
   useSearchQueryAsFilter?: boolean;
+  targetSearchId?: string;
   paginate?: boolean;
 };
 
@@ -83,6 +84,7 @@ function Table<T extends object & { id?: string }>({
   onRowClick,
   selectedRowId,
   useSearchQueryAsFilter = false,
+  targetSearchId,
   paginate = true,
 }: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>(
@@ -91,7 +93,7 @@ function Table<T extends object & { id?: string }>({
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const router = useRouter();
-  const { search } = router.query;
+  const { search, searchId } = router.query;
 
   const table = useReactTable({
     data,
@@ -99,7 +101,8 @@ function Table<T extends object & { id?: string }>({
     state: {
       sorting,
       columnFilters,
-      globalFilter: useSearchQueryAsFilter ? search : null,
+      globalFilter:
+        useSearchQueryAsFilter && searchId == targetSearchId ? search : null,
     },
     filterFns: {
       fuzzy: fuzzyFilter,
@@ -134,17 +137,25 @@ function Table<T extends object & { id?: string }>({
   useEffect(() => {
     const selectedRows = table.getSelectedRowModel().rows.map((row) => row.id);
     if (selectedRows.length) {
-      void router.push({
-        query: {
-          ...router.query,
-          selectedRows: selectedRows.join(","),
+      void router.push(
+        {
+          query: {
+            ...router.query,
+            selectedRows: selectedRows.join(","),
+          },
         },
-      });
+        undefined,
+        { shallow: true }
+      );
     } else {
       const { selectedRows: _, ...queryWithoutSelectedRows } = router.query;
-      void router.push({
-        query: queryWithoutSelectedRows,
-      });
+      void router.push(
+        {
+          query: queryWithoutSelectedRows,
+        },
+        undefined,
+        { shallow: true }
+      );
     }
   }, [table.getSelectedRowModel().rows]);
 
@@ -367,14 +378,16 @@ function Table<T extends object & { id?: string }>({
         <div className={styles.tableMeta}>
           <small>
             {!!table.getSelectedRowModel().rows.length && (
-              <span
-                style={{ color: "var(--blue-text-light)", marginRight: "1rem" }}
-              >
+              <span style={{ color: "var(--blue-text-light)" }}>
                 {table.getSelectedRowModel().rows.length + " " + "Selected of "}
               </span>
             )}
             <small>
-              {data.length} Results{" "}
+              {data.length} Total{" "}
+              <span style={{ margin: "0 0.5rem", color: "var(--blue-text)" }}>
+                /
+              </span>{" "}
+              Showing {table.getRowModel().rows.length} Results{" "}
               <span style={{ margin: "0 0.5rem", color: "var(--blue-text)" }}>
                 /
               </span>{" "}

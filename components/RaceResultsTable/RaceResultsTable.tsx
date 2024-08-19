@@ -189,6 +189,7 @@ export function RaceResultsTable({
         theme={theme}
         onRowClick={onRowClick}
         selectedRowId={selected as string}
+        targetSearchId="raceSearch"
       />
     </>
   );

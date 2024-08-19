@@ -176,6 +176,7 @@ function EmbedIndex({
             onRowClick={onRowClick ? onRowClick : handleRowClick}
             theme={theme}
             useSearchQueryAsFilter={true}
+            targetSearchId="candidateGuideEmbeds"
           />
         </div>
       )}

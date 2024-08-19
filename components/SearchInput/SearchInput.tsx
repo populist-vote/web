@@ -4,10 +4,12 @@ import styles from "./SearchInput.module.scss";
 import { Dispatch, SetStateAction } from "react";
 
 export function SearchInput({
+  searchId,
   placeholder,
   searchValue,
   setSearchValue,
 }: {
+  searchId?: string;
   placeholder: string;
   searchValue: string;
   setSearchValue: Dispatch<SetStateAction<string>>;
@@ -30,7 +32,7 @@ export function SearchInput({
           setSearchValue(e.target.value);
           void router.push(
             {
-              query: { ...query, search: e.target.value },
+              query: { ...query, search: e.target.value, searchId },
             },
             undefined,
             { scroll: false, shallow: true }

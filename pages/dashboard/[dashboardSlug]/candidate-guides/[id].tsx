@@ -373,6 +373,7 @@ function SubmissionsManagement({
             onClick={() => setIsModalOpen(true)}
           />
           <Modal
+            modalId="closeDate"
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             width="36rem"
@@ -478,7 +479,11 @@ function ManageQuestionTranslations({ row }: { row: Row<QuestionResult> }) {
       <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
         <GiWorld color={"var(--blue-text-light)"} />
       </button>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal
+        modalId="manageTranslations"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
         <div style={{ padding: "1.5rem", width: "32rem" }}>
           <h3>Translations</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -616,7 +621,7 @@ function QuestionsSection({
           label="Add Question"
           onClick={openModal}
         />
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Modal modalId="questionForm" isOpen={isModalOpen} onClose={closeModal}>
           <QuestionForm
             candidateGuideId={candidateGuide?.id as string}
             onSuccess={handleNewQuestionSuccess}
@@ -665,9 +670,7 @@ function RacesSection({
     selectedRows,
   } = router.query;
   const [searchValue, setSearchValue] = useState(search as string);
-  const [isModalOpen, setIsModalOpen] = useState(
-    router.query.isModalOpen == "true" || false
-  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const embeds = candidateGuide?.embeds || [];
   const selectedRaceIds = embeds.map((embed) => embed.race?.id) as string[];
   const openModal = () => setIsModalOpen(true);
@@ -683,13 +686,25 @@ function RacesSection({
     setSearchValue("");
   };
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    router.push({
-      query: { ...router.query, state: e.target.value },
-    });
+    router.push(
+      {
+        query: { ...router.query, state: e.target.value },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    router.push({
-      query: { ...router.query, year: e.target.value },
-    });
+    router.push(
+      {
+        query: { ...router.query, year: e.target.value },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
 
   const selectedRowArray = (selectedRows as string)?.split(",");
@@ -750,9 +765,14 @@ function RacesSection({
             onClick={openModal}
           />
         </div>
-        <Modal isOpen={isModalOpen} onClose={closeModal} width={"920px"}>
+        <Modal
+          modalId="raceSearch"
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          width={"920px"}
+        >
           <h2>Add Races</h2>
-          <Divider />
+          <Divider style={{ marginBottom: 0 }} />
           <div className={styles.flexBetween}>
             <h3>Search races</h3>
             <div className={styles.flexBetween}>
@@ -785,6 +805,7 @@ function RacesSection({
               placeholder="School board"
               searchValue={searchValue}
               setSearchValue={setSearchValue}
+              searchId="raceSearch"
             />
           </div>
           <div style={{ marginTop: "1rem" }}>
@@ -929,6 +950,7 @@ function CandidateGuideEmbedTable({
             placeholder="Search for existing candidate guide races"
             searchValue={searchValue}
             setSearchValue={setSearchValue}
+            searchId="candidateGuideEmbeds"
           />
         </Box>
       </div>
@@ -943,6 +965,7 @@ function CandidateGuideEmbedTable({
         theme="blue"
         onRowClick={handleRowClick}
         useSearchQueryAsFilter={true}
+        targetSearchId="candidateGuideEmbeds"
       />
     </div>
   );

@@ -437,7 +437,11 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
           <GrEdit />
         </button>
       )}
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Modal
+        modalId="emailInput"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
         <div style={{ padding: "1.5rem", width: "32rem" }}>
           <h3>Update email for {row.row.original.fullName}</h3>
           <form

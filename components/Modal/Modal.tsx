@@ -1,4 +1,3 @@
-// src/components/Modal/Modal.tsx
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./Modal.module.scss";
@@ -8,17 +7,35 @@ interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   width?: string;
+  modalId?: string; // Add an optional modalId prop
 }
 
-export function Modal({ isOpen, onClose, children, width }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  children,
+  width,
+  modalId,
+}: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(isOpen);
+  const [modalContainer] = useState(() => {
+    const id =
+      modalId || `modal-root-${Math.random().toString(36).substr(2, 9)}`;
+    let container = document.getElementById(id);
+    if (!container) {
+      container = document.createElement("div");
+      container.id = id;
+      document.body.appendChild(container);
+    }
+    return container;
+  });
 
   const handleClose = useCallback(() => {
     setIsVisible(false);
     setTimeout(() => {
       onClose();
-    }, 300); // Match the duration of the animation
+    }, 300);
   }, [onClose]);
 
   useEffect(() => {
@@ -40,7 +57,7 @@ export function Modal({ isOpen, onClose, children, width }: ModalProps) {
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
       document.addEventListener("mousedown", handleClickOutside);
-      setTimeout(() => setIsVisible(true), 10); // Delay to allow animation
+      setTimeout(() => setIsVisible(true), 10);
       document.body.style.overflow = "hidden";
     } else {
       setIsVisible(false);
@@ -62,6 +79,7 @@ export function Modal({ isOpen, onClose, children, width }: ModalProps) {
   const modalClassName = isVisible ? styles.open : styles.close;
 
   if (!isOpen && !isVisible) return null;
+
   return ReactDOM.createPortal(
     <>
       <div
@@ -80,6 +98,6 @@ export function Modal({ isOpen, onClose, children, width }: ModalProps) {
         <div className={styles.content}>{children}</div>
       </div>
     </>,
-    document.getElementById("modal-root") as HTMLElement
+    modalContainer
   );
 }

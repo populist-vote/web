@@ -8,7 +8,7 @@ generates:
   ./graphql/schema.graphql:
     plugins:
       - schema-ast
-    config: 
+    config:
       includeDirectives: true
   ./generated.ts:
     plugins:
@@ -29,5 +29,6 @@ generates:
         endpoint: ${GRAPHQL_SCHEMA_PATH}
         fetchParams:
           credentials: include
+          cache: "force-cache"
           headers:
             { "Content-Type": "application/json", "Accept-Encoding": "gzip" }
