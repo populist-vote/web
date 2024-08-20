@@ -44,7 +44,7 @@ export function DeploymentsList({
             </Badge>
           )}
 
-          <div className={styles.flexBetween}>
+          <div className={styles.flexLeft}>
             <ImageWithFallback
               height="25"
               width="25"
