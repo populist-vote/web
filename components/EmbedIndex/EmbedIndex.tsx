@@ -152,7 +152,7 @@ function EmbedIndex({
           <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
         </div>
       </Box>
-      {embeds?.length === 0 ? (
+      {embeds?.length === 0 && !isLoading ? (
         <div
           style={{
             display: "flex",

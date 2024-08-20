@@ -138,9 +138,14 @@ function ActivityTiles({
 }
 
 function RecentDeployments({ organizationId }: { organizationId: string }) {
-  const { data, isLoading } = useEmbedsDeploymentsQuery({
-    id: organizationId,
-  });
+  const { data, isLoading } = useEmbedsDeploymentsQuery(
+    {
+      id: organizationId,
+    },
+    {
+      staleTime: 0,
+    }
+  );
 
   const deployments = data?.recentDeployments;
 

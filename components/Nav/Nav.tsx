@@ -13,13 +13,10 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
-import {
-  AuthTokenResult,
-  useAvailableOrganizationsByUserQuery,
-  useOrganizationBySlugQuery,
-} from "generated";
+import { AuthTokenResult, useOrganizationBySlugQuery } from "generated";
 import { LuChevronsUpDown } from "react-icons/lu";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import useOrganizationStore from "hooks/useOrganizationStore";
 
 export interface NavItem {
   label: string;
@@ -227,19 +224,8 @@ function DesktopNav({
 function DashboardLink() {
   const router = useRouter();
   const dashboardSlug = router.query.dashboardSlug;
-  const { user } = useAuth();
 
-  const hasOrgs = user.organizations.length > 0;
-
-  const { data: userData, isLoading: isAvailableOrgsDataLoading } =
-    useAvailableOrganizationsByUserQuery(
-      {
-        userId: user.id,
-      },
-      {
-        enabled: !!user && hasOrgs,
-      }
-    );
+  const { availableOrganizations, setOrganizationId } = useOrganizationStore();
 
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useOrganizationBySlugQuery(
@@ -247,28 +233,24 @@ function DashboardLink() {
         slug: dashboardSlug as string,
       },
       {
-        enabled: !!dashboardSlug && hasOrgs,
+        enabled: !!dashboardSlug && availableOrganizations.length > 0,
       }
     );
 
-  if (!hasOrgs) return null;
+  if (availableOrganizations.length == 0) return null;
 
   const organization =
-    organizationData?.organizationBySlug ||
-    userData?.userProfile.availableOrganizations[0];
-
-  const availableOrganizations = userData?.userProfile.availableOrganizations;
+    organizationData?.organizationBySlug || availableOrganizations[0];
 
   const handleOrganizationContextChange = async (dashboardSlug: string) => {
+    const newOrgId = availableOrganizations.find(
+      (org) => org.slug === dashboardSlug
+    )?.id as string;
+    setOrganizationId(newOrgId);
     await router.push(`/dashboard/${dashboardSlug}`);
   };
 
-  if (
-    !availableOrganizations ||
-    isAvailableOrgsDataLoading ||
-    isOrganizationDataLoading
-  )
-    return null;
+  if (!availableOrganizations || isOrganizationDataLoading) return null;
 
   return (
     <Link href={`/dashboard/${organization?.slug}`}>
@@ -312,7 +294,7 @@ function DashboardLink() {
                     <DropdownMenu.RadioItem
                       key={org.id}
                       className={styles.DropdownMenuRadioItem}
-                      value={org.slug}
+                      value={org.slug as string}
                       onClick={(event) => event.stopPropagation()}
                     >
                       <DropdownMenu.ItemIndicator

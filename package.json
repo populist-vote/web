@@ -70,7 +70,8 @@
     "style-loader": "2.0.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "webpack": "^5.90.3",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

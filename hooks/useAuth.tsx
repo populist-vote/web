@@ -1,6 +1,7 @@
 import {
   AuthTokenResult,
   SystemRoleType,
+  useAvailableOrganizationsByUserQuery,
   useCurrentUserQuery,
 } from "../generated";
 import { useRouter } from "next/router";
@@ -12,6 +13,7 @@ import {
   useState,
 } from "react";
 import { toast } from "react-toastify";
+import useOrganizationStore from "./useOrganizationStore";
 
 const AuthContext = createContext<AuthTokenResult>({} as AuthTokenResult);
 
@@ -35,9 +37,29 @@ export function useAuth({
   minRole?: SystemRoleType;
   organizationId?: null | string;
 } = {}) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const user = useContext(AuthContext);
-  const router = useRouter();
+  const hasOrgs = user.organizations.length > 0;
+
+  const { data: userData, isLoading: isAvailableOrgsDataLoading } =
+    useAvailableOrganizationsByUserQuery(
+      {
+        userId: user.id,
+      },
+      {
+        enabled: !!user && hasOrgs,
+      }
+    );
+
+  useEffect(() => {
+    if (!isAvailableOrgsDataLoading && userData) {
+      useOrganizationStore.setState({
+        availableOrganizations:
+          userData.userProfile.availableOrganizations || [],
+      });
+    }
+  });
 
   useEffect(() => {
     setIsLoading(true);
@@ -55,6 +77,12 @@ export function useAuth({
           ) {
             await router.push(redirectTo);
           }
+
+          // Init zustand organization store with current organization
+          if (organizationId) {
+            useOrganizationStore.setState({ organizationId });
+          }
+
           switch (user.systemRole) {
             case SystemRoleType.Superuser:
               return;

@@ -57,6 +57,7 @@ export default function DashboardIndex({
     redirectTo: `/login?next=dashboard/${dashboardSlug}`,
     organizationId,
   });
+
   return organizationQuery.isLoading || isLoading ? null : (
     <Dashboard organizationId={organizationId} />
   );

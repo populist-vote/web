@@ -80,7 +80,7 @@ function Audience({ dashboardSlug }: { dashboardSlug: string }) {
 
   return organizationQuery.isLoading || isLoading || !user ? (
     <LoaderFlag />
-  ) : respondents?.length === 0 ? (
+  ) : respondents?.length === 0 && !isLoading ? (
     <div style={{ width: "100%" }}>
       <h3>All Respondents</h3>
       <small>

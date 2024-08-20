@@ -32,7 +32,7 @@ export function DeploymentsList({
       )}
 
       {deployments?.map((deployment: EnhancedEmbedOriginResult) => (
-        <div className={styles.deploymentRow} key={deployment.url}>
+        <div className={styles.deploymentRow} key={deployment.lastPingAt}>
           {deployment.name && <h3>{deployment.name}</h3>}
           {deployment.embedType && (
             <Badge
