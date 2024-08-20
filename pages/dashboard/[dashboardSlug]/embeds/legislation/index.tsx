@@ -76,7 +76,7 @@ export default function LegislationEmbedsIndex({
           const session = info.getValue() as SessionResult;
           const state = session?.state;
           const year = new Date(session?.startDate).getFullYear();
-          return `${state} - ${year}`;
+          return `${state ?? "U.S."} - ${year}`;
         },
         size: 100,
       },

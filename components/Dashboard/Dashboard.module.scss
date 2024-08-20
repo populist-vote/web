@@ -26,6 +26,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+      text-align: center;
       height: 100%;
 
       > * {
@@ -41,8 +42,6 @@
       }
     }
   }
-
-
 
   .dotSpread {
     display: inline-flex;
