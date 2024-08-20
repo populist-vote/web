@@ -53,6 +53,7 @@ import { Tooltip } from "components/Tooltip/Tooltip";
 import { GrEdit, GrTrash } from "react-icons/gr";
 import { GiWorld } from "react-icons/gi";
 import { LANGUAGES } from "utils/constants";
+import useOrganizationStore from "hooks/useOrganizationStore";
 
 export async function getServerSideProps({
   query,
@@ -437,7 +438,7 @@ function ManageQuestionTranslations({ row }: { row: Row<QuestionResult> }) {
       translations: row.original.translations,
     },
   });
-
+  const { organizationId } = useOrganizationStore();
   const upsertQuestion = useUpsertQuestionMutation();
 
   const queryClient = useQueryClient();
@@ -453,6 +454,7 @@ function ManageQuestionTranslations({ row }: { row: Row<QuestionResult> }) {
             responsePlaceholderText: row.original.responsePlaceholderText,
             allowAnonymousResponses: row.original.allowAnonymousResponses,
             translations: data.translations,
+            organizationId,
           },
         },
         {

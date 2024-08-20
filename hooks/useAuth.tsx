@@ -40,12 +40,12 @@ export function useAuth({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const user = useContext(AuthContext);
-  const hasOrgs = user.organizations.length > 0;
+  const hasOrgs = user?.organizations.length > 0;
 
   const { data: userData, isLoading: isAvailableOrgsDataLoading } =
     useAvailableOrganizationsByUserQuery(
       {
-        userId: user.id,
+        userId: user?.id,
       },
       {
         enabled: !!user && hasOrgs,

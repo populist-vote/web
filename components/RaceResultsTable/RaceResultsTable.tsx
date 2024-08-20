@@ -66,7 +66,7 @@ export function RaceResultsTable({
   );
   const shouldFetchRaceResults = !!debouncedSearchQuery;
 
-  const { data, isLoading } = useRaceIndexQuery(
+  const { data, isLoading, isPending } = useRaceIndexQuery(
     {
       pageSize: 500,
       filter: {
@@ -168,9 +168,8 @@ export function RaceResultsTable({
     }
   };
 
+  if (isLoading || isPending) return <LoaderFlag />;
   if (raceResults.length == 0) return null;
-
-  if (isLoading) return <LoaderFlag />;
 
   return (
     <>

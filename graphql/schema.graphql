@@ -1234,6 +1234,7 @@ type Query {
   politicianById(id: ID!): PoliticianResult
   politicianByIntakeToken(token: String!): PoliticianResult
   politicianBySlug(slug: String!): PoliticianResult
+  politicianRespondentsByOrganizationId(organizationId: ID!): [PoliticianResult!]!
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
   questionById(id: ID!): QuestionResult!
   raceById(id: String!): RaceResult!
@@ -1822,6 +1823,7 @@ input UpsertPollInput {
   id: UUID
   name: String
   options: [UpsertPollOptionInput!]!
+  organizationId: UUID
   prompt: String
 }
 
@@ -1846,6 +1848,7 @@ input UpsertQuestionInput {
   id: UUID
   issueTagIds: [UUID!]
   name: String
+  organizationId: UUID
   prompt: String
   responseCharLimit: Int
   responsePlaceholderText: String

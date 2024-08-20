@@ -18,6 +18,7 @@ import { Checkbox } from "components/Checkbox/Checkbox";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { BsXCircleFill } from "react-icons/bs";
+import useOrganizationStore from "hooks/useOrganizationStore";
 
 type QuestionForm = {
   prompt: string;
@@ -74,7 +75,7 @@ function QuestionFormInner({
 }) {
   const upsertQuestion = useUpsertQuestionMutation();
   const { data, isLoading } = useIssueTagsQuery();
-
+  const { organizationId } = useOrganizationStore();
   const labelOptions = data?.allIssueTags;
   const existingLabels = question?.issueTags.map((issue) => ({
     id: issue.id,
@@ -135,6 +136,7 @@ function QuestionFormInner({
           issueTagIds: selectedLabels.map((label) => label.id),
           allowAnonymousResponses: data.allowAnonymousResponses || false,
           candidateGuideId,
+          organizationId,
         },
       },
       {

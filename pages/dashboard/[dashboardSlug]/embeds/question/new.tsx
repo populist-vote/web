@@ -136,6 +136,7 @@ export function QuestionEmbedForm({
           responsePlaceholderText,
           allowAnonymousResponses: data.allowAnonymousResponses,
           candidateGuideId,
+          organizationId: currentOrganizationId as string,
         },
       },
       {

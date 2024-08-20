@@ -129,6 +129,7 @@ export function PollEmbedForm({
           allowAnonymousResponses,
           allowWriteInResponses,
           options,
+          organizationId: currentOrganizationId as string,
         },
       },
       {

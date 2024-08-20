@@ -133,6 +133,14 @@ function Table<T extends object & { id?: string }>({
     debugColumns: false,
   });
 
+  // Use useEffect to dynamically update pageSize based on paginate prop
+  useEffect(() => {
+    const pageSize = paginate
+      ? table.getState().pagination.pageSize
+      : data.length;
+    table.setPageSize(pageSize);
+  }, [paginate, data.length, table]);
+
   // Set all selected rows in comma separated query parameter
   useEffect(() => {
     const selectedRows = table.getSelectedRowModel().rows.map((row) => row.id);
