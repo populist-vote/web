@@ -128,7 +128,7 @@ export default function CandidateGuideEmbedIndex({
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <section>
         <EmbedIndex
           // @ts-expect-error React table types are difficult to work with
@@ -228,7 +228,7 @@ export default function CandidateGuideEmbedIndex({
           )}
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

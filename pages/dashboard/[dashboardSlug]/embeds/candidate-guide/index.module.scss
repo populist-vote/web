@@ -1,5 +1,11 @@
 @import "styles/layout/containers";
 
+.container {
+  section {
+    margin-bottom: 3rem;
+  }
+}
+
 .submissionBox {
   border-radius: 0.5rem;
   background-color: $blue-darker;
