@@ -80,7 +80,6 @@ function PoliticianPage({
             />
           </div>
           <SponsoredBillsSection />
-          {/* <EndorsementsSection /> */}
           <RatingsSection />
           <FinancialsSection />
           <BioSection />

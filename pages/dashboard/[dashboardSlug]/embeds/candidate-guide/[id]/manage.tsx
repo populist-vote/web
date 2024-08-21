@@ -36,6 +36,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
 import { downloadCsv } from "utils/strings";
+import { Tooltip } from "components/Tooltip/Tooltip";
 // import * as Switch from "@radix-ui/react-switch";
 
 export async function getServerSideProps({
@@ -433,9 +434,11 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
         <span style={{ marginRight: "1rem" }}>{row.getValue() as string}</span>
       )}
       {canEdit && (
-        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
-          <GrEdit />
-        </button>
+        <Tooltip content="Edit Email">
+          <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+            <GrEdit />
+          </button>
+        </Tooltip>
       )}
       <Modal
         modalId="emailInput"
