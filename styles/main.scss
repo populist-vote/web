@@ -125,6 +125,10 @@ body {
   text-rendering: optimizelegibility;
   font-display: swap;
   scroll-behavior: smooth;
+
+  &:has(div[role="dialog"]) {
+    overflow: hidden;
+  }
 }
 
 a {

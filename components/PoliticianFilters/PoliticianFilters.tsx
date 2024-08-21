@@ -85,9 +85,11 @@ export function PoliticalScopeFilters() {
   const handleScopeChange = (newScope: PoliticalScope) => {
     if (newScope === scope) {
       const { scope: _, ...newQuery } = query;
-      void router.push({ query: newQuery });
+      void router.push({ query: newQuery }, undefined, { shallow: true });
     } else {
-      void router.push({ query: { ...query, scope: newScope } });
+      void router.push({ query: { ...query, scope: newScope } }, undefined, {
+        shallow: true,
+      });
     }
   };
   return (
