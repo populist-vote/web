@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import { useTheme } from "hooks/useTheme";
 import { Box } from "components/Box/Box";
 import { useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./EmbedIndex.module.scss";
 import Link from "next/link";
 import { Badge } from "components/Badge/Badge";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
+import { SearchInput } from "components/SearchInput/SearchInput";
 
 function EmbedIndex({
   isLoading,
@@ -33,7 +33,7 @@ function EmbedIndex({
   const { theme } = useTheme();
   const { search } = router.query;
 
-  const [searchValue, setSearchValue] = useState(search);
+  const [searchValue, setSearchValue] = useState((search as string) || "");
 
   const handleRowClick = (row: Row<EmbedResult>) =>
     router.push(
@@ -132,25 +132,12 @@ function EmbedIndex({
       </div>
       <h2>{title}</h2>
       <Box>
-        <div className={styles.inputWithIcon}>
-          <input
-            placeholder="Search for embeds across all columns"
-            onChange={(e) => {
-              setSearchValue(e.target.value);
-              if (e.target.value === "") {
-                const { search: _, ...newQuery } = router.query;
-                void router.push({
-                  query: newQuery,
-                });
-              } else
-                void router.push({
-                  query: { ...router.query, search: e.target.value },
-                });
-            }}
-            value={searchValue || ""}
-          ></input>
-          <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
-        </div>
+        <SearchInput
+          placeholder="Search for embeds across all columns"
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          searchId="candidateGuides"
+        />
       </Box>
       {embeds?.length === 0 && !isLoading ? (
         <div
@@ -176,7 +163,7 @@ function EmbedIndex({
             onRowClick={onRowClick ? onRowClick : handleRowClick}
             theme={theme}
             useSearchQueryAsFilter={true}
-            targetSearchId="candidateGuideEmbeds"
+            targetSearchId="candidateGuides"
           />
         </div>
       )}
