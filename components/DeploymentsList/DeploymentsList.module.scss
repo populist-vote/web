@@ -9,7 +9,7 @@
 
 .deploymentRow {
   display: grid;
-  grid-template-columns: 16rem 10rem 3fr 2fr 1fr;
+  grid-template-columns: 3fr 2fr;
   gap: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -19,6 +19,7 @@
 
   h3 {
     margin: 0;
+    font-size: 1.35em;
   }
 
   &:hover {
