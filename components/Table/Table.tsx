@@ -391,11 +391,12 @@ function Table<T extends object & { id?: string }>({
               </span>
             )}
             <small>
-              {data.length} Total{" "}
+              Showing {table.getRowModel().rows.length} of{" "}
+              {table.getFilteredRowModel().rows.length} Results{" "}
               <span style={{ margin: "0 0.5rem", color: "var(--blue-text)" }}>
                 /
               </span>{" "}
-              Showing {table.getRowModel().rows.length} Results{" "}
+              {data.length} Total{" "}
               <span style={{ margin: "0 0.5rem", color: "var(--blue-text)" }}>
                 /
               </span>{" "}

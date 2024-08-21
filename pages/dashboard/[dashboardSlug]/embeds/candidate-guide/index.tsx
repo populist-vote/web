@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./index.module.scss";
 import Link from "next/link";
+import { PiNotePencil } from "react-icons/pi";
 
 export async function getServerSideProps({
   query,
@@ -128,105 +129,105 @@ export default function CandidateGuideEmbedIndex({
 
   return (
     <>
-      <EmbedIndex
-        // @ts-expect-error React table types are difficult to work with
-        columns={candidateGuideColumns}
-        // @ts-expect-error React table types are difficult to work with
-        embeds={guides}
-        slug={dashboardSlug}
-        embedType={EmbedType.CandidateGuide}
-        title="Candidate Guides"
-        isLoading={false}
-        emptyStateMessage="No candidate guides found."
-        onRowClick={(row) =>
-          router.push(
-            `/dashboard/${dashboardSlug}/candidate-guides/${row.original.id}`
-          )
-        }
-      />
-      <div>
-        <div>
-          <h2>Recent Submissions</h2>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-            }}
-          >
-            {recentSubs.map((submission) => (
-              <div style={{ marginBottom: "1rem" }} key={submission.id}>
-                <Box>
-                  <div
+      <section>
+        <EmbedIndex
+          // @ts-expect-error React table types are difficult to work with
+          columns={candidateGuideColumns}
+          // @ts-expect-error React table types are difficult to work with
+          embeds={guides}
+          slug={dashboardSlug}
+          embedType={EmbedType.CandidateGuide}
+          title="Candidate Guides"
+          isLoading={false}
+          emptyStateMessage="No candidate guides found."
+          onRowClick={(row) =>
+            router.push(
+              `/dashboard/${dashboardSlug}/candidate-guides/${row.original.id}`
+            )
+          }
+        />
+      </section>
+      <section>
+        <h2>Recent Submissions</h2>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
+          {recentSubs.map((submission) => (
+            <div className={styles.submissionBox} key={submission.id}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1rem",
+                  flexDirection: "row",
+                }}
+              >
+                <div>
+                  <Link href={`/politicians/${submission.politician?.slug}`}>
+                    <div className={styles.avatarContainer}>
+                      <PartyAvatar
+                        theme={"dark"}
+                        size={80}
+                        iconSize="1.25rem"
+                        party={submission.politician?.party as PoliticalParty}
+                        src={
+                          submission.politician?.assets
+                            ?.thumbnailImage160 as string
+                        }
+                        alt={submission.politician?.fullName as string}
+                        target={"_blank"}
+                        rel={"noopener noreferrer"}
+                      />
+                      <span className={clsx(styles.link, styles.avatarName)}>
+                        {submission.politician?.fullName}
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+                <div>
+                  <p
                     style={{
-                      display: "flex",
-                      gap: "1rem",
-                      flexDirection: "row",
+                      color: "var(--blue-text-light)",
+                      fontSize: "1em",
                     }}
                   >
-                    <div>
-                      <Link
-                        href={`/politicians/${submission.politician?.slug}`}
-                      >
-                        <div className={styles.avatarContainer}>
-                          <PartyAvatar
-                            theme={"dark"}
-                            size={80}
-                            iconSize="1.25rem"
-                            party={
-                              submission.politician?.party as PoliticalParty
-                            }
-                            src={
-                              submission.politician?.assets
-                                ?.thumbnailImage160 as string
-                            }
-                            alt={submission.politician?.fullName as string}
-                            target={"_blank"}
-                            rel={"noopener noreferrer"}
-                          />
-                          <span
-                            className={clsx(styles.link, styles.avatarName)}
-                          >
-                            {submission.politician?.fullName}
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                    <div>
-                      <p
-                        style={{
-                          color: "var(--blue-text-light)",
-                          fontSize: "1.2em",
-                        }}
-                      >
-                        {submission.question.prompt}
-                      </p>
-                      <p>{submission?.response}</p>
-                    </div>
-                  </div>
-                  <div
+                    {submission.question.prompt}
+                  </p>
+                  <p
                     style={{
-                      marginTop: "1rem",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      width: "100%",
+                      fontSize: "1.2em",
                     }}
                   >
-                    <small>
-                      {getRelativeTimeString(new Date(submission.updatedAt))}
-                    </small>
-                  </div>
-                </Box>
+                    {submission?.response}
+                  </p>
+                </div>
               </div>
-            ))}
-            {recentSubs.length === 0 && (
-              <Box>
-                <small className={styles.noResults}>No submissions</small>
-              </Box>
-            )}
-          </div>
+              <div
+                style={{
+                  marginTop: "1rem",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                  color: "var(--blue-text-light)",
+                }}
+              >
+                <small className={styles.flexRight}>
+                  <PiNotePencil style={{ fontSize: "1.5em" }} />
+                  {getRelativeTimeString(new Date(submission.updatedAt))}
+                </small>
+              </div>
+            </div>
+          ))}
+          {recentSubs.length === 0 && (
+            <Box>
+              <small className={styles.noResults}>No submissions</small>
+            </Box>
+          )}
         </div>
-      </div>
+      </section>
     </>
   );
 }

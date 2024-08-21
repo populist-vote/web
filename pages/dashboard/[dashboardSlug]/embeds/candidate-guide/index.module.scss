@@ -1,1 +1,16 @@
 @import "styles/layout/containers";
+
+.submissionBox {
+  border-radius: 0.5rem;
+  background-color: $blue-darker;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+
+  p {
+    margin-bottom: 0;
+  }
+}
