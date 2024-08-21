@@ -1308,6 +1308,7 @@ input RaceFilter {
   officeTitles: [String!]
   politicalScope: PoliticalScope
   query: String
+  raceType: RaceType
   state: State
   year: Int
 }

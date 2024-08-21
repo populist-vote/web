@@ -30,6 +30,7 @@ import {
   useOpenAllCandidateGuideSubmissionsMutation,
   useOrganizationBySlugQuery,
   useUpsertQuestionMutation,
+  RaceType,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -667,6 +668,7 @@ function RacesSection({
   const defaultState = user?.userProfile?.address?.state || null;
   const {
     state = defaultState,
+    raceType,
     search,
     year = currentYear,
     selectedRows,
@@ -691,6 +693,16 @@ function RacesSection({
     router.push(
       {
         query: { ...router.query, state: e.target.value },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
+  const handleRaceTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    router.push(
+      {
+        query: { ...router.query, raceType: e.target.value },
       },
       undefined,
       {
@@ -788,6 +800,17 @@ function RacesSection({
                   { value: "MN", label: "Minnesota" },
                 ]}
                 onChange={handleStateChange}
+              />
+              <Select
+                textColor="white"
+                backgroundColor={"blue"}
+                value={raceType as string}
+                options={[
+                  { value: "", label: "Race Type" },
+                  { value: RaceType.General, label: "General" },
+                  { value: RaceType.Primary, label: "Primary" },
+                ]}
+                onChange={handleRaceTypeChange}
               />
               <Select
                 textColor="white"

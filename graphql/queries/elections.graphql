@@ -23,7 +23,15 @@ query RaceIndex($pageSize: Int, $cursor: String, $filter: RaceFilter) {
   races(first: $pageSize, after: $cursor, filter: $filter) {
     edges {
       node {
-        ...RaceFields
+        id
+        slug
+        raceType
+        office {
+          name
+          title
+          subtitle
+        }
+        electionDate
       }
     }
   }

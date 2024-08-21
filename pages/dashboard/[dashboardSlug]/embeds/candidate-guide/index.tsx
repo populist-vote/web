@@ -118,6 +118,10 @@ export default function CandidateGuideEmbedIndex({
 
   const guides = data?.candidateGuidesByOrganization || [];
 
+  const recentSubs =
+    recentSubmissionsData?.recentCandidateGuideQuestionSubmissionsByOrganization ||
+    [];
+
   if (isLoading || isRecentSubmissionsDataLoading || isOrganizationLoading) {
     return <LoaderFlag />;
   }
@@ -150,72 +154,75 @@ export default function CandidateGuideEmbedIndex({
               gap: "1rem",
             }}
           >
-            {recentSubmissionsData?.recentCandidateGuideQuestionSubmissionsByOrganization?.map(
-              (submission) => (
-                <div style={{ marginBottom: "1rem" }} key={submission.id}>
-                  <Box>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "1rem",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <div>
-                        <Link
-                          href={`/politicians/${submission.politician?.slug}`}
-                        >
-                          <div className={styles.avatarContainer}>
-                            <PartyAvatar
-                              theme={"dark"}
-                              size={80}
-                              iconSize="1.25rem"
-                              party={
-                                submission.politician?.party as PoliticalParty
-                              }
-                              src={
-                                submission.politician?.assets
-                                  ?.thumbnailImage160 as string
-                              }
-                              alt={submission.politician?.fullName as string}
-                              target={"_blank"}
-                              rel={"noopener noreferrer"}
-                            />
-                            <span
-                              className={clsx(styles.link, styles.avatarName)}
-                            >
-                              {submission.politician?.fullName}
-                            </span>
-                          </div>
-                        </Link>
-                      </div>
-                      <div>
-                        <p
-                          style={{
-                            color: "var(--blue-text-light)",
-                            fontSize: "1.2em",
-                          }}
-                        >
-                          {submission.question.prompt}
-                        </p>
-                        <p>{submission?.response}</p>
-                      </div>
+            {recentSubs.map((submission) => (
+              <div style={{ marginBottom: "1rem" }} key={submission.id}>
+                <Box>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <div>
+                      <Link
+                        href={`/politicians/${submission.politician?.slug}`}
+                      >
+                        <div className={styles.avatarContainer}>
+                          <PartyAvatar
+                            theme={"dark"}
+                            size={80}
+                            iconSize="1.25rem"
+                            party={
+                              submission.politician?.party as PoliticalParty
+                            }
+                            src={
+                              submission.politician?.assets
+                                ?.thumbnailImage160 as string
+                            }
+                            alt={submission.politician?.fullName as string}
+                            target={"_blank"}
+                            rel={"noopener noreferrer"}
+                          />
+                          <span
+                            className={clsx(styles.link, styles.avatarName)}
+                          >
+                            {submission.politician?.fullName}
+                          </span>
+                        </div>
+                      </Link>
                     </div>
-                    <div
-                      style={{
-                        marginTop: "1rem",
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        width: "100%",
-                      }}
-                    >
-                      <small>
-                        {getRelativeTimeString(new Date(submission.updatedAt))}
-                      </small>
+                    <div>
+                      <p
+                        style={{
+                          color: "var(--blue-text-light)",
+                          fontSize: "1.2em",
+                        }}
+                      >
+                        {submission.question.prompt}
+                      </p>
+                      <p>{submission?.response}</p>
                     </div>
-                  </Box>
-                </div>
-              )
+                  </div>
+                  <div
+                    style={{
+                      marginTop: "1rem",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      width: "100%",
+                    }}
+                  >
+                    <small>
+                      {getRelativeTimeString(new Date(submission.updatedAt))}
+                    </small>
+                  </div>
+                </Box>
+              </div>
+            ))}
+            {recentSubs.length === 0 && (
+              <Box>
+                <small className={styles.noResults}>No submissions</small>
+              </Box>
             )}
           </div>
         </div>

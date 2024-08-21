@@ -57,12 +57,12 @@
 
   td:first-child {
     color: var(--text-color);
-    font-weight: 300;
+    font-weight: 500;
   }
 
   td:not(:first-child) {
     color: var(--text-color);
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .tableMeta {

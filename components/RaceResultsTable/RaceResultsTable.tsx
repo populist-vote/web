@@ -4,6 +4,7 @@ import { Table } from "components/Table/Table";
 import {
   PoliticalScope,
   RaceResult,
+  RaceType,
   State,
   useRaceIndexQuery,
 } from "generated";
@@ -59,6 +60,7 @@ export function RaceResultsTable({
     selected,
     year = currentYear,
     scope,
+    raceType,
   } = query;
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
@@ -66,7 +68,7 @@ export function RaceResultsTable({
   );
   const shouldFetchRaceResults = !!debouncedSearchQuery;
 
-  const { data, isLoading, isPending } = useRaceIndexQuery(
+  const { data, isLoading } = useRaceIndexQuery(
     {
       pageSize: 500,
       filter: {
@@ -79,6 +81,7 @@ export function RaceResultsTable({
               : (state as string as State),
         politicalScope: scope as string as PoliticalScope,
         year: parseInt(year as string),
+        raceType: raceType === "" ? null : (raceType as string as RaceType),
       },
     },
     {
@@ -168,7 +171,7 @@ export function RaceResultsTable({
     }
   };
 
-  if (isLoading || isPending) return <LoaderFlag />;
+  if (isLoading) return <LoaderFlag />;
   if (raceResults.length == 0) return null;
 
   return (
