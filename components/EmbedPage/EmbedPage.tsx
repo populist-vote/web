@@ -153,7 +153,7 @@ export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
       <div className={styles.deployments}>
         {embed.origins?.map(({ url, lastPingAt }) => (
           <div className={styles.deploymentRow} key={url}>
-            <div className={styles.flexBetween}>
+            <div className={styles.flexLeft} style={{ width: "100%" }}>
               <ImageWithFallback
                 height="25"
                 width="25"
@@ -166,7 +166,7 @@ export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
                 key={`${embed.id + url}`}
                 target="_blank"
                 rel="noreferrer"
-                className={clsx(styles.linkParent, styles.clamp1)}
+                className={clsx(styles.linkParent, styles.clamp2)}
               >
                 {url}
               </Link>
