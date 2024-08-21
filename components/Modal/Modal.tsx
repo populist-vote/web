@@ -86,7 +86,7 @@ export function Modal({
         className={`${styles.overlay} ${overlayClassName}`}
         tabIndex={-1}
         role="dialog"
-      ></div>
+      />
       <div
         className={`${styles.modal} ${modalClassName}`}
         ref={modalRef}

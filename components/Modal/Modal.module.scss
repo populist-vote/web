@@ -2,7 +2,7 @@
 
 .modal {
   position: fixed;
-  top: 15%;
+  top: 150px;
   left: 50%;
   border-radius: 30px;
   border: 1px solid $blue-dark;
@@ -13,28 +13,22 @@
   z-index: 1000;
   min-width: min-content;
   max-width: 90%;
-  max-height: 90%;
   overflow: hidden; /* Important for animating height */
   transition:
     opacity 0.3s ease,
-    transform 0.3s ease,
-    max-height 0.5s ease,
-    /* Smooth height animation */ padding 0.3s ease; /* Smooth padding animation */
-
-  height: auto; /* Allows the height to be auto-adjusted */
+    transform 0.3s ease;
+  height: auto;
+  max-height: calc(100vh - 300px);
 
   &.open {
     opacity: 1;
     transform: translateX(-50%) scale(1);
-    max-height: 90%; /* Allows content to expand within limits */
-    padding: 20px; /* Ensures padding is applied consistently */
+    overflow: scroll;
   }
 
   &.close {
     opacity: 0;
     transform: translateX(-50%) scale(0.9);
-    max-height: 0; /* Collapses the modal height smoothly */
-    padding: 0; /* Reduces padding for smoother collapse */
   }
 }
 
