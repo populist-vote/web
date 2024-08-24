@@ -91,7 +91,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin: 0 0 1rem;
 
   button {
@@ -112,6 +112,8 @@
 
   .pageDots {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
     gap: 0.25rem;
 

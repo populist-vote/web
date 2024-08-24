@@ -26,6 +26,7 @@ import {
 
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { useRouter } from "next/router";
+import { RiMoreLine } from "react-icons/ri";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -253,52 +254,59 @@ function Table<T extends object & { id?: string }>({
   };
 
   const PageIndex = () => {
+    const pageCount = table.getPageCount();
+    const currentPage = table.getState().pagination.pageIndex;
+    const maxDots = 16;
+
+    const startPage = Math.max(0, currentPage - 2);
+    const endPage = Math.min(pageCount - 1, startPage + maxDots - 1);
+
     return (
       <div className={styles.pageIndex}>
-        <div>
-          <Button
-            theme="blue"
-            size={"small"}
-            variant="text"
-            label="Previous"
-            hideLabel
-            icon={<FaChevronLeft />}
-            iconPosition="before"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Prev
-          </Button>
-        </div>
+        <Button
+          theme="blue"
+          size={"small"}
+          variant="text"
+          label="Previous"
+          hideLabel
+          icon={<FaChevronLeft />}
+          iconPosition="before"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        />
         <span className={styles.pageDots}>
-          {[...Array(table.getPageCount() || 0)].map((_, i) => (
-            <FaCircle
-              size={"0.5em"}
-              key={i}
-              color={
-                i === table.getState().pagination.pageIndex
-                  ? getTheme().index.selected
-                  : getTheme().index.unselected
-              }
-              onClick={() => table.setPageIndex(i)}
-            />
-          ))}
+          {startPage > 0 && <RiMoreLine color={getTheme().index.unselected} />}
+          {[...Array(endPage - startPage + 1)].map((_, i) => {
+            const pageIndex = startPage + i;
+            return (
+              <FaCircle
+                size={"0.5em"}
+                key={pageIndex}
+                color={
+                  pageIndex === currentPage
+                    ? getTheme().index.selected
+                    : getTheme().index.unselected
+                }
+                onClick={() => table.setPageIndex(pageIndex)}
+              />
+            );
+          })}
+          {endPage < pageCount - 1 && (
+            <RiMoreLine color={getTheme().index.unselected} />
+          )}
         </span>
-        <div>
-          <Button
-            theme="blue"
-            size={"small"}
-            variant="text"
-            label="Previous"
-            hideLabel
-            icon={<FaChevronRight />}
-            iconPosition="after"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+
+        <Button
+          theme="blue"
+          size={"small"}
+          variant="text"
+          label="Next"
+          hideLabel
+          icon={<FaChevronRight />}
+          iconPosition="after"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        />
       </div>
     );
   };
