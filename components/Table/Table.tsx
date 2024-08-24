@@ -275,9 +275,13 @@ function Table<T extends object & { id?: string }>({
           disabled={!table.getCanPreviousPage()}
         />
         <span className={styles.pageDots}>
-          {startPage > 0 && <RiMoreLine color={getTheme().index.unselected} />}
-          {[...Array(endPage - startPage + 1)].map((_, i) => {
-            const pageIndex = startPage + i;
+          {startPage > 0 && pageCount > maxDots && (
+            <RiMoreLine color={getTheme().index.unselected} />
+          )}
+          {[
+            ...Array(pageCount > maxDots ? endPage - startPage + 1 : pageCount),
+          ].map((_, i) => {
+            const pageIndex = pageCount > maxDots ? startPage + i : currentPage;
             return (
               <FaCircle
                 size={"0.5em"}
@@ -291,7 +295,7 @@ function Table<T extends object & { id?: string }>({
               />
             );
           })}
-          {endPage < pageCount - 1 && (
+          {endPage < pageCount - 1 && pageCount > maxDots && (
             <RiMoreLine color={getTheme().index.unselected} />
           )}
         </span>
