@@ -42,17 +42,20 @@
   }
 }
 
-.votingCardContainer {
-  margin-bottom: 1rem;
-}
-
 .description {
   color: $blue-text;
   size: $text-xs;
 }
 
 .guidesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   padding: 0 1rem 1.5rem;
+
+  h5 {
+    font-size: $text-md;
+  }
 
   @include for-tablet-up {
     padding: 0;

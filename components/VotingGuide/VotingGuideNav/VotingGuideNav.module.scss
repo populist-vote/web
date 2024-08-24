@@ -1,36 +1,25 @@
-@import "styles/modules/page.module";
+@import "styles/layout/containers";
 
 .topBar {
   grid-area: "subnav";
   position: sticky;
-  top: 0;
   z-index: 14;
-  transform: translateY(-250%);
-  transition: transform 400ms ease-in;
   background-color: $blue-darker;
   color: $white;
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
   font-size: 1.25em;
   font-weight: 500;
   width: 100%;
-  border-bottom: 1px solid $blue-dark;
-
-  &.sticky {
-    transform: translateY(0%);
-  }
 
   @include for-tablet-up {
     background-color: $blue-darker-2;
-    height: 5.625rem;
-    padding: 1rem 1rem 1rem 0;
-    top: 0;
-    width: calc(100vw - 12rem);
+    padding: 1.5rem;
     display: flex;
+    gap: 1.5rem;
     justify-content: left;
     align-items: center;
-    border-bottom: none;
-    margin: -12rem 0 6rem -6rem;
+    border-radius: 5px;
   }
 
   :first-child {

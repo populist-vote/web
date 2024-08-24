@@ -13,6 +13,7 @@
   font-family: $font-primary;
   font-weight: $weight-semibold;
   text-transform: uppercase;
+  max-width: fit-content;
 
   input[type="radio"] {
     position: fixed;
