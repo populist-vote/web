@@ -32,7 +32,7 @@ export function SearchInput({
           setSearchValue(e.target.value);
           void router.push(
             {
-              query: { ...query, search: e.target.value, searchId },
+              query: { ...query, search: e.target.value.trim(), searchId },
             },
             undefined,
             { scroll: false, shallow: true }
