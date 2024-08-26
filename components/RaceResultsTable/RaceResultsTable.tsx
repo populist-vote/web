@@ -122,6 +122,7 @@ export function RaceResultsTable({
             />
           </div>
         ),
+        size: 50,
       },
       {
         accessorKey: "office.name",
@@ -134,7 +135,7 @@ export function RaceResultsTable({
       {
         accessorKey: "office.subtitle",
         header: "Location",
-        size: 300,
+        size: 400,
       },
       {
         accessorKey: "raceType",

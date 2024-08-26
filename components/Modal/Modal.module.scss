@@ -2,7 +2,7 @@
 
 .modal {
   position: fixed;
-  top: 150px;
+  top: 10%;
   left: 50%;
   border-radius: 30px;
   border: 1px solid $blue-dark;
@@ -17,7 +17,7 @@
     opacity 0.3s ease,
     transform 0.3s ease;
   height: auto;
-  max-height: calc(100vh - 300px);
+  max-height: calc(100vh - 10%);
 
   &.open {
     opacity: 1;
