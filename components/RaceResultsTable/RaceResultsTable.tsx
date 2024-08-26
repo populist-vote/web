@@ -70,7 +70,7 @@ export function RaceResultsTable({
 
   const { data, isLoading } = useRaceIndexQuery(
     {
-      pageSize: 1000,
+      pageSize: 2000, // Query LIMIT is 2000
       filter: {
         query: debouncedSearchQuery || null,
         state:
