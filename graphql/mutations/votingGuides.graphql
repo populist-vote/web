@@ -50,3 +50,9 @@ mutation DeleteVotingGuideCandidateNote(
     note
   }
 }
+
+mutation DeleteVotingGuide($id: ID!) {
+  deleteVotingGuide(id: $id) {
+    id
+  }
+}

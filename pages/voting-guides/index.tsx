@@ -26,7 +26,9 @@ import {
   useVotingGuidesByUserIdQuery,
   VotingGuideResult,
   useVotingGuidesByIdsQuery,
+  useDeleteVotingGuideMutation,
 } from "generated";
+import { useQueryClient } from "@tanstack/react-query";
 
 const VotingGuideCard = ({
   guide,
@@ -169,11 +171,28 @@ const VotingGuides: NextPage<{
 
   const savedGuides = savedGuidesQuery.data?.votingGuidesByIds;
 
+  const deleteVotingGuideMutation = useDeleteVotingGuideMutation();
+
+  const queryClient = useQueryClient();
+
   const handleDelete = (guideId: string) => {
     if (!guideId) return;
 
     if (confirm("Are you sure you want to delete this guide?")) {
-      // deleteAction();
+      deleteVotingGuideMutation.mutate(
+        { id: guideId },
+        {
+          onSuccess: () => {
+            void queryClient.invalidateQueries({
+              queryKey: ["VotingGuidesByUserId"],
+            });
+            toast.success("Guide deleted successfully");
+          },
+          onError: () => {
+            toast.error("Error deleting guide");
+          },
+        }
+      );
     }
   };
 
@@ -195,7 +214,7 @@ const VotingGuides: NextPage<{
         <section>
           <h1 style={{ marginBottom: 0 }}>My Guides</h1>
           <p>
-            Save and share who your voting for and why. Create your guide on
+            Save and share who you're voting for and why. Create your guide on
             your My Ballot page, or by browsing elections.
           </p>
           {isLoading && <LoaderFlag />}
