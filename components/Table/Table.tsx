@@ -258,14 +258,17 @@ function Table<T extends object & { id?: string }>({
     const currentPage = table.getState().pagination.pageIndex;
     const maxDots = 16;
 
-    const startPage = Math.max(0, currentPage - 2);
+    const startPage = Math.max(
+      0,
+      Math.min(currentPage - 2, pageCount - maxDots)
+    );
     const endPage = Math.min(pageCount - 1, startPage + maxDots - 1);
 
     return (
       <div className={styles.pageIndex}>
         <Button
           theme="blue"
-          size={"small"}
+          size="small"
           variant="text"
           label="Previous"
           hideLabel
@@ -274,17 +277,17 @@ function Table<T extends object & { id?: string }>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         />
+
         <span className={styles.pageDots}>
           {startPage > 0 && pageCount > maxDots && (
             <RiMoreLine color={getTheme().index.unselected} />
           )}
-          {[
-            ...Array(pageCount > maxDots ? endPage - startPage + 1 : pageCount),
-          ].map((_, i) => {
-            const pageIndex = pageCount > maxDots ? startPage + i : currentPage;
+
+          {[...Array(endPage - startPage + 1)].map((_, i) => {
+            const pageIndex = startPage + i;
             return (
               <FaCircle
-                size={"0.5em"}
+                size="0.5em"
                 key={pageIndex}
                 color={
                   pageIndex === currentPage
@@ -295,6 +298,7 @@ function Table<T extends object & { id?: string }>({
               />
             );
           })}
+
           {endPage < pageCount - 1 && pageCount > maxDots && (
             <RiMoreLine color={getTheme().index.unselected} />
           )}
@@ -302,7 +306,7 @@ function Table<T extends object & { id?: string }>({
 
         <Button
           theme="blue"
-          size={"small"}
+          size="small"
           variant="text"
           label="Next"
           hideLabel
