@@ -283,6 +283,15 @@ query RecentCandidateGuideQuestionSubmissions(
       assets {
         thumbnailImage160
       }
+      upcomingRace {
+        office {
+          name
+          subtitle
+        }
+      }
+    }
+    candidateGuideEmbed {
+      id
     }
     question {
       id

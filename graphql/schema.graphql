@@ -1281,6 +1281,10 @@ type QuestionResult {
 }
 
 type QuestionSubmissionResult {
+  """
+  Returns the candidate guide embed associated with the question submission.
+  """
+  candidateGuideEmbed: EmbedResult!
   candidateId: ID
   createdAt: DateTime!
   editorial: String
