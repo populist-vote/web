@@ -258,9 +258,11 @@ function Table<T extends object & { id?: string }>({
     const currentPage = table.getState().pagination.pageIndex;
     const maxDots = 25;
 
+    // Calculate the range to show
+    const halfMaxDots = Math.floor(maxDots / 2);
     const startPage = Math.max(
       0,
-      Math.min(currentPage - 2, pageCount - maxDots)
+      Math.min(currentPage - halfMaxDots, pageCount - maxDots)
     );
     const endPage = Math.min(pageCount - 1, startPage + maxDots - 1);
 
