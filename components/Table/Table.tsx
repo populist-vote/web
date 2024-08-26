@@ -256,7 +256,7 @@ function Table<T extends object & { id?: string }>({
   const PageIndex = () => {
     const pageCount = table.getPageCount();
     const currentPage = table.getState().pagination.pageIndex;
-    const maxDots = 16;
+    const maxDots = 25;
 
     const startPage = Math.max(
       0,
