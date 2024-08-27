@@ -57,6 +57,7 @@ export function useAuth({
       useOrganizationStore.setState({
         availableOrganizations:
           userData.userProfile.availableOrganizations || [],
+        organizationId: userData.userProfile.availableOrganizations[0]?.id,
       });
     }
   });
