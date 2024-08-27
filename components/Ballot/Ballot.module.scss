@@ -207,3 +207,40 @@
 .avatarContainer {
   width: 100px;
 }
+
+.scrollableContainer {
+  position: relative;
+  overflow: hidden;
+  margin: 0 -2rem;
+  padding: 0 2rem;
+}
+
+.scrollContent {
+  display: flex;
+  overflow-x: auto;
+  height: 100%;
+}
+
+.hiddenIndicatorLeft,
+.hiddenIndicatorRight {
+  position: absolute;
+  top: 30%;
+  background-color: $blue-light;
+  border: 2px solid $blue;
+  box-shadow: 0 0.5rem 0.75rem rgba(0, 0, 0, 0.1);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 999px;
+  font-size: 1.5rem;
+  z-index: 10;
+  min-width: 3rem;
+  overflow: visible;
+}
+
+.hiddenIndicatorLeft {
+  left: 0.25rem;
+}
+
+.hiddenIndicatorRight {
+  right: 0.25rem;
+}
