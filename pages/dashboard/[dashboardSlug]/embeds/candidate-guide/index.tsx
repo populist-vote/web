@@ -71,7 +71,7 @@ export default function CandidateGuideEmbedIndex({
   } = useRecentCandidateGuideQuestionSubmissionsQuery(
     {
       organizationId: currentOrganizationId as string,
-      limit: 5,
+      limit: 100,
     },
     {
       enabled: !!currentOrganizationId,
@@ -221,7 +221,7 @@ export default function CandidateGuideEmbedIndex({
                   </p>
                 </div>
               </div>
-              {submission.candidateGuideEmbed.id && (
+              {submission.candidateGuideEmbed?.id && (
                 <div className={styles.flexRight}>
                   <Tooltip content="Manage Embed">
                     <button
@@ -229,7 +229,7 @@ export default function CandidateGuideEmbedIndex({
                       onClick={async (e) => {
                         e.stopPropagation();
                         await router.push(
-                          `/dashboard/${dashboardSlug}/embeds/candidate-guide/${submission.candidateGuideEmbed.id}/manage`
+                          `/dashboard/${dashboardSlug}/embeds/candidate-guide/${submission.candidateGuideEmbed?.id}/manage`
                         );
                       }}
                     >
