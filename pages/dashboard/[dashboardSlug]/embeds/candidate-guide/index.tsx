@@ -71,7 +71,7 @@ export default function CandidateGuideEmbedIndex({
   } = useRecentCandidateGuideQuestionSubmissionsQuery(
     {
       organizationId: currentOrganizationId as string,
-      limit: 100,
+      limit: 10,
     },
     {
       enabled: !!currentOrganizationId,
