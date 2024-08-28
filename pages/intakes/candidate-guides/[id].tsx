@@ -61,7 +61,7 @@ export default function CandidateGuideIntake() {
   );
 
   const organizationLogoUrl =
-    organizationData?.organizationById.assets.bannerImage;
+    organizationData?.organizationById?.assets?.bannerImage;
 
   const { data: raceData, isLoading: isRaceLoading } = useRaceByIdQuery(
     {
@@ -176,12 +176,14 @@ export default function CandidateGuideIntake() {
     <BasicLayout hideHeader hideFooter>
       <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.introduction}>
-          <Image
-            src={organizationLogoUrl as string}
-            alt="Organization Logo"
-            height={100}
-            width={300}
-          />
+          {organizationLogoUrl && (
+            <Image
+              src={organizationLogoUrl as string}
+              alt="Organization Logo"
+              height={100}
+              width={300}
+            />
+          )}
           <Divider />
           <h1>Hi {politician?.fullName},</h1>
           <p>
