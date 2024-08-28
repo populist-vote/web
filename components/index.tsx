@@ -54,6 +54,7 @@ import { Badge } from "./Badge/Badge";
 import { Box } from "./Box/Box";
 import { SearchInput } from "./SearchInput/SearchInput";
 import { RadioGroup } from "./RadioGroup/RadioGroup";
+import { IndeterminateCheckbox } from "./IndeterminateCheckbox/IndeterminateCheckbox";
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
 export {
@@ -83,6 +84,7 @@ export {
   HomePageButton,
   ImageWithFallback,
   IssueTags,
+  IndeterminateCheckbox,
   Layout,
   LegislationStatusBox,
   LoaderFlag,

@@ -343,6 +343,13 @@ type Candidate {
   suffix: String!
 }
 
+type CandidateGuideRaceResult {
+  createdAt: DateTime!
+  race: RaceResult!
+  updatedAt: DateTime!
+  wereCandidatesEmailed: Boolean!
+}
+
 type CandidateGuideResult {
   createdAt: DateTime!
   embedCount: Int!
@@ -352,7 +359,6 @@ type CandidateGuideResult {
   organization: OrganizationResult!
   organizationId: ID!
   questions: [QuestionResult!]!
-  races: [RaceResult!]!
   """
   Returns the total number of question submissions in the candidate guide divided by the number of questions
   in the candidate guide to get the number of intake submissions per candidate guide.
@@ -581,6 +587,7 @@ type EmbedResult {
   bill: BillResult
   bills: [BillResult!]
   candidateGuide: CandidateGuideResult
+  candidateGuideRace: CandidateGuideRaceResult
   """
   Each candidate guide embed is associated with a single race. This field returns the
   the number of questions submitted by candidates in this race, divided by the number
@@ -772,8 +779,10 @@ type Mutation {
   removePoliticianOffice(id: ID!): Boolean!
   requestPasswordReset(email: String!): Boolean!
   resetPassword(input: ResetPasswordInput!): Boolean!
+  setAllCandidateGuideRacesEmailed(candidateGuideId: ID!, wereCandidatesEmailed: Boolean!): Boolean!
   updateAddress(address: AddressInput!): AddressResult!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
+  updateCandidateGuideRace(candidateGuideId: ID!, input: UpdateCandidateGuideRaceInput!, raceId: ID!): UpdateCandidateGuideRaceResult!
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updateOrganization(input: UpdateOrganizationInput!): OrganizationResult!
@@ -1284,7 +1293,7 @@ type QuestionSubmissionResult {
   """
   Returns the candidate guide embed associated with the question submission.
   """
-  candidateGuideEmbed: EmbedResult!
+  candidateGuideEmbed: EmbedResult
   candidateId: ID
   createdAt: DateTime!
   editorial: String
@@ -1630,6 +1639,16 @@ input UpdateArgumentInput {
   body: String
   position: ArgumentPosition!
   title: String
+}
+
+input UpdateCandidateGuideRaceInput {
+  wereCandidatesEmailed: Boolean!
+}
+
+type UpdateCandidateGuideRaceResult {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  wereCandidatesEmailed: Boolean!
 }
 
 type UpdateEmailResult {

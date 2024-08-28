@@ -24,3 +24,29 @@ mutation DownloadAllCandidateGuideData($candidateGuideId: ID!, $raceId: ID) {
 mutation OpenAllCandidateGuideSubmissions($candidateGuideId: ID!) {
   openAllCandidateGuideSubmissions(candidateGuideId: $candidateGuideId)
 }
+
+mutation UpdateCandidateGuideRace(
+  $candidateGuideId: ID!
+  $raceId: ID!
+  $input: UpdateCandidateGuideRaceInput!
+) {
+  updateCandidateGuideRace(
+    candidateGuideId: $candidateGuideId
+    raceId: $raceId
+    input: $input
+  ) {
+    wereCandidatesEmailed
+    createdAt
+    updatedAt
+  }
+}
+
+mutation SetAllCandidateGuideRacesEmailed(
+  $candidateGuideId: ID!
+  $wereCandidatesEmailed: Boolean!
+) {
+  setAllCandidateGuideRacesEmailed(
+    candidateGuideId: $candidateGuideId
+    wereCandidatesEmailed: $wereCandidatesEmailed
+  )
+}

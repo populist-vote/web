@@ -31,6 +31,8 @@ import {
   useOrganizationBySlugQuery,
   useUpsertQuestionMutation,
   RaceType,
+  useUpdateCandidateGuideRaceMutation,
+  useSetAllCandidateGuideRacesEmailedMutation,
 } from "generated";
 
 import { Box } from "components/Box/Box";
@@ -912,6 +914,53 @@ function CandidateGuideEmbedTable({
     },
     [candidateGuideId, deleteEmbed, queryClient, removeRace]
   );
+  const setAllEmailedMutation = useSetAllCandidateGuideRacesEmailedMutation();
+
+  const handleAllEmailedCheck = async (checked: boolean) => {
+    await setAllEmailedMutation.mutateAsync(
+      {
+        candidateGuideId,
+        wereCandidatesEmailed: checked,
+      },
+      {
+        onSettled: () => {
+          void queryClient.invalidateQueries({
+            queryKey: useCandidateGuideByIdQuery.getKey({
+              id: candidateGuideId,
+            }),
+          });
+        },
+      }
+    );
+  };
+
+  const areAllRacesEmailed = embeds.every(
+    (embed) => embed.candidateGuideRace?.wereCandidatesEmailed
+  );
+
+  const updateCandidateGuideRace = useUpdateCandidateGuideRaceMutation();
+
+  const handleEmailedCheck = async (raceId: string, checked: boolean) => {
+    await updateCandidateGuideRace.mutateAsync(
+      {
+        candidateGuideId,
+        raceId,
+        input: {
+          wereCandidatesEmailed: checked,
+        },
+      },
+      // TODO: optimistic updates would be nice here
+      {
+        onSettled: () => {
+          void queryClient.invalidateQueries({
+            queryKey: useCandidateGuideByIdQuery.getKey({
+              id: candidateGuideId,
+            }),
+          });
+        },
+      }
+    );
+  };
 
   const handleRowClick = (row: Row<EmbedResult>) =>
     void router.push(
@@ -922,12 +971,12 @@ function CandidateGuideEmbedTable({
     () => [
       {
         header: "Race Title",
-        accessorKey: "race.title",
-        size: 800,
+        accessorKey: "candidateGuideRace.race.title",
+        size: 500,
       },
       {
         header: "Candidates",
-        accessorKey: "race.candidates",
+        accessorKey: "candidateGuideRace.race.candidates",
         cell: (info) => (info.getValue() as PoliticianResult[]).length,
         size: 5,
       },
@@ -935,6 +984,43 @@ function CandidateGuideEmbedTable({
         header: "Submissions",
         accessorKey: "candidateGuideSubmissionCountByRace",
         size: 5,
+      },
+      {
+        header: "Date Added",
+        accessorKey: "candidateGuideRace.createdAt",
+        cell: (info) =>
+          new Date(info.getValue() as string).toLocaleDateString(),
+      },
+      {
+        accessorKey: "candidateGuideRace.wereCandidatesEmailed",
+        header: () => (
+          <div className={styles.flexBetween} style={{ textWrap: "nowrap" }}>
+            <input
+              type="checkbox"
+              checked={areAllRacesEmailed}
+              style={{ cursor: "pointer", width: "auto" }}
+              disabled={setAllEmailedMutation.isPending}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => handleAllEmailedCheck(e.target.checked)}
+            />
+            <strong>Emails Sent</strong>
+          </div>
+        ),
+        cell: ({ row }) => (
+          <input
+            type="checkbox"
+            checked={row.original.candidateGuideRace?.wereCandidatesEmailed}
+            onClick={(e) => e.stopPropagation()}
+            disabled={updateCandidateGuideRace.isPending}
+            style={{ cursor: "pointer", width: "auto" }}
+            onChange={(e) =>
+              handleEmailedCheck(
+                row.original.candidateGuideRace?.race?.id as string,
+                e.target.checked
+              )
+            }
+          />
+        ),
       },
       {
         id: "Actions",
@@ -951,7 +1037,7 @@ function CandidateGuideEmbedTable({
                     ).then(() =>
                       handleRemoveRace(
                         info.row.original.id,
-                        info.row.original.race?.id as string
+                        info.row.original.candidateGuideRace?.race?.id as string
                       )
                     );
                   }}

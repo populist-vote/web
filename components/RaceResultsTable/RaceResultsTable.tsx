@@ -1,4 +1,5 @@
 import { ColumnDef, Row } from "@tanstack/react-table";
+import { IndeterminateCheckbox } from "components/IndeterminateCheckbox/IndeterminateCheckbox";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Table } from "components/Table/Table";
 import {
@@ -12,32 +13,9 @@ import { useAuth } from "hooks/useAuth";
 import useDebounce from "hooks/useDebounce";
 import { Theme } from "hooks/useTheme";
 import { useRouter } from "next/router";
-import { HTMLProps, useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { dateString } from "utils/dates";
 import { titleCase } from "utils/strings";
-
-function IndeterminateCheckbox({
-  indeterminate,
-  className = "",
-  ...rest
-}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
-  const ref = useRef<HTMLInputElement>(null!);
-
-  useEffect(() => {
-    if (typeof indeterminate === "boolean") {
-      ref.current.indeterminate = !rest.checked && indeterminate;
-    }
-  }, [ref, indeterminate, rest.checked]);
-
-  return (
-    <input
-      type="checkbox"
-      ref={ref}
-      className={className + " cursor-pointer"}
-      {...rest}
-    />
-  );
-}
 
 export function RaceResultsTable({
   theme = "aqua",
