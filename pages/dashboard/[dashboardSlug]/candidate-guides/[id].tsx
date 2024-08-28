@@ -678,7 +678,9 @@ function RacesSection({
   const [searchValue, setSearchValue] = useState(search as string);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const embeds = candidateGuide?.embeds || [];
-  const selectedRaceIds = embeds.map((embed) => embed.race?.id) as string[];
+  const selectedRaceIds = embeds.map(
+    (embed) => embed.candidateGuideRace?.race?.id
+  ) as string[];
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     void router.push(
