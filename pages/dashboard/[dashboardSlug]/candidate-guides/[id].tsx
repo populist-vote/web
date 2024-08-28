@@ -989,7 +989,16 @@ function CandidateGuideEmbedTable({
         header: "Date Added",
         accessorKey: "candidateGuideRace.createdAt",
         cell: (info) =>
-          new Date(info.getValue() as string).toLocaleDateString(),
+          new Date(info.getValue() as string).toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "numeric",
+            second: undefined,
+            hour12: true, // Use false for 24-hour time
+          }),
+        size: 200,
       },
       {
         accessorKey: "candidateGuideRace.wereCandidatesEmailed",
