@@ -3,3 +3,40 @@ query CandidateGuideById($id: ID!) {
     ...CandidateGuideFields
   }
 }
+
+query ExistingQuestionSubmission(
+  $candidateId: ID!
+  $questionId: ID!
+  $organizationId: ID!
+) {
+  relatedQuestionSubmissionByCandidateAndQuestion(
+    candidateId: $candidateId
+    questionId: $questionId
+    organizationId: $organizationId
+  ) {
+    id
+    response
+    editorial
+    sentiment
+    createdAt
+    updatedAt
+    translations
+    politician {
+      id
+      slug
+      fullName
+      email
+      party {
+        name
+      }
+      assets {
+        thumbnailImage160
+      }
+    }
+    question {
+      id
+      prompt
+      responseCharLimit
+    }
+  }
+}

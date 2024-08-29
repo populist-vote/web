@@ -742,6 +742,7 @@ type LoginResult {
 type Mutation {
   beginUserRegistration(input: BeginUserRegistrationInput!): LoginResult!
   confirmUserEmail(confirmationToken: String!): Boolean!
+  copyQuestionSubmission(questionSubmissionId: ID!, targetQuestionId: ID!): QuestionSubmissionResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
   deleteAccountByEmail(email: String!): ID!
@@ -1251,6 +1252,7 @@ type Query {
   races(after: String, before: String, filter: RaceFilter, first: Int, last: Int): RaceResultConnection!
   recentCandidateGuideQuestionSubmissionsByOrganization(limit: Int, organizationId: ID!): [QuestionSubmissionResult!]!
   recentDeployments(limit: Int, organizationId: ID!): [EnhancedEmbedOriginResult!]!
+  relatedQuestionSubmissionByCandidateAndQuestion(candidateId: ID!, organizationId: ID!, questionId: ID!): QuestionSubmissionResult
   respondentsByOrganizationId(after: String, before: String, first: Int, last: Int, organizationId: ID!): RespondentResultConnection!
   totalCandidateGuideSubmissions(organizationId: ID!): Int!
   """Get all users"""
@@ -1882,6 +1884,7 @@ input UpsertQuestionInput {
 
 input UpsertQuestionSubmissionInput {
   candidateId: UUID
+  copiedFromId: UUID
   editorial: String
   id: UUID
   questionId: UUID!

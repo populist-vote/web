@@ -4,6 +4,7 @@ import {
   Divider,
   Layout,
   LoaderFlag,
+  PartyAvatar,
   TextInput,
 } from "components";
 import { useRouter } from "next/router";
@@ -18,6 +19,9 @@ import {
   useCandidateGuideSubmissionsByRaceIdQuery,
   useOrganizationBySlugQuery,
   useUpsertQuestionSubmissionMutation,
+  useExistingQuestionSubmissionQuery,
+  useCopyQuestionSubmissionMutation,
+  PoliticalParty,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -34,6 +38,11 @@ import { Tooltip } from "components/Tooltip/Tooltip";
 import { SupportedLocale } from "types/global";
 import { LANGUAGES } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
+import { AiFillWarning } from "react-icons/ai";
+import useOrganizationStore from "hooks/useOrganizationStore";
+import { getRelativeTimeString } from "utils/dates";
+import Link from "next/link";
+import clsx from "clsx";
 
 export async function getServerSideProps({
   query,
@@ -203,6 +212,12 @@ export default function CandidateGuideEmbedPageSubmissions() {
               row={info as CellContext<QuestionSubmissionResult, unknown>}
               selectedQuestion={selectedQuestion}
             />
+            {!info.row.original.id && (
+              <ExistingQuestionSubmission
+                candidateId={info.row.original.politician?.id as string}
+                questionId={selectedQuestion.id as string}
+              />
+            )}
           </div>
         ),
       },
@@ -571,6 +586,159 @@ function EditorialEditAction({
         </div>
       </Modal>
     </div>
+  );
+}
+
+function ExistingQuestionSubmission({
+  candidateId,
+  questionId,
+}: {
+  candidateId: string;
+  questionId: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { organizationId } = useOrganizationStore();
+  const { data, isLoading, isError } = useExistingQuestionSubmissionQuery(
+    {
+      candidateId,
+      questionId,
+      organizationId: organizationId as string,
+    },
+    {
+      enabled: !!(candidateId && questionId && organizationId),
+      staleTime: 1000 * 60 * 20,
+    }
+  );
+
+  const queryClient = useQueryClient();
+
+  const copyQuestionSubmissionMutation = useCopyQuestionSubmissionMutation();
+  if (isLoading) return null;
+
+  const submission = data?.relatedQuestionSubmissionByCandidateAndQuestion;
+
+  const handleCopy = async () => {
+    await copyQuestionSubmissionMutation.mutateAsync(
+      {
+        questionSubmissionId: submission?.id as string,
+        targetQuestionId: questionId,
+      },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ["CandidateGuideSubmissionsByRaceId"],
+          });
+          toast.success("Submission copied successfully");
+          setIsOpen(false);
+        },
+        onError: () => toast.error("Failed to copy submission"),
+      }
+    );
+  };
+
+  if (!submission || isError) return null;
+
+  return (
+    <>
+      <Tooltip content="Existing Submission">
+        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+          <AiFillWarning />
+        </button>
+      </Tooltip>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <h2 style={{ textAlign: "center" }}>Existing Submission</h2>
+        <div style={{ padding: "0 1.5rem", width: "45rem" }}>
+          <p>
+            We found a submission for this candidate and question on another
+            candidate guide.{" "}
+            <strong>Would you like to use it for this guide?</strong>
+          </p>
+          <Box key={submission.id}>
+            <div className={styles.flexRight}>
+              <small
+                className={styles.flexBetween}
+                style={{ gap: "1rem", color: "var(--blue-text-light)" }}
+              >
+                {getRelativeTimeString(new Date(submission.updatedAt))}
+              </small>
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "2fr 7fr",
+                gap: "1rem",
+              }}
+            >
+              <div className={styles.centered}>
+                <Link href={`/politicians/${submission.politician?.slug}`}>
+                  <div className={styles.avatarContainer}>
+                    <PartyAvatar
+                      theme={"dark"}
+                      size={80}
+                      iconSize="1.25rem"
+                      party={submission.politician?.party as PoliticalParty}
+                      src={
+                        submission.politician?.assets
+                          ?.thumbnailImage160 as string
+                      }
+                      alt={submission.politician?.fullName as string}
+                      target={"_blank"}
+                      rel={"noopener noreferrer"}
+                    />
+                    <span
+                      className={clsx(styles.link, styles.avatarName)}
+                      style={{ color: "white" }}
+                    >
+                      {submission.politician?.fullName}
+                    </span>
+                  </div>
+                </Link>
+              </div>
+              <div>
+                <div className={styles.flexBetween}>
+                  <p
+                    style={{
+                      color: "var(--blue-text-light)",
+                      fontSize: "1em",
+                    }}
+                  >
+                    {submission.question.prompt}
+                  </p>
+                </div>
+                <p
+                  style={{
+                    fontSize: "1.2em",
+                  }}
+                >
+                  {submission?.response}
+                </p>
+              </div>
+            </div>
+          </Box>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "1rem",
+              width: "100%",
+              margin: "1.5rem 0 0",
+            }}
+          >
+            <Button
+              variant="secondary"
+              label="Cancel"
+              onClick={() => setIsOpen(false)}
+            />
+            <Button
+              variant="primary"
+              label="Use Submission"
+              onClick={handleCopy}
+              disabled={copyQuestionSubmissionMutation.isPending}
+            />
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 }
 

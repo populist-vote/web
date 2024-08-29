@@ -50,3 +50,15 @@ mutation SetAllCandidateGuideRacesEmailed(
     wereCandidatesEmailed: $wereCandidatesEmailed
   )
 }
+
+mutation CopyQuestionSubmission(
+  $questionSubmissionId: ID!
+  $targetQuestionId: ID!
+) {
+  copyQuestionSubmission(
+    questionSubmissionId: $questionSubmissionId
+    targetQuestionId: $targetQuestionId
+  ) {
+    id
+  }
+}

@@ -158,7 +158,7 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
 
   return (
     <section>
-      <h2 style={{ textAlign: "center" }}>Recent Deployments</h2>
+      <h2 style={{ textAlign: "center" }}>Recent Views</h2>
       <DeploymentsList deployments={deployments || []} />
     </section>
   );
