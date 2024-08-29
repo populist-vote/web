@@ -166,7 +166,7 @@ export default function CandidateGuideEmbedIndex({
                   gap: "1rem",
                 }}
               >
-                <div>
+                <div className={styles.centered}>
                   <Link href={`/politicians/${submission.politician?.slug}`}>
                     <div className={styles.avatarContainer}>
                       <PartyAvatar
