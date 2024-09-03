@@ -1,4 +1,12 @@
-import { Box, Button, Layout, LoaderFlag, TextInput } from "components";
+import {
+  Box,
+  Button,
+  Divider,
+  Layout,
+  LoaderFlag,
+  Select,
+  TextInput,
+} from "components";
 import { useRouter } from "next/router";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
@@ -37,7 +45,7 @@ import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
 import { downloadCsv } from "utils/strings";
 import { Tooltip } from "components/Tooltip/Tooltip";
-// import * as Switch from "@radix-ui/react-switch";
+import { LANGUAGES } from "utils/constants";
 
 export async function getServerSideProps({
   query,
@@ -118,6 +126,17 @@ export default function CandidateGuideEmbedPage({
 
   const allSubmissions = submissionsData?.candidateGuideById.questions?.flatMap(
     (question) => question.submissionsByRace
+  );
+
+  const availableLanguageCodes = submissionsData?.candidateGuideById.questions
+    .flatMap((q) => q.submissionsByRace)
+    .flatMap((sub) =>
+      Object.entries(sub?.translations?.response || {}).filter(([, v]) => !!v)
+    )
+    .map(([k]) => k);
+
+  const availableLanguages = LANGUAGES.filter(
+    (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
   );
 
   const candidates = useMemo(
@@ -233,7 +252,37 @@ export default function CandidateGuideEmbedPage({
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ["EmbedById", { id: embed?.id }],
+            queryKey: ["CandidateGuideEmbedById", { id: embed?.id }],
+          });
+        },
+        onError: (error) => {
+          toast((error as Error).message, { type: "error" });
+        },
+      }
+    );
+  };
+
+  const handleDefaultLanguageChange = (language: string) => {
+    upsertEmbed.mutate(
+      {
+        input: {
+          id: embed?.id,
+          organizationId: currentOrganizationId as string,
+          name: embed?.name,
+          embedType: EmbedType.CandidateGuide,
+          attributes: {
+            ...embed?.attributes,
+            renderOptions: {
+              ...embed?.attributes?.renderOptions,
+              defaultLanguage: language,
+            },
+          },
+        },
+      },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ["CandidateGuideEmbedById", { id: embed?.id }],
           });
         },
         onError: (error) => {
@@ -331,6 +380,28 @@ export default function CandidateGuideEmbedPage({
                   label="Save"
                   size="medium"
                   disabled={upsertEmbed.isPending || !formState.isDirty}
+                />
+              </div>
+              <Divider />
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1.5rem",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                }}
+              >
+                <span>Default language</span>
+                <Select
+                  backgroundColor="blue"
+                  value={
+                    embed?.attributes?.renderOptions?.defaultLanguage || "en"
+                  }
+                  options={availableLanguages.map((l) => ({
+                    value: l.code,
+                    label: l.display,
+                  }))}
+                  onChange={(e) => handleDefaultLanguageChange(e.target.value)}
                 />
               </div>
             </Box>

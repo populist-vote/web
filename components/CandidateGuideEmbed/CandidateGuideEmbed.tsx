@@ -16,7 +16,7 @@ import {
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
 import { getYear } from "utils/dates";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsChevronLeft } from "react-icons/bs";
 import { PartyAvatar } from "components/Avatar/Avatar";
 import clsx from "clsx";
@@ -33,6 +33,7 @@ import { FaLanguage } from "react-icons/fa6";
 
 interface CandidateGuideRenderOptions {
   height: number;
+  defaultLanguage?: string;
 }
 
 export function CandidateGuideEmbed({
@@ -48,6 +49,17 @@ export function CandidateGuideEmbed({
 }) {
   const router = useRouter();
   const { locale } = router;
+
+  /// Handle default language
+  useEffect(() => {
+    if (renderOptions?.defaultLanguage) {
+      void router.push(router.asPath, router.asPath, {
+        locale: renderOptions?.defaultLanguage,
+        scroll: false,
+      });
+    }
+  }, [renderOptions?.defaultLanguage]);
+
   const { data: embedData, isLoading: embedLoading } =
     useCandidateGuideEmbedByIdQuery(
       {
