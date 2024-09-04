@@ -157,3 +157,12 @@ export function renderSubmissionState(closeDate: string | null) {
     </span>
   );
 }
+
+export const currentYear = new Date().getFullYear();
+export const yearOptions = Array.from(
+  { length: currentYear - 2021 + 1 },
+  (_, index) => {
+    const year = 2021 + index;
+    return { label: year.toString(), value: year.toString() };
+  }
+);

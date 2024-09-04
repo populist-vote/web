@@ -48,7 +48,7 @@ function NewLegislationEmbed() {
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
   const upsertEmbed = useUpsertEmbedMutation();
 
-  function handleCreateEmbed() {
+  const handleCreateEmbed = () => {
     upsertEmbed.mutate(
       {
         input: {
@@ -75,7 +75,8 @@ function NewLegislationEmbed() {
         },
       }
     );
-  }
+  };
+
   return (
     <>
       <div

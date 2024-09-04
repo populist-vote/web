@@ -129,6 +129,17 @@ function EmbedIndex({
             }
           />
         </Link>
+        <Link href={`/dashboard/${slug}/embeds/my-ballot`}>
+          <Badge
+            theme="yellow"
+            clickable
+            label="My Ballot"
+            selected={embedType === EmbedType.MyBallot}
+            onClick={() =>
+              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "my-ballot")
+            }
+          />
+        </Link>
       </div>
       <h2>{title}</h2>
       <Box>
