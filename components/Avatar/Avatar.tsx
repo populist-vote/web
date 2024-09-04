@@ -449,6 +449,11 @@ function getPartyColors(party?: PoliticalParty | null): BadgeColors {
         background: "var(--grey-light)",
         text: "var(--grey-darker)",
       };
+    case party.name.toLocaleLowerCase().includes("forward"):
+      return {
+        background: "#59D7EE",
+        text: "var(--black)",
+      };
     default:
       return {
         background: "var(--purple)",
