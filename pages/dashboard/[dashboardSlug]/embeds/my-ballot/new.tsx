@@ -64,7 +64,7 @@ export default function NewMyBallotEmbed({
     upsertEmbed.mutate(
       {
         input: {
-          name: "Legislation Embed",
+          name: "My Ballot Embed",
           embedType: EmbedType.MyBallot,
           organizationId,
           attributes: {

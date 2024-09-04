@@ -27,6 +27,7 @@ import { getRelativeTimeString } from "utils/dates";
 import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallback";
 import Link from "next/link";
 import { Tooltip } from "components/Tooltip/Tooltip";
+import { MyBallotEmbed } from "components/MyBallotEmbed/MyBallotEmbed";
 
 function EmbedPage({
   id,
@@ -97,6 +98,14 @@ function EmbedPage({
           <CandidateGuideEmbed
             embedId={id}
             candidateGuideId={candidateGuideId}
+            origin={window.location.origin}
+            renderOptions={renderOptions}
+          />
+        );
+      case EmbedType.MyBallot:
+        return (
+          <MyBallotEmbed
+            embedId={id}
             origin={window.location.origin}
             renderOptions={renderOptions}
           />
