@@ -126,7 +126,7 @@ function BallotPage() {
   );
 }
 
-function BallotContent({
+export function BallotContent({
   electionData,
   userGuideId,
 }: {

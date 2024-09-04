@@ -600,6 +600,7 @@ type EmbedResult {
   createdBy: UserResult!
   createdById: ID!
   description: String
+  election: ElectionResult
   embedType: EmbedType!
   id: ID!
   name: String!

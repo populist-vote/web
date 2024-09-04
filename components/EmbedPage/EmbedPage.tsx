@@ -49,6 +49,7 @@ function EmbedPage({
   const candidateGuideId = data?.embedById?.attributes
     ?.candidateGuideId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
+  const electionId = data?.embedById?.attributes?.electionId as string;
   const embed = data?.embedById as EmbedResult;
   const renderOptions = embed.attributes?.renderOptions;
 
@@ -106,6 +107,7 @@ function EmbedPage({
         return (
           <MyBallotEmbed
             embedId={id}
+            electionId={electionId}
             origin={window.location.origin}
             renderOptions={renderOptions}
           />
