@@ -140,6 +140,7 @@ div.pill {
   grid-template-rows: auto auto;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
+  width: 100%;
 
   @include for-tablet-down {
     grid-template-columns: auto;

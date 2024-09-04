@@ -84,7 +84,7 @@ export function PoliticianBasicsForm({
           preferredName: formData.preferredName,
           dateOfBirth: formData.dateOfBirth,
           homeState: formData.homeState,
-          partyId: formData.partyId,
+          partyId: formData.party?.id,
           biography: formData.biography,
           biographySource: formData.biographySource,
           officialWebsiteUrl: formData.officialWebsiteUrl,
