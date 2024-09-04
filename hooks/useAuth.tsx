@@ -60,7 +60,7 @@ export function useAuth({
         organizationId: userData.userProfile.availableOrganizations[0]?.id,
       });
     }
-  });
+  }, [userData, isAvailableOrgsDataLoading]);
 
   useEffect(() => {
     setIsLoading(true);
