@@ -78,10 +78,8 @@ export default function StateElectionBrowser() {
 
 export function ElectionSearchResult({
   election,
-  onClick,
 }: {
   election: Partial<ElectionResult>;
-  onClick?: () => void;
 }) {
   return (
     <Box isLink>
