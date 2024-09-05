@@ -117,6 +117,16 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
   }
 }
 
+query MyBallotEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(organizationId: $id, filter: { embedType: MY_BALLOT }) {
+    id
+    election {
+      id
+      title
+    }
+  }
+}
+
 fragment EmbedBillFields on BillResult {
   id
   slug

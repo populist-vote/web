@@ -557,6 +557,8 @@ type ElectionResult {
   electionDate: NaiveDate!
   id: ID!
   races(filter: ElectionRaceFilter): [RaceResult!]!
+  """Show races based on an anonymous user with an address"""
+  racesByAddress(address: AddressInput!): [RaceResult!]!
   """Show races relevant to the user based on their address"""
   racesByUserDistricts: [RaceResult!]!
   racesByVotingGuide(votingGuideId: ID!): [RaceResult!]!
@@ -598,6 +600,7 @@ type EmbedResult {
   createdBy: UserResult!
   createdById: ID!
   description: String
+  election: ElectionResult
   embedType: EmbedType!
   id: ID!
   name: String!
@@ -616,6 +619,7 @@ enum EmbedType {
   CANDIDATE_GUIDE
   LEGISLATION
   LEGISLATION_TRACKER
+  MY_BALLOT
   POLITICIAN
   POLL
   QUESTION

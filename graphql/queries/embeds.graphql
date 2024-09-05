@@ -163,3 +163,22 @@ query PollEmbedById($id: ID!) {
     }
   }
 }
+
+query BasicElectionById($id: ID!) {
+  electionById(id: $id) {
+    id
+    title
+    electionDate
+    state
+  }
+}
+
+query MyBallotByAddress($electionId: ID!, $address: AddressInput!) {
+  electionById(id: $electionId) {
+    racesByAddress(address: $address) {
+      electionId
+      officeId
+      ...RaceFields
+    }
+  }
+}

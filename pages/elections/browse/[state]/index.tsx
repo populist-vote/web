@@ -8,8 +8,8 @@ import { SupportedLocale } from "types/global";
 import styles from "../../index.module.scss";
 import states from "utils/states";
 import Divider from "components/Divider/Divider";
-import { State, useElectionsIndexQuery } from "generated";
-import { dateString } from "utils/dates";
+import { ElectionResult, State, useElectionsIndexQuery } from "generated";
+import { dateString, yearOptions } from "utils/dates";
 import Link from "next/link";
 
 export async function getServerSideProps({
@@ -68,22 +68,32 @@ export default function StateElectionBrowser() {
             passHref
             key={election.id}
           >
-            <Box isLink>
-              <div className={styles.flexBetween}>
-                <h4 style={{ fontSize: "1.25em", color: "var(--white)" }}>
-                  {election.title}
-                </h4>
-                <h3 style={{ fontSize: "1.25em", color: "var(--white)" }}>
-                  {dateString(election.electionDate, true)}
-                </h3>
-              </div>
-              <Divider />
-              <p className={styles.blueText}>{election.description}</p>
-            </Box>
+            <ElectionSearchResult election={election} />
           </Link>
         ))}
       </div>
     </div>
+  );
+}
+
+export function ElectionSearchResult({
+  election,
+}: {
+  election: Partial<ElectionResult>;
+}) {
+  return (
+    <Box isLink>
+      <div className={styles.flexBetween}>
+        <h4 style={{ fontSize: "1.25em", color: "var(--white)" }}>
+          {election.title}
+        </h4>
+        <h3 style={{ fontSize: "1.25em", color: "var(--white)" }}>
+          {dateString(election.electionDate, true)}
+        </h3>
+      </div>
+      <Divider />
+      <p className={styles.blueText}>{election.description}</p>
+    </Box>
   );
 }
 
@@ -119,15 +129,6 @@ export function ElectionBrowserBreadcrumbs({
     })),
     { label: "Federal", value: "FEDERAL" },
   ];
-
-  const currentYear = new Date().getFullYear();
-  const yearOptions = Array.from(
-    { length: currentYear - 2021 + 1 },
-    (_, index) => {
-      const year = 2021 + index;
-      return { label: year.toString(), value: year.toString() };
-    }
-  );
 
   const isElectionPage =
     router.pathname.includes("/elections/") &&
