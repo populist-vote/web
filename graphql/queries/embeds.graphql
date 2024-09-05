@@ -167,29 +167,12 @@ query PollEmbedById($id: ID!) {
 query MyBallotByAddress($electionId: ID!, $address: AddressInput!) {
   electionById(id: $electionId) {
     id
+    title
+    electionDate
     racesByAddress(address: $address) {
-      id
-      title
-      office {
-        name
-      }
-      state
-      candidates {
-        id
-        fullName
-        party {
-          id
-          name
-        }
-        thumbnailImageUrl
-        assets {
-          thumbnailImage160
-        }
-        currentOffice {
-          title
-          subtitleShort
-        }
-      }
+      electionId
+      officeId
+      ...RaceFields
     }
   }
 }

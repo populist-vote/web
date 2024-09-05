@@ -117,33 +117,38 @@ function EmbedPage({
 
   return (
     <div className={styles.content}>
+      {/* Options Section */}
+      <div className={clsx(styles.options)}>
+        <div>
+          <h3>Configuration</h3>
+          <Box>
+            {embedType === EmbedType.Question ? (
+              <QuestionEmbedForm buttonLabel="Save" embedId={embed.id} />
+            ) : embedType === EmbedType.Poll ? (
+              <PollEmbedForm buttonLabel="Save" embedId={embed.id} />
+            ) : (
+              <EmbedBasicsForm embed={embed} />
+            )}
+          </Box>
+        </div>
+        <div className={clsx(styles.embedCode)}>
+          <h3>Embed Code</h3>
+          <EmbedCodeBlock id={id} />
+        </div>
+        <EmbedDeployments embed={embed} />
+        <div className={styles.dangerZone}>
+          <h3>Danger Zone</h3>
+          <DeleteEmbedButton id={id} embedType={embedType} />
+        </div>
+      </div>
+
+      {/* Preview Section */}
       <div className={clsx(styles.preview)}>
         <div>
           <h3>Preview</h3>
           <Box>{renderPreviewByType()}</Box>
         </div>
         <div className={styles.children}>{children}</div>
-      </div>
-      <div className={clsx(styles.options)}>
-        <h3>Configuration</h3>
-        <Box>
-          {embedType == EmbedType.Question ? (
-            <QuestionEmbedForm buttonLabel="Save" embedId={embed.id} />
-          ) : embedType == EmbedType.Poll ? (
-            <PollEmbedForm buttonLabel="Save" embedId={embed.id} />
-          ) : (
-            <EmbedBasicsForm embed={embed} />
-          )}
-        </Box>
-      </div>
-      <div className={clsx(styles.embedCode)}>
-        <h3>Embed Code</h3>
-        <EmbedCodeBlock id={id} />
-      </div>
-      <EmbedDeployments embed={embed} />
-      <div className={styles.dangerZone}>
-        <h3>Danger Zone</h3>
-        <DeleteEmbedButton id={id} embedType={embedType} />
       </div>
     </div>
   );
