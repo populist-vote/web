@@ -12,7 +12,6 @@ import {
 } from "generated";
 import { useEffect, useState } from "react";
 import { Race } from "components/Ballot/Race";
-import { getYear } from "utils/dates";
 import Divider from "components/Divider/Divider";
 import { Badge } from "components/Badge/Badge";
 import { LanguageSelect } from "components/LanguageSelect/LanguageSelect";
@@ -97,7 +96,13 @@ export function MyBallotEmbed({
       <header className={styles.header}>
         <strong>{election?.title}</strong>
         <span className={styles.electionInfo}>
-          <strong>{getYear(election?.electionDate)}</strong>
+          <strong>
+            {new Date(election?.electionDate).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </strong>
         </span>
       </header>
       <main>
