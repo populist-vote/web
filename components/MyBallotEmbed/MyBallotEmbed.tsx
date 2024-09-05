@@ -19,6 +19,7 @@ import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { BsChevronLeft } from "react-icons/bs";
 import { useRouter } from "next/router";
+import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 
 interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
@@ -36,6 +37,7 @@ export function MyBallotEmbed({
   renderOptions?: MyBallotEmbedRenderOptions;
 }) {
   const router = useRouter();
+  const { locale } = router;
 
   /// Handle default language
   useEffect(() => {
@@ -97,11 +99,14 @@ export function MyBallotEmbed({
         <strong>{election?.title}</strong>
         <span className={styles.electionInfo}>
           <strong>
-            {new Date(election?.electionDate).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {new Date(election?.electionDate).toLocaleDateString(
+              `${locale}-US`,
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            )}
           </strong>
         </span>
       </header>
@@ -184,7 +189,7 @@ export function MyBallotEmbed({
               </form>
             </div>
           )}
-          {isLoading && <div>Loading...</div>}
+          {isLoading && <LoaderFlag />}
           {data && !isLoading && hasSubmitted && (
             <div style={{ width: "100%" }}>
               {data.electionById.racesByAddress.length === 0 && (
