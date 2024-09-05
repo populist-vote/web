@@ -131,7 +131,7 @@ export function MyBallotEmbed({
                 <div className={styles.firstRow}>
                   <TextInput
                     name="line1"
-                    label="Address Line 1"
+                    placeholder="Street address"
                     register={register}
                     rules={{ required: "Address line 1 is required" }}
                     control={control}
@@ -141,7 +141,7 @@ export function MyBallotEmbed({
                 <div className={styles.secondRow}>
                   <TextInput
                     name="line2"
-                    label="Address Line 2"
+                    placeholder="Apartment, suite, unit, building, floor, etc."
                     register={register}
                     control={control}
                     error={errors?.line2}
@@ -151,7 +151,7 @@ export function MyBallotEmbed({
                 <div className={styles.thirdRow}>
                   <TextInput
                     name="city"
-                    label="City"
+                    placeholder="City"
                     register={register}
                     rules={{ required: "City is required" }}
                     control={control}
@@ -159,7 +159,7 @@ export function MyBallotEmbed({
                   />
                   <TextInput
                     name="state"
-                    label="State"
+                    placeholder="State"
                     register={register}
                     rules={{ required: "State is required" }}
                     control={control}
@@ -167,9 +167,9 @@ export function MyBallotEmbed({
                   />
                   <TextInput
                     name="postalCode"
-                    label="Postal Code"
+                    placeholder="Zip code"
                     register={register}
-                    rules={{ required: "Postal code is required" }}
+                    rules={{ required: "Zip code is required" }}
                     control={control}
                     error={errors?.postalCode}
                   />
