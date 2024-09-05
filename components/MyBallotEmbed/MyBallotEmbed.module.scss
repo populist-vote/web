@@ -2,7 +2,6 @@
 @import "styles/mixins/utils";
 
 .widgetContainer {
-  min-width: 640px;
   main {
     padding: 1rem;
   }
@@ -13,7 +12,6 @@
   justify-content: flex-start;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
 
   h3 {
     font-size: 1.25rem;

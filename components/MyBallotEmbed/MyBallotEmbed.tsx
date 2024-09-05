@@ -5,8 +5,10 @@ import { TextInput } from "components/TextInput/TextInput";
 import { Button } from "components/Button/Button";
 import {
   AddressInput,
+  RaceResult,
   useElectionByIdQuery,
   useMyBallotByAddressQuery,
+  VoteType,
 } from "generated";
 import { get } from "http";
 import { useState } from "react";
@@ -16,6 +18,7 @@ import { Box } from "components/Box/Box";
 import { EmbedRace } from "components/RaceWidget/RaceWidget";
 import { getYear } from "utils/dates";
 import Divider from "components/Divider/Divider";
+import { Badge } from "components/Badge/Badge";
 
 interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
@@ -132,13 +135,31 @@ export function MyBallotEmbed({
           <div style={{ width: "100%" }}>
             {data.electionById.racesByAddress.map((race) => (
               <div key={race.id}>
-                <div className={styles.raceHeader}>
-                  <h3>{race.office.name}</h3>
-                  <Divider vertical color="var(--grey-light)" />
-                  <h4>{race.office.subtitle}</h4>
+                <div
+                  className={styles.flexBetween}
+                  style={{ marginBottom: "0.5rem" }}
+                >
+                  <div className={styles.raceHeader}>
+                    <h3>{race.office.name}</h3>
+                    <Divider vertical color="var(--grey-light)" />
+                    <h4>{race.office.subtitle}</h4>
+                  </div>
+                  <div className={styles.flexBetween}>
+                    {race.voteType != VoteType.Plurality && (
+                      <Badge size="small">{race.voteType}</Badge>
+                    )}
+                    {race.numElect && (
+                      <Badge size="small">Elect {race.numElect}</Badge>
+                    )}
+                  </div>
                 </div>
                 <div className={styles.raceContainer}>
-                  <Race race={race} key={race.id} theme="light" />
+                  <Race
+                    race={race as RaceResult}
+                    key={race.id}
+                    theme="light"
+                    itemId={race.id}
+                  />
                 </div>
               </div>
             ))}
