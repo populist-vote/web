@@ -141,6 +141,7 @@ export function MyBallotEmbed({
                     rules={{ required: "Address line 1 is required" }}
                     control={control}
                     error={errors?.line1}
+                    size="medium"
                   />
                 </div>
                 <div className={styles.secondRow}>
@@ -150,6 +151,7 @@ export function MyBallotEmbed({
                     register={register}
                     control={control}
                     error={errors?.line2}
+                    size="medium"
                   />
                 </div>
 
@@ -161,6 +163,7 @@ export function MyBallotEmbed({
                     rules={{ required: "City is required" }}
                     control={control}
                     error={errors?.city}
+                    size="medium"
                   />
                   <TextInput
                     name="state"
@@ -169,6 +172,7 @@ export function MyBallotEmbed({
                     rules={{ required: "State is required" }}
                     control={control}
                     error={errors?.state}
+                    size="medium"
                   />
                   <TextInput
                     name="postalCode"
@@ -177,11 +181,13 @@ export function MyBallotEmbed({
                     rules={{ required: "Zip code is required" }}
                     control={control}
                     error={errors?.postalCode}
+                    size="medium"
                   />
                 </div>
                 <div className={styles.centered}>
                   <Button
                     type="submit"
+                    size="medium"
                     label="See Whats on My Ballot"
                     disabled={!isValid}
                   />

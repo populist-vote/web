@@ -2,8 +2,8 @@ import { Layout, LoaderFlag } from "components";
 import { EmbedPage } from "components/EmbedPage/EmbedPage";
 import {
   EmbedType,
+  useEmbedByIdQuery,
   useOrganizationBySlugQuery,
-  useRaceEmbedByIdQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
 import nextI18nextConfig from "next-i18next.config";
@@ -54,7 +54,7 @@ function EmbedById({
     }
   );
 
-  const embedQuery = useRaceEmbedByIdQuery(
+  const embedQuery = useEmbedByIdQuery(
     {
       id,
     },

@@ -334,17 +334,6 @@ export default function CandidateGuideEmbedPage({
         />
       </section>
       <section className={clsx(styles.section, styles.grid2)}>
-        <div>
-          <h3>Preview</h3>
-          <Box width="720px">
-            <CandidateGuideEmbed
-              embedId={id as string}
-              candidateGuideId={candidateGuideId}
-              origin={window.location.origin}
-              renderOptions={renderOptions}
-            />
-          </Box>
-        </div>
         <div style={{ width: "auto" }}>
           <div>
             <h3>Options</h3>
@@ -421,19 +410,36 @@ export default function CandidateGuideEmbedPage({
                 >
                   <FaExternalLinkSquareAlt /> {previewUrl}
                 </a>
-                <FaCopy
-                  style={{ cursor: "pointer" }}
-                  color="var(--blue-text-light)"
-                  onClick={() => {
-                    void navigator.clipboard.writeText(previewUrl);
-                    toast.success("Copied to clipboard!", {
-                      position: "bottom-right",
-                    });
-                  }}
-                />
+                <Tooltip content="Copy Preview URL">
+                  <button
+                    className={styles.iconButton}
+                    onClick={() => {
+                      void navigator.clipboard.writeText(previewUrl);
+                      toast.success("Copied to clipboard!", {
+                        position: "bottom-right",
+                      });
+                    }}
+                  >
+                    <FaCopy
+                      style={{ cursor: "pointer" }}
+                      color="var(--blue-text-light)"
+                    />
+                  </button>
+                </Tooltip>
               </div>
             </Box>
           </div>
+        </div>
+        <div>
+          <h3>Preview</h3>
+          <Box width="720px">
+            <CandidateGuideEmbed
+              embedId={id as string}
+              candidateGuideId={candidateGuideId}
+              origin={window.location.origin}
+              renderOptions={renderOptions}
+            />
+          </Box>
         </div>
       </section>
       <section className={styles.section}>
