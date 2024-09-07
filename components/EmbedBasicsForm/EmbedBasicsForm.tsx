@@ -110,7 +110,7 @@ function MyBallotEmbedRenderOptionsForm({
   handleDefaultLanguageChange,
 }: {
   defaultLanguage: string;
-  handleDefaultLanguageChange: (value: string) => void;
+  handleDefaultLanguageChange: (embedType: EmbedType, value: string) => void;
 }) {
   const availableLanguageCodes = ["en", "es"];
   const availableLanguages = LANGUAGES.filter(
@@ -133,7 +133,9 @@ function MyBallotEmbedRenderOptionsForm({
           value: l.code,
           label: l.display,
         }))}
-        onChange={(e) => handleDefaultLanguageChange(e.target.value)}
+        onChange={(e) =>
+          handleDefaultLanguageChange(EmbedType.MyBallot, e.target.value)
+        }
       />
     </div>
   );
@@ -231,14 +233,17 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
 
   const { organizationId: currentOrganizationId } = useOrganizationStore();
 
-  const handleDefaultLanguageChange = (language: string) => {
+  const handleDefaultLanguageChange = (
+    embedType: EmbedType,
+    language: string
+  ) => {
     upsertEmbed.mutate(
       {
         input: {
           id: embed?.id,
           organizationId: currentOrganizationId as string,
           name: embed?.name,
-          embedType: EmbedType.CandidateGuide,
+          embedType,
           attributes: {
             ...embed?.attributes,
             renderOptions: {
@@ -251,7 +256,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ["CandidateGuideEmbedById", { id: embed?.id }],
+            queryKey: ["EmbedById", { id: embed?.id }],
           });
         },
         onError: (error) => {
