@@ -581,6 +581,7 @@ input EmbedFilter {
 
 type EmbedOriginResult {
   lastPingAt: DateTime!
+  pageTitle: String
   url: String!
 }
 
@@ -1026,6 +1027,7 @@ type PendingInviteResult {
 
 input PingEmbedOriginInput {
   embedId: UUID!
+  pageTitle: String
   url: String!
 }
 
@@ -1349,6 +1351,7 @@ type RaceResult {
   party: PoliticalParty
   partyId: ID
   raceType: RaceType!
+  relatedEmbeds: [EmbedResult!]!
   results: RaceResultsResult!
   slug: String!
   state: State

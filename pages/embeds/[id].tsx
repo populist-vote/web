@@ -52,6 +52,9 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
     originHost || (typeof location === "undefined" ? "" : location.href);
 
   const pingEmbedOriginMutation = usePingEmbedOriginMutation();
+
+  const title = window.parent.document.title;
+
   const { data, error, isLoading } = useQuery({
     queryKey: useEmbedByIdQuery.getKey({ id: embedId }),
     queryFn: useEmbedByIdQuery.fetcher({ id: embedId }),
@@ -59,7 +62,9 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
 
   useEffect(() => {
     if (!resolvedOrigin) return;
-    pingEmbedOriginMutation.mutate({ input: { embedId, url: origin } });
+    pingEmbedOriginMutation.mutate({
+      input: { embedId, url: origin, pageTitle: title },
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

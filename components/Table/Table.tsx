@@ -307,12 +307,11 @@ function Table<T extends object & { id?: string }>({
         </span>
 
         <Button
-          theme="blue"
           size="small"
           variant="text"
           label="Next"
           hideLabel
-          icon={<FaChevronRight />}
+          icon={<FaChevronRight color={getTheme().index.selected} />}
           iconPosition="after"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
