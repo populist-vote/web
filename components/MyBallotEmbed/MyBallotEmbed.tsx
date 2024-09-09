@@ -229,6 +229,26 @@ export function MyBallotEmbed({
                       itemId={race.id}
                     />
                   </div>
+                  {race.relatedEmbeds.some(
+                    (embed) => embed.origins.length > 0
+                  ) && (
+                    <>
+                      <Divider color="var(--grey-light)" />
+                      <ul className={styles.moreInfo}>
+                        <h4>More info</h4>
+                        {race.relatedEmbeds?.map((embed) => {
+                          const origin = embed.origins[0];
+
+                          if (!origin) return null;
+                          return (
+                            <li key={embed.id}>
+                              <a href={origin.url}>{origin.pageTitle}</a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </>
+                  )}
                 </div>
               ))}
             </div>

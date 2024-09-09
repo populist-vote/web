@@ -122,3 +122,23 @@
     }
   }
 }
+
+.moreInfo {
+  h4 {
+    font-weight: 400;
+  }
+
+  padding: 0;
+  padding-bottom: 5rem;
+  border-bottom: 1px solid $grey-light;
+  li {
+    list-style: none;
+    a {
+      color: $blue !important;
+      text-decoration: underline;
+      &:hover {
+        color: $blue-dark !important;
+      }
+    }
+  }
+}
