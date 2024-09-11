@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Button,
@@ -8,7 +9,7 @@ import {
   TextInput,
 } from "components";
 import { useRouter } from "next/router";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import {
@@ -43,6 +44,8 @@ import useOrganizationStore from "hooks/useOrganizationStore";
 import { getRelativeTimeString } from "utils/dates";
 import Link from "next/link";
 import clsx from "clsx";
+import useStreamResponse from "hooks/useStreamResponse";
+import { HiOutlineSparkles } from "react-icons/hi";
 
 export async function getServerSideProps({
   query,
@@ -319,7 +322,11 @@ function ResponseEditAction({
     control,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<{ response: string; translations: Record<string, string> }>({
+    setValue,
+  } = useForm<{
+    response: string;
+    translations: Record<string, string>;
+  }>({
     defaultValues: {
       response: row.row.original.response as string,
       translations: row.row.original.translations,
@@ -381,6 +388,7 @@ function ResponseEditAction({
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2 style={{ textAlign: "center" }}>Edit Response</h2>
+
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
           <h3>{selectedQuestion.prompt ?? row.row.original.question.prompt}</h3>
           <form
@@ -397,20 +405,20 @@ function ResponseEditAction({
               style={{ minHeight: "15rem" }}
             />
             <Divider />
+
             <h3 style={{ textAlign: "center", margin: 0 }}>Translations</h3>
             {LANGUAGES.filter((l) => l.code !== "en").map((locale) => {
-              const label = locale.display;
               return (
-                <TextInput
+                <TranslationFormField
                   key={locale.code}
-                  name={`translations.response.${locale.code}`}
-                  textarea
+                  locale={locale}
                   charLimit={
                     row.row.original.question.responseCharLimit as number
                   }
-                  label={label}
                   register={register}
                   control={control}
+                  originalResponse={row.row.original.response as string}
+                  setValue={setValue}
                 />
               );
             })}
@@ -443,6 +451,71 @@ function ResponseEditAction({
           </div>
         </div>
       </Modal>
+    </div>
+  );
+}
+
+function TranslationFormField({
+  locale,
+  originalResponse,
+  register,
+  control,
+  setValue,
+  charLimit,
+}: {
+  locale: { display: string; code: string };
+  originalResponse: string;
+  register: any;
+  control: any;
+  setValue: any;
+  charLimit: number;
+}) {
+  const [sentence, setSentence] = useState<string>("");
+  const { startStream, isLoading } = useStreamResponse({
+    streamCallback: setSentence,
+  });
+
+  useEffect(() => {
+    if (sentence) {
+      setValue(`translations.response.${locale.code}`, sentence, {
+        shouldDirty: true,
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sentence]);
+
+  const label = locale.display;
+  return (
+    <div key={locale.code}>
+      <TextInput
+        name={`translations.response.${locale.code}`}
+        textarea
+        charLimit={charLimit}
+        label={label}
+        register={register}
+        control={control}
+        style={{ minHeight: "15rem" }}
+      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "end",
+          width: "100%",
+        }}
+      >
+        <Button
+          label="Translate"
+          icon={<HiOutlineSparkles color="white" />}
+          size="medium"
+          variant="primary"
+          onClick={(e) => {
+            e?.preventDefault();
+            startStream("Translate this to " + label + ": " + originalResponse);
+          }}
+          disabled={isLoading}
+        />
+      </div>
     </div>
   );
 }
