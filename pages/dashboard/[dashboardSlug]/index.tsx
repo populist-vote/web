@@ -107,9 +107,9 @@ export function DashboardTopNav() {
           </Link>
         </li>
         <li
-          data-selected={
-            router.asPath == `/dashboard/${dashboardSlug}/submissions`
-          }
+          data-selected={router.asPath.includes(
+            `/dashboard/${dashboardSlug}/submissions`
+          )}
           data-color={theme}
         >
           <Link

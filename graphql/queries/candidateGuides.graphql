@@ -7,6 +7,8 @@ query CandidateGuideById($id: ID!) {
 query Submissions($organizationId: ID!, $filter: QuestionSubmissionsFilter!) {
   submissions(organizationId: $organizationId, filter: $filter) {
     id
+    createdAt
+    updatedAt
     candidateGuideEmbed {
       race {
         title

@@ -1,4 +1,11 @@
-import { Box, Divider, Layout, SearchInput, Select } from "components";
+import {
+  Box,
+  Divider,
+  Layout,
+  LoaderFlag,
+  SearchInput,
+  Select,
+} from "components";
 import {
   PoliticalScope,
   RaceType,
@@ -47,7 +54,7 @@ function Submissions() {
   const { user } = useAuth();
   const defaultState = user?.userProfile?.address?.state || "FEDERAL";
   const [state, setState] = useState<string | null>(defaultState);
-  const { data } = useSubmissionsQuery(
+  const { data, isLoading } = useSubmissionsQuery(
     {
       organizationId: organizationId as string,
       filter: {
@@ -112,23 +119,29 @@ function Submissions() {
           </div>
         </div>
       </Box>
-      <Table
-        // @ts-expect-error react-table
-        columns={columns}
-        data={submissions}
-        initialState={{
-          sorting: [
-            {
-              id: "createdAt",
-              desc: true,
+      {isLoading ? (
+        <div className={styles.center}>
+          <LoaderFlag />
+        </div>
+      ) : (
+        <Table
+          // @ts-expect-error react-table
+          columns={columns}
+          data={submissions}
+          initialState={{
+            sorting: [
+              {
+                id: "createdAt",
+                desc: true,
+              },
+            ],
+            pagination: {
+              pageSize: 10,
             },
-          ],
-          pagination: {
-            pageSize: 10,
-          },
-        }}
-        theme="blue"
-      />
+          }}
+          theme="blue"
+        />
+      )}
     </div>
   );
 }
