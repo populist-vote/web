@@ -1027,7 +1027,6 @@ type PendingInviteResult {
 
 input PingEmbedOriginInput {
   embedId: UUID!
-  pageTitle: String
   url: String!
 }
 
@@ -1260,6 +1259,7 @@ type Query {
   recentDeployments(limit: Int, organizationId: ID!): [EnhancedEmbedOriginResult!]!
   relatedQuestionSubmissionByCandidateAndQuestion(candidateId: ID!, organizationId: ID!, questionId: ID!): QuestionSubmissionResult
   respondentsByOrganizationId(after: String, before: String, first: Int, last: Int, organizationId: ID!): RespondentResultConnection!
+  submissions(filter: QuestionSubmissionsFilter!, organizationId: ID!): [QuestionSubmissionResult!]!
   totalCandidateGuideSubmissions(organizationId: ID!): Int!
   """Get all users"""
   userCount(filter: UserCountFilter): Int
@@ -1315,6 +1315,13 @@ type QuestionSubmissionResult {
   sentiment: Sentiment
   translations: JSON
   updatedAt: DateTime!
+}
+
+input QuestionSubmissionsFilter {
+  politicalScope: PoliticalScope
+  query: String
+  raceType: RaceType
+  state: State
 }
 
 type RaceCandidateResult {

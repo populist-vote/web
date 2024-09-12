@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  Badge,
   Box,
   Button,
   Divider,
@@ -65,6 +66,88 @@ export async function getServerSideProps({
     },
   };
 }
+
+// @ts-expect-error react-table
+export const submissionsColumns: (
+  hasRaceTitleColumn?: boolean,
+  question?: QuestionResult
+) => ColumnDef<Partial<QuestionSubmissionResult>>[] = (
+  hasRaceTitleColumn = false,
+  question?: QuestionResult
+) => [
+  hasRaceTitleColumn && {
+    id: "raceTitle",
+    header: "Race",
+    accessorKey: "candidateGuideEmbed.race.title",
+    size: 500,
+  },
+  {
+    id: "fullName",
+    header: "Candidate",
+    accessorKey: "politician.fullName",
+    size: 170,
+  },
+  {
+    header: "Response",
+    accessorKey: "response",
+    size: 350,
+    cell: (info) => (
+      <div className={styles.flexBetween}>
+        <span className={styles.clamp}>{info.getValue() as string}</span>
+        {Object.entries(info.row.original.translations?.response || {}).map(
+          ([lang, trans]) => {
+            if (!!trans)
+              return (
+                <Badge theme="aqua" size="small" key={lang}>
+                  {lang}
+                </Badge>
+              );
+          }
+        )}
+      </div>
+    ),
+  },
+  {
+    header: "Editorial",
+    accessorKey: "editorial",
+    size: 350,
+    cell: (info) => (
+      <span className={styles.clamp}>{info.getValue() as string}</span>
+    ),
+  },
+  {
+    header: "Last Update",
+    accessorKey: "updatedAt",
+    size: 180,
+    cell: (info) => {
+      // Only show date if response exists
+      return info.getValue() && !!info.row.original.response
+        ? new Date(info.getValue() as string).toLocaleDateString()
+        : null;
+    },
+  },
+  {
+    header: "Actions",
+    accessorKey: "id",
+    size: 25,
+    cell: (info) => (
+      <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
+        <ResponseEditAction
+          row={info as CellContext<QuestionSubmissionResult, unknown>}
+        />
+        <EditorialEditAction
+          row={info as CellContext<QuestionSubmissionResult, unknown>}
+        />
+        {!info.row.original.id && question && (
+          <ExistingQuestionSubmission
+            questionId={question?.id as string}
+            candidateId={info.row.original.politician?.id as string}
+          />
+        )}
+      </div>
+    ),
+  },
+];
 
 export default function CandidateGuideEmbedPageSubmissions() {
   const router = useRouter();
@@ -164,70 +247,6 @@ export default function CandidateGuideEmbedPageSubmissions() {
     []
   );
 
-  const submissionsColumns = useMemo<
-    ColumnDef<Partial<QuestionSubmissionResult>>[]
-  >(
-    () => [
-      {
-        id: "fullName",
-        header: "Candidate",
-        accessorKey: "politician.fullName",
-        size: 170,
-      },
-      {
-        header: "Response",
-        accessorKey: "response",
-        size: 350,
-        cell: (info) => (
-          <span className={styles.clamp}>{info.getValue() as string}</span>
-        ),
-      },
-      {
-        header: "Editorial",
-        accessorKey: "editorial",
-        size: 350,
-        cell: (info) => (
-          <span className={styles.clamp}>{info.getValue() as string}</span>
-        ),
-      },
-      {
-        header: "Last Update",
-        accessorKey: "updatedAt",
-        size: 180,
-        cell: (info) => {
-          // Only show date if response exists
-          return info.getValue() && !!info.row.original.response
-            ? new Date(info.getValue() as string).toLocaleDateString()
-            : null;
-        },
-      },
-      {
-        header: "Actions",
-        accessorKey: "id",
-        size: 25,
-        cell: (info) => (
-          <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
-            <ResponseEditAction
-              row={info as CellContext<QuestionSubmissionResult, unknown>}
-              selectedQuestion={selectedQuestion}
-            />
-            <EditorialEditAction
-              row={info as CellContext<QuestionSubmissionResult, unknown>}
-              selectedQuestion={selectedQuestion}
-            />
-            {!info.row.original.id && (
-              <ExistingQuestionSubmission
-                candidateId={info.row.original.politician?.id as string}
-                questionId={selectedQuestion.id as string}
-              />
-            )}
-          </div>
-        ),
-      },
-    ],
-    [selectedQuestion]
-  );
-
   // Count the number of unique candidates that have submitted
   const numSubmissions = submissionsData?.candidateGuideById.questions
     ?.flatMap((question) => question.submissionsByRace)
@@ -289,7 +308,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
         ) : (
           <Table
             // @ts-expect-error react-table
-            columns={submissionsColumns}
+            columns={submissionsColumns(selectedQuestion)}
             data={submissions}
             initialState={{
               sorting: [
@@ -310,10 +329,8 @@ export default function CandidateGuideEmbedPageSubmissions() {
 
 function ResponseEditAction({
   row,
-  selectedQuestion,
 }: {
   row: CellContext<QuestionSubmissionResult, unknown>;
-  selectedQuestion: Partial<QuestionResult>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -346,7 +363,8 @@ function ResponseEditAction({
         {
           questionSubmissionInput: {
             id: row.row.original?.id || null,
-            questionId: selectedQuestion.id ?? row.row.original.question.id,
+            questionId:
+              row.row.original.question.id ?? row.row.original.question.id,
             candidateId: row.row.original.politician?.id,
             response: data.response,
             translations: data.translations,
@@ -358,6 +376,9 @@ function ResponseEditAction({
           onSuccess: async () => {
             await queryClient.invalidateQueries({
               queryKey: ["CandidateGuideSubmissionsByRaceId"],
+            });
+            await queryClient.invalidateQueries({
+              queryKey: ["Submissions"],
             });
             toast.success("Submission updated successfully");
           },
@@ -390,7 +411,7 @@ function ResponseEditAction({
         <h2 style={{ textAlign: "center" }}>Edit Response</h2>
 
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
-          <h3>{selectedQuestion.prompt ?? row.row.original.question.prompt}</h3>
+          <h3>{row.row.original.question?.prompt}</h3>
           <form
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
           >
@@ -401,7 +422,7 @@ function ResponseEditAction({
               register={register}
               control={control}
               errors={errors?.response?.message}
-              charLimit={row.row.original.question.responseCharLimit as number}
+              charLimit={row.row.original.question?.responseCharLimit as number}
               style={{ minHeight: "15rem" }}
             />
             <Divider />
@@ -413,7 +434,7 @@ function ResponseEditAction({
                   key={locale.code}
                   locale={locale}
                   charLimit={
-                    row.row.original.question.responseCharLimit as number
+                    row.row.original.question?.responseCharLimit as number
                   }
                   register={register}
                   control={control}
@@ -507,7 +528,7 @@ function TranslationFormField({
         <Button
           label="Translate"
           icon={<HiOutlineSparkles color="white" />}
-          size="medium"
+          size="small"
           variant="primary"
           onClick={(e) => {
             e?.preventDefault();
@@ -522,10 +543,8 @@ function TranslationFormField({
 
 function EditorialEditAction({
   row,
-  selectedQuestion,
 }: {
   row: CellContext<QuestionSubmissionResult, unknown>;
-  selectedQuestion: Partial<QuestionResult>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -554,7 +573,7 @@ function EditorialEditAction({
         {
           questionSubmissionInput: {
             id: row.row.original?.id || null,
-            questionId: selectedQuestion.id ?? row.row.original.question.id,
+            questionId: row.row.original.question.id,
             candidateId: row.row.original.politician?.id,
             response: row.row.original.response || "",
             editorial: data.editorial,
@@ -565,7 +584,7 @@ function EditorialEditAction({
         {
           onSuccess: async () => {
             await queryClient.invalidateQueries({
-              queryKey: ["CandidateGuideSubmissionsByRaceId"],
+              queryKey: ["CandidateGuideSubmissionsByRaceId", "Submissions"],
             });
             toast.success("Editorial updated successfully");
             setIsOpen(false);
@@ -598,7 +617,7 @@ function EditorialEditAction({
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2 style={{ textAlign: "center" }}>Edit Editorial</h2>
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
-          <h3>{selectedQuestion.prompt ?? row.row.original.question.prompt}</h3>
+          <h3>{row.row.original.question?.prompt}</h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
@@ -699,7 +718,7 @@ function ExistingQuestionSubmission({
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ["CandidateGuideSubmissionsByRaceId"],
+            queryKey: ["CandidateGuideSubmissionsByRaceId", "Submissions"],
           });
           toast.success("Submission copied successfully");
           setIsOpen(false);

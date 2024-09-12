@@ -108,17 +108,17 @@ export function DashboardTopNav() {
         </li>
         <li
           data-selected={
-            router.asPath == `/dashboard/${dashboardSlug}/audience`
+            router.asPath == `/dashboard/${dashboardSlug}/submissions`
           }
           data-color={theme}
         >
           <Link
             href={{
-              pathname: "/dashboard/[dashboardSlug]/audience",
+              pathname: "/dashboard/[dashboardSlug]/submissions",
               query: { dashboardSlug },
             }}
           >
-            <BsPeopleFill /> Audience
+            <BsPeopleFill /> Submissions
           </Link>
         </li>
         <li

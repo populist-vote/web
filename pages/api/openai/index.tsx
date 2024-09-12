@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest) {
   const stream = openai.beta.chat.completions.stream({
     model: "gpt-3.5-turbo",
     stream: true,
-    // @ts-ignore
+    // @ts-expect-error - blame next
     messages: [{ role: "user", content: await req.text() }],
   });
 
