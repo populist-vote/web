@@ -591,7 +591,10 @@ function EditorialEditAction({
         {
           onSuccess: async () => {
             await queryClient.invalidateQueries({
-              queryKey: ["CandidateGuideSubmissionsByRaceId", "Submissions"],
+              queryKey: ["CandidateGuideSubmissionsByRaceId"],
+            });
+            await queryClient.invalidateQueries({
+              queryKey: ["Submissions"],
             });
             toast.success("Editorial updated successfully");
             setIsOpen(false);
@@ -725,7 +728,10 @@ function ExistingQuestionSubmission({
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({
-            queryKey: ["CandidateGuideSubmissionsByRaceId", "Submissions"],
+            queryKey: ["CandidateGuideSubmissionsByRaceId"],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ["Submissions"],
           });
           toast.success("Submission copied successfully");
           setIsOpen(false);
