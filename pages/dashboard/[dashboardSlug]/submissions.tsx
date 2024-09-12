@@ -75,7 +75,7 @@ function Submissions() {
     <div
       style={{
         width: "100%",
-        marginTop: "1rem",
+        marginTop: "1.5rem",
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
