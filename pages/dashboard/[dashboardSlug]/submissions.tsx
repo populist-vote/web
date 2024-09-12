@@ -81,6 +81,7 @@ function Submissions() {
   return (
     <div
       style={{
+        height: "100%",
         width: "100%",
         marginTop: "1.5rem",
         display: "flex",
@@ -120,7 +121,7 @@ function Submissions() {
         </div>
       </Box>
       {isLoading ? (
-        <div className={styles.center}>
+        <div className={styles.center} style={{ height: "100%" }}>
           <LoaderFlag />
         </div>
       ) : (
