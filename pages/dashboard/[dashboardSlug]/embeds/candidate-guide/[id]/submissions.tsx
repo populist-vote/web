@@ -491,7 +491,6 @@ function TranslationFormField({
   register,
   control,
   setValue,
-  charLimit,
 }: {
   locale: { display: string; code: string };
   originalResponse: string;
@@ -521,7 +520,6 @@ function TranslationFormField({
       <TextInput
         name={`translations.response.${locale.code}`}
         textarea
-        charLimit={charLimit}
         label={label}
         register={register}
         control={control}
