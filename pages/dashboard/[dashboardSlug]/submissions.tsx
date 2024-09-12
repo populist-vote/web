@@ -63,7 +63,13 @@ function Submissions() {
   );
 
   const submissions = data?.submissions || [];
-  const columns = useMemo(() => submissionsColumns(true), []);
+  const columns = useMemo(
+    () =>
+      submissionsColumns({
+        hasRaceTitleColumn: true,
+      }),
+    []
+  );
 
   return (
     <div
