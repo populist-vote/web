@@ -1,4 +1,5 @@
 @import "styles/variables/colors";
+@import "styles/variables/fonts";
 
 .modal {
   position: fixed;
@@ -17,7 +18,28 @@
     opacity 0.3s ease,
     transform 0.3s ease;
   height: auto;
-  max-height: calc(100vh - 10%);
+  max-height: calc(100vh - 20%);
+
+  .title {
+    font-size: 2.25em;
+    text-align: center;
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 2.25rem;
+    cursor: pointer;
+    color: $white;
+    margin: 0;
+
+    &:hover {
+      color: $red;
+    }
+  }
 
   &.open {
     opacity: 1;
@@ -44,21 +66,5 @@
 
   &.close {
     opacity: 0;
-  }
-}
-
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 2.25rem;
-  cursor: pointer;
-  color: $white;
-  margin: 0;
-
-  &:hover {
-    color: $red;
   }
 }

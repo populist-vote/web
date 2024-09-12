@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
+  title?: string;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface ModalProps {
 }
 
 export function Modal({
+  title,
   isOpen,
   onClose,
   children,
@@ -73,6 +75,7 @@ export function Modal({
 
   const modalStyle = {
     width: width || "auto",
+    maxHeight: "calc(100vh - 20%)", // Ensure the modal respects the viewport height limit
   };
 
   const overlayClassName = isVisible ? styles.open : styles.close;
@@ -92,6 +95,7 @@ export function Modal({
         ref={modalRef}
         style={modalStyle}
       >
+        {title && <h2 className={styles.title}>Modal</h2>}
         <button className={styles.closeButton} onClick={handleClose}>
           &times;
         </button>
