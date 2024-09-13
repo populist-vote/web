@@ -126,7 +126,7 @@ export const submissionsColumns: ({
   {
     header: "Last Update",
     accessorKey: "updatedAt",
-    size: 210,
+    size: 215,
     cell: (info) => {
       // Only show date if response exists
       return info.getValue() && !!info.row.original.response
