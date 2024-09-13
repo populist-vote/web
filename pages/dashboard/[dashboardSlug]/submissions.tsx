@@ -48,15 +48,19 @@ export async function getServerSideProps({
 }
 
 function Submissions() {
-  const router = useRouter();
-  const { organizationId } = useOrganizationStore();
-  const [searchValue, setSearchValue] = useState("");
-  const [raceType, setRaceType] = useState<string | null>(null);
-  const [county, setCounty] = useState<string | null>(null);
-  const { scope } = router.query;
   const { user } = useAuth();
   const defaultState = user?.userProfile?.address?.state || "FEDERAL";
-  const [state, setState] = useState<string | null>(defaultState);
+  const router = useRouter();
+  const {
+    search,
+    scope,
+    state = defaultState,
+    county = "",
+    raceType,
+  } = router.query;
+  const { organizationId } = useOrganizationStore();
+  const [searchValue, setSearchValue] = useState(search as string);
+
   const { data, isLoading } = useSubmissionsQuery(
     {
       organizationId: organizationId as string,
@@ -65,7 +69,7 @@ function Submissions() {
         politicalScope: (scope as PoliticalScope) || null,
         raceType: (raceType as RaceType) || null,
         state: (state == "FEDERAL" ? null : (state as State)) || null,
-        county: county || null,
+        county: (county as string) || null,
       },
     },
     {
@@ -86,9 +90,7 @@ function Submissions() {
 
   const handleClearFilters = () => {
     setSearchValue("");
-    setRaceType(null);
-    setCounty("");
-    setState(defaultState);
+    void router.push({ query: { dashboardSlug: router.query.dashboardSlug } });
   };
 
   return (
@@ -118,7 +120,9 @@ function Submissions() {
               <PoliticalScopeFilters />
               <Divider vertical />
               <StateSelect
-                handleStateChange={setState}
+                handleStateChange={(state) =>
+                  router.push({ query: { ...router.query, state } })
+                }
                 defaultState={defaultState}
               />
               <Select
@@ -132,7 +136,11 @@ function Submissions() {
                   { value: RaceType.General, label: "General" },
                   { value: RaceType.Primary, label: "Primary" },
                 ]}
-                onChange={(e) => setRaceType(e.target.value)}
+                onChange={(e) =>
+                  void router.push({
+                    query: { ...router.query, raceType: e.target.value },
+                  })
+                }
               />
               {state && !areCountiesLoading && (
                 <Select
@@ -148,13 +156,17 @@ function Submissions() {
                       label: county,
                     })) || []),
                   ]}
-                  onChange={(e) => setCounty(e.target.value)}
+                  onChange={(e) =>
+                    void router.push({
+                      query: { ...router.query, county: e.target.value },
+                    })
+                  }
                 />
               )}
             </div>
             {hasFilters && (
               <Button
-                size="medium"
+                size="small"
                 onClick={handleClearFilters}
                 label="Clear Filters"
                 theme="red"
@@ -174,7 +186,7 @@ function Submissions() {
           columns={columns}
           data={submissions}
           initialState={{
-            sorting: [{ id: "createdAt", desc: true }],
+            sorting: [{ id: "updatedAt", desc: true }],
             pagination: { pageSize: 10 },
           }}
           theme="blue"

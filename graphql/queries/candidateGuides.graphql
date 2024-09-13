@@ -22,11 +22,7 @@ query Submissions($organizationId: ID!, $filter: QuestionSubmissionsFilter!) {
     response
     editorial
     translations
-    question {
-      id
-      prompt
-      responseCharLimit
-    }
+    questionId
   }
 }
 

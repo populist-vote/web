@@ -24,6 +24,7 @@ import {
   useExistingQuestionSubmissionQuery,
   useCopyQuestionSubmissionMutation,
   PoliticalParty,
+  useQuestionByIdQuery,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -67,15 +68,14 @@ export async function getServerSideProps({
   };
 }
 
-// @ts-expect-error react-table
 export const submissionsColumns: ({
-  question,
+  questionId,
 }: {
-  question?: Partial<QuestionResult>;
+  questionId?: string;
 }) => ColumnDef<Partial<QuestionSubmissionResult>>[] = ({
-  question,
+  questionId,
 }: {
-  question?: QuestionResult;
+  questionId?: string;
 } = {}) => [
   {
     id: "raceTitle",
@@ -98,15 +98,30 @@ export const submissionsColumns: ({
     header: "Response",
     accessorKey: "response",
     id: "response",
-    size: 350,
+    size: 450,
     cell: (info) => (
       <div className={styles.flexBetween}>
         <span className={styles.clamp}>{info.getValue() as string}</span>
+      </div>
+    ),
+  },
+  {
+    header: "Translations",
+    accessorKey: "translations",
+    id: "translations",
+    size: 100,
+    cell: (info) => (
+      <div className={styles.flexBetween}>
         {Object.entries(info.row.original.translations?.response || {}).map(
           ([lang, trans]) => {
             if (!!trans)
               return (
-                <Badge theme="aqua" size="small" key={lang}>
+                <Badge
+                  theme="aqua"
+                  size="small"
+                  key={lang}
+                  style={{ textTransform: "uppercase" }}
+                >
                   {lang}
                 </Badge>
               );
@@ -126,11 +141,11 @@ export const submissionsColumns: ({
   {
     header: "Last Update",
     accessorKey: "updatedAt",
-    size: 215,
+    size: 200,
     cell: (info) => {
       // Only show date if response exists
       return info.getValue() && !!info.row.original.response
-        ? new Date(info.getValue() as string).toLocaleString()
+        ? getRelativeTimeString(new Date(info.getValue() as string))
         : null;
     },
   },
@@ -141,14 +156,22 @@ export const submissionsColumns: ({
     cell: (info) => (
       <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
         <ResponseEditAction
+          questionId={
+            (questionId as string) || (info.row.original.questionId as string)
+          }
           row={info as CellContext<QuestionSubmissionResult, unknown>}
         />
         <EditorialEditAction
+          questionId={
+            (questionId as string) || (info.row.original.questionId as string)
+          }
           row={info as CellContext<QuestionSubmissionResult, unknown>}
         />
-        {!info.row.original.id && question && (
+        {!info.row.original.id && questionId && (
           <ExistingQuestionSubmission
-            questionId={question?.id as string}
+            questionId={
+              (questionId as string) || (info.row.original.questionId as string)
+            }
             candidateId={info.row.original.politician?.id as string}
           />
         )}
@@ -317,7 +340,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
           <Table
             // @ts-expect-error react-table
             columns={submissionsColumns({
-              question: selectedQuestion,
+              questionId: selectedQuestion.id,
             })}
             data={submissions}
             initialState={{
@@ -341,8 +364,10 @@ export default function CandidateGuideEmbedPageSubmissions() {
 }
 
 function ResponseEditAction({
+  questionId,
   row,
 }: {
+  questionId: string;
   row: CellContext<QuestionSubmissionResult, unknown>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -363,6 +388,12 @@ function ResponseEditAction({
     },
   });
 
+  const { data: questionData, isLoading } = useQuestionByIdQuery({
+    id: questionId,
+  });
+
+  const question = questionData?.questionById;
+
   const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation();
 
   const queryClient = useQueryClient();
@@ -376,8 +407,7 @@ function ResponseEditAction({
         {
           questionSubmissionInput: {
             id: row.row.original?.id || null,
-            questionId:
-              row.row.original.question.id ?? row.row.original.question.id,
+            questionId: questionId || row.row.original.questionId,
             candidateId: row.row.original.politician?.id,
             response: data.response,
             translations: data.translations,
@@ -416,7 +446,11 @@ function ResponseEditAction({
       }}
     >
       <Tooltip content="Edit Submission">
-        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+        <button
+          className={styles.iconButton}
+          onClick={() => setIsOpen(true)}
+          disabled={isLoading}
+        >
           <GrEdit />
         </button>
       </Tooltip>
@@ -424,7 +458,7 @@ function ResponseEditAction({
         <h2 style={{ textAlign: "center" }}>Edit Response</h2>
 
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
-          <h3>{row.row.original.question?.prompt}</h3>
+          <h3>{question?.prompt}</h3>
           <form
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
           >
@@ -435,7 +469,7 @@ function ResponseEditAction({
               register={register}
               control={control}
               errors={errors?.response?.message}
-              charLimit={row.row.original.question?.responseCharLimit as number}
+              charLimit={question?.responseCharLimit as number}
               style={{ minHeight: "15rem" }}
             />
             <Divider />
@@ -446,9 +480,6 @@ function ResponseEditAction({
                 <TranslationFormField
                   key={locale.code}
                   locale={locale}
-                  charLimit={
-                    row.row.original.question?.responseCharLimit as number
-                  }
                   register={register}
                   control={control}
                   originalResponse={row.row.original.response as string}
@@ -501,7 +532,6 @@ function TranslationFormField({
   register: any;
   control: any;
   setValue: any;
-  charLimit: number;
 }) {
   const [sentence, setSentence] = useState<string>("");
   const { startStream, isLoading } = useStreamResponse({
@@ -553,8 +583,10 @@ function TranslationFormField({
 }
 
 function EditorialEditAction({
+  questionId,
   row,
 }: {
+  questionId: string;
   row: CellContext<QuestionSubmissionResult, unknown>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -570,6 +602,12 @@ function EditorialEditAction({
       translations: row.row.original.translations,
     },
   });
+
+  const { data: questionData, isLoading } = useQuestionByIdQuery({
+    id: questionId,
+  });
+
+  const question = questionData?.questionById;
 
   const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation();
 
@@ -624,14 +662,18 @@ function EditorialEditAction({
       }}
     >
       <Tooltip content="Edit Editorial">
-        <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
+        <button
+          className={styles.iconButton}
+          onClick={() => setIsOpen(true)}
+          disabled={isLoading}
+        >
           <GrInfo />
         </button>
       </Tooltip>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2 style={{ textAlign: "center" }}>Edit Editorial</h2>
         <div style={{ padding: "0 1.5rem", width: "45rem" }}>
-          <h3>{row.row.original.question?.prompt}</h3>
+          <h3>{question?.prompt}</h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
