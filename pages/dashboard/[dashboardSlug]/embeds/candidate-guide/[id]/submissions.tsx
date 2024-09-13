@@ -87,6 +87,11 @@ export const submissionsColumns: ({
     id: "fullName",
     header: "Candidate",
     accessorKey: "politician.fullName",
+    cell: (info) => (
+      <Link href={`/politicians/${info.row.original.politician?.slug}`}>
+        {info.getValue() as string}
+      </Link>
+    ),
     size: 170,
   },
   {
