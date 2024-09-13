@@ -162,6 +162,9 @@ fragment CandidateGuideFields on CandidateGuideResult {
       race {
         id
         title
+        office {
+          county
+        }
         candidates {
           id
           fullName

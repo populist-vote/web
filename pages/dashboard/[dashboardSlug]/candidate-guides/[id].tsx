@@ -977,6 +977,10 @@ function CandidateGuideEmbedTable({
         size: 500,
       },
       {
+        header: "County",
+        accessorKey: "candidateGuideRace.race.office.county",
+      },
+      {
         header: "Candidates",
         accessorKey: "candidateGuideRace.race.candidates",
         cell: (info) => (info.getValue() as PoliticianResult[]).length,
