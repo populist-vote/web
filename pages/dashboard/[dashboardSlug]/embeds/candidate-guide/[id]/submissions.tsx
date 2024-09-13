@@ -69,19 +69,15 @@ export async function getServerSideProps({
 
 // @ts-expect-error react-table
 export const submissionsColumns: ({
-  hasRaceTitleColumn,
   question,
 }: {
-  hasRaceTitleColumn?: boolean;
   question?: Partial<QuestionResult>;
 }) => ColumnDef<Partial<QuestionSubmissionResult>>[] = ({
-  hasRaceTitleColumn = false,
   question,
 }: {
-  hasRaceTitleColumn?: boolean;
   question?: QuestionResult;
 } = {}) => [
-  hasRaceTitleColumn && {
+  {
     id: "raceTitle",
     header: "Race",
     accessorKey: "candidateGuideEmbed.race.title",
@@ -96,6 +92,7 @@ export const submissionsColumns: ({
   {
     header: "Response",
     accessorKey: "response",
+    id: "response",
     size: 350,
     cell: (info) => (
       <div className={styles.flexBetween}>
@@ -315,7 +312,6 @@ export default function CandidateGuideEmbedPageSubmissions() {
           <Table
             // @ts-expect-error react-table
             columns={submissionsColumns({
-              hasRaceTitleColumn: false,
               question: selectedQuestion,
             })}
             data={submissions}
@@ -326,6 +322,9 @@ export default function CandidateGuideEmbedPageSubmissions() {
                   desc: false,
                 },
               ],
+              columnVisibility: {
+                raceTitle: false,
+              },
             }}
             paginate={false}
             theme="blue"

@@ -79,13 +79,7 @@ function Submissions() {
     });
 
   const submissions = data?.submissions || [];
-  const columns = useMemo(
-    () =>
-      submissionsColumns({
-        hasRaceTitleColumn: true,
-      }),
-    []
-  );
+  const columns = useMemo(() => submissionsColumns({}), []);
 
   const hasFilters =
     !!searchValue || !!raceType || !!county || state !== defaultState;
