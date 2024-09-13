@@ -1203,6 +1203,7 @@ type Query {
   billsByIds(ids: [ID!]!): [BillResult!]!
   candidateGuideById(id: ID!): CandidateGuideResult!
   candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
+  countiesByState(state: State!): [String!]!
   """
   Provides current user based on JWT found in client's access_token cookie
   """
@@ -1318,6 +1319,7 @@ type QuestionSubmissionResult {
 }
 
 input QuestionSubmissionsFilter {
+  county: String
   politicalScope: PoliticalScope
   query: String
   raceType: RaceType

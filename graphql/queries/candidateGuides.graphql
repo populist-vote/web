@@ -30,6 +30,10 @@ query Submissions($organizationId: ID!, $filter: QuestionSubmissionsFilter!) {
   }
 }
 
+query CountiesByState($state: State!) {
+  countiesByState(state: $state)
+}
+
 query ExistingQuestionSubmission(
   $candidateId: ID!
   $questionId: ID!

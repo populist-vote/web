@@ -124,11 +124,11 @@ export const submissionsColumns: ({
   {
     header: "Last Update",
     accessorKey: "updatedAt",
-    size: 180,
+    size: 210,
     cell: (info) => {
       // Only show date if response exists
       return info.getValue() && !!info.row.original.response
-        ? new Date(info.getValue() as string).toLocaleDateString()
+        ? new Date(info.getValue() as string).toLocaleString()
         : null;
     },
   },

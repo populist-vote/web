@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   Layout,
   LoaderFlag,
@@ -10,6 +11,7 @@ import {
   PoliticalScope,
   RaceType,
   State,
+  useCountiesByStateQuery,
   useSubmissionsQuery,
 } from "generated";
 import { useAuth } from "hooks/useAuth";
@@ -50,6 +52,7 @@ function Submissions() {
   const { organizationId } = useOrganizationStore();
   const [searchValue, setSearchValue] = useState("");
   const [raceType, setRaceType] = useState<string | null>(null);
+  const [county, setCounty] = useState<string | null>(null);
   const { scope } = router.query;
   const { user } = useAuth();
   const defaultState = user?.userProfile?.address?.state || "FEDERAL";
@@ -59,15 +62,21 @@ function Submissions() {
       organizationId: organizationId as string,
       filter: {
         query: searchValue || null,
-        state: (state == "FEDERAL" ? null : (state as State)) || null,
         politicalScope: (scope as PoliticalScope) || null,
         raceType: (raceType as RaceType) || null,
+        state: (state == "FEDERAL" ? null : (state as State)) || null,
+        county: county || null,
       },
     },
     {
       enabled: !!organizationId,
     }
   );
+
+  const { data: countiesData, isLoading: areCountiesLoading } =
+    useCountiesByStateQuery({
+      state: state as State,
+    });
 
   const submissions = data?.submissions || [];
   const columns = useMemo(
@@ -77,6 +86,16 @@ function Submissions() {
       }),
     []
   );
+
+  const hasFilters =
+    !!searchValue || !!raceType || !!county || state !== defaultState;
+
+  const handleClearFilters = () => {
+    setSearchValue("");
+    setRaceType(null);
+    setCounty("");
+    setState(defaultState);
+  };
 
   return (
     <div
@@ -97,26 +116,57 @@ function Submissions() {
             placeholder="Search by candidate name, race, or office"
             searchId="submissions"
           />
-          <div className={styles.flexBetween} style={{ gap: "1rem" }}>
-            <PoliticalScopeFilters />
-            <Divider vertical />
-            <StateSelect
-              handleStateChange={setState}
-              defaultState={defaultState}
-            />
-            <Select
-              textColor="white"
-              backgroundColor={"transparent"}
-              border="solid"
-              accentColor="blue"
-              value={raceType as string}
-              options={[
-                { value: "", label: "Race Type" },
-                { value: RaceType.General, label: "General" },
-                { value: RaceType.Primary, label: "Primary" },
-              ]}
-              onChange={(e) => setRaceType(e.target.value)}
-            />
+          <div
+            className={styles.flexBetween}
+            style={{ gap: "1rem", width: "100%" }}
+          >
+            <div className={styles.flexBetween} style={{ gap: "1rem" }}>
+              <PoliticalScopeFilters />
+              <Divider vertical />
+              <StateSelect
+                handleStateChange={setState}
+                defaultState={defaultState}
+              />
+              <Select
+                textColor="white"
+                backgroundColor={"transparent"}
+                border="solid"
+                accentColor="blue"
+                value={raceType as string}
+                options={[
+                  { value: "", label: "Race Type" },
+                  { value: RaceType.General, label: "General" },
+                  { value: RaceType.Primary, label: "Primary" },
+                ]}
+                onChange={(e) => setRaceType(e.target.value)}
+              />
+              {state && !areCountiesLoading && (
+                <Select
+                  textColor="white"
+                  backgroundColor={"transparent"}
+                  border="solid"
+                  accentColor="blue"
+                  value={county as string}
+                  options={[
+                    { value: "", label: "County" },
+                    ...(countiesData?.countiesByState.map((county) => ({
+                      value: county,
+                      label: county,
+                    })) || []),
+                  ]}
+                  onChange={(e) => setCounty(e.target.value)}
+                />
+              )}
+            </div>
+            {hasFilters && (
+              <Button
+                size="medium"
+                onClick={handleClearFilters}
+                label="Clear Filters"
+                theme="red"
+                variant="secondary"
+              />
+            )}
           </div>
         </div>
       </Box>
@@ -124,24 +174,21 @@ function Submissions() {
         <div className={styles.center} style={{ height: "100%" }}>
           <LoaderFlag />
         </div>
-      ) : (
+      ) : submissions.length > 0 ? (
         <Table
           // @ts-expect-error react-table
           columns={columns}
           data={submissions}
           initialState={{
-            sorting: [
-              {
-                id: "createdAt",
-                desc: true,
-              },
-            ],
-            pagination: {
-              pageSize: 10,
-            },
+            sorting: [{ id: "createdAt", desc: true }],
+            pagination: { pageSize: 10 },
           }}
           theme="blue"
         />
+      ) : (
+        <div className={styles.center} style={{ height: "100%" }}>
+          <span className={styles.noResults}>No submissions found</span>
+        </div>
       )}
     </div>
   );
