@@ -96,8 +96,8 @@ importers:
         specifier: ^5.6.0
         version: 5.6.0(@babel/core@7.24.0)(next@14.2.4(@babel/core@7.24.0)(@playwright/test@1.42.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.71.1))(webpack@5.90.3)
       openai:
-        specifier: ^4.58.2
-        version: 4.58.2(zod@3.22.4)
+        specifier: ^4.61.1
+        version: 4.61.1(zod@3.22.4)
       postcss:
         specifier: ^8.4.35
         version: 8.4.35
@@ -5328,8 +5328,8 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@4.58.2:
-    resolution: {integrity: sha512-hIalypYELt7/PcryFpz4Gi1z/8ZDzukWyOhr+jKM6L/GVE+t4NseaENXKt+OxnkkIm/1R2EkdGxgnHrZ0kB5bQ==}
+  openai@4.61.1:
+    resolution: {integrity: sha512-jZ2WRn+f4QWZkYnrUS+xzEUIBllsGN75dUCaXmMIHcv2W9yn7O8amaReTbGHCNEYkL43vuDOcxPUWfNPUmoD3Q==}
     hasBin: true
     peerDependencies:
       zod: ^3.23.8
@@ -13458,7 +13458,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.58.2(zod@3.22.4):
+  openai@4.61.1(zod@3.22.4):
     dependencies:
       '@types/node': 18.19.50
       '@types/node-fetch': 2.6.11

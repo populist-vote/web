@@ -11,12 +11,12 @@ export const runtime = "edge";
 export default async function handler(req: NextApiRequest) {
   const openai = new OpenAI();
 
-  const stream = openai.beta.chat.completions.stream({
+  const stream = openai.chat.completions.create({
     model: "gpt-3.5-turbo",
-    stream: true,
-    // @ts-expect-error - blame next
+    // @ts-ignore
     messages: [{ role: "user", content: await req.text() }],
+    stream: true,
   });
 
-  return new Response(stream.toReadableStream());
+  return new Response((await stream).toReadableStream());
 }
