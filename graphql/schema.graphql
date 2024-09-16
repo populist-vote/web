@@ -776,7 +776,7 @@ type Mutation {
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
   generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!, raceId: ID!): String!
   insertPolitician(input: InsertPoliticianInput!): PoliticianResult!
-  inviteUser(input: InviteUserInput!): String!
+  inviteUser(input: InviteUserInput!): String
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
   openAllCandidateGuideSubmissions(candidateGuideId: ID!): Boolean!

@@ -15,7 +15,11 @@
     "object-curly-spacing": ["error", "always"],
     "key-spacing": ["error", { "beforeColon": false }],
     "space-infix-ops": ["error", { "int32Hint": false }],
-    "@typescript-eslint/no-floating-promises": ["error"],
+    "jsx-a11y/no-autofocus": "off",
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      { "ignoreVoid": true }
+    ],
     "no-warning-comments": [
       "warn",
       { "terms": ["todo"], "location": "anywhere" }

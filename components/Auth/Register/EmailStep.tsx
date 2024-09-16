@@ -17,6 +17,7 @@ import Link from "next/link";
 function EmailStep() {
   const router = useRouter();
   const { query } = router;
+  const { email: prefillEmail } = query as { email: string };
   const { t } = useTranslation(["auth", "common"]);
 
   const {
@@ -35,7 +36,7 @@ function EmailStep() {
   } = useForm({
     reValidateMode: "onChange",
     defaultValues: {
-      email: loginFormState.email,
+      email: prefillEmail ?? loginFormState.email,
       password: loginFormState.password,
     },
   });
@@ -176,6 +177,7 @@ function EmailStep() {
                 },
               }}
               autoComplete="email"
+              autoFocus
             />
           </div>
           <div
@@ -193,6 +195,7 @@ function EmailStep() {
                 required: t("password-is-required"),
                 validate: () => isPasswordValid,
               }}
+              autoFocus={!!prefillEmail}
               autoComplete="new-password"
               onChange={async (e) =>
                 actions.updateAction({ password: e.target.value })
