@@ -333,8 +333,15 @@ export default function CandidateGuideEmbedPage({
           paginate={false}
         />
       </section>
-      <section className={clsx(styles.section, styles.grid2)}>
-        <div style={{ width: "auto" }}>
+      <section className={clsx(styles.section, styles.content)}>
+        <div
+          style={{
+            width: "auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
+          }}
+        >
           <div>
             <h3>Options</h3>
             <Box>
@@ -432,7 +439,7 @@ export default function CandidateGuideEmbedPage({
         </div>
         <div>
           <h3>Preview</h3>
-          <Box width="720px">
+          <Box>
             <CandidateGuideEmbed
               embedId={id as string}
               candidateGuideId={candidateGuideId}
