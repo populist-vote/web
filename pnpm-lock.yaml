@@ -51,7 +51,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@tanstack/match-sorter-utils':
-        specifier: ^8.19.4
+        specifier: 8.19.4
         version: 8.19.4
       '@tanstack/react-query':
         specifier: ^5.27.5
@@ -97,7 +97,7 @@ importers:
         version: 5.6.0(@babel/core@7.24.0)(next@14.2.4(@babel/core@7.24.0)(@playwright/test@1.42.1)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.71.1))(webpack@5.90.3)
       openai:
         specifier: ^4.61.1
-        version: 4.61.1(zod@3.22.4)
+        version: 4.61.1(zod@3.23.8)
       postcss:
         specifier: ^8.4.35
         version: 8.4.35
@@ -165,8 +165,8 @@ importers:
         specifier: ^5.90.3
         version: 5.90.3
       zod:
-        specifier: ^3.22.4
-        version: 3.22.4
+        specifier: ^3.23.8
+        version: 3.23.8
       zustand:
         specifier: ^4.5.5
         version: 4.5.5(@types/react@18.2.59)(react@18.2.0)
@@ -6857,8 +6857,8 @@ packages:
   zod@3.22.3:
     resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
-  zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
   zustand@4.5.5:
     resolution: {integrity: sha512-+0PALYNJNgK6hldkgDq2vLrw5f6g/jCInz52n9RTpropGgeAf/ioFUCdtsjCqu4gNhW9D01rUQBROoRjdzyn2Q==}
@@ -13458,7 +13458,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.61.1(zod@3.22.4):
+  openai@4.61.1(zod@3.23.8):
     dependencies:
       '@types/node': 18.19.50
       '@types/node-fetch': 2.6.11
@@ -13470,7 +13470,7 @@ snapshots:
       node-fetch: 2.7.0
       qs: 6.13.0
     optionalDependencies:
-      zod: 3.22.4
+      zod: 3.23.8
     transitivePeerDependencies:
       - encoding
 
@@ -15264,7 +15264,7 @@ snapshots:
 
   zod@3.22.3: {}
 
-  zod@3.22.4: {}
+  zod@3.23.8: {}
 
   zustand@4.5.5(@types/react@18.2.59)(react@18.2.0):
     dependencies:

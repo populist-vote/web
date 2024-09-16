@@ -9,10 +9,17 @@
   grid-template-columns: 4fr 6fr;
   gap: 2rem;
   margin-top: 2rem;
+  min-width: 0;
 
   h3,
   h4 {
     margin: 0 0 0.75rem;
+  }
+
+  .cgPreview {
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+    min-width: 512px;
   }
 
   .preview {

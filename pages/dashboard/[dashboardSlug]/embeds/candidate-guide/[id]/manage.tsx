@@ -437,7 +437,7 @@ export default function CandidateGuideEmbedPage({
             </Box>
           </div>
         </div>
-        <div>
+        <div className={styles.cgPreview}>
           <h3>Preview</h3>
           <Box>
             <CandidateGuideEmbed

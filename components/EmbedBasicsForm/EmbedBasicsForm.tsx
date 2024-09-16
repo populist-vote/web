@@ -276,7 +276,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         return (
           <MyBallotEmbedRenderOptionsForm
             handleDefaultLanguageChange={handleDefaultLanguageChange}
-            defaultLanguage={embed.attributes?.renderOptions?.defaultLanguage}
+            defaultLanguage={embed?.attributes?.renderOptions?.defaultLanguage}
           />
         );
       default:

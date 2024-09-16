@@ -51,7 +51,8 @@ function EmbedPage({
   const raceId = data?.embedById?.attributes?.raceId as string;
   const electionId = data?.embedById?.attributes?.electionId as string;
   const embed = data?.embedById as EmbedResult;
-  const renderOptions = embed.attributes?.renderOptions;
+
+  const renderOptions = embed?.attributes?.renderOptions;
 
   const renderPreviewByType = () => {
     switch (embedType) {
