@@ -17,6 +17,7 @@ import { getOriginHost } from "utils/messages";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
+import { MyBallotEmbed } from "components/MyBallotEmbed/MyBallotEmbed";
 
 interface EmbedPageProps {
   embedId: string;
@@ -72,6 +73,7 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
   const billIds = data?.embedById?.attributes?.billIds;
   const raceId = data?.embedById?.attributes?.raceId;
   const candidateGuideId = data?.embedById?.attributes?.candidateGuideId;
+  const electionId = data?.embedById?.attributes?.electionId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
 
   useEffect(() => {
@@ -134,6 +136,14 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
           origin={resolvedOrigin}
           candidateGuideId={candidateGuideId}
           renderOptions={renderOptions}
+        />
+      );
+    case EmbedType.MyBallot:
+      return (
+        <MyBallotEmbed
+          embedId={embedId}
+          origin={resolvedOrigin}
+          electionId={electionId}
         />
       );
     default:
