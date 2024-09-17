@@ -168,7 +168,26 @@ export default function CandidateGuideIntake() {
     }
   };
 
-  if (isLoading || isPoliticianLoading || isRaceLoading) return <LoaderFlag />;
+  useEffect(() => {
+    if (!hasSubmitted) {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        event.preventDefault();
+      };
+
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }
+  }, [hasSubmitted]);
+
+  if (isLoading || isPoliticianLoading || isRaceLoading)
+    return (
+      <div style={{ height: "100vh" }}>
+        <LoaderFlag />
+      </div>
+    );
 
   if (!politician || !race) return <small>No politician data attached.</small>;
 
