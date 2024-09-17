@@ -150,6 +150,21 @@ export const submissionsColumns: ({
     },
   },
   {
+    header: "Submitted At",
+    accessorKey: "createdAt",
+    size: 250,
+    cell: (info) =>
+      info.getValue() && !!info.row.original.response
+        ? new Date(info.getValue() as string).toLocaleString(undefined, {
+            month: "numeric",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+          })
+        : null,
+  },
+  {
     header: "Actions",
     accessorKey: "id",
     size: 25,
