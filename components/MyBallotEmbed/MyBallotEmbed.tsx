@@ -50,17 +50,26 @@ export function MyBallotEmbed({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderOptions?.defaultLanguage]);
 
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-
   const {
     register,
     control,
     handleSubmit,
     formState: { errors, isValid },
     getValues,
-  } = useForm<AddressInput>({});
+  } = useForm<AddressInput>({
+    defaultValues: JSON.parse(localStorage.getItem("addressValues") || "{}"),
+  });
 
-  const submitForm = () => setHasSubmitted(true);
+  const [hasSubmitted, setHasSubmitted] = useState(() => {
+    return localStorage.getItem("hasSubmitted") === "true";
+  });
+
+  const submitForm = () => {
+    const addressValues = getValues();
+    localStorage.setItem("addressValues", JSON.stringify(addressValues));
+    localStorage.setItem("hasSubmitted", "true");
+    setHasSubmitted(true);
+  };
 
   const { data: electionData, isLoading: electionIsLoading } =
     useBasicElectionByIdQuery({
