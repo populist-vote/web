@@ -186,7 +186,7 @@ function Submissions() {
           columns={columns}
           data={submissions}
           initialState={{
-            sorting: [{ id: "updatedAt", desc: true }],
+            sorting: [{ id: "createdAt", desc: true }],
             pagination: { pageSize: 10 },
           }}
           theme="blue"
