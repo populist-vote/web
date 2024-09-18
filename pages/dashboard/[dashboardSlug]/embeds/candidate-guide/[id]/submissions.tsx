@@ -142,18 +142,14 @@ export const submissionsColumns: ({
     header: "Last Update",
     accessorKey: "updatedAt",
     size: 200,
-    cell: (info) => {
-      // Only show date if response exists
-      return info.getValue() && !!info.row.original.response
-        ? getRelativeTimeString(new Date(info.getValue() as string))
-        : null;
-    },
+    cell: (info) => getRelativeTimeString(new Date(info.getValue() as string)),
   },
   {
     header: "Submitted At",
     accessorKey: "createdAt",
     size: 250,
     cell: (info) =>
+      // Only show date if response exists
       info.getValue() && !!info.row.original.response
         ? new Date(info.getValue() as string).toLocaleString(undefined, {
             month: "numeric",
