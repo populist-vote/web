@@ -230,7 +230,8 @@ export function MyBallotEmbed({
                     />
                   </div>
                   {race.relatedEmbeds.some(
-                    (embed) => embed.origins.length > 0
+                    (embed) =>
+                      embed.origins.length > 0 && embed.origins[0]?.pageTitle
                   ) && (
                     <>
                       <Divider color="var(--grey-light)" />
@@ -242,7 +243,9 @@ export function MyBallotEmbed({
                           if (!origin) return null;
                           return (
                             <li key={embed.id}>
-                              <a href={origin.url}>{origin.pageTitle}</a>
+                              <a href={origin.url}>
+                                {origin.pageTitle ?? origin.url}
+                              </a>
                             </li>
                           );
                         })}
