@@ -128,11 +128,18 @@
     font-weight: 400;
   }
 
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
   padding: 0;
   padding-bottom: 5rem;
   border-bottom: 1px solid $grey-light;
+
   li {
     list-style: none;
+
+    @include clamp-ellipsis(1);
+
     a {
       color: $blue !important;
       text-decoration: underline;

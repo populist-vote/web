@@ -240,29 +240,28 @@ export function MyBallotEmbed({
                     />
                   </div>
                   {race.relatedEmbeds.some(
-                    (embed) =>
-                      embed.origins.length > 0 && embed.origins[0]?.pageTitle
+                    (embed) => embed.origins.length > 0
                   ) && (
                     <>
                       <Divider color="var(--grey-light)" />
                       <ul className={styles.moreInfo}>
                         <h4>More info</h4>
-                        {race.relatedEmbeds?.map((embed) => {
-                          const origin = embed.origins[0];
-
-                          if (!origin) return null;
-                          return (
-                            <li key={embed.id}>
-                              <a
-                                href={origin.url}
-                                target={"_blank"}
-                                rel={"noopener noreferrer"}
-                              >
-                                {origin.pageTitle ?? origin.url}
-                              </a>
-                            </li>
-                          );
-                        })}
+                        {race.relatedEmbeds?.flatMap((embed) =>
+                          embed.origins?.map((origin) => {
+                            if (!origin) return null;
+                            return (
+                              <li key={`${embed.id}-${origin.url}`}>
+                                <a
+                                  href={origin.url}
+                                  target={"_blank"}
+                                  rel={"noopener noreferrer"}
+                                >
+                                  {origin.pageTitle ?? origin.url}
+                                </a>
+                              </li>
+                            );
+                          })
+                        )}
                       </ul>
                     </>
                   )}
