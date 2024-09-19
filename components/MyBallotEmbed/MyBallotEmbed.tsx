@@ -5,6 +5,7 @@ import { TextInput } from "components/TextInput/TextInput";
 import { Button } from "components/Button/Button";
 import {
   AddressInput,
+  EmbedType,
   RaceResult,
   State,
   useBasicElectionByIdQuery,
@@ -106,6 +107,11 @@ export function MyBallotEmbed({
   const election = electionData?.electionById;
 
   useEmbedResizer({ origin, embedId });
+
+  const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
+    const key = embedType.toLowerCase().replace("_", "-");
+    return t(key, { ns: "embeds" });
+  };
 
   if (electionIsLoading) return null;
 
@@ -254,7 +260,7 @@ export function MyBallotEmbed({
                   ) && (
                     <>
                       <ul className={styles.moreInfo}>
-                        <h4>{t("more-info")}</h4>
+                        <h4>{t("more-info", { ns: "embeds" })}</h4>
                         {race.relatedEmbeds?.flatMap((embed) =>
                           embed.origins?.map((origin) => {
                             if (!origin) return null;
@@ -265,7 +271,9 @@ export function MyBallotEmbed({
                                   target={"_blank"}
                                   rel={"noopener noreferrer"}
                                 >
-                                  {origin.pageTitle ?? origin.url}
+                                  {getEmbedTypeTranslationKey(embed.embedType)}
+                                  {" — "}
+                                  {origin.pageTitle ?? origin.url}{" "}
                                 </a>
                               </li>
                             );

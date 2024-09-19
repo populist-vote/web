@@ -140,14 +140,15 @@
   li {
     list-style: none;
 
-    @include clamp-ellipsis(1);
-
     a {
       color: $blue !important;
       text-decoration: underline;
+
       &:hover {
         color: $blue-dark !important;
       }
+
+      @include clamp-ellipsis(1);
     }
   }
 }
