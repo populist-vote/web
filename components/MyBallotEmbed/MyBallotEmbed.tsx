@@ -205,14 +205,14 @@ export function MyBallotEmbed({
               </form>
             </div>
           )}
-          {isLoading && <LoaderFlag />}
+          {isLoading && <LoaderFlag theme="gray" />}
           {data && !isLoading && hasSubmitted && (
             <div style={{ width: "100%" }}>
               {data.electionById.racesByAddress.length === 0 && (
                 <div className={styles.noResults}>No Results</div>
               )}
               {data.electionById.racesByAddress.map((race) => (
-                <div key={race.id}>
+                <div className={styles.raceGroup} key={race.id}>
                   <div
                     className={styles.flexBetween}
                     style={{ marginBottom: "0.5rem" }}
@@ -243,7 +243,6 @@ export function MyBallotEmbed({
                     (embed) => embed.origins.length > 0
                   ) && (
                     <>
-                      <Divider color="var(--grey-light)" />
                       <ul className={styles.moreInfo}>
                         <h4>More info</h4>
                         {race.relatedEmbeds?.flatMap((embed) =>
