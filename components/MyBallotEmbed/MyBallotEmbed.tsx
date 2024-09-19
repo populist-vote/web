@@ -6,6 +6,7 @@ import { Button } from "components/Button/Button";
 import {
   AddressInput,
   RaceResult,
+  State,
   useBasicElectionByIdQuery,
   useMyBallotByAddressQuery,
   VoteType,
@@ -50,6 +51,11 @@ export function MyBallotEmbed({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderOptions?.defaultLanguage]);
 
+  const defaultValues = JSON.parse(
+    localStorage.getItem("addressValues") || "{}"
+  );
+  defaultValues.state = "MN";
+
   const {
     register,
     control,
@@ -57,7 +63,7 @@ export function MyBallotEmbed({
     formState: { errors, isValid },
     getValues,
   } = useForm<AddressInput>({
-    defaultValues: JSON.parse(localStorage.getItem("addressValues") || "{}"),
+    defaultValues,
   });
 
   const [hasSubmitted, setHasSubmitted] = useState(() => {
@@ -81,6 +87,7 @@ export function MyBallotEmbed({
       electionId,
       address: {
         ...getValues(),
+        state: "MN" as State,
         country: "USA",
       },
     },
@@ -182,6 +189,7 @@ export function MyBallotEmbed({
                     rules={{ required: "State is required" }}
                     control={control}
                     error={errors?.state}
+                    disabled
                     size="medium"
                   />
                   <TextInput
