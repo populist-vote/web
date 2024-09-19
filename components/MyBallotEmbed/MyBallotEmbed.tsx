@@ -253,6 +253,7 @@ export function MyBallotEmbed({
                       key={race.id}
                       theme="light"
                       itemId={race.id}
+                      isEmbedded={true}
                     />
                   </div>
                   {race.relatedEmbeds.some(
