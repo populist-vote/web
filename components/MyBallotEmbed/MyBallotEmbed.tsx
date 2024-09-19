@@ -114,6 +114,7 @@ export function MyBallotEmbed({
                 year: "numeric",
                 month: "long",
                 day: "numeric",
+                timeZone: "UTC",
               }
             )}
           </strong>
@@ -252,7 +253,11 @@ export function MyBallotEmbed({
                           if (!origin) return null;
                           return (
                             <li key={embed.id}>
-                              <a href={origin.url}>
+                              <a
+                                href={origin.url}
+                                target={"_blank"}
+                                rel={"noopener noreferrer"}
+                              >
                                 {origin.pageTitle ?? origin.url}
                               </a>
                             </li>
