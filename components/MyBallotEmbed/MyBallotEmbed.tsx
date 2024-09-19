@@ -21,6 +21,7 @@ import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { BsChevronLeft } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
+import { useTranslation } from "next-i18next";
 
 interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
@@ -39,6 +40,7 @@ export function MyBallotEmbed({
 }) {
   const router = useRouter();
   const { locale } = router;
+  const { t } = useTranslation(["auth", "common", "embeds"]);
 
   /// Handle default language
   useEffect(() => {
@@ -133,7 +135,9 @@ export function MyBallotEmbed({
             {hasSubmitted && (
               <BsChevronLeft size={25} onClick={() => setHasSubmitted(false)} />
             )}
-            <h4 className={styles.mainTitle}>Whats on my ballot?</h4>
+            <h4 className={styles.mainTitle}>
+              {t("whats-on-my-ballot", { ns: "embeds" })}
+            </h4>
           </div>
           <LanguageSelect />
         </div>
@@ -145,15 +149,11 @@ export function MyBallotEmbed({
                 onSubmit={handleSubmit(submitForm)}
                 data-testid="my-ballot-address-form"
               >
-                <p>
-                  Enter the address where you’re registered to vote so we can
-                  show you what’s on your ballot. We do not save your personal
-                  information.
-                </p>
+                <p>{t("enter-address-explainer", { ns: "embeds" })}</p>
                 <div className={styles.firstRow}>
                   <TextInput
                     name="line1"
-                    placeholder="Street address"
+                    placeholder={t("street-address")}
                     register={register}
                     rules={{ required: "Address line 1 is required" }}
                     control={control}
@@ -164,7 +164,7 @@ export function MyBallotEmbed({
                 <div className={styles.secondRow}>
                   <TextInput
                     name="line2"
-                    placeholder="Apartment, suite, unit, building, floor, etc."
+                    placeholder={t("apartment-line")}
                     register={register}
                     control={control}
                     error={errors?.line2}
@@ -175,7 +175,7 @@ export function MyBallotEmbed({
                 <div className={styles.thirdRow}>
                   <TextInput
                     name="city"
-                    placeholder="City"
+                    placeholder={t("city")}
                     register={register}
                     rules={{ required: "City is required" }}
                     control={control}
@@ -184,7 +184,7 @@ export function MyBallotEmbed({
                   />
                   <TextInput
                     name="state"
-                    placeholder="State"
+                    placeholder={t("state")}
                     register={register}
                     rules={{ required: "State is required" }}
                     control={control}
@@ -194,7 +194,7 @@ export function MyBallotEmbed({
                   />
                   <TextInput
                     name="postalCode"
-                    placeholder="Zip code"
+                    placeholder={t("postal-code")}
                     register={register}
                     rules={{ required: "Zip code is required" }}
                     control={control}
@@ -206,7 +206,7 @@ export function MyBallotEmbed({
                   <Button
                     type="submit"
                     size="medium"
-                    label="See Whats on My Ballot"
+                    label={t("my-ballot-submit", { ns: "embeds" })}
                     disabled={!isValid}
                   />
                 </div>
@@ -235,7 +235,9 @@ export function MyBallotEmbed({
                         <Badge size="small">{race.voteType}</Badge>
                       )}
                       {race.numElect && (
-                        <Badge size="small">Elect {race.numElect}</Badge>
+                        <Badge size="small">
+                          {t("elect")} {race.numElect}
+                        </Badge>
                       )}
                     </div>
                   </div>
@@ -252,7 +254,7 @@ export function MyBallotEmbed({
                   ) && (
                     <>
                       <ul className={styles.moreInfo}>
-                        <h4>More info</h4>
+                        <h4>{t("more-info")}</h4>
                         {race.relatedEmbeds?.flatMap((embed) =>
                           embed.origins?.map((origin) => {
                             if (!origin) return null;

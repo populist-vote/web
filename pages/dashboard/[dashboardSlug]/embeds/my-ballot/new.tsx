@@ -30,7 +30,7 @@ export async function getServerSideProps({
       dashboardSlug: query.dashboardSlug,
       ...(await serverSideTranslations(
         locale,
-        ["auth", "common"],
+        ["auth", "common", "embeds"],
         nextI18nextConfig
       )),
     },

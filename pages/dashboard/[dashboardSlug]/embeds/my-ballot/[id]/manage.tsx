@@ -30,7 +30,7 @@ export async function getServerSideProps({
       id: query.id,
       ...(await serverSideTranslations(
         locale,
-        ["auth", "common"],
+        ["auth", "common", "embeds"],
         nextI18nextConfig
       )),
     },

@@ -112,7 +112,7 @@ function MyBallotEmbedRenderOptionsForm({
   defaultLanguage: string;
   handleDefaultLanguageChange: (embedType: EmbedType, value: string) => void;
 }) {
-  const availableLanguageCodes = ["en", "es"];
+  const availableLanguageCodes = LANGUAGES.map((lang) => lang.code);
   const availableLanguages = LANGUAGES.filter(
     (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
   );
