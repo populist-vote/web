@@ -58,6 +58,7 @@ export function CandidateGuideEmbed({
         scroll: false,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderOptions?.defaultLanguage]);
 
   const { data: embedData, isLoading: embedLoading } =

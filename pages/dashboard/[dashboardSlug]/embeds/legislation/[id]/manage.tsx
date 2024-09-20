@@ -78,7 +78,11 @@ function EmbedById({
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={title} embedType={EmbedType.Legislation} />
+      <EmbedHeader
+        title={title}
+        embedType={EmbedType.Legislation}
+        backLink={`/dashboard/${dashboardSlug}/embeds/legislation`}
+      />
       <EmbedPage id={id} embedType={EmbedType.Legislation} />
     </>
   );

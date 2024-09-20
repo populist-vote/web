@@ -76,7 +76,11 @@ function EmbedById({
     <LoaderFlag />
   ) : (
     <>
-      <EmbedHeader title={embed?.name || ""} embedType={EmbedType.MyBallot} />
+      <EmbedHeader
+        title={embed?.name || ""}
+        embedType={EmbedType.MyBallot}
+        backLink={`/dashboard/${dashboardSlug}/embeds/my-ballot`}
+      />
       <EmbedPage id={id} embedType={EmbedType.MyBallot} />
     </>
   );

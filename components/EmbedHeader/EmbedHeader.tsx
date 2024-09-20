@@ -17,7 +17,7 @@ export function EmbedHeader({
     <header className={styles.container}>
       <button
         onClick={() => (backLink ? router.push(backLink) : router.back())}
-        onKeyDown={() => router.back()}
+        onKeyDown={() => (backLink ? router.push(backLink) : router.back())}
       >
         <BiChevronLeft size={20} />
         {embedType.replace("_", " ")}

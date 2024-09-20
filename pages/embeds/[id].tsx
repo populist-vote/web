@@ -144,6 +144,7 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
           embedId={embedId}
           origin={resolvedOrigin}
           electionId={electionId}
+          renderOptions={renderOptions}
         />
       );
     default:
