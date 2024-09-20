@@ -24,7 +24,7 @@ import { useRouter } from "next/router";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { useTranslation } from "next-i18next";
 
-interface MyBallotEmbedRenderOptions {
+export interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
 }
 

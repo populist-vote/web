@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { BillWidgetRenderOptions } from "components/BillWidget/BillWidget";
 import { Checkbox } from "components/Checkbox/Checkbox";
+import { MyBallotEmbedRenderOptions } from "components/MyBallotEmbed/MyBallotEmbed";
 import { PoliticianEmbedRenderOptions } from "components/PoliticianEmbed/PoliticianEmbed";
 import { Select } from "components/Select/Select";
 import { TextInput } from "components/TextInput/TextInput";
@@ -20,7 +21,10 @@ import { toast } from "react-toastify";
 import { LANGUAGES } from "utils/constants";
 
 type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
-  renderOptions: BillWidgetRenderOptions | PoliticianEmbedRenderOptions;
+  renderOptions:
+    | BillWidgetRenderOptions
+    | PoliticianEmbedRenderOptions
+    | MyBallotEmbedRenderOptions;
 };
 
 function BillEmbedOptionsForm({
@@ -177,6 +181,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         endorsements: embed?.attributes?.renderOptions?.endorsements,
         socials: embed?.attributes?.renderOptions?.socials,
         publicVoting: embed?.attributes?.renderOptions?.publicVoting,
+        defaultLanguage: embed?.attributes?.renderOptions?.defaultLanguage,
       },
     },
   });
