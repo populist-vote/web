@@ -1,5 +1,9 @@
-import { EmbedIndex, Layout } from "components";
-import { EmbedType, useMyBallotEmbedsByOrganizationQuery } from "generated";
+import { Badge, EmbedIndex, Layout } from "components";
+import {
+  EmbedResult,
+  EmbedType,
+  useMyBallotEmbedsByOrganizationQuery,
+} from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { SupportedLocale } from "types/global";
@@ -8,6 +12,7 @@ import { useRouter } from "next/router";
 import { ReactNode, useMemo } from "react";
 import { DashboardTopNav } from "../..";
 import useOrganizationStore from "hooks/useOrganizationStore";
+import { ColumnDef } from "@tanstack/react-table";
 
 export async function getServerSideProps({
   query,
@@ -34,11 +39,28 @@ export default function MyBallotEmbedIndex({
   dashboardSlug: string;
 }) {
   const router = useRouter();
-  const myBallotColumns = useMemo(
+  const myBallotColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
+      {
+        accessorKey: "name",
+        header: "Embed Name",
+      },
       {
         accessorKey: "election.title",
         header: "Election",
+      },
+      {
+        accessorKey: "attributes.renderOptions.defaultLanguage",
+        header: "Default Language",
+        cell: (info) => {
+          if (info.getValue)
+            return (
+              <Badge
+                theme="aqua"
+                label={(info.getValue() as string).toUpperCase()}
+              />
+            );
+        },
       },
     ],
     []

@@ -120,6 +120,8 @@ query CandidateGuideSubmissionsByRaceId($candidateGuideId: ID!, $raceId: ID!) {
 query MyBallotEmbedsByOrganization($id: ID!) {
   embedsByOrganization(organizationId: $id, filter: { embedType: MY_BALLOT }) {
     id
+    name
+    attributes
     election {
       id
       title
