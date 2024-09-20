@@ -59,6 +59,7 @@ function Submissions() {
     raceType,
   } = router.query;
   const { organizationId } = useOrganizationStore();
+  console.log("organizationId", organizationId);
   const [searchValue, setSearchValue] = useState(search as string);
 
   const { data, isLoading } = useSubmissionsQuery(

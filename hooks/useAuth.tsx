@@ -41,6 +41,8 @@ export function useAuth({
   const [isLoading, setIsLoading] = useState(false);
   const user = useContext(AuthContext);
   const hasOrgs = user?.organizations.length > 0;
+  const { initializeOrganization, setAvailableOrganizations } =
+    useOrganizationStore();
 
   const { data: userData, isLoading: isAvailableOrgsDataLoading } =
     useAvailableOrganizationsByUserQuery(
@@ -54,13 +56,19 @@ export function useAuth({
 
   useEffect(() => {
     if (!isAvailableOrgsDataLoading && userData) {
-      useOrganizationStore.setState({
-        availableOrganizations:
-          userData.userProfile.availableOrganizations || [],
-        organizationId: userData.userProfile.availableOrganizations[0]?.id,
-      });
+      setAvailableOrganizations(
+        userData.userProfile.availableOrganizations || []
+      );
+      initializeOrganization(
+        userData.userProfile.availableOrganizations[0]?.id as string
+      );
     }
-  }, [userData, isAvailableOrgsDataLoading]);
+  }, [
+    userData,
+    initializeOrganization,
+    isAvailableOrgsDataLoading,
+    setAvailableOrganizations,
+  ]);
 
   useEffect(() => {
     setIsLoading(true);

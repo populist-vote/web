@@ -8,13 +8,28 @@ interface OrganizationState {
   setAvailableOrganizations: (
     organizations: Partial<OrganizationResult>[]
   ) => void;
+  initializeOrganization: (orgId: string) => void;
 }
 
 const useOrganizationStore = create<OrganizationState>((set) => ({
   organizationId: null,
-  setOrganizationId: (id) => set({ organizationId: id }),
   availableOrganizations: [],
   setAvailableOrganizations: (orgs) => set({ availableOrganizations: orgs }),
+  // Set organizationId and persist it
+  setOrganizationId: (id: string) => {
+    localStorage.setItem("currentOrganizationId", id);
+    set({ organizationId: id });
+  },
+
+  // Load from local storage when app initializes
+  initializeOrganization: (orgId) => {
+    const savedOrgId = localStorage.getItem("currentOrganizationId");
+    if (savedOrgId) {
+      set({ organizationId: savedOrgId });
+    } else {
+      set({ organizationId: orgId });
+    }
+  },
 }));
 
 export default useOrganizationStore;
