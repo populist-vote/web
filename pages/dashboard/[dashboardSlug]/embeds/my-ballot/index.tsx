@@ -53,11 +53,11 @@ export default function MyBallotEmbedIndex({
         accessorKey: "attributes.renderOptions.defaultLanguage",
         header: "Default Language",
         cell: (info) => {
-          if (info.getValue)
+          if (info.getValue())
             return (
               <Badge
                 theme="aqua"
-                label={(info.getValue() as string).toUpperCase()}
+                label={(info.getValue() as string)?.toUpperCase()}
               />
             );
         },
