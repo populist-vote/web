@@ -18,8 +18,8 @@ export interface LanguageCode {
 export const LANGUAGES: LanguageCode[] = [
   { code: "en", display: "English" },
   { code: "es", display: "Español" },
-  { code: "so", display: "Somali" },
-  { code: "hmn", display: "Hmong" },
+  { code: "so", display: "Soomaali" },
+  { code: "hmn", display: "Hmoob" },
 ];
 
 // Urls
