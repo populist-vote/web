@@ -13,7 +13,11 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import { Avatar, Logo, LogoBeta, Button } from "components";
 import clsx from "clsx";
 import { useTranslation } from "next-i18next";
-import { AuthTokenResult, useOrganizationBySlugQuery } from "generated";
+import {
+  AuthTokenResult,
+  useAvailableOrganizationsByUserQuery,
+  useOrganizationBySlugQuery,
+} from "generated";
 import { LuChevronsUpDown } from "react-icons/lu";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import useOrganizationStore from "hooks/useOrganizationStore";
@@ -225,7 +229,19 @@ function DashboardLink() {
   const router = useRouter();
   const dashboardSlug = router.query.dashboardSlug;
 
-  const { availableOrganizations, setOrganizationId } = useOrganizationStore();
+  const { setOrganizationId } = useOrganizationStore();
+  const { user } = useAuth();
+  const { data: availableOrgsData, isLoading: isAvailableOrgsDataLoading } =
+    useAvailableOrganizationsByUserQuery(
+      {
+        userId: user?.id,
+      },
+      {
+        enabled: !!user,
+      }
+    );
+  const availableOrganizations =
+    availableOrgsData?.userProfile.availableOrganizations || [];
 
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useOrganizationBySlugQuery(
@@ -250,7 +266,12 @@ function DashboardLink() {
     await router.push(`/dashboard/${dashboardSlug}`);
   };
 
-  if (!availableOrganizations || isOrganizationDataLoading) return null;
+  if (
+    !availableOrganizations ||
+    isOrganizationDataLoading ||
+    isAvailableOrgsDataLoading
+  )
+    return null;
 
   return (
     <Link href={`/dashboard/${organization?.slug}`}>
