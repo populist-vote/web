@@ -59,7 +59,6 @@ function Submissions() {
     raceType,
   } = router.query;
   const { organizationId } = useOrganizationStore();
-  console.log("organizationId", organizationId);
   const [searchValue, setSearchValue] = useState(search as string);
 
   const { data, isLoading } = useSubmissionsQuery(
@@ -84,7 +83,14 @@ function Submissions() {
     });
 
   const submissions = data?.submissions || [];
-  const columns = useMemo(() => submissionsColumns({}), []);
+  const columns = useMemo(
+    () =>
+      submissionsColumns({
+        dashboardSlug: router.query.dashboardSlug as string,
+        router,
+      }),
+    []
+  );
 
   const hasFilters =
     !!searchValue || !!raceType || !!county || state !== defaultState;

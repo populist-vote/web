@@ -10,6 +10,7 @@ query Submissions($organizationId: ID!, $filter: QuestionSubmissionsFilter!) {
     createdAt
     updatedAt
     candidateGuideEmbed {
+      id
       race {
         title
       }

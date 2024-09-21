@@ -48,6 +48,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import useStreamResponse from "hooks/useStreamResponse";
 import { HiOutlineSparkles } from "react-icons/hi";
+import { RiListSettingsFill } from "react-icons/ri";
 
 export async function getServerSideProps({
   query,
@@ -70,12 +71,20 @@ export async function getServerSideProps({
 
 export const submissionsColumns: ({
   questionId,
+  dashboardSlug,
+  router,
 }: {
   questionId?: string;
+  dashboardSlug?: string;
+  router?: any;
 }) => ColumnDef<Partial<QuestionSubmissionResult>>[] = ({
   questionId,
+  dashboardSlug,
+  router,
 }: {
   questionId?: string;
+  dashboardSlug?: string;
+  router?: any;
 } = {}) => [
   {
     id: "raceTitle",
@@ -185,6 +194,23 @@ export const submissionsColumns: ({
             }
             candidateId={info.row.original.politician?.id as string}
           />
+        )}
+        {info.row.original.candidateGuideEmbed?.id && (
+          <div className={styles.flexRight}>
+            <Tooltip content="Manage Embed">
+              <button
+                className={styles.iconButton}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  await router.push(
+                    `/dashboard/${dashboardSlug}/embeds/candidate-guide/${info.row.original.candidateGuideEmbed?.id}/manage`
+                  );
+                }}
+              >
+                <RiListSettingsFill color="var(--blue-text-light)" />
+              </button>
+            </Tooltip>
+          </div>
         )}
       </div>
     ),
