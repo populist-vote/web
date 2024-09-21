@@ -150,7 +150,7 @@ export const submissionsColumns: ({
   {
     header: "Last Update",
     accessorKey: "updatedAt",
-    size: 200,
+    size: 250,
     cell: (info) => getRelativeTimeString(new Date(info.getValue() as string)),
   },
   {
