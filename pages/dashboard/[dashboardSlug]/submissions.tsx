@@ -123,7 +123,10 @@ function Submissions() {
             className={styles.flexBetween}
             style={{ gap: "1rem", width: "100%" }}
           >
-            <div className={styles.flexBetween} style={{ gap: "1rem" }}>
+            <div
+              className={styles.flexBetween}
+              style={{ gap: "1rem", flexWrap: "wrap" }}
+            >
               <PoliticalScopeFilters />
               <Divider vertical />
               <StateSelect

@@ -37,6 +37,8 @@ mutation UpsertQuestionSubmission(
   ) {
     id
     response
+    translations
+    editorial
     respondent {
       name
       email

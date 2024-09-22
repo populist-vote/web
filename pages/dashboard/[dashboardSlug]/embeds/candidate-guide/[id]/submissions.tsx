@@ -25,6 +25,11 @@ import {
   useCopyQuestionSubmissionMutation,
   PoliticalParty,
   useQuestionByIdQuery,
+  UpsertQuestionSubmissionInput,
+  useSubmissionsQuery,
+  State,
+  PoliticalScope,
+  RaceType,
 } from "generated";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -82,7 +87,9 @@ export const submissionsColumns: ({
   dashboardSlug,
   router,
 }: {
+  candidateGuideId?: string;
   questionId?: string;
+  raceId?: string;
   dashboardSlug?: string;
   router?: any;
 } = {}) => [
@@ -173,47 +180,50 @@ export const submissionsColumns: ({
     header: "Actions",
     accessorKey: "id",
     size: 25,
-    cell: (info) => (
-      <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
-        <ResponseEditAction
-          questionId={
-            (questionId as string) || (info.row.original.questionId as string)
-          }
-          row={info as CellContext<QuestionSubmissionResult, unknown>}
-        />
-        <EditorialEditAction
-          questionId={
-            (questionId as string) || (info.row.original.questionId as string)
-          }
-          row={info as CellContext<QuestionSubmissionResult, unknown>}
-        />
-        {!info.row.original.id && questionId && (
-          <ExistingQuestionSubmission
+    cell: (info) => {
+      return (
+        <div className={styles.flexEvenly} style={{ gap: "1rem" }}>
+          <ResponseEditAction
             questionId={
               (questionId as string) || (info.row.original.questionId as string)
             }
-            candidateId={info.row.original.politician?.id as string}
+            row={info as CellContext<QuestionSubmissionResult, unknown>}
           />
-        )}
-        {info.row.original.candidateGuideEmbed?.id && (
-          <div className={styles.flexRight}>
-            <Tooltip content="Manage Embed">
-              <button
-                className={styles.iconButton}
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  await router.push(
-                    `/dashboard/${dashboardSlug}/embeds/candidate-guide/${info.row.original.candidateGuideEmbed?.id}/manage`
-                  );
-                }}
-              >
-                <RiListSettingsFill color="var(--blue-text-light)" />
-              </button>
-            </Tooltip>
-          </div>
-        )}
-      </div>
-    ),
+          <EditorialEditAction
+            questionId={
+              (questionId as string) || (info.row.original.questionId as string)
+            }
+            row={info as CellContext<QuestionSubmissionResult, unknown>}
+          />
+          {!info.row.original.id && questionId && (
+            <ExistingQuestionSubmission
+              questionId={
+                (questionId as string) ||
+                (info.row.original.questionId as string)
+              }
+              candidateId={info.row.original.politician?.id as string}
+            />
+          )}
+          {info.row.original.candidateGuideEmbed?.id && (
+            <div className={styles.flexRight}>
+              <Tooltip content="Manage Embed">
+                <button
+                  className={styles.iconButton}
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    await router.push(
+                      `/dashboard/${dashboardSlug}/embeds/candidate-guide/${info.row.original.candidateGuideEmbed?.id}/manage`
+                    );
+                  }}
+                >
+                  <RiListSettingsFill color="var(--blue-text-light)" />
+                </button>
+              </Tooltip>
+            </div>
+          )}
+        </div>
+      );
+    },
   },
 ];
 
@@ -402,6 +412,7 @@ export default function CandidateGuideEmbedPageSubmissions() {
 
 function ResponseEditAction({
   questionId,
+
   row,
 }: {
   questionId: string;
@@ -431,7 +442,57 @@ function ResponseEditAction({
 
   const question = questionData?.questionById;
 
-  const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation();
+  const { organizationId } = useOrganizationStore();
+
+  const {
+    query = null,
+    scope: politicalScope = null,
+    raceType = null,
+    state = null,
+    county = null,
+  } = useRouter().query as {
+    query: string;
+    scope: PoliticalScope | null;
+    raceType: RaceType | null;
+    state: State | null;
+    county: string | null;
+  };
+
+  const upsertQuestionSubmission = useUpsertQuestionSubmissionMutation({
+    onMutate: async (data) => {
+      const questionSubmissionInput =
+        data.questionSubmissionInput as UpsertQuestionSubmissionInput;
+
+      const queryKey = useSubmissionsQuery.getKey({
+        organizationId: organizationId as string,
+        filter: {
+          query,
+          politicalScope,
+          raceType,
+          state,
+          county,
+        },
+      });
+
+      await queryClient.cancelQueries({ queryKey });
+      const previousValue = queryClient.getQueryData(queryKey);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      queryClient.setQueryData(queryKey, (oldData: any) => {
+        const updatedData = oldData?.submissions?.map((submission: any) => {
+          if (submission.id === questionSubmissionInput.id) {
+            const update = {
+              ...submission,
+              ...questionSubmissionInput,
+            };
+            return update;
+          }
+          return submission;
+        });
+        return { submissions: updatedData };
+      });
+      return { previousValue };
+    },
+  });
 
   const queryClient = useQueryClient();
 
@@ -457,13 +518,10 @@ function ResponseEditAction({
             await queryClient.invalidateQueries({
               queryKey: ["CandidateGuideSubmissionsByRaceId"],
             });
-            await queryClient.invalidateQueries({
-              queryKey: ["Submissions"],
-            });
             toast.success("Submission updated successfully");
           },
-          onError: () => {
-            toast.error("Failed to update submission");
+          onError: (error) => {
+            toast.error(`Failed to update submission: ${error}`);
           },
         }
       );

@@ -1,6 +1,7 @@
 import { Select } from "components/Select/Select";
 import { State } from "generated";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import states from "utils/states";
 
 export default function StateSelect({
@@ -10,9 +11,30 @@ export default function StateSelect({
   defaultState?: State | "FEDERAL";
   handleStateChange: (state: State) => void;
 }) {
+  const router = useRouter();
   const [state, setState] = useState<State | "FEDERAL">(
-    defaultState || "FEDERAL"
+    (router.query.state as State) || defaultState || "FEDERAL"
   );
+
+  useEffect(() => {
+    if (router.query.state !== state) {
+      void router.push(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, state },
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
+  }, [state, router]);
+
+  useEffect(() => {
+    if (router.query.state && router.query.state !== state) {
+      setState(router.query.state as State);
+    }
+  }, [router.query.state, state]);
+
   const stateOptions = [
     ...Object.entries(states).map(([key, value]) => ({
       label: value,

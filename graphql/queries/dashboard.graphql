@@ -312,6 +312,9 @@ query RecentCandidateGuideQuestionSubmissions(
     }
     candidateGuideEmbed {
       id
+      race {
+        id
+      }
     }
     question {
       id

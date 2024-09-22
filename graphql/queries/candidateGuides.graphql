@@ -12,6 +12,7 @@ query Submissions($organizationId: ID!, $filter: QuestionSubmissionsFilter!) {
     candidateGuideEmbed {
       id
       race {
+        id
         title
       }
     }
