@@ -5,6 +5,7 @@ import { TextInput } from "components/TextInput/TextInput";
 import { Button } from "components/Button/Button";
 import {
   AddressInput,
+  EmbedResult,
   EmbedType,
   RaceResult,
   State,
@@ -23,6 +24,8 @@ import { BsChevronLeft } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { useTranslation } from "next-i18next";
+import { splitRaces } from "utils/data";
+import { FlagColor, FlagSection } from "components/FlagSection/FlagSection";
 
 export interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
@@ -108,12 +111,16 @@ export function MyBallotEmbed({
 
   useEmbedResizer({ origin, embedId });
 
-  const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
-    const key = embedType.toLowerCase().replace("_", "-");
-    return t(key, { ns: "embeds" });
-  };
-
   if (electionIsLoading) return null;
+
+  const races = data?.electionById.racesByAddress as RaceResult[];
+
+  const {
+    federal: federalRacesGroupedByOffice,
+    state: stateRacesGroupedByOffice,
+    local: localRacesGroupedByOffice,
+    judicial: judicialRacesGroupedByOffice,
+  } = splitRaces(races);
 
   return (
     <div
@@ -225,71 +232,120 @@ export function MyBallotEmbed({
               {data.electionById.racesByAddress.length === 0 && (
                 <div className={styles.noResults}>No Results</div>
               )}
-              {data.electionById.racesByAddress.map((race) => (
-                <div className={styles.raceGroup} key={race.id}>
-                  <div
-                    className={styles.flexBetween}
-                    style={{ marginBottom: "0.5rem" }}
-                  >
-                    <div className={styles.raceHeader}>
-                      <h3>{race.office.name}</h3>
-                      <Divider vertical color="var(--grey-light)" />
-                      <h4>{race.office.subtitle}</h4>
-                    </div>
-                    <div className={styles.flexBetween}>
-                      {race.voteType != VoteType.Plurality && (
-                        <Badge size="small">{race.voteType}</Badge>
-                      )}
-                      {race.numElect && (
-                        <Badge size="small">
-                          {t("elect")} {race.numElect}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                  <div className={styles.raceContainer}>
-                    <Race
-                      race={race as RaceResult}
-                      key={race.id}
-                      theme="light"
-                      itemId={race.id}
-                      isEmbedded={true}
-                    />
-                  </div>
-                  {race.relatedEmbeds.some(
-                    (embed) => embed.origins.length > 0
-                  ) && (
-                    <>
-                      <ul className={styles.moreInfo}>
-                        <h4>{t("more-info", { ns: "embeds" })}</h4>
-                        {race.relatedEmbeds?.flatMap((embed) =>
-                          embed.origins?.map((origin) => {
-                            if (!origin) return null;
-                            return (
-                              <li key={`${embed.id}-${origin.url}`}>
-                                <a
-                                  href={origin.url}
-                                  target={"_blank"}
-                                  rel={"noopener noreferrer"}
-                                >
-                                  {getEmbedTypeTranslationKey(embed.embedType)}
-                                  {" — "}
-                                  {origin.pageTitle ?? origin.url}{" "}
-                                </a>
-                              </li>
-                            );
-                          })
-                        )}
-                      </ul>
-                    </>
-                  )}
-                </div>
-              ))}
+              {Object.keys(federalRacesGroupedByOffice).length > 0 && (
+                <RaceSection
+                  officeRaces={federalRacesGroupedByOffice}
+                  label="Federal"
+                />
+              )}
+              {Object.keys(stateRacesGroupedByOffice).length > 0 && (
+                <RaceSection
+                  officeRaces={stateRacesGroupedByOffice}
+                  label="State"
+                />
+              )}
+              {Object.keys(localRacesGroupedByOffice).length > 0 && (
+                <RaceSection
+                  officeRaces={localRacesGroupedByOffice}
+                  label="Local"
+                />
+              )}
+              {Object.keys(judicialRacesGroupedByOffice).length > 0 && (
+                <RaceSection
+                  officeRaces={judicialRacesGroupedByOffice}
+                  label="Judicial"
+                />
+              )}
             </div>
           )}
         </div>
       </main>
       <WidgetFooter />
     </div>
+  );
+}
+
+function RaceSection({
+  officeRaces,
+  label,
+  color = "grey",
+}: {
+  officeRaces: Record<string, RaceResult[]>;
+  label: string;
+  color?: FlagColor;
+}) {
+  const { t } = useTranslation(["auth", "common", "embeds"]);
+  const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
+    const key = embedType.toLowerCase().replace("_", "-");
+    return t(key, { ns: "embeds" });
+  };
+
+  return (
+    <FlagSection {...{ label, color }}>
+      {Object.values(officeRaces).map((races: RaceResult[]) => {
+        // TODO - handle multiple office races (primaries and the weird special election cases)
+        const race = races[0] as RaceResult;
+        return (
+          <div className={styles.raceGroup} key={race.id}>
+            <div
+              className={styles.flexBetween}
+              style={{ marginBottom: "0.5rem" }}
+            >
+              <div className={styles.raceHeader}>
+                <h3>{race.office.name}</h3>
+                <Divider vertical color="var(--grey-light)" />
+                <h4>{race.office.subtitle}</h4>
+              </div>
+              <div className={styles.flexBetween}>
+                {race.voteType != VoteType.Plurality && (
+                  <Badge size="small">{race.voteType}</Badge>
+                )}
+                {race.numElect && (
+                  <Badge size="small" style={{ textTransform: "uppercase" }}>
+                    {t("elect")} {race.numElect}
+                  </Badge>
+                )}
+              </div>
+            </div>
+            <div className={styles.raceContainer}>
+              <Race
+                race={race as RaceResult}
+                key={race.id}
+                theme="light"
+                itemId={race.id}
+                isEmbedded={true}
+              />
+            </div>
+            {race.relatedEmbeds.some(
+              (embed: EmbedResult) => embed.origins.length > 0
+            ) && (
+              <>
+                <ul className={styles.moreInfo}>
+                  <h4>{t("more-info", { ns: "embeds" })}</h4>
+                  {race.relatedEmbeds?.flatMap((embed: EmbedResult) =>
+                    embed.origins?.map((origin) => {
+                      if (!origin) return null;
+                      return (
+                        <li key={`${embed.id}-${origin.url}`}>
+                          <a
+                            href={origin.url}
+                            target={"_blank"}
+                            rel={"noopener noreferrer"}
+                          >
+                            {getEmbedTypeTranslationKey(embed.embedType)}
+                            {" — "}
+                            {origin.pageTitle ?? origin.url}{" "}
+                          </a>
+                        </li>
+                      );
+                    })
+                  )}
+                </ul>
+              </>
+            )}
+          </div>
+        );
+      })}
+    </FlagSection>
   );
 }

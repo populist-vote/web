@@ -7,7 +7,13 @@ import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
 import { SystemRoleType } from "generated";
 
-export type FlagColor = "salmon" | "green" | "yellow" | "aqua" | "violet";
+export type FlagColor =
+  | "salmon"
+  | "green"
+  | "yellow"
+  | "aqua"
+  | "violet"
+  | "grey";
 
 interface FlagSectionProps {
   label: string;

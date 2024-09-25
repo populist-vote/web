@@ -25,6 +25,17 @@
     text-transform: uppercase;
   }
 
+  &.grey {
+    @include for-tablet-portrait-up {
+      border-left: 1px solid $grey-light;
+    }
+
+    .sectionTitle {
+      background: $grey-light;
+      color: $background-primary;
+    }
+  }
+
   &.green {
     @include for-tablet-portrait-up {
       border-left: 1px solid $green;
