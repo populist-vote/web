@@ -160,5 +160,12 @@
 }
 
 .raceGroup:last-child {
+  margin-bottom: 0;
   border-bottom: none;
+}
+
+.container {
+  .sectionTitle {
+    font-size: 12px !important;
+  }
 }

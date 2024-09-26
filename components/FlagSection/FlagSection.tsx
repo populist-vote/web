@@ -19,18 +19,27 @@ interface FlagSectionProps {
   label: string;
   children: React.ReactNode;
   color?: FlagColor;
+  size?: string;
   hideFlagForMobile?: boolean;
   style?: React.CSSProperties;
 }
 
 function FlagSection(props: FlagSectionProps): JSX.Element {
-  const { label, children, color, hideFlagForMobile = false, style } = props;
+  const {
+    label,
+    children,
+    color,
+    size,
+    hideFlagForMobile = false,
+    style,
+  } = props;
   const router = useRouter();
   const createVideoUrl = `${router.asPath}/create-video`;
 
   const styleClasses = clsx(styles.container, {
     [styles.hideFlagForMobile as string]: hideFlagForMobile,
     ...(!!color ? { [styles[color] as string]: true } : {}),
+    [styles[size ?? "large"] as string]: true,
   });
 
   const { user } = useAuth();

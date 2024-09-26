@@ -9,7 +9,7 @@ export const groupBy = <T, K extends keyof any>(
   list: T[],
   getKey: (item: T) => K
 ) =>
-  list.reduce(
+  list?.reduce(
     (previous, currentItem) => {
       const group = getKey(currentItem);
       if (!previous[group]) previous[group] = [];
@@ -24,7 +24,7 @@ export const filterRaces = (
   politicalScope: PoliticalScope
 ) => {
   return groupBy(
-    races.filter(
+    races?.filter(
       (race) =>
         race.office.politicalScope === politicalScope &&
         !(
@@ -38,7 +38,7 @@ export const filterRaces = (
 
 export const splitRaces = (races: RaceResult[]) => {
   const judicial = groupBy(
-    races.filter(
+    races?.filter(
       (race) =>
         race.office.title.includes("Judge") ||
         race.office.title.includes("Justice")

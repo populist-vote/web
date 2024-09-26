@@ -4,6 +4,12 @@ schema {
   subscription: Subscription
 }
 
+"""
+Indicates that an Input Object is a OneOf Input Object (and thus requires
+                        exactly one of its field be provided)
+"""
+directive @oneOf on INPUT_OBJECT
+
 type AddressExtendedMNResult {
   countyCode: String
   countyCommissionerDistrict: String
@@ -511,7 +517,7 @@ type DeleteVotingGuideResult {
   id: ID!
 }
 
-enum District {
+enum DistrictType {
   CITY
   COUNTY
   HOSPITAL
@@ -860,7 +866,7 @@ type OfficeResult {
   """
   The type of district, used to determine which field is referenced for the district
   """
-  districtType: District
+  districtType: DistrictType
   """National, State, County, City, or District"""
   electionScope: ElectionScope!
   hospitalDistrict: String
@@ -1840,7 +1846,7 @@ input UpsertOfficeInput {
   chamber: Chamber
   county: String
   district: String
-  districtType: District
+  districtType: DistrictType
   electionScope: ElectionScope
   hospitalDistrict: String
   id: UUID

@@ -268,10 +268,12 @@ export function MyBallotEmbed({
 function RaceSection({
   officeRaces,
   label,
+  size = "small",
   color = "grey",
 }: {
   officeRaces: Record<string, RaceResult[]>;
   label: string;
+  size?: string;
   color?: FlagColor;
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
@@ -281,7 +283,7 @@ function RaceSection({
   };
 
   return (
-    <FlagSection {...{ label, color }}>
+    <FlagSection {...{ label, size, color }}>
       {Object.values(officeRaces).map((races: RaceResult[]) => {
         // TODO - handle multiple office races (primaries and the weird special election cases)
         const race = races[0] as RaceResult;
