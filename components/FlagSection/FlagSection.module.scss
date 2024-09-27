@@ -25,6 +25,13 @@
       padding: 0 40px;
       text-transform: uppercase;
     }
+    .content {
+      padding: 1rem;
+
+      @include for-tablet-portrait-up {
+        padding: 2rem;
+      }
+    }
   }
 
   &.small {
@@ -40,6 +47,13 @@
       border-radius: 0 40px 40px 0;
       padding: 0 20px;
       text-transform: uppercase;
+    }
+    .content {
+      padding: 1rem;
+
+      @include for-tablet-portrait-up {
+        padding: 2rem 2rem 0.5rem;
+      }
     }
   }
 
@@ -116,26 +130,6 @@
     display: flex;
     justify-content: space-between;
     padding: 0;
-  }
-
-  &.large {
-    .content {
-      padding: 1rem;
-
-      @include for-tablet-portrait-up {
-        padding: 2rem;
-      }
-    }
-  }
-
-  &.small {
-    .content {
-      padding: 1rem;
-
-      @include for-tablet-portrait-up {
-        padding: 2rem 2rem 0.5rem;
-      }
-    }
   }
 }
 
