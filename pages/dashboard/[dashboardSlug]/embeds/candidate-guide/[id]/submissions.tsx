@@ -176,6 +176,20 @@ export const submissionsColumns: ({
             minute: "numeric",
           })
         : null,
+    sortingFn: (rowA, rowB, columnId) => {
+      const responseA = rowA.original.response;
+      const responseB = rowB.original.response;
+      if (responseA && !responseB) return 1;
+      if (!responseA && responseB) return -1;
+      const dateA = rowA.getValue(columnId);
+      const dateB = rowB.getValue(columnId);
+      if (!dateA) return 1;
+      if (!dateB) return -1;
+      return (
+        new Date(dateA as string).getTime() -
+        new Date(dateB as string).getTime()
+      );
+    },
   },
   {
     header: "Actions",
