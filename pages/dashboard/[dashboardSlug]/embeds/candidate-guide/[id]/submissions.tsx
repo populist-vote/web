@@ -163,6 +163,7 @@ export const submissionsColumns: ({
   {
     header: "Submitted At",
     accessorKey: "createdAt",
+    sortUndefined: -1,
     size: 275,
     cell: (info) =>
       // Only show date if response exists
