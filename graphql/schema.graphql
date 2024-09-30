@@ -1042,6 +1042,7 @@ type PoliticalParty {
   id: ID!
   name: String!
   notes: String
+  slug: String!
 }
 
 enum PoliticalScope {

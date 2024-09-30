@@ -413,7 +413,6 @@ export default function CandidateGuideEmbedPageSubmissions() {
 
 function ResponseEditAction({
   questionId,
-
   row,
 }: {
   questionId: string;
@@ -527,6 +526,7 @@ function ResponseEditAction({
         }
       );
     } catch (error) {
+      console.error(error);
       toast.error(`Form submission error`);
     } finally {
       if (!upsertQuestionSubmission.isPending) setIsOpen(false);
@@ -718,7 +718,7 @@ function EditorialEditAction({
         {
           questionSubmissionInput: {
             id: row.row.original?.id || null,
-            questionId: row.row.original.question.id,
+            questionId: questionId || row.row.original.questionId,
             candidateId: row.row.original.politician?.id,
             response: row.row.original.response || "",
             editorial: data.editorial,
@@ -743,6 +743,7 @@ function EditorialEditAction({
         }
       );
     } catch (error) {
+      console.error(error);
       toast.error(`Form submission error`);
     } finally {
       if (!upsertQuestionSubmission.isPending) setIsOpen(false);

@@ -43,7 +43,7 @@ import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
-import { downloadCsv } from "utils/strings";
+import { downloadCsv, titleCase } from "utils/strings";
 import { Tooltip } from "components/Tooltip/Tooltip";
 import { LANGUAGES } from "utils/constants";
 
@@ -198,7 +198,12 @@ export default function CandidateGuideEmbedPage({
       {
         header: "Email",
         accessorKey: "email",
-        cell: (row) => <EmailCell row={row} />,
+        cell: (row) => <ContactCell row={row} contactType="email" />,
+      },
+      {
+        header: "Phone",
+        accessorKey: "phone",
+        cell: (row) => <ContactCell row={row} contactType="phone" />,
       },
       {
         header: "Form Link",
@@ -456,7 +461,13 @@ export default function CandidateGuideEmbedPage({
   );
 }
 
-function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
+function ContactCell({
+  row,
+  contactType,
+}: {
+  row: CellContext<PoliticianResult, unknown>;
+  contactType: "email" | "phone";
+}) {
   const { user } = useAuth();
   const canEdit =
     user?.systemRole == SystemRoleType.Staff ||
@@ -468,9 +479,10 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<{ email: string }>({
+  } = useForm<{ email: string; phone: string }>({
     defaultValues: {
-      email: row.getValue() as string,
+      email: row.row.original.email as string,
+      phone: row.row.original.phone as string,
     },
   });
 
@@ -478,7 +490,9 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
 
   const queryClient = useQueryClient();
 
-  const onSubmit = (data: { email: string }) => {
+  const onSubmit = (data: { email: string; phone: string }) => {
+    const email = data.email.trim() === "" ? null : data.email.trim();
+    const phone = data.phone.trim() === "" ? null : data.phone.trim();
     try {
       upsertPolitician.mutate(
         {
@@ -486,16 +500,17 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
           slug: "",
           input: {
             id: row.row.original.id,
-            email: data.email as string,
+            email,
+            phone,
           },
         },
         {
           onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["RaceById"] });
-            toast.success("Email updated successfully");
+            toast.success(`${titleCase(contactType)} updated successfully`);
           },
           onError: () => {
-            toast.error("Failed to update email");
+            toast.error(`Failed to update ${contactType}`);
           },
         }
       );
@@ -518,36 +533,55 @@ function EmailCell({ row }: { row: CellContext<PoliticianResult, unknown> }) {
         <span style={{ marginRight: "1rem" }}>{row.getValue() as string}</span>
       )}
       {canEdit && (
-        <Tooltip content="Edit Email">
+        <Tooltip content={`Edit ${titleCase(contactType)}`}>
           <button className={styles.iconButton} onClick={() => setIsOpen(true)}>
             <GrEdit />
           </button>
         </Tooltip>
       )}
       <Modal
-        modalId="emailInput"
+        modalId="contactInput"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
         <div style={{ padding: "1.5rem", width: "32rem" }}>
-          <h3>Update email for {row.row.original.fullName}</h3>
+          <h3>
+            Update {contactType} for {row.row.original.fullName}
+          </h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{ display: "flex", gap: "1rem", flexDirection: "column" }}
           >
-            <TextInput
-              name="email"
-              label="Email"
-              register={register}
-              rules={{
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: "Invalid email address",
-                },
-              }}
-              control={control}
-              errors={errors?.email?.message}
-            />
+            {contactType === "email" && (
+              <TextInput
+                name="email"
+                label="Email"
+                register={register}
+                rules={{
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
+                }}
+                control={control}
+                errors={errors?.email?.message}
+              />
+            )}
+            {contactType === "phone" && (
+              <TextInput
+                name="phone"
+                label="Phone"
+                register={register}
+                rules={{
+                  pattern: {
+                    value: /^\+?[0-9]{1,15}$/,
+                    message: "Invalid phone number",
+                  },
+                }}
+                control={control}
+                errors={errors?.phone?.message}
+              />
+            )}
             <Button
               label="Save"
               size="medium"
