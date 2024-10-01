@@ -90,12 +90,16 @@ type BallotMeasureResult {
   id: ID!
   issueTags: [IssueTagResult!]!
   measureType: String!
+  noVotes: Int
+  numPrecinctsReporting: Int
   officialSummary: String
   populistSummary: String
   slug: String!
   state: State!
   status: BallotMeasureStatus!
   title: String!
+  totalPrecincts: Int
+  yesVotes: Int
 }
 
 input BallotMeasureSearch {

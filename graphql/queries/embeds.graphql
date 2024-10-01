@@ -194,6 +194,10 @@ query MyBallotByAddress($electionId: ID!, $address: AddressInput!) {
       description
       state
       ballotMeasureCode
+      yesVotes
+      noVotes
+      numPrecinctsReporting
+      totalPrecincts
     }
   }
 }

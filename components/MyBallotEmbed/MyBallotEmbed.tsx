@@ -27,6 +27,7 @@ import { useTranslation } from "next-i18next";
 import { splitRaces } from "utils/data";
 import { FlagColor, FlagSection } from "components/FlagSection/FlagSection";
 import { BallotMeasureCard } from "components/BallotMeasureCard/BallotMeasureCard";
+import { getYear } from "utils/dates";
 
 export interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
@@ -247,7 +248,11 @@ export function MyBallotEmbed({
                   label="State"
                 >
                   {ballotMeasures?.map((measure) => (
-                    <BallotMeasureCard measure={measure} key={measure.id} />
+                    <BallotMeasureCard
+                      measure={measure}
+                      year={getYear(election?.electionDate)}
+                      key={measure.id}
+                    />
                   ))}
                 </RaceSection>
               )}
