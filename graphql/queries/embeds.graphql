@@ -188,5 +188,12 @@ query MyBallotByAddress($electionId: ID!, $address: AddressInput!) {
         }
       }
     }
+    ballotMeasuresByAddress(address: $address) {
+      id
+      title
+      description
+      state
+      ballotMeasureCode
+    }
   }
 }

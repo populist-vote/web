@@ -26,6 +26,7 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { useTranslation } from "next-i18next";
 import { splitRaces } from "utils/data";
 import { FlagColor, FlagSection } from "components/FlagSection/FlagSection";
+import { BallotMeasureCard } from "components/BallotMeasureCard/BallotMeasureCard";
 
 export interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
@@ -121,6 +122,8 @@ export function MyBallotEmbed({
     local: localRacesGroupedByOffice,
     judicial: judicialRacesGroupedByOffice,
   } = splitRaces(races);
+
+  const ballotMeasures = data?.electionById.ballotMeasuresByAddress;
 
   return (
     <div
@@ -242,8 +245,13 @@ export function MyBallotEmbed({
                 <RaceSection
                   officeRaces={stateRacesGroupedByOffice}
                   label="State"
-                />
+                >
+                  {ballotMeasures?.map((measure) => (
+                    <BallotMeasureCard measure={measure} key={measure.id} />
+                  ))}
+                </RaceSection>
               )}
+
               {Object.keys(localRacesGroupedByOffice).length > 0 && (
                 <RaceSection
                   officeRaces={localRacesGroupedByOffice}
@@ -270,11 +278,13 @@ function RaceSection({
   label,
   size = "small",
   color = "grey",
+  children,
 }: {
   officeRaces: Record<string, RaceResult[]>;
   label: string;
   size?: string;
   color?: FlagColor;
+  children?: React.ReactNode;
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
   const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
@@ -348,6 +358,7 @@ function RaceSection({
           </div>
         );
       })}
+      {children}
     </FlagSection>
   );
 }
