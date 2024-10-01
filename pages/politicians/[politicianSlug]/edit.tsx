@@ -45,6 +45,7 @@ export function PoliticianBasicsForm({
   hideBioSource = false,
   hideOfficialWebsite = false,
   hideRaceWinsLosses = false,
+  onSave,
 }: {
   politician: Partial<PoliticianResult>;
   hideDoneButton?: boolean;
@@ -52,6 +53,7 @@ export function PoliticianBasicsForm({
   hideBioSource?: boolean;
   hideOfficialWebsite?: boolean;
   hideRaceWinsLosses?: boolean;
+  onSave?: () => void;
 }) {
   const { register, control, handleSubmit, formState, reset } = useForm<
     Partial<PoliticianResult>
@@ -70,6 +72,8 @@ export function PoliticianBasicsForm({
     usePoliticalPartiesQuery();
 
   const handleSave = (formData: Partial<PoliticianResult>) => {
+    if (onSave) onSave();
+
     return mutate(
       {
         intakeToken: (router.query.token as string) || "",
@@ -113,7 +117,7 @@ export function PoliticianBasicsForm({
             ],
           });
           reset(formData);
-          toast.success("Record has been updated", {
+          toast.success("Your information has been saved successfully", {
             position: "bottom-right",
           });
         },

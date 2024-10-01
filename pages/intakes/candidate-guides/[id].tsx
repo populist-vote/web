@@ -27,8 +27,6 @@ import states from "utils/states";
 import { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 import { Race } from "components/Ballot/Race";
-import clsx from "clsx";
-
 import { useQueryClient } from "@tanstack/react-query";
 import {
   PoliticianAvatar,
@@ -353,6 +351,7 @@ export default function CandidateGuideIntake() {
             hideBioSource
             hideOfficialWebsite
             hideRaceWinsLosses
+            onSave={() => handleSubmit(onSubmit)()}
           />
         </Box>
         <Divider />
@@ -369,8 +368,9 @@ export default function CandidateGuideIntake() {
         </p>
         <div className={styles.racePreviewContainer}>
           <div className={styles.flexBetween}>
-            <div className={clsx(styles.flexEvenly, styles.officeHeader)}>
+            <div className={styles.officeHeader}>
               <h3 className={styles.officeName}>{race?.office.name}</h3>
+              <Divider vertical height={"2.5rem"} />
               <h3 className={styles.officeSubtitle}>{race?.office.subtitle}</h3>
             </div>
             <div className={styles.flexBetween}>
