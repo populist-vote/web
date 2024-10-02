@@ -540,7 +540,6 @@ function ResponseEditAction({
         }
       );
     } catch (error) {
-      console.error(error);
       toast.error(`Form submission error`);
     } finally {
       if (!upsertQuestionSubmission.isPending) setIsOpen(false);
@@ -588,6 +587,7 @@ function ResponseEditAction({
             {LANGUAGES.filter((l) => l.code !== "en").map((locale) => {
               return (
                 <TranslationFormField
+                  name={`translations.response.${locale.code}`}
                   key={locale.code}
                   locale={locale}
                   register={register}
@@ -631,12 +631,14 @@ function ResponseEditAction({
 }
 
 function TranslationFormField({
+  name,
   locale,
   originalResponse,
   register,
   control,
   setValue,
 }: {
+  name: string;
   locale: { display: string; code: string };
   originalResponse: string;
   register: any;
@@ -650,7 +652,7 @@ function TranslationFormField({
 
   useEffect(() => {
     if (sentence) {
-      setValue(`translations.response.${locale.code}`, sentence, {
+      setValue(name, sentence, {
         shouldDirty: true,
       });
     }
@@ -662,7 +664,7 @@ function TranslationFormField({
   return (
     <div key={locale.code}>
       <TextInput
-        name={`translations.response.${locale.code}`}
+        name={name}
         textarea
         label={label}
         register={register}
@@ -705,6 +707,8 @@ function EditorialEditAction({
     register,
     control,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isDirty },
   } = useForm<{ editorial: string; translations: Record<string, string> }>({
     defaultValues: {
@@ -757,7 +761,6 @@ function EditorialEditAction({
         }
       );
     } catch (error) {
-      console.error(error);
       toast.error(`Form submission error`);
     } finally {
       if (!upsertQuestionSubmission.isPending) setIsOpen(false);
@@ -802,16 +805,19 @@ function EditorialEditAction({
             <Divider />
             <h3 style={{ textAlign: "center", margin: 0 }}>Translations</h3>
             {LANGUAGES.filter((l) => l.code !== "en").map((locale) => {
-              const label = locale.display;
+              const editorialInputValue = watch(`editorial`);
               return (
-                <TextInput
-                  key={locale.code}
+                <TranslationFormField
                   name={`translations.editorial.${locale.code}`}
-                  markdown
-                  textarea
-                  label={label}
+                  key={locale.code}
+                  locale={locale}
                   register={register}
                   control={control}
+                  originalResponse={
+                    editorialInputValue ||
+                    (row.row.original.editorial as string)
+                  }
+                  setValue={setValue}
                 />
               );
             })}
