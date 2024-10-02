@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { FieldSet, VotingGuideNote, PartyAvatar } from "components";
 import {
   PoliticalParty,
@@ -332,11 +333,35 @@ function ScrollableContainer({
     };
   }, [avatarWidth]);
 
+  const handleScrollLeft = () => {
+    if (!containerRef.current) return;
+
+    containerRef.current.scrollBy({
+      left: -avatarWidth,
+      behavior: "smooth",
+    });
+  };
+
+  const handleScrollRight = () => {
+    if (!containerRef.current) return;
+
+    containerRef.current.scrollBy({
+      left: avatarWidth,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div className={styles.scrollableContainer}>
       {/* Left indicator */}
       {hiddenCountLeft > 0 && (
-        <div className={styles.hiddenIndicatorLeft}>+{hiddenCountLeft}</div>
+        <div
+          className={styles.hiddenIndicatorLeft}
+          onClick={handleScrollLeft}
+          onKeyDown={handleScrollRight}
+        >
+          +{hiddenCountLeft}
+        </div>
       )}
 
       {/* Content container */}
@@ -346,7 +371,13 @@ function ScrollableContainer({
 
       {/* Right indicator */}
       {hiddenCountRight > 0 && (
-        <div className={styles.hiddenIndicatorRight}>+{hiddenCountRight}</div>
+        <div
+          className={styles.hiddenIndicatorRight}
+          onClick={handleScrollRight}
+          onKeyDown={handleScrollRight}
+        >
+          +{hiddenCountRight}
+        </div>
       )}
     </div>
   );
