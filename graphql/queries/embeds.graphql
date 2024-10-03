@@ -186,6 +186,9 @@ query MyBallotByAddress($electionId: ID!, $address: AddressInput!) {
           url
           pageTitle
         }
+        race {
+          title
+        }
       }
     }
     ballotMeasuresByAddress(address: $address) {

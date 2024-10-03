@@ -339,24 +339,44 @@ function RaceSection({
               <>
                 <ul className={styles.moreInfo}>
                   <h4>{t("more-info", { ns: "embeds" })}</h4>
-                  {race.relatedEmbeds?.flatMap((embed: EmbedResult) =>
-                    embed.origins?.map((origin) => {
-                      if (!origin) return null;
+                  {race.relatedEmbeds?.flatMap((embed: EmbedResult) => {
+                    // Find the first origin with a valid URL
+                    const originWithUrl = embed.origins?.find(
+                      (origin) => !!origin.url
+                    );
+
+                    if (originWithUrl) {
                       return (
-                        <li key={`${embed.id}-${origin.url}`}>
+                        <li key={`${embed.id}-${originWithUrl.url}`}>
                           <a
-                            href={origin.url}
+                            href={originWithUrl.url}
                             target={"_blank"}
                             rel={"noopener noreferrer"}
                           >
                             {getEmbedTypeTranslationKey(embed.embedType)}
                             {" — "}
-                            {origin.pageTitle ?? origin.url}{" "}
+                            {originWithUrl.pageTitle ?? originWithUrl.url}{" "}
                           </a>
                         </li>
                       );
-                    })
-                  )}
+                    } else {
+                      // Fall back to the default Populist URL if no valid origins are found
+                      const populistUrl = `${window?.location?.origin}/embeds/preview/${embed.id}`;
+                      return (
+                        <li key={`${embed.id}-populist`}>
+                          <a
+                            href={populistUrl}
+                            target={"_blank"}
+                            rel={"noopener noreferrer"}
+                          >
+                            {getEmbedTypeTranslationKey(embed.embedType)}
+                            {" — "}
+                            {embed.race?.title} | Populist
+                          </a>
+                        </li>
+                      );
+                    }
+                  })}
                 </ul>
               </>
             )}
