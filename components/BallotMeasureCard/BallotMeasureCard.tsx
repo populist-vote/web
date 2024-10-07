@@ -10,7 +10,7 @@ type BallotMeasureCardProps =
       ballotMeasureId?: never;
       year: number;
     } // Case when measure is provided
-  | { measure?: never; ballotMeasureId: string; year: number }; // Case when ballotMeasureId is provided
+  | { measure?: never; ballotMeasureId: string; year?: number }; // Case when ballotMeasureId is provided
 
 export function BallotMeasureCard({
   measure = {},

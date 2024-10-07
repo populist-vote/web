@@ -27,6 +27,9 @@ query LegislationEmbedsByOrganization($id: ID!) {
     bill {
       ...EmbedBillFields
     }
+    ballotMeasure {
+      ...BallotMeasureFields
+    }
   }
 }
 

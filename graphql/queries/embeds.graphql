@@ -13,6 +13,27 @@ fragment EmbedFields on EmbedResult {
   updatedAt
 }
 
+fragment BallotMeasureFields on BallotMeasureResult {
+  id
+  slug
+  title
+  status
+  state
+  ballotMeasureCode
+  issueTags {
+    id
+    slug
+    name
+  }
+  publicVotes {
+    support
+    oppose
+  }
+  election {
+    electionDate
+  }
+}
+
 query EmbedById($id: ID!) {
   embedById(id: $id) {
     ...EmbedFields
@@ -26,24 +47,7 @@ query LegislationEmbedById($id: ID!) {
       ...EmbedBillFields
     }
     ballotMeasure {
-      id
-      slug
-      title
-      status
-      state
-      ballotMeasureCode
-      issueTags {
-        id
-        slug
-        name
-      }
-      publicVotes {
-        support
-        oppose
-      }
-      election {
-        electionDate
-      }
+      ...BallotMeasureFields
     }
   }
 }

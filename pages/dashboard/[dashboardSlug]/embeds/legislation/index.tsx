@@ -7,6 +7,7 @@ import { DashboardTopNav } from "../..";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   BillStatus,
+  ElectionResult,
   EmbedResult,
   EmbedType,
   IssueTagResult,
@@ -70,20 +71,33 @@ export default function LegislationEmbedsIndex({
   const legislationColumns = useMemo<ColumnDef<EmbedResult>[]>(
     () => [
       {
-        accessorKey: "bill.session",
+        accessorFn: (row) =>
+          !!row.bill ? row.bill?.session : row.ballotMeasure?.election,
         header: "Session",
         cell: (info) => {
-          const session = info.getValue() as SessionResult;
-          const state = session?.state;
-          const year = new Date(session?.startDate).getFullYear();
-          return `${state ?? "U.S."} - ${year}`;
+          if (info.row.original.bill) {
+            const session = info.getValue() as SessionResult;
+            const state = session?.state;
+            const year = new Date(session?.startDate).getFullYear();
+            return `${state ?? "U.S."} - ${year}`;
+          }
+          if (info.row.original.ballotMeasure) {
+            const election = info.row.original.ballotMeasure.election;
+            return new Date(election?.electionDate).getFullYear();
+          }
         },
         size: 100,
       },
       {
         accessorKey: "bill.billNumber",
         header: "Leg. Code",
-        size: 100,
+        cell: (info) => {
+          if (info.row.original.bill) {
+            return info.getValue() as string;
+          }
+          return info.row.original.ballotMeasure?.ballotMeasureCode;
+        },
+        size: 80,
       },
       {
         accessorKey: "bill.title",
@@ -91,7 +105,8 @@ export default function LegislationEmbedsIndex({
         // Render the cell with the title but truncate it when it exceeds two lines
         cell: (info) => (
           <span className={styles.elipsis}>
-            {info.row.original.bill?.populistTitle ??
+            {info.row.original.ballotMeasure?.title ??
+              info.row.original.bill?.populistTitle ??
               (info.getValue() as string)}
           </span>
         ),
@@ -101,7 +116,9 @@ export default function LegislationEmbedsIndex({
         accessorKey: "bill.issueTags",
         header: "Issue Tags",
         cell: (info) => {
-          const tags = (info.getValue() || []) as IssueTagResult[];
+          const tags = !!info.row.original.ballotMeasure
+            ? info.row.original.ballotMeasure.issueTags
+            : ((info.getValue() || []) as IssueTagResult[]);
           return (
             <div style={{ display: "flex", gap: "0.5rem" }}>
               {tags.slice(0, 1).map((tag) => (
@@ -142,7 +159,13 @@ export default function LegislationEmbedsIndex({
         accessorKey: "bill.status",
         header: "Status",
         cell: (info) => (
-          <BillStatusBadge status={info.getValue() as BillStatus} />
+          <BillStatusBadge
+            status={
+              (!!info.row.original.ballotMeasure
+                ? info.row.original.ballotMeasure.status
+                : info.getValue()) as BillStatus
+            }
+          />
         ),
         size: 180,
       },
