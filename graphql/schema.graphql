@@ -625,6 +625,7 @@ type EmbedOriginResult {
 
 type EmbedResult {
   attributes: JSON!
+  ballotMeasure: BallotMeasureResult
   bill: BillResult
   bills: [BillResult!]
   candidateGuide: CandidateGuideResult
@@ -1225,6 +1226,7 @@ type PublicVotes {
 
 type Query {
   allIssueTags: [IssueTagResult!]!
+  ballotMeasureById(id: ID!): BallotMeasureResult
   ballotMeasures(after: String, before: String, filter: BallotMeasureFilter, first: Int, last: Int, sort: BallotMeasureSort): BallotMeasureResultConnection!
   billById(id: ID!): BillResult
   billBySlug(slug: String!): BillResult

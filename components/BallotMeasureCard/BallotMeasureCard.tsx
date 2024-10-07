@@ -1,4 +1,4 @@
-import { BallotMeasureResult } from "generated";
+import { BallotMeasureResult, useBallotMeasureByIdQuery } from "generated";
 import styles from "./BallotMeasureCard.module.scss";
 import { Badge } from "components/Badge/Badge";
 import { FaCheckCircle } from "react-icons/fa";
@@ -24,18 +24,17 @@ export function BallotMeasureCard({
   }
 
   // If ballotMeasureId is provided, fetch data using the query hook
-  let data;
-  if (ballotMeasureId) {
-    ({ data } = useBallotMeasureByIdQuery({ id: ballotMeasureId }));
-  }
+  const { data } = useBallotMeasureByIdQuery(
+    { id: ballotMeasureId as string },
+    {
+      enabled: !!ballotMeasureId,
+    }
+  );
 
-  // If `measure` is provided, extract its properties
-  const {
-    yesVotes = data?.yesVotes,
-    noVotes = data?.noVotes,
-    numPrecinctsReporting = data?.numPrecinctsReporting,
-    totalPrecincts = data?.totalPrecincts,
-  } = measure || data || {};
+  const ballotMeasure = data?.ballotMeasureById ?? measure;
+
+  const { yesVotes, noVotes, numPrecinctsReporting, totalPrecincts } =
+    ballotMeasure;
 
   const totalVotes = (yesVotes ?? 0) + (noVotes ?? 0);
   const yesPercentage =
@@ -58,12 +57,12 @@ export function BallotMeasureCard({
   return (
     <div className={styles.billCard}>
       <header className={styles.header}>
-        <strong>{`${measure.state} - ${measure.ballotMeasureCode}`}</strong>
+        <strong>{`${ballotMeasure.state} - ${ballotMeasure.ballotMeasureCode}`}</strong>
         <strong>{year}</strong>
       </header>
       <div className={styles.cardContent}>
-        <h2 className={styles.title}>{measure.title}</h2>
-        <p className={styles.description}>{measure.description}</p>
+        <h2 className={styles.title}>{ballotMeasure.title}</h2>
+        <p className={styles.description}>{ballotMeasure.description}</p>
         <div className={styles.voteInfo}>
           <div
             className={styles.votes}

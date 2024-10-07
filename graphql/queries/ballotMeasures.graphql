@@ -41,7 +41,7 @@ query BallotMeasuresIndex(
 }
 
 query BallotMeasureById($id: ID!) {
-  ballotMeasure(id: $id) {
+  ballotMeasureById(id: $id) {
     id
     slug
     title
@@ -65,5 +65,9 @@ query BallotMeasureById($id: ID!) {
       title
       electionDate
     }
+    yesVotes
+    noVotes
+    numPrecinctsReporting
+    totalPrecincts
   }
 }
