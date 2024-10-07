@@ -25,6 +25,26 @@ query LegislationEmbedById($id: ID!) {
     bill {
       ...EmbedBillFields
     }
+    ballotMeasure {
+      id
+      slug
+      title
+      status
+      state
+      ballotMeasureCode
+      issueTags {
+        id
+        slug
+        name
+      }
+      publicVotes {
+        support
+        oppose
+      }
+      election {
+        electionDate
+      }
+    }
   }
 }
 

@@ -1,0 +1,69 @@
+query BallotMeasuresIndex(
+  $pageSize: Int
+  $cursor: String
+  $filter: BallotMeasureFilter
+  $sort: BallotMeasureSort
+) {
+  ballotMeasures(
+    first: $pageSize
+    after: $cursor
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      node {
+        id
+        slug
+        title
+        status
+        state
+        ballotMeasureCode
+        issueTags {
+          id
+          slug
+          name
+        }
+        publicVotes {
+          support
+          oppose
+        }
+        election {
+          electionDate
+        }
+      }
+    }
+    totalCount
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query BallotMeasureById($id: ID!) {
+  ballotMeasure(id: $id) {
+    id
+    slug
+    title
+    status
+    state
+    ballotMeasureCode
+    description
+    officialSummary
+    fullTextUrl
+    issueTags {
+      id
+      slug
+      name
+    }
+    publicVotes {
+      support
+      oppose
+    }
+    election {
+      id
+      title
+      electionDate
+    }
+  }
+}

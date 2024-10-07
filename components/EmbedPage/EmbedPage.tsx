@@ -28,6 +28,7 @@ import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallbac
 import Link from "next/link";
 import { Tooltip } from "components/Tooltip/Tooltip";
 import { MyBallotEmbed } from "components/MyBallotEmbed/MyBallotEmbed";
+import { BallotMeasureCard } from "components/BallotMeasureCard/BallotMeasureCard";
 
 function EmbedPage({
   id,
@@ -45,6 +46,8 @@ function EmbedPage({
   if (isLoading) return <LoaderFlag />;
 
   const billIds = data?.embedById?.attributes?.billIds as string[];
+  const ballotMeasureId = data?.embedById?.attributes
+    ?.ballotMeasureId as string;
   const billId = data?.embedById?.attributes?.billId as string;
   const candidateGuideId = data?.embedById?.attributes
     ?.candidateGuideId as string;
@@ -57,14 +60,20 @@ function EmbedPage({
   const renderPreviewByType = () => {
     switch (embedType) {
       case EmbedType.Legislation:
-        return (
-          <BillWidget
-            billId={billId}
-            origin={window.location.origin}
-            embedId={id}
-            renderOptions={renderOptions}
-          />
-        );
+        if (billId) {
+          return (
+            <BillWidget
+              billId={billId}
+              origin={window.location.origin}
+              embedId={id}
+              renderOptions={renderOptions}
+            />
+          );
+        }
+        if (ballotMeasureId) {
+          return <BallotMeasureCard ballotMeasureId={ballotMeasureId} />;
+        }
+
       case EmbedType.LegislationTracker:
         return (
           <BillTrackerWidget

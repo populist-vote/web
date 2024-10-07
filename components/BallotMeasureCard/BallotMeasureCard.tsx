@@ -4,14 +4,38 @@ import { Badge } from "components/Badge/Badge";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiCloseCircleFill } from "react-icons/ri";
 
+type BallotMeasureCardProps =
+  | {
+      measure: Partial<BallotMeasureResult>;
+      ballotMeasureId?: never;
+      year: number;
+    } // Case when measure is provided
+  | { measure?: never; ballotMeasureId: string; year: number }; // Case when ballotMeasureId is provided
+
 export function BallotMeasureCard({
   measure = {},
+  ballotMeasureId,
   year,
-}: {
-  measure: Partial<BallotMeasureResult>;
-  year: number;
-}) {
-  const { yesVotes, noVotes, numPrecinctsReporting, totalPrecincts } = measure;
+}: BallotMeasureCardProps) {
+  if (!measure && !ballotMeasureId) {
+    throw new Error(
+      "BallotMeasureCard must have either a measure or ballotMeasureId prop"
+    );
+  }
+
+  // If ballotMeasureId is provided, fetch data using the query hook
+  let data;
+  if (ballotMeasureId) {
+    ({ data } = useBallotMeasureByIdQuery({ id: ballotMeasureId }));
+  }
+
+  // If `measure` is provided, extract its properties
+  const {
+    yesVotes = data?.yesVotes,
+    noVotes = data?.noVotes,
+    numPrecinctsReporting = data?.numPrecinctsReporting,
+    totalPrecincts = data?.totalPrecincts,
+  } = measure || data || {};
 
   const totalVotes = (yesVotes ?? 0) + (noVotes ?? 0);
   const yesPercentage =

@@ -72,7 +72,11 @@ function EmbedById({
 
   const embed = embedQuery.data?.embedById;
   const bill = embed?.bill;
-  const title = embed?.name || `${bill?.state} ${bill?.billNumber}`;
+  const ballotMeasure = embed?.ballotMeasure;
+  const title =
+    embed?.name || bill
+      ? `${bill?.state} ${bill?.billNumber}`
+      : ballotMeasure?.title;
 
   return organizationQuery.isLoading || isLoading ? (
     <LoaderFlag />

@@ -36,7 +36,7 @@ export async function getServerSideProps({
 function NewLegislationEmbed() {
   const router = useRouter();
   const { query } = router;
-  const { dashboardSlug, selected, embedId } = query;
+  const { dashboardSlug, selected, selectedType, embedId } = query;
   const { data: organizationData } = useOrganizationBySlugQuery(
     {
       slug: dashboardSlug as string,
@@ -57,7 +57,7 @@ function NewLegislationEmbed() {
           embedType: EmbedType.Legislation,
           organizationId: currentOrganizationId as string,
           attributes: {
-            billId: selected as string,
+            [selectedType as string]: selected as string,
             embedType: "legislation",
           },
         },
