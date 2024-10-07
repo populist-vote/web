@@ -80,11 +80,21 @@ enum AuthorType {
   POLITICIAN
 }
 
+input BallotMeasureFilter {
+  issueTag: String
+  politicalScope: PoliticalScope
+  query: String
+  state: State
+  status: BallotMeasureStatus
+  year: Int
+}
+
 type BallotMeasureResult {
   arguments: [ArgumentResult!]!
   ballotMeasureCode: String!
   definitions: String!
   description: String
+  election: ElectionResult!
   electionId: ID!
   fullTextUrl: String
   id: ID!
@@ -94,6 +104,7 @@ type BallotMeasureResult {
   numPrecinctsReporting: Int
   officialSummary: String
   populistSummary: String
+  publicVotes: PublicVotes!
   slug: String!
   state: State!
   status: BallotMeasureStatus!
@@ -102,11 +113,27 @@ type BallotMeasureResult {
   yesVotes: Int
 }
 
-input BallotMeasureSearch {
-  slug: String
-  state: State
-  status: BallotMeasureStatus
-  title: String
+type BallotMeasureResultConnection {
+  """A list of edges."""
+  edges: [BallotMeasureResultEdge!]!
+  """A list of nodes."""
+  nodes: [BallotMeasureResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type BallotMeasureResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: BallotMeasureResult!
+}
+
+input BallotMeasureSort {
+  popularity: PopularitySort
 }
 
 enum BallotMeasureStatus {
@@ -598,6 +625,7 @@ type EmbedOriginResult {
 
 type EmbedResult {
   attributes: JSON!
+  ballotMeasure: BallotMeasureResult
   bill: BillResult
   bills: [BillResult!]
   candidateGuide: CandidateGuideResult
@@ -1197,12 +1225,9 @@ type PublicVotes {
 }
 
 type Query {
-  allBallotMeasures: [BallotMeasureResult!]!
   allIssueTags: [IssueTagResult!]!
-  ballotMeasures(
-    """Search by voteStatus, name, or slug"""
-    search: BallotMeasureSearch!
-  ): [BallotMeasureResult!]!
+  ballotMeasureById(id: ID!): BallotMeasureResult
+  ballotMeasures(after: String, before: String, filter: BallotMeasureFilter, first: Int, last: Int, sort: BallotMeasureSort): BallotMeasureResultConnection!
   billById(id: ID!): BillResult
   billBySlug(slug: String!): BillResult
   """Returns all committees that have an associated bill"""
