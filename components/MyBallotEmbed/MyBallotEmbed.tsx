@@ -292,10 +292,6 @@ function RaceSection({
   children?: React.ReactNode;
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
-  const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
-    const key = embedType.toLowerCase().replace("_", "-");
-    return t(key, { ns: "embeds" });
-  };
 
   return (
     <FlagSection {...{ label, size, color }}>
@@ -333,37 +329,73 @@ function RaceSection({
                 isEmbedded={true}
               />
             </div>
-            {race.relatedEmbeds.some(
-              (embed: EmbedResult) => embed.origins.length > 0
-            ) && (
-              <>
-                <ul className={styles.moreInfo}>
-                  <h4>{t("more-info", { ns: "embeds" })}</h4>
-                  {race.relatedEmbeds?.flatMap((embed: EmbedResult) =>
-                    embed.origins?.map((origin) => {
-                      if (!origin) return null;
-                      return (
-                        <li key={`${embed.id}-${origin.url}`}>
-                          <a
-                            href={origin.url}
-                            target={"_blank"}
-                            rel={"noopener noreferrer"}
-                          >
-                            {getEmbedTypeTranslationKey(embed.embedType)}
-                            {" — "}
-                            {origin.pageTitle ?? origin.url}{" "}
-                          </a>
-                        </li>
-                      );
-                    })
-                  )}
-                </ul>
-              </>
-            )}
+            <RelatedEmbedLinks relatedEmbeds={race.relatedEmbeds} />
           </div>
         );
       })}
       {children}
     </FlagSection>
+  );
+}
+
+function RelatedEmbedLinks({
+  relatedEmbeds,
+}: {
+  relatedEmbeds: EmbedResult[];
+}) {
+  const { t } = useTranslation(["auth", "common", "embeds"]);
+  const hasEmbedOrigins = relatedEmbeds.some(
+    (embed: EmbedResult) => embed.origins.length > 0
+  );
+
+  const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
+    const key = embedType.toLowerCase().replace("_", "-");
+    return t(key, { ns: "embeds" });
+  };
+
+  if (!hasEmbedOrigins)
+    return (
+      <ul className={styles.moreInfo}>
+        <h4>{t("more-info", { ns: "embeds" })}</h4>
+        {relatedEmbeds.flatMap((embed: EmbedResult) => {
+          const populistUrl = `${window?.location?.origin}/embeds/preview/${embed.id}`;
+          return (
+            <li key={`${embed.id}-populist`}>
+              <a
+                href={populistUrl}
+                target={"_blank"}
+                rel={"noopener noreferrer"}
+              >
+                {getEmbedTypeTranslationKey(embed.embedType)}
+                {" — "}
+                {embed.race?.title} | Populist
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  return (
+    <ul className={styles.moreInfo}>
+      <h4>{t("more-info", { ns: "embeds" })}</h4>
+      {relatedEmbeds?.flatMap((embed: EmbedResult) =>
+        embed.origins?.map((origin) => {
+          if (!origin) return null;
+          return (
+            <li key={`${embed.id}-${origin.url}`}>
+              <a
+                href={origin.url}
+                target={"_blank"}
+                rel={"noopener noreferrer"}
+              >
+                {getEmbedTypeTranslationKey(embed.embedType)}
+                {" — "}
+                {origin.pageTitle ?? origin.url}{" "}
+              </a>
+            </li>
+          );
+        })
+      )}
+    </ul>
   );
 }
