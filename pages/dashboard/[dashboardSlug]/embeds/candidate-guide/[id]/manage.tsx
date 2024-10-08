@@ -490,9 +490,9 @@ function ContactCell({
 
   const queryClient = useQueryClient();
 
-  const onSubmit = (data: { email: string; phone: string }) => {
-    const email = data.email.trim() === "" ? null : data.email.trim();
-    const phone = data.phone.trim() === "" ? null : data.phone.trim();
+  const onSubmit = (data: { email?: string; phone?: string }) => {
+    const email = data.email?.trim() === "" ? null : data.email?.trim();
+    const phone = data.phone?.trim() === "" ? null : data.phone?.trim();
     try {
       upsertPolitician.mutate(
         {
