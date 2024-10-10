@@ -296,42 +296,47 @@ function RaceSection({
   return (
     <FlagSection {...{ label, size, color }}>
       {Object.values(officeRaces).map((races: RaceResult[]) => {
-        // TODO - handle multiple office races (primaries and the weird special election cases)
-        const race = races[0] as RaceResult;
-        return (
-          <div className={styles.raceGroup} key={race.id}>
-            <div
-              className={styles.flexBetween}
-              style={{ marginBottom: "0.5rem" }}
-            >
-              <div className={styles.raceHeader}>
-                <h3>{race.office.name}</h3>
-                <Divider vertical color="var(--grey-light)" />
-                <h4>{race.office.subtitle}</h4>
+        return races.map((race) => {
+          return (
+            <div className={styles.raceGroup} key={race.id}>
+              <div
+                className={styles.flexBetween}
+                style={{ marginBottom: "0.5rem" }}
+              >
+                <div className={styles.raceHeader}>
+                  <h3>{race.office.name}</h3>
+                  <Divider vertical color="var(--grey-light)" />
+                  <h4>{race.office.subtitle}</h4>
+                </div>
+                <div className={styles.flexBetween}>
+                  {race.voteType != VoteType.Plurality && (
+                    <Badge size="small">{race.voteType}</Badge>
+                  )}
+                  {race.numElect && (
+                    <Badge size="small" style={{ textTransform: "uppercase" }}>
+                      {t("elect")} {race.numElect}
+                    </Badge>
+                  )}
+                  {race.isSpecialElection && (
+                    <Badge size="small" style={{ textTransform: "uppercase" }}>
+                      Special Election
+                    </Badge>
+                  )}
+                </div>
               </div>
-              <div className={styles.flexBetween}>
-                {race.voteType != VoteType.Plurality && (
-                  <Badge size="small">{race.voteType}</Badge>
-                )}
-                {race.numElect && (
-                  <Badge size="small" style={{ textTransform: "uppercase" }}>
-                    {t("elect")} {race.numElect}
-                  </Badge>
-                )}
+              <div className={styles.raceContainer}>
+                <Race
+                  race={race as RaceResult}
+                  key={race.id}
+                  theme="light"
+                  itemId={race.id}
+                  isEmbedded={true}
+                />
               </div>
+              <RelatedEmbedLinks relatedEmbeds={race.relatedEmbeds} />
             </div>
-            <div className={styles.raceContainer}>
-              <Race
-                race={race as RaceResult}
-                key={race.id}
-                theme="light"
-                itemId={race.id}
-                isEmbedded={true}
-              />
-            </div>
-            <RelatedEmbedLinks relatedEmbeds={race.relatedEmbeds} />
-          </div>
-        );
+          );
+        });
       })}
       {children}
     </FlagSection>
@@ -353,49 +358,43 @@ function RelatedEmbedLinks({
     return t(key, { ns: "embeds" });
   };
 
-  if (!hasEmbedOrigins)
-    return (
-      <ul className={styles.moreInfo}>
-        <h4>{t("more-info", { ns: "embeds" })}</h4>
-        {relatedEmbeds.flatMap((embed: EmbedResult) => {
-          const populistUrl = `${window?.location?.origin}/embeds/preview/${embed.id}`;
-          return (
-            <li key={`${embed.id}-populist`}>
-              <a
-                href={populistUrl}
-                target={"_blank"}
-                rel={"noopener noreferrer"}
-              >
-                {getEmbedTypeTranslationKey(embed.embedType)}
-                {" — "}
-                {embed.race?.title} | Populist
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    );
   return (
     <ul className={styles.moreInfo}>
-      <h4>{t("more-info", { ns: "embeds" })}</h4>
-      {relatedEmbeds?.flatMap((embed: EmbedResult) =>
-        embed.origins?.map((origin) => {
-          if (!origin) return null;
-          return (
-            <li key={`${embed.id}-${origin.url}`}>
-              <a
-                href={origin.url}
-                target={"_blank"}
-                rel={"noopener noreferrer"}
-              >
-                {getEmbedTypeTranslationKey(embed.embedType)}
-                {" — "}
-                {origin.pageTitle ?? origin.url}{" "}
-              </a>
-            </li>
-          );
-        })
-      )}
+      {hasEmbedOrigins && <h4>{t("more-info", { ns: "embeds" })}</h4>}
+      {relatedEmbeds.flatMap((embed: EmbedResult) => {
+        const populistUrl = `${window?.location?.origin}/embeds/preview/${embed.id}`;
+
+        // Handle relatedEmbeds with origins
+        if (embed.origins && embed.origins.length > 0) {
+          return embed.origins.map((origin) => {
+            if (!origin) return null;
+            return (
+              <li key={`${embed.id}-${origin.url}`}>
+                <a
+                  href={origin.url}
+                  target={"_blank"}
+                  rel={"noopener noreferrer"}
+                >
+                  {getEmbedTypeTranslationKey(embed.embedType)}
+                  {" — "}
+                  {origin.pageTitle ?? origin.url}
+                </a>
+              </li>
+            );
+          });
+        }
+
+        // If no origins, show a link with a Populist URL
+        return (
+          <li key={`${embed.id}-populist`}>
+            <a href={populistUrl} target={"_blank"} rel={"noopener noreferrer"}>
+              {getEmbedTypeTranslationKey(embed.embedType)}
+              {" — "}
+              {embed.race?.title} | Populist
+            </a>
+          </li>
+        );
+      })}
     </ul>
   );
 }
