@@ -349,18 +349,17 @@ function RelatedEmbedLinks({
   relatedEmbeds: EmbedResult[];
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
-  const hasEmbedOrigins = relatedEmbeds.some(
-    (embed: EmbedResult) => embed.origins.length > 0
-  );
 
   const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
     const key = embedType.toLowerCase().replace("_", "-");
     return t(key, { ns: "embeds" });
   };
 
+  if (!relatedEmbeds || relatedEmbeds.length === 0) return null;
+
   return (
     <ul className={styles.moreInfo}>
-      {hasEmbedOrigins && <h4>{t("more-info", { ns: "embeds" })}</h4>}
+      {<h4>{t("more-info", { ns: "embeds" })}</h4>}
       {relatedEmbeds.flatMap((embed: EmbedResult) => {
         const populistUrl = `${window?.location?.origin}/embeds/preview/${embed.id}`;
 
