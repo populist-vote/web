@@ -10,12 +10,16 @@ $weight-normal: 400;
 $weight-semibold: 500;
 $weight-bold: 700;
 
-// font sizes
-$text-xxs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio)));
-$text-xs: calc(1em / (var(--text-scale-ratio) * var(--text-scale-ratio)));
-$text-sm: calc(1em / var(--text-scale-ratio));
-$text-md: calc(1em * var(--text-scale-ratio));
-$text-lg: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio));
-$text-xl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
-$text-xxl: calc(1.1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
-$text-xxxl: calc(1.2em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
+// Base font size and scaling factor
+$base-font-size: 1rem;
+$scale-ratio: 1.2; // Adjust for larger/smaller steps as needed
+
+// Responsive font sizes using clamp
+$text-xxs: clamp(0.75rem, $base-font-size / ($scale-ratio * 1.2), 0.875rem);
+$text-xs: clamp(0.875rem, $base-font-size / $scale-ratio, 1rem);
+$text-sm: clamp(1rem, $base-font-size, 1.125rem);
+$text-md: clamp(1.125rem, $base-font-size * $scale-ratio, 1.25rem);
+$text-lg: clamp(1.25rem, $base-font-size * $scale-ratio * 1.2, 1.5rem);
+$text-xl: clamp(1.5rem, $base-font-size * $scale-ratio * 1.4, 1.75rem);
+$text-xxl: clamp(1.75rem, $base-font-size * $scale-ratio * 1.6, 2rem);
+$text-xxxl: clamp(2rem, $base-font-size * $scale-ratio * 1.8, 2.5rem);
