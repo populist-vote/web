@@ -20,7 +20,7 @@ import { OfficeSection } from "components/PoliticianPage/OfficeSection/OfficeSec
 import { BasicInfoSection } from "components/PoliticianPage/BasicInfoSection/BasicInfoSection";
 import { CommitteesSection } from "components/PoliticianPage/CommitteesSection/CommitteesSection";
 import { SponsoredBillsSection } from "components/PoliticianPage/SponsoredBillsSection/SponsoredBillsSection";
-// import { EndorsementsSection } from "components/PoliticianPage/EndorsementsSection/EndorsementsSection";
+import { EndorsementsSection } from "components/PoliticianPage/EndorsementsSection/EndorsementsSection";
 import { RatingsSection } from "components/PoliticianPage/RatingsSection/RatingsSection";
 import { BioSection } from "components/PoliticianPage/BioSection/BioSection";
 import { FinancialsSection } from "components/PoliticianPage/FinancialsSection/FinancialsSection";
@@ -81,6 +81,7 @@ function PoliticianPage({
           </div>
           <SponsoredBillsSection />
           <RatingsSection />
+          <EndorsementsSection />
           <FinancialsSection />
           <BioSection />
         </div>
