@@ -12,7 +12,6 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import {
-  EmbedResult,
   EmbedType,
   PoliticianResult,
   SystemRoleType,
@@ -455,7 +454,7 @@ export default function CandidateGuideEmbedPage({
         </div>
       </section>
       <section className={styles.section}>
-        <EmbedDeployments embed={embed as EmbedResult} />
+        <EmbedDeployments embedId={embed?.id as string} />
       </section>
     </>
   );

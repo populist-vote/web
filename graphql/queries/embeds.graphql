@@ -5,10 +5,6 @@ fragment EmbedFields on EmbedResult {
   embedType
   attributes
   organizationId
-  origins {
-    url
-    lastPingAt
-  }
   createdAt
   updatedAt
 }
@@ -16,6 +12,15 @@ fragment EmbedFields on EmbedResult {
 query EmbedById($id: ID!) {
   embedById(id: $id) {
     ...EmbedFields
+  }
+}
+
+query EmbedDeployments($id: ID!) {
+  embedById(id: $id) {
+    origins {
+      url
+      lastPingAt
+    }
   }
 }
 

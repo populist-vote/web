@@ -8,6 +8,7 @@ import {
   EmbedType,
   useDeleteEmbedMutation,
   useEmbedByIdQuery,
+  useEmbedDeploymentsQuery,
 } from "generated";
 import { toast } from "react-toastify";
 import styles from "./EmbedPage.module.scss";
@@ -136,7 +137,7 @@ function EmbedPage({
           <h3>Embed Code</h3>
           <EmbedCodeBlock id={id} />
         </div>
-        <EmbedDeployments embed={embed} />
+        <EmbedDeployments embedId={embed.id} />
         <div className={styles.dangerZone}>
           <h3>Danger Zone</h3>
           <DeleteEmbedButton id={id} embedType={embedType} />
@@ -157,7 +158,16 @@ function EmbedPage({
 
 export { EmbedPage };
 
-export function EmbedDeployments({ embed }: { embed: EmbedResult }) {
+export function EmbedDeployments({ embedId }: { embedId: string }) {
+  const { data, isLoading } = useEmbedDeploymentsQuery(
+    { id: embedId },
+    {
+      enabled: !!embedId,
+    }
+  );
+  const embed = data?.embedById as EmbedResult;
+  if (!embed) return null;
+  if (isLoading) return <LoaderFlag />;
   return (
     <div className={styles.deploymentsContainer}>
       <h3>Deployments</h3>
