@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-import type { NextPage } from "next";
 import {
   AuthButtons,
   Avatar,
@@ -13,7 +11,6 @@ import { FlagSection } from "components";
 import { useAuth } from "hooks/useAuth";
 import { PERSON_FALLBACK_IMAGE_URL } from "utils/constants";
 import Link from "next/link";
-import useDeviceInfo from "hooks/useDeviceInfo";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
@@ -35,10 +32,8 @@ export async function getServerSideProps({
     },
   };
 }
-
-const About: NextPage = () => {
-  const { user } = useAuth({ redirectTo: "/about" });
-  const { isMobile } = useDeviceInfo();
+export default function Demo() {
+  const { user } = useAuth();
 
   return (
     <>
@@ -89,7 +84,7 @@ const About: NextPage = () => {
                           }
                           fallbackSrc={PERSON_FALLBACK_IMAGE_URL}
                           alt="profile picture"
-                          size={isMobile ? 35 : 60}
+                          size={45}
                         />
                       </div>
                     </Link>
@@ -101,10 +96,7 @@ const About: NextPage = () => {
         </div>
 
         <div className={styles.contentContainer}>
-          <FlagSection
-            label="Populist helps newsrooms and advocacy organizations engage their audiences"
-            hideFlagForMobile={true}
-          >
+          <FlagSection label="Civic Engagement" hideFlagForMobile={true}>
             <div className={styles.content}>
               <h1>Engage your audience with our interactive civic content.</h1>
               <p>
@@ -171,24 +163,26 @@ const About: NextPage = () => {
                 meaningful conversations around the issues that matter most to
                 your community.
               </p>
-              <h1>Interested?</h1>
-              <Link href="mailto:info@populist.us" passHref>
-                <Button variant="primary" label="Contact Sales" />
-              </Link>
-              <ul className={styles.contactSales}>
-                <li>
-                  <FaRegCheckCircle />
-                  <span>Request a full demo</span>
-                </li>
-                <li>
-                  <FaRegCheckCircle />
-                  <span>Learn about our plans and features</span>
-                </li>
-                <li>
-                  <FaRegCheckCircle />
-                  <span>Get help with onboarding</span>
-                </li>
-              </ul>
+              <div className={styles.center}>
+                <h1>Interested?</h1>
+                <Link href="mailto:info@populist.us" passHref>
+                  <Button variant="primary" label="Contact Sales" />
+                </Link>
+                <ul className={styles.contactSales}>
+                  <li>
+                    <FaRegCheckCircle />
+                    <span>Request a full demo</span>
+                  </li>
+                  <li>
+                    <FaRegCheckCircle />
+                    <span>Learn about our plans and features</span>
+                  </li>
+                  <li>
+                    <FaRegCheckCircle />
+                    <span>Get help with onboarding</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </FlagSection>
         </div>
@@ -197,6 +191,4 @@ const About: NextPage = () => {
       </main>
     </>
   );
-};
-
-export default About;
+}
