@@ -88,7 +88,7 @@ export function PollWidget({
       <article className={styles.widgetContainer}>
         <main>
           <h3 className={styles.prompt}>{prompt}</h3>
-          <div className={styles.center}>
+          <div className={styles.centered}>
             <Badge theme="violet" lightBackground>
               {selectedOptionLabel}
             </Badge>
