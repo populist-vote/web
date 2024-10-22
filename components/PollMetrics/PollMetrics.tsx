@@ -12,6 +12,7 @@ import { Table } from "components/Table/Table";
 import { Box } from "components/Box/Box";
 import { BsCircleFill } from "react-icons/bs";
 import { XAxis, YAxis, AreaChart, Area, ResponsiveContainer } from "recharts";
+import { Badge } from "components/Badge/Badge";
 
 export function SubmissionsOverTimeLineChart({
   submissionCountByDate,
@@ -95,15 +96,18 @@ export function SubmissionsOverTimeLineChart({
 }
 
 function PollSubmissionBarChart({ poll }: { poll: PollResult }) {
-  const submissionCounts = poll.submissions.reduce((acc, submission) => {
-    const optionId = submission.option.optionText;
-    if (acc[optionId]) {
-      acc[optionId] += 1;
-    } else {
-      acc[optionId] = 1;
-    }
-    return acc;
-  }, {} as Record<string, number>);
+  const submissionCounts = poll.submissions.reduce(
+    (acc, submission) => {
+      const optionId = submission.option?.optionText || "Write In";
+      if (acc[optionId]) {
+        acc[optionId] += 1;
+      } else {
+        acc[optionId] = 1;
+      }
+      return acc;
+    },
+    {} as Record<string, number>
+  );
 
   const totalCount = poll.submissions.length;
 
@@ -138,6 +142,15 @@ function PollSubmissionsTable({
       {
         header: "Response",
         accessorKey: "option.optionText",
+        cell: (info) =>
+          info.getValue() || (
+            <span
+              style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+            >
+              {info.row.original.writeInResponse}{" "}
+              <Badge size="small">WRITE IN</Badge>
+            </span>
+          ),
       },
       {
         header: "Name",

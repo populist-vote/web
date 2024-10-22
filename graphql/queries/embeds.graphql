@@ -154,6 +154,7 @@ query PollEmbedById($id: ID!) {
           id
           optionText
         }
+        writeInResponse
         createdAt
         updatedAt
         respondent {

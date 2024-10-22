@@ -94,7 +94,7 @@ export function PollWidget({
             </Badge>
           </div>
           <h5 className={styles.successMessage}>
-            Thank you for your response!
+            Thank you for your response! 🎉
           </h5>
         </main>
         <WidgetFooter />

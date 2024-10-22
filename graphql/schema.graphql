@@ -92,14 +92,15 @@ input BallotMeasureFilter {
 type BallotMeasureResult {
   arguments: [ArgumentResult!]!
   ballotMeasureCode: String!
-  definitions: String!
+  definitions: String
   description: String
   election: ElectionResult!
   electionId: ID!
+  electionScope: ElectionScope
   fullTextUrl: String
   id: ID!
   issueTags: [IssueTagResult!]!
-  measureType: String!
+  measureType: String
   noVotes: Int
   numPrecinctsReporting: Int
   officialSummary: String
@@ -838,7 +839,7 @@ type Mutation {
   uploadOrganizationThumbnail(file: Upload!, id: ID!): String!
   uploadPoliticianPicture(file: Upload!, intakeToken: String!, slug: String!): String!
   uploadProfilePicture(file: Upload!): String!
-  upsertBallotMeasure(electionId: UUID!, input: UpsertBallotMeasureInput!): BallotMeasureResult!
+  upsertBallotMeasure(input: UpsertBallotMeasureInput!): BallotMeasureResult!
   upsertBill(input: UpsertBillInput!): BillResult!
   upsertBillPublicVote(billId: ID!, position: ArgumentPosition): UpsertBillPublicVoteResult!
   upsertCandidateGuide(input: UpsertCandidateGuideInput!): CandidateGuideResult!
@@ -1175,7 +1176,6 @@ type PoliticianResultEdge {
 type PollOptionResult {
   createdAt: DateTime!
   id: ID!
-  isWriteIn: Boolean!
   optionText: String!
   pollId: ID!
   updatedAt: DateTime!
@@ -1198,10 +1198,10 @@ type PollResult {
 type PollSubmissionResult {
   createdAt: DateTime!
   id: ID!
-  option: PollOptionResult!
+  option: PollOptionResult
   poll: PollResult!
   pollId: ID!
-  pollOptionId: ID!
+  pollOptionId: ID
   respondent: RespondentResult
   respondentId: ID
   updatedAt: DateTime!
@@ -1788,13 +1788,20 @@ scalar Upload
 
 input UpsertBallotMeasureInput {
   ballotMeasureCode: String
+  county: String
+  countyFips: String
   definitions: String
   description: String
+  electionId: UUID
+  electionScope: ElectionScope
   fullTextUrl: String
   id: UUID
   measureType: String
+  municipality: String
+  municipalityFips: String
   officialSummary: String
   populistSummary: String
+  schoolDistrict: String
   slug: String
   state: State
   status: BallotMeasureStatus
@@ -1916,7 +1923,7 @@ input UpsertPollOptionInput {
 input UpsertPollSubmissionInput {
   id: UUID
   pollId: UUID!
-  pollOptionId: UUID!
+  pollOptionId: UUID
   respondentId: UUID
   writeInResponse: String
 }
