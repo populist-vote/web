@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { TextInput } from "components/TextInput/TextInput";
+import { Badge } from "components/Badge/Badge";
 
 type PollWidgetForm = {
   selectedResponseId: string;
@@ -75,6 +76,11 @@ export function PollWidget({
       }
     );
   };
+
+  const selectedOptionLabel = data?.embedById?.poll?.options?.find(
+    (option) => option.id === watchSelected
+  )?.optionText;
+
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this question.</div>;
   if (isSuccess)
@@ -82,6 +88,7 @@ export function PollWidget({
       <article className={styles.widgetContainer}>
         <main>
           <h3 className={styles.prompt}>{prompt}</h3>
+          <Badge theme="violet">{selectedOptionLabel}</Badge>
           <h5 className={styles.successMessage}>
             Thank you for your response!
           </h5>
