@@ -63,8 +63,8 @@ export function PollWidget({
             : null,
         pollSubmissionInput: {
           pollId,
-          pollOptionId: data.selectedResponseId,
-          writeInResponse: data.writeInResponse,
+          pollOptionId: data.selectedResponseId || null,
+          writeInResponse: data.writeInResponse || null,
         },
       },
       {
