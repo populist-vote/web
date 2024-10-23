@@ -44,6 +44,7 @@ export function PollWidget({
   const pollId = data?.embedById?.poll?.id;
 
   const watchSelected = watch("selectedResponseId");
+  const watchWriteIn = watch("writeInResponse");
 
   const allowAnonymousResponses =
     data?.embedById?.poll?.allowAnonymousResponses;
@@ -77,9 +78,10 @@ export function PollWidget({
     );
   };
 
-  const selectedOptionLabel = data?.embedById?.poll?.options?.find(
-    (option) => option.id === watchSelected
-  )?.optionText;
+  const selectedOptionLabel =
+    data?.embedById?.poll?.options?.find(
+      (option) => option.id === watchSelected
+    )?.optionText ?? watchWriteIn;
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this question.</div>;
