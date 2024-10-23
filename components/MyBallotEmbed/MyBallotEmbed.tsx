@@ -5,6 +5,7 @@ import { TextInput } from "components/TextInput/TextInput";
 import { Button } from "components/Button/Button";
 import {
   AddressInput,
+  ElectionScope,
   EmbedResult,
   EmbedType,
   RaceResult,
@@ -125,6 +126,17 @@ export function MyBallotEmbed({
   } = splitRaces(races);
 
   const ballotMeasures = data?.electionById.ballotMeasuresByAddress;
+
+  const statewideBallotMeasures = ballotMeasures?.filter(
+    (bm) => bm.electionScope === ElectionScope.State
+  );
+
+  const localBallotMeasures = ballotMeasures?.filter(
+    (bm) =>
+      bm.electionScope === ElectionScope.County ||
+      bm.electionScope === ElectionScope.City ||
+      bm.electionScope === ElectionScope.District
+  );
 
   return (
     <div
@@ -247,7 +259,7 @@ export function MyBallotEmbed({
                   officeRaces={stateRacesGroupedByOffice}
                   label="State"
                 >
-                  {ballotMeasures?.map((measure) => (
+                  {statewideBallotMeasures?.map((measure) => (
                     <BallotMeasureCard
                       measure={measure}
                       year={getYear(election?.electionDate)}
@@ -261,7 +273,15 @@ export function MyBallotEmbed({
                 <RaceSection
                   officeRaces={localRacesGroupedByOffice}
                   label="Local"
-                />
+                >
+                  {localBallotMeasures?.map((measure) => (
+                    <BallotMeasureCard
+                      measure={measure}
+                      year={getYear(election?.electionDate)}
+                      key={measure.id}
+                    />
+                  ))}
+                </RaceSection>
               )}
               {Object.keys(judicialRacesGroupedByOffice).length > 0 && (
                 <RaceSection
