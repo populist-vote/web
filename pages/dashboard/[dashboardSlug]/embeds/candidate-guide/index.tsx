@@ -1,4 +1,4 @@
-import { Box, EmbedIndex, Layout, LoaderFlag, PartyAvatar } from "components";
+import { EmbedIndex, Layout, LoaderFlag, PartyAvatar } from "components";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useMemo } from "react";
@@ -148,105 +148,105 @@ export default function CandidateGuideEmbedIndex({
           }
         />
       </section>
-      <section>
-        <h2>Recent Submissions</h2>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-          }}
-        >
-          {recentSubs.map((submission) => (
-            <div className={styles.submissionBox} key={submission.id}>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "2fr 7fr",
-                  gap: "1rem",
-                }}
-              >
-                <div className={styles.centered}>
-                  <Link href={`/politicians/${submission.politician?.slug}`}>
-                    <div className={styles.avatarContainer}>
-                      <PartyAvatar
-                        theme={"dark"}
-                        size={80}
-                        iconSize="1.25rem"
-                        party={submission.politician?.party as PoliticalParty}
-                        src={
-                          submission.politician?.assets
-                            ?.thumbnailImage160 as string
-                        }
-                        alt={submission.politician?.fullName as string}
-                        target={"_blank"}
-                        rel={"noopener noreferrer"}
-                      />
-                      <span className={clsx(styles.link, styles.avatarName)}>
-                        {submission.politician?.fullName}
-                      </span>
-                      <span className={styles.runningFor}>
-                        <span style={{ display: "block" }}>Running for </span>
-                        <span className={styles.officeInfo}>
-                          {submission.politician?.upcomingRace?.office.name} -{" "}
-                          {submission.politician?.upcomingRace?.office.subtitle}
+      {recentSubs.length > 0 && (
+        <section>
+          <h2>Recent Submissions</h2>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            {recentSubs.map((submission) => (
+              <div className={styles.submissionBox} key={submission.id}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "2fr 7fr",
+                    gap: "1rem",
+                  }}
+                >
+                  <div className={styles.centered}>
+                    <Link href={`/politicians/${submission.politician?.slug}`}>
+                      <div className={styles.avatarContainer}>
+                        <PartyAvatar
+                          theme={"dark"}
+                          size={80}
+                          iconSize="1.25rem"
+                          party={submission.politician?.party as PoliticalParty}
+                          src={
+                            submission.politician?.assets
+                              ?.thumbnailImage160 as string
+                          }
+                          alt={submission.politician?.fullName as string}
+                          target={"_blank"}
+                          rel={"noopener noreferrer"}
+                        />
+                        <span className={clsx(styles.link, styles.avatarName)}>
+                          {submission.politician?.fullName}
                         </span>
-                      </span>
+                        <span className={styles.runningFor}>
+                          <span style={{ display: "block" }}>Running for </span>
+                          <span className={styles.officeInfo}>
+                            {submission.politician?.upcomingRace?.office.name} -{" "}
+                            {
+                              submission.politician?.upcomingRace?.office
+                                .subtitle
+                            }
+                          </span>
+                        </span>
+                      </div>
+                    </Link>
+                  </div>
+                  <div>
+                    <div className={styles.flexBetween}>
+                      <p
+                        style={{
+                          color: "var(--blue-text-light)",
+                          fontSize: "1em",
+                        }}
+                      >
+                        {submission.question.prompt}
+                      </p>
+                      <small
+                        className={styles.flexBetween}
+                        style={{ gap: "1rem", color: "var(--blue-text-light)" }}
+                      >
+                        {getRelativeTimeString(new Date(submission.updatedAt))}
+                      </small>
                     </div>
-                  </Link>
-                </div>
-                <div>
-                  <div className={styles.flexBetween}>
                     <p
                       style={{
-                        color: "var(--blue-text-light)",
-                        fontSize: "1em",
+                        fontSize: "1.2em",
                       }}
                     >
-                      {submission.question.prompt}
+                      {submission?.response}
                     </p>
-                    <small
-                      className={styles.flexBetween}
-                      style={{ gap: "1rem", color: "var(--blue-text-light)" }}
-                    >
-                      {getRelativeTimeString(new Date(submission.updatedAt))}
-                    </small>
                   </div>
-                  <p
-                    style={{
-                      fontSize: "1.2em",
-                    }}
-                  >
-                    {submission?.response}
-                  </p>
                 </div>
+                {submission.candidateGuideEmbed?.id && (
+                  <div className={styles.flexRight}>
+                    <Tooltip content="Manage Embed">
+                      <button
+                        className={styles.iconButton}
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          await router.push(
+                            `/dashboard/${dashboardSlug}/embeds/candidate-guide/${submission.candidateGuideEmbed?.id}/manage`
+                          );
+                        }}
+                      >
+                        <RiListSettingsFill color="var(--blue-text-light)" />
+                      </button>
+                    </Tooltip>
+                  </div>
+                )}
               </div>
-              {submission.candidateGuideEmbed?.id && (
-                <div className={styles.flexRight}>
-                  <Tooltip content="Manage Embed">
-                    <button
-                      className={styles.iconButton}
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        await router.push(
-                          `/dashboard/${dashboardSlug}/embeds/candidate-guide/${submission.candidateGuideEmbed?.id}/manage`
-                        );
-                      }}
-                    >
-                      <RiListSettingsFill color="var(--blue-text-light)" />
-                    </button>
-                  </Tooltip>
-                </div>
-              )}
-            </div>
-          ))}
-          {recentSubs.length === 0 && (
-            <Box>
-              <small className={styles.noResults}>No submissions</small>
-            </Box>
-          )}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

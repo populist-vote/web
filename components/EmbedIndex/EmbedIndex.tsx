@@ -1,4 +1,9 @@
-import { EmbedResult, EmbedType } from "generated";
+import {
+  EmbedResult,
+  EmbedType,
+  useOrganizationBySlugQuery,
+  useUpsertCandidateGuideMutation,
+} from "generated";
 import { Table } from "components/Table/Table";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { useRouter } from "next/router";
@@ -11,6 +16,7 @@ import { Badge } from "components/Badge/Badge";
 import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { SearchInput } from "components/SearchInput/SearchInput";
+import { Button } from "components/Button/Button";
 
 function EmbedIndex({
   isLoading,
@@ -31,9 +37,50 @@ function EmbedIndex({
 }) {
   const router = useRouter();
   const { theme } = useTheme();
-  const { search } = router.query;
+  const { search, dashboardSlug } = router.query;
 
   const [searchValue, setSearchValue] = useState((search as string) || "");
+
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: dashboardSlug as string,
+    },
+    {
+      enabled: !!dashboardSlug,
+    }
+  );
+
+  const organizationId = organizationData?.organizationBySlug?.id;
+
+  const upsertCandidateGuideMutation = useUpsertCandidateGuideMutation();
+
+  const handleNewCandidateGuideEmbed = () => {
+    // Create the candidate_guide record, then pass its ID to create a new embed record
+    upsertCandidateGuideMutation.mutate(
+      {
+        input: { name: "Untitled", organizationId },
+      },
+      {
+        onSuccess: (data) => {
+          void router.push(
+            `/dashboard/${dashboardSlug}/candidate-guides/${data.upsertCandidateGuide.id}`
+          );
+        },
+      }
+    );
+  };
+
+  const handleNewEmbed = () => {
+    if (embedType === EmbedType.CandidateGuide) {
+      handleNewCandidateGuideEmbed();
+    } else {
+      void router.push(
+        `/dashboard/${router.query.dashboardSlug}/embeds/${embedType
+          .replace("_", "-")
+          .toLowerCase()}/new`
+      );
+    }
+  };
 
   const handleRowClick = (row: Row<EmbedResult>) =>
     router.push(
@@ -160,10 +207,15 @@ function EmbedIndex({
             height: "50vh",
           }}
         >
-          <strong>
-            You don't have any {embedType.toLowerCase().replace("_", " ")}{" "}
-            embeds yet.
-          </strong>
+          <div className={styles.noResults}>
+            No {embedType.toLowerCase().replace("_", " ")} embeds
+          </div>
+          <Button
+            theme={theme}
+            variant="primary"
+            label="Create One"
+            onClick={handleNewEmbed}
+          />
         </div>
       ) : (
         <div style={{ marginTop: "1rem" }}>
