@@ -6,6 +6,7 @@ import {
   EmbedsCountResult,
   useEmbedsActivityQuery,
   useEmbedsDeploymentsQuery,
+  useOrganizationBySlugQuery,
   useTotalCandidateGuideSubmissionsQuery,
 } from "generated";
 import Link from "next/link";
@@ -14,6 +15,10 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Theme } from "hooks/useTheme";
 
 import { DeploymentsList } from "components/DeploymentsList/DeploymentsList";
+import Divider from "components/Divider/Divider";
+import { OrganizationAvatar } from "components/Avatar/Avatar";
+import { ORGANIZATION_FALLBACK_IMAGE_URL } from "utils/constants";
+import { useAuth } from "hooks/useAuth";
 
 export const EmbedTypeColorMap: Record<EmbedType, Theme> = {
   LEGISLATION: "yellow",
@@ -67,7 +72,63 @@ function ActivityTiles({
   activity: EmbedsCountResult[];
   totalCandidateGuideSubmissions: number;
 }) {
+  const { user } = useAuth();
+  const displayName = user?.userProfile.firstName
+    ? `${user.userProfile.firstName} ${user.userProfile.lastName}`
+    : user?.email;
   const { query } = useRouter();
+  const dashboardSlug = query.dashboardSlug as string;
+  const hasActivity = activity?.length > 0;
+  const { data: organizationData } = useOrganizationBySlugQuery(
+    {
+      slug: dashboardSlug as string,
+    },
+    {
+      enabled: !!dashboardSlug,
+    }
+  );
+
+  const organization = organizationData?.organizationBySlug;
+
+  if (!hasActivity)
+    return (
+      <div className={styles.centered} style={{ height: "100%" }}>
+        <Box>
+          <div className={styles.flexLeft}>
+            <OrganizationAvatar
+              src={
+                organization?.assets.thumbnailImage160 ||
+                ORGANIZATION_FALLBACK_IMAGE_URL
+              }
+              alt={organization?.name as string}
+              size={100}
+            />
+            <div className={styles.flexColumn}>
+              <h2 style={{ margin: 0 }}>{organization?.name}</h2>
+              <h3>{displayName}</h3>
+            </div>
+          </div>
+          <Divider />
+          <div className={styles.flexBetween}>
+            <h3>
+              Welcome to your dashboard! Click on "New Embed" to get started.
+            </h3>
+            <span style={{ fontSize: "2em" }}>👆</span>
+          </div>
+          <Divider />
+          <p style={{ fontSize: "1.1em", color: "var(--blue-text-light)" }}>
+            Populist allows organizations to create interactive content that
+            fosters civic engagement and community participation. With Populist,
+            you can easily build and embed tools like polls, questions, race and
+            candidate information, and much more directly into your website,
+            articles, or newsletters. We make it easy to drive civic involvement
+            and keep your readers or followers engaged with the issues that
+            matter most to them. Questions? Reach out to us at{" "}
+            <a href="mailto:info@populist.us">info@populist.us</a>.
+          </p>
+        </Box>
+      </div>
+    );
   return (
     <section>
       <h2 style={{ textAlign: "center" }}>Activity</h2>
@@ -156,6 +217,8 @@ function RecentDeployments({ organizationId }: { organizationId: string }) {
         <LoaderFlag />
       </div>
     );
+
+  if (!deployments || deployments.length === 0) return null;
 
   return (
     <section>
