@@ -127,16 +127,17 @@ export function MyBallotEmbed({
 
   const ballotMeasures = data?.electionById.ballotMeasuresByAddress;
 
-  const statewideBallotMeasures = ballotMeasures?.filter(
-    (bm) => bm.electionScope === ElectionScope.State
-  );
+  const statewideBallotMeasures =
+    ballotMeasures?.filter((bm) => bm.electionScope === ElectionScope.State) ||
+    [];
 
-  const localBallotMeasures = ballotMeasures?.filter(
-    (bm) =>
-      bm.electionScope === ElectionScope.County ||
-      bm.electionScope === ElectionScope.City ||
-      bm.electionScope === ElectionScope.District
-  );
+  const localBallotMeasures =
+    ballotMeasures?.filter(
+      (bm) =>
+        bm.electionScope === ElectionScope.County ||
+        bm.electionScope === ElectionScope.City ||
+        bm.electionScope === ElectionScope.District
+    ) || [];
 
   return (
     <div
@@ -254,7 +255,8 @@ export function MyBallotEmbed({
                   label="Federal"
                 />
               )}
-              {Object.keys(stateRacesGroupedByOffice).length > 0 && (
+              {(Object.keys(stateRacesGroupedByOffice).length > 0 ||
+                statewideBallotMeasures.length > 0) && (
                 <RaceSection
                   officeRaces={stateRacesGroupedByOffice}
                   label="State"
@@ -269,7 +271,8 @@ export function MyBallotEmbed({
                 </RaceSection>
               )}
 
-              {Object.keys(localRacesGroupedByOffice).length > 0 && (
+              {(Object.keys(localRacesGroupedByOffice).length > 0 ||
+                localBallotMeasures?.length > 0) && (
                 <RaceSection
                   officeRaces={localRacesGroupedByOffice}
                   label="Local"
