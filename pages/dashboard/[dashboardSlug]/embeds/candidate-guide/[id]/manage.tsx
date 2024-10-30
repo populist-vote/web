@@ -12,6 +12,7 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { DashboardTopNav } from "../../..";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import {
+  EmbedResult,
   EmbedType,
   PoliticianResult,
   SystemRoleType,
@@ -44,7 +45,7 @@ import clsx from "clsx";
 import { useAuth } from "hooks/useAuth";
 import { downloadCsv, titleCase } from "utils/strings";
 import { Tooltip } from "components/Tooltip/Tooltip";
-import { LANGUAGES } from "utils/constants";
+import { LanguageCode, LANGUAGES } from "utils/constants";
 
 export async function getServerSideProps({
   query,
@@ -137,6 +138,7 @@ export default function CandidateGuideEmbedPage({
   const availableLanguages = LANGUAGES.filter(
     (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
   );
+  const renderOptions = embed?.attributes.renderOptions;
 
   const candidates = useMemo(
     () => raceData?.raceById?.candidates || [],
@@ -223,79 +225,6 @@ export default function CandidateGuideEmbedPage({
     [candidateRespondedAt, candidateGuideId, handleCopyIntakeLink]
   );
 
-  const queryClient = useQueryClient();
-
-  const renderOptions = embed?.attributes.renderOptions;
-
-  const { register, control, handleSubmit, formState } = useForm<{
-    height: number;
-  }>({
-    defaultValues: {
-      height: renderOptions?.height || 700,
-    },
-  });
-
-  const upsertEmbed = useUpsertEmbedMutation();
-
-  const handleRenderOptionsSave = ({ height }: { height: number }) => {
-    upsertEmbed.mutate(
-      {
-        input: {
-          id: embed?.id,
-          organizationId: currentOrganizationId as string,
-          name: embed?.name,
-          embedType: EmbedType.CandidateGuide,
-          attributes: {
-            ...embed?.attributes,
-            renderOptions: {
-              height,
-            },
-          },
-        },
-      },
-      {
-        onSuccess: async () => {
-          await queryClient.invalidateQueries({
-            queryKey: ["CandidateGuideEmbedById", { id: embed?.id }],
-          });
-        },
-        onError: (error) => {
-          toast((error as Error).message, { type: "error" });
-        },
-      }
-    );
-  };
-
-  const handleDefaultLanguageChange = (language: string) => {
-    upsertEmbed.mutate(
-      {
-        input: {
-          id: embed?.id,
-          organizationId: currentOrganizationId as string,
-          name: embed?.name,
-          embedType: EmbedType.CandidateGuide,
-          attributes: {
-            ...embed?.attributes,
-            renderOptions: {
-              ...embed?.attributes?.renderOptions,
-              defaultLanguage: language,
-            },
-          },
-        },
-      },
-      {
-        onSuccess: async () => {
-          await queryClient.invalidateQueries({
-            queryKey: ["CandidateGuideEmbedById", { id: embed?.id }],
-          });
-        },
-        onError: (error) => {
-          toast((error as Error).message, { type: "error" });
-        },
-      }
-    );
-  };
-
   if (isEmbedLoading || isRaceLoading) return <LoaderFlag />;
 
   return (
@@ -346,66 +275,11 @@ export default function CandidateGuideEmbedPage({
             gap: "2rem",
           }}
         >
-          <div>
-            <h3>Options</h3>
-            <Box>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "1.5rem",
-                  justifyContent: "space-evenly",
-                  alignItems: "baseline",
-                }}
-              >
-                <span style={{ width: "16rem" }}>Fixed height (px)</span>
-                <TextInput
-                  hideLabel
-                  register={register}
-                  control={control}
-                  name="height"
-                  size="small"
-                  rules={{
-                    pattern: {
-                      value:
-                        /^(600|6[0-9]{2}|7[0-9]{2}|8[0-9]{2}|9[0-9]{2}|1[0-4][0-9]{2}|1500)$/,
-                      message: "Enter a value between 600 and 1500",
-                    },
-                  }}
-                  errors={formState.errors.height?.message}
-                  useToastError
-                />
-                <Button
-                  variant="primary"
-                  onClick={() => handleSubmit(handleRenderOptionsSave)()}
-                  label="Save"
-                  size="medium"
-                  disabled={upsertEmbed.isPending || !formState.isDirty}
-                />
-              </div>
-              <Divider />
-              <div
-                style={{
-                  display: "flex",
-                  gap: "1.5rem",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                }}
-              >
-                <span>Default language</span>
-                <Select
-                  backgroundColor="blue"
-                  value={
-                    embed?.attributes?.renderOptions?.defaultLanguage || "en"
-                  }
-                  options={availableLanguages.map((l) => ({
-                    value: l.code,
-                    label: l.display,
-                  }))}
-                  onChange={(e) => handleDefaultLanguageChange(e.target.value)}
-                />
-              </div>
-            </Box>
-          </div>
+          <OptionsForm
+            embed={embed as EmbedResult}
+            currentOrganizationId={currentOrganizationId as string}
+            availableLanguages={availableLanguages}
+          />
           <div>
             <h3>Embed Code</h3>
             <EmbedCodeBlock id={id as string} />
@@ -457,6 +331,149 @@ export default function CandidateGuideEmbedPage({
         <EmbedDeployments embedId={embed?.id as string} />
       </section>
     </>
+  );
+}
+
+function OptionsForm({
+  embed,
+  currentOrganizationId,
+  availableLanguages,
+}: {
+  embed: EmbedResult;
+  currentOrganizationId: string;
+  availableLanguages: { code: string; display: string }[];
+}) {
+  const queryClient = useQueryClient();
+  const renderOptions = embed?.attributes.renderOptions;
+
+  const { register, control, handleSubmit, formState } = useForm<{
+    height: number;
+  }>({
+    defaultValues: {
+      height: renderOptions?.height || "auto",
+    },
+  });
+
+  const upsertEmbed = useUpsertEmbedMutation();
+
+  const handleRenderOptionsSave = ({ height }: { height: number }) => {
+    upsertEmbed.mutate(
+      {
+        input: {
+          id: embed?.id,
+          organizationId: currentOrganizationId as string,
+          name: embed?.name,
+          embedType: EmbedType.CandidateGuide,
+          attributes: {
+            ...embed?.attributes,
+            renderOptions: {
+              height,
+            },
+          },
+        },
+      },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ["CandidateGuideEmbedById", { id: embed?.id }],
+          });
+          toast.success("Embed options saved successfully");
+        },
+        onError: (error) => {
+          toast((error as Error).message, { type: "error" });
+        },
+      }
+    );
+  };
+
+  const handleDefaultLanguageChange = (language: string) => {
+    upsertEmbed.mutate(
+      {
+        input: {
+          id: embed?.id,
+          organizationId: currentOrganizationId as string,
+          name: embed?.name,
+          embedType: EmbedType.CandidateGuide,
+          attributes: {
+            ...embed?.attributes,
+            renderOptions: {
+              ...embed?.attributes?.renderOptions,
+              defaultLanguage: language,
+            },
+          },
+        },
+      },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ["CandidateGuideEmbedById", { id: embed?.id }],
+          });
+        },
+        onError: (error) => {
+          toast((error as Error).message, { type: "error" });
+        },
+      }
+    );
+  };
+  return (
+    <div>
+      <h3>Options</h3>
+      <Box>
+        <div
+          style={{
+            display: "flex",
+            gap: "1.5rem",
+            justifyContent: "space-evenly",
+            alignItems: "baseline",
+          }}
+        >
+          <span style={{ width: "16rem" }}>Fixed height (px)</span>
+          <TextInput
+            hideLabel
+            register={register}
+            control={control}
+            name="height"
+            size="small"
+            rules={{
+              pattern: {
+                value:
+                  /^(600|6[0-9]{2}|7[0-9]{2}|8[0-9]{2}|9[0-9]{2}|1[0-4][0-9]{2}|1500)$/,
+                message: "Enter a value between 600 and 1500",
+              },
+            }}
+            errors={formState.errors.height?.message}
+            useToastError
+          />
+          <Button
+            variant="primary"
+            onClick={() => handleSubmit(handleRenderOptionsSave)()}
+            label="Save"
+            size="medium"
+            disabled={upsertEmbed.isPending || !formState.isDirty}
+          />
+        </div>
+        <Divider />
+        <div
+          style={{
+            display: "flex",
+            gap: "1.5rem",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+          }}
+        >
+          <span>Default language</span>
+          <Select
+            backgroundColor="blue"
+            value={embed?.attributes?.renderOptions?.defaultLanguage || "en"}
+            options={availableLanguages.map((l: LanguageCode) => ({
+              value: l.code,
+              label: l.display,
+            }))}
+            onChange={(e) => handleDefaultLanguageChange(e.target.value)}
+          />
+        </div>
+      </Box>
+    </div>
   );
 }
 

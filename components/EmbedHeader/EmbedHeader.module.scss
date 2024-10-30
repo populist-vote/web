@@ -17,9 +17,7 @@
 
   button {
     background: none;
-    padding: 0;
     margin: 0;
-    border: none;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -27,5 +25,14 @@
     color: $blue-text-light;
     text-transform: uppercase;
     cursor: pointer;
+    width: fit-content;
+    border-radius: 0.25rem;
+    padding: 0 0.75rem 0 0;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid $blue-dark-alpha-8;
+    }
   }
 }

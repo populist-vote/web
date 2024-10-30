@@ -65,7 +65,26 @@ query CandidateGuideEmbedById($id: ID!) {
   embedById(id: $id) {
     ...EmbedFields
     candidateGuide {
-      ...CandidateGuideFields
+      id
+      name
+      createdAt
+      updatedAt
+      organizationId
+      submissionCount
+      submissionsOpenAt
+      submissionsCloseAt
+      questions {
+        id
+        prompt
+        responseCharLimit
+        responsePlaceholderText
+        allowAnonymousResponses
+        translations
+        issueTags {
+          slug
+          name
+        }
+      }
     }
     race {
       ...RaceFields
