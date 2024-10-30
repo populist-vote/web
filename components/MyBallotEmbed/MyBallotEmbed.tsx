@@ -356,6 +356,18 @@ function RaceSection({
                   isEmbedded={true}
                 />
               </div>
+              {race?.results.precinctReportingPercentage != null && (
+                <div className={styles.resultsInfo}>
+                  <small>
+                    Vote totals update every 10 minutes after polls close.
+                  </small>
+                  <Badge size="small" theme="green" lightBackground>
+                    {race?.results?.precinctReportingPercentage}% precincts
+                    reporting
+                  </Badge>
+                </div>
+              )}
+              <Divider color="var(--grey-light)" />
               <RelatedEmbedLinks relatedEmbeds={race.relatedEmbeds} />
             </div>
           );
