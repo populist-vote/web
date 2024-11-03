@@ -38,39 +38,33 @@ export default function EmbedPreview() {
   const organizationLogoUrl = organization?.assets.bannerImage;
 
   return (
-    <BasicLayout hideHeader hideFooter withBackdrop>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center ",
-          height: "calc(100vh - 3rem)",
-          flexDirection: "column",
-          gap: "3rem",
-        }}
-      >
-        {isLoading ? (
-          <LoaderFlag />
-        ) : (
-          <div style={{ width: "100%", justifyContent: "flex-start" }}>
-            {organizationLogoUrl && (
-              <Image
-                src={organizationLogoUrl as string}
-                alt="Organization Logo"
-                height={100}
-                width={300}
-              />
-            )}
-          </div>
-        )}
-        <div style={{ width: "720px" }}>
+    <BasicLayout hideHeader withBackdrop>
+      {isLoading ? (
+        <LoaderFlag />
+      ) : (
+        <div
+          style={{
+            maxWidth: "100vw",
+            padding: "0.25rem",
+            height: "auto",
+            margin: "2.5rem auto",
+          }}
+        >
+          {organizationLogoUrl && (
+            <Image
+              src={organizationLogoUrl as string}
+              alt="Organization Logo"
+              height={100}
+              width={300}
+            />
+          )}
           <Embed
             embedId={id as string}
             origin={origin}
             originHost={originHost}
           />
         </div>
-      </div>
+      )}
     </BasicLayout>
   );
 }
