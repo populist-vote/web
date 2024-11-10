@@ -37,6 +37,7 @@ import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import { FileRejection, FileWithPath, useDropzone } from "react-dropzone";
 import { useEffect, useState } from "react";
 import { OfficeResultsTable } from "components/OfficeResultsTable/OfficeResultsTable";
+import { ImageCropper } from "components/Crop/Crop";
 
 export function PoliticianBasicsForm({
   politician,
@@ -480,6 +481,8 @@ export function PoliticianAvatar({
   hideName?: boolean;
 }) {
   const [uploading, setUploading] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
   const queryClient = useQueryClient();
   const { query } = useRouter();
   const intakeToken = query.token as string;
@@ -492,50 +495,62 @@ export function PoliticianAvatar({
   );
 
   const onDropAccepted = (files: FileWithPath[]) => {
+    if (files[0]) {
+      setSelectedFile(files[0]);
+      setShowCropper(true);
+    }
+  };
+
+  const handleFileUpload = async (croppedBlob: Blob) => {
     setUploading(true);
-    const formData = new FormData();
-    const uploadAvatarPictureOperations = `
-      {
-        "query":"mutation UploadPoliticianPicture($slug: String, $intakeToken: String, $file: Upload) {uploadPoliticianPicture(slug: $slug, intakeToken: $intakeToken, file: $file) }",
-        "variables":{
-            "slug": "${politician.slug}",
-            "intakeToken": "${intakeToken || ""}",
-            "file": null
+
+    try {
+      // Convert blob to file
+      const croppedFile = new File(
+        [croppedBlob],
+        selectedFile?.name || "cropped-image.jpg",
+        { type: "image/jpeg" }
+      );
+
+      const formData = new FormData();
+      const uploadAvatarPictureOperations = `
+        {
+          "query":"mutation UploadPoliticianPicture($slug: String, $intakeToken: String, $file: Upload) {uploadPoliticianPicture(slug: $slug, intakeToken: $intakeToken, file: $file) }",
+          "variables":{
+              "slug": "${politician.slug}",
+              "intakeToken": "${intakeToken || ""}",
+              "file": null
+          }
         }
-      }
       `;
 
-    formData.append("operations", uploadAvatarPictureOperations);
-    const map = `{"file": ["variables.file"]}`;
-    formData.append("map", map);
-    if (files[0]) formData.append("file", files[0]);
+      formData.append("operations", uploadAvatarPictureOperations);
+      formData.append("map", `{"file": ["variables.file"]}`);
+      formData.append("file", croppedFile);
 
-    fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    })
-      .then(async (data) => {
-        queryClient
-          .invalidateQueries({
-            queryKey: usePoliticianBySlugQuery.getKey({
-              slug: politician.slug as string,
-            }),
-          })
-          .catch((err) =>
-            toast.error(err, {
-              position: "bottom-right",
-            })
-          );
-        const json = await data.json();
-        setAvatarUrl(json.data.uploadPoliticianPicture);
-      })
-      .catch((error) =>
-        toast.error(error, {
-          position: "bottom-right",
-        })
-      )
-      .finally(() => setUploading(false));
+      const response = await fetch(`${process.env.GRAPHQL_SCHEMA_PATH}`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      const json = await response.json();
+
+      await queryClient.invalidateQueries({
+        queryKey: usePoliticianBySlugQuery.getKey({
+          slug: politician.slug as string,
+        }),
+      });
+
+      setAvatarUrl(json.data.uploadPoliticianPicture);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Upload failed", {
+        position: "bottom-right",
+      });
+    } finally {
+      setUploading(false);
+      setSelectedFile(null);
+    }
   };
 
   const onDropRejected = (e: FileRejection[]) => {
@@ -565,6 +580,16 @@ export function PoliticianAvatar({
         alignItems: "center",
       }}
     >
+      {showCropper && (
+        <ImageCropper
+          file={selectedFile as File}
+          onCropComplete={handleFileUpload}
+          onClose={() => {
+            setShowCropper(false);
+            setSelectedFile(null);
+          }}
+        />
+      )}
       {uploading ? (
         <LoaderFlag />
       ) : (
