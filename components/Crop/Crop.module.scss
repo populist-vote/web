@@ -1,4 +1,9 @@
-// Crop.module.scss
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .cropContainer {
   width: 100%;
   min-width: 600px;
@@ -32,7 +37,6 @@
     -webkit-appearance: none;
     width: 20px;
     height: 20px;
-    background: #007bff;
     border-radius: 50%;
     cursor: pointer;
   }
@@ -40,7 +44,6 @@
   &::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background: #007bff;
     border-radius: 50%;
     cursor: pointer;
     border: none;

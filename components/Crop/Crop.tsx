@@ -92,7 +92,6 @@ export const ImageCropper = ({
   const handleSave = async () => {
     try {
       if (!croppedArea) return;
-
       const imageUrl = URL.createObjectURL(file);
       const croppedImageBlob = await getCroppedImg(imageUrl, croppedArea);
       onCropComplete(croppedImageBlob);
@@ -132,7 +131,9 @@ export const ImageCropper = ({
           />
         </div>
       </div>
-      <Button onClick={handleSave} label="Save" />
+      <div className={styles.centered}>
+        <Button onClick={handleSave} label="Save" />
+      </div>
     </Modal>
   );
 };
