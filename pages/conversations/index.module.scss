@@ -1,0 +1,49 @@
+@import "styles/variables/colors";
+
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.issueGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.issueCard {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.issueTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.issueDescription {
+  color: $blue-text-light;
+  font-size: 1.25em;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.issueFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.date {
+  color: #999;
+  font-size: 0.875rem;
+}

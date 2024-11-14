@@ -10,6 +10,12 @@ Indicates that an Input Object is a OneOf Input Object (and thus requires
 """
 directive @oneOf on INPUT_OBJECT
 
+input AddStatementInput {
+  content: String!
+  conversationId: ID!
+  userId: ID
+}
+
 type AddressExtendedMNResult {
   countyCode: String
   countyCommissionerDistrict: String
@@ -435,6 +441,15 @@ type CommonWordsResult {
   word: String!
 }
 
+type ConversationResult {
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  prompt: String!
+  statements(limit: Int, offset: Int, sort: StatementSort): [StatementResult!]!
+  updatedAt: DateTime!
+}
+
 input Coordinates {
   latitude: Float!
   longitude: Float!
@@ -445,6 +460,11 @@ input CreateArgumentInput {
   body: String
   position: ArgumentPosition!
   title: String!
+}
+
+input CreateConversationInput {
+  description: String
+  prompt: String!
 }
 
 input CreateOrConnectIssueTagInput {
@@ -786,9 +806,11 @@ type LoginResult {
 }
 
 type Mutation {
+  addStatement(input: AddStatementInput!): Statement!
   beginUserRegistration(input: BeginUserRegistrationInput!): LoginResult!
   confirmUserEmail(confirmationToken: String!): Boolean!
   copyQuestionSubmission(questionSubmissionId: ID!, targetQuestionId: ID!): QuestionSubmissionResult!
+  createConversation(input: CreateConversationInput!): ConversationResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
   deleteAccountByEmail(email: String!): ID!
@@ -855,6 +877,7 @@ type Mutation {
   upsertVotingGuide(input: UpsertVotingGuideInput!): VotingGuideResult!
   upsertVotingGuideCandidate(input: UpsertVotingGuideCandidateInput!): VotingGuideCandidateResult!
   upvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
+  voteOnStatement(statementId: ID!, userId: ID, voteType: ArgumentPosition!): StatementVote!
 }
 
 """
@@ -1241,6 +1264,7 @@ type Query {
   billsByIds(ids: [ID!]!): [BillResult!]!
   candidateGuideById(id: ID!): CandidateGuideResult!
   candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
+  conversationById(id: ID!): ConversationResult
   countiesByState(state: State!): [String!]!
   """
   Provides current user based on JWT found in client's access_token cookie
@@ -1642,6 +1666,42 @@ enum State {
   WI
   WV
   WY
+}
+
+type Statement {
+  authorId: UUID
+  content: String!
+  conversationId: UUID!
+  createdAt: DateTime!
+  id: UUID!
+}
+
+type StatementResult {
+  agreeCount: Int!
+  author: UserResult
+  authorId: ID
+  content: String!
+  conversationId: ID!
+  createdAt: DateTime!
+  disagreeCount: Int!
+  id: ID!
+  passCount: Int!
+  voteCount: Int!
+}
+
+enum StatementSort {
+  CONTROVERSIAL
+  MOST_AGREE
+  MOST_VOTES
+  NEWEST
+}
+
+type StatementVote {
+  createdAt: DateTime!
+  id: UUID!
+  participantId: UUID
+  statementId: UUID!
+  voteType: ArgumentPosition!
 }
 
 type Subject {

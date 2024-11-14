@@ -329,7 +329,18 @@ query TotalCandidateGuideSubmissions($organizationId: ID!) {
 
 query IssueTags {
   allIssueTags {
-    name
     id
+    slug
+    name
+    description
+  }
+}
+
+query IssueTagBySlug($slug: String!) {
+  issueTagBySlug(slug: $slug) {
+    id
+    slug
+    name
+    description
   }
 }

@@ -179,6 +179,14 @@ $small-size: 1.825rem;
 
   &.clickable {
     cursor: pointer;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    &:active {
+      filter: brightness(0.9);
+    }
   }
 
   &.lightBackground {

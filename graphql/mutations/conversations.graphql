@@ -1,0 +1,13 @@
+mutation AddStatementToConversation($conversationId: ID!, $content: String!) {
+  addStatement(input: { conversationId: $conversationId, content: $content }) {
+    id
+    content
+    authorId
+  }
+}
+
+mutation VoteOnStatement($statementId: ID!, $voteType: ArgumentPosition!) {
+  voteOnStatement(statementId: $statementId, voteType: $voteType) {
+    id
+  }
+}

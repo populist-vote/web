@@ -1,0 +1,48 @@
+@import "styles/layout/containers";
+@import "styles/variables/colors";
+
+.statementsHeading {
+  h3 {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.statement {
+  border-radius: 0.5rem;
+  border: 1px solid $blue;
+  padding: 1rem;
+  background-color: $black-alpha-3;
+  margin-bottom: 1rem;
+  box-shadow:
+    /* The top layer shadow */
+    0 -1px 1px rgba(0, 0, 0, 0.15),
+    /* The second layer */ 0 -10px 0 -5px $blue-darkest,
+    /* The second layer shadow */ 0 -10px 1px -4px $blue,
+    /* The third layer */ 0 -20px 0 -10px $blue-darkest,
+    /* The third layer shadow */ 0 -20px 1px -9px $blue;
+}
+
+.statementFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.statementInfo {
+  color: $blue-text;
+
+  p {
+    font-size: 1em;
+    font-style: italic;
+  }
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

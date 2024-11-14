@@ -1,0 +1,19 @@
+query ConversationById($id: ID!) {
+  conversationById(id: $id) {
+    id
+    prompt
+    description
+    statements {
+      id
+      content
+      agreeCount
+      createdAt
+      author {
+        id
+        firstName
+        lastName
+        profilePictureUrl
+      }
+    }
+  }
+}
