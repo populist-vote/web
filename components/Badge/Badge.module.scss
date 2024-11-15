@@ -214,6 +214,15 @@ $small-size: 1.825rem;
     padding: 0 2rem;
   }
 
+  &.responsive {
+    @media (width <= 768px) {
+      font-size: 0.8125rem;
+      line-height: 1rem;
+      min-height: $small-size;
+      padding: 0 0.75rem;
+    }
+  }
+
   &.extra-large {
     font-size: 2.5rem;
     line-height: 1.5rem;

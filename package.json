@@ -41,6 +41,7 @@
     "@vercel/og": "^0.6.2",
     "clsx": "^2.1.0",
     "css-loader": "5.2.7",
+    "framer-motion": "^11.11.17",
     "graphql": "16.5.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.9.0",

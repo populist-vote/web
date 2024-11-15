@@ -17,3 +17,21 @@ query ConversationById($id: ID!) {
     }
   }
 }
+
+query GetRelatedStatements(
+  $conversationId: ID!
+  $draftContent: String!
+  $limit: Int!
+) {
+  conversationById(id: $conversationId) {
+    relatedStatements(draftContent: $draftContent, limit: $limit) {
+      id
+      content
+      voteCount
+      agreeCount
+      disagreeCount
+      passCount
+      createdAt
+    }
+  }
+}
