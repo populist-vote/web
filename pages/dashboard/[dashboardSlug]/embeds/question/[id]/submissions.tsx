@@ -19,7 +19,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { EmbedPageTabs } from "components/EmbedPageTabs/EmbedPageTabs";
 import { Box } from "components/Box/Box";
 import styles from "components/PollMetrics/PollMetrics.module.scss";
-import { SubmissionsOverTimeLineChart } from "components/PollMetrics/PollMetrics";
+import {
+  CountOverTimeLineChart,
+} from "components/PollMetrics/PollMetrics";
 import { BsCircleFill } from "react-icons/bs";
 import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import { Badge } from "components/Badge/Badge";
@@ -132,9 +134,7 @@ function EmbedById({
             </div>
             <Box flexDirection="row">
               <div className={styles.flexChild}>
-                <SubmissionsOverTimeLineChart
-                  submissionCountByDate={submissionCountByDate}
-                />
+                <CountOverTimeLineChart countByDate={submissionCountByDate} />
               </div>
             </Box>
           </div>

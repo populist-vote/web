@@ -1,9 +1,14 @@
 @import "styles/variables/colors";
+@import "styles/layout/containers";
 
 .container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+
+  p {
+    margin: 0;
+  }
 }
 
 .issueGrid {

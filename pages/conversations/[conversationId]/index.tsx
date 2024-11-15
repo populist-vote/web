@@ -38,7 +38,7 @@ export default function ConversationPage() {
     <div>
       {conversation ? (
         <>
-          <h1>{conversation.prompt}</h1>
+          <h1>{conversation.topic}</h1>
           <p>{conversation.description}</p>
           <Divider />
           <Conversation id={conversationId as string} />

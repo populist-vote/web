@@ -14,13 +14,14 @@ import { BsCircleFill } from "react-icons/bs";
 import { XAxis, YAxis, AreaChart, Area, ResponsiveContainer } from "recharts";
 import { Badge } from "components/Badge/Badge";
 
-export function SubmissionsOverTimeLineChart({
-  submissionCountByDate,
+export function CountOverTimeLineChart({
+  interval = "day",
+  countByDate,
 }: {
-  submissionCountByDate: SubmissionCountByDateResult[];
+  interval?: "hour" | "day" | "week";
+  countByDate: { date: string; count: number }[];
 }) {
-  const dates = submissionCountByDate.map((submission) => submission.date);
-
+  const dates = countByDate.map((submission) => submission.date);
   const missingDates = getMissingDates(dates);
 
   const missingDateCounts = missingDates.map((date) => ({
@@ -28,12 +29,37 @@ export function SubmissionsOverTimeLineChart({
     count: 0,
   }));
 
-  const counts = [...submissionCountByDate, ...missingDateCounts].sort(
+  const counts = [...countByDate, ...missingDateCounts].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
 
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+
+    switch (interval) {
+      case "hour":
+        return date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      case "week":
+        return date.toLocaleDateString([], {
+          month: "short",
+          day: "numeric",
+          weekday: "short",
+        });
+      case "day":
+      default:
+        return date.toLocaleDateString([], {
+          month: "short",
+          day: "numeric",
+        });
+    }
+  };
+
   const data = counts.map((submission) => ({
-    date: new Date(submission.date).toLocaleDateString(),
+    date: formatDate(submission.date),
+    fullDate: submission.date,
     count: submission.count,
   }));
 
@@ -62,9 +88,21 @@ export function SubmissionsOverTimeLineChart({
     );
   };
 
+  const getTickCount = () => {
+    switch (interval) {
+      case "hour":
+        return 6; // Show every 4 hours
+      case "week":
+        return 7; // Show one tick per day
+      case "day":
+      default:
+        return 5; // Show 5 evenly spaced days
+    }
+  };
+
   if (data.length === 0)
     return (
-      <div className={styles.center}>
+      <div className="flex items-center justify-center">
         <small>No activity yet</small>
       </div>
     );
@@ -88,7 +126,13 @@ export function SubmissionsOverTimeLineChart({
           strokeWidth={3}
           fill="url(#count)"
         />
-        <XAxis dataKey="date" stroke="white" tick={renderCustomTick} />
+        <XAxis
+          dataKey="date"
+          stroke="white"
+          tick={renderCustomTick}
+          interval="preserveStartEnd"
+          tickCount={getTickCount()}
+        />
         <YAxis stroke="white" allowDecimals={false} />
       </AreaChart>
     </ResponsiveContainer>
@@ -208,9 +252,7 @@ export function PollMetrics({ poll }: { poll: PollResult }) {
             </div>
             <Box flexDirection="row">
               <div className={styles.flexChild}>
-                <SubmissionsOverTimeLineChart
-                  submissionCountByDate={submissionCountByDate}
-                />
+                <CountOverTimeLineChart countByDate={submissionCountByDate} />
               </div>
             </Box>
           </div>

@@ -445,10 +445,27 @@ type ConversationResult {
   createdAt: DateTime!
   description: String
   id: ID!
-  prompt: String!
+  """Counts unique participants who voted in each time bucket"""
+  participationOverTime(interval: String): [TimeSeriesPoint!]!
   relatedStatements(draftContent: String!, limit: Int): [StatementResult!]!
   statements(limit: Int, offset: Int, sort: StatementSort): [StatementResult!]!
+  statementsOverTime(interval: String): [TimeSeriesPoint!]!
+  stats: ConversationStats!
+  topic: String!
   updatedAt: DateTime!
+  """
+  Returns distribution of voting activity across participants.
+  Shows how many participants cast X number of votes.
+  """
+  voteDistribution(bucketSize: Int): [VoteDistributionBucket!]!
+  votesOverTime(interval: String): [TimeSeriesPoint!]!
+}
+
+type ConversationStats {
+  avgVotesPerParticipant: Float!
+  totalParticipants: Int!
+  totalStatements: Int!
+  totalVotes: Int!
 }
 
 input Coordinates {
@@ -465,7 +482,8 @@ input CreateArgumentInput {
 
 input CreateConversationInput {
   description: String
-  prompt: String!
+  organizationId: ID!
+  topic: String!
 }
 
 input CreateOrConnectIssueTagInput {
@@ -1266,6 +1284,7 @@ type Query {
   candidateGuideById(id: ID!): CandidateGuideResult!
   candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
   conversationById(id: ID!): ConversationResult
+  conversationsByOrganization(limit: Int, organizationId: ID!): [ConversationResult!]!
   countiesByState(state: State!): [String!]!
   """
   Provides current user based on JWT found in client's access_token cookie
@@ -1675,6 +1694,7 @@ type Statement {
   conversationId: UUID!
   createdAt: DateTime!
   id: UUID!
+  updatedAt: DateTime!
 }
 
 type StatementResult {
@@ -1738,6 +1758,11 @@ type Text {
   typeField: String!
   typeId: Int!
   url: String!
+}
+
+type TimeSeriesPoint {
+  count: Int!
+  timestamp: DateTime!
 }
 
 """
@@ -2072,6 +2097,12 @@ type UserResult {
   lastName: String
   profilePictureUrl: String
   username: String!
+}
+
+type VoteDistributionBucket {
+  participantCount: Int!
+  percentage: Float!
+  voteCount: Int!
 }
 
 enum VoteType {

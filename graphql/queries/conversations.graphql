@@ -1,7 +1,18 @@
+query ConversationsByOrganization($organizationId: ID!, $limit: Int!) {
+  conversationsByOrganization(organizationId: $organizationId, limit: $limit) {
+    id
+    topic
+    description
+    stats {
+      totalParticipants
+    }
+  }
+}
+
 query ConversationById($id: ID!) {
   conversationById(id: $id) {
     id
-    prompt
+    topic
     description
     statements {
       id
@@ -14,6 +25,37 @@ query ConversationById($id: ID!) {
         lastName
         profilePictureUrl
       }
+    }
+  }
+}
+
+query ConversationAnalytics($conversationId: ID!, $interval: String!) {
+  conversationById(id: $conversationId) {
+    id
+    topic
+    description
+    stats {
+      totalParticipants
+      totalVotes
+      totalStatements
+      avgVotesPerParticipant
+    }
+    statementsOverTime(interval: $interval) {
+      timestamp
+      count
+    }
+    votesOverTime(interval: $interval) {
+      timestamp
+      count
+    }
+    participationOverTime(interval: $interval) {
+      timestamp
+      count
+    }
+    voteDistribution {
+      voteCount
+      participantCount
+      percentage
     }
   }
 }
