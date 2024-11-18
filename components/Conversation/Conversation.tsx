@@ -55,6 +55,10 @@ export function Conversation({ id }: { id: string }) {
   const voteOnStatementMutation = useVoteOnStatementMutation();
   const queryClient = useQueryClient();
 
+  const [viewMode, setViewMode] = useState<"participate" | "overview">(
+    "participate"
+  );
+
   const handleNewStatement = async (data: { statement: string }) => {
     try {
       await addStatementMutation.mutateAsync({
@@ -221,19 +225,17 @@ export function Conversation({ id }: { id: string }) {
             name="sort"
             backgroundColor="blue"
             options={[
-              { label: "Suggested", value: "populist" },
-              { label: "Newest", value: "newest" },
-              { label: "Oldest", value: "oldest" },
-              { label: "Most supported", value: "most-supported" },
-              { label: "Least supported", value: "least-supported" },
-              { label: "Most opposed", value: "most-opposed" },
-              { label: "Least opposed", value: "least-opposed" },
-              { label: "Most neutral", value: "most-neutral" },
+              { label: "Participate", value: "participate" },
+              { label: "Overview", value: "overview" },
             ]}
+            value={viewMode}
+            onChange={(e) =>
+              setViewMode(e.target.value as "participate" | "overview")
+            }
           />
         </div>
         <Divider />
-        {!!currentStatement && (
+        {!!currentStatement && viewMode == "participate" && (
           <div className={styles.stack}>
             {/* Placeholder statement */}
             <div
@@ -249,6 +251,7 @@ export function Conversation({ id }: { id: string }) {
             />
 
             {/* Animated statement */}
+
             <div style={{ position: "relative", zIndex: 1 }}>
               <AnimatePresence mode="wait" initial={false}>
                 {animate && currentStatement && (
@@ -268,6 +271,17 @@ export function Conversation({ id }: { id: string }) {
                 )}
               </AnimatePresence>
             </div>
+          </div>
+        )}
+        {viewMode === "overview" && (
+          <div className={styles.overViewContainer}>
+            {statements.map((statement) => (
+              <StatementBox
+                key={statement.id}
+                statement={statement}
+                handleVote={handleVote}
+              />
+            ))}
           </div>
         )}
         <div>
