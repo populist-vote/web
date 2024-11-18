@@ -1,3 +1,11 @@
+mutation CreateConversation($input: CreateConversationInput!) {
+  createConversation(input: $input) {
+    id
+    topic
+    description
+  }
+}
+
 mutation AddStatementToConversation($conversationId: ID!, $content: String!) {
   addStatement(input: { conversationId: $conversationId, content: $content }) {
     id

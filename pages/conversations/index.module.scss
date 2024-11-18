@@ -52,3 +52,29 @@
   color: #999;
   font-size: 0.875rem;
 }
+
+.seedCommentBox {
+  padding: 0.5rem 1rem;
+  border: 1px solid $blue;
+  background-color: $black-alpha-3;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  svg:hover {
+    color: $red;
+  }
+
+  .removeSeedButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+
+    &:hover {
+      color: $red;
+    }
+  }
+}

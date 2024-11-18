@@ -483,6 +483,7 @@ input CreateArgumentInput {
 input CreateConversationInput {
   description: String
   organizationId: ID!
+  seedStatements: [String!]
   topic: String!
 }
 
