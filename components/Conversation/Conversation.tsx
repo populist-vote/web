@@ -5,9 +5,7 @@ import { useForm } from "react-hook-form";
 import styles from "./Conversation.module.scss";
 import { BiInfoCircle } from "react-icons/bi";
 import { Badge } from "components/Badge/Badge";
-import { FaCheckCircle } from "react-icons/fa";
-import { RiCloseCircleFill } from "react-icons/ri";
-import { BsEmojiNeutral } from "react-icons/bs";
+import { FaCheckCircle, FaCircle, FaMinusCircle } from "react-icons/fa";
 import { Button } from "components/Button/Button";
 import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import { useAuth } from "hooks/useAuth";
@@ -28,6 +26,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import useDebounce from "hooks/useDebounce";
 import clsx from "clsx";
+import { RiCloseCircleFill } from "react-icons/ri";
 
 export function Conversation({ id }: { id: string }) {
   const { user } = useAuth();
@@ -112,10 +111,19 @@ export function Conversation({ id }: { id: string }) {
       }
 
       // Submit the vote
-      await voteOnStatementMutation.mutateAsync({
-        statementId,
-        voteType: vote,
-      });
+      await voteOnStatementMutation.mutateAsync(
+        {
+          statementId,
+          voteType: vote,
+        },
+        {
+          onSuccess: () => {
+            void queryClient.invalidateQueries({
+              queryKey: useConversationByIdQuery.getKey({ id }),
+            });
+          },
+        }
+      );
 
       // Only animate and show next statement if we voted on the current main statement
       if (isCurrentMainStatement) {
@@ -164,7 +172,10 @@ export function Conversation({ id }: { id: string }) {
 
   const statements = (data?.conversationById?.statements ||
     []) as StatementResult[];
-  const currentStatement = statements[currentStatementIndex];
+  const filteredStatements = data?.conversationById?.statements.filter(
+    (s) => !s.voteByUserOrSession
+  ) as StatementResult[];
+  const currentStatement = filteredStatements[currentStatementIndex];
 
   const getAnimationKey = (index: number) => `statement-${index}`;
 
@@ -217,7 +228,7 @@ export function Conversation({ id }: { id: string }) {
           <h3>
             Comments{" "}
             <Badge size="small" theme="blue">
-              {statements.length}
+              {data?.conversationById?.statements.length}
             </Badge>
           </h3>
 
@@ -275,13 +286,15 @@ export function Conversation({ id }: { id: string }) {
         )}
         {viewMode === "overview" && (
           <div className={styles.overViewContainer}>
-            {statements.map((statement) => (
-              <StatementBox
-                key={statement.id}
-                statement={statement}
-                handleVote={handleVote}
-              />
-            ))}
+            {statements.map((statement) => {
+              return (
+                <StatementBox
+                  key={statement.id}
+                  statement={statement}
+                  handleVote={handleVote}
+                />
+              );
+            })}
           </div>
         )}
         <div>
@@ -385,6 +398,9 @@ function StatementBox({
   handleVote: (statementId: string, vote: ArgumentPosition) => void;
 }) {
   if (!statement) return null;
+
+  const currentVote = statement.voteByUserOrSession;
+
   return (
     <div className={styles.statement}>
       <div className={styles.flexBetween}>
@@ -411,30 +427,42 @@ function StatementBox({
       <p>{statement.content}</p>
 
       <div className={styles.voteOptions}>
-        <Badge
-          size="responsive"
-          clickable
-          iconLeft={<FaCheckCircle size={18} color="var(--green-support)" />}
+        <button
+          className={clsx(styles.voteBadge, styles.support, {
+            [styles.selected as string]:
+              currentVote === ArgumentPosition.Support,
+          })}
           onClick={() => handleVote(statement.id, ArgumentPosition.Support)}
         >
-          Support
-        </Badge>
-        <Badge
-          size="responsive"
-          clickable
-          iconLeft={<RiCloseCircleFill size={18} color="var(--red)" />}
+          <span className={styles.iconStack}>
+            <FaCircle size={18} color="white" />
+            <FaCheckCircle size={18} color="var(--green-support)" />
+          </span>
+          <span>Support</span>
+        </button>
+        <button
+          className={clsx(styles.voteBadge, styles.oppose, {
+            [styles.selected as string]:
+              currentVote === ArgumentPosition.Oppose,
+          })}
           onClick={() => handleVote(statement.id, ArgumentPosition.Oppose)}
         >
-          Oppose
-        </Badge>
-        <Badge
-          size="responsive"
-          clickable
-          iconLeft={<BsEmojiNeutral />}
+          <span className={styles.iconStack}>
+            <FaCircle size={20} color="white" />
+            <RiCloseCircleFill size={20} color="var(--red)" />
+          </span>
+          <span>Oppose</span>
+        </button>
+        <button
+          className={clsx(styles.voteBadge, styles.neutral, {
+            [styles.selected as string]:
+              currentVote === ArgumentPosition.Neutral,
+          })}
           onClick={() => handleVote(statement.id, ArgumentPosition.Neutral)}
         >
-          Neutral
-        </Badge>
+          <FaMinusCircle size={18} />
+          <span>Neutral</span>
+        </button>
       </div>
     </div>
   );

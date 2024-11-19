@@ -75,7 +75,7 @@
 }
 
 .iconStack {
-  display: grid;
+  display: grid !important;
   svg {
     grid-area: 1 / 1;
   }

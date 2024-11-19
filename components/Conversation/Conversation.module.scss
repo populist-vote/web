@@ -124,3 +124,37 @@
   gap: 1rem;
   margin-bottom: 2rem;
 }
+
+.voteBadge {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.875em;
+  background: $grey-lighter;
+  color: $grey-darkest;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  @media (width >= 768px) {
+    font-size: 1em;
+  }
+
+  &.selected {
+    &.support {
+      background: $green;
+      color: $black;
+    }
+
+    &.oppose {
+      background: $red;
+      color: $white;
+    }
+
+    &.neutral {
+      background: $grey;
+      color: $white;
+    }
+  }
+}

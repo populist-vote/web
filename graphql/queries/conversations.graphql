@@ -19,6 +19,7 @@ query ConversationById($id: ID!) {
       content
       agreeCount
       createdAt
+      voteByUserOrSession
       author {
         id
         firstName

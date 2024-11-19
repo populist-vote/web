@@ -45,7 +45,7 @@ function Badge({
   ...rest
 }: PropsWithChildren<BadgeProps>) {
   const cx = clsx(styles.container, styles[size as string], {
-    [styles.selected as string]: selected,
+    [styles.selected as string]: !!selected,
     [styles.solid as string]: variant === "solid",
     [styles.lightBackground as string]: lightBackground,
     [styles.clickable as string]: clickable,

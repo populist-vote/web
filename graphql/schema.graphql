@@ -1708,6 +1708,7 @@ type StatementResult {
   disagreeCount: Int!
   id: ID!
   passCount: Int!
+  voteByUserOrSession(userId: ID): ArgumentPosition
   voteCount: Int!
 }
 
@@ -1721,8 +1722,10 @@ enum StatementSort {
 type StatementVote {
   createdAt: DateTime!
   id: UUID!
-  participantId: UUID
+  sessionId: UUID
   statementId: UUID!
+  updatedAt: DateTime!
+  userId: UUID
   voteType: ArgumentPosition!
 }
 
