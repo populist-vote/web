@@ -1,21 +1,33 @@
 @import "styles/layout/containers";
 @import "styles/variables/colors";
 
+.conversationHeader {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+  }
+
+  .tabs {
+    margin: 2.5rem 0;
+  }
+}
+
 // Mobile-first approach
 .statementsHeading {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 
-  @media (width >= 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  h3 {
+  h2 {
     display: flex;
     gap: 0.5rem;
+    justify-content: center;
     align-items: center;
 
     @media (width >= 768px) {
@@ -25,34 +37,11 @@
 }
 
 .statement {
-  border-radius: 0.5rem;
-  border: 1px solid $blue;
-  padding: 0.75rem;
-  background-color: $black-alpha-3;
-
-  @media (width >= 768px) {
-    padding: 1rem;
-  }
-}
-
-.stack {
-  position: relative;
-  margin-bottom: 1.5rem;
-  box-shadow:
-    0 -1px 1px rgba(0, 0, 0, 0.15),
-    0 -8px 0 -4px $blue-darkest,
-    0 -8px 1px -3px $blue,
-    0 -16px 0 -8px $blue-darkest,
-    0 -16px 1px -7px $blue;
-
-  @media (width >= 768px) {
-    box-shadow:
-      0 -1px 1px rgba(0, 0, 0, 0.15),
-      0 -10px 0 -5px $blue-darkest,
-      0 -10px 1px -4px $blue,
-      0 -20px 0 -10px $blue-darkest,
-      0 -20px 1px -9px $blue;
-  }
+  border-radius: 30px;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 2rem;
+  background-color: $blue-darker;
 }
 
 .voteOptions {
@@ -67,34 +56,38 @@
   }
 }
 
-.statementInfo {
-  color: $blue-text;
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
+.contributeSection {
+  margin: 5rem 0;
+  text-align: center;
 
-  p {
-    padding: 0;
-    margin: 0;
-    font-size: 0.875em;
-    font-style: italic;
-
-    @media (width >= 768px) {
-      font-size: 1em;
-    }
-  }
-
-  ul {
-    margin-bottom: 1.5rem;
+  h3 {
+    font-size: $text-xl;
   }
 }
 
 .formContainer {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 
   @media (width >= 768px) {
     grid-template-columns: 4fr 1fr;
+  }
+}
+
+.statementInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  p {
+    font-style: italic;
+    color: $blue-text;
+
+    strong {
+      font-weight: 500;
+    }
   }
 }
 
@@ -123,38 +116,85 @@
   display: grid;
   gap: 1rem;
   margin-bottom: 2rem;
+  text-align: center;
+
+  h3 {
+    font-size: $text-xl;
+  }
 }
 
 .voteBadge {
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  font-size: 0.875em;
-  background: $grey-lighter;
-  color: $grey-darkest;
-  padding: 0.5rem 1rem;
+  justify-content: center;
+  font-size: 1em;
+  background: $blue-darker;
+  color: $white;
+  padding: 0.75rem 1.25rem;
   border-radius: 100px;
-  text-transform: uppercase;
+  text-transform: capitalize;
   cursor: pointer;
+  border: 2px solid $blue;
+  font-family: $font-primary;
+  font-weight: 400;
 
   @media (width >= 768px) {
-    font-size: 1em;
+    font-size: 1.25em;
   }
 
   &.selected {
     &.support {
+      border: 3px solid $green-support;
       background: $green;
       color: $black;
     }
 
     &.oppose {
+      border: 3px solid #f37e7e;
       background: $red;
       color: $white;
     }
 
     &.neutral {
+      border: 3px solid $grey-dark;
       background: $grey;
-      color: $white;
+      color: $grey-darkest;
     }
+  }
+}
+
+.segmentedBar {
+  width: 100%;
+  height: 12px;
+  display: flex;
+  border-radius: 35px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.segment {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+  transition: width 0.3s ease;
+}
+
+.thanksBox {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  text-align: center;
+
+  h3 {
+    font-size: $text-xl;
+  }
+
+  p {
+    font-size: $text-md;
   }
 }

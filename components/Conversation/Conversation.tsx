@@ -3,17 +3,16 @@ import Divider from "components/Divider/Divider";
 import { TextInput } from "components/TextInput/TextInput";
 import { useForm } from "react-hook-form";
 import styles from "./Conversation.module.scss";
-import { BiInfoCircle } from "react-icons/bi";
 import { Badge } from "components/Badge/Badge";
 import { FaCheckCircle, FaCircle, FaMinusCircle } from "react-icons/fa";
 import { Button } from "components/Button/Button";
 import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
-import { useAuth } from "hooks/useAuth";
 import { Avatar } from "components/Avatar/Avatar";
-import { Select } from "components/Select/Select";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArgumentPosition,
+  ConversationResult,
+  OpinionScore,
   StatementResult,
   useAddStatementToConversationMutation,
   useConversationByIdQuery,
@@ -26,10 +25,13 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import useDebounce from "hooks/useDebounce";
 import clsx from "clsx";
-import { RiCloseCircleFill } from "react-icons/ri";
+import { RadioGroup } from "components/RadioGroup/RadioGroup";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { BsCircleFill } from "react-icons/bs";
+import { PageIndex } from "components/PageIndex/PageIndex";
+import { useAuth } from "hooks/useAuth";
 
 export function Conversation({ id }: { id: string }) {
-  const { user } = useAuth();
   const { register, control, handleSubmit, reset, watch } = useForm<{
     statement: string;
   }>();
@@ -54,7 +56,7 @@ export function Conversation({ id }: { id: string }) {
   const voteOnStatementMutation = useVoteOnStatementMutation();
   const queryClient = useQueryClient();
 
-  const [viewMode, setViewMode] = useState<"participate" | "overview">(
+  const [viewMode, setViewMode] = useState<"participate" | "insights">(
     "participate"
   );
 
@@ -91,9 +93,6 @@ export function Conversation({ id }: { id: string }) {
 
   const handleVote = async (statementId: string, vote: ArgumentPosition) => {
     try {
-      // Check if the voted statement is the current main statement
-      const isCurrentMainStatement = statementId === currentStatement?.id;
-
       // Check if the statement exists in related statements
       const isRelatedStatement = localRelatedStatements.some(
         (s) => s.id === statementId
@@ -125,23 +124,13 @@ export function Conversation({ id }: { id: string }) {
         }
       );
 
-      // Only animate and show next statement if we voted on the current main statement
-      if (isCurrentMainStatement) {
-        await handleShowNextStatement();
-      }
-
       // Invalidate queries after animation completes
       setTimeout(async () => {
         await queryClient.invalidateQueries({
           queryKey: useConversationByIdQuery.getKey({ id }),
         });
 
-        // Clear the animating state for this statement
-        setAnimatingRelatedStatements((prev) => {
-          const next = new Set(prev);
-          next.delete(statementId);
-          return next;
-        });
+        handleStatementChange(currentStatementIndex + 1);
       }, 300);
 
       toast.success("Your vote has been submitted!");
@@ -154,67 +143,69 @@ export function Conversation({ id }: { id: string }) {
       });
     }
   };
+
   const [currentStatementIndex, setCurrentStatementIndex] = useState(0);
 
-  const [animate, setAnimate] = useState(true);
+  const [direction, setDirection] = useState<1 | -1>(1);
 
-  const handleShowNextStatement = () => {
-    // Start the exit animation
-    setAnimate(false);
+  const handleStatementChange = (index: number) => {
+    const newDirection = index > currentStatementIndex ? 1 : -1;
+    setDirection(newDirection);
 
     // Change index almost immediately
     requestAnimationFrame(() => {
-      setCurrentStatementIndex((prev) => prev + 1);
-      setAnimate(true);
-      // Show new statement right after index change
+      setCurrentStatementIndex(index);
     });
   };
 
-  const statements = (data?.conversationById?.statements ||
-    []) as StatementResult[];
-  const filteredStatements = data?.conversationById?.statements.filter(
-    (s) => !s.voteByUserOrSession
-  ) as StatementResult[];
-  const currentStatement = filteredStatements[currentStatementIndex];
-
-  const getAnimationKey = (index: number) => `statement-${index}`;
+  const conversation = data?.conversationById as ConversationResult;
+  const statements = (conversation?.statements || []) as StatementResult[];
 
   const slideVariants = {
-    enter: {
-      y: 100, // Reduced travel distance
+    enterFromRight: {
+      x: 100,
       opacity: 0,
-      scale: 0.95, // Less scale change for smoother feel
-      rotateX: 15, // Reduced rotation for subtlety
+      scale: 0.99,
+    },
+    enterFromLeft: {
+      x: -100,
+      opacity: 0,
+      scale: 0.99,
     },
     center: {
-      y: 0,
+      x: 0,
       opacity: 1,
       scale: 1,
-      rotateX: 0,
       transition: {
         type: "spring",
-        stiffness: 1000, // Much higher for snappier movement
-        damping: 50, // Balanced damping for minimal oscillation
-        mass: 0.2, // Lower mass for faster reaction
-        restSpeed: 0.01, // Lower rest speed for more precise settling
-        restDelta: 0.01,
+        duration: 0.7,
+        bounce: 0,
+        stiffness: 150,
+        damping: 25,
       },
     },
-    exit: {
-      y: -100, // Reduced travel distance
+    exitToLeft: {
+      x: -100,
       opacity: 0,
-      scale: 0.95,
-      rotateX: -15,
+      scale: 0.99,
       transition: {
         type: "spring",
-        stiffness: 1000,
-        damping: 50,
-        mass: 0.2,
-        restSpeed: 0.01,
-        restDelta: 0.01,
-        opacity: {
-          duration: 0.1, // Faster fade out
-        },
+        duration: 0.5,
+        bounce: 0,
+        stiffness: 150,
+        damping: 25,
+      },
+    },
+    exitToRight: {
+      x: 100,
+      opacity: 0,
+      scale: 0.99,
+      transition: {
+        type: "spring",
+        duration: 0.5,
+        bounce: 0,
+        stiffness: 150,
+        damping: 25,
       },
     },
   };
@@ -222,170 +213,246 @@ export function Conversation({ id }: { id: string }) {
   if (isLoading) return <LoaderFlag />;
 
   return (
-    <div>
-      <Box>
-        <div className={styles.statementsHeading}>
-          <h3>
-            Comments{" "}
-            <Badge size="small" theme="blue">
-              {data?.conversationById?.statements.length}
-            </Badge>
-          </h3>
-
-          <Select
-            name="sort"
-            backgroundColor="blue"
-            options={[
-              { label: "Participate", value: "participate" },
-              { label: "Overview", value: "overview" },
-            ]}
-            value={viewMode}
-            onChange={(e) =>
-              setViewMode(e.target.value as "participate" | "overview")
-            }
+    <div style={{ margin: "3rem 0" }}>
+      <div className={styles.conversationHeader}>
+        <h1>{conversation.topic}</h1>
+        <p>{conversation.description}</p>
+        <div className={styles.tabs}>
+          <RadioGroup
+            options={["participate", "insights"]}
+            selected={viewMode}
+            onChange={(tab) => setViewMode(tab as "participate" | "insights")}
           />
         </div>
-        <Divider />
-        {!!currentStatement && viewMode == "participate" && (
-          <div className={styles.stack}>
-            {/* Placeholder statement */}
-            <div
-              className={styles.statement}
+      </div>
+      <Divider />
+
+      {viewMode === "participate" && (
+        <>
+          <div className={styles.statementsHeading}>
+            <h2>
+              Statements{" "}
+              <Badge size="medium" theme="blue">
+                {conversation.statements.length}
+              </Badge>
+            </h2>
+          </div>
+          <PageIndex
+            data={statements}
+            onPageChange={(index) => handleStatementChange(index)}
+            currentPage={currentStatementIndex}
+          />
+
+          {/* Animated statement */}
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStatementIndex}
+              initial={direction! > 0 ? "enterFromRight" : "enterFromLeft"}
+              animate="center"
+              exit={direction! > 0 ? "exitToLeft" : "exitToRight"}
+              variants={slideVariants} // or fadeSlideVariants or crossfadeVariants
               style={{
-                backgroundColor: "transparent",
-                position: "absolute",
                 width: "100%",
-                height: "100%",
-                top: 0,
-                left: 0,
+                height: "15rem",
               }}
-            />
+            >
+              <StatementBox
+                statement={statements[currentStatementIndex] as StatementResult}
+                handleVote={handleVote}
+              />
+              {currentStatementIndex >= statements.length ? (
+                <Box>
+                  <div className={styles.thanksBox}>
+                    <h3>Thanks for voting!</h3>
+                    <p>
+                      Your participation helps us understand diverse
+                      perspectives.
+                    </p>
+                  </div>
+                </Box>
+              ) : null}
+            </motion.div>
+          </AnimatePresence>
 
-            {/* Animated statement */}
-
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <AnimatePresence mode="wait" initial={false}>
-                {animate && currentStatement && (
-                  <motion.div
-                    key={getAnimationKey(currentStatementIndex)}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    variants={slideVariants}
-                    style={{ transformOrigin: "center center" }}
-                  >
-                    <StatementBox
-                      statement={currentStatement}
-                      handleVote={handleVote}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        )}
-        {viewMode === "overview" && (
-          <div className={styles.overViewContainer}>
-            {statements.map((statement) => {
-              return (
-                <StatementBox
-                  key={statement.id}
-                  statement={statement}
-                  handleVote={handleVote}
+          <section className={styles.contributeSection}>
+            <h3>Want to contribute your unique perspective?</h3>
+            <Box>
+              <form
+                className={clsx(styles.formContainer)}
+                onSubmit={handleSubmit(handleNewStatement)}
+              >
+                <TextInput
+                  name="statement"
+                  placeholder="Enter your statement here"
+                  register={register}
+                  control={control}
+                  textarea
                 />
-              );
-            })}
-          </div>
-        )}
-        <div>
-          <div
-            className={styles.statementInfo}
-            style={{ color: "var(--aqua)" }}
-          >
-            <div className={styles.flexBetween}>
-              <span>
-                <BiInfoCircle size={25} color="var(--aqua)" />
-              </span>
-              <p>
-                Add your unique perspective or experience in the box below. Your
-                statement should:
-              </p>
-            </div>
 
-            <ul>
-              <li>Present one clear, standalone idea</li>
-              <li>Bring fresh insights to the discussion</li>
-              <li>Be concise (140 characters max)</li>
-            </ul>
-          </div>
-          <form
-            className={clsx(styles.formContainer)}
-            onSubmit={handleSubmit(handleNewStatement)}
-          >
-            <div className={styles.flexBetween}>
-              <Avatar
-                src={
-                  user?.userProfile.profilePictureUrl ||
-                  PERSON_FALLBACK_IMAGE_400_URL
-                }
-                alt="profile picture"
-                size={35}
-              />
-              <TextInput
-                name="statement"
-                placeholder="Enter your statement here"
-                register={register}
-                control={control}
-                size="small"
-              />
-            </div>
-            <Button size="medium" label="Submit" />
-          </form>
-          {relatedStatementsLoading && (
-            <div className={styles.centered}>
-              <span className={styles.noResults} style={{ margin: "1rem 0" }}>
-                Loading related statements...
-              </span>
-            </div>
-          )}
-          {localRelatedStatements.length > 0 && (
-            <div className={styles.relatedStatements}>
-              <h3>Related Statements</h3>
-              <AnimatePresence mode="popLayout">
-                {localRelatedStatements.map((statement) => (
-                  <motion.div
-                    key={statement.id}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    variants={slideVariants}
-                    style={{
-                      transformOrigin: "center center",
-                      opacity: animatingRelatedStatements.has(statement.id)
-                        ? 0.5
-                        : 1,
-                    }}
+                <div className={styles.statementInfo}>
+                  <p>
+                    Your statement should present{" "}
+                    <strong>one clear, standalone idea </strong>that brings
+                    fresh insight to the discussion.
+                  </p>
+                  <Button size="large" label="Submit" />
+                </div>
+              </form>
+              {relatedStatementsLoading && (
+                <div className={styles.centered}>
+                  <span
+                    className={styles.noResults}
+                    style={{ margin: "1rem 0" }}
                   >
-                    <div
+                    Loading related statements...
+                  </span>
+                </div>
+              )}
+            </Box>
+            {localRelatedStatements.length > 0 && (
+              <div className={styles.relatedStatements}>
+                <h3>Related Statements</h3>
+                <AnimatePresence mode="popLayout">
+                  {localRelatedStatements.map((statement) => (
+                    <motion.div
+                      key={statement.id}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      variants={slideVariants}
                       style={{
+                        transformOrigin: "center center",
                         opacity: animatingRelatedStatements.has(statement.id)
                           ? 0.5
                           : 1,
-                        transition: "opacity 0.2s",
                       }}
                     >
-                      <StatementBox
-                        statement={statement}
-                        handleVote={handleVote}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          )}
+                      <div
+                        style={{
+                          opacity: animatingRelatedStatements.has(statement.id)
+                            ? 0.5
+                            : 1,
+                          transition: "opacity 0.2s",
+                        }}
+                      >
+                        <StatementBox
+                          statement={statement}
+                          handleVote={handleVote}
+                        />
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            )}
+          </section>
+        </>
+      )}
+      {viewMode === "insights" && (
+        <div className={styles.overViewContainer}>
+          <h2>Consensus Opinions</h2>
+          {conversation.opinionAnalysis.consensusOpinions.map((opinion) => (
+            <OpinionScoreStatement
+              opinion={opinion}
+              totalParticipants={conversation.stats.totalParticipants}
+              key={opinion.id}
+            />
+          ))}
+          <Divider />
+          <h2>Divisive Opinions</h2>
+          {conversation.opinionAnalysis.divisiveOpinions.map((opinion) => (
+            <OpinionScoreStatement
+              opinion={opinion}
+              totalParticipants={conversation.stats.totalParticipants}
+              key={opinion.id}
+            />
+          ))}
         </div>
-      </Box>
+      )}
+    </div>
+  );
+}
+
+function OpinionScoreStatement({
+  opinion,
+  totalParticipants,
+}: {
+  opinion: OpinionScore;
+  totalParticipants: number;
+}) {
+  const supportPercentage = Math.round(
+    (opinion.supportVotes / opinion.totalVotes) * 100
+  );
+  const opposePercentage = Math.round(
+    (opinion.opposeVotes / opinion.totalVotes) * 100
+  );
+  const neutralPercentage = Math.round(
+    (opinion.neutralVotes / opinion.totalVotes) * 100
+  );
+  const didntVotePercentage = Math.round(
+    ((totalParticipants - opinion.totalVotes) / totalParticipants) * 100
+  );
+
+  return (
+    <div className={styles.statement} key={opinion.id}>
+      <p>{opinion.content}</p>
+      <div className={styles.voteOptions}>
+        <button className={clsx(styles.voteBadge, styles.support)}>
+          <span className={styles.iconStack}>
+            <FaCircle size={21} color="white" />
+            <FaCheckCircle size={21} color="var(--green-support)" />
+          </span>
+          <span>Support</span>
+          <span>— {supportPercentage}%</span>
+        </button>
+        <button className={clsx(styles.voteBadge, styles.oppose)}>
+          <span className={styles.iconStack}>
+            <BsCircleFill size={21} color="white" />
+            <AiFillCloseCircle size={21} color="var(--red)" />
+          </span>
+          <span>Oppose</span>
+          <span>— {opposePercentage}%</span>
+        </button>
+        <button className={clsx(styles.voteBadge, styles.neutral)}>
+          <span className={styles.iconStack}>
+            <BsCircleFill size={21} color="white" />
+            <FaMinusCircle size={21} color="var(--grey)" />
+          </span>
+          <span>Neutral</span>
+          <span>— {neutralPercentage}%</span>
+        </button>
+      </div>
+      <div className={styles.segmentedBar}>
+        <div
+          className={styles.segment}
+          style={{
+            width: `${supportPercentage}%`,
+            backgroundColor: "var(--green-support)",
+          }}
+        />
+        <div
+          className={styles.segment}
+          style={{
+            width: `${opposePercentage}%`,
+            backgroundColor: "var(--red)",
+          }}
+        />
+        <div
+          className={styles.segment}
+          style={{
+            width: `${neutralPercentage}%`,
+            backgroundColor: "var(--grey)",
+          }}
+        />
+        <div
+          className={styles.segment}
+          style={{
+            width: `${didntVotePercentage}%`,
+            backgroundColor: "var(--blue-dark)",
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -397,8 +464,9 @@ function StatementBox({
   statement: StatementResult;
   handleVote: (statementId: string, vote: ArgumentPosition) => void;
 }) {
+  const { user } = useAuth();
   if (!statement) return null;
-
+  const isUserStatementAuthor = statement.author?.id == user.id;
   const currentVote = statement.voteByUserOrSession;
 
   return (
@@ -426,44 +494,50 @@ function StatementBox({
       </div>
       <p>{statement.content}</p>
 
-      <div className={styles.voteOptions}>
-        <button
-          className={clsx(styles.voteBadge, styles.support, {
-            [styles.selected as string]:
-              currentVote === ArgumentPosition.Support,
-          })}
-          onClick={() => handleVote(statement.id, ArgumentPosition.Support)}
-        >
-          <span className={styles.iconStack}>
-            <FaCircle size={18} color="white" />
-            <FaCheckCircle size={18} color="var(--green-support)" />
-          </span>
-          <span>Support</span>
-        </button>
-        <button
-          className={clsx(styles.voteBadge, styles.oppose, {
-            [styles.selected as string]:
-              currentVote === ArgumentPosition.Oppose,
-          })}
-          onClick={() => handleVote(statement.id, ArgumentPosition.Oppose)}
-        >
-          <span className={styles.iconStack}>
-            <FaCircle size={20} color="white" />
-            <RiCloseCircleFill size={20} color="var(--red)" />
-          </span>
-          <span>Oppose</span>
-        </button>
-        <button
-          className={clsx(styles.voteBadge, styles.neutral, {
-            [styles.selected as string]:
-              currentVote === ArgumentPosition.Neutral,
-          })}
-          onClick={() => handleVote(statement.id, ArgumentPosition.Neutral)}
-        >
-          <FaMinusCircle size={18} />
-          <span>Neutral</span>
-        </button>
-      </div>
+      {!isUserStatementAuthor && (
+        <div className={styles.voteOptions}>
+          <button
+            className={clsx(styles.voteBadge, styles.support, {
+              [styles.selected as string]:
+                currentVote === ArgumentPosition.Support,
+            })}
+            onClick={() => handleVote(statement.id, ArgumentPosition.Support)}
+          >
+            <span className={styles.iconStack}>
+              <FaCircle size={21} color="white" />
+              <FaCheckCircle size={21} color="var(--green-support)" />
+            </span>
+            <span>Support</span>
+          </button>
+          <button
+            className={clsx(styles.voteBadge, styles.oppose, {
+              [styles.selected as string]:
+                currentVote === ArgumentPosition.Oppose,
+            })}
+            onClick={() => handleVote(statement.id, ArgumentPosition.Oppose)}
+          >
+            <span className={styles.iconStack}>
+              <BsCircleFill size={21} color="white" />
+              <AiFillCloseCircle size={21} color="var(--red)" />
+            </span>
+            <span>Oppose</span>
+          </button>
+          <button
+            className={clsx(styles.voteBadge, styles.neutral, {
+              [styles.selected as string]:
+                currentVote === ArgumentPosition.Neutral,
+            })}
+            onClick={() => handleVote(statement.id, ArgumentPosition.Neutral)}
+          >
+            <span className={styles.iconStack}>
+              <BsCircleFill size={21} color="white" />
+              <FaMinusCircle size={21} color="var(--grey)" />
+            </span>
+
+            <span>Neutral</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

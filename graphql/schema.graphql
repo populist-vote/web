@@ -426,6 +426,12 @@ enum Chambers {
   SENATE
 }
 
+type CharacteristicVote {
+  consensusLevel: Float!
+  meanSentiment: Float!
+  statementId: ID!
+}
+
 type CommitteeResult {
   chairId: ID
   description: String!
@@ -445,6 +451,8 @@ type ConversationResult {
   createdAt: DateTime!
   description: String
   id: ID!
+  opinionAnalysis(limit: Int!): OpinionAnalysis!
+  opinionGroups(numGroups: Int!): [OpinionGroup!]!
   """Counts unique participants who voted in each time bucket"""
   participationOverTime(interval: String): [TimeSeriesPoint!]!
   relatedStatements(draftContent: String!, limit: Int): [StatementResult!]!
@@ -990,6 +998,29 @@ type OfficeResultEdge {
   cursor: String!
   """The item at the end of the edge"""
   node: OfficeResult!
+}
+
+type OpinionAnalysis {
+  consensusOpinions: [OpinionScore!]!
+  divisiveOpinions: [OpinionScore!]!
+}
+
+type OpinionGroup {
+  characteristicVotes: [CharacteristicVote!]!
+  id: ID!
+  users: [ID!]!
+}
+
+type OpinionScore {
+  content: String!
+  id: String!
+  neutralVotes: Int!
+  nonVotingViews: Int!
+  opposeVotes: Int!
+  score: Float!
+  supportVotes: Int!
+  totalViews: Int!
+  totalVotes: Int!
 }
 
 type OrganizationAssets {

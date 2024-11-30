@@ -19,3 +19,7 @@ mutation VoteOnStatement($statementId: ID!, $voteType: ArgumentPosition!) {
     id
   }
 }
+
+# mutation RecordStatementView($statementId: ID!, userId: ID) {
+#   id
+# }

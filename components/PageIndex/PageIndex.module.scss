@@ -1,0 +1,39 @@
+@import "styles/variables/colors";
+@import "styles/variables/fonts";
+@import "styles/layout/containers";
+
+.pageIndex {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 1rem;
+
+  button {
+    background: transparent;
+    border: none;
+    color: $blue;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-size: $text-sm;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  .pageDots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.25rem;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+}

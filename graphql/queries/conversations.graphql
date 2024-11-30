@@ -27,6 +27,36 @@ query ConversationById($id: ID!) {
         profilePictureUrl
       }
     }
+    stats {
+      totalParticipants
+      totalVotes
+      totalStatements
+      avgVotesPerParticipant
+    }
+    opinionAnalysis(limit: 2) {
+      consensusOpinions {
+        id
+        content
+        score
+        totalVotes
+        supportVotes
+        opposeVotes
+        neutralVotes
+        totalViews
+        nonVotingViews
+      }
+      divisiveOpinions {
+        id
+        content
+        score
+        totalVotes
+        supportVotes
+        opposeVotes
+        neutralVotes
+        totalViews
+        nonVotingViews
+      }
+    }
   }
 }
 
@@ -75,6 +105,12 @@ query GetRelatedStatements(
       disagreeCount
       passCount
       createdAt
+      author {
+        id
+        firstName
+        lastName
+        profilePictureUrl
+      }
     }
   }
 }

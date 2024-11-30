@@ -1,4 +1,4 @@
-import { Divider, Layout, LoaderFlag } from "components";
+import { Layout, LoaderFlag } from "components";
 import { Conversation } from "components/Conversation/Conversation";
 import { ConversationResult, useConversationByIdQuery } from "generated";
 import { GetServerSideProps } from "next";
@@ -34,19 +34,10 @@ export default function ConversationPage() {
   if (isLoading) {
     return <LoaderFlag />;
   }
-  return (
-    <div>
-      {conversation ? (
-        <>
-          <h1>{conversation.topic}</h1>
-          <p>{conversation.description}</p>
-          <Divider />
-          <Conversation id={conversationId as string} />
-        </>
-      ) : (
-        <p>Conversation not found</p>
-      )}
-    </div>
+  return conversation ? (
+    <Conversation id={conversationId as string} />
+  ) : (
+    <p>Conversation not found</p>
   );
 }
 
