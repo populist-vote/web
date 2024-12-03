@@ -42,6 +42,13 @@
   box-sizing: border-box;
   padding: 2rem;
   background-color: $blue-darker;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  p {
+    text-align: center;
+    margin: 3rem 0;
+  }
 }
 
 .voteOptions {
@@ -145,19 +152,19 @@
 
   &.selected {
     &.support {
-      border: 3px solid $green-support;
+      outline: 3px solid $green-support;
       background: $green;
       color: $black;
     }
 
     &.oppose {
-      border: 3px solid #f37e7e;
+      outline: 3px solid #f37e7e;
       background: $red;
       color: $white;
     }
 
     &.neutral {
-      border: 3px solid $grey-dark;
+      outline: 3px solid $grey-dark;
       background: $grey;
       color: $grey-darkest;
     }
