@@ -80,7 +80,6 @@ export function PageIndex({
         label="Previous"
         hideLabel
         icon={<FaChevronLeft />}
-        iconPosition="before"
         onClick={handlePreviousPage}
         disabled={currentPage === 0}
       />

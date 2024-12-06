@@ -12,7 +12,7 @@
   button {
     background: transparent;
     border: none;
-    color: $blue;
+    color: $blue-light !important;
     font-weight: bold;
     cursor: pointer;
     padding: 0;
@@ -22,6 +22,11 @@
 
     &:disabled {
       cursor: not-allowed;
+      color: $blue-darkest !important;
+    }
+
+    &:hover {
+      color: $blue-lighter !important;
     }
   }
 
