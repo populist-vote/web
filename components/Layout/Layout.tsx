@@ -4,6 +4,7 @@ import styles from "./Layout.module.scss";
 import { useTranslation } from "next-i18next";
 
 function Layout({
+  hideNav = false,
   mobileNavTitle,
   showNavLogoOnMobile = true,
   hasVotingGuide = false,
@@ -11,6 +12,7 @@ function Layout({
   hideFooter = false,
   children,
 }: PropsWithChildren<{
+  hideNav?: boolean;
   mobileNavTitle?: string;
   showNavLogoOnMobile?: boolean;
   hasVotingGuide?: boolean;
@@ -38,14 +40,22 @@ function Layout({
     },
   ] as NavItem[];
 
+  const styleVars = {
+    "--app-nav-width": hideNav ? "0" : "var(--nav-width)",
+  } as React.CSSProperties & {
+    "--app-nav-width": string;
+  };
+
   return (
-    <div className={styles.app}>
-      <Nav
-        mobileNavTitle={mobileNavTitle}
-        showLogoOnMobile={showNavLogoOnMobile}
-        navItems={navItems || defaultNavItems}
-        hasVotingGuide={hasVotingGuide}
-      />
+    <div className={styles.app} style={styleVars}>
+      {!hideNav && (
+        <Nav
+          mobileNavTitle={mobileNavTitle}
+          showLogoOnMobile={showNavLogoOnMobile}
+          navItems={navItems || defaultNavItems}
+          hasVotingGuide={hasVotingGuide}
+        />
+      )}
       <main className={styles.content}>{children}</main>
       {!hideFooter && <Footer />}
     </div>

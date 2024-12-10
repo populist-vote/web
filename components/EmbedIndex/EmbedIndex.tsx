@@ -98,96 +98,7 @@ function EmbedIndex({
 
   return (
     <div>
-      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
-        <Link href={`/dashboard/${slug}/embeds/legislation`}>
-          <Badge
-            theme="yellow"
-            clickable
-            label="Legislation"
-            selected={embedType === EmbedType.Legislation}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "legislation")
-            }
-          />
-        </Link>
-        <Link href={`/dashboard/${slug}/embeds/legislation-tracker`}>
-          <Badge
-            theme="green"
-            clickable
-            label="Legislation Tracker"
-            selected={embedType === EmbedType.LegislationTracker}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "legislation")
-            }
-          />
-        </Link>
-        <Link href={`/dashboard/${slug}/embeds/politician`}>
-          <Badge
-            theme="aqua"
-            clickable
-            label="Politician"
-            selected={embedType === EmbedType.Politician}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
-            }
-          />
-        </Link>
-        <Link href={`/dashboard/${slug}/embeds/candidate-guide`}>
-          <Badge
-            theme="aqua"
-            clickable
-            label="Candidate Guide"
-            selected={embedType === EmbedType.CandidateGuide}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "candidate-guide")
-            }
-          />
-        </Link>
-        <Link href={`/dashboard/${slug}/embeds/race`}>
-          <Badge
-            theme="blue"
-            clickable
-            label="Race"
-            selected={embedType === EmbedType.Race}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "race")
-            }
-          />
-        </Link>
-        <Link href={`/dashboard/${slug}/embeds/question`}>
-          <Badge
-            theme="orange"
-            clickable
-            label="Question"
-            selected={embedType === EmbedType.Question}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "question")
-            }
-          />
-        </Link>
-        <Link href={`/dashboard/${slug}/embeds/poll`}>
-          <Badge
-            theme="violet"
-            clickable
-            label="Poll"
-            selected={embedType === EmbedType.Poll}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "poll")
-            }
-          />
-        </Link>
-        <Link href={`/dashboard/${slug}/embeds/my-ballot`}>
-          <Badge
-            theme="yellow"
-            clickable
-            label="My Ballot"
-            selected={embedType === EmbedType.MyBallot}
-            onClick={() =>
-              localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "my-ballot")
-            }
-          />
-        </Link>
-      </div>
+      <ContentTypeNav embedType={embedType} />
       <h2>{title}</h2>
       <Box>
         <SearchInput
@@ -230,6 +141,115 @@ function EmbedIndex({
           />
         </div>
       )}
+    </div>
+  );
+}
+
+export function ContentTypeNav({
+  embedType,
+}: {
+  embedType: EmbedType | "conversation";
+}) {
+  const router = useRouter();
+  const slug = router.query.dashboardSlug as string;
+
+  return (
+    <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+      <Link href={`/dashboard/${slug}/conversations`}>
+        <Badge
+          theme="salmon"
+          clickable
+          label="Conversation"
+          selected={router.asPath.includes("conversations")}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "conversation")
+          }
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/legislation`}>
+        <Badge
+          theme="yellow"
+          clickable
+          label="Legislation"
+          selected={embedType === EmbedType.Legislation}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "legislation")
+          }
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/legislation-tracker`}>
+        <Badge
+          theme="green"
+          clickable
+          label="Legislation Tracker"
+          selected={embedType === EmbedType.LegislationTracker}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "legislation")
+          }
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/politician`}>
+        <Badge
+          theme="aqua"
+          clickable
+          label="Politician"
+          selected={embedType === EmbedType.Politician}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "politician")
+          }
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/candidate-guide`}>
+        <Badge
+          theme="aqua"
+          clickable
+          label="Candidate Guide"
+          selected={embedType === EmbedType.CandidateGuide}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "candidate-guide")
+          }
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/race`}>
+        <Badge
+          theme="blue"
+          clickable
+          label="Race"
+          selected={embedType === EmbedType.Race}
+          onClick={() => localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "race")}
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/question`}>
+        <Badge
+          theme="orange"
+          clickable
+          label="Question"
+          selected={embedType === EmbedType.Question}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "question")
+          }
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/poll`}>
+        <Badge
+          theme="violet"
+          clickable
+          label="Poll"
+          selected={embedType === EmbedType.Poll}
+          onClick={() => localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "poll")}
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/my-ballot`}>
+        <Badge
+          theme="yellow"
+          clickable
+          label="My Ballot"
+          selected={embedType === EmbedType.MyBallot}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "my-ballot")
+          }
+        />
+      </Link>
     </div>
   );
 }

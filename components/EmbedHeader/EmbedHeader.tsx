@@ -8,7 +8,7 @@ export function EmbedHeader({
   backLink,
   title,
 }: {
-  embedType: EmbedType;
+  embedType: EmbedType | "conversations";
   backLink?: string;
   title: string;
 }) {

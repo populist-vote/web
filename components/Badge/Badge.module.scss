@@ -161,6 +161,22 @@ $small-size: 1.825rem;
     }
   }
 
+  &.salmon {
+    background: rgba(255, 143, 143, 0.1);
+    border: 1px solid $salmon;
+    color: $white;
+
+    &.selected {
+      background: $salmon;
+      color: $grey-darkest;
+    }
+
+    &.solid {
+      background: $salmon;
+      color: $grey-darkest;
+    }
+  }
+
   &.aqua {
     background: rgba(143, 216, 216, 0.1);
     border: 1px solid $aqua;

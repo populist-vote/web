@@ -78,7 +78,6 @@ export function PageIndex({
         size="small"
         variant="text"
         label="Previous"
-        hideLabel
         icon={<FaChevronLeft />}
         onClick={handlePreviousPage}
         disabled={currentPage === 0}
@@ -114,7 +113,6 @@ export function PageIndex({
         size="small"
         variant="text"
         label="Next"
-        hideLabel
         icon={<FaChevronRight />}
         iconPosition="after"
         onClick={handleNextPage}

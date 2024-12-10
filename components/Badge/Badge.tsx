@@ -13,6 +13,7 @@ interface BadgeProps {
     | "grey"
     | "violet"
     | "orange"
+    | "salmon"
     | "aqua";
   variant?: "solid" | "outline";
   size?: "small" | "medium" | "large" | "extra-large" | "responsive";

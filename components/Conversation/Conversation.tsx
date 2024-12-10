@@ -25,13 +25,19 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import useDebounce from "hooks/useDebounce";
 import clsx from "clsx";
-import { RadioGroup } from "components/RadioGroup/RadioGroup";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsCircleFill } from "react-icons/bs";
 import { PageIndex } from "components/PageIndex/PageIndex";
 import { useAuth } from "hooks/useAuth";
+import { RadioGroup } from "components/RadioGroup/RadioGroup";
 
-export function Conversation({ id }: { id: string }) {
+export function Conversation({
+  id,
+  viewMode,
+}: {
+  id: string;
+  viewMode: "participate" | "insights";
+}) {
   const { register, control, handleSubmit, reset, watch } = useForm<{
     statement: string;
   }>();
@@ -55,10 +61,6 @@ export function Conversation({ id }: { id: string }) {
   const addStatementMutation = useAddStatementToConversationMutation();
   const voteOnStatementMutation = useVoteOnStatementMutation();
   const queryClient = useQueryClient();
-
-  const [viewMode, setViewMode] = useState<"participate" | "insights">(
-    "participate"
-  );
 
   const handleNewStatement = async (data: { statement: string }) => {
     try {
@@ -217,13 +219,6 @@ export function Conversation({ id }: { id: string }) {
       <div className={styles.conversationHeader}>
         <h1>{conversation.topic}</h1>
         <p>{conversation.description}</p>
-        <div className={styles.tabs}>
-          <RadioGroup
-            options={["participate", "insights"]}
-            selected={viewMode}
-            onChange={(tab) => setViewMode(tab as "participate" | "insights")}
-          />
-        </div>
       </div>
       <Divider />
 
@@ -310,6 +305,7 @@ export function Conversation({ id }: { id: string }) {
                 </div>
               )}
             </Box>
+
             {localRelatedStatements.length > 0 && (
               <div className={styles.relatedStatements}>
                 <h3>Related Statements</h3>
@@ -349,27 +345,92 @@ export function Conversation({ id }: { id: string }) {
           </section>
         </>
       )}
-      {viewMode === "insights" && (
-        <div className={styles.overViewContainer}>
-          <h2>Consensus Opinions</h2>
-          {conversation.opinionAnalysis.consensusOpinions.map((opinion) => (
-            <OpinionScoreStatement
-              opinion={opinion}
-              totalParticipants={conversation.stats.totalParticipants}
-              key={opinion.id}
-            />
-          ))}
-          <Divider />
-          <h2>Divisive Opinions</h2>
-          {conversation.opinionAnalysis.divisiveOpinions.map((opinion) => (
-            <OpinionScoreStatement
-              opinion={opinion}
-              totalParticipants={conversation.stats.totalParticipants}
-              key={opinion.id}
-            />
-          ))}
-        </div>
-      )}
+      {viewMode === "insights" && <Insights conversation={conversation} />}
+    </div>
+  );
+}
+
+function Insights({ conversation }: { conversation: ConversationResult }) {
+  const [viewMode, setViewMode] = useState("overview");
+  const [consensusPage, setConsensusPage] = useState(0);
+  const [divisivePage, setDivisivePage] = useState(0);
+
+  // Calculate paginated data
+  const paginateData = (data: OpinionScore[], page: number) => {
+    const start = page;
+    return data.slice(start, start + 1);
+  };
+
+  // Get current page data
+  const currentConsensusOpinions = paginateData(
+    conversation.opinionAnalysis.consensusOpinions,
+    consensusPage
+  );
+
+  const currentDivisiveOpinions = paginateData(
+    conversation.opinionAnalysis.divisiveOpinions,
+    divisivePage
+  );
+
+  // Handle page changes
+  const handleConsensusPageChange = (index: number) => {
+    setConsensusPage(index);
+  };
+
+  const handleDivisivePageChange = (index: number) => {
+    setDivisivePage(index);
+  };
+  return (
+    <div className={styles.overViewContainer}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1.5rem",
+        }}
+      >
+        <RadioGroup
+          options={["overview", "groups"]}
+          selected={viewMode}
+          onChange={(tab) => setViewMode(tab as "overview" | "groups")}
+        />
+      </div>
+      <h2>Overview</h2>
+      <p style={{ color: "var(--blue-text)", margin: 0 }}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+        odio. Praesent libero. Sed cursus ante dapibus diam. Lorem ipsum dolor
+        sit amet, consectetur adipiscing elit. Integer nec odio. Praesent
+        libero. Sed cursus ante dapibus diam. Lorem ipsum dolor sit amet,
+      </p>
+      <Divider />
+      <h2>Consensus Opinions</h2>
+
+      <PageIndex
+        data={conversation.opinionAnalysis.consensusOpinions}
+        onPageChange={handleConsensusPageChange}
+        currentPage={consensusPage}
+      />
+      {currentConsensusOpinions.map((opinion: OpinionScore) => (
+        <OpinionScoreStatement
+          opinion={opinion}
+          totalParticipants={conversation.stats.totalParticipants}
+          key={opinion.id}
+        />
+      ))}
+      <Divider />
+      <h2>Divisive Opinions</h2>
+      <PageIndex
+        data={conversation.opinionAnalysis.divisiveOpinions}
+        onPageChange={handleDivisivePageChange}
+        currentPage={divisivePage}
+      />
+      {currentDivisiveOpinions.map((opinion: OpinionScore) => (
+        <OpinionScoreStatement
+          opinion={opinion}
+          totalParticipants={conversation.stats.totalParticipants}
+          key={opinion.id}
+        />
+      ))}
     </div>
   );
 }

@@ -11,7 +11,11 @@
     margin: 0;
   }
 
-  .tabs {
+  .insightTabs {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
     margin: 2.5rem 0;
   }
 }
@@ -45,9 +49,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   p {
     text-align: center;
     margin: 3rem 0;
+    font-size: $text-xxl;
   }
 }
 

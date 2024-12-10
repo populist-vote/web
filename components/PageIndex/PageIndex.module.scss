@@ -12,17 +12,17 @@
   button {
     background: transparent;
     border: none;
-    color: $blue-light !important;
-    font-weight: bold;
+    color: $white !important;
     cursor: pointer;
     padding: 0;
     margin: 0;
     outline: none;
-    font-size: $text-sm;
+    font-size: $text-lg;
+    font-weight: 300;
 
     &:disabled {
       cursor: not-allowed;
-      color: $blue-darkest !important;
+      color: $blue-dark !important;
     }
 
     &:hover {

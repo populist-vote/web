@@ -22,6 +22,8 @@ import styles from "./index.module.scss";
 import { Modal } from "components/Modal/Modal";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { DashboardTopNav } from "..";
+import { ContentTypeNav } from "components/EmbedIndex/EmbedIndex";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -58,7 +60,14 @@ export default function ConversationsIndexPage() {
   const { register, control, handleSubmit, watch, setValue } = useForm();
 
   const handleCloseModal = () => {
-    void router.push("/conversations", undefined, { shallow: true });
+    void router.push(
+      {
+        pathname: `/dashboard/[dashboardSlug]/conversations`,
+        query: { dashboardSlug: router.query.dashboardSlug },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const createConversationMutation = useCreateConversationMutation();
@@ -104,12 +113,19 @@ export default function ConversationsIndexPage() {
 
   return (
     <div>
-      <h1>Conversations</h1>
+      <DashboardTopNav />
+      <ContentTypeNav embedType="conversation" />
+      <h2>Conversations</h2>
       <Button
         onClick={() =>
-          router.push("/conversations?new=true", "/conversations/new", {
-            shallow: true,
-          })
+          router.push(
+            {
+              pathname: `/dashboard/[dashboardSlug]/conversations`,
+              query: { dashboardSlug: router.query.dashboardSlug, new: true },
+            },
+            undefined,
+            { shallow: true }
+          )
         }
         label="Create New Conversation"
       />
@@ -197,7 +213,17 @@ export default function ConversationsIndexPage() {
                 variant="secondary"
                 label="Manage"
                 onClick={() =>
-                  router.push(`/conversations/${conversation.id}/manage`)
+                  router.push(
+                    {
+                      pathname: `/dashboard/[dashboardSlug]/conversations/[conversationId]/manage`,
+                      query: {
+                        dashboardSlug: router.query.dashboardSlug,
+                        conversationId: conversation.id,
+                      },
+                    },
+                    undefined,
+                    { shallow: true }
+                  )
                 }
               />
             </div>

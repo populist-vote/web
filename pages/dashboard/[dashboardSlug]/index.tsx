@@ -97,13 +97,17 @@ export function DashboardTopNav() {
         >
           <Link
             href={{
-              pathname: `/dashboard/[dashboardSlug]/embeds/${
-                localStorage.getItem(LAST_SELECTED_EMBED_TYPE) || "legislation"
-              }`,
+              pathname:
+                localStorage.getItem(LAST_SELECTED_EMBED_TYPE) == "conversation"
+                  ? `/dashboard/[dashboardSlug]/conversations`
+                  : `/dashboard/[dashboardSlug]/embeds/${
+                      localStorage.getItem(LAST_SELECTED_EMBED_TYPE) ||
+                      "legislation"
+                    }`,
               query: { dashboardSlug },
             }}
           >
-            <BiCodeBlock /> Embeds
+            <BiCodeBlock /> Content
           </Link>
         </li>
         <li
