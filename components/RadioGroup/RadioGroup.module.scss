@@ -7,7 +7,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 2px solid $blue;
   border-radius: 30px;
   font-size: $text-sm;
   font-family: $font-primary;
@@ -15,11 +14,8 @@
   text-transform: uppercase;
   max-width: fit-content;
 
-  input[type="radio"] {
-    position: fixed;
-    opacity: 0;
-    pointer-events: none;
-  }
+  // Default blue theme
+  border: 2px solid $blue;
 
   label {
     padding: 1rem 2rem;
@@ -40,5 +36,27 @@
       background: $blue;
       color: $white;
     }
+  }
+
+  // Yellow theme
+  &[data-theme="yellow"] {
+    border-color: $yellow;
+
+    label {
+      &:not(:last-child) {
+        border-right-color: $yellow;
+      }
+
+      &[data-selected="true"] {
+        background: $yellow;
+        color: $black;
+      }
+    }
+  }
+
+  input[type="radio"] {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
   }
 }

@@ -13,6 +13,7 @@ directive @oneOf on INPUT_OBJECT
 input AddStatementInput {
   content: String!
   conversationId: ID!
+  moderationStatus: StatementModerationStatus
   userId: ID
 }
 
@@ -429,6 +430,7 @@ enum Chambers {
 type CharacteristicVote {
   consensusLevel: Float!
   meanSentiment: Float!
+  significanceLevel: Float!
   statementId: ID!
 }
 
@@ -452,11 +454,11 @@ type ConversationResult {
   description: String
   id: ID!
   opinionAnalysis(limit: Int!): OpinionAnalysis!
-  opinionGroups(numGroups: Int!): [OpinionGroup!]!
+  opinionGroups: [OpinionGroup!]!
   """Counts unique participants who voted in each time bucket"""
   participationOverTime(interval: String): [TimeSeriesPoint!]!
   relatedStatements(draftContent: String!, limit: Int): [StatementResult!]!
-  statements(limit: Int, offset: Int, sort: StatementSort): [StatementResult!]!
+  statements(filter: StatementFilter, limit: Int, offset: Int, sort: StatementSort): [StatementResult!]!
   statementsOverTime(interval: String): [TimeSeriesPoint!]!
   stats: ConversationStats!
   topic: String!
@@ -870,6 +872,7 @@ type Mutation {
   inviteUser(input: InviteUserInput!): String
   login(input: LoginInput!): LoginResult!
   logout: Boolean!
+  moderateStatement(moderationStatus: StatementModerationStatus!, statementId: ID!): Statement!
   openAllCandidateGuideSubmissions(candidateGuideId: ID!): Boolean!
   pingEmbedOrigin(input: PingEmbedOriginInput!): EmbedOriginResult!
   removeCandidateGuideRace(candidateGuideId: ID!, raceId: ID!): Boolean!
@@ -880,6 +883,7 @@ type Mutation {
   updateAddress(address: AddressInput!): AddressResult!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
   updateCandidateGuideRace(candidateGuideId: ID!, input: UpdateCandidateGuideRaceInput!, raceId: ID!): UpdateCandidateGuideRaceResult!
+  updateConversation(conversationId: ID!, description: String, topic: String): ConversationResult!
   updateEmail(email: String!): UpdateEmailResult!
   updateFirstAndLastName(firstName: String!, lastName: String!): UpdateNameResult!
   updateOrganization(input: UpdateOrganizationInput!): OrganizationResult!
@@ -1008,6 +1012,7 @@ type OpinionAnalysis {
 type OpinionGroup {
   characteristicVotes: [CharacteristicVote!]!
   id: ID!
+  summary: String!
   users: [ID!]!
 }
 
@@ -1726,7 +1731,19 @@ type Statement {
   conversationId: UUID!
   createdAt: DateTime!
   id: UUID!
+  moderationStatus: StatementModerationStatus!
   updatedAt: DateTime!
+}
+
+input StatementFilter {
+  moderationStatus: StatementModerationStatus
+}
+
+enum StatementModerationStatus {
+  ACCEPTED
+  REJECTED
+  SEED
+  UNMODERATED
 }
 
 type StatementResult {
@@ -1738,6 +1755,7 @@ type StatementResult {
   createdAt: DateTime!
   disagreeCount: Int!
   id: ID!
+  moderationStatus: StatementModerationStatus!
   passCount: Int!
   voteByUserOrSession(userId: ID): ArgumentPosition
   voteCount: Int!
@@ -1751,6 +1769,7 @@ enum StatementSort {
 }
 
 type StatementVote {
+  content: String!
   createdAt: DateTime!
   id: UUID!
   sessionId: UUID

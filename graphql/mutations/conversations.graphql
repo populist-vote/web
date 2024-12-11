@@ -6,8 +6,18 @@ mutation CreateConversation($input: CreateConversationInput!) {
   }
 }
 
-mutation AddStatementToConversation($conversationId: ID!, $content: String!) {
-  addStatement(input: { conversationId: $conversationId, content: $content }) {
+mutation AddStatementToConversation(
+  $conversationId: ID!
+  $content: String!
+  $moderationStatus: StatementModerationStatus
+) {
+  addStatement(
+    input: {
+      conversationId: $conversationId
+      content: $content
+      moderationStatus: $moderationStatus
+    }
+  ) {
     id
     content
     authorId
@@ -20,6 +30,30 @@ mutation VoteOnStatement($statementId: ID!, $voteType: ArgumentPosition!) {
   }
 }
 
-# mutation RecordStatementView($statementId: ID!, userId: ID) {
-#   id
-# }
+mutation ModerateStatement(
+  $statementId: ID!
+  $moderationStatus: StatementModerationStatus!
+) {
+  moderateStatement(
+    statementId: $statementId
+    moderationStatus: $moderationStatus
+  ) {
+    id
+  }
+}
+
+mutation UpdateConversation(
+  $conversationId: ID!
+  $topic: String
+  $description: String
+) {
+  updateConversation(
+    conversationId: $conversationId
+    topic: $topic
+    description: $description
+  ) {
+    id
+    topic
+    description
+  }
+}

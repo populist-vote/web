@@ -9,17 +9,20 @@ query ConversationsByOrganization($organizationId: ID!, $limit: Int!) {
   }
 }
 
-query ConversationById($id: ID!) {
+query ConversationById($id: ID!, $moderationStatus: StatementModerationStatus) {
   conversationById(id: $id) {
     id
     topic
     description
-    statements {
+    statements(filter: { moderationStatus: $moderationStatus }) {
       id
       content
       agreeCount
+      disagreeCount
+      passCount
       createdAt
       voteByUserOrSession
+      moderationStatus
       author {
         id
         firstName
@@ -57,6 +60,8 @@ query ConversationById($id: ID!) {
         nonVotingViews
       }
     }
+    createdAt
+    updatedAt
   }
 }
 
