@@ -34,10 +34,6 @@ function Layout({
       label: t("legislation"),
       href: "/bills",
     },
-    {
-      label: "Conversations",
-      href: "/conversations",
-    },
   ] as NavItem[];
 
   const styleVars = {

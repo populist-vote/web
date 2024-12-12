@@ -248,7 +248,17 @@ function ConfigureConversation({
         <div>
           <h3>Share</h3>
           <Box>
-            <Button size="medium" variant="primary" label="Copy Public URL" />
+            <Button
+              size="medium"
+              variant="primary"
+              label="Copy Public URL"
+              onClick={() => {
+                void navigator.clipboard.writeText(
+                  `${window.location.origin}/conversations/${conversation?.id}`
+                );
+                toast.success("URL copied to clipboard");
+              }}
+            />
           </Box>
         </div>
         <div>

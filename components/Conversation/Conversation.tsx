@@ -249,7 +249,7 @@ export function Conversation({
               variants={slideVariants} // or fadeSlideVariants or crossfadeVariants
               style={{
                 width: "100%",
-                height: "15rem",
+                minHeight: "15rem",
               }}
             >
               <StatementBox
@@ -403,34 +403,42 @@ function Insights({ conversation }: { conversation: ConversationResult }) {
         libero. Sed cursus ante dapibus diam. Lorem ipsum dolor sit amet,
       </p>
       <Divider />
-      <h2>Consensus Opinions</h2>
+      {conversation.opinionAnalysis.consensusOpinions.length > 0 && (
+        <section>
+          <h2>Consensus Opinions</h2>
 
-      <PageIndex
-        data={conversation.opinionAnalysis.consensusOpinions}
-        onPageChange={handleConsensusPageChange}
-        currentPage={consensusPage}
-      />
-      {currentConsensusOpinions.map((opinion: OpinionScore) => (
-        <OpinionScoreStatement
-          opinion={opinion}
-          totalParticipants={conversation.stats.totalParticipants}
-          key={opinion.id}
-        />
-      ))}
-      <Divider />
-      <h2>Divisive Opinions</h2>
-      <PageIndex
-        data={conversation.opinionAnalysis.divisiveOpinions}
-        onPageChange={handleDivisivePageChange}
-        currentPage={divisivePage}
-      />
-      {currentDivisiveOpinions.map((opinion: OpinionScore) => (
-        <OpinionScoreStatement
-          opinion={opinion}
-          totalParticipants={conversation.stats.totalParticipants}
-          key={opinion.id}
-        />
-      ))}
+          <PageIndex
+            data={conversation.opinionAnalysis.consensusOpinions}
+            onPageChange={handleConsensusPageChange}
+            currentPage={consensusPage}
+          />
+          {currentConsensusOpinions.map((opinion: OpinionScore) => (
+            <OpinionScoreStatement
+              opinion={opinion}
+              totalParticipants={conversation.stats.totalParticipants}
+              key={opinion.id}
+            />
+          ))}
+          <Divider />
+        </section>
+      )}
+      {conversation.opinionAnalysis.divisiveOpinions.length > 0 && (
+        <section>
+          <h2>Divisive Opinions</h2>
+          <PageIndex
+            data={conversation.opinionAnalysis.divisiveOpinions}
+            onPageChange={handleDivisivePageChange}
+            currentPage={divisivePage}
+          />
+          {currentDivisiveOpinions.map((opinion: OpinionScore) => (
+            <OpinionScoreStatement
+              opinion={opinion}
+              totalParticipants={conversation.stats.totalParticipants}
+              key={opinion.id}
+            />
+          ))}
+        </section>
+      )}
     </div>
   );
 }
@@ -527,7 +535,7 @@ function StatementBox({
 }) {
   const { user } = useAuth();
   if (!statement) return null;
-  const isUserStatementAuthor = statement.author?.id == user.id;
+  const isUserStatementAuthor = statement.author?.id == user?.id;
   const currentVote = statement.voteByUserOrSession;
 
   return (
