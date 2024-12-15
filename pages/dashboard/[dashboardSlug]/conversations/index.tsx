@@ -206,7 +206,9 @@ export default function ConversationsIndexPage() {
             <div className={styles.flexRight}>
               <Badge>{conversation.stats.totalParticipants} Participants</Badge>
               <Button
-                onClick={() => router.push(`/conversations/${conversation.id}`)}
+                onClick={() =>
+                  window.open(`/conversations/${conversation.id}`, "_blank")
+                }
                 label="View"
               />
               <Button
