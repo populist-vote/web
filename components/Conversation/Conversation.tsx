@@ -473,7 +473,7 @@ function OpinionScoreStatement({
             <FaCheckCircle size={21} color="var(--green-support)" />
           </span>
           <span>Support</span>
-          <span>— {supportPercentage}%</span>
+          <span>— {opinion.supportVotes}</span>
         </button>
         <button className={clsx(styles.voteBadge, styles.oppose)}>
           <span className={styles.iconStack}>
@@ -481,7 +481,7 @@ function OpinionScoreStatement({
             <AiFillCloseCircle size={21} color="var(--red)" />
           </span>
           <span>Oppose</span>
-          <span>— {opposePercentage}%</span>
+          <span>— {opinion.opposeVotes}</span>
         </button>
         <button className={clsx(styles.voteBadge, styles.neutral)}>
           <span className={styles.iconStack}>
@@ -489,7 +489,7 @@ function OpinionScoreStatement({
             <FaMinusCircle size={21} color="var(--grey)" />
           </span>
           <span>Neutral</span>
-          <span>— {neutralPercentage}%</span>
+          <span>— {opinion.neutralVotes}</span>
         </button>
       </div>
       <div className={styles.segmentedBar}>
