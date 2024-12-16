@@ -431,6 +431,7 @@ type CharacteristicVote {
   consensusLevel: Float!
   meanSentiment: Float!
   significanceLevel: Float!
+  statement: StatementResult!
   statementId: ID!
 }
 
@@ -1007,6 +1008,7 @@ type OfficeResultEdge {
 type OpinionAnalysis {
   consensusOpinions: [OpinionScore!]!
   divisiveOpinions: [OpinionScore!]!
+  overview: String
 }
 
 type OpinionGroup {
@@ -1747,19 +1749,19 @@ enum StatementModerationStatus {
 }
 
 type StatementResult {
-  agreeCount: Int!
   author: UserResult
   authorId: ID
   content: String!
   conversationId: ID!
   createdAt: DateTime!
-  disagreeCount: Int!
   id: ID!
   moderationStatus: StatementModerationStatus!
-  passCount: Int!
+  neutralVotes: Int!
+  opposeVotes: Int!
   percentVoted: Float!
+  supportVotes: Int!
+  totalVotes: Int!
   voteByUserOrSession(userId: ID): ArgumentPosition
-  voteCount: Int!
 }
 
 enum StatementSort {

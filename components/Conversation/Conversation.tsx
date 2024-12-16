@@ -11,12 +11,15 @@ import { Avatar } from "components/Avatar/Avatar";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArgumentPosition,
+  CharacteristicVote,
   ConversationResult,
+  OpinionGroup,
   OpinionScore,
   StatementModerationStatus,
   StatementResult,
   useAddStatementToConversationMutation,
   useConversationByIdQuery,
+  useConversationOpinionAnalysisQuery,
   useGetRelatedStatementsQuery,
   useVoteOnStatementMutation,
 } from "generated";
@@ -359,29 +362,105 @@ export function Conversation({
   );
 }
 
+function OpinionGroupView({
+  group,
+  index,
+  totalParticipants,
+}: {
+  group: OpinionGroup;
+  index: number;
+  totalParticipants: number;
+}) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const groupName = `Group ${String.fromCharCode(65 + index)}`;
+
+  // Pagination helper function - consistent with Insights component
+  const paginateData = (data: CharacteristicVote[] = [], page: number) => {
+    if (!data.length) return [];
+    const start = page;
+    return data.slice(start, start + 1);
+  };
+
+  // Get current page of characteristic votes
+  const currentPageVotes = paginateData(group.characteristicVotes, currentPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <div>
+      <h2>{groupName} Summary</h2>
+      <p className={styles.blueText}>{group.summary}</p>
+      <div className={styles.divider} />
+
+      <h2>{groupName} Opinions</h2>
+      {group.characteristicVotes.length > 0 && (
+        <>
+          <PageIndex
+            data={group.characteristicVotes}
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+          {currentPageVotes.map((vote) => {
+            return (
+              <OpinionScoreStatement
+                key={vote.statementId}
+                opinion={vote.statement}
+                totalParticipants={totalParticipants}
+              />
+            );
+          })}
+        </>
+      )}
+    </div>
+  );
+}
+
 function Insights({ conversation }: { conversation: ConversationResult }) {
   const [viewMode, setViewMode] = useState("overview");
   const [consensusPage, setConsensusPage] = useState(0);
   const [divisivePage, setDivisivePage] = useState(0);
 
-  // Calculate paginated data
-  const paginateData = (data: OpinionScore[], page: number) => {
+  const { data, isLoading, isFetching } = useConversationOpinionAnalysisQuery(
+    {
+      conversationId: conversation.id,
+    },
+    {
+      enabled: !!conversation.id,
+      staleTime: 1000 * 60 * 30,
+    }
+  );
+
+  // Early return for loading state
+  if (isLoading || isFetching) return <LoaderFlag />;
+
+  // Early return if no data is available
+  if (!data?.conversationById?.opinionAnalysis) {
+    return <div>No analysis data available</div>;
+  }
+
+  const opinionAnalysis = data.conversationById.opinionAnalysis;
+  const opinionGroups = data.conversationById.opinionGroups;
+
+  // Pagination helper function
+  const paginateData = (data: OpinionScore[] = [], page: number) => {
+    if (!data.length) return [];
     const start = page;
     return data.slice(start, start + 1);
   };
 
-  // Get current page data
+  // Get current page data with null checks
   const currentConsensusOpinions = paginateData(
-    conversation.opinionAnalysis.consensusOpinions,
+    opinionAnalysis.consensusOpinions,
     consensusPage
   );
 
   const currentDivisiveOpinions = paginateData(
-    conversation.opinionAnalysis.divisiveOpinions,
+    opinionAnalysis.divisiveOpinions,
     divisivePage
   );
 
-  // Handle page changes
   const handleConsensusPageChange = (index: number) => {
     setConsensusPage(index);
   };
@@ -389,6 +468,15 @@ function Insights({ conversation }: { conversation: ConversationResult }) {
   const handleDivisivePageChange = (index: number) => {
     setDivisivePage(index);
   };
+
+  const tabValues = [
+    { value: "overview", label: "Overview" },
+    ...opinionGroups.map((_, index) => ({
+      value: `group-${index}`,
+      label: `Group ${String.fromCharCode(65 + index)}`,
+    })),
+  ];
+
   return (
     <div className={styles.overViewContainer}>
       <div
@@ -399,66 +487,94 @@ function Insights({ conversation }: { conversation: ConversationResult }) {
         }}
       >
         <RadioGroup
-          options={["overview", "groups"]}
+          options={tabValues}
           selected={viewMode}
-          onChange={(tab) => setViewMode(tab as "overview" | "groups")}
+          onChange={(tab) => setViewMode(tab)}
         />
       </div>
-      <h2>Overview</h2>
-      <p style={{ color: "var(--blue-text)", margin: 0 }}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-        odio. Praesent libero. Sed cursus ante dapibus diam. Lorem ipsum dolor
-        sit amet, consectetur adipiscing elit. Integer nec odio. Praesent
-        libero. Sed cursus ante dapibus diam. Lorem ipsum dolor sit amet,
-      </p>
-      <Divider />
-      {conversation.opinionAnalysis.consensusOpinions.length > 0 && (
-        <section>
-          <h2>Consensus Opinions</h2>
 
-          <PageIndex
-            data={conversation.opinionAnalysis.consensusOpinions}
-            onPageChange={handleConsensusPageChange}
-            currentPage={consensusPage}
-          />
-          {currentConsensusOpinions.map((opinion: OpinionScore) => (
-            <OpinionScoreStatement
-              opinion={opinion}
-              totalParticipants={conversation.stats.totalParticipants}
-              key={opinion.id}
-            />
-          ))}
+      {viewMode == "overview" ? (
+        <div>
+          <h2>Overview</h2>
+          {opinionAnalysis.overview && (
+            <p style={{ color: "var(--blue-text)", margin: 0 }}>
+              {opinionAnalysis.overview}
+            </p>
+          )}
+
           <Divider />
-        </section>
-      )}
-      {conversation.opinionAnalysis.divisiveOpinions.length > 0 && (
-        <section>
-          <h2>Divisive Opinions</h2>
-          <PageIndex
-            data={conversation.opinionAnalysis.divisiveOpinions}
-            onPageChange={handleDivisivePageChange}
-            currentPage={divisivePage}
-          />
-          {currentDivisiveOpinions.map((opinion: OpinionScore) => (
-            <OpinionScoreStatement
-              opinion={opinion}
-              totalParticipants={conversation.stats.totalParticipants}
-              key={opinion.id}
-            />
-          ))}
-        </section>
+
+          {opinionAnalysis.consensusOpinions?.length > 0 && (
+            <section>
+              <h2>Consensus Opinions</h2>
+              <PageIndex
+                data={opinionAnalysis.consensusOpinions}
+                onPageChange={handleConsensusPageChange}
+                currentPage={consensusPage}
+              />
+              {currentConsensusOpinions.map((opinion: OpinionScore) => (
+                <OpinionScoreStatement
+                  key={opinion.id}
+                  opinion={opinion}
+                  totalParticipants={conversation.stats.totalParticipants}
+                />
+              ))}
+              <Divider />
+            </section>
+          )}
+
+          {opinionAnalysis.divisiveOpinions?.length > 0 && (
+            <section>
+              <h2>Divisive Opinions</h2>
+              <PageIndex
+                data={opinionAnalysis.divisiveOpinions}
+                onPageChange={handleDivisivePageChange}
+                currentPage={divisivePage}
+              />
+              {currentDivisiveOpinions.map((opinion: OpinionScore) => (
+                <OpinionScoreStatement
+                  key={opinion.id}
+                  opinion={opinion}
+                  totalParticipants={conversation.stats.totalParticipants}
+                />
+              ))}
+            </section>
+          )}
+        </div>
+      ) : (
+        <OpinionGroupView
+          group={
+            opinionGroups[
+              parseInt(viewMode?.split("-")[1] as string)
+            ] as OpinionGroup
+          }
+          index={parseInt(viewMode.split("-")[1] as string)}
+          totalParticipants={conversation.stats.totalParticipants}
+        />
       )}
     </div>
   );
 }
 
-function OpinionScoreStatement({
+interface BaseOpinionProps {
+  id: string | number;
+  content: string;
+  supportVotes: number;
+  opposeVotes: number;
+  neutralVotes: number;
+  totalVotes: number;
+}
+
+interface OpinionScoreStatementProps<T extends BaseOpinionProps> {
+  opinion: T;
+  totalParticipants: number;
+}
+
+function OpinionScoreStatement<T extends BaseOpinionProps>({
   opinion,
   totalParticipants,
-}: {
-  opinion: OpinionScore;
-  totalParticipants: number;
-}) {
+}: OpinionScoreStatementProps<T>) {
+  if (!opinion) return null;
   const supportPercentage = Math.round(
     (opinion.supportVotes / opinion.totalVotes) * 100
   );
@@ -481,24 +597,24 @@ function OpinionScoreStatement({
             <FaCircle size={21} color="white" />
             <FaCheckCircle size={21} color="var(--green-support)" />
           </span>
-          <span>Support</span>
-          <span>— {opinion.supportVotes}</span>
+          <span style={{ marginRight: "1.5rem" }}>Support</span>
+          <Badge theme="blue">{opinion.supportVotes}</Badge>
         </button>
         <button className={clsx(styles.voteBadge, styles.oppose)}>
           <span className={styles.iconStack}>
             <BsCircleFill size={21} color="white" />
             <AiFillCloseCircle size={21} color="var(--red)" />
           </span>
-          <span>Oppose</span>
-          <span>— {opinion.opposeVotes}</span>
+          <span style={{ marginRight: "1.5rem" }}>Oppose</span>
+          <Badge theme="blue">{opinion.opposeVotes}</Badge>
         </button>
         <button className={clsx(styles.voteBadge, styles.neutral)}>
           <span className={styles.iconStack}>
             <BsCircleFill size={21} color="white" />
             <FaMinusCircle size={21} color="var(--grey)" />
           </span>
-          <span>Neutral</span>
-          <span>— {opinion.neutralVotes}</span>
+          <span style={{ marginRight: "1.5rem" }}>Neutral</span>
+          <Badge theme="blue">{opinion.neutralVotes}</Badge>
         </button>
       </div>
       <div className={styles.segmentedBar}>

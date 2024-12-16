@@ -246,15 +246,15 @@ export default function ConversationModeratePage() {
                     <div className={styles.flexLeft}>
                       <div className={styles.voteBadge}>
                         <FaCheckCircle size={21} color="var(--green-support)" />
-                        {statement.agreeCount}
+                        {statement.supportVotes}
                       </div>
                       <div className={styles.voteBadge}>
                         <AiFillCloseCircle size={21} color="var(--red)" />
-                        {statement.disagreeCount}
+                        {statement.opposeVotes}
                       </div>
                       <div className={styles.voteBadge}>
                         <FaMinusCircle size={21} color="var(--grey)" />
-                        {statement.passCount}
+                        {statement.neutralVotes}
                       </div>
                       <span
                         style={{

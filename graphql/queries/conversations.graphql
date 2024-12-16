@@ -20,9 +20,9 @@ query ConversationById(
     statements(filter: { moderationStatuses: $moderationStatuses }) {
       id
       content
-      agreeCount
-      disagreeCount
-      passCount
+      supportVotes
+      opposeVotes
+      neutralVotes
       percentVoted
       createdAt
       voteByUserOrSession
@@ -40,7 +40,15 @@ query ConversationById(
       totalStatements
       avgVotesPerParticipant
     }
+    createdAt
+    updatedAt
+  }
+}
+
+query ConversationOpinionAnalysis($conversationId: ID!) {
+  conversationById(id: $conversationId) {
     opinionAnalysis(limit: 2) {
+      overview
       consensusOpinions {
         id
         content
@@ -64,8 +72,28 @@ query ConversationById(
         nonVotingViews
       }
     }
-    createdAt
-    updatedAt
+    opinionGroups {
+      id
+      characteristicVotes {
+        statementId
+        meanSentiment
+        consensusLevel
+        significanceLevel
+        statement {
+          content
+          supportVotes
+          opposeVotes
+          neutralVotes
+          author {
+            id
+            firstName
+            lastName
+            profilePictureUrl
+          }
+        }
+      }
+      summary
+    }
   }
 }
 
@@ -109,10 +137,10 @@ query GetRelatedStatements(
     relatedStatements(draftContent: $draftContent, limit: $limit) {
       id
       content
-      voteCount
-      agreeCount
-      disagreeCount
-      passCount
+      totalVotes
+      supportVotes
+      opposeVotes
+      neutralVotes
       createdAt
       author {
         id
