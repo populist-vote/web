@@ -25,6 +25,7 @@ import { FaCheckCircle, FaMinusCircle } from "react-icons/fa";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { PageIndex } from "components/PageIndex/PageIndex";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const locale = ctx.locale as SupportedLocale;
@@ -123,7 +124,7 @@ export default function ConversationModeratePage() {
         setPaginationPage((prev) => prev - 1);
       }
     } catch (error) {
-      console.error("Moderation failed:", error);
+      toast.error(`Moderation failed: ${(error as Error).message}`);
     }
   };
 
@@ -256,27 +257,30 @@ export default function ConversationModeratePage() {
                         {statement.passCount}
                       </div>
                     </div>
-                    <div className={styles.flexRight}>
-                      <Button
-                        label="Accept"
-                        size="medium"
-                        onClick={() => handleAccept(statement.id)}
-                        disabled={
-                          statement.moderationStatus ===
-                          StatementModerationStatus.Accepted
-                        }
-                      />
-                      <Button
-                        size="medium"
-                        variant="primary"
-                        label="Reject"
-                        onClick={() => handleReject(statement.id)}
-                        disabled={
-                          statement.moderationStatus ===
-                          StatementModerationStatus.Rejected
-                        }
-                      />
-                    </div>
+                    {statement.moderationStatus !=
+                      StatementModerationStatus.Seed && (
+                      <div className={styles.flexRight}>
+                        <Button
+                          label="Accept"
+                          size="medium"
+                          onClick={() => handleAccept(statement.id)}
+                          disabled={
+                            statement.moderationStatus ===
+                            StatementModerationStatus.Accepted
+                          }
+                        />
+                        <Button
+                          size="medium"
+                          variant="primary"
+                          label="Reject"
+                          onClick={() => handleReject(statement.id)}
+                          disabled={
+                            statement.moderationStatus ===
+                            StatementModerationStatus.Rejected
+                          }
+                        />
+                      </div>
+                    )}
                   </div>
                 </Box>
               </div>

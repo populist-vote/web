@@ -13,6 +13,7 @@ import {
   ArgumentPosition,
   ConversationResult,
   OpinionScore,
+  StatementModerationStatus,
   StatementResult,
   useAddStatementToConversationMutation,
   useConversationByIdQuery,
@@ -42,7 +43,15 @@ export function Conversation({
     statement: string;
   }>();
 
-  const { data, isLoading } = useConversationByIdQuery({ id });
+  const { data, isLoading } = useConversationByIdQuery({
+    id,
+    // TODO: Make this configurable
+    moderationStatuses: [
+      StatementModerationStatus.Accepted,
+      StatementModerationStatus.Seed,
+      StatementModerationStatus.Unmoderated,
+    ],
+  });
 
   const draftStatement = watch("statement");
   const debouncedDraft = useDebounce(draftStatement?.trim(), 300);

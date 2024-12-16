@@ -457,7 +457,7 @@ type ConversationResult {
   opinionGroups: [OpinionGroup!]!
   """Counts unique participants who voted in each time bucket"""
   participationOverTime(interval: String): [TimeSeriesPoint!]!
-  relatedStatements(draftContent: String!, limit: Int): [StatementResult!]!
+  relatedStatements(draftContent: String!, filter: StatementFilter, limit: Int, offset: Int): [StatementResult!]!
   statements(filter: StatementFilter, limit: Int, offset: Int, sort: StatementSort): [StatementResult!]!
   statementsOverTime(interval: String): [TimeSeriesPoint!]!
   stats: ConversationStats!
@@ -1736,7 +1736,7 @@ type Statement {
 }
 
 input StatementFilter {
-  moderationStatus: StatementModerationStatus
+  moderationStatuses: [StatementModerationStatus!]
 }
 
 enum StatementModerationStatus {

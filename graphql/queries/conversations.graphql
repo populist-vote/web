@@ -9,12 +9,15 @@ query ConversationsByOrganization($organizationId: ID!, $limit: Int!) {
   }
 }
 
-query ConversationById($id: ID!, $moderationStatus: StatementModerationStatus) {
+query ConversationById(
+  $id: ID!
+  $moderationStatuses: [StatementModerationStatus!]
+) {
   conversationById(id: $id) {
     id
     topic
     description
-    statements(filter: { moderationStatus: $moderationStatus }) {
+    statements(filter: { moderationStatuses: $moderationStatuses }) {
       id
       content
       agreeCount
