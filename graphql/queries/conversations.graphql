@@ -23,6 +23,7 @@ query ConversationById(
       agreeCount
       disagreeCount
       passCount
+      percentVoted
       createdAt
       voteByUserOrSession
       moderationStatus

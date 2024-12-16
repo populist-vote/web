@@ -256,6 +256,15 @@ export default function ConversationModeratePage() {
                         <FaMinusCircle size={21} color="var(--grey)" />
                         {statement.passCount}
                       </div>
+                      <span
+                        style={{
+                          color: "var(--blue-text)",
+                          width: "6rem",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        {statement.percentVoted}% voted{" "}
+                      </span>
                     </div>
                     {statement.moderationStatus !=
                       StatementModerationStatus.Seed && (

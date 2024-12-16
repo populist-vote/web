@@ -1757,6 +1757,7 @@ type StatementResult {
   id: ID!
   moderationStatus: StatementModerationStatus!
   passCount: Int!
+  percentVoted: Float!
   voteByUserOrSession(userId: ID): ArgumentPosition
   voteCount: Int!
 }
