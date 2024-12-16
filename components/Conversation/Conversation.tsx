@@ -391,10 +391,10 @@ function OpinionGroupView({
   return (
     <div>
       <h2>{groupName} Summary</h2>
-      <p className={styles.blueText}>{group.summary}</p>
+      <p style={{ color: "var(--blue-text)" }}>{group.summary}</p>
       <div className={styles.divider} />
 
-      <h2>{groupName} Opinions</h2>
+      <h2>{groupName} Concensus</h2>
       {group.characteristicVotes.length > 0 && (
         <>
           <PageIndex
@@ -574,7 +574,6 @@ function OpinionScoreStatement<T extends BaseOpinionProps>({
   opinion,
   totalParticipants,
 }: OpinionScoreStatementProps<T>) {
-  if (!opinion) return null;
   const supportPercentage = Math.round(
     (opinion.supportVotes / opinion.totalVotes) * 100
   );

@@ -81,6 +81,7 @@ query ConversationOpinionAnalysis($conversationId: ID!) {
         significanceLevel
         statement {
           content
+          totalVotes
           supportVotes
           opposeVotes
           neutralVotes
