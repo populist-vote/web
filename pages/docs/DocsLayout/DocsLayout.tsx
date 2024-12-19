@@ -6,7 +6,7 @@ import {
   navigationConfig,
   NavigationSection,
   NavigationSectionKey,
-} from "../navigationConfig";
+} from "../../../utils/navigationConfig";
 import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
 import Link from "next/link";
