@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { DashboardTopNav } from "..";
 import { ContentTypeNav } from "components/EmbedIndex/EmbedIndex";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -115,7 +116,10 @@ export default function ConversationsIndexPage() {
     <div>
       <DashboardTopNav />
       <ContentTypeNav embedType="conversation" />
-      <h2>Conversations</h2>
+      <div className={styles.flexLeft}>
+        <h2>Conversations</h2>
+        <Link href={`/docs/conversations/overview`}>Info</Link>
+      </div>
       <Button
         onClick={() =>
           router.push(

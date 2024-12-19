@@ -4,19 +4,17 @@ import { toast } from "react-toastify";
 import hljs from "highlight.js";
 import { useEffect } from "react";
 
-function CodeBlock({
-  language,
-  setLanguage,
-  snippets,
-}: {
-  language: "html" | "react" | "nextjs";
-  setLanguage: (language: "html" | "react" | "nextjs") => void;
-  snippets: { html: string; react: string; nextjs: string };
-}) {
-  const text = snippets[language];
+// Get all supported languages from highlight.js
+type HljsLanguage = ReturnType<typeof hljs.listLanguages>[number];
 
+interface CodeBlockProps {
+  code: string;
+  language: HljsLanguage;
+}
+
+function CodeBlock({ code, language }: CodeBlockProps) {
   const handleCopy = () => {
-    void navigator.clipboard.writeText(text);
+    void navigator.clipboard.writeText(code);
     toast("Copied to clipboard", {
       position: "bottom-right",
       type: "success",
@@ -26,34 +24,23 @@ function CodeBlock({
 
   useEffect(() => {
     hljs.highlightAll();
-  }, [language]);
+  }, [code, language]);
 
   return (
-    <>
-      <div className={styles.container}>
-        <div className={styles.actions}>
-          <small>
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as "html" | "react")}
-            >
-              <option value="html">HTML</option>
-              <option value="react">React</option>
-              <option value="nextjs">Next.js</option>
-            </select>
-          </small>
-          <Button
-            variant="primary"
-            size="small"
-            onClick={handleCopy}
-            label="Copy"
-          />
-        </div>
-        <pre>
-          <code className={language === "html" ? "html" : "jsx"}>{text}</code>
-        </pre>
+    <div className={styles.container}>
+      <div className={styles.actions}>
+        <small>{language}</small>
+        <Button
+          variant="primary"
+          size="small"
+          onClick={handleCopy}
+          label="Copy"
+        />
       </div>
-    </>
+      <pre>
+        <code className={language}>{code}</code>
+      </pre>
+    </div>
   );
 }
 
