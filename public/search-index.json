@@ -1,0 +1,220 @@
+[
+  {
+    "label": "What is Populist?",
+    "href": "/docs/content/overview",
+    "content": "import { DocsLayout } from \"components\";\n\n## Populist helps you create civic content\n\n### What is Civic Content?\n\nCivic content is information that helps people understand and engage\nwith their communities. It can be news, events, or discussions about\nlocal issues. Civic content is important because it helps people make\ninformed decisions and participate in their communities.\n\nexport default function DocsContentOverview({ children }) {\n  return <DocsLayout currentPage=\"content\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "Populist helps you create civic content",
+        "level": 2
+      },
+      {
+        "text": "What is Civic Content?",
+        "level": 3
+      }
+    ],
+    "tabId": "content",
+    "tabLabel": "Embed Content",
+    "tabColor": "aqua",
+    "section": "Overview"
+  },
+  {
+    "label": "What is a conversation?",
+    "href": "/docs/conversations/overview",
+    "content": "import { DocsLayout } from \"components\";\n\n## What is a Conversation?\n\nPopulist's **Conversations** is an open-source platform that helps large groups share and understand their collective views. It is an implementation of a [Wikisurvey](https://en.wikipedia.org/wiki/Wiki_survey) and inspired by other platforms including [Pol.is](https://pol.is) with a few key improvements.\n\nWhen using Populist conversations, people write short comments and then vote on other people's comments by selecting support, oppose, or neutral. The system shows comments to voters in a semi-random way to ensure broad exposure of ideas.\n\nWhat makes this different from regular surveys:\n\n- Participants create the content themselves instead of answering preset questions\n- People can contribute meaningfully without having to vote on everything\n- The system works efficiently even with hundreds, thousands, or potentially millions of participants\n\n#### Participating in Conversations\n\nBrowse through the list of existing conversations to find topics that interest you. Click on a conversation to view the discussion and contribute your thoughts and opinions.\n\n#### Managing Conversations\n\nOrganization administrators have the ability to manage conversations, including editing or deleting conversations as needed. This ensures that discussions remain relevant and appropriate for the organization.\n\nexport default function DocsConversationsOverview({ children }) {\n  return <DocsLayout currentPage=\"conversations\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "What is a Conversation?",
+        "level": 2
+      },
+      {
+        "text": "Participating in Conversations",
+        "level": 4
+      },
+      {
+        "text": "Managing Conversations",
+        "level": 4
+      }
+    ],
+    "tabId": "conversations",
+    "tabLabel": "Conversations",
+    "tabColor": "orange",
+    "section": "Overview"
+  },
+  {
+    "label": "Quickstart",
+    "href": "/docs/conversations/quickstart",
+    "content": "import { ReactNode } from \"react\";\nimport { DocsLayout, OrganizationDashboardLink } from \"components\";\n\n# Quickstart\n\n1. Access the conversations feature by navigating to conversations on your <OrganizationDashboardLink text=\"organization's dashboard.\" />.\n\n2. Click the \"Create New Conversation\" button to create a new conversation.\n\n3. Set a topic and optional description for the conversation.\n\n4. Optionally add seed statements to provide initial context or ideas for the discussion.\n\n5. Click on \"Manage\" then \"Copy Public URL\" to distribute a link to the conversation.\n\n6. From the \"Manage\" tab you'll be able to monitor the conversation in realtime.\n\n7. Use the \"Moderate\" tab to manage comments and seed statements.\n\nexport default function DocsConversationsQuickstart({ children }) {\n  return <DocsLayout currentPage=\"conversations\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "Quickstart",
+        "level": 1
+      }
+    ],
+    "tabId": "conversations",
+    "tabLabel": "Conversations",
+    "tabColor": "orange",
+    "section": "Overview"
+  },
+  {
+    "label": "Configuration",
+    "href": "/docs/conversations/configuration",
+    "content": "import { DocsLayout } from \"components\";\n\n## Configuring a Conversation\n\nThe conversation owner can configure the conversation settings to suit their needs. The following settings are available:\n\n#### Conversation Title\n\nThe title of the conversation is displayed at the top of the conversation page. Choose a title that is descriptive and engaging to attract participants.\n\n#### Conversation Description\n\nThe description provides additional context for the conversation. Use the description to explain the purpose of the conversation and provide guidelines for participants.\n\n#### Seed Statements\n\nSeed statements are initial statements or questions that provide context for the conversation. Add seed statements to prompt participants to engage with the conversation.\n\nexport default function DocsConversationsConfiguration({ children }) {\n  return <DocsLayout currentPage=\"conversations\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "Configuring a Conversation",
+        "level": 2
+      },
+      {
+        "text": "Conversation Title",
+        "level": 4
+      },
+      {
+        "text": "Conversation Description",
+        "level": 4
+      },
+      {
+        "text": "Seed Statements",
+        "level": 4
+      }
+    ],
+    "tabId": "conversations",
+    "tabLabel": "Conversations",
+    "tabColor": "orange",
+    "section": "Usage"
+  },
+  {
+    "label": "Distribution",
+    "href": "/docs/conversations/distribution",
+    "content": "import { DocsLayout, Divider } from \"components\";\n\n## Distributing a Conversation\n\nThe conversation owner can distribute the conversation to participants using the following methods:\n\n#### Direct Link\n\nShare the conversation link with participants via email, social media, or other communication channels. Participants can access the conversation by clicking the link.\n\n#### Embed Code (Coming Soon)\n\nEmbed the conversation on your website using the provided embed code. Participants can engage with the conversation directly on your website.\n\n<Divider />\n\n## Marketing\n\nPromote the conversation to attract participants and increase engagement. Consider the following marketing strategies:\n\n#### Email list\n\nSend an email to your subscribers inviting them to participate in the conversation. Include a brief description of the conversation and a call-to-action to join.\n\n#### Social media\n\nShare the conversation link on your social media channels to reach a wider audience. Use engaging visuals and captions to attract participants.\n\n#### Paid Ads\n\nConsider running paid ads to promote the conversation to a targeted audience. Use platforms like Google Ads or Facebook Ads to reach potential participants.\n\nexport default function DocsConversationsDistribution({ children }) {\n  return <DocsLayout currentPage=\"conversations\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "Distributing a Conversation",
+        "level": 2
+      },
+      {
+        "text": "Direct Link",
+        "level": 4
+      },
+      {
+        "text": "Embed Code (Coming Soon)",
+        "level": 4
+      },
+      {
+        "text": "Marketing",
+        "level": 2
+      },
+      {
+        "text": "Email list",
+        "level": 4
+      },
+      {
+        "text": "Social media",
+        "level": 4
+      },
+      {
+        "text": "Paid Ads",
+        "level": 4
+      }
+    ],
+    "tabId": "conversations",
+    "tabLabel": "Conversations",
+    "tabColor": "orange",
+    "section": "Usage"
+  },
+  {
+    "label": "Moderation",
+    "href": "/docs/conversations/moderation",
+    "content": "import { DocsLayout } from \"components\";\n\n## Moderation\n\nThe conversation owner controls moderation through the admin interface.\nEach new comment can be approved, rejected, or left unmoderated. While\nConversations work without moderation, moderating effectively saves\nparticipants' time by removing irrelevant content.\n\n## Moderation Schemes\n\nStrict Moderation (Default) Works like a whitelist Comments only appear\nafter moderator approval. Recommended when embedding on your website to\nprevent inappropriate content. Permissive Moderation Works like a\nblacklist Comments appear immediately Can be removed later by moderators\nYou can switch between these in the conversation's admin configuration.\n\nexport default function DocsConversationsModeration({ children }) {\n  return <DocsLayout currentPage=\"conversations\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "Moderation",
+        "level": 2
+      },
+      {
+        "text": "Moderation Schemes",
+        "level": 2
+      }
+    ],
+    "tabId": "conversations",
+    "tabLabel": "Conversations",
+    "tabColor": "orange",
+    "section": "Usage"
+  },
+  {
+    "label": "Monitoring",
+    "href": "/docs/conversations/monitoring",
+    "content": "import { DocsLayout } from \"components\";\n\n## Monitoring\n\nYou can monitor a live conversation in real time using a conversations\n\"Manage\" page. Here you can see the number of participants, votes,\nstatements, and more.\n\nexport default function DocsConversationsMonitoring({ children }) {\n  return <DocsLayout currentPage=\"conversations\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "Monitoring",
+        "level": 2
+      }
+    ],
+    "tabId": "conversations",
+    "tabLabel": "Conversations",
+    "tabColor": "orange",
+    "section": "Usage"
+  },
+  {
+    "label": "Introduction",
+    "href": "/docs/api/introduction",
+    "content": "import { Divider, DocsLayout, CodeBlock } from \"components\";\n\n# API Reference\n\n<Divider />\n## Introducing: The Populist public API\n\nThe Populist public API provides access to the Populist platform's\nfeatures and data. You can use the API to consume data about elections,\npoliticians, bills and more.\n\n### GraphQL\n\nThe Populist public API is built on GraphQL, a query language for your\nAPI. You can use GraphQL to query the Populist platform for the specific\ndata you need.\n\nA query to the Populist API could looks something like this:\n\n<CodeBlock\n  code={`query {\n            elections(filter: {\n            state: CO\n            }) {\n            title\n            description\n            electionDate\n          }\n        }`}\n  language=\"graphql\"\n/>\n\nexport default function DocsApiIntroduction({ children }) {\n  return <DocsLayout currentPage=\"api\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "API Reference",
+        "level": 1
+      },
+      {
+        "text": "Introducing: The Populist public API",
+        "level": 2
+      },
+      {
+        "text": "GraphQL",
+        "level": 3
+      }
+    ],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Overview"
+  },
+  {
+    "label": "Quickstart",
+    "href": "/docs/api/quickstart",
+    "content": "import { Divider, DocsLayout, CodeBlock } from \"components\";\nimport styles from \"components/DocsLayout/DocsLayout.module.scss\";\n\n# API Reference\n\n<Divider />\n## Quickstart\n\nMaking a request to the Populist API is easy! To get started quickly, copy this snippet into your terminal and run it:\n\n<CodeBlock\n  code={`curl 'https://api.populist.us' -H 'Content-Type: application/json' -X POST -d '{\"query\": \"query { elections(filter: { state: CO }) { title description electionDate } }\"}'`}\n  language=\"bash\"\n/>\n\nThis will return a list of upcoming elections in Colorado. You can modify the `filter` object to query elections in other states or filter by other fields. For more information on the available fields and filters, check out the [API Reference](/docs/api/reference). Your output should looks something like this:\n\n<pre className={styles.jsonBlock}>\n  {`{\n  \"data\": {\n    \"elections\": [\n      {\n        \"title\": \"Colorado Primaries\",\n        \"description\": \"Primary races for the general election later this year on November 8, 2022.\",\n        \"electionDate\": \"2022-06-28\"\n      },\n      {\n        \"title\": \"General Election\",\n        \"description\": \"During this midterm election year, all 435 seats in the U.S. House of Representatives and 35 of the 100 seats in the U.S. Senate will be contested. This will be the first election affected by the redistricting following the 2020 census.\",\n        \"electionDate\": \"2022-11-08\"\n      },\n      {\n        \"title\": \"Municipal General Election\",\n        \"description\": \"\",\n        \"electionDate\": \"2023-04-04\"\n      },\n      {\n        \"title\": \"General Runoff Election\",\n        \"description\": \"Michael Johnston defeated Kelly Brough in the general runoff election for Mayor of Denver on June 6, 2023.\",\n        \"electionDate\": \"2023-06-06\"\n      },\n      {\n        \"title\": \"Primary & Special Elections\",\n        \"description\": null,\n        \"electionDate\": \"2023-08-08\"\n      },\n      {\n        \"title\": \"General Election\",\n        \"description\": \"This off-year election includes mostly local elections, with a few state level ones.\",\n        \"electionDate\": \"2023-11-07\"\n      },\n      {\n        \"title\": \"Colorado Primaries 2024\",\n        \"description\": \"Primary races in Colorado for the upcoming general election on November 5, 2024\",\n        \"electionDate\": \"2024-06-25\"\n      },\n      {\n        \"title\": \"General Election 2024\",\n        \"description\": \"This year's election includes the presidential election as well as all 435 seats in the U.S. House of Representatives and 33 seats in the U.S. Senate.\",\n        \"electionDate\": \"2024-11-05\"\n      }\n    ]\n  }\n}`}\n</pre>\n\nexport default function DocsGuidesQuickStart({ children }) {\n  return <DocsLayout currentPage=\"api\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "API Reference",
+        "level": 1
+      },
+      {
+        "text": "Quickstart",
+        "level": 2
+      }
+    ],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Overview"
+  },
+  {
+    "label": "Authentication",
+    "href": "/docs/api/auth",
+    "content": "import { Divider } from \"components\";\nimport { DocsLayout } from \"components\";\n\n# API Reference\n\n<Divider />\n## Authentication\n\nThe Populist public API requires an `authorization` header to be set with your request using your API\nkey like so:\n\n```json\n\"authorization\": \"Bearer YOUR_API_KEY\"\n```\n\nIf you do not have an API key, you can request one by contacting us at\n[info@populist.us](mailto:info@populist.us)\n\nexport default function DocsApiAuth({ children }) {\n  return <DocsLayout currentPage=\"api\">{children}</DocsLayout>;\n}\n",
+    "headings": [
+      {
+        "text": "API Reference",
+        "level": 1
+      },
+      {
+        "text": "Authentication",
+        "level": 2
+      }
+    ],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Overview"
+  }
+]

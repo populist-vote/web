@@ -57,10 +57,12 @@ import { RadioGroup } from "./RadioGroup/RadioGroup";
 import { IndeterminateCheckbox } from "./IndeterminateCheckbox/IndeterminateCheckbox";
 import { DocsLayout } from "./DocsLayout/DocsLayout";
 import { OrganizationDashboardLink } from "./OrganizationDashboardLink";
+import { Modal } from "./Modal/Modal";
 
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
 export {
+  Modal,
   OrganizationDashboardLink,
   DocsLayout,
   Avatar,

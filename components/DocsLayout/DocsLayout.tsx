@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
 import Link from "next/link";
 import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
+import DocSearch from "components/DocSearch/DocSearch";
 
 export function DocsLayout({
   children,
@@ -61,17 +62,9 @@ export function DocsLayout({
             </div>
           </div>
 
-          {/* <div className={styles.searchContainer}>
-            <div className={styles.searchWrapper}>
-              <div className={styles.searchInputWrapper}>
-                <input
-                  type="text"
-                  placeholder="Search documentation..."
-                  className={styles.searchInput}
-                />
-              </div>
-            </div>
-          </div> */}
+          <div className={styles.searchContainer}>
+            <DocSearch />
+          </div>
 
           <div className={styles.headerRight}>
             {!user && <AuthButtons />}
