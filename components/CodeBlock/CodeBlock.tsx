@@ -12,7 +12,7 @@ interface CodeBlockProps {
   language: HljsLanguage;
 }
 
-function CodeBlock({ code, language }: CodeBlockProps) {
+export function CodeBlock({ code, language }: CodeBlockProps) {
   const handleCopy = () => {
     void navigator.clipboard.writeText(code);
     toast("Copied to clipboard", {
@@ -43,5 +43,3 @@ function CodeBlock({ code, language }: CodeBlockProps) {
     </div>
   );
 }
-
-export { CodeBlock };

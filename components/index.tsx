@@ -58,10 +58,12 @@ import { IndeterminateCheckbox } from "./IndeterminateCheckbox/IndeterminateChec
 import { DocsLayout } from "./DocsLayout/DocsLayout";
 import { OrganizationDashboardLink } from "./OrganizationDashboardLink";
 import { Modal } from "./Modal/Modal";
+import { CodeBlock } from "./CodeBlock/CodeBlock";
 
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
 export {
+  CodeBlock,
   Modal,
   OrganizationDashboardLink,
   DocsLayout,

@@ -19,14 +19,12 @@ A query to the Populist API could looks something like this:
 
 <CodeBlock
   code={`query {
-            elections(filter: {
-            state: CO
-            }) {
-            title
-            description
-            electionDate
-          }
-        }`}
+    elections(filter: { state: CO }) {
+      title
+      description
+      electionDate
+    }
+}`}
   language="graphql"
 />
 
