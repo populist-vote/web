@@ -55,9 +55,14 @@ import { Box } from "./Box/Box";
 import { SearchInput } from "./SearchInput/SearchInput";
 import { RadioGroup } from "./RadioGroup/RadioGroup";
 import { IndeterminateCheckbox } from "./IndeterminateCheckbox/IndeterminateCheckbox";
+import { DocsLayout } from "./DocsLayout/DocsLayout";
+import { OrganizationDashboardLink } from "./OrganizationDashboardLink";
+
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
 export {
+  OrganizationDashboardLink,
+  DocsLayout,
   Avatar,
   AuthButtons,
   BasicLayout,

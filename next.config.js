@@ -2,6 +2,7 @@
 
 const runtimeCaching = require("next-pwa/cache");
 const { i18n } = require("./next-i18next.config");
+const withMDX = require("@next/mdx")();
 
 const withPWA = require("next-pwa")({
   dest: "public",
@@ -15,6 +16,7 @@ const commitHash = require("child_process")
   .trim();
 
 const nextConfig = {
+  pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
   experimental: {
     scrollRestoration: true,
   },
@@ -69,4 +71,4 @@ const nextConfig = {
   transpilePackages: ["remotion-animated"],
 };
 
-module.exports = withPWA(nextConfig);
+module.exports = withPWA(withMDX(nextConfig));

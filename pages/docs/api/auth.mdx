@@ -1,0 +1,21 @@
+import { Divider } from "components";
+import { DocsLayout } from "components";
+
+# API Reference
+
+<Divider />
+## Authentication
+
+The Populist public API requires an `authorization` header to be set with your request using your API
+key like so:
+
+```json
+"authorization": "Bearer YOUR_API_KEY"
+```
+
+If you do not have an API key, you can request one by contacting us at
+[info@populist.us](mailto:info@populist.us)
+
+export default function DocsApiAuth({ children }) {
+  return <DocsLayout currentPage="api">{children}</DocsLayout>;
+}

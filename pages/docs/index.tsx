@@ -1,11 +1,9 @@
-import { Box, Divider } from "components";
-
+import { Box, Divider, DocsLayout } from "components";
 import { GetServerSideProps } from "next";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
-import DocsLayout from "./DocsLayout/DocsLayout";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;

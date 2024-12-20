@@ -1,0 +1,21 @@
+import { DocsLayout } from "components";
+
+## Configuring a Conversation
+
+The conversation owner can configure the conversation settings to suit their needs. The following settings are available:
+
+#### Conversation Title
+
+The title of the conversation is displayed at the top of the conversation page. Choose a title that is descriptive and engaging to attract participants.
+
+#### Conversation Description
+
+The description provides additional context for the conversation. Use the description to explain the purpose of the conversation and provide guidelines for participants.
+
+#### Seed Statements
+
+Seed statements are initial statements or questions that provide context for the conversation. Add seed statements to prompt participants to engage with the conversation.
+
+export default function DocsConversationsConfiguration({ children }) {
+  return <DocsLayout currentPage="conversations">{children}</DocsLayout>;
+}

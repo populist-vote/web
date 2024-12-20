@@ -1,49 +1,22 @@
-import { Divider } from "components";
-
-import { GetServerSideProps } from "next";
-import nextI18nextConfig from "next-i18next.config";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ReactNode } from "react";
-import { SupportedLocale } from "types/global";
-import DocsLayout from "../DocsLayout/DocsLayout";
-import { CodeBlock } from "components/CodeBlock/CodeBlock";
+import { Divider, DocsLayout, CodeBlock } from "components";
 import styles from "../DocsLayout/DocsLayout.module.scss";
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { locale } = ctx;
-  return {
-    props: {
-      title: "Populist Conversations",
-      description:
-        "Join the conversation on the latest political topics and bills.",
-      ...ctx.query,
-      ...(await serverSideTranslations(
-        locale as SupportedLocale,
-        ["auth", "common"],
-        nextI18nextConfig
-      )),
-    },
-  };
-};
+# API Reference
 
-export default function DocsGuidesQuickStart() {
-  return (
-    <div>
-      <h1>API Reference</h1>
-      <Divider />
-      <h2>Quickstart</h2>
-      <p>
-        Making a request to the Populist API is easy! To get started quickly,
-        copy this snippet into your terminal and run it:
-      </p>
-      <CodeBlock
-        code={`curl 'https://api.populist.us' -H 'Content-Type: application/json' -X POST -d '{"query": "query { elections(filter: { state: CO }) { title description electionDate } }"}'`}
-        language="bash"
-      />
-      <p>
-        You should get output that looks something like this:
-        <pre className={styles.jsonBlock}>
-          {`{
+<Divider />
+## Quickstart
+
+Making a request to the Populist API is easy! To get started quickly, copy this snippet into your terminal and run it:
+
+<CodeBlock
+  code={`curl 'https://api.populist.us' -H 'Content-Type: application/json' -X POST -d '{"query": "query { elections(filter: { state: CO }) { title description electionDate } }"}'`}
+  language="bash"
+/>
+
+This will return a list of upcoming elections in Colorado. You can modify the `filter` object to query elections in other states or filter by other fields. For more information on the available fields and filters, check out the [API Reference](/docs/api/reference). Your output should looks something like this:
+
+<pre className={styles.jsonBlock}>
+  {`{
   "data": {
     "elections": [
       {
@@ -89,12 +62,8 @@ export default function DocsGuidesQuickStart() {
     ]
   }
 }`}
-        </pre>
-      </p>
-    </div>
-  );
-}
+</pre>
 
-DocsGuidesQuickStart.getLayout = (page: ReactNode) => (
-  <DocsLayout currentPage="api">{page}</DocsLayout>
-);
+export default function DocsGuidesQuickStart({ children }) {
+  return <DocsLayout currentPage="api">{children}</DocsLayout>;
+}

@@ -27,6 +27,6 @@
     "pages/elections/browse/[state]",
     "pages/dashboard/[dashboardSlug]/embeds/candidate-guide/[id]",
     "deploy.mjs"
-  ],
+, "pages/docs/api/auth.mdx", "pages/docs/api/auth.mdx"  ],
   "exclude": ["node_modules", "./scripts/widget-client.ts"]
 }

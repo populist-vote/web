@@ -1,0 +1,35 @@
+import { Divider, DocsLayout, CodeBlock } from "components";
+
+# API Reference
+
+<Divider />
+## Introducing: The Populist public API
+
+The Populist public API provides access to the Populist platform's
+features and data. You can use the API to consume data about elections,
+politicians, bills and more.
+
+### GraphQL
+
+The Populist public API is built on GraphQL, a query language for your
+API. You can use GraphQL to query the Populist platform for the specific
+data you need.
+
+A query to the Populist API could looks something like this:
+
+<CodeBlock
+  code={`query {
+            elections(filter: {
+            state: CO
+            }) {
+            title
+            description
+            electionDate
+          }
+        }`}
+  language="graphql"
+/>
+
+export default function DocsApiIntroduction({ children }) {
+  return <DocsLayout currentPage="api">{children}</DocsLayout>;
+}

@@ -6,19 +6,19 @@ import {
   navigationConfig,
   NavigationSection,
   NavigationSectionKey,
-} from "../../../utils/navigationConfig";
+} from "../../utils/navigationConfig";
 import { useRouter } from "next/router";
 import { useAuth } from "hooks/useAuth";
 import Link from "next/link";
 import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 
-const DocsLayout = ({
+export function DocsLayout({
   children,
   currentPage,
 }: {
   children: React.ReactNode;
   currentPage: NavigationSectionKey;
-}) => {
+}) {
   const router = useRouter();
   const [isNavOpen, setIsNavOpen] = React.useState(true);
 
@@ -155,6 +155,6 @@ const DocsLayout = ({
       </div>
     </div>
   );
-};
+}
 
 export default DocsLayout;

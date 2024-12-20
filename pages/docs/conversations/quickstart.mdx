@@ -1,0 +1,22 @@
+import { ReactNode } from "react";
+import { DocsLayout, OrganizationDashboardLink } from "components";
+
+# Quickstart
+
+1. Access the conversations feature by navigating to conversations on your <OrganizationDashboardLink text="organization's dashboard." />.
+
+2. Click the "Create New Conversation" button to create a new conversation.
+
+3. Set a topic and optional description for the conversation.
+
+4. Optionally add seed statements to provide initial context or ideas for the discussion.
+
+5. Click on "Manage" then "Copy Public URL" to distribute a link to the conversation.
+
+6. From the "Manage" tab you'll be able to monitor the conversation in realtime.
+
+7. Use the "Moderate" tab to manage comments and seed statements.
+
+export default function DocsConversationsQuickstart({ children }) {
+  return <DocsLayout currentPage="conversations">{children}</DocsLayout>;
+}

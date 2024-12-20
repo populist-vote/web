@@ -1,0 +1,20 @@
+import { DocsLayout } from "components";
+
+## Moderation
+
+The conversation owner controls moderation through the admin interface.
+Each new comment can be approved, rejected, or left unmoderated. While
+Conversations work without moderation, moderating effectively saves
+participants' time by removing irrelevant content.
+
+## Moderation Schemes
+
+Strict Moderation (Default) Works like a whitelist Comments only appear
+after moderator approval. Recommended when embedding on your website to
+prevent inappropriate content. Permissive Moderation Works like a
+blacklist Comments appear immediately Can be removed later by moderators
+You can switch between these in the conversation's admin configuration.
+
+export default function DocsConversationsModeration({ children }) {
+  return <DocsLayout currentPage="conversations">{children}</DocsLayout>;
+}

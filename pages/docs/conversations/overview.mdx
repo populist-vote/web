@@ -1,0 +1,25 @@
+import { DocsLayout } from "components";
+
+## What is a Conversation?
+
+Populist's **Conversations** is an open-source platform that helps large groups share and understand their collective views. It is an implementation of a [Wikisurvey](https://en.wikipedia.org/wiki/Wiki_survey) and inspired by other platforms including [Pol.is](https://pol.is) with a few key improvements.
+
+When using Populist conversations, people write short comments and then vote on other people's comments by selecting support, oppose, or neutral. The system shows comments to voters in a semi-random way to ensure broad exposure of ideas.
+
+What makes this different from regular surveys:
+
+- Participants create the content themselves instead of answering preset questions
+- People can contribute meaningfully without having to vote on everything
+- The system works efficiently even with hundreds, thousands, or potentially millions of participants
+
+#### Participating in Conversations
+
+Browse through the list of existing conversations to find topics that interest you. Click on a conversation to view the discussion and contribute your thoughts and opinions.
+
+#### Managing Conversations
+
+Organization administrators have the ability to manage conversations, including editing or deleting conversations as needed. This ensures that discussions remain relevant and appropriate for the organization.
+
+export default function DocsConversationsOverview({ children }) {
+  return <DocsLayout currentPage="conversations">{children}</DocsLayout>;
+}
