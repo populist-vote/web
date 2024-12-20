@@ -109,7 +109,7 @@ export const navigationConfig: NavigationConfig = {
         title: "Overview",
         items: [
           { label: "Introduction", href: "/docs/api/introduction" },
-          { label: "Quickstart", href: "/docs/api/quick-start" },
+          { label: "Quickstart", href: "/docs/api/quickstart" },
           { label: "Authentication", href: "/docs/api/auth" },
         ],
       },
