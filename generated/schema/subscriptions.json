@@ -1,0 +1,25 @@
+[
+  {
+    "name": "heartbeat",
+    "description": "Heartbeat, containing the UTC timestamp of the last server-sent payload",
+    "args": [
+      {
+        "name": "interval",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "Int"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "Heartbeat"
+      }
+    }
+  }
+]

@@ -1,3 +1,74 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import types from "generated/schema/types.json";
+import queries from "generated/schema/queries.json";
+import mutations from "generated/schema/mutations.json";
+
+// Helper function to group types by their general category
+function groupTypes(types: any[]) {
+  return types.reduce((acc, type) => {
+    // Common patterns for categorizing types
+    let category = "Models";
+
+    if (type.name.endsWith("Input")) {
+      category = "Input Types";
+    } else if (type.name.endsWith("Payload")) {
+      category = "Payloads";
+    } else if (type.name.endsWith("Connection") || type.name.endsWith("Edge")) {
+      category = "Connections";
+    } else if (type.kind === "ENUM") {
+      category = "Enums";
+    } else if (type.kind === "SCALAR") {
+      category = "Scalars";
+    }
+
+    acc[category] = acc[category] || [];
+    acc[category].push(type);
+    return acc;
+  }, {});
+}
+
+// Generate schema-based navigation sections
+function generateSchemaNavigation() {
+  const schemaBasedSections: NavigationSection[] = [];
+
+  // Add Query section if there are queries
+  if (queries.length > 0) {
+    schemaBasedSections.push({
+      title: "Queries",
+      items: queries.map((query) => ({
+        label: query.name,
+        href: `/docs/api/queries#${query.name}`,
+      })),
+    });
+  }
+
+  // Add Mutation section if there are mutations
+  if (mutations.length > 0) {
+    schemaBasedSections.push({
+      title: "Mutations",
+      items: mutations.map((mutation) => ({
+        label: mutation.name,
+        href: `/docs/api/mutations#${mutation.name}`,
+      })),
+    });
+  }
+
+  // Add grouped type sections
+  const groupedTypes = groupTypes(types);
+  Object.entries(groupedTypes).forEach(([category, typesList]) => {
+    schemaBasedSections.push({
+      title: category,
+      items: (typesList as any).map((type: { name: string }) => ({
+        label: type.name,
+        href: `/docs/api/types#${type.name}`,
+      })),
+    });
+  });
+
+  return schemaBasedSections;
+}
+
 // Type for valid navigation sections
 export type NavigationSectionKey = "home" | "content" | "conversations" | "api";
 
@@ -113,14 +184,7 @@ export const navigationConfig: NavigationConfig = {
           { label: "Authentication", href: "/docs/api/auth" },
         ],
       },
-      {
-        title: "Core Resources",
-        items: [
-          { label: "Elections", href: "/docs/api/resources/elections" },
-          { label: "Politicians", href: "/docs/api/resources/politicians" },
-          { label: "Bills", href: "/docs/api/resources/bills" },
-        ],
-      },
+      ...generateSchemaNavigation(),
     ],
   },
 };

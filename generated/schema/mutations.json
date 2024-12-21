@@ -1,0 +1,1778 @@
+[
+  {
+    "name": "addStatement",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "AddStatementInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "Statement"
+      }
+    }
+  },
+  {
+    "name": "beginUserRegistration",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "BeginUserRegistrationInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "LoginResult"
+      }
+    }
+  },
+  {
+    "name": "confirmUserEmail",
+    "args": [
+      {
+        "name": "confirmationToken",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "copyQuestionSubmission",
+    "args": [
+      {
+        "name": "questionSubmissionId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "targetQuestionId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "QuestionSubmissionResult"
+      }
+    }
+  },
+  {
+    "name": "createConversation",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "CreateConversationInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "ConversationResult"
+      }
+    }
+  },
+  {
+    "name": "createUser",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "CreateUserInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "CreateUserResult"
+      }
+    }
+  },
+  {
+    "name": "deleteAccount",
+    "args": [],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "ID"
+      }
+    }
+  },
+  {
+    "name": "deleteAccountByEmail",
+    "args": [
+      {
+        "name": "email",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "ID"
+      }
+    }
+  },
+  {
+    "name": "deleteArgument",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteArgumentResult"
+      }
+    }
+  },
+  {
+    "name": "deleteBallotMeasure",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteBallotMeasureResult"
+      }
+    }
+  },
+  {
+    "name": "deleteBill",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteBillResult"
+      }
+    }
+  },
+  {
+    "name": "deleteCandidateGuide",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "deleteElection",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteElectionResult"
+      }
+    }
+  },
+  {
+    "name": "deleteEmbed",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "UUID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteEmbedResult"
+      }
+    }
+  },
+  {
+    "name": "deleteInvite",
+    "args": [
+      {
+        "name": "token",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "deleteIssueTag",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteIssueTagResult"
+      }
+    }
+  },
+  {
+    "name": "deleteOffice",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteOfficeResult"
+      }
+    }
+  },
+  {
+    "name": "deleteOrganization",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteOrganizationResult"
+      }
+    }
+  },
+  {
+    "name": "deleteOrganizationUser",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "userId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "deletePolitician",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeletePoliticianResult"
+      }
+    }
+  },
+  {
+    "name": "deletePoll",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeletePollResult"
+      }
+    }
+  },
+  {
+    "name": "deleteProfilePicture",
+    "args": [],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "deleteQuestion",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteQuestionResult"
+      }
+    }
+  },
+  {
+    "name": "deleteRace",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteRaceResult"
+      }
+    }
+  },
+  {
+    "name": "deleteVotingGuide",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "DeleteVotingGuideResult"
+      }
+    }
+  },
+  {
+    "name": "deleteVotingGuideCandidateNote",
+    "args": [
+      {
+        "name": "candidateId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "votingGuideId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "VotingGuideCandidateResult"
+      }
+    }
+  },
+  {
+    "name": "downloadAllCandidateGuideData",
+    "description": "Download all candidate guide data as a CSV string, must be converted to CSV file by client",
+    "args": [
+      {
+        "name": "candidateGuideId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "raceId",
+        "type": {
+          "kind": "SCALAR",
+          "name": "ID"
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "String"
+      }
+    }
+  },
+  {
+    "name": "downvoteArgument",
+    "args": [
+      {
+        "name": "argumentId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "populistUserId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "generateIntakeTokenLink",
+    "args": [
+      {
+        "name": "candidateGuideId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "politicianId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "raceId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "String"
+      }
+    }
+  },
+  {
+    "name": "insertPolitician",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "InsertPoliticianInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "PoliticianResult"
+      }
+    }
+  },
+  {
+    "name": "inviteUser",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "InviteUserInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "SCALAR",
+      "name": "String"
+    }
+  },
+  {
+    "name": "login",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "LoginInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "LoginResult"
+      }
+    }
+  },
+  {
+    "name": "logout",
+    "args": [],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "moderateStatement",
+    "args": [
+      {
+        "name": "moderationStatus",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "ENUM",
+            "name": "StatementModerationStatus"
+          }
+        }
+      },
+      {
+        "name": "statementId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "Statement"
+      }
+    }
+  },
+  {
+    "name": "openAllCandidateGuideSubmissions",
+    "args": [
+      {
+        "name": "candidateGuideId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "pingEmbedOrigin",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "PingEmbedOriginInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "EmbedOriginResult"
+      }
+    }
+  },
+  {
+    "name": "removeCandidateGuideRace",
+    "args": [
+      {
+        "name": "candidateGuideId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "raceId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "removePoliticianOffice",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "requestPasswordReset",
+    "args": [
+      {
+        "name": "email",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "resetPassword",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "ResetPasswordInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "setAllCandidateGuideRacesEmailed",
+    "args": [
+      {
+        "name": "candidateGuideId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "wereCandidatesEmailed",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "Boolean"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "updateAddress",
+    "args": [
+      {
+        "name": "address",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "AddressInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "AddressResult"
+      }
+    }
+  },
+  {
+    "name": "updateArgument",
+    "args": [
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpdateArgumentInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "ArgumentResult"
+      }
+    }
+  },
+  {
+    "name": "updateCandidateGuideRace",
+    "args": [
+      {
+        "name": "candidateGuideId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpdateCandidateGuideRaceInput"
+          }
+        }
+      },
+      {
+        "name": "raceId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "UpdateCandidateGuideRaceResult"
+      }
+    }
+  },
+  {
+    "name": "updateConversation",
+    "args": [
+      {
+        "name": "conversationId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "description",
+        "type": {
+          "kind": "SCALAR",
+          "name": "String"
+        }
+      },
+      {
+        "name": "topic",
+        "type": {
+          "kind": "SCALAR",
+          "name": "String"
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "ConversationResult"
+      }
+    }
+  },
+  {
+    "name": "updateEmail",
+    "args": [
+      {
+        "name": "email",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "UpdateEmailResult"
+      }
+    }
+  },
+  {
+    "name": "updateFirstAndLastName",
+    "args": [
+      {
+        "name": "firstName",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      },
+      {
+        "name": "lastName",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "UpdateNameResult"
+      }
+    }
+  },
+  {
+    "name": "updateOrganization",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpdateOrganizationInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "OrganizationResult"
+      }
+    }
+  },
+  {
+    "name": "updatePassword",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpdatePasswordInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "updatePolitician",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpdatePoliticianInput"
+          }
+        }
+      },
+      {
+        "name": "intakeToken",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      },
+      {
+        "name": "slug",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "PoliticianResult"
+      }
+    }
+  },
+  {
+    "name": "updateUsername",
+    "args": [
+      {
+        "name": "username",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "UpdateUsernameResult"
+      }
+    }
+  },
+  {
+    "name": "uploadOrganizationThumbnail",
+    "args": [
+      {
+        "name": "file",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "Upload"
+          }
+        }
+      },
+      {
+        "name": "id",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "String"
+      }
+    }
+  },
+  {
+    "name": "uploadPoliticianPicture",
+    "args": [
+      {
+        "name": "file",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "Upload"
+          }
+        }
+      },
+      {
+        "name": "intakeToken",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      },
+      {
+        "name": "slug",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "String"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "String"
+      }
+    }
+  },
+  {
+    "name": "uploadProfilePicture",
+    "args": [
+      {
+        "name": "file",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "Upload"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "String"
+      }
+    }
+  },
+  {
+    "name": "upsertBallotMeasure",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertBallotMeasureInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "BallotMeasureResult"
+      }
+    }
+  },
+  {
+    "name": "upsertBill",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertBillInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "BillResult"
+      }
+    }
+  },
+  {
+    "name": "upsertBillPublicVote",
+    "args": [
+      {
+        "name": "billId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "position",
+        "type": {
+          "kind": "ENUM",
+          "name": "ArgumentPosition"
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "UpsertBillPublicVoteResult"
+      }
+    }
+  },
+  {
+    "name": "upsertCandidateGuide",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertCandidateGuideInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "CandidateGuideResult"
+      }
+    }
+  },
+  {
+    "name": "upsertElection",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertElectionInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "ElectionResult"
+      }
+    }
+  },
+  {
+    "name": "upsertEmbed",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertEmbedInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "EmbedResult"
+      }
+    }
+  },
+  {
+    "name": "upsertIssueTag",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertIssueTagInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "IssueTagResult"
+      }
+    }
+  },
+  {
+    "name": "upsertOffice",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertOfficeInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "OfficeResult"
+      }
+    }
+  },
+  {
+    "name": "upsertPoll",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertPollInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "PollResult"
+      }
+    }
+  },
+  {
+    "name": "upsertPollSubmission",
+    "args": [
+      {
+        "name": "pollSubmissionInput",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertPollSubmissionInput"
+          }
+        }
+      },
+      {
+        "name": "respondentInput",
+        "type": {
+          "kind": "INPUT_OBJECT",
+          "name": "UpsertRespondentInput"
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "PollSubmissionResult"
+      }
+    }
+  },
+  {
+    "name": "upsertQuestion",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertQuestionInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "QuestionResult"
+      }
+    }
+  },
+  {
+    "name": "upsertQuestionSubmission",
+    "args": [
+      {
+        "name": "questionSubmissionInput",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertQuestionSubmissionInput"
+          }
+        }
+      },
+      {
+        "name": "respondentInput",
+        "type": {
+          "kind": "INPUT_OBJECT",
+          "name": "UpsertRespondentInput"
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "QuestionSubmissionResult"
+      }
+    }
+  },
+  {
+    "name": "upsertRace",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertRaceInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "RaceResult"
+      }
+    }
+  },
+  {
+    "name": "upsertVotingGuide",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertVotingGuideInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "VotingGuideResult"
+      }
+    }
+  },
+  {
+    "name": "upsertVotingGuideCandidate",
+    "args": [
+      {
+        "name": "input",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "INPUT_OBJECT",
+            "name": "UpsertVotingGuideCandidateInput"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "VotingGuideCandidateResult"
+      }
+    }
+  },
+  {
+    "name": "upvoteArgument",
+    "args": [
+      {
+        "name": "argumentId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "populistUserId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "SCALAR",
+        "name": "Boolean"
+      }
+    }
+  },
+  {
+    "name": "voteOnStatement",
+    "args": [
+      {
+        "name": "statementId",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "SCALAR",
+            "name": "ID"
+          }
+        }
+      },
+      {
+        "name": "userId",
+        "type": {
+          "kind": "SCALAR",
+          "name": "ID"
+        }
+      },
+      {
+        "name": "voteType",
+        "type": {
+          "kind": "NON_NULL",
+          "ofType": {
+            "kind": "ENUM",
+            "name": "ArgumentPosition"
+          }
+        }
+      }
+    ],
+    "type": {
+      "kind": "NON_NULL",
+      "ofType": {
+        "kind": "OBJECT",
+        "name": "StatementVote"
+      }
+    }
+  }
+]

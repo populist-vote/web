@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "generated": "2024-12-20T18:43:36.087Z",
+  "categories": [
+    "types",
+    "queries",
+    "mutations",
+    "subscriptions",
+    "directives"
+  ]
+}

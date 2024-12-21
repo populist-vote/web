@@ -13,6 +13,7 @@
     "prebuild": "dotenv -c production -- graphql-codegen",
     "prepare": "husky install",
     "build-search-index": "tsx scripts/build-search-index.ts",
+    "build-schema-docs": "tsx scripts/process-graphql-schema.ts",
     "test": "npx playwright test"
   },
   "sideEffects": [
