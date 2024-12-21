@@ -216,5 +216,3295 @@
     "tabLabel": "API Reference",
     "tabColor": "violet",
     "section": "Overview"
+  },
+  {
+    "label": "allIssueTags",
+    "href": "/docs/api/queries#allIssueTags",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "ballotMeasureById",
+    "href": "/docs/api/queries#ballotMeasureById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "ballotMeasures",
+    "href": "/docs/api/queries#ballotMeasures",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "billById",
+    "href": "/docs/api/queries#billById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "billBySlug",
+    "href": "/docs/api/queries#billBySlug",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "billCommittees",
+    "href": "/docs/api/queries#billCommittees",
+    "content": "Returns all committees that have an associated bill",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "billIssueTags",
+    "href": "/docs/api/queries#billIssueTags",
+    "content": "Returns all issue tags that have an associated bill",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "billYears",
+    "href": "/docs/api/queries#billYears",
+    "content": "Returns all session years that have an associated bill",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "bills",
+    "href": "/docs/api/queries#bills",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "billsByIds",
+    "href": "/docs/api/queries#billsByIds",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "candidateGuideById",
+    "href": "/docs/api/queries#candidateGuideById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "candidateGuidesByOrganization",
+    "href": "/docs/api/queries#candidateGuidesByOrganization",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "conversationById",
+    "href": "/docs/api/queries#conversationById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "conversationsByOrganization",
+    "href": "/docs/api/queries#conversationsByOrganization",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "countiesByState",
+    "href": "/docs/api/queries#countiesByState",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "currentUser",
+    "href": "/docs/api/queries#currentUser",
+    "content": "Provides current user based on JWT found in client's access_token cookie",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "electionById",
+    "href": "/docs/api/queries#electionById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "electionBySlug",
+    "href": "/docs/api/queries#electionBySlug",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "electionVotingGuideByUserId",
+    "href": "/docs/api/queries#electionVotingGuideByUserId",
+    "content": "Returns a single voting guide for the given election and user",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "elections",
+    "href": "/docs/api/queries#elections",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "electionsByUser",
+    "href": "/docs/api/queries#electionsByUser",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "embedById",
+    "href": "/docs/api/queries#embedById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "embedsActivity",
+    "href": "/docs/api/queries#embedsActivity",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "embedsByOrganization",
+    "href": "/docs/api/queries#embedsByOrganization",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "health",
+    "href": "/docs/api/queries#health",
+    "content": "Returns `true` to indicate the GraphQL server is reachable",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "issueTagBySlug",
+    "href": "/docs/api/queries#issueTagBySlug",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "issueTags",
+    "href": "/docs/api/queries#issueTags",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "nextElection",
+    "href": "/docs/api/queries#nextElection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "officeById",
+    "href": "/docs/api/queries#officeById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "officeBySlug",
+    "href": "/docs/api/queries#officeBySlug",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "offices",
+    "href": "/docs/api/queries#offices",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "organizationById",
+    "href": "/docs/api/queries#organizationById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "organizationBySlug",
+    "href": "/docs/api/queries#organizationBySlug",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "organizations",
+    "href": "/docs/api/queries#organizations",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "politicalParties",
+    "href": "/docs/api/queries#politicalParties",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "politicianById",
+    "href": "/docs/api/queries#politicianById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "politicianByIntakeToken",
+    "href": "/docs/api/queries#politicianByIntakeToken",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "politicianBySlug",
+    "href": "/docs/api/queries#politicianBySlug",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "politicianRespondentsByOrganizationId",
+    "href": "/docs/api/queries#politicianRespondentsByOrganizationId",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "politicians",
+    "href": "/docs/api/queries#politicians",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "questionById",
+    "href": "/docs/api/queries#questionById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "raceById",
+    "href": "/docs/api/queries#raceById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "raceBySlug",
+    "href": "/docs/api/queries#raceBySlug",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "races",
+    "href": "/docs/api/queries#races",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "recentCandidateGuideQuestionSubmissionsByOrganization",
+    "href": "/docs/api/queries#recentCandidateGuideQuestionSubmissionsByOrganization",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "recentDeployments",
+    "href": "/docs/api/queries#recentDeployments",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "relatedQuestionSubmissionByCandidateAndQuestion",
+    "href": "/docs/api/queries#relatedQuestionSubmissionByCandidateAndQuestion",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "respondentsByOrganizationId",
+    "href": "/docs/api/queries#respondentsByOrganizationId",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "submissions",
+    "href": "/docs/api/queries#submissions",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "totalCandidateGuideSubmissions",
+    "href": "/docs/api/queries#totalCandidateGuideSubmissions",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "userCount",
+    "href": "/docs/api/queries#userCount",
+    "content": "Get all users",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "userProfile",
+    "href": "/docs/api/queries#userProfile",
+    "content": "Publicly accessible user information",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "validateEmailAvailable",
+    "href": "/docs/api/queries#validateEmailAvailable",
+    "content": "Validate that a user does not already exist with this email",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "validatePasswordEntropy",
+    "href": "/docs/api/queries#validatePasswordEntropy",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "votingGuideById",
+    "href": "/docs/api/queries#votingGuideById",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "votingGuidesByIds",
+    "href": "/docs/api/queries#votingGuidesByIds",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "votingGuidesByUserId",
+    "href": "/docs/api/queries#votingGuidesByUserId",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Queries"
+  },
+  {
+    "label": "addStatement",
+    "href": "/docs/api/mutations#addStatement",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "beginUserRegistration",
+    "href": "/docs/api/mutations#beginUserRegistration",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "confirmUserEmail",
+    "href": "/docs/api/mutations#confirmUserEmail",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "copyQuestionSubmission",
+    "href": "/docs/api/mutations#copyQuestionSubmission",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "createConversation",
+    "href": "/docs/api/mutations#createConversation",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "createUser",
+    "href": "/docs/api/mutations#createUser",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteAccount",
+    "href": "/docs/api/mutations#deleteAccount",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteAccountByEmail",
+    "href": "/docs/api/mutations#deleteAccountByEmail",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteArgument",
+    "href": "/docs/api/mutations#deleteArgument",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteBallotMeasure",
+    "href": "/docs/api/mutations#deleteBallotMeasure",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteBill",
+    "href": "/docs/api/mutations#deleteBill",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteCandidateGuide",
+    "href": "/docs/api/mutations#deleteCandidateGuide",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteElection",
+    "href": "/docs/api/mutations#deleteElection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteEmbed",
+    "href": "/docs/api/mutations#deleteEmbed",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteInvite",
+    "href": "/docs/api/mutations#deleteInvite",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteIssueTag",
+    "href": "/docs/api/mutations#deleteIssueTag",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteOffice",
+    "href": "/docs/api/mutations#deleteOffice",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteOrganization",
+    "href": "/docs/api/mutations#deleteOrganization",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteOrganizationUser",
+    "href": "/docs/api/mutations#deleteOrganizationUser",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deletePolitician",
+    "href": "/docs/api/mutations#deletePolitician",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deletePoll",
+    "href": "/docs/api/mutations#deletePoll",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteProfilePicture",
+    "href": "/docs/api/mutations#deleteProfilePicture",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteQuestion",
+    "href": "/docs/api/mutations#deleteQuestion",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteRace",
+    "href": "/docs/api/mutations#deleteRace",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteVotingGuide",
+    "href": "/docs/api/mutations#deleteVotingGuide",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "deleteVotingGuideCandidateNote",
+    "href": "/docs/api/mutations#deleteVotingGuideCandidateNote",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "downloadAllCandidateGuideData",
+    "href": "/docs/api/mutations#downloadAllCandidateGuideData",
+    "content": "Download all candidate guide data as a CSV string, must be converted to CSV file by client",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "downvoteArgument",
+    "href": "/docs/api/mutations#downvoteArgument",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "generateIntakeTokenLink",
+    "href": "/docs/api/mutations#generateIntakeTokenLink",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "insertPolitician",
+    "href": "/docs/api/mutations#insertPolitician",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "inviteUser",
+    "href": "/docs/api/mutations#inviteUser",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "login",
+    "href": "/docs/api/mutations#login",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "logout",
+    "href": "/docs/api/mutations#logout",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "moderateStatement",
+    "href": "/docs/api/mutations#moderateStatement",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "openAllCandidateGuideSubmissions",
+    "href": "/docs/api/mutations#openAllCandidateGuideSubmissions",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "pingEmbedOrigin",
+    "href": "/docs/api/mutations#pingEmbedOrigin",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "removeCandidateGuideRace",
+    "href": "/docs/api/mutations#removeCandidateGuideRace",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "removePoliticianOffice",
+    "href": "/docs/api/mutations#removePoliticianOffice",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "requestPasswordReset",
+    "href": "/docs/api/mutations#requestPasswordReset",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "resetPassword",
+    "href": "/docs/api/mutations#resetPassword",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "setAllCandidateGuideRacesEmailed",
+    "href": "/docs/api/mutations#setAllCandidateGuideRacesEmailed",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateAddress",
+    "href": "/docs/api/mutations#updateAddress",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateArgument",
+    "href": "/docs/api/mutations#updateArgument",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateCandidateGuideRace",
+    "href": "/docs/api/mutations#updateCandidateGuideRace",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateConversation",
+    "href": "/docs/api/mutations#updateConversation",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateEmail",
+    "href": "/docs/api/mutations#updateEmail",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateFirstAndLastName",
+    "href": "/docs/api/mutations#updateFirstAndLastName",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateOrganization",
+    "href": "/docs/api/mutations#updateOrganization",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updatePassword",
+    "href": "/docs/api/mutations#updatePassword",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updatePolitician",
+    "href": "/docs/api/mutations#updatePolitician",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "updateUsername",
+    "href": "/docs/api/mutations#updateUsername",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "uploadOrganizationThumbnail",
+    "href": "/docs/api/mutations#uploadOrganizationThumbnail",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "uploadPoliticianPicture",
+    "href": "/docs/api/mutations#uploadPoliticianPicture",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "uploadProfilePicture",
+    "href": "/docs/api/mutations#uploadProfilePicture",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertBallotMeasure",
+    "href": "/docs/api/mutations#upsertBallotMeasure",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertBill",
+    "href": "/docs/api/mutations#upsertBill",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertBillPublicVote",
+    "href": "/docs/api/mutations#upsertBillPublicVote",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertCandidateGuide",
+    "href": "/docs/api/mutations#upsertCandidateGuide",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertElection",
+    "href": "/docs/api/mutations#upsertElection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertEmbed",
+    "href": "/docs/api/mutations#upsertEmbed",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertIssueTag",
+    "href": "/docs/api/mutations#upsertIssueTag",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertOffice",
+    "href": "/docs/api/mutations#upsertOffice",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertPoll",
+    "href": "/docs/api/mutations#upsertPoll",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertPollSubmission",
+    "href": "/docs/api/mutations#upsertPollSubmission",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertQuestion",
+    "href": "/docs/api/mutations#upsertQuestion",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertQuestionSubmission",
+    "href": "/docs/api/mutations#upsertQuestionSubmission",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertRace",
+    "href": "/docs/api/mutations#upsertRace",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertVotingGuide",
+    "href": "/docs/api/mutations#upsertVotingGuide",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upsertVotingGuideCandidate",
+    "href": "/docs/api/mutations#upsertVotingGuideCandidate",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "upvoteArgument",
+    "href": "/docs/api/mutations#upvoteArgument",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "voteOnStatement",
+    "href": "/docs/api/mutations#voteOnStatement",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Mutations"
+  },
+  {
+    "label": "AddStatementInput",
+    "href": "/docs/api/types#AddStatementInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "AddressInput",
+    "href": "/docs/api/types#AddressInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "BeginUserRegistrationInput",
+    "href": "/docs/api/types#BeginUserRegistrationInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "CreateArgumentInput",
+    "href": "/docs/api/types#CreateArgumentInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "CreateConversationInput",
+    "href": "/docs/api/types#CreateConversationInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "CreateOrConnectIssueTagInput",
+    "href": "/docs/api/types#CreateOrConnectIssueTagInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "CreateOrConnectOrganizationInput",
+    "href": "/docs/api/types#CreateOrConnectOrganizationInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "CreateOrConnectPoliticianInput",
+    "href": "/docs/api/types#CreateOrConnectPoliticianInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "CreateOrganizationInput",
+    "href": "/docs/api/types#CreateOrganizationInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "CreateUserInput",
+    "href": "/docs/api/types#CreateUserInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "InsertPoliticianInput",
+    "href": "/docs/api/types#InsertPoliticianInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "InviteUserInput",
+    "href": "/docs/api/types#InviteUserInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "LoginInput",
+    "href": "/docs/api/types#LoginInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "PingEmbedOriginInput",
+    "href": "/docs/api/types#PingEmbedOriginInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "ResetPasswordInput",
+    "href": "/docs/api/types#ResetPasswordInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpdateArgumentInput",
+    "href": "/docs/api/types#UpdateArgumentInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpdateCandidateGuideRaceInput",
+    "href": "/docs/api/types#UpdateCandidateGuideRaceInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpdateOrganizationInput",
+    "href": "/docs/api/types#UpdateOrganizationInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpdatePasswordInput",
+    "href": "/docs/api/types#UpdatePasswordInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpdatePoliticianInput",
+    "href": "/docs/api/types#UpdatePoliticianInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertBallotMeasureInput",
+    "href": "/docs/api/types#UpsertBallotMeasureInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertBillInput",
+    "href": "/docs/api/types#UpsertBillInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertCandidateGuideInput",
+    "href": "/docs/api/types#UpsertCandidateGuideInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertElectionInput",
+    "href": "/docs/api/types#UpsertElectionInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertEmbedInput",
+    "href": "/docs/api/types#UpsertEmbedInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertIssueTagInput",
+    "href": "/docs/api/types#UpsertIssueTagInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertOfficeInput",
+    "href": "/docs/api/types#UpsertOfficeInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertPollInput",
+    "href": "/docs/api/types#UpsertPollInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertPollOptionInput",
+    "href": "/docs/api/types#UpsertPollOptionInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertPollSubmissionInput",
+    "href": "/docs/api/types#UpsertPollSubmissionInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertQuestionInput",
+    "href": "/docs/api/types#UpsertQuestionInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertQuestionSubmissionInput",
+    "href": "/docs/api/types#UpsertQuestionSubmissionInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertRaceInput",
+    "href": "/docs/api/types#UpsertRaceInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertRespondentInput",
+    "href": "/docs/api/types#UpsertRespondentInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertVotingGuideCandidateInput",
+    "href": "/docs/api/types#UpsertVotingGuideCandidateInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "UpsertVotingGuideInput",
+    "href": "/docs/api/types#UpsertVotingGuideInput",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Input Types"
+  },
+  {
+    "label": "String",
+    "href": "/docs/api/types#String",
+    "content": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "ID",
+    "href": "/docs/api/types#ID",
+    "content": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "Int",
+    "href": "/docs/api/types#Int",
+    "content": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "Boolean",
+    "href": "/docs/api/types#Boolean",
+    "content": "The `Boolean` scalar type represents `true` or `false`.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "Float",
+    "href": "/docs/api/types#Float",
+    "content": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "DateTime",
+    "href": "/docs/api/types#DateTime",
+    "content": "Implement the DateTime<Utc> scalar\n\nThe input/output is a string in RFC3339 format.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "JSON",
+    "href": "/docs/api/types#JSON",
+    "content": "A scalar that can represent any JSON value.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "NaiveDate",
+    "href": "/docs/api/types#NaiveDate",
+    "content": "ISO 8601 calendar date without timezone.\nFormat: %Y-%m-%d\n\n# Examples\n\n* `1994-11-13`\n* `2000-02-24`",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "UUID",
+    "href": "/docs/api/types#UUID",
+    "content": "A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as\nStrings within GraphQL. UUIDs are used to assign unique identifiers to\nentities without requiring a central allocating authority.\n\n# References\n\n* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)\n* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "Upload",
+    "href": "/docs/api/types#Upload",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Scalars"
+  },
+  {
+    "label": "AddressExtendedMNResult",
+    "href": "/docs/api/types#AddressExtendedMNResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "AddressResult",
+    "href": "/docs/api/types#AddressResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "ArgumentResult",
+    "href": "/docs/api/types#ArgumentResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "AuthTokenResult",
+    "href": "/docs/api/types#AuthTokenResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "AuthorResult",
+    "href": "/docs/api/types#AuthorResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BallotMeasureFilter",
+    "href": "/docs/api/types#BallotMeasureFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BallotMeasureResult",
+    "href": "/docs/api/types#BallotMeasureResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BallotMeasureSort",
+    "href": "/docs/api/types#BallotMeasureSort",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Bill",
+    "href": "/docs/api/types#Bill",
+    "content": "Legiscan Bill object",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BillAmendment",
+    "href": "/docs/api/types#BillAmendment",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BillFilter",
+    "href": "/docs/api/types#BillFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BillResult",
+    "href": "/docs/api/types#BillResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BillSession",
+    "href": "/docs/api/types#BillSession",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BillSort",
+    "href": "/docs/api/types#BillSort",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BillSupplement",
+    "href": "/docs/api/types#BillSupplement",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "BillVote",
+    "href": "/docs/api/types#BillVote",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Calendar",
+    "href": "/docs/api/types#Calendar",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Candidate",
+    "href": "/docs/api/types#Candidate",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "CandidateGuideRaceResult",
+    "href": "/docs/api/types#CandidateGuideRaceResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "CandidateGuideResult",
+    "href": "/docs/api/types#CandidateGuideResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "CharacteristicVote",
+    "href": "/docs/api/types#CharacteristicVote",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "CommitteeResult",
+    "href": "/docs/api/types#CommitteeResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "CommonWordsResult",
+    "href": "/docs/api/types#CommonWordsResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "ConversationResult",
+    "href": "/docs/api/types#ConversationResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "ConversationStats",
+    "href": "/docs/api/types#ConversationStats",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Coordinates",
+    "href": "/docs/api/types#Coordinates",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "CreateUserResult",
+    "href": "/docs/api/types#CreateUserResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteArgumentResult",
+    "href": "/docs/api/types#DeleteArgumentResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteBallotMeasureResult",
+    "href": "/docs/api/types#DeleteBallotMeasureResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteBillResult",
+    "href": "/docs/api/types#DeleteBillResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteElectionResult",
+    "href": "/docs/api/types#DeleteElectionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteEmbedResult",
+    "href": "/docs/api/types#DeleteEmbedResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteIssueTagResult",
+    "href": "/docs/api/types#DeleteIssueTagResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteOfficeResult",
+    "href": "/docs/api/types#DeleteOfficeResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteOrganizationResult",
+    "href": "/docs/api/types#DeleteOrganizationResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeletePoliticianResult",
+    "href": "/docs/api/types#DeletePoliticianResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeletePollResult",
+    "href": "/docs/api/types#DeletePollResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteQuestionResult",
+    "href": "/docs/api/types#DeleteQuestionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteRaceResult",
+    "href": "/docs/api/types#DeleteRaceResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DeleteVotingGuideResult",
+    "href": "/docs/api/types#DeleteVotingGuideResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DonationsByIndustry",
+    "href": "/docs/api/types#DonationsByIndustry",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "DonationsSummary",
+    "href": "/docs/api/types#DonationsSummary",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "ElectionFilter",
+    "href": "/docs/api/types#ElectionFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "ElectionRaceFilter",
+    "href": "/docs/api/types#ElectionRaceFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "ElectionResult",
+    "href": "/docs/api/types#ElectionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "EmbedFilter",
+    "href": "/docs/api/types#EmbedFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "EmbedOriginResult",
+    "href": "/docs/api/types#EmbedOriginResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "EmbedResult",
+    "href": "/docs/api/types#EmbedResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "EmbedsCountResult",
+    "href": "/docs/api/types#EmbedsCountResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Endorsements",
+    "href": "/docs/api/types#Endorsements",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "EnhancedEmbedOriginResult",
+    "href": "/docs/api/types#EnhancedEmbedOriginResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "GeneralInfo",
+    "href": "/docs/api/types#GeneralInfo",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "GetCandidateBioResponse",
+    "href": "/docs/api/types#GetCandidateBioResponse",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Heartbeat",
+    "href": "/docs/api/types#Heartbeat",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "History",
+    "href": "/docs/api/types#History",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "IssueTagResult",
+    "href": "/docs/api/types#IssueTagResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "IssueTagSearch",
+    "href": "/docs/api/types#IssueTagSearch",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "LoginResult",
+    "href": "/docs/api/types#LoginResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Office",
+    "href": "/docs/api/types#Office",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OfficeFilter",
+    "href": "/docs/api/types#OfficeFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OfficeResult",
+    "href": "/docs/api/types#OfficeResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OpinionAnalysis",
+    "href": "/docs/api/types#OpinionAnalysis",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OpinionGroup",
+    "href": "/docs/api/types#OpinionGroup",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OpinionScore",
+    "href": "/docs/api/types#OpinionScore",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OrganizationAssets",
+    "href": "/docs/api/types#OrganizationAssets",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OrganizationAttributes",
+    "href": "/docs/api/types#OrganizationAttributes",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OrganizationMemberResult",
+    "href": "/docs/api/types#OrganizationMemberResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OrganizationPoliticianNoteResult",
+    "href": "/docs/api/types#OrganizationPoliticianNoteResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OrganizationResult",
+    "href": "/docs/api/types#OrganizationResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OrganizationRole",
+    "href": "/docs/api/types#OrganizationRole",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "OrganizationSearch",
+    "href": "/docs/api/types#OrganizationSearch",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PageInfo",
+    "href": "/docs/api/types#PageInfo",
+    "content": "Information about pagination in a connection",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PasswordEntropyResult",
+    "href": "/docs/api/types#PasswordEntropyResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PendingInviteResult",
+    "href": "/docs/api/types#PendingInviteResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PoliticalParty",
+    "href": "/docs/api/types#PoliticalParty",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PoliticianAssets",
+    "href": "/docs/api/types#PoliticianAssets",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PoliticianFilter",
+    "href": "/docs/api/types#PoliticianFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PoliticianResult",
+    "href": "/docs/api/types#PoliticianResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PollOptionResult",
+    "href": "/docs/api/types#PollOptionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PollResult",
+    "href": "/docs/api/types#PollResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PollSubmissionResult",
+    "href": "/docs/api/types#PollSubmissionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Progress",
+    "href": "/docs/api/types#Progress",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "PublicVotes",
+    "href": "/docs/api/types#PublicVotes",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "QuestionResult",
+    "href": "/docs/api/types#QuestionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "QuestionSubmissionResult",
+    "href": "/docs/api/types#QuestionSubmissionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "QuestionSubmissionsFilter",
+    "href": "/docs/api/types#QuestionSubmissionsFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RaceCandidateResult",
+    "href": "/docs/api/types#RaceCandidateResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RaceFilter",
+    "href": "/docs/api/types#RaceFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RaceResult",
+    "href": "/docs/api/types#RaceResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RaceResultsResult",
+    "href": "/docs/api/types#RaceResultsResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RatingResult",
+    "href": "/docs/api/types#RatingResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Referral",
+    "href": "/docs/api/types#Referral",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RespondentResult",
+    "href": "/docs/api/types#RespondentResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RollCall",
+    "href": "/docs/api/types#RollCall",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "RollCallVote",
+    "href": "/docs/api/types#RollCallVote",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Sast",
+    "href": "/docs/api/types#Sast",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Sector",
+    "href": "/docs/api/types#Sector",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "SentimentCountResult",
+    "href": "/docs/api/types#SentimentCountResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "SessionResult",
+    "href": "/docs/api/types#SessionResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Sponsor",
+    "href": "/docs/api/types#Sponsor",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Statement",
+    "href": "/docs/api/types#Statement",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "StatementFilter",
+    "href": "/docs/api/types#StatementFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "StatementResult",
+    "href": "/docs/api/types#StatementResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "StatementVote",
+    "href": "/docs/api/types#StatementVote",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Subject",
+    "href": "/docs/api/types#Subject",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "SubmissionCountByDateResult",
+    "href": "/docs/api/types#SubmissionCountByDateResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "Text",
+    "href": "/docs/api/types#Text",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "TimeSeriesPoint",
+    "href": "/docs/api/types#TimeSeriesPoint",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "UpdateCandidateGuideRaceResult",
+    "href": "/docs/api/types#UpdateCandidateGuideRaceResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "UpdateEmailResult",
+    "href": "/docs/api/types#UpdateEmailResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "UpdateNameResult",
+    "href": "/docs/api/types#UpdateNameResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "UpdateUsernameResult",
+    "href": "/docs/api/types#UpdateUsernameResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "UpsertBillPublicVoteResult",
+    "href": "/docs/api/types#UpsertBillPublicVoteResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "UserCountFilter",
+    "href": "/docs/api/types#UserCountFilter",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "UserResult",
+    "href": "/docs/api/types#UserResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "VoteDistributionBucket",
+    "href": "/docs/api/types#VoteDistributionBucket",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "VotingGuideCandidateResult",
+    "href": "/docs/api/types#VotingGuideCandidateResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "VotingGuideResult",
+    "href": "/docs/api/types#VotingGuideResult",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "VsRating",
+    "href": "/docs/api/types#VsRating",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Models"
+  },
+  {
+    "label": "ArgumentPosition",
+    "href": "/docs/api/types#ArgumentPosition",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "AuthorType",
+    "href": "/docs/api/types#AuthorType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "BallotMeasureStatus",
+    "href": "/docs/api/types#BallotMeasureStatus",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "BillStatus",
+    "href": "/docs/api/types#BillStatus",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "BillType",
+    "href": "/docs/api/types#BillType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "Chamber",
+    "href": "/docs/api/types#Chamber",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "Chambers",
+    "href": "/docs/api/types#Chambers",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "DistrictType",
+    "href": "/docs/api/types#DistrictType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "ElectionScope",
+    "href": "/docs/api/types#ElectionScope",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "EmbedType",
+    "href": "/docs/api/types#EmbedType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "OrganizationRoleType",
+    "href": "/docs/api/types#OrganizationRoleType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "PoliticalScope",
+    "href": "/docs/api/types#PoliticalScope",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "PopularitySort",
+    "href": "/docs/api/types#PopularitySort",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "RaceType",
+    "href": "/docs/api/types#RaceType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "Sentiment",
+    "href": "/docs/api/types#Sentiment",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "State",
+    "href": "/docs/api/types#State",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "StatementModerationStatus",
+    "href": "/docs/api/types#StatementModerationStatus",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "StatementSort",
+    "href": "/docs/api/types#StatementSort",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "SystemRoleType",
+    "href": "/docs/api/types#SystemRoleType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "VoteType",
+    "href": "/docs/api/types#VoteType",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Enums"
+  },
+  {
+    "label": "BallotMeasureResultConnection",
+    "href": "/docs/api/types#BallotMeasureResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "BallotMeasureResultEdge",
+    "href": "/docs/api/types#BallotMeasureResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "BillResultConnection",
+    "href": "/docs/api/types#BillResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "BillResultEdge",
+    "href": "/docs/api/types#BillResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "OfficeResultConnection",
+    "href": "/docs/api/types#OfficeResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "OfficeResultEdge",
+    "href": "/docs/api/types#OfficeResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "OrganizationResultConnection",
+    "href": "/docs/api/types#OrganizationResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "OrganizationResultEdge",
+    "href": "/docs/api/types#OrganizationResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "PoliticianResultConnection",
+    "href": "/docs/api/types#PoliticianResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "PoliticianResultEdge",
+    "href": "/docs/api/types#PoliticianResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "RaceResultConnection",
+    "href": "/docs/api/types#RaceResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "RaceResultEdge",
+    "href": "/docs/api/types#RaceResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "RatingResultConnection",
+    "href": "/docs/api/types#RatingResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "RatingResultEdge",
+    "href": "/docs/api/types#RatingResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "RespondentResultConnection",
+    "href": "/docs/api/types#RespondentResultConnection",
+    "content": "",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
+  },
+  {
+    "label": "RespondentResultEdge",
+    "href": "/docs/api/types#RespondentResultEdge",
+    "content": "An edge in a connection.",
+    "headings": [],
+    "tabId": "api",
+    "tabLabel": "API Reference",
+    "tabColor": "violet",
+    "section": "Connections"
   }
 ]

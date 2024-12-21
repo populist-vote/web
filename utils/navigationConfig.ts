@@ -5,7 +5,7 @@ import queries from "generated/schema/queries.json";
 import mutations from "generated/schema/mutations.json";
 
 // Helper function to group types by their general category
-function groupTypes(types: any[]) {
+export function groupTypes(types: any[]) {
   return types.reduce((acc, type) => {
     // Common patterns for categorizing types
     let category = "Models";
@@ -29,7 +29,7 @@ function groupTypes(types: any[]) {
 }
 
 // Generate schema-based navigation sections
-function generateSchemaNavigation() {
+export function generateSchemaNavigation() {
   const schemaBasedSections: NavigationSection[] = [];
 
   // Add Query section if there are queries

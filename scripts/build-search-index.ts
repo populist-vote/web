@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
-import { navigationConfig } from "utils/navigationConfig";
+import { groupTypes, navigationConfig } from "utils/navigationConfig";
 
 interface SearchIndexItem {
   label: string;
@@ -43,6 +43,7 @@ async function readMDXContent(filePath: string): Promise<{
 async function buildSearchIndex() {
   const searchIndex: SearchIndexItem[] = [];
   const docsDir = path.join(process.cwd(), "pages/docs");
+  const apiDir = path.join(process.cwd(), "generated/schema");
 
   // Process each tab in the navigation config
   for (const tab of navigationConfig.tabs) {
@@ -74,6 +75,74 @@ async function buildSearchIndex() {
           }
         }
       }
+    }
+  }
+
+  // Process schema-based sections from JSON files
+  const apiTab = navigationConfig.tabs.find((tab) => tab.id === "api");
+
+  if (apiTab) {
+    try {
+      // Read and process queries
+      const queriesContent = await fs.readFile(
+        path.join(apiDir, "queries.json"),
+        "utf-8"
+      );
+      const queries = JSON.parse(queriesContent);
+      queries.forEach((query: any) => {
+        searchIndex.push({
+          label: query.name,
+          href: `/docs/api/queries#${query.name}`,
+          content: query.description || "", // Assuming your JSON includes description
+          headings: [], // No headings for JSON-based content
+          tabId: apiTab.id,
+          tabLabel: apiTab.label,
+          tabColor: apiTab.color,
+          section: "Queries",
+        });
+      });
+
+      // Read and process mutations
+      const mutationsContent = await fs.readFile(
+        path.join(apiDir, "mutations.json"),
+        "utf-8"
+      );
+      const mutations = JSON.parse(mutationsContent);
+      mutations.forEach((mutation: any) => {
+        searchIndex.push({
+          label: mutation.name,
+          href: `/docs/api/mutations#${mutation.name}`,
+          content: mutation.description || "",
+          headings: [],
+          tabId: apiTab.id,
+          tabLabel: apiTab.label,
+          tabColor: apiTab.color,
+          section: "Mutations",
+        });
+      });
+
+      // Read and process types
+      const typesContent = await fs.readFile(
+        path.join(apiDir, "types.json"),
+        "utf-8"
+      );
+      const types = JSON.parse(typesContent);
+      Object.entries(groupTypes(types)).forEach(([category, typesList]) => {
+        (typesList as any).forEach((type: any) => {
+          searchIndex.push({
+            label: type.name,
+            href: `/docs/api/types#${type.name}`,
+            content: type.description || "",
+            headings: [],
+            tabId: apiTab.id,
+            tabLabel: apiTab.label,
+            tabColor: apiTab.color,
+            section: category,
+          });
+        });
+      });
+    } catch (error) {
+      console.warn("Warning: Error processing schema JSON files:", error);
     }
   }
 

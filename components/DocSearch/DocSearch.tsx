@@ -77,49 +77,60 @@ export const DocSearch: React.FC = () => {
         score += 10;
       }
 
-      // Search in headings
-      item.headings.forEach((heading: { text: string; level: number }) => {
-        if (
-          searchTerms.every((term) => heading.text.toLowerCase().includes(term))
-        ) {
-          score += 5;
-          matches.push({ text: heading.text, type: "heading" });
-        }
-      });
-
-      // Search in content
-      const contentLower = item.content.toLowerCase();
-      const allTermsInContent = searchTerms.every((term) =>
-        contentLower.includes(term)
-      );
-
-      if (allTermsInContent) {
-        score += 1;
-
-        // Find the best matching content snippet
-        const snippetLength = 150;
-        let bestSnippetScore = 0;
-        let bestSnippet = "";
-
-        for (let i = 0; i < contentLower.length - snippetLength; i += 50) {
-          const snippet = item.content.slice(i, i + snippetLength);
-          const snippetLower = snippet.toLowerCase();
-          let snippetScore = 0;
-
-          searchTerms.forEach((term) => {
-            const count = (snippetLower.match(new RegExp(term, "g")) || [])
-              .length;
-            snippetScore += count;
-          });
-
-          if (snippetScore > bestSnippetScore) {
-            bestSnippetScore = snippetScore;
-            bestSnippet = snippet;
+      // Search in headings (if they exist)
+      if (item.headings && item.headings.length > 0) {
+        item.headings.forEach((heading: { text: string; level: number }) => {
+          if (
+            searchTerms.every((term) =>
+              heading.text.toLowerCase().includes(term)
+            )
+          ) {
+            score += 5;
+            matches.push({ text: heading.text, type: "heading" });
           }
-        }
+        });
+      }
 
-        if (bestSnippet) {
-          matches.push({ text: bestSnippet.trim(), type: "content" });
+      // Search in content (if it exists)
+      if (item.content) {
+        const contentLower = item.content.toLowerCase();
+        const allTermsInContent = searchTerms.every((term) =>
+          contentLower.includes(term)
+        );
+
+        if (allTermsInContent) {
+          score += 1;
+
+          // Find the best matching content snippet
+          const snippetLength = 150;
+          let bestSnippetScore = 0;
+          let bestSnippet = "";
+
+          // If content is shorter than snippet length, use whole content
+          if (item.content.length <= snippetLength) {
+            bestSnippet = item.content;
+          } else {
+            for (let i = 0; i < contentLower.length - snippetLength; i += 50) {
+              const snippet = item.content.slice(i, i + snippetLength);
+              const snippetLower = snippet.toLowerCase();
+              let snippetScore = 0;
+
+              searchTerms.forEach((term) => {
+                const count = (snippetLower.match(new RegExp(term, "g")) || [])
+                  .length;
+                snippetScore += count;
+              });
+
+              if (snippetScore > bestSnippetScore) {
+                bestSnippetScore = snippetScore;
+                bestSnippet = snippet;
+              }
+            }
+          }
+
+          if (bestSnippet) {
+            matches.push({ text: bestSnippet.trim(), type: "content" });
+          }
         }
       }
 
