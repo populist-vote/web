@@ -23,7 +23,7 @@ export function DocsLayout({
   const router = useRouter();
   const [isNavOpen, setIsNavOpen] = React.useState(true);
   const { user } = useAuth();
-  const [_, setActiveSection] = useState<string>("");
+  const [, setActiveSection] = useState<string>("");
 
   const [activeTab, setActiveTab] = useState<NavigationSectionKey>(
     currentPage || "content"
@@ -76,39 +76,42 @@ export function DocsLayout({
 
   // Update nav item selection based on hash
   const isNavItemSelected = (href: string): boolean => {
-    const currentHash = window.location.hash.slice(1);
-    const itemHash = href.split("#")[1];
-    return currentHash === itemHash;
+    const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
+    const [path, hash] = href.split("#");
+    return currentPath === path && currentHash === (hash ? `#${hash}` : "");
   };
 
   // Scroll event handling for updating active section and hash
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = document.querySelectorAll("[data-section-id]");
-      let found = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            setActiveSection(sectionId);
 
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        const rect = section?.getBoundingClientRect();
-
-        if (rect && rect.top >= 0 && rect.top <= window.innerHeight * 0.5) {
-          if (!found) {
-            setActiveSection(section?.id as string);
             // Update the URL only if the section ID changes
-            if (window.location.hash !== `#${section?.id}`) {
-              window.history.replaceState(null, "", `#${section?.id}`);
+            if (window.location.hash !== `#${sectionId}`) {
+              window.history.replaceState(null, "", `#${sectionId}`);
             }
-            found = true;
           }
-        }
+        });
+      },
+      {
+        // Adjust rootMargin to account for the header height of 6.5rem
+        rootMargin: "-20% 0px -70% 0px", // Top offset matches header height
+        threshold: 0.5, // Trigger when 50% of the section is visible
       }
-    };
+    );
 
-    window.addEventListener("scroll", handleScroll);
+    const sections = document.querySelectorAll("[data-section-id]");
+    sections.forEach((section) => observer.observe(section));
 
-    // Clean up scroll listener
+    // Clean up observer
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      sections.forEach((section) => observer.unobserve(section));
+      observer.disconnect();
     };
   }, []);
 
