@@ -1,4 +1,5 @@
 @import "styles/mixins/media";
+@import "styles/variables/fonts";
 
 .searchButton {
   display: flex;
@@ -7,12 +8,14 @@
   max-width: 24rem;
   gap: 0.5rem;
   padding: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--blue-text);
+  font-size: 1rem;
+  font-family: $font-primary;
+  color: white;
   background: var(--background-secondary);
   border: 1px solid var(--blue-dark);
   border-radius: 0.5rem;
   transition: background-color 0.2s;
+  cursor: pointer;
 
   &:hover {
     background: var(--blue-dark);
@@ -26,7 +29,8 @@
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--blue-text);
-  background: var(--blue-dark);
+  background: var(--blue-darker);
+  border: 1px solid var(--blue);
   border-radius: 0.25rem;
 
   @include for-tablet-up {
@@ -143,6 +147,10 @@
   border-radius: 15px;
 
   &:hover {
+    background: var(--blue-dark);
+  }
+
+  &.selected {
     background: var(--blue-dark);
   }
 }

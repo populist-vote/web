@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./DocsLayout.module.scss";
-import { FaMarsAndVenus } from "react-icons/fa6";
 import { AuthButtons, Avatar, LogoText } from "components";
 import {
   navigationConfig,
@@ -12,6 +11,8 @@ import { useAuth } from "hooks/useAuth";
 import Link from "next/link";
 import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import DocSearch from "components/DocSearch/DocSearch";
+import { BiMenu } from "react-icons/bi";
+import { useHashRoutes } from "hooks/useHashRoute";
 
 export function DocsLayout({
   children,
@@ -23,7 +24,6 @@ export function DocsLayout({
   const router = useRouter();
   const [isNavOpen, setIsNavOpen] = React.useState(true);
   const { user } = useAuth();
-  const [, setActiveSection] = useState<string>("");
 
   const [activeTab, setActiveTab] = useState<NavigationSectionKey>(
     currentPage || "content"
@@ -32,38 +32,7 @@ export function DocsLayout({
   const tabs = navigationConfig.tabs;
   const currentNav = navigationConfig[activeTab];
 
-  // Setup intersection observer for sections
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
-            const sectionId = entry.target.id;
-            console.log("IntersectionObserver section visible:", sectionId); // Debugging log
-            setActiveSection(sectionId);
-
-            // Update the URL only if the section ID changes
-            if (window.location.hash !== `#${sectionId}`) {
-              window.history.replaceState(null, "", `#${sectionId}`);
-            }
-          }
-        });
-      },
-      {
-        threshold: [0, 0.1, 0.5, 1.0],
-        rootMargin: "-20% 0px -70% 0px",
-      }
-    );
-
-    const sections = document.querySelectorAll("[data-section-id]");
-    sections.forEach((section) => observer.observe(section));
-
-    // Clean up observer
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-      observer.disconnect();
-    };
-  }, []);
+  useHashRoutes();
 
   // Tab change handler
   const handleTabChange = (tabId: NavigationSectionKey) => {
@@ -76,44 +45,13 @@ export function DocsLayout({
 
   // Update nav item selection based on hash
   const isNavItemSelected = (href: string): boolean => {
+    if (typeof window === "undefined") return false;
+
     const currentPath = window.location.pathname;
     const currentHash = window.location.hash;
     const [path, hash] = href.split("#");
     return currentPath === path && currentHash === (hash ? `#${hash}` : "");
   };
-
-  // Scroll event handling for updating active section and hash
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.id;
-            setActiveSection(sectionId);
-
-            // Update the URL only if the section ID changes
-            if (window.location.hash !== `#${sectionId}`) {
-              window.history.replaceState(null, "", `#${sectionId}`);
-            }
-          }
-        });
-      },
-      {
-        // Adjust rootMargin to account for the header height of 6.5rem
-        rootMargin: "-20% 0px -70% 0px", // Top offset matches header height
-        threshold: 0.5, // Trigger when 50% of the section is visible
-      }
-    );
-
-    const sections = document.querySelectorAll("[data-section-id]");
-    sections.forEach((section) => observer.observe(section));
-
-    // Clean up observer
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-      observer.disconnect();
-    };
-  }, []);
 
   return (
     <div className={styles.container}>
@@ -124,7 +62,7 @@ export function DocsLayout({
               onClick={() => setIsNavOpen(!isNavOpen)}
               className={styles.menuButton}
             >
-              <FaMarsAndVenus className={styles.menuIcon} />
+              <BiMenu className={styles.menuIcon} />
             </button>
             <div className={styles.logoSection}>
               <LogoText />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Search } from "lucide-react";
 import styles from "./DocSearch.module.scss";
 import Link from "next/link";
@@ -23,8 +23,12 @@ export const DocSearch: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [searchIndex, setSearchIndex] = useState<any[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [searchIndex, setSearchIndex] = useState<SearchResult[]>([]);
+
+  // Refs for handling scroll into view
+  const resultsContainerRef = useRef<HTMLDivElement>(null);
+  const selectedResultRef = useRef<HTMLAnchorElement>(null);
 
   // Load search index
   useEffect(() => {
@@ -34,7 +38,22 @@ export const DocSearch: React.FC = () => {
       .catch(console.error);
   }, []);
 
-  // Handle keyboard shortcut
+  // Reset selected index when results change
+  useEffect(() => {
+    setSelectedIndex(results.length > 0 ? 0 : -1);
+  }, [results]);
+
+  // Scroll selected item into view
+  useEffect(() => {
+    if (selectedResultRef.current && resultsContainerRef.current) {
+      selectedResultRef.current.scrollIntoView({
+        block: "nearest",
+        behavior: "smooth",
+      });
+    }
+  }, [selectedIndex]);
+
+  // Handle keyboard shortcuts
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -46,18 +65,45 @@ export const DocSearch: React.FC = () => {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  // Handle escape key
+  // Handle navigation keys
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!open) return;
+
+      console.log(selectedIndex);
+
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          setSelectedIndex((prev) =>
+            prev < results.length - 1 ? prev + 1 : prev
+          );
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+          break;
+        case "Enter":
+          e.preventDefault();
+          if (selectedIndex >= 0 && selectedIndex < results.length) {
+            const href = results[selectedIndex]?.href;
+            if (href) {
+              window.location.href = href;
+            }
+            setOpen(false);
+          }
+          break;
+        case "Escape":
+          setOpen(false);
+          break;
       }
     };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, []);
 
-  // Search logic with content matching
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [open, results, selectedIndex]);
+
+  // Search logic with content matching (unchanged)
   const search = (searchQuery: string) => {
     if (!searchQuery) {
       setResults([]);
@@ -70,14 +116,12 @@ export const DocSearch: React.FC = () => {
       let score = 0;
       const matches: { text: string; type: "content" | "heading" }[] = [];
 
-      // Search in title
       if (
         searchTerms.every((term) => item.label.toLowerCase().includes(term))
       ) {
         score += 10;
       }
 
-      // Search in headings (if they exist)
       if (item.headings && item.headings.length > 0) {
         item.headings.forEach((heading: { text: string; level: number }) => {
           if (
@@ -91,7 +135,6 @@ export const DocSearch: React.FC = () => {
         });
       }
 
-      // Search in content (if it exists)
       if (item.content) {
         const contentLower = item.content.toLowerCase();
         const allTermsInContent = searchTerms.every((term) =>
@@ -100,13 +143,10 @@ export const DocSearch: React.FC = () => {
 
         if (allTermsInContent) {
           score += 1;
-
-          // Find the best matching content snippet
           const snippetLength = 150;
           let bestSnippetScore = 0;
           let bestSnippet = "";
 
-          // If content is shorter than snippet length, use whole content
           if (item.content.length <= snippetLength) {
             bestSnippet = item.content;
           } else {
@@ -173,6 +213,9 @@ export const DocSearch: React.FC = () => {
     >
   );
 
+  // Track the current result index across all groups
+  let currentIndex = -1;
+
   return (
     <>
       <button onClick={() => setOpen(true)} className={styles.searchButton}>
@@ -209,7 +252,7 @@ export const DocSearch: React.FC = () => {
                 autoFocus
               />
 
-              <div className={styles.resultsList}>
+              <div className={styles.resultsList} ref={resultsContainerRef}>
                 {results.length === 0 && query && (
                   <div className={styles.noResults}>No results found.</div>
                 )}
@@ -218,35 +261,43 @@ export const DocSearch: React.FC = () => {
                   <div key={tabId} className={styles.resultGroup}>
                     <div className={styles.groupHeading}>{group.label}</div>
 
-                    {group.items.map((result) => (
-                      <Link
-                        key={result.href}
-                        href={result.href}
-                        className={styles.resultItem}
-                        onClick={() => setOpen(false)}
-                      >
-                        <div className={styles.resultHeader}>
-                          <span className={styles.resultTitle}>
-                            {result.label}
-                          </span>
-                          <span className={styles.resultSection}>
-                            {result.section}
-                          </span>
-                        </div>
+                    {group.items.map((result) => {
+                      currentIndex++;
+                      const isSelected = currentIndex === selectedIndex;
 
-                        {result.matches.map((match, idx) => (
-                          <div key={idx} className={styles.resultMatch}>
-                            {match.type === "heading" ? (
-                              <span className={styles.matchHeading}>
-                                {match.text}
-                              </span>
-                            ) : (
-                              <>...{match.text}...</>
-                            )}
+                      return (
+                        <Link
+                          key={result.href}
+                          href={result.href}
+                          ref={isSelected ? selectedResultRef : null}
+                          className={`${styles.resultItem} ${
+                            isSelected ? styles.selected : ""
+                          }`}
+                          onClick={() => setOpen(false)}
+                        >
+                          <div className={styles.resultHeader}>
+                            <span className={styles.resultTitle}>
+                              {result.label}
+                            </span>
+                            <span className={styles.resultSection}>
+                              {result.section}
+                            </span>
                           </div>
-                        ))}
-                      </Link>
-                    ))}
+
+                          {result.matches.map((match, idx) => (
+                            <div key={idx} className={styles.resultMatch}>
+                              {match.type === "heading" ? (
+                                <span className={styles.matchHeading}>
+                                  {match.text}
+                                </span>
+                              ) : (
+                                <>...{match.text}...</>
+                              )}
+                            </div>
+                          ))}
+                        </Link>
+                      );
+                    })}
                   </div>
                 ))}
               </div>
