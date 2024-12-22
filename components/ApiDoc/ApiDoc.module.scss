@@ -112,7 +112,8 @@
   }
 }
 
-.argument {
+.argument,
+.field {
   padding-left: 1rem;
   border-left: 2px solid var(--border-color);
   margin-bottom: 1rem;
@@ -121,7 +122,8 @@
     margin-bottom: 0;
   }
 
-  .argumentHeader {
+  .argumentHeader,
+  .fieldHeader {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -149,30 +151,6 @@
 // Fields section
 .fields {
   margin-top: 1.5rem;
-}
-
-.field {
-  margin-bottom: 1.5rem;
-  padding-left: 1rem;
-  border-left: 2px solid var(--border-color);
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  .fieldHeader {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  code {
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-  }
 }
 
 // Enum values section

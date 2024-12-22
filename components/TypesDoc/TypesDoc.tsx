@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TypeReference } from "components/TypeReference/TypeReference";
 import styles from "../ApiDoc/ApiDoc.module.scss";
+import Divider from "components/Divider/Divider";
 
 interface Field {
   name: string;
@@ -40,7 +41,7 @@ export function TypesDoc({ types }: Props) {
 
             {type.kind === "ENUM" ? (
               <div className={styles.enumValues}>
-                <h3>Values</h3>
+                <h3 className={styles.sectionTitle}>Values</h3>
                 {type.enumValues?.map((enumValue) => (
                   <div key={enumValue.name} className={styles.enumValue}>
                     <code>{enumValue.name}</code>
@@ -51,7 +52,7 @@ export function TypesDoc({ types }: Props) {
             ) : (
               type.fields && (
                 <div className={styles.fields}>
-                  <h3>Fields</h3>
+                  <h3 className={styles.sectionTitle}>Fields</h3>
                   {type.fields.map((field) => (
                     <div key={field.name} className={styles.field}>
                       <div className={styles.fieldHeader}>
@@ -63,14 +64,20 @@ export function TypesDoc({ types }: Props) {
                       {field.description && <p>{field.description}</p>}
                       {field.args.length > 0 && (
                         <div className={styles.arguments}>
-                          <h4>Arguments</h4>
+                          <h4 className={styles.argumentsTitle}>Arguments</h4>
                           {field.args.map((arg) => (
                             <div key={arg.name} className={styles.argument}>
-                              <code>{arg.name}</code>
-                              <span className={styles.type}>
-                                <TypeReference type={arg.type} />
-                              </span>
-                              {arg.description && <p>{arg.description}</p>}
+                              <div className={styles.argumentHeader}>
+                                <code>{arg.name}</code>
+                                <span className={styles.type}>
+                                  <TypeReference type={arg.type} />
+                                </span>
+                              </div>
+                              {arg.description && (
+                                <p className={styles.argumentDescription}>
+                                  {arg.description}
+                                </p>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -80,6 +87,7 @@ export function TypesDoc({ types }: Props) {
                 </div>
               )
             )}
+            <Divider />
           </section>
         ))}
       </div>
