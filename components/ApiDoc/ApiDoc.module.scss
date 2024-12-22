@@ -57,12 +57,12 @@
   font-size: 1em;
 
   .method {
-    color: $blue-text-light;
+    color: $violet;
     font-weight: 500;
   }
 
   .parens {
-    color: $orange;
+    color: $violet;
     font-weight: 500;
   }
 
@@ -109,6 +109,7 @@
     font-size: 1.1rem;
     font-weight: 500;
     margin-bottom: 0.75rem;
+    color: $grey-lighter;
   }
 }
 
@@ -145,6 +146,8 @@
   .argumentDescription {
     font-size: 0.875rem;
     margin-top: 0.25rem;
+    color: $blue-text-light;
+    font-style: italic;
   }
 }
 

@@ -96,7 +96,7 @@ export function ApiDoc({ items, title, type }: Props) {
             {/* Arguments */}
             {item.args.length > 0 && (
               <div className={styles.arguments}>
-                <h3>Arguments</h3>
+                <h3 className={styles.argumentsTitle}>Arguments</h3>
                 {item.args.map((arg) => (
                   <div key={arg.name} className={styles.argument}>
                     <div className={styles.argumentHeader}>
