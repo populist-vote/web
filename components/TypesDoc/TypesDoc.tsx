@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TypeReference } from "components/TypeReference/TypeReference";
-import styles from "./TypesDoc.module.scss";
+import styles from "../ApiDoc/ApiDoc.module.scss";
 
 interface Field {
   name: string;
@@ -27,12 +27,16 @@ interface Props {
 export function TypesDoc({ types }: Props) {
   return (
     <div className={styles.container}>
-      <h1>Types</h1>
-      <div className={styles.typeList}>
+      <h1 className={styles.title}>Types</h1>
+      <div className={styles.itemList}>
         {types.map((type) => (
-          <section key={type.name} id={type.name} className={styles.type}>
-            <h2>{type.name}</h2>
-            {type.description && <p>{type.description}</p>}
+          <section key={type.name} id={type.name} className={styles.item}>
+            <div className={styles.header}>
+              <h2 className={styles.name}>{type.name}</h2>
+            </div>
+            {type.description && (
+              <p className={styles.description}>{type.description}</p>
+            )}
 
             {type.kind === "ENUM" ? (
               <div className={styles.enumValues}>

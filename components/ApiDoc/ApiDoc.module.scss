@@ -1,0 +1,206 @@
+@import "styles/variables/colors";
+
+.container {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  border-bottom: 1px solid var(--border-color);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.deprecated {
+  color: $salmon;
+  font-size: 0.875rem;
+}
+
+.description {
+  color: $blue-text-light;
+  font-size: 1.1em;
+  margin-bottom: 1rem;
+}
+
+.signature {
+  background: var(--background-secondary);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 1em;
+
+  .method {
+    color: $blue-text-light;
+    font-weight: 500;
+  }
+
+  .parens {
+    color: $orange;
+    font-weight: 500;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+}
+
+.args {
+  color: $aqua;
+  font-weight: 600;
+}
+
+.argName {
+  color: $white;
+}
+
+.defaultValue {
+  color: $violet;
+  font-size: 0.875rem;
+}
+
+.returnType {
+  margin-bottom: 1.5rem;
+
+  .returns {
+    font-weight: 500;
+  }
+}
+
+// Section titles (Fields, Values, Arguments)
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+// Arguments section
+.arguments {
+  margin-top: 1rem;
+
+  .argumentsTitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+}
+
+.argument {
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-color);
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .argumentHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  code {
+    background: var(--background-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+
+  .type {
+    color: $aqua;
+  }
+
+  .argumentDescription {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+}
+
+// Fields section
+.fields {
+  margin-top: 1.5rem;
+}
+
+.field {
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-color);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .fieldHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  code {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+}
+
+// Enum values section
+.enumValues {
+  margin-top: 1.5rem;
+}
+
+.enumValue {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-color);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  code {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+    display: inline-block;
+  }
+
+  p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+}

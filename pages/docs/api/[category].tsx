@@ -4,10 +4,9 @@ import { notFound } from "next/navigation";
 import queries from "generated/schema/queries.json";
 import mutations from "generated/schema/mutations.json";
 import types from "generated/schema/types.json";
-import { QueriesDoc } from "components/QueriesDoc/QueriesDoc";
 import { TypesDoc } from "components/TypesDoc/TypesDoc";
 import { DocsLayout } from "components";
-import { MutationsDoc } from "components/MutationsDoc/MutationsDoc";
+import { ApiDoc } from "components/ApiDoc/ApiDoc";
 
 interface Props {
   category: string;
@@ -19,10 +18,10 @@ export default function SchemaDocsPage({ category }: Props) {
   let content;
   switch (category) {
     case "queries":
-      content = <QueriesDoc queries={queries} />;
+      content = <ApiDoc items={queries} title="Queries" type="query" />;
       break;
     case "mutations":
-      content = <MutationsDoc mutations={mutations} />;
+      content = <ApiDoc items={mutations} title="Mutations" type="mutation" />;
       break;
     case "types":
       content = <TypesDoc types={types} />;
