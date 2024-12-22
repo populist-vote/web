@@ -1,0 +1,1626 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+"""
+Indicates that an Input Object is a OneOf Input Object (and thus requires
+                        exactly one of its field be provided)
+"""
+directive @oneOf on INPUT_OBJECT
+
+input AddStatementInput {
+  content: String!
+  conversationId: ID!
+  moderationStatus: StatementModerationStatus
+  userId: ID
+}
+
+input AddressInput {
+  city: String!
+  congressionalDistrict: String
+  coordinates: Coordinates
+  country: String!
+  county: String
+  line1: String!
+  line2: String
+  postalCode: String!
+  state: State!
+  stateHouseDistrict: String
+  stateSenateDistrict: String
+}
+
+enum ArgumentPosition {
+  NEUTRAL
+  OPPOSE
+  SUPPORT
+}
+
+type ArgumentResult {
+  author: AuthorResult!
+  authorId: ID!
+  authorType: AuthorType!
+  body: String
+  id: ID!
+  position: String!
+  title: String!
+  votes: Int!
+}
+
+union AuthorResult = OrganizationResult | PoliticianResult
+
+enum AuthorType {
+  ORGANIZATION
+  POLITICIAN
+}
+
+input BallotMeasureFilter {
+  issueTag: String
+  politicalScope: PoliticalScope
+  query: String
+  state: State
+  status: BallotMeasureStatus
+  year: Int
+}
+
+type BallotMeasureResult {
+  arguments: [ArgumentResult!]!
+  ballotMeasureCode: String!
+  definitions: String
+  description: String
+  election: ElectionResult!
+  electionId: ID!
+  electionScope: ElectionScope
+  fullTextUrl: String
+  id: ID!
+  issueTags: [IssueTagResult!]!
+  measureType: String
+  noVotes: Int
+  numPrecinctsReporting: Int
+  officialSummary: String
+  populistSummary: String
+  publicVotes: PublicVotes!
+  slug: String!
+  state: State!
+  status: BallotMeasureStatus!
+  title: String!
+  totalPrecincts: Int
+  yesVotes: Int
+}
+
+type BallotMeasureResultConnection {
+  """A list of edges."""
+  edges: [BallotMeasureResultEdge!]!
+  """A list of nodes."""
+  nodes: [BallotMeasureResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type BallotMeasureResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: BallotMeasureResult!
+}
+
+input BallotMeasureSort {
+  popularity: PopularitySort
+}
+
+enum BallotMeasureStatus {
+  BECAME_LAW
+  FAILED
+  GATHERING_SIGNATURES
+  INTRODUCED
+  IN_CONSIDERATION
+  ON_THE_BALLOT
+  PROPOSED
+  UNKNOWN
+}
+
+"""Legiscan Bill object"""
+type Bill {
+  amendments: [BillAmendment!]!
+  billId: Int!
+  billNumber: String!
+  billType: String!
+  billTypeId: String!
+  body: String!
+  bodyId: Int!
+  calendar: [Calendar!]!
+  changeHash: String!
+  committee: JSON!
+  completed: Int!
+  currentBody: String!
+  currentBodyId: Int!
+  history: [History!]!
+  pendingCommitteeId: Int!
+  progress: [Progress!]!
+  referrals: [Referral!]
+  sasts: [Sast!]!
+  session: BillSession!
+  sessionId: Int!
+  sponsors: [Sponsor!]!
+  state: String!
+  stateId: Int!
+  stateLink: String!
+  status: Int!
+  statusDate: String
+  statusType: String!
+  subjects: [Subject!]!
+  supplements: [BillSupplement!]!
+  texts: [Text!]!
+  title: String!
+  url: String!
+  votes: [BillVote!]!
+}
+
+type BillAmendment {
+  adopted: Int!
+  amendmentId: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  description: String!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  title: String!
+  url: String!
+}
+
+input BillFilter {
+  issueTag: String
+  politicalScope: PoliticalScope
+  query: String
+  state: State
+  status: BillStatus
+  year: Int
+}
+
+type BillResult {
+  arguments: [ArgumentResult!]!
+  billNumber: String!
+  billType: BillType!
+  chamber: Chamber
+  description: String
+  fullTextUrl: String
+  history: JSON!
+  id: ID!
+  issueTags: [IssueTagResult!]!
+  legiscanBillId: Int
+  legiscanCommitteeName: String
+  legiscanData: Bill
+  legiscanLastAction: String
+  legiscanLastActionDate: NaiveDate
+  officialSummary: String
+  politicalScope: PoliticalScope!
+  populistSummary: String
+  populistTitle: String
+  publicVotes: PublicVotes!
+  session: SessionResult
+  sessionId: ID
+  slug: String!
+  sponsors: [PoliticianResult!]!
+  state: State
+  status: BillStatus!
+  title: String!
+  updatedAt: DateTime!
+  usersVote: ArgumentPosition
+  votesmartBillId: Int
+}
+
+type BillResultConnection {
+  """A list of edges."""
+  edges: [BillResultEdge!]!
+  """A list of nodes."""
+  nodes: [BillResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type BillResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: BillResult!
+}
+
+type BillSession {
+  sessionId: Int!
+  sessionName: String!
+  sessionTitle: String!
+  special: Int!
+  yearEnd: Int!
+  yearStart: Int!
+}
+
+input BillSort {
+  popularity: PopularitySort
+}
+
+enum BillStatus {
+  BECAME_LAW
+  FAILED
+  INTRODUCED
+  IN_CONSIDERATION
+  UNKNOWN
+  VETOED
+}
+
+type BillSupplement {
+  date: String!
+  description: String!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  supplementId: Int!
+  title: String!
+  typeField: String!
+  typeId: Int!
+  url: String!
+}
+
+enum BillType {
+  """New Hampshire"""
+  ADDRESS
+  """Most states have these types"""
+  BILL
+  """DC City Council"""
+  CEREMONIAL_RESOLUTION
+  CONCURRENT_MEMORIAL
+  CONCURRENT_RESOLUTION
+  CONCURRENT_STUDY_REQUEST
+  CONSTITUTIONAL_AMENDMENT
+  EXECUTIVE_ORDER
+  JOINT_MEMORIAL
+  """Some states have these types"""
+  JOINT_RESOLUTION
+  JOINT_SESSION_RESOLUTION
+  MEMORIAL
+  NONE
+  PROCLAMATION
+  REMONSTRATION
+  REPEAL_BILL
+  RESOLUTION
+  STUDY_REQUEST
+}
+
+type BillVote {
+  absent: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  desc: String!
+  nay: Int!
+  nv: Int!
+  passed: Int!
+  """
+  This field is not returned from get_bill, but can be populated with a subsequent call to `get_roll_call`
+  """
+  rollCallData: RollCall
+  rollCallId: Int!
+  stateLink: String!
+  total: Int!
+  url: String!
+  yea: Int!
+}
+
+type Calendar {
+  date: String!
+  description: String!
+  location: String!
+  time: String!
+  typeField: String!
+  typeId: Int!
+}
+
+type Candidate {
+  birthDate: String!
+  birthPlace: String!
+  candidateId: String!
+  congMembership: JSON!
+  crpId: String!
+  education: JSON!
+  family: String!
+  firstName: String!
+  gender: String!
+  homeCity: String!
+  homeState: String!
+  lastName: String!
+  middleName: String!
+  nickName: String!
+  orgMembership: JSON!
+  photo: String!
+  political: JSON!
+  preferredName: String!
+  profession: JSON!
+  pronunciation: String!
+  religion: String!
+  specialMsg: String!
+  suffix: String!
+}
+
+type CandidateGuideRaceResult {
+  createdAt: DateTime!
+  race: RaceResult!
+  updatedAt: DateTime!
+  wereCandidatesEmailed: Boolean!
+}
+
+type CandidateGuideResult {
+  createdAt: DateTime!
+  embedCount: Int!
+  embeds: [EmbedResult!]!
+  id: ID!
+  name: String
+  organization: OrganizationResult!
+  organizationId: ID!
+  questions: [QuestionResult!]!
+  """
+  Returns the total number of question submissions in the candidate guide divided by the number of questions
+  in the candidate guide to get the number of intake submissions per candidate guide.
+  """
+  submissionCount: Int!
+  submissionsCloseAt: DateTime
+  submissionsOpenAt: DateTime
+  updatedAt: DateTime!
+}
+
+enum Chamber {
+  ASSEMBLY
+  HOUSE
+  LEGISLATURE
+  SENATE
+}
+
+enum Chambers {
+  ALL
+  HOUSE
+  SENATE
+}
+
+type CharacteristicVote {
+  consensusLevel: Float!
+  meanSentiment: Float!
+  significanceLevel: Float!
+  statement: StatementResult!
+  statementId: ID!
+}
+
+type CommitteeResult {
+  chairId: ID
+  description: String!
+  id: ID!
+  legiscanCommitteeId: Int
+  name: String!
+  slug: String!
+  state: State
+}
+
+type CommonWordsResult {
+  count: Int!
+  word: String!
+}
+
+type ConversationResult {
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  opinionAnalysis(limit: Int!): OpinionAnalysis!
+  opinionGroups: [OpinionGroup!]!
+  """Counts unique participants who voted in each time bucket"""
+  participationOverTime(interval: String): [TimeSeriesPoint!]!
+  relatedStatements(draftContent: String!, filter: StatementFilter, limit: Int, offset: Int): [StatementResult!]!
+  statements(filter: StatementFilter, limit: Int, offset: Int, sort: StatementSort): [StatementResult!]!
+  statementsOverTime(interval: String): [TimeSeriesPoint!]!
+  stats: ConversationStats!
+  topic: String!
+  updatedAt: DateTime!
+  """
+  Returns distribution of voting activity across participants.
+  Shows how many participants cast X number of votes.
+  """
+  voteDistribution(bucketSize: Int): [VoteDistributionBucket!]!
+  votesOverTime(interval: String): [TimeSeriesPoint!]!
+}
+
+type ConversationStats {
+  avgVotesPerParticipant: Float!
+  totalParticipants: Int!
+  totalStatements: Int!
+  totalVotes: Int!
+}
+
+input Coordinates {
+  latitude: Float!
+  longitude: Float!
+}
+
+input CreateConversationInput {
+  description: String
+  organizationId: ID!
+  seedStatements: [String!]
+  topic: String!
+}
+
+"""
+Implement the DateTime<Utc> scalar
+
+The input/output is a string in RFC3339 format.
+"""
+scalar DateTime
+
+enum DistrictType {
+  CITY
+  COUNTY
+  HOSPITAL
+  JUDICIAL
+  SCHOOL
+  SOIL_AND_WATER
+  STATE_HOUSE
+  STATE_SENATE
+  TRANSPORTATION
+  US_CONGRESSIONAL
+}
+
+type DonationsByIndustry {
+  cycle: Int!
+  lastUpdated: NaiveDate!
+  sectors: [Sector!]!
+  source: String!
+}
+
+type DonationsSummary {
+  cashOnHand: Float!
+  debt: Float!
+  lastUpdated: NaiveDate!
+  source: String!
+  spent: Float!
+  totalRaised: Float!
+}
+
+input ElectionFilter {
+  municipality: String
+  query: String
+  slug: String
+  state: State
+  title: String
+  year: Int
+}
+
+input ElectionRaceFilter {
+  state: State
+}
+
+type ElectionResult {
+  ballotMeasuresByAddress(address: AddressInput!): [BallotMeasureResult!]!
+  description: String
+  electionDate: NaiveDate!
+  id: ID!
+  races(filter: ElectionRaceFilter): [RaceResult!]!
+  """Show races based on an anonymous user with an address"""
+  racesByAddress(address: AddressInput!): [RaceResult!]!
+  """Show races relevant to the user based on their address"""
+  racesByUserDistricts: [RaceResult!]!
+  racesByVotingGuide(votingGuideId: ID!): [RaceResult!]!
+  slug: String!
+  state: State
+  title: String!
+}
+
+enum ElectionScope {
+  CITY
+  COUNTY
+  DISTRICT
+  NATIONAL
+  STATE
+}
+
+type EmbedResult {
+  attributes: JSON!
+  ballotMeasure: BallotMeasureResult
+  bill: BillResult
+  bills: [BillResult!]
+  candidateGuide: CandidateGuideResult
+  candidateGuideRace: CandidateGuideRaceResult
+  """
+  Each candidate guide embed is associated with a single race. This field returns the
+  the number of questions submitted by candidates in this race, divided by the number
+  of questions in a candidate guide
+  """
+  candidateGuideSubmissionCountByRace: Int
+  createdAt: DateTime!
+  createdBy: UserResult!
+  createdById: ID!
+  description: String
+  election: ElectionResult
+  embedType: EmbedType!
+  id: ID!
+  name: String!
+  organizationId: ID!
+  politician: PoliticianResult
+  poll: PollResult
+  question: QuestionResult
+  race: RaceResult
+  updatedAt: DateTime!
+  updatedBy: UserResult!
+  updatedById: ID!
+}
+
+enum EmbedType {
+  CANDIDATE_GUIDE
+  LEGISLATION
+  LEGISLATION_TRACKER
+  MY_BALLOT
+  POLITICIAN
+  POLL
+  QUESTION
+  RACE
+}
+
+type Endorsements {
+  organizations: [OrganizationResult!]!
+  politicians: [PoliticianResult!]!
+}
+
+type GeneralInfo {
+  linkBack: String!
+  title: String!
+}
+
+type GetCandidateBioResponse {
+  candidate: Candidate!
+  generalInfo: GeneralInfo!
+  office: Office
+}
+
+type Heartbeat {
+  utc: DateTime!
+}
+
+type History {
+  action: String!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  importance: Int!
+}
+
+type IssueTagResult {
+  ballotMeasures: [BallotMeasureResult!]!
+  bills: [BillResult!]!
+  description: String
+  id: ID!
+  name: String!
+  organizations: [OrganizationResult!]!
+  politicians: [PoliticianResult!]!
+  slug: String!
+}
+
+input IssueTagSearch {
+  name: String
+}
+
+"""A scalar that can represent any JSON value."""
+scalar JSON
+
+type Mutation {
+  addStatement(input: AddStatementInput!): Statement!
+  copyQuestionSubmission(questionSubmissionId: ID!, targetQuestionId: ID!): QuestionSubmissionResult!
+  createConversation(input: CreateConversationInput!): ConversationResult!
+  deleteCandidateGuide(id: ID!): Boolean!
+  deleteProfilePicture: Boolean!
+  """
+  Download all candidate guide data as a CSV string, must be converted to CSV file by client
+  """
+  downloadAllCandidateGuideData(candidateGuideId: ID!, raceId: ID): String!
+  generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!, raceId: ID!): String!
+  moderateStatement(moderationStatus: StatementModerationStatus!, statementId: ID!): Statement!
+  openAllCandidateGuideSubmissions(candidateGuideId: ID!): Boolean!
+  removeCandidateGuideRace(candidateGuideId: ID!, raceId: ID!): Boolean!
+  setAllCandidateGuideRacesEmailed(candidateGuideId: ID!, wereCandidatesEmailed: Boolean!): Boolean!
+  updateCandidateGuideRace(candidateGuideId: ID!, input: UpdateCandidateGuideRaceInput!, raceId: ID!): UpdateCandidateGuideRaceResult!
+  updateConversation(conversationId: ID!, description: String, topic: String): ConversationResult!
+  upsertCandidateGuide(input: UpsertCandidateGuideInput!): CandidateGuideResult!
+  upsertPoll(input: UpsertPollInput!): PollResult!
+  upsertPollSubmission(pollSubmissionInput: UpsertPollSubmissionInput!, respondentInput: UpsertRespondentInput): PollSubmissionResult!
+  upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
+  upsertQuestionSubmission(questionSubmissionInput: UpsertQuestionSubmissionInput!, respondentInput: UpsertRespondentInput): QuestionSubmissionResult!
+  voteOnStatement(statementId: ID!, userId: ID, voteType: ArgumentPosition!): StatementVote!
+}
+
+"""
+ISO 8601 calendar date without timezone.
+Format: %Y-%m-%d
+
+# Examples
+
+* `1994-11-13`
+* `2000-02-24`
+"""
+scalar NaiveDate
+
+type Office {
+  district: String!
+  districtId: String!
+  firstElect: String!
+  lastElect: String!
+  name: [String!]!
+  nextElect: String!
+  parties: String!
+  shortTitle: String!
+  stateId: String!
+  status: String!
+  termEnd: String!
+  termStart: String!
+  title: String!
+  typeField: String!
+}
+
+input OfficeFilter {
+  politicalScope: PoliticalScope
+  query: String
+  state: State
+}
+
+type OfficeResult {
+  chamber: Chamber
+  county: String
+  """
+  The district name, e.g. "2, 3B, Ward 5"
+  """
+  district: String
+  """
+  The type of district, used to determine which field is referenced for the district
+  """
+  districtType: DistrictType
+  """National, State, County, City, or District"""
+  electionScope: ElectionScope!
+  hospitalDistrict: String
+  id: ID!
+  incumbents: [PoliticianResult!]!
+  municipality: String
+  """
+  Name of the office, e.g. "U.S. Senate"
+  """
+  name: String
+  officeType: String
+  """Local, State, or Federal"""
+  politicalScope: PoliticalScope!
+  """Used to determine order of offices in a list"""
+  priority: Int
+  schoolDistrict: String
+  seat: String
+  slug: String!
+  state: State
+  subtitle: String
+  subtitleShort: String
+  termLength: Int
+  """
+  What the person in office would be called, e.g. "Senator", "Governor"
+  """
+  title: String!
+}
+
+type OfficeResultConnection {
+  """A list of edges."""
+  edges: [OfficeResultEdge!]!
+  """A list of nodes."""
+  nodes: [OfficeResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type OfficeResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: OfficeResult!
+}
+
+type OpinionAnalysis {
+  consensusOpinions: [OpinionScore!]!
+  divisiveOpinions: [OpinionScore!]!
+  overview: String
+}
+
+type OpinionGroup {
+  characteristicVotes: [CharacteristicVote!]!
+  id: ID!
+  summary: String!
+  users: [ID!]!
+}
+
+type OpinionScore {
+  content: String!
+  id: String!
+  neutralVotes: Int!
+  nonVotingViews: Int!
+  opposeVotes: Int!
+  score: Float!
+  supportVotes: Int!
+  totalViews: Int!
+  totalVotes: Int!
+}
+
+type OrganizationAssets {
+  bannerImage: String
+  thumbnailImage160: String
+  thumbnailImage400: String
+}
+
+type OrganizationAttributes {
+  supportedLanguages: [String!]
+}
+
+type OrganizationPoliticianNoteResult {
+  createdAt: DateTime!
+  electionId: ID!
+  id: ID!
+  issueTagIds: [ID!]!
+  issueTags: [IssueTagResult!]!
+  notes: JSON!
+  organization: OrganizationResult!
+  organizationId: ID!
+  politician: PoliticianResult!
+  politicianId: ID!
+  updatedAt: DateTime!
+}
+
+type OrganizationResult {
+  assets: OrganizationAssets!
+  attributes: OrganizationAttributes!
+  description: String
+  email: String
+  facebookUrl: String
+  headquartersAddressId: ID
+  headquartersPhone: String
+  id: ID!
+  instagramUrl: String
+  issueTags: [IssueTagResult!]!
+  name: String!
+  politicianNotes(electionId: ID!): [OrganizationPoliticianNoteResult!]!
+  slug: String!
+  taxClassification: String
+  thumbnailImageUrl: String @deprecated(reason: "Use `assets.thumbnailImage160` instead")
+  twitterUrl: String
+  votesmartSigId: Int
+  websiteUrl: String
+}
+
+type OrganizationResultConnection {
+  """A list of edges."""
+  edges: [OrganizationResultEdge!]!
+  """A list of nodes."""
+  nodes: [OrganizationResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type OrganizationResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: OrganizationResult!
+}
+
+input OrganizationSearch {
+  name: String
+}
+
+"""Information about pagination in a connection"""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+type PoliticalParty {
+  description: String
+  fecCode: String
+  id: ID!
+  name: String!
+  notes: String
+  slug: String!
+}
+
+enum PoliticalScope {
+  FEDERAL
+  LOCAL
+  STATE
+}
+
+type PoliticianAssets {
+  thumbnailImage160: String
+  thumbnailImage400: String
+}
+
+input PoliticianFilter {
+  chambers: Chambers
+  homeState: State
+  politicalScope: PoliticalScope
+  query: String
+}
+
+type PoliticianResult {
+  age: Int
+  assets: PoliticianAssets!
+  biography: String
+  biographySource: String
+  campaignWebsiteUrl: String
+  crpCandidateId: String
+  currentOffice: OfficeResult
+  dateOfBirth: NaiveDate
+  donationsByIndustry: DonationsByIndustry
+  donationsSummary: DonationsSummary
+  email: String
+  endorsements: Endorsements!
+  facebookUrl: String
+  fecCandidateId: String
+  firstName: String!
+  fullName: String!
+  homeState: State
+  id: ID!
+  instagramUrl: String
+  issueTags: [IssueTagResult!]!
+  lastName: String!
+  legiscanPeopleId: Int
+  linkedinUrl: String
+  middleName: String
+  officeId: ID
+  officialWebsiteUrl: String
+  party: PoliticalParty
+  partyId: ID
+  phone: String
+  preferredName: String
+  raceLosses: Int
+  raceWins: Int
+  """Leverages Votesmart ratings data for the time being"""
+  ratings(after: String, before: String, first: Int, last: Int): RatingResultConnection!
+  slug: String!
+  sponsoredBills(after: String, before: String, first: Int, last: Int): BillResultConnection!
+  suffix: String
+  thumbnailImageUrl: String @deprecated(reason: "Use `assets.thumbnailImage160` instead")
+  tiktokUrl: String
+  twitterUrl: String
+  upcomingRace: RaceResult
+  upcomingRaceId: ID
+  votes(raceId: UUID!): Int
+  votesmartCandidateBio: GetCandidateBioResponse
+  votesmartCandidateId: Int
+  votesmartCandidateRatings: [VsRating!]!
+  """
+  Calculates the total years a politician has been in office using
+  the votesmart politicial experience array.  Does not take into account
+  objects where the politician is considered a 'candidate'
+  """
+  yearsInPublicOffice: Int
+  youtubeUrl: String
+}
+
+type PoliticianResultConnection {
+  """A list of edges."""
+  edges: [PoliticianResultEdge!]!
+  """A list of nodes."""
+  nodes: [PoliticianResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type PoliticianResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: PoliticianResult!
+}
+
+type PollOptionResult {
+  createdAt: DateTime!
+  id: ID!
+  optionText: String!
+  pollId: ID!
+  updatedAt: DateTime!
+}
+
+type PollResult {
+  allowAnonymousResponses: Boolean!
+  allowWriteInResponses: Boolean!
+  createdAt: DateTime!
+  embedId: ID
+  id: ID!
+  name: String
+  options: [PollOptionResult!]!
+  prompt: String!
+  submissionCountByDate: [SubmissionCountByDateResult!]!
+  submissions: [PollSubmissionResult!]!
+  updatedAt: DateTime!
+}
+
+type PollSubmissionResult {
+  createdAt: DateTime!
+  id: ID!
+  option: PollOptionResult
+  poll: PollResult!
+  pollId: ID!
+  pollOptionId: ID
+  respondent: RespondentResult
+  respondentId: ID
+  updatedAt: DateTime!
+  writeInResponse: String
+}
+
+enum PopularitySort {
+  MOST_OPPOSED
+  MOST_POPULAR
+  MOST_SUPPORTED
+}
+
+type Progress {
+  date: String!
+  event: Int!
+}
+
+type PublicVotes {
+  neutral: Int
+  oppose: Int
+  support: Int
+}
+
+type Query {
+  allIssueTags: [IssueTagResult!]!
+  ballotMeasureById(id: ID!): BallotMeasureResult
+  ballotMeasures(after: String, before: String, filter: BallotMeasureFilter, first: Int, last: Int, sort: BallotMeasureSort): BallotMeasureResultConnection!
+  billById(id: ID!): BillResult
+  billBySlug(slug: String!): BillResult
+  """Returns all committees that have an associated bill"""
+  billCommittees: [CommitteeResult!]!
+  """Returns all issue tags that have an associated bill"""
+  billIssueTags: [IssueTagResult!]!
+  """Returns all session years that have an associated bill"""
+  billYears: [Int!]!
+  bills(after: String, before: String, filter: BillFilter, first: Int, last: Int, sort: BillSort): BillResultConnection!
+  billsByIds(ids: [ID!]!): [BillResult!]!
+  candidateGuideById(id: ID!): CandidateGuideResult!
+  candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
+  conversationById(id: ID!): ConversationResult
+  conversationsByOrganization(limit: Int, organizationId: ID!): [ConversationResult!]!
+  countiesByState(state: State!): [String!]!
+  electionById(id: ID!): ElectionResult!
+  electionBySlug(slug: String!): ElectionResult!
+  """Returns a single voting guide for the given election and user"""
+  electionVotingGuideByUserId(
+    """Election ID"""
+    electionId: ID!
+    """User ID"""
+    userId: ID!
+  ): VotingGuideResult
+  elections(filter: ElectionFilter): [ElectionResult!]!
+  electionsByUser: [ElectionResult!]!
+  """Returns `true` to indicate the GraphQL server is reachable"""
+  health: Boolean!
+  issueTagBySlug(
+    """Search issue tag by slug"""
+    slug: String!
+  ): IssueTagResult!
+  issueTags(
+    """Search by issue tag name"""
+    search: IssueTagSearch!
+  ): [IssueTagResult!]!
+  nextElection: ElectionResult!
+  officeById(id: String!): OfficeResult!
+  officeBySlug(slug: String!): OfficeResult!
+  offices(after: String, before: String, filter: OfficeFilter, first: Int, last: Int): OfficeResultConnection!
+  organizationById(id: ID!): OrganizationResult!
+  organizationBySlug(slug: String!): OrganizationResult!
+  organizations(
+    after: String
+    before: String
+    first: Int
+    last: Int
+    """Search by organization name"""
+    search: OrganizationSearch
+  ): OrganizationResultConnection!
+  politicalParties: [PoliticalParty!]!
+  politicianById(id: ID!): PoliticianResult
+  politicianByIntakeToken(token: String!): PoliticianResult
+  politicianBySlug(slug: String!): PoliticianResult
+  politicianRespondentsByOrganizationId(organizationId: ID!): [PoliticianResult!]!
+  politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
+  questionById(id: ID!): QuestionResult!
+  raceById(id: String!): RaceResult!
+  raceBySlug(slug: String!): RaceResult!
+  races(after: String, before: String, filter: RaceFilter, first: Int, last: Int): RaceResultConnection!
+  recentCandidateGuideQuestionSubmissionsByOrganization(limit: Int, organizationId: ID!): [QuestionSubmissionResult!]!
+  relatedQuestionSubmissionByCandidateAndQuestion(candidateId: ID!, organizationId: ID!, questionId: ID!): QuestionSubmissionResult
+  respondentsByOrganizationId(after: String, before: String, first: Int, last: Int, organizationId: ID!): RespondentResultConnection!
+  submissions(filter: QuestionSubmissionsFilter!, organizationId: ID!): [QuestionSubmissionResult!]!
+  """Get all users"""
+  userCount(filter: UserCountFilter): Int
+  """Publicly accessible user information"""
+  userProfile(userId: ID!): UserResult!
+  votingGuideById(
+    """Voting guide id"""
+    id: ID!
+  ): VotingGuideResult!
+  votingGuidesByIds(ids: [ID!]!): [VotingGuideResult!]!
+  votingGuidesByUserId(
+    """User id"""
+    userId: ID!
+  ): [VotingGuideResult!]!
+}
+
+type QuestionResult {
+  allowAnonymousResponses: Boolean!
+  commonWords: [CommonWordsResult!]!
+  createdAt: DateTime!
+  id: ID!
+  issueTags: [IssueTagResult!]!
+  prompt: String!
+  responseCharLimit: Int
+  responsePlaceholderText: String
+  sentimentCounts: [SentimentCountResult!]!
+  submissionCountByDate: [SubmissionCountByDateResult!]!
+  submissions: [QuestionSubmissionResult!]!
+  submissionsByCandidateId(candidateId: ID!): [QuestionSubmissionResult!]!
+  submissionsByRace(raceId: ID!): [QuestionSubmissionResult!]!
+  translations: JSON
+  updatedAt: DateTime!
+}
+
+type QuestionSubmissionResult {
+  """
+  Returns the candidate guide embed associated with the question submission.
+  """
+  candidateGuideEmbed: EmbedResult
+  candidateId: ID
+  createdAt: DateTime!
+  editorial: String
+  id: ID!
+  politician: PoliticianResult
+  question: QuestionResult!
+  questionId: ID!
+  respondent: RespondentResult
+  respondentId: ID
+  response: String!
+  sentiment: Sentiment
+  translations: JSON
+  updatedAt: DateTime!
+}
+
+input QuestionSubmissionsFilter {
+  county: String
+  politicalScope: PoliticalScope
+  query: String
+  raceType: RaceType
+  state: State
+}
+
+type RaceCandidateResult {
+  candidateId: ID!
+  votePercentage: Float
+  votes: Int
+}
+
+input RaceFilter {
+  electionId: UUID
+  electionScope: ElectionScope
+  officeTitles: [String!]
+  politicalScope: PoliticalScope
+  query: String
+  raceType: RaceType
+  state: State
+  year: Int
+}
+
+type RaceResult {
+  ballotpediaLink: String
+  candidates: [PoliticianResult!]!
+  description: String
+  earlyVotingBeginsDate: NaiveDate
+  election: ElectionResult!
+  electionDate: NaiveDate
+  electionId: ID
+  id: ID!
+  isSpecialElection: Boolean!
+  numElect: Int
+  office: OfficeResult!
+  officeId: ID!
+  officialWebsite: String
+  party: PoliticalParty
+  partyId: ID
+  raceType: RaceType!
+  relatedEmbeds: [EmbedResult!]!
+  results: RaceResultsResult!
+  slug: String!
+  state: State
+  title: String!
+  voteType: VoteType!
+}
+
+type RaceResultConnection {
+  """A list of edges."""
+  edges: [RaceResultEdge!]!
+  """A list of nodes."""
+  nodes: [RaceResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type RaceResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: RaceResult!
+}
+
+type RaceResultsResult {
+  numPrecinctsReporting: Int
+  precinctReportingPercentage: Float
+  totalPrecincts: Int
+  totalVotes: Int
+  votesByCandidate: [RaceCandidateResult!]!
+  winners: [PoliticianResult!]
+}
+
+enum RaceType {
+  GENERAL
+  PRIMARY
+}
+
+type RatingResult {
+  organization: OrganizationResult
+  vsRating: VsRating!
+}
+
+type RatingResultConnection {
+  """A list of edges."""
+  edges: [RatingResultEdge!]!
+  """A list of nodes."""
+  nodes: [RatingResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type RatingResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: RatingResult!
+}
+
+type Referral {
+  chamber: String!
+  chamberId: Int!
+  committeeId: Int!
+  date: String!
+  name: String!
+}
+
+type RespondentResult {
+  email: String!
+  name: String!
+}
+
+type RespondentResultConnection {
+  """A list of edges."""
+  edges: [RespondentResultEdge!]!
+  """A list of nodes."""
+  nodes: [RespondentResult!]!
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  """Total result set count"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type RespondentResultEdge {
+  """A cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: RespondentResult!
+}
+
+type RollCall {
+  absent: Int!
+  billId: Int!
+  chamber: String!
+  chamberId: Int!
+  date: String!
+  desc: String!
+  nay: Int!
+  nv: Int!
+  passed: Int!
+  rollCallId: Int!
+  total: Int!
+  votes: [RollCallVote!]!
+  yea: Int!
+}
+
+type RollCallVote {
+  peopleId: Int!
+  voteId: Int!
+  voteText: String!
+}
+
+type Sast {
+  sastBillId: Int!
+  sastBillNumber: String!
+  typeField: String!
+  typeId: Int!
+}
+
+type Sector {
+  id: String!
+  individuals: Int!
+  name: String!
+  pacs: Int!
+  total: Int!
+}
+
+enum Sentiment {
+  NEGATIVE
+  NEUTRAL
+  POSITIVE
+  UNKNOWN
+}
+
+type SentimentCountResult {
+  count: Int!
+  sentiment: Sentiment!
+}
+
+type SessionResult {
+  congressName: String!
+  description: String!
+  endDate: NaiveDate
+  name: String!
+  startDate: NaiveDate
+  state: State
+}
+
+type Sponsor {
+  ballotpedia: String!
+  committeeId: JSON!
+  committeeSponsor: Int!
+  district: String!
+  firstName: String!
+  ftmEid: Int!
+  lastName: String!
+  middleName: String!
+  name: String!
+  nickname: String!
+  opensecretsId: String!
+  party: String!
+  partyId: JSON!
+  peopleId: Int!
+  personHash: String!
+  role: String!
+  roleId: Int!
+  sponsorOrder: Int!
+  sponsorTypeId: Int!
+  suffix: String!
+  votesmartId: Int!
+}
+
+enum State {
+  AK
+  AL
+  AR
+  AS
+  AZ
+  CA
+  CO
+  CT
+  DC
+  DE
+  FL
+  FM
+  GA
+  GU
+  HI
+  IA
+  ID
+  IL
+  IN
+  KS
+  KY
+  LA
+  MA
+  MD
+  ME
+  MH
+  MI
+  MN
+  MO
+  MP
+  MS
+  MT
+  NC
+  ND
+  NE
+  NH
+  NJ
+  NM
+  NV
+  NY
+  OH
+  OK
+  OR
+  PA
+  PR
+  PW
+  RI
+  SC
+  SD
+  TN
+  TX
+  UT
+  VA
+  VI
+  VT
+  WA
+  WI
+  WV
+  WY
+}
+
+type Statement {
+  authorId: UUID
+  content: String!
+  conversationId: UUID!
+  createdAt: DateTime!
+  id: UUID!
+  moderationStatus: StatementModerationStatus!
+  updatedAt: DateTime!
+}
+
+input StatementFilter {
+  moderationStatuses: [StatementModerationStatus!]
+}
+
+enum StatementModerationStatus {
+  ACCEPTED
+  REJECTED
+  SEED
+  UNMODERATED
+}
+
+type StatementResult {
+  author: UserResult
+  authorId: ID
+  content: String!
+  conversationId: ID!
+  createdAt: DateTime!
+  id: ID!
+  moderationStatus: StatementModerationStatus!
+  neutralVotes: Int!
+  opposeVotes: Int!
+  percentVoted: Float!
+  supportVotes: Int!
+  totalVotes: Int!
+  voteByUserOrSession(userId: ID): ArgumentPosition
+}
+
+enum StatementSort {
+  CONTROVERSIAL
+  MOST_AGREE
+  MOST_VOTES
+  NEWEST
+}
+
+type StatementVote {
+  content: String!
+  createdAt: DateTime!
+  id: UUID!
+  sessionId: UUID
+  statementId: UUID!
+  updatedAt: DateTime!
+  userId: UUID
+  voteType: ArgumentPosition!
+}
+
+type Subject {
+  subjectId: Int!
+  subjectName: String!
+}
+
+type SubmissionCountByDateResult {
+  count: Int!
+  date: DateTime!
+}
+
+type Subscription {
+  """
+  Heartbeat, containing the UTC timestamp of the last server-sent payload
+  """
+  heartbeat(interval: Int! = 1000): Heartbeat!
+}
+
+type Text {
+  date: String!
+  docId: Int!
+  mime: String!
+  mimeId: Int!
+  stateLink: String!
+  textSize: Int!
+  typeField: String!
+  typeId: Int!
+  url: String!
+}
+
+type TimeSeriesPoint {
+  count: Int!
+  timestamp: DateTime!
+}
+
+"""
+A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+Strings within GraphQL. UUIDs are used to assign unique identifiers to
+entities without requiring a central allocating authority.
+
+# References
+
+* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
+"""
+scalar UUID
+
+input UpdateCandidateGuideRaceInput {
+  wereCandidatesEmailed: Boolean!
+}
+
+type UpdateCandidateGuideRaceResult {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  wereCandidatesEmailed: Boolean!
+}
+
+input UpsertCandidateGuideInput {
+  id: UUID
+  name: String
+  organizationId: UUID
+  raceIds: [UUID!]
+  submissionsCloseAt: DateTime
+  submissionsOpenAt: DateTime
+  userId: UUID
+}
+
+input UpsertPollInput {
+  allowAnonymousResponses: Boolean
+  allowWriteInResponses: Boolean
+  id: UUID
+  name: String
+  options: [UpsertPollOptionInput!]!
+  organizationId: UUID
+  prompt: String
+}
+
+input UpsertPollOptionInput {
+  id: UUID
+  isWriteIn: Boolean
+  optionText: String!
+}
+
+input UpsertPollSubmissionInput {
+  id: UUID
+  pollId: UUID!
+  pollOptionId: UUID
+  respondentId: UUID
+  writeInResponse: String
+}
+
+input UpsertQuestionInput {
+  allowAnonymousResponses: Boolean
+  candidateGuideId: UUID
+  embedId: UUID
+  id: UUID
+  issueTagIds: [UUID!]
+  name: String
+  organizationId: UUID
+  prompt: String
+  responseCharLimit: Int
+  responsePlaceholderText: String
+  shouldTranslate: Boolean
+  translations: JSON
+}
+
+input UpsertQuestionSubmissionInput {
+  candidateId: UUID
+  copiedFromId: UUID
+  editorial: String
+  id: UUID
+  questionId: UUID!
+  respondentId: UUID
+  response: String!
+  sentiment: Sentiment
+  shouldTranslate: Boolean
+  translations: JSON
+}
+
+input UpsertRespondentInput {
+  email: String!
+  id: UUID
+  name: String!
+  organizationId: UUID!
+}
+
+input UserCountFilter {
+  state: State
+}
+
+type UserResult {
+  email: String!
+  firstName: String
+  id: ID!
+  lastName: String
+  profilePictureUrl: String
+  username: String!
+}
+
+type VoteDistributionBucket {
+  participantCount: Int!
+  percentage: Float!
+  voteCount: Int!
+}
+
+enum VoteType {
+  PLURALITY
+  RANKED_CHOICE
+}
+
+type VotingGuideCandidateResult {
+  candidateId: ID!
+  isEndorsement: Boolean!
+  note: String
+  politician: PoliticianResult!
+}
+
+type VotingGuideResult {
+  candidates: [VotingGuideCandidateResult!]!
+  description: String
+  election: ElectionResult!
+  electionId: ID!
+  id: ID!
+  title: String
+  user: UserResult!
+  userId: ID!
+}
+
+type VsRating {
+  categories: JSON!
+  rating: JSON!
+  ratingId: JSON
+  ratingName: String!
+  ratingText: String!
+  sigId: JSON!
+  timespan: JSON!
+}

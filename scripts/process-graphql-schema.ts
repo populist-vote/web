@@ -171,7 +171,11 @@ const processType = (type: any) => ({
 });
 
 const processAndSaveSchema = async () => {
-  const SCHEMA_PATH = path.join(process.cwd(), "graphql", "schema.graphql");
+  const SCHEMA_PATH = path.join(
+    process.cwd(),
+    "graphql",
+    "schema-public.graphql"
+  );
   const OUTPUT_DIR = path.join(process.cwd(), "generated", "schema");
 
   try {

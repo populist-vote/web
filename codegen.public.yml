@@ -1,0 +1,10 @@
+schema:
+  - ${GRAPHQL_SCHEMA_PATH}:
+      headers:
+        authorization: "Bearer ${POPULIST_API_KEY_PUBLIC}"
+generates:
+  ./graphql/schema-public.graphql:
+    plugins:
+      - schema-ast
+    config:
+      includeDirectives: true
