@@ -1,0 +1,13 @@
+@import "styles/layout/containers";
+
+.grid3 {
+  p {
+    font-size: 1.1em;
+  }
+
+  > * {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}

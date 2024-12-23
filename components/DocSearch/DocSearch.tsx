@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Search } from "lucide-react";
 import styles from "./DocSearch.module.scss";
 import Link from "next/link";
+import { BiSearch } from "react-icons/bi";
 
 interface SearchResult {
   label: string;
@@ -69,8 +69,6 @@ export const DocSearch: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!open) return;
-
-      console.log(selectedIndex);
 
       switch (e.key) {
         case "ArrowDown":
@@ -219,7 +217,7 @@ export const DocSearch: React.FC = () => {
   return (
     <>
       <button onClick={() => setOpen(true)} className={styles.searchButton}>
-        <Search size={20} color="var(--blue-text)" />
+        <BiSearch size={20} color="var(--blue-text)" />
         <span>Search documentation...</span>
         <kbd className={styles.shortcut}>⌘K</kbd>
       </button>
