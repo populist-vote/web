@@ -66,10 +66,12 @@ export function DocsLayout({
             >
               <BiMenu className={styles.menuIcon} />
             </button>
-            <div className={styles.logoSection}>
-              <LogoText />
-              <span className={styles.logoText}>Docs</span>
-            </div>
+            <Link href="/docs" style={{ textDecoration: "none" }}>
+              <div className={styles.logoSection}>
+                <LogoText />
+                <span className={styles.logoText}>Docs</span>
+              </div>
+            </Link>
           </div>
 
           <div className={styles.searchContainer}>
