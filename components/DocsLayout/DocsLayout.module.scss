@@ -17,12 +17,18 @@
     }
   }
 
+  h1 {
+    font-size: 3em;
+    font-weight: 700;
+    margin-bottom: 3rem;
+  }
+
   h3 {
     font-weight: 600;
   }
 
   section {
-    scroll-margin-top: 136px; // Adjust this value to match your header height
+    scroll-margin-top: 156px; // Adjust this value to match your header height
   }
 
   ol {
