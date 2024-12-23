@@ -47,7 +47,7 @@ export function useHashRoutes({
 
       // Calculate scroll position with offset
       const sectionTop = section.getBoundingClientRect().top;
-      const offsetPosition = sectionTop + window.pageYOffset - offset;
+      const offsetPosition = sectionTop + (window.scrollY - offset - 16);
 
       window.scrollTo({
         top: offsetPosition,
@@ -110,19 +110,6 @@ export function useHashRoutes({
       setTimeout(() => scrollToSection(sectionId), 100);
     }
   }, [scrollToSection]);
-
-  // Handle scroll restoration
-  useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-
-    return () => {
-      if ("scrollRestoration" in window.history) {
-        window.history.scrollRestoration = "auto";
-      }
-    };
-  }, []);
 
   return {
     activeSection,
