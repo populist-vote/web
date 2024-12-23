@@ -219,7 +219,7 @@ export const DocSearch: React.FC = () => {
   return (
     <>
       <button onClick={() => setOpen(true)} className={styles.searchButton}>
-        <Search size={16} />
+        <Search size={20} color="var(--blue-text)" />
         <span>Search documentation...</span>
         <kbd className={styles.shortcut}>⌘K</kbd>
       </button>

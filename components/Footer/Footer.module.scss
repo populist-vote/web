@@ -14,7 +14,7 @@ $font-size: 0.85em;
   justify-content: center;
   flex-direction: column-reverse;
 
-  @include for-tablet-up {
+  @include for-tablet-portrait-up {
     flex-direction: row;
     justify-content: space-between;
   }

@@ -52,5 +52,7 @@ export default function DocsIndex() {
 }
 
 DocsIndex.getLayout = (page: ReactNode) => (
-  <DocsLayout currentPage="home">{page}</DocsLayout>
+  <DocsLayout hideAside currentPage="home">
+    {page}
+  </DocsLayout>
 );

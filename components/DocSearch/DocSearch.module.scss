@@ -11,14 +11,14 @@
   font-size: 1rem;
   font-family: $font-primary;
   color: white;
-  background: var(--background-secondary);
-  border: 1px solid var(--blue-dark);
+  background: var(--blue-dark);
+  border: 1px solid var(--blue);
   border-radius: 0.5rem;
   transition: background-color 0.2s;
   cursor: pointer;
 
   &:hover {
-    background: var(--blue-dark);
+    background: var(--black-alpha-1);
   }
 }
 

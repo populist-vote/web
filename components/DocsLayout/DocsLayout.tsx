@@ -17,9 +17,11 @@ import { useHashRoutes } from "hooks/useHashRoute";
 export function DocsLayout({
   children,
   currentPage,
+  hideAside,
 }: {
   children: React.ReactNode;
   currentPage: NavigationSectionKey;
+  hideAside?: boolean;
 }) {
   const router = useRouter();
   const [isNavOpen, setIsNavOpen] = React.useState(true);
@@ -128,35 +130,40 @@ export function DocsLayout({
         </nav>
       </header>
 
-      <div className={styles.mainLayout}>
-        <aside
-          className={`${styles.sidebar} ${isNavOpen ? styles.sidebarOpen : styles.sidebarClosed}`}
-        >
-          <nav className={styles.nav}>
-            <div className={styles.navSection}>
-              {currentNav?.sections.map(
-                (section: NavigationSection, index: number) => (
-                  <div key={index} className={styles.navGroup}>
-                    <h3 className={styles.navGroupTitle}>{section.title}</h3>
-                    <ul className={styles.navList}>
-                      {section.items.map((item, itemIndex) => (
-                        <li key={itemIndex}>
-                          <a
-                            href={item.href}
-                            className={styles.navLink}
-                            data-selected={isNavItemSelected(item.href)}
-                          >
-                            {item.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )
-              )}
-            </div>
-          </nav>
-        </aside>
+      <div
+        className={styles.mainLayout}
+        style={{ marginLeft: hideAside ? 0 : "16rem" }}
+      >
+        {!hideAside && (
+          <aside
+            className={`${styles.sidebar} ${isNavOpen ? styles.sidebarOpen : styles.sidebarClosed}`}
+          >
+            <nav className={styles.nav}>
+              <div className={styles.navSection}>
+                {currentNav?.sections.map(
+                  (section: NavigationSection, index: number) => (
+                    <div key={index} className={styles.navGroup}>
+                      <h3 className={styles.navGroupTitle}>{section.title}</h3>
+                      <ul className={styles.navList}>
+                        {section.items.map((item, itemIndex) => (
+                          <li key={itemIndex}>
+                            <a
+                              href={item.href}
+                              className={styles.navLink}
+                              data-selected={isNavItemSelected(item.href)}
+                            >
+                              {item.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                )}
+              </div>
+            </nav>
+          </aside>
+        )}
 
         <main className={styles.mainContent}>
           <div className={styles.contentWrapper}>{children}</div>

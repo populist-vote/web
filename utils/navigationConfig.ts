@@ -107,8 +107,8 @@ export interface NavigationConfig {
 export const navigationConfig: NavigationConfig = {
   tabs: [
     { id: "content", label: "Embed Content", color: "aqua" },
-    { id: "conversations", label: "Conversations", color: "orange" },
-    { id: "api", label: "API Reference", color: "violet" },
+    { id: "conversations", label: "Conversations", color: "aqua" },
+    { id: "api", label: "API Reference", color: "aqua" },
   ],
   home: {
     sections: [],

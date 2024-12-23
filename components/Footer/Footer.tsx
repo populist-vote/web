@@ -26,6 +26,11 @@ function Footer() {
           </Link>
         </li>
         <li>
+          <Link href="/docs" passHref>
+            DOCS
+          </Link>
+        </li>
+        <li>
           <Link href="/faq" passHref>
             FAQ
           </Link>
