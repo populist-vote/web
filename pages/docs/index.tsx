@@ -76,7 +76,7 @@ export default function DocsIndex() {
             Send out questions to candidates and have their responses
             automatically compiled into an embeddable voter guide.
           </p>
-          <Link href="/docs/content/candidate-guides">Learn more</Link>
+          <Link href="/docs/content/candidate-guide">Learn more</Link>
         </Box>
         <Box>
           <div className={styles.flexLeft}>
