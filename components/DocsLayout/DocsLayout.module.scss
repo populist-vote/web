@@ -217,8 +217,8 @@
 }
 
 .menuIcon {
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 1.75rem;
+  width: 1.75rem;
 }
 
 .logoSection {
@@ -271,11 +271,11 @@
   padding-top: 8.5rem; /* Adjusted to account for header + tabs (4rem + 2.5rem) */
   height: 100%;
   min-height: 100vh;
-  margin-left: 16rem;
+  margin-left: var(--mainContentMarginLeft);
 
   @media (max-width: 768px) {
-    padding-top: 4rem;
     width: 100%;
+    padding-top: 4rem;
     margin-left: 0;
   }
 }
@@ -347,7 +347,8 @@
 
 .mainContent {
   flex: 1;
-  padding: 2rem 1rem;
+  padding: 1.5rem;
+  width: 100%;
 }
 
 .contentWrapper {

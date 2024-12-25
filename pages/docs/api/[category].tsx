@@ -7,14 +7,15 @@ import types from "generated/schema/types.json";
 import { TypesDoc } from "components/TypesDoc/TypesDoc";
 import { DocsLayout } from "components";
 import { ApiDoc } from "components/ApiDoc/ApiDoc";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { SupportedLocale } from "types/global";
+import nextI18nextConfig from "next-i18next.config";
 
 interface Props {
   category: string;
 }
 
 export default function SchemaDocsPage({ category }: Props) {
-  console.log("Category prop:", category);
-
   let content;
   switch (category) {
     case "queries":
@@ -33,9 +34,11 @@ export default function SchemaDocsPage({ category }: Props) {
   return <DocsLayout currentPage="api">{content}</DocsLayout>;
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  locale,
+}) => {
   const category = params?.category as string;
-  console.log("Server side category:", category);
 
   if (!category || !["queries", "mutations", "types"].includes(category)) {
     return {
@@ -46,6 +49,14 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   return {
     props: {
       category,
+      title: "Populist Conversations",
+      description:
+        "Join the conversation on the latest political topics and bills.",
+      ...(await serverSideTranslations(
+        locale as SupportedLocale,
+        ["auth", "common"],
+        nextI18nextConfig
+      )),
     },
   };
 };

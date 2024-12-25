@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./DocsLayout.module.scss";
-import { AuthButtons, Avatar, LogoText } from "components";
+import { Avatar, Button, LogoText } from "components";
 import {
   navigationConfig,
   NavigationSection,
@@ -63,6 +63,12 @@ export function DocsLayout({
     setIsDrawerOpen(!isDrawerOpen);
     // If you have any body scroll locking, handle it here
     document.body.style.overflow = !isDrawerOpen ? "hidden" : "";
+  };
+
+  const styleVars: React.CSSProperties & {
+    "--mainContentMarginLeft": string;
+  } = {
+    "--mainContentMarginLeft": hideAside ? "0" : "16rem",
   };
 
   // Update the BottomDrawer component inside your DocsLayout:
@@ -186,7 +192,9 @@ export function DocsLayout({
           </div>
 
           <div className={styles.headerRight}>
-            {!user && <AuthButtons />}
+            {!user && (
+              <Button label="Get Started" href="/register" size="small" />
+            )}
             {user && (
               <div className={styles.linkSection}>
                 <Link href="/settings/profile" passHref>
@@ -237,10 +245,7 @@ export function DocsLayout({
         </nav>
       </header>
 
-      <div
-        className={styles.mainLayout}
-        style={{ marginLeft: hideAside ? 0 : "16rem" }}
-      >
+      <div className={styles.mainLayout} style={styleVars}>
         {!hideAside && (
           <aside className={styles.sidebar}>
             <nav className={styles.nav}>
