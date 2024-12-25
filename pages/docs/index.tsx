@@ -66,7 +66,7 @@ export default function DocsIndex() {
             Conversations are a new way to extract meaning from groups of
             individuals by surveying them in their own words.
           </p>
-          <Link href="/docs/conversations">Learn more</Link>
+          <Link href="/docs/conversations/overview">Learn more</Link>
         </Box>
         <Box>
           <div className={styles.flexLeft}>
@@ -120,7 +120,5 @@ export default function DocsIndex() {
 }
 
 DocsIndex.getLayout = (page: ReactNode) => (
-  <DocsLayout hideAside currentPage="home">
-    {page}
-  </DocsLayout>
+  <DocsLayout currentPage="home">{page}</DocsLayout>
 );

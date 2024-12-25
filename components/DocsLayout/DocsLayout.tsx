@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+import React, { useEffect, useState } from "react";
 import styles from "./DocsLayout.module.scss";
 import { AuthButtons, Avatar, LogoText } from "components";
 import {
@@ -17,14 +21,11 @@ import { useHashRoutes } from "hooks/useHashRoute";
 export function DocsLayout({
   children,
   currentPage,
-  hideAside,
 }: {
   children: React.ReactNode;
   currentPage: NavigationSectionKey;
-  hideAside?: boolean;
 }) {
   const router = useRouter();
-  const [isNavOpen, setIsNavOpen] = React.useState(true);
   const { user } = useAuth();
 
   const [activeTab, setActiveTab] = useState<NavigationSectionKey>(
@@ -55,17 +56,121 @@ export function DocsLayout({
     return currentPath === path && currentHash === (hash ? `#${hash}` : "");
   };
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+    // If you have any body scroll locking, handle it here
+    document.body.style.overflow = !isDrawerOpen ? "hidden" : "";
+  };
+
+  // Update the BottomDrawer component inside your DocsLayout:
+  const BottomDrawer = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const [isContentVisible, setIsContentVisible] = useState(false);
+
+    // Handle drawer state changes
+    useEffect(() => {
+      if (isDrawerOpen) {
+        // First make the drawer visible
+        setIsVisible(true);
+        // Then trigger the animation after a brief delay
+        const timer = setTimeout(() => {
+          setIsContentVisible(true);
+        }, 50);
+        return () => clearTimeout(timer);
+      } else {
+        // Hide content first
+        setIsContentVisible(false);
+        // Then hide drawer after animation completes
+        const timer = setTimeout(() => {
+          setIsVisible(false);
+        }, 500); // Match this with your CSS transition duration
+        return () => clearTimeout(timer);
+      }
+    }, []);
+
+    if (!isVisible) return null;
+
+    return (
+      <>
+        <div
+          className={`${styles.drawerOverlay} ${isContentVisible ? styles.open : ""}`}
+          onClick={() => setIsDrawerOpen(false)}
+          onKeyDown={() => setIsDrawerOpen(false)}
+        />
+        <div
+          className={`${styles.bottomDrawer} ${isContentVisible ? styles.open : ""}`}
+        >
+          <div
+            className={styles.drawerHandle}
+            onClick={() => setIsDrawerOpen(false)}
+          />
+          <div className={styles.drawerContent}>
+            <div className={styles.drawerSearch}>
+              <DocSearch />
+            </div>
+
+            <nav className={styles.drawerNav}>
+              <div className={styles.drawerSection}>
+                <h3>Navigation</h3>
+                <ul className={styles.navList}>
+                  {tabs.map((tab) => (
+                    <li key={tab.id} data-selected={activeTab === tab.id}>
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleTabChange(tab.id as NavigationSectionKey);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleTabChange(tab.id as NavigationSectionKey);
+                          }
+                        }}
+                        className={styles.tabButton}
+                      >
+                        {tab.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {currentNav?.sections.map(
+                (section: NavigationSection, index: number) => (
+                  <div key={index} className={styles.drawerSection}>
+                    <h3>{section.title}</h3>
+                    <ul className={styles.navList}>
+                      {section.items.map((item, itemIndex) => (
+                        <li key={itemIndex}>
+                          <a
+                            href={item.href}
+                            className={styles.navLink}
+                            data-selected={isNavItemSelected(item.href)}
+                          >
+                            {item.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              )}
+            </nav>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerContent}>
+          <button onClick={toggleDrawer} className={styles.menuButton}>
+            <BiMenu className={styles.menuIcon} />
+          </button>
           <div className={styles.headerLeft}>
-            <button
-              onClick={() => setIsNavOpen(!isNavOpen)}
-              className={styles.menuButton}
-            >
-              <BiMenu className={styles.menuIcon} />
-            </button>
             <Link href="/docs" style={{ textDecoration: "none" }}>
               <div className={styles.logoSection}>
                 <LogoText />
@@ -108,8 +213,6 @@ export function DocsLayout({
                   data-selected={activeTab === tab.id}
                   data-color={tab.color}
                 >
-                  {/* eslint-disable jsx-a11y/anchor-is-valid  */}
-                  {/* eslint-disable jsx-a11y/no-static-element-interactions */}
                   <a
                     onClick={(e) => {
                       e.preventDefault();
@@ -132,44 +235,39 @@ export function DocsLayout({
         </nav>
       </header>
 
-      <div
-        className={styles.mainLayout}
-        style={{ marginLeft: hideAside ? 0 : "16rem" }}
-      >
-        {!hideAside && (
-          <aside
-            className={`${styles.sidebar} ${isNavOpen ? styles.sidebarOpen : styles.sidebarClosed}`}
-          >
-            <nav className={styles.nav}>
-              <div className={styles.navSection}>
-                {currentNav?.sections.map(
-                  (section: NavigationSection, index: number) => (
-                    <div key={index} className={styles.navGroup}>
-                      <h3 className={styles.navGroupTitle}>{section.title}</h3>
-                      <ul className={styles.navList}>
-                        {section.items.map((item, itemIndex) => (
-                          <li key={itemIndex}>
-                            <a
-                              href={item.href}
-                              className={styles.navLink}
-                              data-selected={isNavItemSelected(item.href)}
-                            >
-                              {item.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                )}
-              </div>
-            </nav>
-          </aside>
-        )}
+      <div className={styles.mainLayout}>
+        <aside className={styles.sidebar}>
+          <nav className={styles.nav}>
+            <div className={styles.navSection}>
+              {currentNav?.sections.map(
+                (section: NavigationSection, index: number) => (
+                  <div key={index} className={styles.navGroup}>
+                    <h3 className={styles.navGroupTitle}>{section.title}</h3>
+                    <ul className={styles.navList}>
+                      {section.items.map((item, itemIndex) => (
+                        <li key={itemIndex}>
+                          <a
+                            href={item.href}
+                            className={styles.navLink}
+                            data-selected={isNavItemSelected(item.href)}
+                          >
+                            {item.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              )}
+            </div>
+          </nav>
+        </aside>
 
         <main className={styles.mainContent}>
           <div className={styles.contentWrapper}>{children}</div>
         </main>
+
+        <BottomDrawer />
       </div>
     </div>
   );
