@@ -190,6 +190,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 }
 
 .headerLeft {
@@ -531,7 +535,10 @@
 
     button {
       max-width: none;
-      all: none;
+
+      @include for-tablet-portrait-down {
+        width: 97%;
+      }
     }
   }
 }

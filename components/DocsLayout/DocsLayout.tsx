@@ -59,10 +59,9 @@ export function DocsLayout({
   };
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
-    // If you have any body scroll locking, handle it here
-    document.body.style.overflow = !isDrawerOpen ? "hidden" : "";
   };
 
   const styleVars: React.CSSProperties & {

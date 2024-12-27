@@ -70,6 +70,7 @@
     "recharts": "^2.12.2",
     "rehype-external-links": "^3.0.0",
     "remark": "^15.0.1",
+    "remark-frontmatter": "^5.0.0",
     "remark-html": "^16.0.1",
     "remotion": "4.0.141",
     "remotion-animated": "^2.0.0",

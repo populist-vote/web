@@ -2,7 +2,12 @@
 
 const runtimeCaching = require("next-pwa/cache");
 const { i18n } = require("./next-i18next.config");
-const withMDX = require("@next/mdx")();
+
+const withMDX = require("@next/mdx")({
+  options: {
+    remarkPlugins: [],
+  },
+});
 
 const withPWA = require("next-pwa")({
   dest: "public",
