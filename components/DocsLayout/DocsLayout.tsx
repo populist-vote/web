@@ -192,7 +192,11 @@ export function DocsLayout({
 
           <div className={styles.headerRight}>
             {!user && (
-              <Button label="Get Started" href="/register" size="small" />
+              <Button
+                label="Get Started"
+                onClick={() => router.push("/register")}
+                size="small"
+              />
             )}
             {user && (
               <div className={styles.linkSection}>
