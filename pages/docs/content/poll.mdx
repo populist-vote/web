@@ -1,13 +1,12 @@
 import { DocsLayout } from "components";
 import { PollWidget } from "components/PollWidget/PollWidget";
+import { getEmbedConfig } from "utils/constants";
 
 # Poll
 
 **Poll embeds** allow you to ask your audience a question and respond from a set of predefined answers, with the option to allow the respondent to write in their own response.
 
-{/* Figure out of to avoid hardcoding embedId here */}
-
-<PollWidget embedId={"3dd3284e-0e5d-435f-9650-849e98173273"} origin={null} />
+<PollWidget embedId={getEmbedConfig()["poll"].embedId} origin={null} />
 
 export default function DocsPoll({ children }) {
   return <DocsLayout currentPage="content">{children}</DocsLayout>;

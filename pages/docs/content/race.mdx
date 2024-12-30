@@ -1,6 +1,21 @@
 import { DocsLayout } from "components";
+import { RaceWidget } from "components/RaceWidget/RaceWidget";
+import { getEmbedConfig } from "utils/constants";
 
 # Race
+
+Race embeds display information about a given race for a specific office, including the office name and details, and a list of candidates running for that office.
+
+<RaceWidget
+  embedId={getEmbedConfig()["race"].embedId}
+  raceId={getEmbedConfig()["race"].raceId}
+  origin={window.location.origin}
+  renderOptions={{}}
+/>
+
+## Live Results
+
+On election night, Populist Race embeds will display live voting results as they are reported. The results will update automatically as new data is available.
 
 export default function DocsRace({ children }) {
   return <DocsLayout currentPage="content">{children}</DocsLayout>;

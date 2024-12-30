@@ -1,6 +1,15 @@
 import { DocsLayout } from "components";
+import { getEmbedConfig } from "utils/constants";
+import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 
 # Legislation Tracker
+
+<BillTrackerWidget
+  embedId={getEmbedConfig()["legislation-tracker"].embedId}
+  billIds={getEmbedConfig()["legislation-tracker"].billIds}
+  origin={window.location.origin}
+  renderOptions={{}}
+/>
 
 export default function DocsLegislationTracker({ children }) {
   return <DocsLayout currentPage="content">{children}</DocsLayout>;

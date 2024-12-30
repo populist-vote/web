@@ -1,6 +1,17 @@
 import { DocsLayout } from "components";
+import { getEmbedConfig } from "utils/constants";
+import { BillWidget } from "components/BillWidget/BillWidget";
 
 # Legislation
+
+Legislation embeds display information about a specific bill, including the bill title, its status, sponsors, and more.
+
+<BillWidget
+  embedId={getEmbedConfig()["legislation"].embedId}
+  billId={getEmbedConfig()["legislation"].billId}
+  origin={window.location.origin}
+  renderOptions={{}}
+/>
 
 export default function DocsLegislation({ children }) {
   return <DocsLayout currentPage="content">{children}</DocsLayout>;

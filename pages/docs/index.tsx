@@ -55,7 +55,7 @@ export default function DocsIndex() {
       </Box>
       <Divider />
       <div className={styles.grid3}>
-        <Box>
+        <Box isLink href="/docs/conversations/overview">
           <div className={styles.flexLeft}>
             <h3>Conversations</h3>
             <Badge size="small" theme="green">
@@ -68,7 +68,7 @@ export default function DocsIndex() {
           </p>
           <Link href="/docs/conversations/overview">Learn more</Link>
         </Box>
-        <Box>
+        <Box isLink href="/docs/content/candidate-guide">
           <div className={styles.flexLeft}>
             <h3>Candidate Guides</h3>
           </div>
@@ -78,7 +78,7 @@ export default function DocsIndex() {
           </p>
           <Link href="/docs/content/candidate-guide">Learn more</Link>
         </Box>
-        <Box>
+        <Box isLink href="/docs/api/introduction">
           <div className={styles.flexLeft}>
             <h3>Public API</h3>
             <Badge size="small" theme="green">
@@ -92,7 +92,7 @@ export default function DocsIndex() {
           </p>
           <Link href="/docs/api/introduction">Learn more</Link>
         </Box>
-        <Box>
+        <Box isLink href="/docs/content/race">
           <div className={styles.flexLeft}>
             <h3>Live Election Results</h3>
           </div>
@@ -103,7 +103,7 @@ export default function DocsIndex() {
           </p>
           <Link href="/docs/content/race">Learn more</Link>
         </Box>
-        <Box>
+        <Box isLink href="/docs/content/legislation-tracker">
           <div className={styles.flexLeft}>
             <h3>Legislation Trackers</h3>
           </div>

@@ -1,4 +1,5 @@
 import { CSSProperties, PropsWithChildren } from "react";
+import Link from "next/link";
 import styles from "./Box.module.scss";
 
 type BoxProps = PropsWithChildren<{
@@ -8,6 +9,7 @@ type BoxProps = PropsWithChildren<{
   padding?: string;
   isLink?: boolean;
   flexDirection?: "row" | "column";
+  href?: string;
 }>;
 
 function Box({
@@ -18,6 +20,7 @@ function Box({
   padding = "2rem",
   isLink = false,
   flexDirection = "column",
+  href,
   ...rest
 }: BoxProps) {
   const styleVars: CSSProperties & {
@@ -35,10 +38,19 @@ function Box({
     "--box-hover-shadow": isLink ? "0 0 0 1px var(--blue)" : "none",
     "--flex-direction": flexDirection,
   };
-  return (
+
+  const content = (
     <div className={styles.container} style={styleVars} {...rest}>
       {children}
     </div>
+  );
+
+  return href ? (
+    <Link href={href} style={{ textDecoration: "none", color: "inherit" }}>
+      {content}
+    </Link>
+  ) : (
+    content
   );
 }
 

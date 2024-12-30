@@ -1,6 +1,15 @@
 import { DocsLayout } from "components";
+import { getEmbedConfig } from "utils/constants";
+import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
 
 # Politician
+
+<PoliticianEmbed
+  embedId={getEmbedConfig()["politician"].embedId}
+  politicianId={getEmbedConfig()["politician"].politicianId}
+  origin={window.location.origin}
+  renderOptions={{}}
+/>
 
 export default function DocsPolitician({ children }) {
   return <DocsLayout currentPage="content">{children}</DocsLayout>;
