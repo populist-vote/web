@@ -1,6 +1,5 @@
 schema {
   query: Query
-  mutation: Mutation
   subscription: Subscription
 }
 
@@ -9,13 +8,6 @@ Indicates that an Input Object is a OneOf Input Object (and thus requires
                         exactly one of its field be provided)
 """
 directive @oneOf on INPUT_OBJECT
-
-input AddStatementInput {
-  content: String!
-  conversationId: ID!
-  moderationStatus: StatementModerationStatus
-  userId: ID
-}
 
 input AddressInput {
   city: String!
@@ -388,14 +380,6 @@ enum Chambers {
   SENATE
 }
 
-type CharacteristicVote {
-  consensusLevel: Float!
-  meanSentiment: Float!
-  significanceLevel: Float!
-  statement: StatementResult!
-  statementId: ID!
-}
-
 type CommitteeResult {
   chairId: ID
   description: String!
@@ -411,45 +395,9 @@ type CommonWordsResult {
   word: String!
 }
 
-type ConversationResult {
-  createdAt: DateTime!
-  description: String
-  id: ID!
-  opinionAnalysis(limit: Int!): OpinionAnalysis!
-  opinionGroups: [OpinionGroup!]!
-  """Counts unique participants who voted in each time bucket"""
-  participationOverTime(interval: String): [TimeSeriesPoint!]!
-  relatedStatements(draftContent: String!, filter: StatementFilter, limit: Int, offset: Int): [StatementResult!]!
-  statements(filter: StatementFilter, limit: Int, offset: Int, sort: StatementSort): [StatementResult!]!
-  statementsOverTime(interval: String): [TimeSeriesPoint!]!
-  stats: ConversationStats!
-  topic: String!
-  updatedAt: DateTime!
-  """
-  Returns distribution of voting activity across participants.
-  Shows how many participants cast X number of votes.
-  """
-  voteDistribution(bucketSize: Int): [VoteDistributionBucket!]!
-  votesOverTime(interval: String): [TimeSeriesPoint!]!
-}
-
-type ConversationStats {
-  avgVotesPerParticipant: Float!
-  totalParticipants: Int!
-  totalStatements: Int!
-  totalVotes: Int!
-}
-
 input Coordinates {
   latitude: Float!
   longitude: Float!
-}
-
-input CreateConversationInput {
-  description: String
-  organizationId: ID!
-  seedStatements: [String!]
-  topic: String!
 }
 
 """
@@ -613,31 +561,6 @@ input IssueTagSearch {
 """A scalar that can represent any JSON value."""
 scalar JSON
 
-type Mutation {
-  addStatement(input: AddStatementInput!): Statement!
-  copyQuestionSubmission(questionSubmissionId: ID!, targetQuestionId: ID!): QuestionSubmissionResult!
-  createConversation(input: CreateConversationInput!): ConversationResult!
-  deleteCandidateGuide(id: ID!): Boolean!
-  deleteProfilePicture: Boolean!
-  """
-  Download all candidate guide data as a CSV string, must be converted to CSV file by client
-  """
-  downloadAllCandidateGuideData(candidateGuideId: ID!, raceId: ID): String!
-  generateIntakeTokenLink(candidateGuideId: ID!, politicianId: ID!, raceId: ID!): String!
-  moderateStatement(moderationStatus: StatementModerationStatus!, statementId: ID!): Statement!
-  openAllCandidateGuideSubmissions(candidateGuideId: ID!): Boolean!
-  removeCandidateGuideRace(candidateGuideId: ID!, raceId: ID!): Boolean!
-  setAllCandidateGuideRacesEmailed(candidateGuideId: ID!, wereCandidatesEmailed: Boolean!): Boolean!
-  updateCandidateGuideRace(candidateGuideId: ID!, input: UpdateCandidateGuideRaceInput!, raceId: ID!): UpdateCandidateGuideRaceResult!
-  updateConversation(conversationId: ID!, description: String, topic: String): ConversationResult!
-  upsertCandidateGuide(input: UpsertCandidateGuideInput!): CandidateGuideResult!
-  upsertPoll(input: UpsertPollInput!): PollResult!
-  upsertPollSubmission(pollSubmissionInput: UpsertPollSubmissionInput!, respondentInput: UpsertRespondentInput): PollSubmissionResult!
-  upsertQuestion(input: UpsertQuestionInput!): QuestionResult!
-  upsertQuestionSubmission(questionSubmissionInput: UpsertQuestionSubmissionInput!, respondentInput: UpsertRespondentInput): QuestionSubmissionResult!
-  voteOnStatement(statementId: ID!, userId: ID, voteType: ArgumentPosition!): StatementVote!
-}
-
 """
 ISO 8601 calendar date without timezone.
 Format: %Y-%m-%d
@@ -728,31 +651,6 @@ type OfficeResultEdge {
   cursor: String!
   """The item at the end of the edge"""
   node: OfficeResult!
-}
-
-type OpinionAnalysis {
-  consensusOpinions: [OpinionScore!]!
-  divisiveOpinions: [OpinionScore!]!
-  overview: String
-}
-
-type OpinionGroup {
-  characteristicVotes: [CharacteristicVote!]!
-  id: ID!
-  summary: String!
-  users: [ID!]!
-}
-
-type OpinionScore {
-  content: String!
-  id: String!
-  neutralVotes: Int!
-  nonVotingViews: Int!
-  opposeVotes: Int!
-  score: Float!
-  supportVotes: Int!
-  totalViews: Int!
-  totalVotes: Int!
 }
 
 type OrganizationAssets {
@@ -1005,8 +903,6 @@ type Query {
   billsByIds(ids: [ID!]!): [BillResult!]!
   candidateGuideById(id: ID!): CandidateGuideResult!
   candidateGuidesByOrganization(organizationId: ID!): [CandidateGuideResult!]!
-  conversationById(id: ID!): ConversationResult
-  conversationsByOrganization(limit: Int, organizationId: ID!): [ConversationResult!]!
   countiesByState(state: State!): [String!]!
   electionById(id: ID!): ElectionResult!
   electionBySlug(slug: String!): ElectionResult!
@@ -1393,61 +1289,6 @@ enum State {
   WY
 }
 
-type Statement {
-  authorId: UUID
-  content: String!
-  conversationId: UUID!
-  createdAt: DateTime!
-  id: UUID!
-  moderationStatus: StatementModerationStatus!
-  updatedAt: DateTime!
-}
-
-input StatementFilter {
-  moderationStatuses: [StatementModerationStatus!]
-}
-
-enum StatementModerationStatus {
-  ACCEPTED
-  REJECTED
-  SEED
-  UNMODERATED
-}
-
-type StatementResult {
-  author: UserResult
-  authorId: ID
-  content: String!
-  conversationId: ID!
-  createdAt: DateTime!
-  id: ID!
-  moderationStatus: StatementModerationStatus!
-  neutralVotes: Int!
-  opposeVotes: Int!
-  percentVoted: Float!
-  supportVotes: Int!
-  totalVotes: Int!
-  voteByUserOrSession(userId: ID): ArgumentPosition
-}
-
-enum StatementSort {
-  CONTROVERSIAL
-  MOST_AGREE
-  MOST_VOTES
-  NEWEST
-}
-
-type StatementVote {
-  content: String!
-  createdAt: DateTime!
-  id: UUID!
-  sessionId: UUID
-  statementId: UUID!
-  updatedAt: DateTime!
-  userId: UUID
-  voteType: ArgumentPosition!
-}
-
 type Subject {
   subjectId: Int!
   subjectName: String!
@@ -1477,11 +1318,6 @@ type Text {
   url: String!
 }
 
-type TimeSeriesPoint {
-  count: Int!
-  timestamp: DateTime!
-}
-
 """
 A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1494,85 +1330,6 @@ entities without requiring a central allocating authority.
 """
 scalar UUID
 
-input UpdateCandidateGuideRaceInput {
-  wereCandidatesEmailed: Boolean!
-}
-
-type UpdateCandidateGuideRaceResult {
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  wereCandidatesEmailed: Boolean!
-}
-
-input UpsertCandidateGuideInput {
-  id: UUID
-  name: String
-  organizationId: UUID
-  raceIds: [UUID!]
-  submissionsCloseAt: DateTime
-  submissionsOpenAt: DateTime
-  userId: UUID
-}
-
-input UpsertPollInput {
-  allowAnonymousResponses: Boolean
-  allowWriteInResponses: Boolean
-  id: UUID
-  name: String
-  options: [UpsertPollOptionInput!]!
-  organizationId: UUID
-  prompt: String
-}
-
-input UpsertPollOptionInput {
-  id: UUID
-  isWriteIn: Boolean
-  optionText: String!
-}
-
-input UpsertPollSubmissionInput {
-  id: UUID
-  pollId: UUID!
-  pollOptionId: UUID
-  respondentId: UUID
-  writeInResponse: String
-}
-
-input UpsertQuestionInput {
-  allowAnonymousResponses: Boolean
-  candidateGuideId: UUID
-  embedId: UUID
-  id: UUID
-  issueTagIds: [UUID!]
-  name: String
-  organizationId: UUID
-  prompt: String
-  responseCharLimit: Int
-  responsePlaceholderText: String
-  shouldTranslate: Boolean
-  translations: JSON
-}
-
-input UpsertQuestionSubmissionInput {
-  candidateId: UUID
-  copiedFromId: UUID
-  editorial: String
-  id: UUID
-  questionId: UUID!
-  respondentId: UUID
-  response: String!
-  sentiment: Sentiment
-  shouldTranslate: Boolean
-  translations: JSON
-}
-
-input UpsertRespondentInput {
-  email: String!
-  id: UUID
-  name: String!
-  organizationId: UUID!
-}
-
 input UserCountFilter {
   state: State
 }
@@ -1584,12 +1341,6 @@ type UserResult {
   lastName: String
   profilePictureUrl: String
   username: String!
-}
-
-type VoteDistributionBucket {
-  participantCount: Int!
-  percentage: Float!
-  voteCount: Int!
 }
 
 enum VoteType {

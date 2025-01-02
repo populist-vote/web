@@ -330,6 +330,16 @@
   gap: 0.25rem;
 }
 
+.linkSection {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+
+  a {
+    text-decoration: none;
+  }
+}
+
 .navLink {
   display: block;
   padding: 0.5rem 0.75rem;
