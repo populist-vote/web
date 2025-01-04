@@ -1,0 +1,25 @@
+import { DocsLayout } from "components";
+import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
+import { PollWidget } from "components/PollWidget/PollWidget";
+import { getEmbedConfig } from "utils/constants";
+
+# Questions & Polls
+
+## Discover audience insights with our engagement tools.
+
+Populist Question embeds allow for open-form responses to questions, helping organizations understand their audiences better. Options include character limits for responses and placeholder text that shows in empty response forms.
+
+<QuestionWidget
+  embedId={getEmbedConfig()["question"].embedId}
+  origin={window.location.origin}
+/>
+
+Poll embeds allow you for responses from a set of predefined answers, with the option to allow respondents to write in a response that is not represented.
+
+<PollWidget embedId={getEmbedConfig()["poll"].embedId} origin={null} />
+
+Both types of engagement embeds allow the option for anonymous responses, which when selected means respondents are not required to submit their name and emails.
+
+export default function DocsQuestion({ children }) {
+  return <DocsLayout currentPage="content">{children}</DocsLayout>;
+}

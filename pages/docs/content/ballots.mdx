@@ -1,0 +1,13 @@
+import { DocsLayout } from "components";
+import { PollWidget } from "components/PollWidget/PollWidget";
+import { getEmbedConfig } from "utils/constants";
+
+# Ballots
+
+## Serve up geographic ballot information from our database to better inform voters.
+
+Populist Ballot embeds let audiences enter their address to view and research what's on their ballot. It works in conjunction with Candidate Guide and Politician embeds to show URLs of websites that have those content types embedded in them.
+
+export default function DocsPoll({ children }) {
+  return <DocsLayout currentPage="content">{children}</DocsLayout>;
+}
