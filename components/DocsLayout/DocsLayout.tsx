@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./DocsLayout.module.scss";
-import { Avatar, Button, LogoText } from "components";
+import { Avatar, Button, DashboardLink, LogoText } from "components";
 import {
   navigationConfig,
   NavigationSection,
@@ -200,6 +200,9 @@ export function DocsLayout({
             )}
             {user && (
               <div className={styles.linkSection}>
+                <div className={styles.dashboardLink}>
+                  <DashboardLink />
+                </div>
                 <Link href="/settings/profile" passHref>
                   <div style={{ cursor: "pointer" }}>
                     <Avatar

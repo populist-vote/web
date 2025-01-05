@@ -43,12 +43,6 @@ interface ProcessedSchema {
       type: TypeRef;
       deprecationReason?: string;
     }>;
-    inputFields?: Array<{
-      name: string;
-      description?: string;
-      type: TypeRef;
-      defaultValue?: string;
-    }>;
     interfaces?: string[];
     enumValues?: Array<{
       name: string;
@@ -121,54 +115,58 @@ const processFields = (fields?: readonly any[]) =>
     type: processTypeRef(type),
   })) ?? [];
 
-// Process a single type
-const processType = (type: any) => ({
-  name: type.name,
-  ...(type.description && { description: type.description }),
-  kind: type.kind,
-  ...(type.fields && {
-    fields: type.fields.map(
-      ({ name, description, args, type, deprecationReason }: any) => ({
-        name,
-        ...(description && { description }),
-        args:
-          args?.map(({ name, type, description, defaultValue }: any) => ({
-            name,
-            type: processTypeRef(type),
-            ...(description && { description }),
-            ...(defaultValue !== undefined && { defaultValue }),
-          })) ?? [],
-        type: processTypeRef(type),
-        ...(deprecationReason && { deprecationReason }),
-      })
-    ),
-  }),
-  ...(type.inputFields && {
-    inputFields: type.inputFields.map(
-      ({ name, description, type, defaultValue }: any) => ({
-        name,
-        type: processTypeRef(type),
-        ...(description && { description }),
-        ...(defaultValue !== undefined && { defaultValue }),
-      })
-    ),
-  }),
-  ...(type.interfaces && {
-    interfaces: type.interfaces.map((i: any) => i.name),
-  }),
-  ...(type.enumValues && {
-    enumValues: type.enumValues.map(
-      ({ name, description, deprecationReason }: any) => ({
-        name,
-        ...(description && { description }),
-        ...(deprecationReason && { deprecationReason }),
-      })
-    ),
-  }),
-  ...(type.possibleTypes && {
-    possibleTypes: type.possibleTypes.map((t: any) => t.name),
+// Process field-like entries (combines regular fields and input fields)
+const processFieldLike = (fieldData: any) => ({
+  name: fieldData.name,
+  ...(fieldData.description && { description: fieldData.description }),
+  args:
+    fieldData.args?.map(({ name, type, description, defaultValue }: any) => ({
+      name,
+      type: processTypeRef(type),
+      ...(description && { description }),
+      ...(defaultValue !== undefined && { defaultValue }),
+    })) ?? [],
+  type: processTypeRef(fieldData.type),
+  ...(fieldData.deprecationReason && {
+    deprecationReason: fieldData.deprecationReason,
   }),
 });
+
+// Process a single type
+const processType = (type: any) => {
+  // Combine fields and inputFields into a single array
+  const combinedFields =
+    type.kind === "INPUT_OBJECT"
+      ? (type.inputFields ?? []).map((field: any) => ({
+          ...field,
+          args: [], // Input fields don't have args
+        }))
+      : type.fields ?? [];
+
+  return {
+    name: type.name,
+    ...(type.description && { description: type.description }),
+    kind: type.kind,
+    ...(combinedFields.length > 0 && {
+      fields: combinedFields.map(processFieldLike),
+    }),
+    ...(type.interfaces && {
+      interfaces: type.interfaces.map((i: any) => i.name),
+    }),
+    ...(type.enumValues && {
+      enumValues: type.enumValues.map(
+        ({ name, description, deprecationReason }: any) => ({
+          name,
+          ...(description && { description }),
+          ...(deprecationReason && { deprecationReason }),
+        })
+      ),
+    }),
+    ...(type.possibleTypes && {
+      possibleTypes: type.possibleTypes.map((t: any) => t.name),
+    }),
+  };
+};
 
 const processAndSaveSchema = async () => {
   const SCHEMA_PATH = path.join(

@@ -320,60 +320,6 @@
     }
   },
   {
-    "name": "conversationById",
-    "args": [
-      {
-        "name": "id",
-        "type": {
-          "kind": "NON_NULL",
-          "ofType": {
-            "kind": "SCALAR",
-            "name": "ID"
-          }
-        }
-      }
-    ],
-    "type": {
-      "kind": "OBJECT",
-      "name": "ConversationResult"
-    }
-  },
-  {
-    "name": "conversationsByOrganization",
-    "args": [
-      {
-        "name": "limit",
-        "type": {
-          "kind": "SCALAR",
-          "name": "Int"
-        }
-      },
-      {
-        "name": "organizationId",
-        "type": {
-          "kind": "NON_NULL",
-          "ofType": {
-            "kind": "SCALAR",
-            "name": "ID"
-          }
-        }
-      }
-    ],
-    "type": {
-      "kind": "NON_NULL",
-      "ofType": {
-        "kind": "LIST",
-        "ofType": {
-          "kind": "NON_NULL",
-          "ofType": {
-            "kind": "OBJECT",
-            "name": "ConversationResult"
-          }
-        }
-      }
-    }
-  },
-  {
     "name": "countiesByState",
     "args": [
       {

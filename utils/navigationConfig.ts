@@ -47,7 +47,7 @@ export function generateSchemaNavigation() {
   if (mutations.length > 0) {
     schemaBasedSections.push({
       title: "Mutations",
-      items: mutations.map((mutation) => ({
+      items: mutations.map((mutation: { name: string }) => ({
         label: mutation.name,
         href: `/docs/api/mutations#${mutation.name}`,
       })),

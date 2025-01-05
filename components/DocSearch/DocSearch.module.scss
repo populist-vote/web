@@ -152,6 +152,7 @@
 
   &.selected {
     background: var(--blue-dark);
+    border: 1px solid var(--blue-text);
   }
 }
 
