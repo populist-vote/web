@@ -1,0 +1,170 @@
+import { DocsLayout } from "components";
+import { getEmbedConfig } from "utils/constants";
+import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
+
+# Candidate Guides
+
+## Efficiently create and present candidate Q&A's, helping audiences learn more about elections.
+
+With Populist, organizations can streamline the process of creating candidate guides for many elections at a time. Simply create the questions you'd like to ask the candidates and select the races they are in, and our platform will generate forms, URLs, and embeddable guides that will automatically update with the candidates' responses once they are received. Our civic database includes candidate contact information so it's easy to export and send questions to candidates using your favorite email list software.
+
+<CandidateGuideEmbed
+  embedId={getEmbedConfig()["candidate-guide"].embedId}
+  candidateGuideId={getEmbedConfig()["candidate-guide"].candidateGuideId}
+  origin={window.location.origin}
+  renderOptions={{}}
+/>
+
+### Overview
+
+When you create a new candidate guide, you are actually creating a new group of candidate guides that all have the same questions. This allows you to create a bulk number of candidate guides with the same questions. We will refer to these groups as candidate guide groups, and the guides for each race in a group as candidate guides.
+
+### Create Your Questions
+
+Once you create a new candidate guide group, you can add questions that you want to ask candidates, with the following options.
+
+#### Tags
+
+- Tag your question with the most relevant issues so responses can be best searched and categorized.
+
+#### Character limit
+
+- Limit candidate responses to a number of characters.
+
+#### Placeholder text
+
+- Placeholder text is the copy that is shown in the input field when it is empty - this can be used to give additional context for candidates answering a question.
+
+### Selecting Races
+
+Next, add the races with the candidates that you want to ask questions to. Each added race creates a new candidate guide for that race. You can search and filter races in an election with the following options.
+
+#### Election year
+
+- Select the year of the election that you're searching for races in.
+
+#### Race type
+
+- Choose whether you're searching for primary or general races.
+
+#### State
+
+- Select the state that you're searching for races in.
+
+#### Scope
+
+- Filter search results by Federal, State, or Local races. A Federal race example includes races for U.S. Senate offices, while State races include Governor, Secretary of State, or state legislature offices. Local races are county or further downballot offices like city council or school boards.
+
+If you're asking the same questions to candidates across multiple races, simply add each race to the candidate guide group and they will appear under Races.
+
+### Sending Questions
+
+Once questions and races are added to a candidate guide group, you can export out a spreadsheet of all the candidates in the guide group that includes the following columns:
+
+#### Race Title
+
+- The title of the race that the candidate is running in. The title includes information like the state, office, municipality, race type, and year.
+
+#### First Name
+
+- The first name of the candidate.
+
+#### Middle Name
+
+- The middle name of the candidate.
+
+#### Last Name
+
+- The last name of the candidate.
+
+#### Preferred Name
+
+- The preferred name of the candidate.
+
+#### Suffix
+
+- Any suffix in a candidate's name e.g. Jr, III, Esq.
+
+#### Full Name
+
+- The full name of the candidate that includes the first, middle, last, suffix, and preferred names.
+
+#### Email
+
+- The candidate's email.
+
+#### Form Link
+
+- The URL to the automatically generated form that the candidate can use to submit their responses.
+
+#### Was Candidate Emailed
+
+- Either a true or false value based on the "Email Sent" checkbox that is manually set by users to track whether an email was sent.
+
+#### Last Submission
+
+- The date and time of the last submission by the candidate.
+
+Use this exported spreadsheet with your preferred email list management software to send emails to each of the candidates. Using each column in the spreadsheet, you can personalize the emails to include the candidate's name and the link they will use to respond to the guide questions.
+
+### Managing Guides
+
+Under Races you'll see all the races that have been added to the candidate guide group. You'll see the following helpful information in the table of races:
+
+#### Name
+
+- The title of the race, which includes information like the state, office, municipality, race type, and year.
+
+#### County
+
+- The name of the county that the race is in. This helps to further distinguish races.
+
+#### Candidates
+
+- The number of candidates in a race.
+
+#### Submissions
+
+- The number of responses that candidates have submitted.
+
+#### Date Added
+
+- The date that the race was added to the candidate guide group.
+
+#### Emails Sent
+
+- A checkbox to help track whether an email was sent to the candidates in a race.
+
+By clicking on a row in the Races table, you'll be able to access each race's candidate guide management page. On this page you'll find the following information:
+
+#### Candidate Table
+
+- A table of all the candidates in the race. In this table you can edit a candidate's email and phone number, and also directly access the URL to the candidate's personalized form that is used to respond to the questions in the candidate guide.
+
+#### Configuration Options
+
+- Manually set the fixed height of the candidate guide embeds, as well as the default language of the guide.
+
+#### Preview
+
+- See what the candidate guide embed will look like on a website, with all candidate submissions.
+
+#### Embed Code
+
+- This is the actual code needed to embed each candidate guide onto a website.
+
+#### Public Preview Link
+
+- A URL to a preview of the candidate guide that can be publicly shared.
+
+#### Deployments
+
+- URLs where the candidate guide has been embedded.
+
+### Managing Submissions
+
+You can access each candidate's submissions by clicking on the Submissions tab at the top of the candidate guide management page. To see responses to each question, click on a question and the submissions will populate in the Responses table below. From this table you can add translations, editorial, and manage duplicate submissions for similar guides.
+
+export default function DocsCandidateGuides({ children }) {
+  return <DocsLayout currentPage="content">{children}</DocsLayout>;
+}

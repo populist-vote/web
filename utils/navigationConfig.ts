@@ -122,16 +122,16 @@ export const navigationConfig: NavigationConfig = {
       {
         title: "Content Types",
         items: [
+          { label: "Candidate Guides", href: "/docs/content/candidate-guides" },
+          { label: "Ballots", href: "/docs/content/ballots" },
           { label: "Legislation", href: "/docs/content/legislation" },
           {
-            label: "Legislation Tracker",
-            href: "/docs/content/legislation-tracker",
+            label: "Legislation Trackers",
+            href: "/docs/content/legislation-trackers",
           },
-          { label: "Politician", href: "/docs/content/politician" },
-          { label: "Candidate Guide", href: "/docs/content/candidate-guide" },
-          { label: "Race", href: "/docs/content/race" },
-          { label: "Question", href: "/docs/content/question" },
-          { label: "Poll", href: "/docs/content/poll" },
+          { label: "Politicians", href: "/docs/content/politicians" },
+          { label: "Races", href: "/docs/content/races" },
+          { label: "Questions & Polls", href: "/docs/content/questions" },
         ],
       },
     ],

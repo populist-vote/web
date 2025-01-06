@@ -1,0 +1,46 @@
+import { DocsLayout } from "components";
+import { getEmbedConfig } from "utils/constants";
+import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
+
+# Politician
+
+## At-a-glance information on politicians.
+
+Populist politician embeds help give context with high-level information about politicians.
+
+<PoliticianEmbed
+  embedId={getEmbedConfig()["politician"].embedId}
+  politicianId={getEmbedConfig()["politician"].politicianId}
+  origin={window.location.origin}
+  renderOptions={{}}
+/>
+
+Below are the types of information on each politician embed:
+
+### Name
+
+The politician's name.
+
+### Office
+
+The office that the politician currently occupies, if applicable.
+
+### Next / Last Election
+
+The next or last election and office that the politician is or has run for, if applicable.
+
+### Endorsements
+
+A list of endorsements from organizations and individuals that hold public office.
+
+### Biography
+
+A candidate's biography.
+
+### Links
+
+A candidate's links to social media and campaign websites.
+
+export default function DocsPolitician({ children }) {
+  return <DocsLayout currentPage="content">{children}</DocsLayout>;
+}
