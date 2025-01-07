@@ -69,8 +69,8 @@ export const EMBED_CONTENT_IDS = {
       ],
     },
     legislation: {
-      embedId: "097bbb3c-01bc-4f30-aaf7-6f9ba67692d1",
-      billId: "e00f47da-20c8-4c77-b6d2-831a95c2f70c",
+      embedId: "4c6c4668-0ee5-43c4-9314-237f54984107",
+      billId: "504d04d8-b55a-4bda-8e18-6ee89899a511",
     },
     politician: {
       embedId: "44805e68-d274-482e-876d-fca5a399e7bb",
