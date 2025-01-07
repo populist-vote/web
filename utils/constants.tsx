@@ -2,6 +2,10 @@ import type { i18n } from "../next-i18next.config";
 // export const DEFAULT_LANGUAGE = i18n.defaultLocale;
 export const DEFAULT_LANGUAGE = "en";
 export type Language = (typeof i18n.locales)[number];
+import { loadEnvConfig } from "@next/env";
+
+const projectDir = process.cwd();
+loadEnvConfig(projectDir);
 
 export interface LocalizedNote {
   en?: string;
