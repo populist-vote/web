@@ -9,7 +9,11 @@ export function WidgetFooter({ learnMoreHref }: { learnMoreHref?: string }) {
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.branding}>
-          <span className={styles.poweredBy}>{t("powered-by")}</span>
+          <span className={styles.poweredBy}>
+            {t("powered-by", {
+              defaultValue: "Powered by",
+            })}
+          </span>
           <a href="https://populist.us" target="_blank" rel="noreferrer">
             <LogoTextDark />
           </a>
@@ -22,7 +26,9 @@ export function WidgetFooter({ learnMoreHref }: { learnMoreHref?: string }) {
           <Button
             variant="secondary"
             size="small"
-            label={t("learn-more")}
+            label={t("learn-more", {
+              defaultValue: "Learn More",
+            })}
             theme="grey"
           />
         </a>
