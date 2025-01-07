@@ -63,6 +63,7 @@ const nextConfig = {
     GRAPHQL_SCHEMA_PATH: process.env.GRAPHQL_SCHEMA_PATH,
     POPULIST_API_KEY: process.env.POPULIST_API_KEY,
     COMMIT_HASH: commitHash,
+    ENV: process.env.ENV,
   },
   redirects: async () => {
     return [
