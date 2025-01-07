@@ -3,7 +3,6 @@ import type { i18n } from "../next-i18next.config";
 export const DEFAULT_LANGUAGE = "en";
 export type Language = (typeof i18n.locales)[number];
 import { loadEnvConfig } from "@next/env";
-
 const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
@@ -121,7 +120,6 @@ export const getEmbedConfig = ():
   | (typeof EMBED_CONTENT_IDS)["staging"]
   | (typeof EMBED_CONTENT_IDS)["production"] => {
   const environment =
-    (process.env.NEXT_PUBLIC_ENV as keyof typeof EMBED_CONTENT_IDS) ||
-    "staging";
+    (process.env.ENV as keyof typeof EMBED_CONTENT_IDS) || "staging";
   return EMBED_CONTENT_IDS[environment];
 };
