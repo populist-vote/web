@@ -9,14 +9,17 @@ import { getEmbedConfig } from "utils/constants";
 
 Populist Question embeds allow for open-form responses to questions, helping organizations understand their audiences better. Options include character limits for responses and placeholder text that shows in empty response forms.
 
-<QuestionWidget
-  embedId={getEmbedConfig()["question"].embedId}
-  origin={window.location.origin}
+<img
+  src="https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/images/question.png"
+  width="512px"
 />
 
 Poll embeds allow you for responses from a set of predefined answers, with the option to allow respondents to write in a response that is not represented.
 
-<PollWidget embedId={getEmbedConfig()["poll"].embedId} origin={null} />
+<img
+  src="https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/images/poll.png"
+  width="512px"
+/>
 
 Both types of engagement embeds allow the option for anonymous responses, which when selected means respondents are not required to submit their name and emails.
 
