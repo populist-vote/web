@@ -362,6 +362,30 @@
   flex: 1;
   padding: 1.5rem;
   width: 100%;
+
+  ul {
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  li {
+    font-size: $text-lg;
+    line-height: 1.3em;
+    padding-left: 0.5rem;
+    font-weight: 300;
+  }
+
+  h3 {
+    font-size: $text-xl;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    font-size: $text-md;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .contentWrapper {
