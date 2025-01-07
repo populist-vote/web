@@ -103,12 +103,12 @@ export const EMBED_CONTENT_IDS = {
       politicianId: "40170687-df47-4ad3-87a4-93096a2fb128",
     },
     poll: {
-      embedId: "2ec3f7fa-219e-48a4-83a2-0a8f57613c65",
-      pollId: "3e2f05e2-cd6a-4e30-a9f5-659e18028f6b",
+      embedId: "6de0123b-f69a-4548-bf4d-d31e3e14cc09",
+      pollId: "c79c80d1-cb49-4003-9b34-9ccfca4867a6",
     },
     question: {
-      embedId: "51e58ff4-2df6-4faf-942c-ec48ee1e19fc",
-      questionId: "b6df5512-ced1-4fff-8f5e-8f2e877b0986",
+      embedId: "6f5c8cc2-58fd-4aaf-9297-bb3577748e4f",
+      questionId: "2ad89ab9-92b8-4593-91fa-875fec0028e1",
     },
   },
 };
