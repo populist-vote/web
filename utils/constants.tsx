@@ -117,6 +117,7 @@ export const getEmbedConfig = ():
   | (typeof EMBED_CONTENT_IDS)["staging"]
   | (typeof EMBED_CONTENT_IDS)["production"] => {
   const environment =
-    (process.env.ENV as keyof typeof EMBED_CONTENT_IDS) || "staging";
+    (process.env.NEXT_PUBLIC_ENV as keyof typeof EMBED_CONTENT_IDS) ||
+    "staging";
   return EMBED_CONTENT_IDS[environment];
 };
