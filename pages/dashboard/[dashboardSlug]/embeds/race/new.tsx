@@ -1,4 +1,4 @@
-import { Button, Layout } from "components";
+import { Button, Layout, Select } from "components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode, useState } from "react";
 import { SupportedLocale } from "types/global";
@@ -54,9 +54,23 @@ export default function NewRaceEmbed({
       enabled: !!dashboardSlug,
     }
   );
+  const currentYear = new Date().getFullYear().toString();
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
 
-  function handleCreateEmbed() {
+  const { year = currentYear } = router.query;
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    router.push(
+      {
+        query: { ...router.query, year: e.target.value },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
+
+  const handleCreateEmbed = () => {
     upsertEmbed.mutate(
       {
         input: {
@@ -82,7 +96,7 @@ export default function NewRaceEmbed({
         },
       }
     );
-  }
+  };
   return (
     <>
       <div
@@ -103,24 +117,38 @@ export default function NewRaceEmbed({
       </div>
       <p>Search and select a race to embed on your page.</p>
       <Box>
-        <div className={styles.inputWithIcon}>
-          <input
-            placeholder="Try 'Minnesota Governor' or 'California Senate'"
-            onChange={(e) => {
-              setSearchValue(e.target.value);
-              if (e.target.value === "") {
-                const { search: _, ...newQuery } = router.query;
-                void router.push({
-                  query: newQuery,
-                });
-              } else
-                void router.push({
-                  query: { ...router.query, search: e.target.value },
-                });
-            }}
-            value={searchValue || ""}
-          ></input>
-          <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
+        <div className={styles.flexBetween}>
+          <div className={styles.inputWithIcon}>
+            <input
+              placeholder="Try 'Minnesota Governor' or 'California Senate'"
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                if (e.target.value === "") {
+                  const { search: _, ...newQuery } = router.query;
+                  void router.push({
+                    query: newQuery,
+                  });
+                } else
+                  void router.push({
+                    query: { ...router.query, search: e.target.value },
+                  });
+              }}
+              value={searchValue || ""}
+            ></input>
+            <AiOutlineSearch color="var(--blue)" size={"1.25rem"} />
+          </div>
+          <Select
+            textColor="white"
+            backgroundColor={"blue"}
+            value={year as string}
+            options={[
+              { value: "2025", label: "2025" },
+              { value: "2024", label: "2024" },
+              { value: "2023", label: "2023" },
+              { value: "2022", label: "2022" },
+            ]}
+            onChange={handleYearChange}
+          />
         </div>
       </Box>
       <RaceResultsTable />

@@ -6,6 +6,7 @@ import {
   Divider,
   Button,
   TextInput,
+  Badge,
 } from "components";
 import {
   ConversationResult,
@@ -26,7 +27,7 @@ import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import styles from "./manage.module.scss";
 import { useForm } from "react-hook-form";
 import useDebounce from "hooks/useDebounce";
-import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
+// import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { toast } from "react-toastify";
 import { Modal } from "components/Modal/Modal";
 import { useQueryClient } from "@tanstack/react-query";
@@ -264,7 +265,8 @@ function ConfigureConversation({
         <div>
           <h3>Embed</h3>
           <Box>
-            <EmbedCodeBlock id="" />
+            <Badge theme="yellow">Coming soon!</Badge>
+            {/* <EmbedCodeBlock id="" /> */}
           </Box>
         </div>
       </div>
