@@ -90,8 +90,8 @@ export const EMBED_CONTENT_IDS = {
   },
   production: {
     "candidate-guide": {
-      embedId: "6db3cbcd-4030-477b-80f1-6496a93d6e4d",
-      candidateGuideId: "71fafeab-69b0-4c5b-b676-1d479b1ae5fa",
+      embedId: "b2f081de-dc1a-459e-b78f-da24bab97ca5",
+      candidateGuideId: "5e9792f9-e811-43d9-85eb-f21d6a08833d",
     },
     "legislation-tracker": {
       embedId: "1234",
