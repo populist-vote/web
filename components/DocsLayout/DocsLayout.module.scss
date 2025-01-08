@@ -333,6 +333,8 @@
 .linkSection {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 1.25rem;
 
   a {
@@ -575,4 +577,17 @@
       }
     }
   }
+}
+
+.dashboardLink {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  transition: ease-in-out 0.2s;
+  margin-top: 0;
+
+  &:hover {
+    background-color: $black-alpha-3;
+  }
+
+  @include tablet-up-only;
 }
