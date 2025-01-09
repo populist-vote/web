@@ -147,6 +147,12 @@
   @include scroll-snap;
 }
 
+.flex {
+  display: flex;
+  gap: 1rem;
+  width: auto;
+}
+
 .flexBetween {
   @include flex-between(1rem);
 }
@@ -216,6 +222,28 @@
   width: auto;
   height: auto;
   position: relative;
+
+  .header {
+    border-radius: 15px 15px 0 0;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: $grey-lighter;
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid $grey-light;
+
+    strong {
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: $font-primary;
+    }
+
+    .electionInfo {
+      text-align: right;
+    }
+  }
 
   main {
     width: 100%;

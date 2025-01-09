@@ -6,7 +6,6 @@ import {
   Divider,
   Button,
   TextInput,
-  Badge,
 } from "components";
 import {
   ConversationResult,
@@ -27,10 +26,13 @@ import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import styles from "./manage.module.scss";
 import { useForm } from "react-hook-form";
 import useDebounce from "hooks/useDebounce";
-// import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
+import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { toast } from "react-toastify";
 import { Modal } from "components/Modal/Modal";
 import { useQueryClient } from "@tanstack/react-query";
+import { FaCopy, FaExternalLinkSquareAlt } from "react-icons/fa";
+import clsx from "clsx";
+import { Tooltip } from "components/Tooltip/Tooltip";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const locale = ctx.locale as SupportedLocale;
@@ -169,6 +171,7 @@ function ConfigureConversation({
   const lastSavedValues = useRef(formValues);
 
   const updateConversationMutation = useUpdateConversationMutation();
+  const previewUrl = `${window.location.origin}/embeds/preview/${conversation.embed?.id}`;
 
   const handleSave = async (data: {
     topic: string;
@@ -262,13 +265,44 @@ function ConfigureConversation({
             />
           </Box>
         </div>
-        <div>
-          <h3>Embed</h3>
-          <Box>
-            <Badge theme="yellow">Coming soon!</Badge>
-            {/* <EmbedCodeBlock id="" /> */}
-          </Box>
-        </div>
+        {conversation?.embed?.id && (
+          <>
+            <div>
+              <h3>Embed</h3>
+              <EmbedCodeBlock id={conversation.embed.id} />
+            </div>
+            <div>
+              <h3>Public Preview</h3>
+              <Box>
+                <div className={styles.flexBetween}>
+                  <a
+                    href={previewUrl}
+                    key={previewUrl}
+                    className={clsx(styles.flexLeft, styles.flexBetween)}
+                  >
+                    <FaExternalLinkSquareAlt /> {previewUrl}
+                  </a>
+                  <Tooltip content="Copy Preview URL">
+                    <button
+                      className={styles.iconButton}
+                      onClick={() => {
+                        void navigator.clipboard.writeText(previewUrl);
+                        toast.success("Copied to clipboard!", {
+                          position: "bottom-right",
+                        });
+                      }}
+                    >
+                      <FaCopy
+                        style={{ cursor: "pointer" }}
+                        color="var(--blue-text-light)"
+                      />
+                    </button>
+                  </Tooltip>
+                </div>
+              </Box>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

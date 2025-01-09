@@ -189,6 +189,35 @@ query PollEmbedById($id: ID!) {
   }
 }
 
+query ConversationEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    organizationId
+    conversation {
+      id
+      topic
+      description
+      statements {
+        id
+        content
+        supportVotes
+        opposeVotes
+        neutralVotes
+        percentVoted
+        createdAt
+        voteByUserOrSession
+        moderationStatus
+        author {
+          id
+          firstName
+          lastName
+          profilePictureUrl
+        }
+      }
+    }
+  }
+}
+
 query BasicElectionById($id: ID!) {
   electionById(id: $id) {
     id

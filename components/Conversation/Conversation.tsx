@@ -650,7 +650,7 @@ function OpinionScoreStatement<T extends BaseOpinionProps>({
   );
 }
 
-function StatementBox({
+export function StatementBox({
   statement,
   handleVote,
 }: {

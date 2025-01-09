@@ -40,6 +40,9 @@ query ConversationById(
       totalStatements
       avgVotesPerParticipant
     }
+    embed {
+      id
+    }
     createdAt
     updatedAt
   }

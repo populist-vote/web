@@ -54,6 +54,21 @@
     }
   }
 
+  &[data-theme="grey"] {
+    border-color: $grey;
+
+    label {
+      &:not(:last-child) {
+        border-right-color: $grey;
+      }
+
+      &[data-selected="true"] {
+        background: $grey;
+        color: $white;
+      }
+    }
+  }
+
   input[type="radio"] {
     position: fixed;
     opacity: 0;

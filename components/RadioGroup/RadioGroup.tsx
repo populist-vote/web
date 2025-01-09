@@ -10,7 +10,7 @@ type RadioGroupProps<T extends string | number> = {
   options: (Option<T> | T)[];
   selected?: T;
   onChange: (value: T) => void;
-  theme?: "blue" | "yellow";
+  theme?: "blue" | "yellow" | "grey";
 };
 
 export const RadioGroup = <T extends string | number>({

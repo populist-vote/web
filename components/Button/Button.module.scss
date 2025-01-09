@@ -211,11 +211,15 @@ $small-size: 1.825rem;
     $blue-darkest,
     $blue-light,
     $blue-lighter,
-    $white
+    $black
   );
 
+  background: $grey-lighter;
+  border: 1px solid $grey;
+
   &:hover:not(:disabled) {
-    background: $blue;
+    border: 1px solid $blue-light;
+    background: $blue-light;
     color: $white;
 
     svg {

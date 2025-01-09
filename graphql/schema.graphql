@@ -453,6 +453,7 @@ type CommonWordsResult {
 type ConversationResult {
   createdAt: DateTime!
   description: String
+  embed: EmbedResult
   id: ID!
   opinionAnalysis(limit: Int!): OpinionAnalysis!
   opinionGroups: [OpinionGroup!]!
@@ -689,6 +690,7 @@ type EmbedResult {
   of questions in a candidate guide
   """
   candidateGuideSubmissionCountByRace: Int
+  conversation: ConversationResult
   createdAt: DateTime!
   createdBy: UserResult!
   createdById: ID!
@@ -710,6 +712,7 @@ type EmbedResult {
 
 enum EmbedType {
   CANDIDATE_GUIDE
+  CONVERSATION
   LEGISLATION
   LEGISLATION_TRACKER
   MY_BALLOT

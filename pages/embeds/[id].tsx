@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 import { BillWidget } from "components/BillWidget/BillWidget";
 import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
+import { ConversationEmbed } from "components/ConversationEmbed/ConversationEmbed";
 import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
@@ -74,6 +75,7 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
   const raceId = data?.embedById?.attributes?.raceId;
   const candidateGuideId = data?.embedById?.attributes?.candidateGuideId;
   const electionId = data?.embedById?.attributes?.electionId;
+  // const conversationId = data?.embedById?.attributes?.conversationId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
 
   useEffect(() => {
@@ -145,6 +147,14 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
           origin={resolvedOrigin}
           electionId={electionId}
           renderOptions={renderOptions}
+        />
+      );
+    case EmbedType.Conversation:
+      return (
+        <ConversationEmbed
+          embedId={embedId}
+          origin={resolvedOrigin}
+          _renderOptions={renderOptions}
         />
       );
     default:

@@ -1,4 +1,154 @@
 @import "styles/layout/containers";
 
 .conversationEmbedContainer {
+  width: 968px;
+  height: auto;
+
+  h3 {
+    font-weight: 500;
+  }
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    h4 {
+      font-weight: 500;
+      margin: 0;
+    }
+  }
+
+  .backButton {
+    border: none;
+    padding: 1rem 0;
+    width: 100%;
+    font-size: 1.25em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    span {
+      width: auto;
+    }
+
+    .backButtonChevron {
+      height: 1rem;
+      width: 1rem;
+    }
+
+    border-bottom: 1px solid $grey-light;
+  }
+
+  main {
+    text-align: center;
+    align-items: space-around;
+    h1 {
+      font-size: 2.5em;
+      font-weight: 400;
+      margin: 0.5rem 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .helperText {
+      margin: 1rem 0;
+      font-style: italic;
+      font-size: 1.2em;
+    }
+  }
+  .actions {
+    margin: 1.5rem 0;
+  }
+}
+
+.statementContainer {
+  width: 100%;
+  .statementBox {
+    height: 12rem;
+    border: 1px solid $grey-light;
+    border-radius: 30px;
+    background: $grey-lighter;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    width: 100%;
+
+    p {
+      text-align: center;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 26px;
+      padding: 1rem;
+    }
+
+    .voteOptions {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    .voteBadge {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      background: $grey-light;
+      padding: 0.5rem 0.75rem;
+      border-radius: 100px;
+      font-weight: 400;
+      cursor: pointer;
+      background-color: $grey-light;
+      font-family: $font-primary;
+
+      span {
+        text-align: center;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 26px;
+      }
+
+      @media (width >= 768px) {
+        font-size: 1.5em;
+        padding: 0.75rem 1.5rem;
+      }
+
+      &.selected {
+        &.support {
+          outline: 3px solid $green-support;
+          background: $green;
+          color: $black;
+        }
+
+        &.oppose {
+          outline: 3px solid #f37e7e;
+          background: $red;
+          color: $white;
+        }
+
+        &.neutral {
+          outline: 3px solid $grey-dark;
+          background: $grey;
+          color: $grey-darkest;
+        }
+      }
+    }
+  }
+  .authorInfo {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
 }
