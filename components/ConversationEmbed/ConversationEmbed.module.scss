@@ -20,6 +20,10 @@
   }
 
   .backButton {
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: $font-primary;
+    font-weight: 300;
     border: none;
     padding: 1rem 0;
     width: 100%;
@@ -63,6 +67,15 @@
   }
   .actions {
     margin: 1.5rem 0;
+  }
+
+  .formActions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
   }
 }
 
@@ -151,4 +164,12 @@
     align-items: center;
     width: 100%;
   }
+}
+
+.relatedStatements {
+  border-top: 1px solid $grey-light;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

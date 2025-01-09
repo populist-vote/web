@@ -4,8 +4,10 @@ import { Avatar, OrganizationAvatar } from "components/Avatar/Avatar";
 import {
   ArgumentPosition,
   StatementResult,
+  useAddStatementToConversationMutation,
   useConversationByIdQuery,
   useConversationEmbedByIdQuery,
+  useGetRelatedStatementsQuery,
   useOrganizationByIdQuery,
   useVoteOnStatementMutation,
 } from "generated";
@@ -23,6 +25,8 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import useDebounce from "hooks/useDebounce";
 
 interface ConversationEmbedRenderOptions {
   _tbd: unknown;
@@ -82,13 +86,59 @@ export function ConversationEmbed({
     );
   };
 
+  const { register, control, reset, handleSubmit, watch } = useForm<{
+    statement: string;
+  }>();
+
+  const draftStatement = watch("statement");
+  const debouncedDraft = useDebounce(draftStatement?.trim(), 300);
+
+  const { data: relatedStatementsData } = useGetRelatedStatementsQuery(
+    {
+      conversationId: conversation?.id as string,
+      draftContent: debouncedDraft,
+      limit: 5,
+    },
+    {
+      enabled: debouncedDraft?.length >= 3,
+    }
+  );
+
+  const relatedStatements =
+    relatedStatementsData?.conversationById?.relatedStatements || [];
+
   const [currentStatementIndex, setCurrentStatementIndex] = useState(0);
   const currentStatement = conversation?.statements[currentStatementIndex];
   const handleStatementChange = (index: number) => {
     setCurrentStatementIndex(index);
   };
+  const [relatedStatementIndex, setRelatedStatementIndex] = useState(0);
+  const currentRelatedStatement = relatedStatements[relatedStatementIndex];
+  const handleRelatedStatementChange = (index: number) => {
+    setRelatedStatementIndex(index);
+  };
 
   const voteOnStatementMutation = useVoteOnStatementMutation();
+  const addStatementMutation = useAddStatementToConversationMutation();
+
+  const handleNewStatement = async (data: { statement: string }) => {
+    try {
+      await addStatementMutation.mutateAsync({
+        conversationId: conversation?.id as string,
+        content: data.statement,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: useConversationByIdQuery.getKey({
+          id: conversation?.id as string,
+        }),
+      });
+      reset();
+      toast.success("Your statement has been added to the conversation!");
+      setView("participate");
+    } catch (error) {
+      toast.error("Failed to add statement");
+    }
+  };
 
   const queryClient = useQueryClient();
 
@@ -105,12 +155,13 @@ export function ConversationEmbed({
               id: conversation?.id as string,
             }),
           });
+          setTimeout(() => {
+            setCurrentStatementIndex((prev) => prev + 1);
+          }, 1000);
         },
       }
     );
   };
-
-  const { register, control } = useForm();
 
   if (isLoading || orgIsLoading || isConversationLoading) return null;
 
@@ -201,27 +252,55 @@ export function ConversationEmbed({
               <strong>one clear, standalone idea</strong> that brings fresh
               insight to the discussion.
             </p>
-            <TextInput
-              textarea
-              name="statement"
-              placeholder="Add statement here"
-              register={register}
-              control={control}
-            />
-            <div className={styles.flexBetween}>
-              <Button
-                size="large"
-                variant="secondary"
-                label="Cancel"
-                onClick={() => setView("participate")}
+            <form
+              className={clsx(styles.formContainer)}
+              onSubmit={handleSubmit(handleNewStatement)}
+              style={{ width: "100%" }}
+            >
+              <TextInput
+                textarea
+                name="statement"
+                placeholder="Add statement here"
+                register={register}
+                control={control}
               />
-              <Button
-                size="large"
-                variant="primary"
-                label="Submit"
-                onClick={() => setView("participate")}
-              />
-            </div>
+              <div className={styles.formActions}>
+                <Button
+                  size="large"
+                  variant="secondary"
+                  label="Cancel"
+                  onClick={() => setView("participate")}
+                />
+                <Button
+                  size="large"
+                  variant="primary"
+                  label="Submit"
+                  type="submit"
+                />
+              </div>
+            </form>
+            {relatedStatements.length > 0 && (
+              <>
+                <div className={styles.relatedStatements}>
+                  <h3>Related Statements</h3>
+                  {relatedStatements.length > 1 && (
+                    <PageIndex
+                      data={relatedStatements as StatementResult[]}
+                      onPageChange={(index) =>
+                        handleRelatedStatementChange(index)
+                      }
+                      currentPage={relatedStatementIndex}
+                      theme="grey"
+                    />
+                  )}
+                  <EmbedStatementBox
+                    key={currentRelatedStatement?.id as string}
+                    statement={currentRelatedStatement as StatementResult}
+                    handleVote={handleVote}
+                  />
+                </div>
+              </>
+            )}
           </main>
         </>
       )}
