@@ -113,7 +113,6 @@ export default function ConversationManagePage() {
       <Divider />
       <ConfigureConversation conversation={conversation} />
       {/* Status - open + close */}
-      {/* Share - copy embed code */}
     </div>
   );
 }
