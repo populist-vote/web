@@ -30,9 +30,6 @@ import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { toast } from "react-toastify";
 import { Modal } from "components/Modal/Modal";
 import { useQueryClient } from "@tanstack/react-query";
-import { FaCopy, FaExternalLinkSquareAlt } from "react-icons/fa";
-import clsx from "clsx";
-import { Tooltip } from "components/Tooltip/Tooltip";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const locale = ctx.locale as SupportedLocale;
@@ -256,9 +253,7 @@ function ConfigureConversation({
               variant="primary"
               label="Copy Public URL"
               onClick={() => {
-                void navigator.clipboard.writeText(
-                  `${window.location.origin}/conversations/${conversation?.id}`
-                );
+                void navigator.clipboard.writeText(previewUrl);
                 toast.success("URL copied to clipboard");
               }}
             />
@@ -269,36 +264,6 @@ function ConfigureConversation({
             <div>
               <h3>Embed</h3>
               <EmbedCodeBlock id={conversation.embed.id} />
-            </div>
-            <div>
-              <h3>Public Preview</h3>
-              <Box>
-                <div className={styles.flexBetween}>
-                  <a
-                    href={previewUrl}
-                    key={previewUrl}
-                    className={clsx(styles.flexLeft, styles.flexBetween)}
-                  >
-                    <FaExternalLinkSquareAlt /> {previewUrl}
-                  </a>
-                  <Tooltip content="Copy Preview URL">
-                    <button
-                      className={styles.iconButton}
-                      onClick={() => {
-                        void navigator.clipboard.writeText(previewUrl);
-                        toast.success("Copied to clipboard!", {
-                          position: "bottom-right",
-                        });
-                      }}
-                    >
-                      <FaCopy
-                        style={{ cursor: "pointer" }}
-                        color="var(--blue-text-light)"
-                      />
-                    </button>
-                  </Tooltip>
-                </div>
-              </Box>
             </div>
           </>
         )}
