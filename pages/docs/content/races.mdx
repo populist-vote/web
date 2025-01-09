@@ -4,15 +4,13 @@ import { getEmbedConfig } from "utils/constants";
 
 # Races
 
-## Visual content that shows information about a race, including candidates and election results.
+## Visual content showing the candidates running in a race, with live election results.
 
 Race embeds display information about a given race for a specific office, including the office name and details, and a list of candidates running for that office.
 
-<RaceWidget
-  embedId={getEmbedConfig()["race"].embedId}
-  raceId={getEmbedConfig()["race"].raceId}
-  origin={window.location.origin}
-  renderOptions={{}}
+<img
+  src="https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/images/race.jpg"
+  width="600px"
 />
 
 ### Live Results

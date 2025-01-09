@@ -8,11 +8,9 @@ import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidge
 
 Legislation Tracker embeds allow organizations to display statuses of multiple bills in one embed, showing the date of the last action taken on the legislation.
 
-<BillTrackerWidget
-  embedId={getEmbedConfig()["legislation-tracker"].embedId}
-  billIds={getEmbedConfig()["legislation-tracker"].billIds}
-  origin={window.location.origin}
-  renderOptions={{}}
+<img
+  src="https://populist-platform.s3.us-east-2.amazonaws.com/web-assets/images/legislation-tracker.jpg"
+  width="600px"
 />
 
 export default function DocsLegislationTracker({ children }) {

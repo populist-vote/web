@@ -12,7 +12,12 @@ Populist politician embeds help give context with high-level information about p
   embedId={getEmbedConfig()["politician"].embedId}
   politicianId={getEmbedConfig()["politician"].politicianId}
   origin={window.location.origin}
-  renderOptions={{}}
+  renderOptions={{
+    stats: true,
+    socials: true,
+    endorsements: true,
+    upcomingRace: true,
+  }}
 />
 
 Below are the types of information on each politician embed:
