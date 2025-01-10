@@ -570,7 +570,7 @@ interface OpinionScoreStatementProps<T extends BaseOpinionProps> {
   totalParticipants: number;
 }
 
-function OpinionScoreStatement<T extends BaseOpinionProps>({
+export function OpinionScoreStatement<T extends BaseOpinionProps>({
   opinion,
   totalParticipants,
 }: OpinionScoreStatementProps<T>) {

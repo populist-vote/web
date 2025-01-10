@@ -75,7 +75,7 @@ query ConversationOpinionAnalysis($conversationId: ID!) {
         nonVotingViews
       }
     }
-    opinionGroups {
+    opinionGroups(numGroups: 2) {
       id
       characteristicVotes {
         statementId

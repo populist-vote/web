@@ -7,6 +7,7 @@ import {
   useAddStatementToConversationMutation,
   useConversationByIdQuery,
   useConversationEmbedByIdQuery,
+  useConversationOpinionAnalysisQuery,
   useGetRelatedStatementsQuery,
   useOrganizationByIdQuery,
   useVoteOnStatementMutation,
@@ -16,14 +17,14 @@ import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { useMemo, useState } from "react";
 import { LeftArrowIcon } from "components/Icons";
-import { Badge, RadioGroup, TextInput } from "components";
+import { Badge, Divider, RadioGroup, TextInput } from "components";
 import { PageIndex } from "components/PageIndex/PageIndex";
 import { useAuth } from "hooks/useAuth";
 import { FaCheckCircle, FaCircle, FaMinusCircle } from "react-icons/fa";
 import { BsCircleFill } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import { PERSON_FALLBACK_IMAGE_400_URL } from "utils/constants";
+import { PERSON_FALLBACK_IMAGE_LIGHT_400_URL } from "utils/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import useDebounce from "hooks/useDebounce";
@@ -314,12 +315,157 @@ export function ConversationEmbed({
               selected={currentView}
               onChange={(value) => setView(value)}
             />
-            <h2>Insights</h2>
+            <Insights conversationId={conversation?.id as string} />
           </main>
         </>
       )}
 
       <WidgetFooter />
+    </div>
+  );
+}
+
+type Opinion = {
+  content: string;
+  supportVotes: number;
+  opposeVotes: number;
+  neutralVotes: number;
+};
+
+type OpinionSectionProps = {
+  title: string;
+  opinions: Opinion[];
+  currentIndex: number;
+  onIndexChange: (index: number) => void;
+};
+
+const OpinionSection = ({
+  title,
+  opinions,
+  currentIndex,
+  onIndexChange,
+}: OpinionSectionProps) => {
+  return (
+    <div>
+      <h2>{title}</h2>
+      <PageIndex
+        data={opinions}
+        currentPage={currentIndex}
+        onPageChange={onIndexChange}
+      />
+      <div className={styles.statementStatsBox}>
+        <p>{opinions[currentIndex]?.content}</p>
+        <div className={styles.voteOptions}>
+          <button className={clsx(styles.voteBadge, styles.support)}>
+            <span className={styles.iconStack}>
+              <FaCircle size={21} color="white" />
+              <FaCheckCircle size={21} color="var(--green-support)" />
+            </span>
+            {opinions[currentIndex]?.supportVotes}
+          </button>
+          <button className={clsx(styles.voteBadge, styles.oppose)}>
+            <span className={styles.iconStack}>
+              <BsCircleFill size={21} color="white" />
+              <AiFillCloseCircle size={21} color="var(--red)" />
+            </span>
+            {opinions[currentIndex]?.opposeVotes}
+          </button>
+          <button className={clsx(styles.voteBadge, styles.neutral)}>
+            <span className={styles.iconStack}>
+              <BsCircleFill size={21} color="white" />
+              <FaMinusCircle size={21} color="var(--grey)" />
+            </span>
+            {opinions[currentIndex]?.neutralVotes}
+          </button>
+        </div>
+        {/* TODO: implement bar chart */}
+      </div>
+    </div>
+  );
+};
+
+function Insights({ conversationId }: { conversationId: string }) {
+  const { data, isLoading } = useConversationOpinionAnalysisQuery(
+    {
+      conversationId,
+    },
+    {
+      enabled: !!conversationId,
+    }
+  );
+  const opinionAnalysis = data?.conversationById?.opinionAnalysis;
+  const opinionGroups = data?.conversationById?.opinionGroups || [];
+
+  const [tab, setTab] = useState<string>("overview");
+
+  const [consensusOpinionIndex, setConsensusOpinionIndex] = useState<number>(0);
+  const [divisiveOpinionIndex, setDivisiveOpinionIndex] = useState<number>(0);
+
+  if (isLoading) return null;
+
+  return (
+    <div>
+      <div className={styles.insightsTabs}>
+        <button
+          className={clsx({ [styles.active as string]: tab === "overview" })}
+          onClick={() => setTab("overview")}
+        >
+          Overview
+        </button>
+        {opinionGroups.map((group, index) => (
+          <button
+            key={index}
+            className={clsx({
+              [styles.active as string]: tab === `group${index}`,
+            })}
+            onClick={() => setTab(`group${index}`)}
+          >
+            Group {String.fromCharCode(65 + index)}
+          </button>
+        ))}
+      </div>
+      {tab === "overview" && (
+        <div>
+          <h3>Overview</h3>
+          <p className={styles.overviewText}>
+            {opinionAnalysis?.overview || "No overview available"}
+          </p>
+          {opinionGroups.map((group, index) => (
+            <div key={index}>
+              <h4>Group {String.fromCharCode(65 + index)} Summary</h4>
+              <div className={styles.groupSummary}>
+                <p>{group?.summary || "No summary available"}</p>
+              </div>
+            </div>
+          ))}
+          <Divider color="var(--grey-light)" />
+          <OpinionSection
+            title="Overall Consensus"
+            opinions={opinionAnalysis?.consensusOpinions || []}
+            currentIndex={consensusOpinionIndex}
+            onIndexChange={setConsensusOpinionIndex}
+          />
+          <Divider color="var(--grey-light)" />
+          <OpinionSection
+            title="Most Divisive Topics"
+            opinions={opinionAnalysis?.divisiveOpinions || []}
+            currentIndex={divisiveOpinionIndex}
+            onIndexChange={setDivisiveOpinionIndex}
+          />
+        </div>
+      )}
+      {opinionGroups.map(
+        (group, index) =>
+          tab === `group${index}` && (
+            <div key={index}>
+              <h3>Group {String.fromCharCode(65 + index)}</h3>
+              <p className={styles.overviewText}>
+                {group?.summary ||
+                  `No group ${String.fromCharCode(65 + index)} overview available`}
+              </p>
+            </div>
+          )
+      )}
     </div>
   );
 }
@@ -338,7 +484,8 @@ function EmbedStatementBox({
   // Memoize the profile picture URL to help with debugging
   const profilePictureUrl = useMemo(() => {
     return (
-      statement?.author?.profilePictureUrl || PERSON_FALLBACK_IMAGE_400_URL
+      statement?.author?.profilePictureUrl ||
+      PERSON_FALLBACK_IMAGE_LIGHT_400_URL
     );
   }, [statement?.author?.profilePictureUrl]);
 

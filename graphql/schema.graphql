@@ -456,7 +456,7 @@ type ConversationResult {
   embed: EmbedResult
   id: ID!
   opinionAnalysis(limit: Int!): OpinionAnalysis!
-  opinionGroups: [OpinionGroup!]!
+  opinionGroups(numGroups: Int): [OpinionGroup!]!
   """Counts unique participants who voted in each time bucket"""
   participationOverTime(interval: String): [TimeSeriesPoint!]!
   relatedStatements(draftContent: String!, filter: StatementFilter, limit: Int, offset: Int): [StatementResult!]!

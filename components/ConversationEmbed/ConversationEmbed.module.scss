@@ -1,8 +1,8 @@
 @import "styles/layout/containers";
 
 .conversationEmbedContainer {
-  min-width: 668px;
-  width: 100%;
+  width: 668px;
+  max-width: 100%;
   height: auto;
 
   h3 {
@@ -83,7 +83,7 @@
 .statementContainer {
   width: 100%;
   .statementBox {
-    height: 12rem;
+    height: 15rem;
     border: 1px solid $grey-light;
     border-radius: 30px;
     background: $grey-lighter;
@@ -173,4 +173,61 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.insightsTabs {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  margin-top: 1rem;
+  border-bottom: 1px solid $grey-light;
+  width: 100%;
+  box-sizing: border-box;
+
+  button {
+    box-sizing: border-box;
+    text-transform: uppercase;
+    font-family: $text-secondary;
+    font-size: 1.25em;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+
+    &.active {
+      box-shadow: inset 0 -4px 0 0 $blue;
+    }
+  }
+}
+
+.statementStatsBox,
+.groupSummary {
+  border: 1px solid $grey-light;
+  border-radius: 30px;
+  background: $grey-lighter;
+  padding: 1rem;
+
+  p {
+    font-size: 1.25em;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .voteOptions {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+
+    .voteBadge {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      border-radius: 30px;
+      padding: 0.5rem 0.75rem;
+      background: $grey-light;
+    }
+  }
 }
