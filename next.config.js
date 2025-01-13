@@ -72,6 +72,10 @@ const nextConfig = {
         destination: "/dashboard/:slug/embeds/legislation",
         permanent: true,
       },
+      {
+        source: "/dashboard/:slug/embeds/conversation",
+        destination: "/dashboard/:slug/conversations",
+      },
     ];
   },
   transpilePackages: ["remotion-animated"],

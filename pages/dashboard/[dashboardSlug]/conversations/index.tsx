@@ -8,10 +8,8 @@ import {
   TextInput,
 } from "components";
 import {
-  EmbedType,
   useConversationsByOrganizationQuery,
   useCreateConversationMutation,
-  useUpsertEmbedMutation,
 } from "generated";
 import useOrganizationStore from "hooks/useOrganizationStore";
 import { GetServerSideProps } from "next";
@@ -74,7 +72,6 @@ export default function ConversationsIndexPage() {
   };
 
   const createConversationMutation = useCreateConversationMutation();
-  const createEmbedMutation = useUpsertEmbedMutation();
 
   const [seedStatements, setSeedStatements] = useState<Array<string>>([]);
 
@@ -100,30 +97,14 @@ export default function ConversationsIndexPage() {
         },
       },
       {
-        onSuccess: async (data) => {
+        onSuccess: async () => {
           void queryClient.invalidateQueries({
             queryKey: useConversationsByOrganizationQuery.getKey({
               organizationId: organizationId as string,
               limit: 10,
             }),
           });
-          await createEmbedMutation.mutateAsync(
-            {
-              input: {
-                embedType: EmbedType.Conversation,
-                organizationId: organizationId as string,
-                name: topic,
-                attributes: {
-                  conversationId: data.createConversation.id,
-                },
-              },
-            },
-            {
-              onSuccess: () => {
-                handleCloseModal();
-              },
-            }
-          );
+          handleCloseModal();
         },
       }
     );
