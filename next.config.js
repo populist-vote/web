@@ -75,6 +75,7 @@ const nextConfig = {
       {
         source: "/dashboard/:slug/embeds/conversation",
         destination: "/dashboard/:slug/conversations",
+        permanent: true,
       },
     ];
   },
