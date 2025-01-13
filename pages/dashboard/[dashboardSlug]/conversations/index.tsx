@@ -114,7 +114,7 @@ export default function ConversationsIndexPage() {
                 organizationId: organizationId as string,
                 name: topic,
                 attributes: {
-                  embedId: data.createConversation.id,
+                  conversationId: data.createConversation.id,
                 },
               },
             },
