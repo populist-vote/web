@@ -137,15 +137,16 @@ function ActivityTiles({
         {activity?.map((embedCounts) => {
           const embedType = embedCounts.embedType;
           const theme = EmbedTypeColorMap[embedCounts.embedType];
+          const href =
+            embedType === EmbedType.Conversation
+              ? `/dashboard/${query.dashboardSlug}/conversations`
+              : `/dashboard/${query.dashboardSlug}/embeds/${embedType
+                  .replace("_", "-")
+                  .toLowerCase()}`;
           return (
             <Box key={embedType}>
               <div className={styles.tile}>
-                <Link
-                  href={`/dashboard/${query.dashboardSlug}/embeds/${embedType
-                    .replace("_", "-")
-                    .toLowerCase()}`}
-                  passHref
-                >
+                <Link href={href} passHref>
                   <Badge theme={theme} size="large" variant="solid" clickable>
                     {embedType.replace("_", " ")}
                   </Badge>
