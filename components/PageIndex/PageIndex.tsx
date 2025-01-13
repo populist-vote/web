@@ -20,15 +20,31 @@ interface PaginationProps {
   maxDots?: number;
 
   /** Theme configuration for dot colors */
-  theme?: {
-    index: {
-      /** Color for the currently selected page dot */
-      selected: string;
-      /** Color for unselected page dots */
-      unselected: string;
-    };
-  };
+  theme?: "blue" | "grey";
 }
+
+const themes = {
+  blue: {
+    index: {
+      selected: "var(--aqua)",
+      unselected: "var(--blue-dark)",
+    },
+    buttons: {
+      enabled: "var(--blue)",
+      disabled: "var(--blue-light)",
+    },
+  },
+  grey: {
+    index: {
+      selected: "var(--grey-light)",
+      unselected: "var(--grey-dark)",
+    },
+    buttons: {
+      enabled: "var(--grey-darkest)",
+      disabled: "var(--grey-light)",
+    },
+  },
+};
 
 export function PageIndex({
   data,
@@ -36,13 +52,10 @@ export function PageIndex({
   currentPage = 0,
   onPageChange,
   maxDots = 25,
-  theme = {
-    index: {
-      selected: "var(--aqua)",
-      unselected: "var(--blue-dark)",
-    },
-  },
-}: PaginationProps) {
+  theme = "blue",
+}: PaginationProps & { theme?: "blue" | "grey" }) {
+  const resolvedTheme = typeof theme === "string" ? themes[theme] : theme;
+
   // Calculate total pages
   const pageCount = Math.ceil(data.length / pageSize);
 
@@ -72,7 +85,17 @@ export function PageIndex({
   };
 
   return (
-    <div className={styles.pageIndex}>
+    <div
+      className={styles.pageIndex}
+      style={
+        {
+          "--selected-color": resolvedTheme.index.selected,
+          "--unselected-color": resolvedTheme.index.unselected,
+          "--button-color": resolvedTheme.buttons.enabled,
+          "--button-color-disabled": resolvedTheme.buttons.disabled,
+        } as React.CSSProperties
+      }
+    >
       <Button
         theme="blue"
         size="small"
@@ -85,7 +108,7 @@ export function PageIndex({
 
       <span className={styles.pageDots}>
         {startPage > 0 && pageCount > maxDots && (
-          <RiMoreLine color={theme.index.unselected} />
+          <RiMoreLine color="var(--unselected-color)" />
         )}
 
         {[...Array(endPage - startPage + 1)].map((_, i) => {
@@ -96,8 +119,8 @@ export function PageIndex({
               key={pageIndex}
               color={
                 pageIndex === currentPage
-                  ? theme.index.selected
-                  : theme.index.unselected
+                  ? "var(--selected-color)"
+                  : "var(--unselected-color)"
               }
               onClick={() => handlePageClick(pageIndex)}
             />
@@ -105,7 +128,7 @@ export function PageIndex({
         })}
 
         {endPage < pageCount - 1 && pageCount > maxDots && (
-          <RiMoreLine color={theme.index.unselected} />
+          <RiMoreLine color="var(--unselected-color)" />
         )}
       </span>
 

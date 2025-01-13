@@ -6,7 +6,6 @@ import {
   Divider,
   Button,
   TextInput,
-  Badge,
 } from "components";
 import {
   ConversationResult,
@@ -27,7 +26,7 @@ import { EmbedHeader } from "components/EmbedHeader/EmbedHeader";
 import styles from "./manage.module.scss";
 import { useForm } from "react-hook-form";
 import useDebounce from "hooks/useDebounce";
-// import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
+import { EmbedCodeBlock } from "components/EmbedCodeBlock/EmbedCodeBlock";
 import { toast } from "react-toastify";
 import { Modal } from "components/Modal/Modal";
 import { useQueryClient } from "@tanstack/react-query";
@@ -111,7 +110,6 @@ export default function ConversationManagePage() {
       <Divider />
       <ConfigureConversation conversation={conversation} />
       {/* Status - open + close */}
-      {/* Share - copy embed code */}
     </div>
   );
 }
@@ -169,6 +167,7 @@ function ConfigureConversation({
   const lastSavedValues = useRef(formValues);
 
   const updateConversationMutation = useUpdateConversationMutation();
+  const previewUrl = `${window.location.origin}/embeds/preview/${conversation.embed?.id}`;
 
   const handleSave = async (data: {
     topic: string;
@@ -254,21 +253,20 @@ function ConfigureConversation({
               variant="primary"
               label="Copy Public URL"
               onClick={() => {
-                void navigator.clipboard.writeText(
-                  `${window.location.origin}/conversations/${conversation?.id}`
-                );
+                void navigator.clipboard.writeText(previewUrl);
                 toast.success("URL copied to clipboard");
               }}
             />
           </Box>
         </div>
-        <div>
-          <h3>Embed</h3>
-          <Box>
-            <Badge theme="yellow">Coming soon!</Badge>
-            {/* <EmbedCodeBlock id="" /> */}
-          </Box>
-        </div>
+        {conversation?.embed?.id && (
+          <>
+            <div>
+              <h3>Embed</h3>
+              <EmbedCodeBlock id={conversation.embed.id} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

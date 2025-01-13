@@ -29,6 +29,7 @@ export const EmbedTypeColorMap: Record<EmbedType, Theme> = {
   POLL: "violet",
   CANDIDATE_GUIDE: "aqua",
   MY_BALLOT: "yellow",
+  CONVERSATION: "green",
 };
 
 export function Dashboard({ organizationId }: { organizationId: string }) {
