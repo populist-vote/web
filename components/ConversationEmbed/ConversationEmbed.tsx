@@ -17,7 +17,7 @@ import { WidgetFooter } from "components/WidgetFooter/WidgetFooter";
 import { useEmbedResizer } from "hooks/useEmbedResizer";
 import { useMemo, useState } from "react";
 import { LeftArrowIcon } from "components/Icons";
-import { Badge, Divider, RadioGroup, TextInput } from "components";
+import { Badge, Divider, LoaderFlag, RadioGroup, TextInput } from "components";
 import { PageIndex } from "components/PageIndex/PageIndex";
 import { useAuth } from "hooks/useAuth";
 import { FaCheckCircle, FaCircle, FaMinusCircle } from "react-icons/fa";
@@ -347,7 +347,7 @@ const OpinionSection = ({
 }: OpinionSectionProps) => {
   return (
     <div>
-      <h2>{title}</h2>
+      <h3>{title}</h3>
       <PageIndex
         data={opinions}
         currentPage={currentIndex}
@@ -400,8 +400,22 @@ function Insights({ conversationId }: { conversationId: string }) {
 
   const [consensusOpinionIndex, setConsensusOpinionIndex] = useState<number>(0);
   const [divisiveOpinionIndex, setDivisiveOpinionIndex] = useState<number>(0);
+  const [groupOpinionIndices, setGroupOpinionIndices] = useState<number[]>(
+    opinionGroups.map(() => 0)
+  );
 
-  if (isLoading) return null;
+  const handleGroupOpinionIndexChange = (
+    groupIndex: number,
+    newIndex: number
+  ) => {
+    setGroupOpinionIndices((prevIndices) => {
+      const newIndices = [...prevIndices];
+      newIndices[groupIndex] = newIndex;
+      return newIndices;
+    });
+  };
+
+  if (isLoading) return <LoaderFlag theme="gray" />;
 
   return (
     <div>
@@ -426,16 +440,14 @@ function Insights({ conversationId }: { conversationId: string }) {
       </div>
       {tab === "overview" && (
         <div>
-          <h3>Overview</h3>
+          <h2>Overview</h2>
           <p className={styles.overviewText}>
             {opinionAnalysis?.overview || "No overview available"}
           </p>
           {opinionGroups.map((group, index) => (
-            <div key={index}>
-              <h4>Group {String.fromCharCode(65 + index)} Summary</h4>
-              <div className={styles.groupSummary}>
-                <p>{group?.summary || "No summary available"}</p>
-              </div>
+            <div className={styles.groupSummary} key={index}>
+              <h3>Group {String.fromCharCode(65 + index)} Summary</h3>
+              <p>{group?.summary || "No summary available"}</p>
             </div>
           ))}
           <Divider color="var(--grey-light)" />
@@ -463,6 +475,17 @@ function Insights({ conversationId }: { conversationId: string }) {
                 {group?.summary ||
                   `No group ${String.fromCharCode(65 + index)} overview available`}
               </p>
+              <Divider color="var(--grey-light)" />
+              <OpinionSection
+                title="Characteristic Votes"
+                opinions={
+                  group?.characteristicVotes.map((v) => v.statement) || []
+                }
+                currentIndex={groupOpinionIndices[index] as number}
+                onIndexChange={(newIndex) => {
+                  handleGroupOpinionIndexChange(index, newIndex);
+                }}
+              />
             </div>
           )
       )}

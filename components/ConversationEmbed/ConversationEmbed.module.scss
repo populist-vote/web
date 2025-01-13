@@ -201,12 +201,23 @@
   }
 }
 
+.overviewText {
+  font-style: italic;
+  font-size: 1.25em;
+  margin-bottom: 2rem !important;
+}
+
 .statementStatsBox,
 .groupSummary {
   border: 1px solid $grey-light;
   border-radius: 30px;
   background: $grey-lighter;
   padding: 1rem;
+  margin-top: 1rem;
+
+  h3 {
+    margin: 0 0 1rem 0;
+  }
 
   p {
     font-size: 1.25em;
