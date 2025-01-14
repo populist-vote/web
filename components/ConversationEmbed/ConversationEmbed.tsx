@@ -400,19 +400,23 @@ function Insights({ conversationId }: { conversationId: string }) {
 
   const [consensusOpinionIndex, setConsensusOpinionIndex] = useState<number>(0);
   const [divisiveOpinionIndex, setDivisiveOpinionIndex] = useState<number>(0);
-  const [groupOpinionIndices, setGroupOpinionIndices] = useState<number[]>(
-    opinionGroups.map(() => 0)
+  const [groupOpinionIndices, setGroupOpinionIndices] = useState<
+    Record<string, number>
+  >(
+    opinionGroups.reduce(
+      (acc, g) => {
+        acc[g.id] = 0;
+        return acc;
+      },
+      {} as Record<string, number>
+    )
   );
 
-  const handleGroupOpinionIndexChange = (
-    groupIndex: number,
-    newIndex: number
-  ) => {
-    setGroupOpinionIndices((prevIndices) => {
-      const newIndices = [...prevIndices];
-      newIndices[groupIndex] = newIndex;
-      return newIndices;
-    });
+  const handleGroupOpinionIndexChange = (groupId: string, newIndex: number) => {
+    setGroupOpinionIndices((prevIndices) => ({
+      ...prevIndices,
+      [groupId]: newIndex,
+    }));
   };
 
   if (isLoading) return <LoaderFlag theme="gray" />;
@@ -483,7 +487,7 @@ function Insights({ conversationId }: { conversationId: string }) {
                 }
                 currentIndex={groupOpinionIndices[index] as number}
                 onIndexChange={(newIndex) => {
-                  handleGroupOpinionIndexChange(index, newIndex);
+                  handleGroupOpinionIndexChange(group.id, newIndex);
                 }}
               />
             </div>
