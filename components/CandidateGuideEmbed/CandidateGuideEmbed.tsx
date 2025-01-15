@@ -167,7 +167,11 @@ export function CandidateGuideEmbed({
       }}
     >
       <header className={styles.header}>
-        <strong>{t("candidate-guide")}</strong>
+        <strong>
+          {t("candidate-guide", {
+            defaultValue: "Candidate Guide",
+          })}
+        </strong>
         <span className={styles.electionInfo}>
           <strong>
             {getYear(election?.electionDate)} - {election?.title}
