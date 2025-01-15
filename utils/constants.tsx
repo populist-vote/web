@@ -57,35 +57,25 @@ export const FEATURES = {
 export const EMBED_CONTENT_IDS = {
   staging: {
     "candidate-guide": {
-      embedId: "6db3cbcd-4030-477b-80f1-6496a93d6e4d",
-      candidateGuideId: "71fafeab-69b0-4c5b-b676-1d479b1ae5fa",
+      embedId: "b2f081de-dc1a-459e-b78f-da24bab97ca5",
+      candidateGuideId: "5e9792f9-e811-43d9-85eb-f21d6a08833d",
     },
     "legislation-tracker": {
-      embedId: "f75c87ef-2e23-4db3-be1f-70f121cc38e3",
-      billIds: [
-        "c86a2481-0785-4452-aae3-06a2494b65d6",
-        "628f77a1-c784-4312-8836-5734ef035a04",
-        "d2875a63-10a7-4d21-b10c-b5174307cced",
-      ],
+      embedId: "1234",
+      billIds: [],
     },
-    legislation: {
-      embedId: "4c6c4668-0ee5-43c4-9314-237f54984107",
-      billId: "504d04d8-b55a-4bda-8e18-6ee89899a511",
-    },
+    legislation: {},
     politician: {
-      embedId: "44805e68-d274-482e-876d-fca5a399e7bb",
-      politicianId: "c686d275-f13b-485e-9a53-06c94eee2389",
+      embedId: "aa09ec05-a370-46af-aa95-5dfc12dc8b72",
+      politicianId: "40170687-df47-4ad3-87a4-93096a2fb128",
     },
     poll: {
-      embedId: "2ec3f7fa-219e-48a4-83a2-0a8f57613c65",
+      embedId: "6de0123b-f69a-4548-bf4d-d31e3e14cc09",
+      pollId: "c79c80d1-cb49-4003-9b34-9ccfca4867a6",
     },
     question: {
-      embedId: "51e58ff4-2df6-4faf-942c-ec48ee1e19fc",
-      questionId: "b6df5512-ced1-4fff-8f5e-8f2e877b0986",
-    },
-    race: {
-      embedId: "a0ed996e-7986-474b-9325-477ad3cf5f6a",
-      raceId: "e08adfe5-8602-471e-804f-446dc985af23",
+      embedId: "6f5c8cc2-58fd-4aaf-9297-bb3577748e4f",
+      questionId: "2ad89ab9-92b8-4593-91fa-875fec0028e1",
     },
   },
   production: {

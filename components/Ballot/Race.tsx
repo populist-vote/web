@@ -17,6 +17,7 @@ import { AtLeast } from "types/global";
 import { default as clsx } from "clsx";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 import Divider from "components/Divider/Divider";
+import Link from "next/link";
 
 interface EditVotingGuideCandidate {
   candidateId: string;
@@ -229,7 +230,11 @@ function Race({
                   </span>
                 ))}
 
-              <div className={styles.avatarContainer}>
+              <Link
+                className={styles.avatarContainer}
+                href={politicianLink}
+                target={isEmbedded ? "_blank" : undefined}
+              >
                 <PartyAvatar
                   theme={theme}
                   size={80}
@@ -256,7 +261,7 @@ function Race({
                 <span className={clsx(styles.link, styles.avatarName)}>
                   {politician.fullName}
                 </span>
-              </div>
+              </Link>
 
               {incumbentIds?.includes(politician.id) &&
                 candidates?.length > 1 &&
