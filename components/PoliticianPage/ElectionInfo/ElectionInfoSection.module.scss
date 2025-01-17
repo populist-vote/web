@@ -42,6 +42,10 @@ $box-height: 14rem;
     display: flex;
     align-items: baseline;
   }
+
+  .avatarName {
+    color: inherit;
+  }
 }
 
 section.wrapper {
