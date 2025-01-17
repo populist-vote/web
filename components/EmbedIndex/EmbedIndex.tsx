@@ -133,7 +133,9 @@ function EmbedIndex({
           <Table
             data={embeds || []}
             columns={columns}
-            initialState={{}}
+            initialState={{
+              sorting: [{ id: "updatedAt", desc: true }],
+            }}
             onRowClick={onRowClick ? onRowClick : handleRowClick}
             theme={theme}
             useSearchQueryAsFilter={true}
