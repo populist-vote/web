@@ -159,7 +159,9 @@ export const submissionsColumns: ({
     accessorKey: "updatedAt",
     size: 250,
     cell: (info) => {
-      const date = new Date(info.getValue() as string);
+      const value = info.getValue();
+      if (!value) return null;
+      const date = new Date(value as string);
       return !isNaN(date.getTime()) ? getRelativeTimeString(date) : null;
     },
   },
