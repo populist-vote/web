@@ -158,7 +158,10 @@ export const submissionsColumns: ({
     header: "Last Update",
     accessorKey: "updatedAt",
     size: 250,
-    cell: (info) => getRelativeTimeString(new Date(info.getValue() as string)),
+    cell: (info) => {
+      const date = new Date(info.getValue() as string);
+      return !isNaN(date.getTime()) ? getRelativeTimeString(date) : null;
+    },
   },
   {
     header: "Submitted At",
