@@ -287,12 +287,16 @@
   cursor: pointer;
 
   .avatarName {
-    color: $grey-darkest;
+    color: $grey-lightest;
     font-size: $text-sm;
     font-weight: 300;
     text-align: center;
     margin: 0.5rem 0 0;
     line-height: 1.3em;
+
+    &.light {
+      color: $grey-darkest;
+    }
   }
 
   &:hover .avatarName {

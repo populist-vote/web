@@ -14,7 +14,6 @@ import {
   VoteType,
 } from "generated";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
-
 import { getYear } from "utils/dates";
 import { useEffect, useRef, useState } from "react";
 import { BsChevronLeft } from "react-icons/bs";
@@ -290,7 +289,10 @@ export function CandidateGuideEmbed({
                         target={"_blank"}
                         rel={"noopener noreferrer"}
                       />
-                      <span className={clsx(styles.link, styles.avatarName)}>
+                      <span
+                        className={clsx(styles.link, styles.avatarName)}
+                        style={{ color: "var(--grey-darkest)" }}
+                      >
                         {submission.politician?.fullName}
                       </span>
                     </div>
@@ -360,7 +362,13 @@ export function CandidateGuideEmbed({
                         target={"_blank"}
                         rel={"noopener noreferrer"}
                       />
-                      <span className={clsx(styles.link, styles.avatarName)}>
+                      <span
+                        className={clsx(
+                          styles.link,
+                          styles.avatarName,
+                          styles.light
+                        )}
+                      >
                         {p?.fullName}
                       </span>
                     </div>

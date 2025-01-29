@@ -258,7 +258,13 @@ function Race({
                   labelLeft={labelLeftProps}
                   opaque={isOpaque}
                 />
-                <span className={clsx(styles.link, styles.avatarName)}>
+                <span
+                  className={clsx(
+                    styles.link,
+                    styles.avatarName,
+                    styles[theme]
+                  )}
+                >
                   {politician.fullName}
                 </span>
               </Link>
