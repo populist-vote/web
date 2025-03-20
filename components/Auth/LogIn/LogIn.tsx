@@ -22,7 +22,10 @@ function LogIn() {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const getCurrentUser = useCurrentUserQuery();
-  const { data, isLoading } = useCurrentUserQuery();
+  const { data, isLoading } = useCurrentUserQuery(undefined, {
+    gcTime: 1000 * 60 * 15, // 15 minutes
+    staleTime: 1000 * 60 * 15, // 15 minutes
+  });
   const user = data?.currentUser;
   if (user) void router.push(`/${router.query.next || "/home"}`);
 
