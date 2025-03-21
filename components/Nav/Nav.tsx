@@ -288,7 +288,13 @@ function DashboardLink() {
             key={organization?.slug}
           />
           <div className={styles.stack}>
-            <h5>{organization?.name}</h5>
+            <h5
+              style={{
+                fontSize: "clamp(0.5em, 1vw, 0.6em)",
+              }}
+            >
+              {organization?.name}
+            </h5>
             <small>Dashboard</small>
           </div>
         </div>

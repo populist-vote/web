@@ -38,6 +38,8 @@ export function OrganizationDashboardLink({ text }: { text: string }) {
       style={{
         color: "var(--blue-text)",
         textDecoration: "dotted underline",
+        wordBreak: "break-word",
+        whiteSpace: "pre-wrap",
       }}
     >
       {text}
