@@ -290,7 +290,7 @@ function DashboardLink() {
           <div className={styles.stack}>
             <h5
               style={{
-                fontSize: "clamp(0.5em, 1vw, 0.6em)",
+                fontSize: "0.8em",
               }}
             >
               {organization?.name}
