@@ -68,7 +68,7 @@ export default function DocsIndex() {
           </p>
           <Link href="/docs/conversations/overview">Learn more</Link>
         </Box>
-        <Box isLink href="/docs/content/candidate-guide">
+        <Box isLink href="/docs/content/candidate-guides">
           <div className={styles.flexLeft}>
             <h3>Candidate Guides</h3>
           </div>
@@ -76,7 +76,7 @@ export default function DocsIndex() {
             Send out questions to candidates and have their responses
             automatically compiled into an embeddable voter guide.
           </p>
-          <Link href="/docs/content/candidate-guide">Learn more</Link>
+          <Link href="/docs/content/candidate-guides">Learn more</Link>
         </Box>
         <Box isLink href="/docs/api/introduction">
           <div className={styles.flexLeft}>
@@ -92,7 +92,7 @@ export default function DocsIndex() {
           </p>
           <Link href="/docs/api/introduction">Learn more</Link>
         </Box>
-        <Box isLink href="/docs/content/race">
+        <Box isLink href="/docs/content/races">
           <div className={styles.flexLeft}>
             <h3>Live Election Results</h3>
           </div>
@@ -101,9 +101,9 @@ export default function DocsIndex() {
             has easy to use and customizable widgets that can be embedded on any
             website.
           </p>
-          <Link href="/docs/content/race">Learn more</Link>
+          <Link href="/docs/content/races">Learn more</Link>
         </Box>
-        <Box isLink href="/docs/content/legislation-tracker">
+        <Box isLink href="/docs/content/legislation-trackers">
           <div className={styles.flexLeft}>
             <h3>Legislation Trackers</h3>
           </div>
@@ -112,7 +112,7 @@ export default function DocsIndex() {
             legislative process. Stay informed on the latest updates and changes
             to the bills that matter to you.
           </p>
-          <Link href="/docs/content/legislation-tracker">Learn more</Link>
+          <Link href="/docs/content/legislation-trackers">Learn more</Link>
         </Box>
       </div>
     </div>

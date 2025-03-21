@@ -55,6 +55,29 @@ export const FEATURES = {
 };
 
 export const EMBED_CONTENT_IDS = {
+  development: {
+    "candidate-guide": {
+      embedId: "b2f081de-dc1a-459e-b78f-da24bab97ca5",
+      candidateGuideId: "5e9792f9-e811-43d9-85eb-f21d6a08833d",
+    },
+    "legislation-tracker": {
+      embedId: "1234",
+      billIds: [],
+    },
+    legislation: {},
+    politician: {
+      embedId: "aa09ec05-a370-46af-aa95-5dfc12dc8b72",
+      politicianId: "40170687-df47-4ad3-87a4-93096a2fb128",
+    },
+    poll: {
+      embedId: "6de0123b-f69a-4548-bf4d-d31e3e14cc09",
+      pollId: "c79c80d1-cb49-4003-9b34-9ccfca4867a6",
+    },
+    question: {
+      embedId: "6f5c8cc2-58fd-4aaf-9297-bb3577748e4f",
+      questionId: "2ad89ab9-92b8-4593-91fa-875fec0028e1",
+    },
+  },
   staging: {
     "candidate-guide": {
       embedId: "b2f081de-dc1a-459e-b78f-da24bab97ca5",
