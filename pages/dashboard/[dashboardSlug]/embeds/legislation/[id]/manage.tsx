@@ -26,7 +26,7 @@ export async function getServerSideProps({
 }) {
   return {
     props: {
-      slug: query.dashboardSlug,
+      dashboardSlug: query.dashboardSlug,
       id: query.id,
       ...(await serverSideTranslations(
         locale,
@@ -37,7 +37,7 @@ export async function getServerSideProps({
   };
 }
 
-function EmbedById({
+export default function EmbedById({
   dashboardSlug,
   id,
 }: {
@@ -94,5 +94,3 @@ EmbedById.getLayout = (page: ReactNode) => (
     {page}
   </Layout>
 );
-
-export default EmbedById;
