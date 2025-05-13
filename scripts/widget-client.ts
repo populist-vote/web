@@ -1,6 +1,8 @@
 (function () {
-  if ((window as any)._populistEmbedInitialized) return;
-  (window as any)._populistEmbedInitialized = true;
+  const globalKey = `_populistEmbedInitialized_${Date.now().toString(36)}`;
+
+  if ((window as any)[globalKey]) return;
+  (window as any)[globalKey] = true;
 
   const script = document.currentScript as HTMLScriptElement | null;
 
@@ -162,7 +164,6 @@
       }
     });
 
-    // Fallback for SPA or tab switching cases
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") {
         const iframe = document.getElementById(iframeId);
@@ -184,11 +185,26 @@
     handlePageShow();
 
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", createAndAppendIframe);
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.querySelector(containerSelector);
+        if (container && !document.getElementById(iframeId)) {
+          createAndAppendIframe();
+        } else if (!container) {
+          observeContainer();
+        }
+      });
     } else {
-      createAndAppendIframe();
+      const container = document.querySelector(containerSelector);
+      if (container && !document.getElementById(iframeId)) {
+        createAndAppendIframe();
+      } else if (!container) {
+        observeContainer();
+      }
     }
   };
+
+  // Expose for manual SPA hooks if needed
+  (window as any).populistEmbedInit = initialize;
 
   initialize();
 })();
