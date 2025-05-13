@@ -161,6 +161,20 @@
         createAndAppendIframe();
       }
     });
+
+    // Fallback for SPA or tab switching cases
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        const iframe = document.getElementById(iframeId);
+        const container = document.querySelector(containerSelector);
+        if (container && !iframe) {
+          console.log(
+            "Populist Embed: Re-attaching iframe after tab visibility change."
+          );
+          createAndAppendIframe();
+        }
+      }
+    });
   };
 
   const initialize = () => {
