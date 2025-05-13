@@ -1,5 +1,5 @@
 (function () {
-  const script = document.currentScript as HTMLScriptElement;
+  const script = document.currentScript as HTMLScriptElement | null;
 
   if (!script) {
     console.error("Populist Embed: `document.currentScript` is null.");
@@ -62,13 +62,15 @@
       if (event.origin !== populistOrigin) return;
 
       const { data } = event;
-      if (typeof data !== "object" || !data?.populist) return;
+      if (typeof data !== "object" || !data || !("populist" in data)) return;
 
       const targetIframe = document.getElementById(iframeId);
       if (!targetIframe) return;
 
-      if (data.populist.embedId === embedId && data.populist.resizeHeight) {
-        targetIframe.style.height = `${data.populist.resizeHeight}px`;
+      const populistData = (data as any).populist;
+      if (populistData.embedId === embedId && populistData.resizeHeight) {
+        (targetIframe as HTMLIFrameElement).style.height =
+          `${populistData.resizeHeight}px`;
       }
     });
   };
@@ -83,15 +85,17 @@
     }
 
     const originUrl = new URL(location.href);
-    const params: Record<string, string> = {
-      origin: originUrl.toString(),
-    };
-
+    let origin = originUrl.toString();
     if (container.id) {
-      params.origin += `#${container.id}`;
+      origin += `#${container.id}`;
     }
 
-    const iframeSrc = `${populistOrigin}/embeds/${embedId}?${new URLSearchParams(params)}`;
+    const iframeSrc = `${populistOrigin}/embeds/${embedId}?${new URLSearchParams(
+      {
+        origin,
+      }
+    )}`;
+
     const iframe = buildIframe(iframeSrc);
 
     container.innerHTML = "";
@@ -104,8 +108,11 @@
     );
 
     const observer = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
+      for (let i = 0; i < mutations.length; i++) {
+        const mutation = mutations[i];
+        const addedNodes = mutation.addedNodes;
+        for (let j = 0; j < addedNodes.length; j++) {
+          const node = addedNodes[j];
           if (
             node.nodeType === 1 &&
             (node as HTMLElement).matches(containerSelector)
