@@ -1,4 +1,7 @@
 (function () {
+  if ((window as any)._populistEmbedInitialized) return;
+  (window as any)._populistEmbedInitialized = true;
+
   const script = document.currentScript as HTMLScriptElement | null;
 
   if (!script) {
@@ -64,42 +67,50 @@
       const { data } = event;
       if (typeof data !== "object" || !data || !("populist" in data)) return;
 
-      const targetIframe = document.getElementById(iframeId);
+      const populistData = (data as any).populist;
+      const targetIframe = document.getElementById(
+        iframeId
+      ) as HTMLIFrameElement | null;
+
       if (!targetIframe) return;
 
-      const populistData = (data as any).populist;
       if (populistData.embedId === embedId && populistData.resizeHeight) {
-        (targetIframe as HTMLIFrameElement).style.height =
-          `${populistData.resizeHeight}px`;
+        targetIframe.style.height = `${populistData.resizeHeight}px`;
       }
     });
   };
 
   const createAndAppendIframe = () => {
-    if (document.getElementById(iframeId)) return;
+    const existingIframe = document.getElementById(
+      iframeId
+    ) as HTMLElement | null;
+    const container = document.querySelector(
+      containerSelector
+    ) as HTMLElement | null;
 
-    const container = document.querySelector(containerSelector);
-    if (!container) {
-      observeContainer(); // Fallback if not yet present
-      return;
-    }
+    if (container) {
+      if (!existingIframe || existingIframe.parentElement !== container) {
+        if (existingIframe) existingIframe.remove();
 
-    const originUrl = new URL(location.href);
-    let origin = originUrl.toString();
-    if (container.id) {
-      origin += `#${container.id}`;
-    }
+        const originUrl = new URL(location.href);
+        let origin = originUrl.toString();
+        if (container.id) {
+          origin += `#${container.id}`;
+        }
 
-    const iframeSrc = `${populistOrigin}/embeds/${embedId}?${new URLSearchParams(
-      {
-        origin,
+        const iframeSrc = `${populistOrigin}/embeds/${embedId}?${new URLSearchParams(
+          {
+            origin,
+          }
+        )}`;
+
+        const iframe = buildIframe(iframeSrc);
+        container.innerHTML = "";
+        container.appendChild(iframe);
       }
-    )}`;
-
-    const iframe = buildIframe(iframeSrc);
-
-    container.innerHTML = "";
-    container.appendChild(iframe);
+    } else if (existingIframe) {
+      existingIframe.remove();
+    }
   };
 
   const observeContainer = () => {
@@ -137,18 +148,17 @@
   const handlePopState = () => {
     window.addEventListener("popstate", () => {
       console.log("Populist Embed: Popstate detected. Re-evaluating DOM.");
-      const existingIframe = document.getElementById(iframeId);
-      const container = document.querySelector(containerSelector);
+      createAndAppendIframe();
+    });
+  };
 
-      if (existingIframe && container) {
-        if (existingIframe.parentElement !== container) {
-          existingIframe.remove();
-          createAndAppendIframe();
-        }
-      } else if (!existingIframe && container) {
+  const handlePageShow = () => {
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        console.log(
+          "Populist Embed: Page restored from bfcache. Re-initializing."
+        );
         createAndAppendIframe();
-      } else if (existingIframe && !container) {
-        existingIframe.remove();
       }
     });
   };
@@ -157,6 +167,7 @@
     appendStyles();
     setupMessageListener();
     handlePopState();
+    handlePageShow();
 
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", createAndAppendIframe);
