@@ -16,7 +16,7 @@
     "strict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
-    "target": "es6"
+    "target": "esNext"
   },
   "include": [
     "next-env.d.ts",
