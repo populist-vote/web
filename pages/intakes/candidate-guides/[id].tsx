@@ -198,17 +198,19 @@ export default function CandidateGuideIntake() {
               src={organizationLogoUrl as string}
               alt="Organization Logo"
               height={100}
-              width={300}
+              width={400}
+              style={{ objectFit: "contain" }}
             />
           )}
           <Divider />
           <h1>Hi {politician?.fullName},</h1>
           <p>
-            MPR News has partnered up with Populist to help you share your
-            thoughts on important issues facing{" "}
+            {organizationData?.organizationById?.name} has partnered with
+            Populist to help you share your thoughts on important issues facing{" "}
             {states[politician?.homeState as State]}. Please take a moment to
             fill out answers to the following questions created by the politics
-            team at MPR News. Your answers will be shared with the public.
+            team at {organizationData?.organizationById?.name}. Your answers
+            will be shared with the public.
           </p>
         </div>
 
