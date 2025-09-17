@@ -17,6 +17,7 @@ input AddStatementInput {
   userId: ID
 }
 
+"""Minnesota-specific extended address object exposed to GraphQL"""
 type AddressExtendedMNResult {
   countyCode: String
   countyCommissionerDistrict: String
@@ -28,6 +29,7 @@ type AddressExtendedMNResult {
   schoolDistrictNumber: String
   schoolSubdistrictCode: String
   schoolSubdistrictName: String
+  soilAndWaterDistrict: String
   votingTabulationDistrictId: String
 }
 
@@ -45,6 +47,7 @@ input AddressInput {
   stateSenateDistrict: String
 }
 
+"""Base address object exposed to GraphQL"""
 type AddressResult {
   city: String!
   country: String!
@@ -1469,7 +1472,12 @@ input RaceFilter {
 
 type RaceResult {
   ballotpediaLink: String
-  candidates: [PoliticianResult!]!
+  candidates(
+    """
+    Filter candidates endorsed by a specific organization who endorses them
+    """
+    endorserId: UUID
+  ): [PoliticianResult!]!
   description: String
   earlyVotingBeginsDate: NaiveDate
   election: ElectionResult!

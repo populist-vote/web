@@ -6,7 +6,7 @@ To get started, you'll need a `.env` file. You can simply `cp .env.example .env`
 
 First, download the necessary dependencies with `pnpm install`
 
-Then, run `pnpm generate` to generate the typings and hooks from the Populist API. More on this below.
+Then, run `pnpm generate` to generate the typings and hooks from the Populist API. More on this below. If you are attempting to generate against a local instance of the API server, make sure it is running first and prefix the command with `NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.pem"` to ensure node can use the local CA.
 
 Now you can run the development server:
 
