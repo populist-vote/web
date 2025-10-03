@@ -20,6 +20,10 @@
   .mainTitle {
     font-size: $text-lg;
     margin: 0;
+
+    h4 {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -181,4 +185,156 @@
     font-style: italic;
     margin: 0;
   }
+}
+
+// Endorsed candidate styles
+
+.allEndorsementsContainer {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+  row-gap: 0.5rem;
+}
+
+.endorsedCandidateContainer {
+  margin-bottom: 0;
+  display: inline-block;
+}
+
+.raceContainer {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  background: $grey-lighter;
+  border: 1px solid $grey-light;
+  border-radius: 20px;
+}
+
+.candidateContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  gap: 0.75rem;
+}
+
+.officeHeader {
+  text-align: center;
+  h3 {
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: $font-primary;
+    margin: 0;
+    color: $blue;
+    text-transform: uppercase;
+  }
+}
+
+.avatarContainer {
+  margin: 0 !important;
+}
+
+// Reused styles from Ballot.module.scss
+.sideText {
+  color: $blue;
+  font-family: $font-primary;
+  letter-spacing: 0.05em;
+  writing-mode: tb-rl; /* For backward compatability */
+  writing-mode: vertical-rl;
+  transform: rotate(180deg); /* so text reads from bottom up */
+  font-size: 0.75em;
+  width: 15px;
+  text-transform: uppercase;
+  align-self: center;
+}
+
+.flexBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  gap: 1rem;
+}
+
+.avatarContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  align-items: center;
+  margin: 0 1rem;
+  min-width: 5rem;
+  min-height: 5rem;
+  overflow: visible;
+  transition: all 1s;
+  cursor: pointer;
+
+  .avatarName {
+    color: $grey-lightest;
+    font-size: $text-sm;
+    font-weight: 300;
+    text-align: center;
+    margin: 0.5rem 0 0;
+    line-height: 1.3em;
+    max-width: 120px;
+
+    &.light {
+      color: $grey-darkest;
+    }
+  }
+
+  &:hover .avatarName {
+    color: $blue-text;
+    transition: color 0.25s ease-in-out;
+  }
+
+  button {
+    padding: 3px;
+    margin: 0;
+  }
+
+  &.link {
+    cursor: pointer;
+
+    &:hover {
+      color: $blue-text;
+      text-decoration: dotted underline;
+    }
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.endorserTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.endorserText {
+  line-height: 1.2;
+
+  h4 {
+    margin-bottom: 0;
+  }
+}
+
+.orgName {
+  font-size: 1.2rem;
+}
+
+//helper classes
+.alignItemsCenter {
+  align-items: center;
+}
+
+.gap75 {
+  gap: 0.75rem;
 }

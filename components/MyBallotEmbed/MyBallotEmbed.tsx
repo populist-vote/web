@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import styles from "./MyBallotEmbed.module.scss";
 import { useForm } from "react-hook-form";
 import { TextInput } from "components/TextInput/TextInput";
@@ -8,10 +7,13 @@ import {
   ElectionScope,
   EmbedResult,
   EmbedType,
+  PoliticalParty,
   RaceResult,
   State,
   useBasicElectionByIdQuery,
+  useEmbedByIdQuery,
   useMyBallotByAddressQuery,
+  useOrganizationByIdQuery,
   VoteType,
 } from "generated";
 import { useEffect, useState } from "react";
@@ -29,9 +31,14 @@ import { splitRaces } from "utils/data";
 import { FlagColor, FlagSection } from "components/FlagSection/FlagSection";
 import { BallotMeasureCard } from "components/BallotMeasureCard/BallotMeasureCard";
 import { getYear } from "utils/dates";
+import { PartyAvatar } from "components";
+import { OrganizationAvatar } from "components/Avatar/Avatar";
+import Link from "next/link";
+import { default as clsx } from "clsx";
 
 export interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
+  isEndorserVariant?: boolean;
 }
 
 export function MyBallotEmbed({
@@ -39,15 +46,20 @@ export function MyBallotEmbed({
   electionId,
   origin,
   renderOptions,
+  endorserId,
 }: {
   embedId: string;
   electionId: string;
   origin: string;
   renderOptions?: MyBallotEmbedRenderOptions;
+  endorserId?: string;
 }) {
   const router = useRouter();
   const { locale } = router;
   const { t } = useTranslation(["auth", "common", "embeds"]);
+
+  // Variant detection
+  const isEndorserVariant = Boolean(endorserId);
 
   /// Handle default language
   useEffect(() => {
@@ -91,6 +103,30 @@ export function MyBallotEmbed({
       id: electionId,
     });
 
+  // Get embed data to access organizationId (only when needed for endorser variant)
+  const { data: embedData } = useEmbedByIdQuery(
+    {
+      id: embedId,
+    },
+    {
+      enabled: isEndorserVariant,
+    }
+  );
+
+  const organizationId = embedData?.embedById.organizationId;
+
+  // Get organization data for endorser variant
+  const { data: organizationData } = useOrganizationByIdQuery(
+    {
+      id: organizationId as string,
+    },
+    {
+      enabled: !!organizationId && isEndorserVariant,
+    }
+  );
+
+  const organization = organizationData?.organizationById;
+
   const { data, isLoading } = useMyBallotByAddressQuery(
     {
       electionId,
@@ -99,6 +135,7 @@ export function MyBallotEmbed({
         state: "MN" as State,
         country: "USA",
       },
+      endorserId: endorserId || undefined,
     },
     {
       enabled:
@@ -116,7 +153,16 @@ export function MyBallotEmbed({
 
   if (electionIsLoading) return null;
 
-  const races = data?.electionById.racesByAddress as RaceResult[];
+  // Filter races to only show those with endorsed candidates when endorserId is provided
+  const filteredRaces = data?.electionById.racesByAddress?.filter((race) => {
+    // If no endorserId, show all races
+    if (!isEndorserVariant) return true;
+
+    // If endorserId is provided, only show races with endorsed candidates
+    return race.candidates.length > 0;
+  }) as RaceResult[];
+
+  const races = filteredRaces || [];
 
   const {
     federal: federalRacesGroupedByOffice,
@@ -160,14 +206,31 @@ export function MyBallotEmbed({
         </span>
       </header>
       <main>
-        <div className={styles.flexBetween} style={{ margin: "0 0 1rem" }}>
-          <div className={styles.flexLeft}>
+        <div
+          className={clsx(styles.flexBetween, styles.alignItemsCenter)}
+          style={{ margin: "0 0 1rem" }}
+        >
+          <div className={clsx(styles.flexLeft, styles.gap75)}>
             {hasSubmitted && (
               <BsChevronLeft size={25} onClick={() => setHasSubmitted(false)} />
             )}
-            <h4 className={styles.mainTitle}>
-              {t("whats-on-my-ballot", { ns: "embeds" })}
-            </h4>
+            <div className={styles.mainTitle}>
+              {isEndorserVariant && organization ? (
+                <div className={styles.endorserTitle}>
+                  <OrganizationAvatar
+                    src={organization.assets?.thumbnailImage160 as string}
+                    alt={organization.name}
+                    size={80}
+                  />
+                  <div className={styles.endorserText}>
+                    <span className={styles.orgName}>{organization.name}</span>
+                    <h4>{t("our-endorsements", { ns: "embeds" })}</h4>
+                  </div>
+                </div>
+              ) : (
+                <h4>{t("whats-on-my-ballot", { ns: "embeds" })}</h4>
+              )}
+            </div>
           </div>
           <LanguageSelect />
         </div>
@@ -179,7 +242,15 @@ export function MyBallotEmbed({
                 onSubmit={handleSubmit(submitForm)}
                 data-testid="my-ballot-address-form"
               >
-                <p>{t("enter-address-explainer", { ns: "embeds" })}</p>
+                {isEndorserVariant ? (
+                  <p>
+                    {t("enter-address-explainer-endorsements", {
+                      ns: "embeds",
+                    })}
+                  </p>
+                ) : (
+                  <p>{t("enter-address-explainer", { ns: "embeds" })}</p>
+                )}
                 <div className={styles.firstRow}>
                   <TextInput
                     name="line1"
@@ -233,12 +304,23 @@ export function MyBallotEmbed({
                   />
                 </div>
                 <div className={styles.centered}>
-                  <Button
-                    type="submit"
-                    size="medium"
-                    label={t("my-ballot-submit", { ns: "embeds" })}
-                    disabled={!isValid}
-                  />
+                  {isEndorserVariant ? (
+                    <Button
+                      type="submit"
+                      size="medium"
+                      label={t("my-ballot-submit-endorsements", {
+                        ns: "embeds",
+                      })}
+                      disabled={!isValid}
+                    />
+                  ) : (
+                    <Button
+                      type="submit"
+                      size="medium"
+                      label={t("my-ballot-submit", { ns: "embeds" })}
+                      disabled={!isValid}
+                    />
+                  )}
                 </div>
               </form>
             </div>
@@ -249,54 +331,152 @@ export function MyBallotEmbed({
               {data.electionById.racesByAddress.length === 0 && (
                 <div className={styles.noResults}>No Results</div>
               )}
-              {Object.keys(federalRacesGroupedByOffice).length > 0 && (
-                <RaceSection
-                  officeRaces={federalRacesGroupedByOffice}
-                  label="Federal"
-                />
-              )}
-              {(Object.keys(stateRacesGroupedByOffice).length > 0 ||
-                statewideBallotMeasures.length > 0) && (
-                <RaceSection
-                  officeRaces={stateRacesGroupedByOffice}
-                  label="State"
-                >
-                  {statewideBallotMeasures?.map((measure) => (
-                    <BallotMeasureCard
-                      measure={measure}
-                      year={getYear(election?.electionDate)}
-                      key={measure.id}
+              {isEndorserVariant ? (
+                // Endorser variant: Show endorsed candidates in a simplified layout
+                <div className={styles.allEndorsementsContainer}>
+                  {races.length === 0 ? (
+                    <div className={styles.noResults}>
+                      No endorsements on your ballot
+                    </div>
+                  ) : (
+                    races.map((race) => (
+                      <EndorsedCandidate race={race} key={race.id} />
+                    ))
+                  )}
+                </div>
+              ) : (
+                // Standard variant: Show full ballot with races and ballot measures
+                <>
+                  {Object.keys(federalRacesGroupedByOffice).length > 0 && (
+                    <RaceSection
+                      officeRaces={federalRacesGroupedByOffice}
+                      label="Federal"
                     />
-                  ))}
-                </RaceSection>
-              )}
+                  )}
+                  {(Object.keys(stateRacesGroupedByOffice).length > 0 ||
+                    statewideBallotMeasures.length > 0) && (
+                    <RaceSection
+                      officeRaces={stateRacesGroupedByOffice}
+                      label="State"
+                    >
+                      {statewideBallotMeasures?.map((measure) => (
+                        <BallotMeasureCard
+                          measure={measure}
+                          year={getYear(election?.electionDate)}
+                          key={measure.id}
+                        />
+                      ))}
+                    </RaceSection>
+                  )}
 
-              {(Object.keys(localRacesGroupedByOffice).length > 0 ||
-                localBallotMeasures?.length > 0) && (
-                <RaceSection
-                  officeRaces={localRacesGroupedByOffice}
-                  label="Local"
-                >
-                  {localBallotMeasures?.map((measure) => (
-                    <BallotMeasureCard
-                      measure={measure}
-                      year={getYear(election?.electionDate)}
-                      key={measure.id}
+                  {(Object.keys(localRacesGroupedByOffice).length > 0 ||
+                    localBallotMeasures?.length > 0) && (
+                    <RaceSection
+                      officeRaces={localRacesGroupedByOffice}
+                      label="Local"
+                    >
+                      {localBallotMeasures?.map((measure) => (
+                        <BallotMeasureCard
+                          measure={measure}
+                          year={getYear(election?.electionDate)}
+                          key={measure.id}
+                        />
+                      ))}
+                    </RaceSection>
+                  )}
+                  {Object.keys(judicialRacesGroupedByOffice).length > 0 && (
+                    <RaceSection
+                      officeRaces={judicialRacesGroupedByOffice}
+                      label="Judicial"
                     />
-                  ))}
-                </RaceSection>
-              )}
-              {Object.keys(judicialRacesGroupedByOffice).length > 0 && (
-                <RaceSection
-                  officeRaces={judicialRacesGroupedByOffice}
-                  label="Judicial"
-                />
+                  )}
+                </>
               )}
             </div>
           )}
         </div>
       </main>
       <WidgetFooter />
+    </div>
+  );
+}
+
+function EndorsedCandidate({ race }: { race: RaceResult }) {
+  const incumbentIds = race?.office?.incumbents?.map((i) => i.id) || [];
+  const theme = "light"; // Use light theme for endorser variant
+
+  return (
+    <div className={styles.endorsedCandidateContainer}>
+      <div className={styles.officeHeader}>
+        <h3>{race.office.name}</h3>
+        {race.office.subtitleShort && <h3>{race.office.subtitleShort}</h3>}
+      </div>
+
+      <div className={styles.raceContainer}>
+        {race.candidates.map((politician) => {
+          const politicianLink = `/politicians/${encodeURIComponent(politician?.slug)}`;
+
+          return (
+            <div
+              className={styles.candidateContainer}
+              style={{ height: "auto" }}
+              key={politician.id}
+            >
+              {incumbentIds?.includes(politician.id) && (
+                <span
+                  className={styles.sideText}
+                  style={{ color: "var(--grey)" }}
+                >
+                  INCUMBENT
+                </span>
+              )}
+
+              <Link
+                className={styles.avatarContainer}
+                href={politicianLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <PartyAvatar
+                  theme={theme}
+                  size={80}
+                  hasIconMenu={false}
+                  isEndorsement={false}
+                  iconSize="1.25rem"
+                  hasNote={false}
+                  iconType="plus"
+                  handleEndorseCandidate={() => {}}
+                  handleUnendorseCandidate={() => {}}
+                  handleAddNote={() => {}}
+                  party={politician?.party as PoliticalParty}
+                  src={politician?.assets?.thumbnailImage160 as string}
+                  alt={politician.fullName}
+                  readOnly={true}
+                  href={politicianLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  labelLeft={undefined}
+                  opaque={false}
+                />
+                <span
+                  className={clsx(
+                    styles.link,
+                    styles.avatarName,
+                    styles[theme]
+                  )}
+                >
+                  {politician.fullName}
+                </span>
+              </Link>
+
+              {incumbentIds?.includes(politician.id) &&
+                race.candidates?.length > 1 && (
+                  <Divider vertical color="var(--grey-light)" />
+                )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

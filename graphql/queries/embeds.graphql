@@ -227,12 +227,78 @@ query BasicElectionById($id: ID!) {
   }
 }
 
-query MyBallotByAddress($electionId: ID!, $address: AddressInput!) {
+query MyBallotByAddress(
+  $electionId: ID!
+  $address: AddressInput!
+  $endorserId: UUID
+) {
   electionById(id: $electionId) {
     racesByAddress(address: $address) {
       electionId
       officeId
-      ...RaceFields
+      id
+      slug
+      raceType
+      voteType
+      title
+      state
+      electionDate
+      isSpecialElection
+      numElect
+      party {
+        name
+        fecCode
+      }
+      office {
+        id
+        name
+        title
+        subtitle
+        subtitleShort
+        state
+        county
+        municipality
+        district
+        electionScope
+        districtType
+        politicalScope
+        incumbents {
+          id
+          fullName
+          party {
+            name
+          }
+          thumbnailImageUrl
+          assets {
+            thumbnailImage160
+          }
+        }
+      }
+      candidates(endorserId: $endorserId) {
+        id
+        slug
+        fullName
+        email
+        phone
+        party {
+          name
+        }
+        assets {
+          thumbnailImage160
+        }
+      }
+      results {
+        totalVotes
+        precinctReportingPercentage
+        votesByCandidate {
+          candidateId
+          votes
+          votePercentage
+        }
+        winners {
+          id
+        }
+      }
       relatedEmbeds {
         id
         embedType

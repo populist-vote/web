@@ -8,14 +8,17 @@ import { TextInput } from "components/TextInput/TextInput";
 import {
   EmbedResult,
   EmbedType,
+  OrganizationRoleType,
+  SystemRoleType,
   UpsertEmbedInput,
   useEmbedByIdQuery,
   useOrganizationBySlugQuery,
   useUpsertEmbedMutation,
 } from "generated";
+import { useAuth } from "hooks/useAuth";
 import useOrganizationStore from "hooks/useOrganizationStore";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { LANGUAGES } from "utils/constants";
@@ -110,12 +113,32 @@ function PoliticianEmbedOptionsForm({
 }
 
 function MyBallotEmbedRenderOptionsForm({
+  register,
   defaultLanguage,
   handleDefaultLanguageChange,
+  organizationId,
 }: {
+  register: UseFormRegister<UpsertEmbedInputWithOptions>;
   defaultLanguage: string;
   handleDefaultLanguageChange: (embedType: EmbedType, value: string) => void;
+  organizationId?: string;
 }) {
+  const { user } = useAuth();
+
+  // Check if user is system admin OR organization admin/owner
+  const isSystemAdmin =
+    user?.systemRole === SystemRoleType.Staff ||
+    user?.systemRole === SystemRoleType.Superuser;
+  const isOrgAdmin =
+    organizationId &&
+    user?.organizations.some(
+      (org) =>
+        org.organizationId === organizationId &&
+        (org.role === OrganizationRoleType.Admin ||
+          org.role === OrganizationRoleType.Owner)
+    );
+  const isAdmin = isSystemAdmin || isOrgAdmin;
+
   const availableLanguageCodes = LANGUAGES.map((lang) => lang.code);
   const availableLanguages = LANGUAGES.filter(
     (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
@@ -124,23 +147,42 @@ function MyBallotEmbedRenderOptionsForm({
     <div
       style={{
         display: "flex",
-        gap: "1.5rem",
-        justifyContent: "space-between",
-        alignItems: "baseline",
+        flexDirection: "column",
+        gap: "1rem",
       }}
     >
-      <span>Default language</span>
-      <Select
-        backgroundColor="blue"
-        value={defaultLanguage || "en"}
-        options={availableLanguages.map((l) => ({
-          value: l.code,
-          label: l.display,
-        }))}
-        onChange={(e) =>
-          handleDefaultLanguageChange(EmbedType.MyBallot, e.target.value)
+      <Checkbox
+        id="isEndorserVariant"
+        name="renderOptions.isEndorserVariant"
+        label={
+          isAdmin
+            ? "Only show endorsed candidates"
+            : "Only show endorsed candidates (Admin only)"
         }
+        register={register}
+        disabled={!isAdmin}
       />
+      <div
+        style={{
+          display: "flex",
+          gap: "1.5rem",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+        }}
+      >
+        <span>Default language</span>
+        <Select
+          backgroundColor="blue"
+          value={defaultLanguage || "en"}
+          options={availableLanguages.map((l) => ({
+            value: l.code,
+            label: l.display,
+          }))}
+          onChange={(e) =>
+            handleDefaultLanguageChange(EmbedType.MyBallot, e.target.value)
+          }
+        />
+      </div>
     </div>
   );
 }
@@ -150,6 +192,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const upsertEmbed = useUpsertEmbedMutation();
   const queryClient = useQueryClient();
   const dashboardSlug = router.query.dashboardSlug as string;
+  const { user } = useAuth();
 
   const { data, isLoading } = useOrganizationBySlugQuery(
     {
@@ -161,6 +204,23 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   );
 
   const organizationId = data?.organizationBySlug?.id;
+
+  // Check if user is system admin OR organization admin/owner
+  const isSystemAdmin =
+    user?.systemRole === SystemRoleType.Staff ||
+    user?.systemRole === SystemRoleType.Superuser;
+  const isOrgAdmin =
+    organizationId &&
+    user?.organizations.some(
+      (org) =>
+        org.organizationId === organizationId &&
+        (org.role === OrganizationRoleType.Admin ||
+          org.role === OrganizationRoleType.Owner)
+    );
+  const isAdmin = isSystemAdmin || isOrgAdmin;
+
+  // Track initial endorser variant value to prevent initial save
+  const initialEndorserVariant = useRef<boolean | undefined>(undefined);
 
   const {
     register,
@@ -182,6 +242,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         socials: embed?.attributes?.renderOptions?.socials,
         publicVoting: embed?.attributes?.renderOptions?.publicVoting,
         defaultLanguage: embed?.attributes?.renderOptions?.defaultLanguage,
+        isEndorserVariant: !!embed?.attributes?.endorserId,
       },
     },
   });
@@ -197,6 +258,13 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           embedType: embed?.embedType,
           attributes: {
             ...embed?.attributes,
+            endorserId:
+              isAdmin &&
+              embed?.embedType === EmbedType.MyBallot &&
+              (data.renderOptions as MyBallotEmbedRenderOptions)
+                .isEndorserVariant
+                ? organizationId
+                : null,
             renderOptions: data.renderOptions,
           },
         },
@@ -223,18 +291,63 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   // Watch specific fields
   const name = watch("name");
   const description = watch("description");
+  const isEndorserVariant = watch("renderOptions.isEndorserVariant");
 
-  // Autosave logic with delay
+  // Track previous values to detect what changed
+  const prevName = useRef(name);
+  const prevDescription = useRef(description);
+  const prevIsEndorserVariant = useRef(isEndorserVariant);
+
+  // Autosave logic with delay (excludes endorser variant changes which have immediate save)
   useEffect(() => {
     if (isDirty) {
-      const timer = setTimeout(() => {
-        void handleSubmit(onSubmit)(); // Submit form data after debounce
-      }, 1000); // Auto-save delay (1 second after last change)
+      // Check if the change was to endorser variant - if so, skip autosave
+      const isEndorserVariantChange =
+        prevIsEndorserVariant.current !== isEndorserVariant;
 
-      return () => clearTimeout(timer); // Cleanup timer on unmount or if form changes
+      if (!isEndorserVariantChange) {
+        const timer = setTimeout(() => {
+          void handleSubmit(onSubmit)(); // Submit form data after debounce
+        }, 1000); // Auto-save delay (1 second after last change)
+
+        return () => clearTimeout(timer); // Cleanup timer on unmount or if form changes
+      }
+    }
+
+    // Update previous values
+    prevName.current = name;
+    prevDescription.current = description;
+    prevIsEndorserVariant.current = isEndorserVariant;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDirty, handleSubmit, name, description, isEndorserVariant]);
+
+  // Immediate save for endorser variant changes (no delay for better UX)
+  useEffect(() => {
+    // Skip if this is the first time we're setting the value (initial render)
+    if (initialEndorserVariant.current === undefined) {
+      initialEndorserVariant.current = isEndorserVariant;
+      return;
+    }
+
+    // Skip if the value hasn't actually changed
+    if (initialEndorserVariant.current === isEndorserVariant) {
+      return;
+    }
+
+    // Update the initial value for next comparison
+    initialEndorserVariant.current = isEndorserVariant;
+
+    // Only save if user is admin, we have a valid embed, it's a MyBallot type
+    if (
+      isAdmin &&
+      embed?.embedType === EmbedType.MyBallot &&
+      embed?.id &&
+      organizationId
+    ) {
+      void handleSubmit(onSubmit)();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDirty, handleSubmit, name, description]);
+  }, [isEndorserVariant]);
 
   const { organizationId: currentOrganizationId } = useOrganizationStore();
 
@@ -280,8 +393,10 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
       case EmbedType.MyBallot:
         return (
           <MyBallotEmbedRenderOptionsForm
+            register={register}
             handleDefaultLanguageChange={handleDefaultLanguageChange}
             defaultLanguage={embed?.attributes?.renderOptions?.defaultLanguage}
+            organizationId={organizationId}
           />
         );
       default:

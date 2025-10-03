@@ -51,6 +51,7 @@ function EmbedPage({
     ?.candidateGuideId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
   const electionId = data?.embedById?.attributes?.electionId as string;
+  const endorserId = data?.embedById?.attributes?.endorserId as string;
   const embed = data?.embedById as EmbedResult;
 
   const renderOptions = embed?.attributes?.renderOptions;
@@ -112,6 +113,7 @@ function EmbedPage({
             electionId={electionId}
             origin={window.location.origin}
             renderOptions={renderOptions}
+            {...(endorserId && { endorserId })}
           />
         );
     }
