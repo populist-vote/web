@@ -23,7 +23,7 @@ function EmailStep() {
   const {
     actions,
     state: { loginFormState },
-  } = useStateMachine({ updateAction });
+  } = useStateMachine({ actions: { updateAction } });
 
   const debouncedPassword = useDebounce(loginFormState.password, 500);
 
@@ -84,7 +84,9 @@ function EmailStep() {
   } = passwordEntropyData?.validatePasswordEntropy ?? {};
 
   const submitForm = (data: { email: string; password: string }) => {
-    actions.updateAction(data);
+    if (actions?.updateAction) {
+      actions.updateAction(data);
+    }
     validateEmailAvailable()
       .then(
         // Shamefully typecast to any
@@ -168,8 +170,11 @@ function EmailStep() {
               control={control}
               rules={{
                 // Need to update email synchronously so that we can revalidate it on each form submission
-                onChange: (e) =>
-                  actions.updateAction({ email: e.target.value }),
+                onChange: (e) => {
+                  if (actions?.updateAction) {
+                    actions.updateAction({ email: e.target.value });
+                  }
+                },
                 required: t("email-is-required"),
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -197,9 +202,11 @@ function EmailStep() {
               }}
               autoFocus={!!prefillEmail}
               autoComplete="new-password"
-              onChange={async (e) =>
-                actions.updateAction({ password: e.target.value })
-              }
+              onChange={async (e) => {
+                if (actions?.updateAction) {
+                  actions.updateAction({ password: e.target.value });
+                }
+              }}
             />
             <PasswordEntropyMeter
               valid={isPasswordValid}

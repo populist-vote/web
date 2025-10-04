@@ -25,7 +25,7 @@ function AddressStep() {
   const {
     actions,
     state: { loginFormState },
-  } = useStateMachine({ updateAction });
+  } = useStateMachine({ actions: { updateAction } });
 
   const {
     register,

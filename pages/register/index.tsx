@@ -1,4 +1,4 @@
-import { StateMachineProvider, createStore } from "little-state-machine";
+import { createStore } from "little-state-machine";
 import {
   BeginUserRegistrationInput,
   State,
@@ -65,11 +65,7 @@ function Register() {
 
   if (isLoading) return <LoaderFlag height={100} />;
 
-  return (
-    <StateMachineProvider>
-      <EmailStep />
-    </StateMachineProvider>
-  );
+  return <EmailStep />;
 }
 
 Register.getLayout = (page: ReactNode) => (

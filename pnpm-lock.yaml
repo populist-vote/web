@@ -96,8 +96,8 @@ importers:
         specifier: ^11.9.0
         version: 11.11.1
       little-state-machine:
-        specifier: ^4.8.0
-        version: 4.8.1(react@19.2.0)
+        specifier: 5.0.0
+        version: 5.0.0(react@19.2.0)
       next:
         specifier: ^14.2.4
         version: 14.2.33(@babel/core@7.28.4)(@playwright/test@1.55.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.93.2)
@@ -5188,10 +5188,10 @@ packages:
     resolution: {integrity: sha512-LWzX2KsqcB1wqQ4AHgYb4RsDXauQiqhjLk+6hjbaeHG4zpjjVAB6wC/gz6X0l+Du1cN3pUB5ZlrvTbhGSNnUQQ==}
     engines: {node: '>=18.0.0'}
 
-  little-state-machine@4.8.1:
-    resolution: {integrity: sha512-liPHqaWMQ7rzZryQUDnbZ1Gclnnai3dIyaJ0nAgwZRXMzqbYrydrlCI0NDojRUbE5VYh5vu6hygEUZiH77nQkQ==}
+  little-state-machine@5.0.0:
+    resolution: {integrity: sha512-lLWiDbmJ6iCiDvNrv8w735W3zvMl/TtgizXdXBbvmzzZBKjPcauFQKsZAhhCxR1ssqgCOogpqLkQdWzpHQrLYQ==}
     peerDependencies:
-      react: ^16.8.0 || ^17 || ^18 || ^19
+      react: ^18 || ^19
 
   loader-runner@4.3.0:
     resolution: {integrity: sha512-3R/1M+yS3j5ou80Me59j7F9IMs4PXs3VqRrm0TU3AbKPxlmpoY1TNscJV/oGJXo8qCatFGTfDbY6W6ipGOYXfg==}
@@ -13444,7 +13444,7 @@ snapshots:
       rfdc: 1.4.1
       wrap-ansi: 9.0.2
 
-  little-state-machine@4.8.1(react@19.2.0):
+  little-state-machine@5.0.0(react@19.2.0):
     dependencies:
       react: 19.2.0
 
