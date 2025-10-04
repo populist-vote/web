@@ -128,6 +128,7 @@ function Table<T extends object & { id?: string }>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
+    // @ts-ignore
     getRowId: (row) => row.id,
     debugTable: true,
     debugHeaders: true,
