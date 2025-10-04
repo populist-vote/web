@@ -24,7 +24,7 @@ interface FlagSectionProps {
   style?: React.CSSProperties;
 }
 
-function FlagSection(props: FlagSectionProps): JSX.Element {
+function FlagSection(props: FlagSectionProps) {
   const {
     label,
     children,

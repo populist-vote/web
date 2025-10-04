@@ -104,7 +104,7 @@ interface LabelLeftProps {
   icon?: React.ReactNode;
 }
 
-function LabelLeft(props: LabelLeftProps): JSX.Element | null {
+function LabelLeft(props: LabelLeftProps) {
   const { text, color, background, icon } = props;
 
   const styleVars: CSSProperties & {
@@ -125,7 +125,7 @@ function LabelLeft(props: LabelLeftProps): JSX.Element | null {
   );
 }
 
-function Badge(props: BadgeProps): JSX.Element {
+function Badge(props: BadgeProps) {
   const { text, title, background, color, size, fontSize } = props;
 
   const styleVars: CSSProperties & {
@@ -169,7 +169,7 @@ const IconImage = ({
 const menuItemClassName: unknown = ({ hover }: { hover: boolean }) =>
   hover ? menuStyles.menuItemHover : menuStyles.menuItem;
 
-function IconMenu(props: IconMenuProps): JSX.Element {
+function IconMenu(props: IconMenuProps) {
   const { background, size, type, color } = props.icon;
 
   const {
@@ -254,7 +254,7 @@ function IconMenu(props: IconMenuProps): JSX.Element {
   );
 }
 
-function Avatar(props: AvatarProps): JSX.Element {
+function Avatar(props: AvatarProps) {
   const {
     badge,
     borderColor,
@@ -345,7 +345,7 @@ function PartyAvatar({
   labelLeft,
   opaque = false,
   ...rest
-}: PartyAvatarProps): JSX.Element {
+}: PartyAvatarProps) {
   const { background, text: color } = useMemo(
     () => getPartyColors(party),
     [party]

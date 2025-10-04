@@ -14,7 +14,7 @@ const PoliticianNote = ({
   itemId,
   note,
   language,
-}: PoliticianNoteProps): JSX.Element => {
+}: PoliticianNoteProps) => {
   return (
     <>
       <Candidate itemId={itemId} candidate={politician} />

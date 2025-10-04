@@ -9,7 +9,7 @@ function LoaderFlag({
 }: {
   height?: number;
   theme?: "blue" | "gray";
-}): JSX.Element {
+}) {
   return (
     <div
       style={{
