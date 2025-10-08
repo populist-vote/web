@@ -12,6 +12,7 @@ interface CheckboxProps<TFormValues extends FieldValues> {
   label: string;
   register: UseFormRegister<TFormValues>;
   rules?: RegisterOptions<TFormValues, Path<TFormValues>>;
+  disabled?: boolean;
 }
 
 function Checkbox<TFormValues extends Record<string, unknown>>({
@@ -20,10 +21,16 @@ function Checkbox<TFormValues extends Record<string, unknown>>({
   register,
   label,
   rules,
+  disabled = false,
 }: CheckboxProps<TFormValues>) {
   return (
     <label htmlFor={id} className={styles.container}>
-      <input id={id} {...(register && register(name, rules))} type="checkbox" />
+      <input
+        id={id}
+        {...(register && register(name, rules))}
+        type="checkbox"
+        disabled={disabled}
+      />
       <span>{label}</span>
     </label>
   );

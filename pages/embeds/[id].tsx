@@ -75,6 +75,7 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
   const raceId = data?.embedById?.attributes?.raceId;
   const candidateGuideId = data?.embedById?.attributes?.candidateGuideId;
   const electionId = data?.embedById?.attributes?.electionId;
+  const endorserId = data?.embedById?.attributes?.endorserId;
   // const conversationId = data?.embedById?.attributes?.conversationId;
   const renderOptions = data?.embedById?.attributes?.renderOptions || {};
 
@@ -147,6 +148,7 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
           origin={resolvedOrigin}
           electionId={electionId}
           renderOptions={renderOptions}
+          {...(endorserId && { endorserId })}
         />
       );
     case EmbedType.Conversation:
