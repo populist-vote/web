@@ -15,6 +15,7 @@ import { ElectionBrowserBreadcrumbs } from "./browse/[state]";
 import { getYear } from "utils/dates";
 import { ElectionRaces } from "components/Ballot/BallotRaces";
 import states from "utils/states";
+import { useSearchParams } from "next/navigation";
 
 export async function getServerSideProps({
   locale,
@@ -39,10 +40,15 @@ export async function getServerSideProps({
 export default function ElectionPage() {
   const { query } = useRouter();
   const { electionSlug, search, state } = query;
+  // State can be a route param or a search param in the case that we clicked into an election already, in which case
+  // we want to filter the races based on the state (no longer in the route param)
+  const searchParams = useSearchParams();
+  const stateSearchParam = searchParams.get("state");
+  const stateFilter = state || stateSearchParam;
   const { data, isLoading } = useElectionBySlugQuery({
     slug: electionSlug as string,
     raceFilter: {
-      state: State[state as keyof typeof State],
+      state: State[stateFilter as keyof typeof State],
     },
   });
 
