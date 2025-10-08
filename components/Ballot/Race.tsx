@@ -29,11 +29,15 @@ function Race({
   race,
   theme = "dark",
   isEmbedded = false,
+  endorserId,
+  endorsedCandidateIds,
 }: {
   race: RaceResult;
   itemId: string;
   theme?: "light" | "dark";
   isEmbedded?: boolean;
+  endorserId?: string;
+  endorsedCandidateIds?: string[];
 }) {
   const queryClient = useQueryClient();
 
@@ -172,10 +176,15 @@ function Race({
       )}
       <ScrollableContainer avatarWidth={124}>
         {sortedCandidates.map((politician: PoliticianResult) => {
-          const isEndorsing = votingGuide?.candidates
-            ?.filter((c) => c.isEndorsement)
-            .map((c) => c.politician.id)
-            .includes(politician.id);
+          // Check if candidate is endorsed by organization (in embed mode) or by user's voting guide
+          const isEndorsing = endorserId
+            ? endorsedCandidateIds
+              ? endorsedCandidateIds.includes(politician.id)
+              : race.candidates.some((c) => c.id === politician.id)
+            : votingGuide?.candidates
+                ?.filter((c) => c.isEndorsement)
+                .map((c) => c.politician.id)
+                .includes(politician.id);
 
           const hasNote = votingGuide?.candidates
             ?.filter((c) => c.note?.length)

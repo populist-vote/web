@@ -13,7 +13,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
+      align-items: stretch;
     }
   }
 
@@ -96,7 +96,7 @@
     width: 90%;
 
     p {
-      margin: 0 0 1rem;
+      margin: 0 0 1.5rem;
       text-align: left;
       font-size: $text-md;
     }
@@ -196,6 +196,7 @@
   justify-content: center;
   margin-top: 1rem;
   row-gap: 0.5rem;
+  flex-grow: 1;
 }
 
 .endorsedCandidateContainer {
@@ -337,4 +338,46 @@
 
 .gap75 {
   gap: 0.75rem;
+}
+
+.toggleContainer {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 2rem;
+}
+
+.onYourBallotLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-primary;
+  text-transform: uppercase;
+  border-radius: 20px;
+  border: 1px solid $grey-light;
+  height: 40px;
+  background-color: $grey-lighter;
+  font-size: $text-sm;
+  font-weight: 400;
+  margin: 0.5rem 0 1.5rem;
+  text-align: center;
+}
+
+.noResults {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.ballotContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.submitAddressButtonContainer {
+  margin-top: 2rem;
 }

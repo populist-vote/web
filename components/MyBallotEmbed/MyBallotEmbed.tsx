@@ -91,6 +91,9 @@ export function MyBallotEmbed({
     return localStorage.getItem("hasSubmitted") === "true";
   });
 
+  // State to track whether to show all races or just endorsed candidates
+  const [showAllRaces, setShowAllRaces] = useState(false);
+
   const submitForm = () => {
     const addressValues = getValues();
     localStorage.setItem("addressValues", JSON.stringify(addressValues));
@@ -147,29 +150,72 @@ export function MyBallotEmbed({
     }
   );
 
+  // Get all races without endorser filter when showing all races
+  const { data: allRacesData } = useMyBallotByAddressQuery(
+    {
+      electionId,
+      address: {
+        ...getValues(),
+        state: "MN" as State,
+        country: "USA",
+      },
+      // No endorserId filter to get all candidates
+    },
+    {
+      enabled:
+        hasSubmitted &&
+        !!getValues().line1 &&
+        !!getValues().city &&
+        !!getValues().state &&
+        !!getValues().postalCode &&
+        isEndorserVariant &&
+        showAllRaces,
+    }
+  );
+
   const election = electionData?.electionById;
 
   useEmbedResizer({ origin, embedId });
 
   if (electionIsLoading) return null;
 
-  // Filter races to only show those with endorsed candidates when endorserId is provided
-  const filteredRaces = data?.electionById.racesByAddress?.filter((race) => {
-    // If no endorserId, show all races
-    if (!isEndorserVariant) return true;
+  // Choose the appropriate data source based on toggle state
+  const currentData = isEndorserVariant && showAllRaces ? allRacesData : data;
 
-    // If endorserId is provided, only show races with endorsed candidates
-    return race.candidates.length > 0;
-  }) as RaceResult[];
+  // Filter races based on endorser variant and toggle state
+  const filteredRaces = currentData?.electionById.racesByAddress?.filter(
+    (race) => {
+      // If no endorserId, show all races
+      if (!isEndorserVariant) return true;
+
+      // If endorserId is provided and showAllRaces is true, show all races
+      if (showAllRaces) return true;
+
+      // If endorserId is provided and showAllRaces is false, only show races with endorsed candidates
+      return race.candidates.length > 0;
+    }
+  ) as RaceResult[];
 
   const races = filteredRaces || [];
+
+  // Get endorsed candidate IDs for each race when showing all races
+  const getEndorsedCandidateIds = (raceId: string) => {
+    if (!isEndorserVariant || !showAllRaces || !data) return [];
+    const raceWithEndorsements = data.electionById.racesByAddress?.find(
+      (r) => r.id === raceId
+    );
+    return raceWithEndorsements?.candidates.map((c) => c.id) || [];
+  };
+
+  // Use the same races for grouping
+  const racesForGrouping = races;
 
   const {
     federal: federalRacesGroupedByOffice,
     state: stateRacesGroupedByOffice,
     local: localRacesGroupedByOffice,
     judicial: judicialRacesGroupedByOffice,
-  } = splitRaces(races);
+  } = splitRaces(racesForGrouping);
 
   const ballotMeasures = data?.electionById.ballotMeasuresByAddress;
 
@@ -235,6 +281,7 @@ export function MyBallotEmbed({
           <LanguageSelect />
         </div>
         <Divider color="var(--grey-light)" style={{ margin: "0 0 1rem" }} />
+
         <div className={styles.content}>
           {!hasSubmitted && (
             <div className={clsx(styles.center, styles.addressForm)}>
@@ -303,7 +350,12 @@ export function MyBallotEmbed({
                     size="medium"
                   />
                 </div>
-                <div className={styles.centered}>
+                <div
+                  className={clsx(
+                    styles.centered,
+                    styles.submitAddressButtonContainer
+                  )}
+                >
                   {isEndorserVariant ? (
                     <Button
                       type="submit"
@@ -327,11 +379,12 @@ export function MyBallotEmbed({
           )}
           {isLoading && <LoaderFlag theme="gray" />}
           {data && !isLoading && hasSubmitted && (
-            <div style={{ width: "100%" }}>
+            <div className={styles.ballotContainer}>
+              <div className={styles.onYourBallotLabel}>On Your Ballot</div>
               {data.electionById.racesByAddress.length === 0 && (
-                <div className={styles.noResults}>No Results</div>
+                <div className={styles.noResults}>No Races</div>
               )}
-              {isEndorserVariant ? (
+              {isEndorserVariant && !showAllRaces ? (
                 // Endorser variant: Show endorsed candidates in a simplified layout
                 <div className={styles.allEndorsementsContainer}>
                   {races.length === 0 ? (
@@ -351,6 +404,10 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={federalRacesGroupedByOffice}
                       label="Federal"
+                      isEndorserVariant={isEndorserVariant}
+                      endorserId={endorserId}
+                      showAllRaces={showAllRaces}
+                      getEndorsedCandidateIds={getEndorsedCandidateIds}
                     />
                   )}
                   {(Object.keys(stateRacesGroupedByOffice).length > 0 ||
@@ -358,6 +415,10 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={stateRacesGroupedByOffice}
                       label="State"
+                      isEndorserVariant={isEndorserVariant}
+                      endorserId={endorserId}
+                      showAllRaces={showAllRaces}
+                      getEndorsedCandidateIds={getEndorsedCandidateIds}
                     >
                       {statewideBallotMeasures?.map((measure) => (
                         <BallotMeasureCard
@@ -374,6 +435,10 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={localRacesGroupedByOffice}
                       label="Local"
+                      isEndorserVariant={isEndorserVariant}
+                      endorserId={endorserId}
+                      showAllRaces={showAllRaces}
+                      getEndorsedCandidateIds={getEndorsedCandidateIds}
                     >
                       {localBallotMeasures?.map((measure) => (
                         <BallotMeasureCard
@@ -388,9 +453,26 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={judicialRacesGroupedByOffice}
                       label="Judicial"
+                      isEndorserVariant={isEndorserVariant}
+                      endorserId={endorserId}
+                      showAllRaces={showAllRaces}
+                      getEndorsedCandidateIds={getEndorsedCandidateIds}
                     />
                   )}
                 </>
+              )}
+              {isEndorserVariant && hasSubmitted && data && !isLoading && (
+                <div className={styles.toggleContainer}>
+                  <Button
+                    size="medium"
+                    label={
+                      showAllRaces
+                        ? "Show Only Endorsed Candidates"
+                        : "Show All Races & Candidates"
+                    }
+                    onClick={() => setShowAllRaces(!showAllRaces)}
+                  />
+                </div>
               )}
             </div>
           )}
@@ -440,11 +522,11 @@ function EndorsedCandidate({ race }: { race: RaceResult }) {
                 <PartyAvatar
                   theme={theme}
                   size={80}
-                  hasIconMenu={false}
-                  isEndorsement={false}
+                  hasIconMenu={true}
+                  isEndorsement={true}
                   iconSize="1.25rem"
                   hasNote={false}
-                  iconType="plus"
+                  iconType="star"
                   handleEndorseCandidate={() => {}}
                   handleUnendorseCandidate={() => {}}
                   handleAddNote={() => {}}
@@ -487,12 +569,20 @@ function RaceSection({
   size = "small",
   color = "grey",
   children,
+  isEndorserVariant,
+  endorserId,
+  showAllRaces,
+  getEndorsedCandidateIds,
 }: {
   officeRaces: Record<string, RaceResult[]>;
   label: string;
   size?: string;
   color?: FlagColor;
   children?: React.ReactNode;
+  isEndorserVariant?: boolean;
+  endorserId?: string;
+  showAllRaces?: boolean;
+  getEndorsedCandidateIds?: (raceId: string) => string[];
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
 
@@ -534,6 +624,12 @@ function RaceSection({
                   theme="light"
                   itemId={race.id}
                   isEmbedded={true}
+                  endorserId={isEndorserVariant ? endorserId : undefined}
+                  endorsedCandidateIds={
+                    isEndorserVariant && showAllRaces && getEndorsedCandidateIds
+                      ? getEndorsedCandidateIds(race.id)
+                      : undefined
+                  }
                 />
               </div>
               {race?.results.precinctReportingPercentage != null && (
