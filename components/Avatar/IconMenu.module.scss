@@ -1,21 +1,42 @@
 @import "styles/variables/colors";
 
 .menu {
-  background: $grey-lighter;
-  position: absolute;
-  top: 0;
-  right: 0;
-  color: $white;
-  box-shadow: rgba(0 0 0 / 30%) 0 19px 38px, rgba(0 0 0 / 22%) 0 15px 12px;
-  cursor: pointer;
+  min-width: 160px;
+  padding: 6px;
+  background-color: var(--color-surface, white);
+  border: 1px solid var(--color-border, #ccc);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fade-in 100ms ease-in;
 }
 
 .menuItem {
-  background: $grey-lighter;
-  color: $grey-darkest;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--color-text, #333);
+  user-select: none;
 }
 
-.menuItemHover {
-  background: $grey-light;
-  color: $grey-darkest;
+.menuItem:hover,
+.menuItem[data-highlighted] {
+  background-color: var(--color-hover, #f3f3f3);
+  color: var(--blue);
+}
+
+.arrow {
+  fill: white;
+}
+
+/* Small fade animation for open */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
