@@ -5,6 +5,7 @@ import {
   RaceResult,
   State,
   useElectionBySlugQuery,
+  useElectionVotingGuideByUserIdQuery,
 } from "generated";
 import nextI18nextConfig from "next-i18next.config";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -16,6 +17,8 @@ import { getYear } from "utils/dates";
 import { ElectionRaces } from "components/Ballot/BallotRaces";
 import states from "utils/states";
 import { useSearchParams } from "next/navigation";
+import { useAuth } from "hooks/useAuth";
+import { VotingGuideProvider } from "hooks/useVotingGuide";
 
 export async function getServerSideProps({
   locale,
@@ -52,6 +55,23 @@ export default function ElectionPage() {
     },
   });
 
+  const user = useAuth().user;
+
+  const userVotingGuideQuery = useElectionVotingGuideByUserIdQuery(
+    {
+      userId: user?.id,
+      electionId: data?.electionBySlug.id as string,
+    },
+    {
+      enabled: !!user?.id && !!data?.electionBySlug.id,
+      staleTime: 60 * 1000,
+    }
+  );
+  // Use either the voting guide ID (above) from query params OR the users voting guide ID
+  // to instantiate the VotingGuideContext
+  const userGuideId = userVotingGuideQuery.data?.electionVotingGuideByUserId
+    ?.id as string;
+
   const year = getYear(data?.electionBySlug?.electionDate).toString();
   const races = search
     ? (data?.electionBySlug.races.filter((race) => {
@@ -76,7 +96,7 @@ export default function ElectionPage() {
   if (isLoading) return <LoaderFlag />;
 
   return (
-    <div>
+    <VotingGuideProvider votingGuideId={userGuideId}>
       <ElectionBrowserBreadcrumbs state={state as string} year={year} />
       <div style={{ marginTop: "-3rem" }}>
         <ElectionHeader
@@ -84,7 +104,7 @@ export default function ElectionPage() {
         />
       </div>
       <ElectionRaces races={races} />
-    </div>
+    </VotingGuideProvider>
   );
 }
 
