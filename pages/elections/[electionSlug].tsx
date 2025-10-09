@@ -44,7 +44,7 @@ export default function ElectionPage() {
   // we want to filter the races based on the state (no longer in the route param)
   const searchParams = useSearchParams();
   const stateSearchParam = searchParams.get("state");
-  const stateFilter = state || stateSearchParam;
+  const stateFilter = stateSearchParam || state;
   const { data, isLoading } = useElectionBySlugQuery({
     slug: electionSlug as string,
     raceFilter: {
