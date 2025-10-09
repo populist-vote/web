@@ -336,7 +336,17 @@ function Avatar(props: AvatarProps) {
           $avatarImage
         )}
         {hasIconMenu && iconMenuProps && (
-          <IconMenu {...iconMenuProps} handleIconClick={handleIconClick} />
+          <IconMenu
+            {...iconMenuProps}
+            handleIconClick={(e: React.MouseEvent) => {
+              // Prevent navigation when menu button is clicked
+              e.stopPropagation();
+              e.preventDefault();
+
+              // Call the provided handler if any
+              handleIconClick?.(e);
+            }}
+          />
         )}
         {badge && <Badge {...badge} />}
         {labelLeft && <LabelLeft {...labelLeft} />}
