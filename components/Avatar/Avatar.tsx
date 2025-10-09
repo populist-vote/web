@@ -206,11 +206,20 @@ function IconMenu(props: IconMenuProps) {
     </div>
   );
 
+  // Prevent bubbling to parent Link (so clicking menu doesn’t navigate)
+  const stopEvent: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   return !!handleIconClick ? (
     <button
       className={`${styles.iconOuter} iconOnly`}
       style={styleVars}
-      onClick={handleIconClick}
+      onClick={(e) => {
+        stopEvent(e);
+        handleIconClick?.(e);
+      }}
     >
       {$icon}
     </button>
@@ -222,22 +231,30 @@ function IconMenu(props: IconMenuProps) {
           className={`${styles.iconOuter} menu`}
           style={styleVars}
           disabled={readOnly}
+          onClick={stopEvent} // <---- prevent bubbling
+          onMouseDown={stopEvent} // <---- also block mousedown on Link
         >
           {$icon}
         </MenuButton>
       }
+      onClick={stopEvent}
+      onMouseDown={stopEvent}
       transition
     >
       {isEndorsement ? (
         <MenuItem
-          onClick={handleUnendorseCandidate}
+          onClick={(e) => {
+            handleUnendorseCandidate?.(e);
+          }}
           className={menuItemClassName as MenuItemTypeProp}
         >
           Unendorse
         </MenuItem>
       ) : (
         <MenuItem
-          onClick={handleEndorseCandidate}
+          onClick={(e) => {
+            handleEndorseCandidate?.(e);
+          }}
           className={menuItemClassName as MenuItemTypeProp}
         >
           Endorse
@@ -245,7 +262,9 @@ function IconMenu(props: IconMenuProps) {
       )}
 
       <MenuItem
-        onClick={handleAddNote}
+        onClick={(e) => {
+          handleAddNote?.(e);
+        }}
         className={menuItemClassName as MenuItemTypeProp}
       >
         {hasNote ? "Edit Note" : "Add Note"}
