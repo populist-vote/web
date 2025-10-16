@@ -12,6 +12,7 @@ type SelectProps<TFormValues extends FieldValues> = {
   accentColor?: string;
   backgroundColor?: string;
   border?: "none" | "solid";
+  borderColor?: string;
   uppercase?: boolean;
   placeholder?: string;
   disabled?: boolean;
@@ -30,6 +31,7 @@ function Select<TFormValues extends Record<string, unknown>>({
   accentColor,
   backgroundColor = "transparent",
   border = "none",
+  borderColor,
   uppercase = false,
   placeholder,
   register,
@@ -42,10 +44,14 @@ function Select<TFormValues extends Record<string, unknown>>({
     "--select-text-color": string;
     "--select-accent-color": string;
     "--select-background-color": string;
+    "--select-border-color": string;
   } = {
     [`--select-text-color`]: `var(--${textColor})`,
     [`--select-accent-color`]: `var(--${accentColor || textColor})`,
     [`--select-background-color`]: `var(--${backgroundColor})`,
+    [`--select-border-color`]: borderColor
+      ? `var(--${borderColor})`
+      : `var(--${accentColor || textColor})`,
   };
 
   const cx = clsx(styles.container, {
