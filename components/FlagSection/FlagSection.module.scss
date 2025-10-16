@@ -4,11 +4,11 @@
 
 .container {
   position: relative;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 
   @include for-tablet-up {
     border-left: 1px solid $blue-dark; // Default color
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 
   &.large {
@@ -131,6 +131,10 @@
     justify-content: space-between;
     padding: 0;
   }
+}
+
+.container:last-child {
+  margin-bottom: 1rem;
 }
 
 .hideFlagForMobile {

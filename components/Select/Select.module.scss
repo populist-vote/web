@@ -36,7 +36,7 @@
   }
 
   &.border {
-    border: 2px solid var(--select-accent-color);
+    border: 1px solid var(--select-border-color);
   }
 
   select + svg.chevron {
