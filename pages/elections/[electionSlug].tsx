@@ -67,12 +67,17 @@ export default function ElectionPage() {
   };
 
   // 🗳️ Query election + first 10 races (or subsequent pages)
-  const { data, isFetching, refetch } = useElectionBySlugQuery({
-    slug: electionSlug as string,
-    raceFilter,
-    first: 10,
-    after: afterCursor,
-  });
+  const { data, isFetching, refetch } = useElectionBySlugQuery(
+    {
+      slug: electionSlug as string,
+      raceFilter,
+      first: 10,
+      after: afterCursor,
+    },
+    {
+      placeholderData: (previous) => previous,
+    }
+  );
 
   const user = useAuth().user;
 
@@ -131,11 +136,11 @@ export default function ElectionPage() {
       <div style={{ marginTop: "-3rem" }}>
         <ElectionHeader
           election={data?.electionBySlug as Partial<ElectionResult>}
+          key={data?.electionBySlug?.id}
         />
+        {isFetching && races.length === 0 && <LoaderFlag />}
       </div>
-      {isFetching && races.length === 0 ? (
-        <LoaderFlag />
-      ) : (
+      {!(isFetching && races.length === 0) && (
         <ElectionRaces
           races={races}
           onLoadMore={loadNextPage}
