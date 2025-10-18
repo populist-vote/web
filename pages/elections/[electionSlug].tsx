@@ -18,6 +18,7 @@ import { ElectionRaces } from "components/Ballot/BallotRaces";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
+import useDebounce from "hooks/useDebounce";
 
 export async function getServerSideProps({
   locale,
@@ -46,7 +47,10 @@ export default function ElectionPage() {
 
   // 🔍 Filters
   const stateSearchParam = searchParams.get("state");
-  const searchParam = searchParams.get("search")?.trim() ?? "";
+  // Initialize from URL
+  const searchInput = searchParams.get("search") ?? "";
+
+  const debouncedSearch = useDebounce(searchInput.trim(), 300);
   const stateFilter = stateSearchParam || query.state;
 
   // 🧩 Pagination state
@@ -58,7 +62,7 @@ export default function ElectionPage() {
   const raceFilter = {
     // Add all your filter props here
     state: stateFilter ? State[stateFilter as keyof typeof State] : undefined,
-    query: searchParam || undefined,
+    query: debouncedSearch || undefined,
     // future: officeType, raceType, etc.
   };
 
@@ -80,20 +84,32 @@ export default function ElectionPage() {
     { enabled: !!user?.id && !!data?.electionBySlug?.id }
   );
 
-  // 🪄 Combine and flatten edges → RaceResult[]
-  const newEdges: RaceResult[] =
-    data?.electionBySlug?.races?.edges?.map((e) => e.node as RaceResult) ?? [];
   const currentPageInfo = data?.electionBySlug?.races?.pageInfo;
 
-  // When data changes (refetch), merge with previous races
   useEffect(() => {
-    if (afterCursor) {
-      setRaces((prev) => [...prev, ...newEdges]);
-    } else {
-      setRaces(newEdges);
-    }
+    setAfterCursor(null);
+    setRaces([]);
+    void refetch();
+  }, [debouncedSearch, stateFilter]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    const newEdges: RaceResult[] =
+      data.electionBySlug?.races?.edges?.map((e) => e.node as RaceResult) ?? [];
+    const currentPageInfo = data.electionBySlug?.races?.pageInfo;
+
+    setRaces((prev) => {
+      // If afterCursor is null, it’s a fresh search, replace results
+      if (!afterCursor) {
+        return newEdges;
+      }
+      // If paginating, append
+      return [...prev, ...newEdges];
+    });
+
     setHasNextPage(!!currentPageInfo?.hasNextPage);
-  }, [data]);
+  }, [data, afterCursor]);
 
   const year = getYear(data?.electionBySlug?.electionDate).toString();
 
