@@ -301,6 +301,7 @@ query MyBallotByAddress(
       }
       relatedEmbeds {
         id
+        organizationId
         embedType
         origins {
           url

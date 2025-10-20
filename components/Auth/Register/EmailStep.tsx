@@ -23,6 +23,7 @@ function EmailStep() {
   const {
     actions,
     state: { loginFormState },
+    // @ts-expect-error - little-state-machine types are not fully compatible
   } = useStateMachine({ actions: { updateAction } });
 
   const debouncedPassword = useDebounce(loginFormState.password, 500);
@@ -234,9 +235,11 @@ function EmailStep() {
             }
             size="large"
           />
-          <small className={styles.formError}>{errors?.email?.message}</small>
           <small className={styles.formError}>
-            {errors?.password?.message}
+            {errors?.email?.message as string}
+          </small>
+          <small className={styles.formError}>
+            {errors?.password?.message as string}
           </small>
         </form>
       </div>

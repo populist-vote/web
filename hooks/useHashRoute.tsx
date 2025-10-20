@@ -13,8 +13,8 @@ export function useHashRoutes({
 }: UseHashNavigationProps = {}) {
   const [activeSection, setActiveSection] = useState<string>("");
   const isScrollingRef = useRef(false);
-  const timeoutRef = useRef<NodeJS.Timeout>(null);
-  const observerRef = useRef<IntersectionObserver>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   // Debounced history update to prevent rapid hash changes
   const updateHistory = useCallback(
