@@ -1,8 +1,25 @@
-query ElectionBySlug($slug: String!, $raceFilter: ElectionRaceFilter) {
+query ElectionBySlug(
+  $slug: String!
+  $raceFilter: ElectionRaceFilter
+  $first: Int
+  $after: String
+) {
   electionBySlug(slug: $slug) {
     ...electionFields
-    races(filter: $raceFilter) {
-      ...RaceFields
+    races(filter: $raceFilter, first: $first, after: $after) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        endCursor
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...RaceFields
+        }
+      }
     }
   }
 }

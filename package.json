@@ -37,7 +37,6 @@
     "@remotion/player": "4.0.141",
     "@remotion/renderer": "4.0.141",
     "@remotion/shapes": "4.0.141",
-    "@szhsin/react-menu": "^4.1.0",
     "@tanstack/match-sorter-utils": "8.19.4",
     "@tanstack/react-query": "^5.27.5",
     "@tanstack/react-query-devtools": "^5.27.8",

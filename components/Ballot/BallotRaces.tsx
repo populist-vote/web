@@ -1,8 +1,16 @@
-import { RaceSection } from "components";
+import { Button, RaceSection } from "components";
 import { RaceResult } from "generated";
 import { splitRaces } from "utils/data";
 
-function ElectionRaces({ races }: { races: RaceResult[] }) {
+function ElectionRaces({
+  races,
+  onLoadMore,
+  hasNextPage,
+}: {
+  races: RaceResult[];
+  onLoadMore?: () => void;
+  hasNextPage?: boolean;
+}) {
   const {
     federal: federalRacesGroupedByOffice,
     state: stateRacesGroupedByOffice,
@@ -42,6 +50,18 @@ function ElectionRaces({ races }: { races: RaceResult[] }) {
           label="Judicial"
           color="violet"
         />
+      )}
+
+      {onLoadMore && hasNextPage && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "2rem 0",
+          }}
+        >
+          <Button onClick={onLoadMore} label="Load more races" />
+        </div>
       )}
     </>
   );

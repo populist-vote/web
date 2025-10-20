@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ElectionResult,
   useElectionVotingGuideByUserIdQuery,
@@ -12,7 +13,11 @@ import { useAuth } from "hooks/useAuth";
 import { useRouter } from "next/router";
 import { BsPlusCircle } from "react-icons/bs";
 
-function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
+function ElectionHeaderComponent({
+  election,
+}: {
+  election: Partial<ElectionResult>;
+}) {
   const { data: votingGuide } = useVotingGuide();
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -34,8 +39,10 @@ function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
               electionId: election.id as string,
             }),
           });
-          if (router.pathname.includes("/voting-guides"))
+
+          if (router.pathname.includes("/voting-guides")) {
             void router.push(`/voting-guides/${data.upsertVotingGuide.id}`);
+          }
         },
       }
     );
@@ -48,6 +55,7 @@ function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
       )}
       {election.title && <h4>{election.title}</h4>}
       <p>{election.description}</p>
+
       {votingGuide ? (
         <div className={styles.guideHelper}>
           <BsPlusCircle />
@@ -67,4 +75,22 @@ function ElectionHeader({ election }: { election: Partial<ElectionResult> }) {
   );
 }
 
-export { ElectionHeader };
+/**
+ * ✅ Wrap in React.memo to prevent unnecessary re-renders
+ * Only re-render if the election.id (or key identifying info) changes
+ */
+export const ElectionHeader = React.memo(
+  ElectionHeaderComponent,
+  (prev, next) => {
+    const prevE = prev.election;
+    const nextE = next.election;
+
+    // If both IDs are the same, and other display fields haven’t changed, avoid re-render
+    return (
+      prevE?.id === nextE?.id &&
+      prevE?.title === nextE?.title &&
+      prevE?.electionDate === nextE?.electionDate &&
+      prevE?.description === nextE?.description
+    );
+  }
+);

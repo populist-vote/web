@@ -13,6 +13,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
+import { toast } from "react-toastify";
 
 import { default as clsx } from "clsx";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
@@ -21,6 +22,7 @@ import Link from "next/link";
 
 interface EditVotingGuideCandidate {
   candidateId: string;
+  candidateName?: string;
   isEndorsement?: boolean;
   note?: string | null;
 }
@@ -102,22 +104,39 @@ function Race({
 
   const editVotingGuideCandidate = ({
     candidateId,
+    candidateName,
     isEndorsement,
     note,
   }: EditVotingGuideCandidate) => {
-    upsertVotingGuideCandidate.mutate({
-      votingGuideId: votingGuide.id,
-      candidateId,
-      isEndorsement,
-      note,
-    });
+    upsertVotingGuideCandidate.mutate(
+      {
+        votingGuideId: votingGuide.id,
+        candidateId,
+        isEndorsement,
+        note,
+      },
+      {
+        onSuccess: () =>
+          toast.success(
+            `You've successfully ${isEndorsement ? "endorsed" : "unendorsed"} ${candidateName}.`
+          ),
+      }
+    );
   };
 
-  const endorseCandidate = (candidateId: string) =>
-    editVotingGuideCandidate({ candidateId, isEndorsement: true });
+  const endorseCandidate = (candidateId: string, candidateName: string) =>
+    editVotingGuideCandidate({
+      candidateId,
+      candidateName,
+      isEndorsement: true,
+    });
 
-  const unendorseCandidate = (candidateId: string) =>
-    editVotingGuideCandidate({ candidateId, isEndorsement: false });
+  const unendorseCandidate = (candidateId: string, candidateName: string) =>
+    editVotingGuideCandidate({
+      candidateId,
+      candidateName,
+      isEndorsement: false,
+    });
 
   const handleAddNoteClick = (politician: AtLeast<PoliticianResult, "id">) => {
     setDialogCandidate(politician);
@@ -252,9 +271,11 @@ function Race({
                   iconSize="1.25rem"
                   hasNote={hasNote}
                   iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
-                  handleEndorseCandidate={() => endorseCandidate(politician.id)}
+                  handleEndorseCandidate={() =>
+                    endorseCandidate(politician.id, politician.fullName)
+                  }
                   handleUnendorseCandidate={() =>
-                    unendorseCandidate(politician.id)
+                    unendorseCandidate(politician.id, politician.fullName)
                   }
                   handleAddNote={() => handleAddNoteClick(politician)}
                   party={politician?.party as PoliticalParty}

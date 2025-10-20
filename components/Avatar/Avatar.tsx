@@ -11,15 +11,7 @@ import {
 } from "utils/constants";
 import { PoliticalParty } from "../../generated";
 import styles from "./Avatar.module.scss";
-import {
-  Menu,
-  MenuItem,
-  MenuButton,
-  ClickEvent,
-  MenuItemTypeProp,
-} from "@szhsin/react-menu";
-import "@szhsin/react-menu/dist/index.css";
-import "@szhsin/react-menu/dist/transitions/slide.css";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import menuStyles from "./IconMenu.module.scss";
 
 import Link from "next/link";
@@ -51,10 +43,10 @@ interface IconProps {
 interface IconMenuProps {
   isEndorsement: boolean;
   hasNote: boolean;
-  handleEndorseCandidate?: EventHandler<ClickEvent | any>;
-  handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
-  handleAddNote?: EventHandler<ClickEvent | any>;
-  handleIconClick?: EventHandler<ClickEvent | any>;
+  handleEndorseCandidate?: EventHandler<any>;
+  handleUnendorseCandidate?: EventHandler<any>;
+  handleAddNote?: EventHandler<any>;
+  handleIconClick?: EventHandler<any>;
   icon: IconProps;
   readOnly: boolean;
 }
@@ -68,7 +60,7 @@ interface AvatarProps {
   borderColor?: string;
   borderWidth?: string;
   hasIconMenu?: boolean;
-  handleIconClick?: EventHandler<ClickEvent | any>;
+  handleIconClick?: EventHandler<any>;
   iconMenuProps?: IconMenuProps;
   name?: string;
   round?: boolean;
@@ -91,9 +83,9 @@ interface PartyAvatarProps extends AvatarProps {
   isEndorsement?: boolean;
   iconSize?: string;
   iconType?: IconType;
-  handleEndorseCandidate?: EventHandler<ClickEvent | any>;
-  handleUnendorseCandidate?: EventHandler<ClickEvent | any>;
-  handleAddNote?: EventHandler<ClickEvent | any>;
+  handleEndorseCandidate?: EventHandler<any>;
+  handleUnendorseCandidate?: EventHandler<any>;
+  handleAddNote?: EventHandler<any>;
   readOnly?: boolean;
 }
 
@@ -166,12 +158,19 @@ const IconImage = ({
   }
 };
 
-const menuItemClassName: unknown = ({ hover }: { hover: boolean }) =>
-  hover ? menuStyles.menuItemHover : menuStyles.menuItem;
+interface IconMenuProps {
+  isEndorsement: boolean;
+  hasNote: boolean;
+  handleEndorseCandidate?: EventHandler<any>;
+  handleUnendorseCandidate?: EventHandler<any>;
+  handleAddNote?: EventHandler<any>;
+  handleIconClick?: EventHandler<any>;
+  icon: IconProps;
+  readOnly: boolean;
+}
 
-function IconMenu(props: IconMenuProps) {
+export function IconMenu(props: IconMenuProps) {
   const { background, size, type, color } = props.icon;
-
   const {
     isEndorsement = false,
     hasNote = false,
@@ -196,7 +195,12 @@ function IconMenu(props: IconMenuProps) {
     ["--icon-cursor"]: !!handleEndorseCandidate ? "pointer" : "default",
   };
 
-  if (readOnly && type === "plus") return <></>;
+  if (readOnly && type === "plus") return null;
+
+  const stopEvent: React.MouseEventHandler = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
 
   const $icon = (
     <div className={styles.iconInner}>
@@ -206,51 +210,71 @@ function IconMenu(props: IconMenuProps) {
     </div>
   );
 
-  return !!handleIconClick ? (
-    <button
-      className={`${styles.iconOuter} iconOnly`}
-      style={styleVars}
-      onClick={handleIconClick}
-    >
-      {$icon}
-    </button>
-  ) : (
-    <Menu
-      menuClassName={menuStyles.menu}
-      menuButton={
-        <MenuButton
+  // If there's an explicit click handler, just render a button
+  if (handleIconClick) {
+    return (
+      <button
+        className={`${styles.iconOuter} iconOnly`}
+        style={styleVars}
+        onClick={(e) => {
+          stopEvent(e);
+          handleIconClick(e);
+        }}
+      >
+        {$icon}
+      </button>
+    );
+  }
+
+  // Otherwise, render a Radix DropdownMenu
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button
           className={`${styles.iconOuter} menu`}
           style={styleVars}
           disabled={readOnly}
+          onClick={stopEvent}
+          onMouseDown={stopEvent}
         >
           {$icon}
-        </MenuButton>
-      }
-      transition
-    >
-      {isEndorsement ? (
-        <MenuItem
-          onClick={handleUnendorseCandidate}
-          className={menuItemClassName as MenuItemTypeProp}
-        >
-          Unendorse
-        </MenuItem>
-      ) : (
-        <MenuItem
-          onClick={handleEndorseCandidate}
-          className={menuItemClassName as MenuItemTypeProp}
-        >
-          Endorse
-        </MenuItem>
-      )}
+        </button>
+      </DropdownMenu.Trigger>
 
-      <MenuItem
-        onClick={handleAddNote}
-        className={menuItemClassName as MenuItemTypeProp}
-      >
-        {hasNote ? "Edit Note" : "Add Note"}
-      </MenuItem>
-    </Menu>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          className={menuStyles.menu}
+          sideOffset={4}
+          onClick={stopEvent}
+          onMouseDown={stopEvent}
+        >
+          {isEndorsement ? (
+            <DropdownMenu.Item
+              className={menuStyles.menuItem}
+              onClick={(e) => handleUnendorseCandidate?.(e)}
+            >
+              Unendorse
+            </DropdownMenu.Item>
+          ) : (
+            <DropdownMenu.Item
+              className={menuStyles.menuItem}
+              onClick={(e) => handleEndorseCandidate?.(e)}
+            >
+              Endorse
+            </DropdownMenu.Item>
+          )}
+
+          <DropdownMenu.Item
+            className={menuStyles.menuItem}
+            onClick={(e) => handleAddNote?.(e)}
+          >
+            {hasNote ? "Edit Note" : "Add Note"}
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Arrow className={menuStyles.arrow} />
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 }
 

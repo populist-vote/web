@@ -651,7 +651,7 @@ type ElectionResult {
   description: String
   electionDate: NaiveDate!
   id: ID!
-  races(filter: ElectionRaceFilter): [RaceResult!]!
+  races(after: String, before: String, filter: ElectionRaceFilter, first: Int, last: Int): RaceResultConnection!
   """Show races based on an anonymous user with an address"""
   racesByAddress(address: AddressInput!): [RaceResult!]!
   """Show races relevant to the user based on their address"""
