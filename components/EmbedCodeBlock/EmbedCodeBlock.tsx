@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import hljs from "highlight.js";
 import { useEffect } from "react";
 
+import { useRef } from "react";
+
 function CodeBlock({
   language,
   setLanguage,
@@ -16,6 +18,7 @@ function CodeBlock({
   snippets: { html: string; react: string; nextjs: string };
 }) {
   const text = snippets[language];
+  const codeRef = useRef<HTMLElement>(null);
 
   const handleCopy = () => {
     void navigator.clipboard.writeText(text);
@@ -27,8 +30,10 @@ function CodeBlock({
   };
 
   useEffect(() => {
-    hljs.highlightAll();
-  }, [language]);
+    if (codeRef.current) {
+      hljs.highlightElement(codeRef.current);
+    }
+  }, [language, text]);
 
   return (
     <>
@@ -37,7 +42,9 @@ function CodeBlock({
           <small>
             <select
               value={language}
-              onChange={(e) => setLanguage(e.target.value as "html" | "react")}
+              onChange={(e) =>
+                setLanguage(e.target.value as "html" | "react" | "nextjs")
+              }
             >
               <option value="html">HTML</option>
               <option value="react">React</option>
@@ -52,7 +59,9 @@ function CodeBlock({
           />
         </div>
         <pre>
-          <code className={language === "html" ? "html" : "jsx"}>{text}</code>
+          <code ref={codeRef} className={language === "html" ? "html" : "jsx"}>
+            {text}
+          </code>
         </pre>
       </div>
     </>

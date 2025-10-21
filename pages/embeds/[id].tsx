@@ -7,6 +7,7 @@ import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
 import { RaceWidget } from "components/RaceWidget/RaceWidget";
+import styles from "./EmbedPage.module.scss";
 import {
   EmbedType,
   useEmbedByIdQuery,
@@ -90,7 +91,12 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
   }, [originHost]);
 
   if (isLoading) return null;
-  if (error) return <div>This embed does not exist</div>;
+  if (error)
+    return (
+      <div className={styles.noResults}>
+        Sorry, something went wrong loading this embed.
+      </div>
+    );
 
   switch (embedType) {
     case EmbedType.Legislation:
