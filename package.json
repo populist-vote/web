@@ -2,7 +2,7 @@
   "name": "web",
   "private": true,
   "scripts": {
-    "cscript": "tsc scripts/widget-client.ts --outDir public",
+    "cscript": "tsc scripts/widget-client-v2.ts --outDir public",
     "generate": "dotenv -c local -- graphql-codegen",
     "dev": "pnpm cscript --watch --preserveWatchOutput & next dev -p 3030",
     "build": "pnpm cscript && next build",

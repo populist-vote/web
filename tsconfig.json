@@ -30,7 +30,7 @@
   ],
   "exclude": [
     "node_modules",
-    "./scripts/widget-client.ts",
+    "scripts/widget-client.ts",
     "./scripts/build-search-index.ts"
   ]
 }
