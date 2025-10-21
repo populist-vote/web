@@ -7,7 +7,7 @@ import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
 import { PollWidget } from "components/PollWidget/PollWidget";
 import { QuestionWidget } from "components/QuestionWidget/QuestionWidget";
 import { RaceWidget } from "components/RaceWidget/RaceWidget";
-import styles from "./EmbedPage.module.scss";
+import styles from "components/EmbedPage/EmbedPage.module.scss";
 import {
   EmbedType,
   useEmbedByIdQuery,
