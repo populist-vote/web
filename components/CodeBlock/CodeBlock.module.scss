@@ -15,6 +15,12 @@
 
     small {
       color: $blue-text;
+      font-size: 1.15em;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+      }
     }
 
     select {
@@ -29,11 +35,11 @@
   code {
     border-radius: 0 0 5px 5px;
     background-color: #011d2e;
-    font-family: Monaco, monospace;
-    font-size: 0.9em;
-    letter-spacing: -0.05em;
+    font-family: monospace;
+    font-size: 1.1em;
+    line-height: 1.4em;
     word-break: normal;
-    padding: 0.25rem !important;
+    padding: 0.5rem !important;
     margin: 0 !important;
   }
 }

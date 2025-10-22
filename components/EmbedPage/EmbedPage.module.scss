@@ -4,6 +4,10 @@
   margin: 1.5rem 0;
 }
 
+.embedCode {
+  max-width: 800px;
+}
+
 .content {
   display: grid;
   grid-template-columns: 4fr 6fr;
