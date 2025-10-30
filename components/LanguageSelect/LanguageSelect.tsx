@@ -9,7 +9,9 @@ export function LanguageSelect({ languages }: { languages?: LanguageCode[] }) {
   return (
     <Select
       textColor="grey-darkest"
-      backgroundColor={"grey-light"}
+      backgroundColor={"grey-lighter"}
+      border="solid"
+      borderColor="grey-light"
       onChange={(e) => {
         void i18n.changeLanguage(e.target.value);
         void router.push(router.asPath, router.asPath, {

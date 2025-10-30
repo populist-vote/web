@@ -2,6 +2,7 @@ import styles from "./MyBallotEmbed.module.scss";
 import { useForm } from "react-hook-form";
 import { TextInput } from "components/TextInput/TextInput";
 import { Button } from "components/Button/Button";
+import states from "utils/states";
 import {
   AddressInput,
   ElectionScope,
@@ -58,9 +59,6 @@ export function MyBallotEmbed({
   const { locale } = router;
   const { t } = useTranslation(["auth", "common", "embeds"]);
 
-  // Variant detection
-  const isEndorserVariant = Boolean(endorserId);
-
   /// Handle default language
   useEffect(() => {
     if (renderOptions?.defaultLanguage) {
@@ -75,7 +73,10 @@ export function MyBallotEmbed({
   const defaultValues = JSON.parse(
     localStorage.getItem("addressValues") || "{}"
   );
-  defaultValues.state = "MN";
+  // Set default state to MN if not already set
+  if (!defaultValues.state) {
+    defaultValues.state = "MN";
+  }
 
   const {
     register,
@@ -106,13 +107,13 @@ export function MyBallotEmbed({
       id: electionId,
     });
 
-  // Get embed data to access organizationId (only when needed for endorser variant)
+  // Get embed data to access organizationId
   const { data: embedData } = useEmbedByIdQuery(
     {
       id: embedId,
     },
     {
-      enabled: isEndorserVariant,
+      enabled: true, // Always fetch to get organizationId for filtering related embeds
     }
   );
 
@@ -124,7 +125,7 @@ export function MyBallotEmbed({
       id: organizationId as string,
     },
     {
-      enabled: !!organizationId && isEndorserVariant,
+      enabled: !!organizationId && !!endorserId,
     }
   );
 
@@ -135,7 +136,7 @@ export function MyBallotEmbed({
       electionId,
       address: {
         ...getValues(),
-        state: "MN" as State,
+        state: getValues().state?.toUpperCase() as State,
         country: "USA",
       },
       endorserId: endorserId || undefined,
@@ -151,27 +152,28 @@ export function MyBallotEmbed({
   );
 
   // Get all races without endorser filter when showing all races
-  const { data: allRacesData } = useMyBallotByAddressQuery(
-    {
-      electionId,
-      address: {
-        ...getValues(),
-        state: "MN" as State,
-        country: "USA",
+  const { data: allRacesData, isLoading: allRacesLoading } =
+    useMyBallotByAddressQuery(
+      {
+        electionId,
+        address: {
+          ...getValues(),
+          state: getValues().state?.toUpperCase() as State,
+          country: "USA",
+        },
+        // No endorserId filter to get all candidates
       },
-      // No endorserId filter to get all candidates
-    },
-    {
-      enabled:
-        hasSubmitted &&
-        !!getValues().line1 &&
-        !!getValues().city &&
-        !!getValues().state &&
-        !!getValues().postalCode &&
-        isEndorserVariant &&
-        showAllRaces,
-    }
-  );
+      {
+        enabled:
+          hasSubmitted &&
+          !!getValues().line1 &&
+          !!getValues().city &&
+          !!getValues().state &&
+          !!getValues().postalCode &&
+          !!endorserId &&
+          showAllRaces,
+      }
+    );
 
   const election = electionData?.electionById;
 
@@ -180,13 +182,13 @@ export function MyBallotEmbed({
   if (electionIsLoading) return null;
 
   // Choose the appropriate data source based on toggle state
-  const currentData = isEndorserVariant && showAllRaces ? allRacesData : data;
+  const currentData = endorserId && showAllRaces ? allRacesData : data;
 
   // Filter races based on endorser variant and toggle state
   const filteredRaces = currentData?.electionById.racesByAddress?.filter(
     (race) => {
       // If no endorserId, show all races
-      if (!isEndorserVariant) return true;
+      if (!endorserId) return true;
 
       // If endorserId is provided and showAllRaces is true, show all races
       if (showAllRaces) return true;
@@ -200,7 +202,7 @@ export function MyBallotEmbed({
 
   // Get endorsed candidate IDs for each race when showing all races
   const getEndorsedCandidateIds = (raceId: string) => {
-    if (!isEndorserVariant || !showAllRaces || !data) return [];
+    if (!endorserId || !showAllRaces || !data) return [];
     const raceWithEndorsements = data.electionById.racesByAddress?.find(
       (r) => r.id === raceId
     );
@@ -261,7 +263,7 @@ export function MyBallotEmbed({
               <BsChevronLeft size={25} onClick={() => setHasSubmitted(false)} />
             )}
             <div className={styles.mainTitle}>
-              {isEndorserVariant && organization ? (
+              {endorserId && organization ? (
                 <div className={styles.endorserTitle}>
                   <OrganizationAvatar
                     src={organization.assets?.thumbnailImage160 as string}
@@ -289,7 +291,7 @@ export function MyBallotEmbed({
                 onSubmit={handleSubmit(submitForm)}
                 data-testid="my-ballot-address-form"
               >
-                {isEndorserVariant ? (
+                {endorserId ? (
                   <p>
                     {t("enter-address-explainer-endorsements", {
                       ns: "embeds",
@@ -305,7 +307,7 @@ export function MyBallotEmbed({
                     register={register}
                     rules={{ required: "Address line 1 is required" }}
                     control={control}
-                    error={errors?.line1}
+                    error={errors?.line1?.message}
                     size="medium"
                   />
                 </div>
@@ -315,7 +317,7 @@ export function MyBallotEmbed({
                     placeholder={t("apartment-line")}
                     register={register}
                     control={control}
-                    error={errors?.line2}
+                    error={errors?.line2?.message}
                     size="medium"
                   />
                 </div>
@@ -327,18 +329,31 @@ export function MyBallotEmbed({
                     register={register}
                     rules={{ required: "City is required" }}
                     control={control}
-                    error={errors?.city}
+                    error={errors?.city?.message}
                     size="medium"
                   />
                   <TextInput
                     name="state"
                     placeholder={t("state")}
                     register={register}
-                    rules={{ required: "State is required" }}
+                    rules={{
+                      required: "State is required",
+                      maxLength: {
+                        value: 2,
+                        message: "State code must be 2 characters",
+                      },
+                      validate: (value) => {
+                        const upperValue = String(value || "").toUpperCase();
+                        return (
+                          Object.keys(states).includes(upperValue) ||
+                          "Invalid state code"
+                        );
+                      },
+                    }}
                     control={control}
-                    error={errors?.state}
-                    disabled
+                    error={errors?.state?.message}
                     size="medium"
+                    maxLength={2}
                   />
                   <TextInput
                     name="postalCode"
@@ -346,7 +361,7 @@ export function MyBallotEmbed({
                     register={register}
                     rules={{ required: "Zip code is required" }}
                     control={control}
-                    error={errors?.postalCode}
+                    error={errors?.postalCode?.message}
                     size="medium"
                   />
                 </div>
@@ -356,7 +371,7 @@ export function MyBallotEmbed({
                     styles.submitAddressButtonContainer
                   )}
                 >
-                  {isEndorserVariant ? (
+                  {endorserId ? (
                     <Button
                       type="submit"
                       size="medium"
@@ -381,10 +396,13 @@ export function MyBallotEmbed({
           {data && !isLoading && hasSubmitted && (
             <div className={styles.ballotContainer}>
               <div className={styles.onYourBallotLabel}>On Your Ballot</div>
-              {data.electionById.racesByAddress.length === 0 && (
-                <div className={styles.noResults}>No Races</div>
-              )}
-              {isEndorserVariant && !showAllRaces ? (
+              {data.electionById.racesByAddress.length === 0 ? (
+                <div className={styles.noResults}>No races on your ballot</div>
+              ) : allRacesLoading ? (
+                <div className={styles.loaderFlagContainer}>
+                  <LoaderFlag theme="gray" />
+                </div>
+              ) : endorserId && !showAllRaces ? (
                 // Endorser variant: Show endorsed candidates in a simplified layout
                 <div className={styles.allEndorsementsContainer}>
                   {races.length === 0 ? (
@@ -404,10 +422,10 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={federalRacesGroupedByOffice}
                       label="Federal"
-                      isEndorserVariant={isEndorserVariant}
                       endorserId={endorserId}
                       showAllRaces={showAllRaces}
                       getEndorsedCandidateIds={getEndorsedCandidateIds}
+                      organizationId={organizationId}
                     />
                   )}
                   {(Object.keys(stateRacesGroupedByOffice).length > 0 ||
@@ -415,10 +433,10 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={stateRacesGroupedByOffice}
                       label="State"
-                      isEndorserVariant={isEndorserVariant}
                       endorserId={endorserId}
                       showAllRaces={showAllRaces}
                       getEndorsedCandidateIds={getEndorsedCandidateIds}
+                      organizationId={organizationId}
                     >
                       {statewideBallotMeasures?.map((measure) => (
                         <BallotMeasureCard
@@ -435,10 +453,10 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={localRacesGroupedByOffice}
                       label="Local"
-                      isEndorserVariant={isEndorserVariant}
                       endorserId={endorserId}
                       showAllRaces={showAllRaces}
                       getEndorsedCandidateIds={getEndorsedCandidateIds}
+                      organizationId={organizationId}
                     >
                       {localBallotMeasures?.map((measure) => (
                         <BallotMeasureCard
@@ -453,29 +471,33 @@ export function MyBallotEmbed({
                     <RaceSection
                       officeRaces={judicialRacesGroupedByOffice}
                       label="Judicial"
-                      isEndorserVariant={isEndorserVariant}
                       endorserId={endorserId}
                       showAllRaces={showAllRaces}
                       getEndorsedCandidateIds={getEndorsedCandidateIds}
+                      organizationId={organizationId}
                     />
                   )}
                 </>
               )}
-              {isEndorserVariant && hasSubmitted && data && !isLoading && (
-                <div className={styles.toggleContainer}>
-                  <Button
-                    size="medium"
-                    label={
-                      showAllRaces
-                        ? "Show Only Endorsed Candidates"
-                        : "Show All Races & Candidates"
-                    }
-                    onClick={() => setShowAllRaces(!showAllRaces)}
-                  />
-                </div>
-              )}
             </div>
           )}
+          {endorserId &&
+            hasSubmitted &&
+            data &&
+            !isLoading &&
+            data.electionById.racesByAddress.length > 0 && (
+              <div className={styles.toggleContainer}>
+                <Button
+                  size="medium"
+                  label={
+                    showAllRaces
+                      ? "Show Only Endorsed Candidates"
+                      : "Show All Races & Candidates"
+                  }
+                  onClick={() => setShowAllRaces(!showAllRaces)}
+                />
+              </div>
+            )}
         </div>
       </main>
       <WidgetFooter />
@@ -569,20 +591,20 @@ function RaceSection({
   size = "small",
   color = "grey",
   children,
-  isEndorserVariant,
   endorserId,
   showAllRaces,
   getEndorsedCandidateIds,
+  organizationId,
 }: {
   officeRaces: Record<string, RaceResult[]>;
   label: string;
   size?: string;
   color?: FlagColor;
   children?: React.ReactNode;
-  isEndorserVariant?: boolean;
   endorserId?: string;
   showAllRaces?: boolean;
   getEndorsedCandidateIds?: (raceId: string) => string[];
+  organizationId?: string;
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
 
@@ -624,27 +646,31 @@ function RaceSection({
                   theme="light"
                   itemId={race.id}
                   isEmbedded={true}
-                  endorserId={isEndorserVariant ? endorserId : undefined}
+                  endorserId={endorserId}
                   endorsedCandidateIds={
-                    isEndorserVariant && showAllRaces && getEndorsedCandidateIds
+                    endorserId && showAllRaces && getEndorsedCandidateIds
                       ? getEndorsedCandidateIds(race.id)
                       : undefined
                   }
                 />
               </div>
               {race?.results.precinctReportingPercentage != null && (
-                <div className={styles.resultsInfo}>
-                  <small>
-                    Vote totals update every 10 minutes after polls close.
-                  </small>
-                  <Badge size="small" theme="green" lightBackground>
-                    {race?.results?.precinctReportingPercentage}% precincts
-                    reporting
-                  </Badge>
-                </div>
+                <>
+                  <div className={styles.resultsInfo}>
+                    <small>
+                      Vote totals update every 10 minutes after polls close.
+                    </small>
+                    <Badge size="small" theme="green" lightBackground>
+                      {race?.results?.precinctReportingPercentage}% precincts
+                      reporting
+                    </Badge>
+                  </div>
+                </>
               )}
-              <Divider color="var(--grey-light)" />
-              <RelatedEmbedLinks relatedEmbeds={race.relatedEmbeds} />
+              <RelatedEmbedLinks
+                relatedEmbeds={race.relatedEmbeds}
+                organizationId={organizationId}
+              />
             </div>
           );
         });
@@ -656,8 +682,10 @@ function RaceSection({
 
 function RelatedEmbedLinks({
   relatedEmbeds,
+  organizationId,
 }: {
   relatedEmbeds: EmbedResult[];
+  organizationId?: string;
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
 
@@ -668,14 +696,23 @@ function RelatedEmbedLinks({
 
   if (!relatedEmbeds || relatedEmbeds.length === 0) return null;
 
-  return (
-    <ul className={styles.moreInfo}>
-      {<h4>{t("more-info", { ns: "embeds" })}</h4>}
-      {relatedEmbeds.flatMap((embed: EmbedResult) => {
-        const populistUrl = `${window?.location?.origin}/embeds/preview/${embed.id}`;
+  // Only show embeds that have external origins AND belong to the same organization
+  const embedsWithOrigins = relatedEmbeds.filter(
+    (embed) =>
+      embed.origins &&
+      embed.origins.length > 0 &&
+      (!organizationId || embed.organizationId === organizationId)
+  );
 
-        // Handle relatedEmbeds with origins
-        if (embed.origins && embed.origins.length > 0) {
+  // If no embeds have origins, don't show the More Info section at all
+  if (embedsWithOrigins.length === 0) return null;
+
+  return (
+    <>
+      <ul className={styles.moreInfo}>
+        {<h4>{t("more-info", { ns: "embeds" })}</h4>}
+        {embedsWithOrigins.flatMap((embed: EmbedResult) => {
+          // Show only external origin links
           return embed.origins.map((origin) => {
             if (!origin) return null;
             return (
@@ -692,19 +729,8 @@ function RelatedEmbedLinks({
               </li>
             );
           });
-        }
-
-        // If no origins, show a link with a Populist URL
-        return (
-          <li key={`${embed.id}-populist`}>
-            <a href={populistUrl} target={"_blank"} rel={"noopener noreferrer"}>
-              {getEmbedTypeTranslationKey(embed.embedType)}
-              {" — "}
-              {embed.race?.title} | Populist
-            </a>
-          </li>
-        );
-      })}
-    </ul>
+        })}
+      </ul>
+    </>
   );
 }
