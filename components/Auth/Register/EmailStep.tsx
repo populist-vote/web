@@ -23,7 +23,6 @@ function EmailStep() {
   const {
     actions,
     state: { loginFormState },
-    // @ts-expect-error - little-state-machine types are not fully compatible
   } = useStateMachine({ actions: { updateAction } });
 
   const debouncedPassword = useDebounce(loginFormState.password, 500);

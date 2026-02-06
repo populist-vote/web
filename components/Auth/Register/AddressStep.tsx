@@ -25,7 +25,6 @@ function AddressStep() {
   const {
     actions,
     state: { loginFormState },
-    // @ts-expect-error - little-state-machine types are not fully compatible
   } = useStateMachine({ actions: { updateAction } });
 
   const {
@@ -68,7 +67,6 @@ function AddressStep() {
   };
 
   const submitForm = (data: { address?: AddressInput | null }) => {
-    // @ts-expect-error - little-state-machine wraps action, only needs payload
     actions.updateAction({ address: data.address });
 
     handleUserRegistration.mutate({

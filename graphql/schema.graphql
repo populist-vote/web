@@ -609,6 +609,7 @@ enum DistrictType {
   COUNTY
   HOSPITAL
   JUDICIAL
+  PARK
   SCHOOL
   SOIL_AND_WATER
   STATE_HOUSE
@@ -643,6 +644,7 @@ input ElectionFilter {
 }
 
 input ElectionRaceFilter {
+  query: String
   state: State
 }
 
