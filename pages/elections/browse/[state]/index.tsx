@@ -122,13 +122,10 @@ export function ElectionBrowserBreadcrumbs({
     }
   }, [searchValue, router, state, year]);
 
-  const stateOptions = [
-    ...Object.entries(states).map(([key, value]) => ({
-      label: value,
-      value: key,
-    })),
-    { label: "Federal", value: "FEDERAL" },
-  ];
+  const stateOptions = Object.entries(states).map(([key, value]) => ({
+    label: value,
+    value: key,
+  }));
 
   const isElectionPage =
     router.pathname.includes("/elections/") &&
@@ -154,7 +151,19 @@ export function ElectionBrowserBreadcrumbs({
       >
         <BiChevronLeft
           size={25}
-          onClick={() => router.push("/elections/browse")}
+          onClick={() => {
+            if (isElectionPage && state) {
+              const params = new URLSearchParams();
+              if (year) params.set("year", year);
+              if (search) params.set("search", search);
+              const qs = params.toString();
+              void router.push(
+                `/elections/browse/${state.toLowerCase()}${qs ? `?${qs}` : ""}`
+              );
+            } else {
+              void router.push("/elections/browse");
+            }
+          }}
         />
         <Select
           textColor={"white"}

@@ -51,11 +51,18 @@ export default function ElectionPage() {
   const searchInput = searchParams.get("search") ?? "";
 
   const debouncedSearch = useDebounce(searchInput.trim(), 300);
-  const stateFilter = stateSearchParam || query.state;
+  const stateFilterRaw = stateSearchParam ?? query.state;
+  const stateFilter = Array.isArray(stateFilterRaw)
+    ? stateFilterRaw[0]
+    : stateFilterRaw;
   const user = useAuth().user;
 
+  // Normalize state to enum key (e.g. "mn" -> "Mn") so State[stateKey] matches
+  const stateKey = stateFilter
+    ? (stateFilter.charAt(0).toUpperCase() + stateFilter.slice(1).toLowerCase()) as keyof typeof State
+    : null;
   const raceFilter = {
-    state: stateFilter ? State[stateFilter as keyof typeof State] : undefined,
+    state: stateKey && stateKey in State ? State[stateKey] : undefined,
     query: debouncedSearch || undefined,
   };
 

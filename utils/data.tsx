@@ -19,6 +19,10 @@ export const groupBy = <T, K extends keyof any>(
     {} as Record<K, T[]>
   );
 
+/** Group key: same officeId for regular races; unique key per special election so each gets its own OfficeRaces. */
+const getRaceGroupKey = (race: RaceResult) =>
+  race.isSpecialElection ? `${race.office.id}-special-${race.id}` : race.office.id;
+
 export const filterRaces = (
   races: RaceResult[],
   politicalScope: PoliticalScope
@@ -32,7 +36,7 @@ export const filterRaces = (
           race.office.title.includes("Justice")
         )
     ),
-    (race) => race.office.id
+    getRaceGroupKey
   );
 };
 
@@ -43,7 +47,7 @@ export const splitRaces = (races: RaceResult[]) => {
         race.office.title.includes("Judge") ||
         race.office.title.includes("Justice")
     ),
-    (race) => race.office.id
+    getRaceGroupKey
   );
 
   return {

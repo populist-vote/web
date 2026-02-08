@@ -60,7 +60,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common", "embeds"],
-        nextI18nextConfig
+        nextI18nextConfig,
       )),
     },
   };
@@ -77,7 +77,7 @@ export default function CandidateGuideEmbedPage({
     },
     {
       enabled: !!dashboardSlug,
-    }
+    },
   );
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
 
@@ -95,7 +95,7 @@ export default function CandidateGuideEmbedPage({
     },
     {
       staleTime: 1000 * 60 * 5,
-    }
+    },
   );
 
   const embed = data?.embedById;
@@ -110,7 +110,7 @@ export default function CandidateGuideEmbedPage({
     {
       enabled: !!raceId,
       staleTime: 1000 * 60 * 5,
-    }
+    },
   );
 
   const { data: submissionsData } = useCandidateGuideSubmissionsByRaceIdQuery(
@@ -121,28 +121,28 @@ export default function CandidateGuideEmbedPage({
     {
       enabled: !!(candidateGuide?.id && raceId),
       staleTime: 1000 * 60 * 5,
-    }
+    },
   );
 
   const allSubmissions = submissionsData?.candidateGuideById.questions?.flatMap(
-    (question) => question.submissionsByRace
+    (question) => question.submissionsByRace,
   );
 
   const availableLanguageCodes = submissionsData?.candidateGuideById.questions
     .flatMap((q) => q.submissionsByRace)
     .flatMap((sub) =>
-      Object.entries(sub?.translations?.response || {}).filter(([, v]) => !!v)
+      Object.entries(sub?.translations?.response || {}).filter(([, v]) => !!v),
     )
     .map(([k]) => k);
 
   const availableLanguages = LANGUAGES.filter(
-    (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
+    (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en",
   );
   const renderOptions = embed?.attributes.renderOptions;
 
   const candidates = useMemo(
     () => raceData?.raceById?.candidates || [],
-    [raceData]
+    [raceData],
   );
   const title = embed?.race?.title as string;
   const candidateGuideId = embed?.candidateGuide?.id as string;
@@ -161,20 +161,20 @@ export default function CandidateGuideEmbedPage({
             void navigator.clipboard.writeText(data.generateIntakeTokenLink);
             toast.success("Copied to clipboard!");
           },
-        }
+        },
       );
     },
-    [intakeLinkMutation]
+    [intakeLinkMutation],
   );
 
   const candidateRespondedAt = useCallback(
     (politicianId: string) => {
       const updatedAt = allSubmissions?.find(
-        (s) => s.politician?.id === politicianId
+        (s) => s.politician?.id === politicianId,
       )?.updatedAt;
       return updatedAt ? new Date(updatedAt).toLocaleDateString() : "No";
     },
-    [allSubmissions]
+    [allSubmissions],
   );
 
   const exportMutation = useDownloadAllCandidateGuideDataMutation();
@@ -185,7 +185,7 @@ export default function CandidateGuideEmbedPage({
       {
         onSuccess: (data) => downloadCsv(data.downloadAllCandidateGuideData),
         onError: (error) => toast.error((error as Error).message),
-      }
+      },
     );
   };
 
@@ -222,7 +222,7 @@ export default function CandidateGuideEmbedPage({
         cell: (info) => candidateRespondedAt(info.row.original.id as string),
       },
     ],
-    [candidateRespondedAt, candidateGuideId, handleCopyIntakeLink]
+    [candidateRespondedAt, candidateGuideId, handleCopyIntakeLink],
   );
 
   if (isEmbedLoading || isRaceLoading) return <LoaderFlag />;
@@ -267,14 +267,7 @@ export default function CandidateGuideEmbedPage({
         />
       </section>
       <section className={clsx(styles.section, styles.content)}>
-        <div
-          style={{
-            width: "auto",
-            display: "flex",
-            flexDirection: "column",
-            gap: "2rem",
-          }}
-        >
+        <div className={styles.options}>
           <OptionsForm
             embed={embed as EmbedResult}
             currentOrganizationId={currentOrganizationId as string}
@@ -382,7 +375,7 @@ function OptionsForm({
         onError: (error) => {
           toast((error as Error).message, { type: "error" });
         },
-      }
+      },
     );
   };
 
@@ -412,7 +405,7 @@ function OptionsForm({
         onError: (error) => {
           toast((error as Error).message, { type: "error" });
         },
-      }
+      },
     );
   };
   return (
@@ -528,7 +521,7 @@ function ContactCell({
           onError: () => {
             toast.error(`Failed to update ${contactType}`);
           },
-        }
+        },
       );
     } catch (error) {
       toast.error("Form submission error");
