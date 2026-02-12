@@ -41,6 +41,8 @@
   .options {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
+    min-width: 0; /* allow column to shrink so 4fr is respected (grid items default to min-width: auto) */
+    overflow-wrap: break-word; /* prevent long content (e.g. URLs, code) from overflowing */
     position: sticky;
     top: 2rem;
     display: flex;
@@ -67,6 +69,7 @@
     background-color: $blue-darker;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s;
+    min-width: 0;
   }
 }
 

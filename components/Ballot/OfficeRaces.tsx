@@ -7,6 +7,12 @@ import { useMemo } from "react";
 // Races associated with a single office (to handle primaries)
 function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
   const office = races[0]?.office;
+  const isSpecialElection = races[0]?.isSpecialElection ?? false;
+  const subtitle = isSpecialElection
+    ? office?.subtitle
+      ? `${office.subtitle} - Special Election`
+      : "Special Election"
+    : office?.subtitle;
 
   const sortedRaces = useMemo(() => {
     const incumbentIds = office?.incumbents?.map((i) => i.id) || [];
@@ -25,7 +31,7 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
     styles.flexBetween,
     styles.inset,
     styles.raceHeader,
-    styles[color]
+    styles[color],
   );
 
   const cardCx = clsx(styles.roundedCard, styles.flex);
@@ -35,7 +41,7 @@ function OfficeRaces({ races, color }: { races: RaceResult[]; color: string }) {
       <header className={headerCx}>
         <h3>
           <span>{office?.name || office?.title}</span>
-          <span className={styles.raceSubheader}>{office?.subtitle}</span>
+          <span className={styles.raceSubheader}>{subtitle}</span>
         </h3>
       </header>
 
