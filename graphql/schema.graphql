@@ -605,16 +605,22 @@ type DeleteVotingGuideResult {
 }
 
 enum DistrictType {
+  BOARD_OF_EDUCATION
   CITY
+  CONSTABLE
   COUNTY
+  COURT_OF_APPEALS
   HOSPITAL
   JUDICIAL
+  JUSTICE_OF_THE_PEACE
+  PARK
   SCHOOL
   SOIL_AND_WATER
   STATE_HOUSE
   STATE_SENATE
   TRANSPORTATION
   US_CONGRESSIONAL
+  VOTING_PRECINCT
 }
 
 type DonationsByIndustry {
@@ -655,6 +661,8 @@ type ElectionResult {
   races(after: String, before: String, filter: ElectionRaceFilter, first: Int, last: Int): RaceResultConnection!
   """Show races based on an anonymous user with an address"""
   racesByAddress(address: AddressInput!): [RaceResult!]!
+  """Geocoded address for the given input (county, city, state) — for debugging."""
+  resolvedAddress(address: AddressInput!): ResolvedAddressResult!
   """Show races relevant to the user based on their address"""
   racesByUserDistricts: [RaceResult!]!
   racesByVotingGuide(votingGuideId: ID!): [RaceResult!]!
@@ -774,6 +782,7 @@ input InsertPoliticianInput {
   assets: JSON
   biography: String
   biographySource: String
+  campaignAddressId: UUID
   campaignWebsiteUrl: String
   crpCandidateId: String
   dateOfBirth: NaiveDate
@@ -797,6 +806,7 @@ input InsertPoliticianInput {
   preferredName: String
   raceLosses: Int
   raceWins: Int
+  residenceAddressId: UUID
   slug: String
   suffix: String
   thumbnailImageUrl: String
@@ -1471,6 +1481,13 @@ input RaceFilter {
   year: Int
 }
 
+"""Geocoded address (county, city, state) — for debugging which county an address resolved to."""
+type ResolvedAddressResult {
+  city: String
+  county: String
+  state: State
+}
+
 type RaceResult {
   ballotpediaLink: String
   candidates(
@@ -1899,6 +1916,7 @@ input UpdatePoliticianInput {
   assets: JSON
   biography: String
   biographySource: String
+  campaignAddressId: UUID
   campaignWebsiteUrl: String
   crpCandidateId: String
   dateOfBirth: NaiveDate
@@ -1923,6 +1941,7 @@ input UpdatePoliticianInput {
   preferredName: String
   raceLosses: Int
   raceWins: Int
+  residenceAddressId: UUID
   slug: String
   suffix: String
   thumbnailImageUrl: String

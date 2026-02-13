@@ -246,10 +246,9 @@ export function DeleteEmbedButton({
         },
         {
           onSuccess: () => {
-            void router.push({
-              pathname: `/dashboard/[dashboardSlug]/embeds/${embedType.toLowerCase()}`,
-              query: { slug: router.query.dashboardSlug },
-            });
+            void router.push(
+              `/dashboard/${router.query.dashboardSlug}/embeds/${embedType.toLowerCase().replace("_", "-")}`
+            );
             toast("Embed deleted", {
               type: "success",
               position: "bottom-right",

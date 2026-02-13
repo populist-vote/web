@@ -16,6 +16,7 @@ export default function StateSelect({
     (router.query.state as State) || defaultState || "FEDERAL"
   );
 
+  // Sync state → URL when user changes the selection
   useEffect(() => {
     if (router.query.state !== state) {
       void router.push(
@@ -29,11 +30,15 @@ export default function StateSelect({
     }
   }, [state, router]);
 
+  // Sync URL → state only when the URL actually changes (e.g. back/forward).
+  // Don't depend on `state` here: when the user picks a new state we update
+  // local state first; the URL hasn't changed yet. If we also depended on
+  // `state`, this effect would run and overwrite with stale router.query.state.
   useEffect(() => {
-    if (router.query.state && router.query.state !== state) {
+    if (router.query.state) {
       setState(router.query.state as State);
     }
-  }, [router.query.state, state]);
+  }, [router.query.state]);
 
   const stateOptions = [
     ...Object.entries(states).map(([key, value]) => ({
