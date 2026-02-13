@@ -395,7 +395,6 @@ export function MyBallotEmbed({
           {isLoading && <LoaderFlag theme="gray" />}
           {data && !isLoading && hasSubmitted && (
             <div className={styles.ballotContainer}>
-              <div className={styles.onYourBallotLabel}>On Your Ballot</div>
               {data.electionById.racesByAddress.length === 0 ? (
                 <div className={styles.noResults}>No races on your ballot</div>
               ) : allRacesLoading ? (
@@ -404,6 +403,7 @@ export function MyBallotEmbed({
                 </div>
               ) : endorserId && !showAllRaces ? (
                 // Endorser variant: Show endorsed candidates in a simplified layout
+
                 <div className={styles.allEndorsementsContainer}>
                   {races.length === 0 ? (
                     <div className={styles.noResults}>
