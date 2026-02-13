@@ -800,8 +800,8 @@ function RacesSection({
                 value={state as string}
                 options={[
                   { value: "", label: "All States" },
-                  { value: "CO", label: "Colorado" },
                   { value: "MN", label: "Minnesota" },
+                  { value: "TX", label: "Texas" },
                 ]}
                 onChange={handleStateChange}
               />
@@ -821,6 +821,7 @@ function RacesSection({
                 backgroundColor={"blue"}
                 value={year as string}
                 options={[
+                  { value: "2026", label: "2026" },
                   { value: "2025", label: "2025" },
                   { value: "2024", label: "2024" },
                   { value: "2023", label: "2023" },
