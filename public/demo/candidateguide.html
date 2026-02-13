@@ -225,6 +225,10 @@
         color: var(--blue-light);
         margin: 0;
       }
+
+      .populist-embed {
+        margin-bottom: 2rem;
+      }
     </style>
   </head>
   <body>
@@ -237,7 +241,17 @@
 
           <div class="content">
             <h1>This is a Populist Candidate Guide embed.</h1>
+            <!-- Place this container where you want the widget to appear -->
+            <div
+              class="populist-embed"
+              data-embed-id="2a80b2ab-52d2-4f68-ae9a-d0cbc4bef338"
+            ></div>
 
+            <!-- Load Populist Widget script once per page -->
+            <script
+              async
+              src="https://www.populist.us/widget-client-v2.js"
+            ></script>
             <!-- Place this container where you want the widget to appear -->
             <div
               class="populist-embed"
