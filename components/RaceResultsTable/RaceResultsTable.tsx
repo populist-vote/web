@@ -151,7 +151,26 @@ export function RaceResultsTable({
   };
 
   if (isLoading) return <LoaderFlag />;
-  if (raceResults.length == 0) return null;
+  if (raceResults.length === 0) {
+    if (shouldFetchRaceResults) {
+      return (
+        <div
+          style={{
+            padding: "1.5rem",
+            color: "var(--blue)",
+            fontFamily: "commuters_sans",
+            fontSize: "1.5rem",
+            fontWeight: "300",
+            textAlign: "center",
+            paddingTop: "3rem",
+          }}
+        >
+          NO RESULTS
+        </div>
+      );
+    }
+    return null;
+  }
 
   return (
     <>
