@@ -73,10 +73,6 @@ export function MyBallotEmbed({
   const defaultValues = JSON.parse(
     localStorage.getItem("addressValues") || "{}"
   );
-  // Set default state to MN if not already set
-  if (!defaultValues.state) {
-    defaultValues.state = "MN";
-  }
 
   const {
     register,
