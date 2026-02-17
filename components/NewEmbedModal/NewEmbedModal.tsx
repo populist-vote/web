@@ -7,6 +7,23 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
+
+function getCreateCandidateGuideErrorMessage(error: unknown): string {
+  const errorObj = error as {
+    message?: string;
+    response?: { errors?: Array<{ message?: string }> };
+  };
+
+  const gqlMessage = errorObj?.response?.errors?.[0]?.message;
+  if (gqlMessage) return gqlMessage;
+
+  if (typeof errorObj?.message === "string" && errorObj.message.length > 0) {
+    return errorObj.message;
+  }
+
+  return "Something went wrong creating candidate guide.";
+}
 
 export function NewEmbedModal({
   isOpen,
@@ -25,7 +42,7 @@ export function NewEmbedModal({
     },
     {
       enabled: !!dashboardSlug,
-    }
+    },
   );
 
   const organizationId = organizationData?.organizationBySlug?.id;
@@ -50,12 +67,17 @@ export function NewEmbedModal({
         input: { name: "Untitled", organizationId },
       },
       {
+        onError: (error) => {
+          toast.error(getCreateCandidateGuideErrorMessage(error), {
+            position: "bottom-right",
+          });
+        },
         onSuccess: (data) => {
           void router.push(
-            `/dashboard/${dashboardSlug}/candidate-guides/${data.upsertCandidateGuide.id}`
+            `/dashboard/${dashboardSlug}/candidate-guides/${data.upsertCandidateGuide.id}`,
           );
         },
-      }
+      },
     );
   };
 
