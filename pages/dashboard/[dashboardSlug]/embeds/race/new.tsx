@@ -9,6 +9,7 @@ import {
   useUpsertEmbedMutation,
   EmbedType,
   useOrganizationBySlugQuery,
+  RaceType,
 } from "generated";
 import { toast } from "react-toastify";
 import { Box } from "components/Box/Box";
@@ -54,20 +55,40 @@ export default function NewRaceEmbed({
       enabled: !!dashboardSlug,
     }
   );
-  const currentYear = new Date().getFullYear().toString();
+  const currentYearNum = new Date().getFullYear();
+  const currentYear = currentYearNum.toString();
   const currentOrganizationId = organizationData?.organizationBySlug?.id;
 
-  const { year = currentYear } = router.query;
+  const { year = currentYear, state = "", raceType = "" } = router.query;
+
+  const earliestYear = 2022;
+  const yearOptions = Array.from(
+    { length: currentYearNum - earliestYear + 1 },
+    (_, i) => {
+      const y = currentYearNum - i;
+      return { value: y.toString(), label: y.toString() };
+    }
+  );
 
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     router.push(
-      {
-        query: { ...router.query, year: e.target.value },
-      },
+      { query: { ...router.query, year: e.target.value } },
       undefined,
-      {
-        shallow: true,
-      }
+      { shallow: true }
+    );
+
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    router.push(
+      { query: { ...router.query, state: e.target.value } },
+      undefined,
+      { shallow: true }
+    );
+
+  const handleRaceTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    router.push(
+      { query: { ...router.query, raceType: e.target.value } },
+      undefined,
+      { shallow: true }
     );
 
   const handleCreateEmbed = () => {
@@ -120,7 +141,7 @@ export default function NewRaceEmbed({
         <div className={styles.flexBetween}>
           <div className={styles.inputWithIcon}>
             <input
-              placeholder="Try 'Minnesota Governor' or 'California Senate'"
+              placeholder="Try search queries like 'Texas House District 8', 'Minnesota Governor', or 'County Commissioner'"
               onChange={(e) => {
                 setSearchValue(e.target.value);
                 if (e.target.value === "") {
@@ -140,13 +161,30 @@ export default function NewRaceEmbed({
           <Select
             textColor="white"
             backgroundColor={"blue"}
-            value={year as string}
+            value={state as string}
             options={[
-              { value: "2025", label: "2025" },
-              { value: "2024", label: "2024" },
-              { value: "2023", label: "2023" },
-              { value: "2022", label: "2022" },
+              { value: "", label: "All States" },
+              { value: "MN", label: "Minnesota" },
+              { value: "TX", label: "Texas" },
             ]}
+            onChange={handleStateChange}
+          />
+          <Select
+            textColor="white"
+            backgroundColor={"blue"}
+            value={raceType as string}
+            options={[
+              { value: "", label: "Race Type" },
+              { value: RaceType.General, label: "General" },
+              { value: RaceType.Primary, label: "Primary" },
+            ]}
+            onChange={handleRaceTypeChange}
+          />
+          <Select
+            textColor="white"
+            backgroundColor={"blue"}
+            value={(year as string) || currentYear}
+            options={yearOptions}
             onChange={handleYearChange}
           />
         </div>
