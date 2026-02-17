@@ -17,6 +17,23 @@ import { LAST_SELECTED_EMBED_TYPE } from "utils/constants";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { SearchInput } from "components/SearchInput/SearchInput";
 import { Button } from "components/Button/Button";
+import { toast } from "react-toastify";
+
+function getCreateCandidateGuideErrorMessage(error: unknown): string {
+  const errorObj = error as {
+    message?: string;
+    response?: { errors?: Array<{ message?: string }> };
+  };
+
+  const gqlMessage = errorObj?.response?.errors?.[0]?.message;
+  if (gqlMessage) return gqlMessage;
+
+  if (typeof errorObj?.message === "string" && errorObj.message.length > 0) {
+    return errorObj.message;
+  }
+
+  return "Something went wrong creating candidate guide.";
+}
 
 function EmbedIndex({
   isLoading,
@@ -47,7 +64,7 @@ function EmbedIndex({
     },
     {
       enabled: !!dashboardSlug,
-    }
+    },
   );
 
   const organizationId = organizationData?.organizationBySlug?.id;
@@ -61,12 +78,17 @@ function EmbedIndex({
         input: { name: "Untitled", organizationId },
       },
       {
+        onError: (error) => {
+          toast.error(getCreateCandidateGuideErrorMessage(error), {
+            position: "bottom-right",
+          });
+        },
         onSuccess: (data) => {
           void router.push(
-            `/dashboard/${dashboardSlug}/candidate-guides/${data.upsertCandidateGuide.id}`
+            `/dashboard/${dashboardSlug}/candidate-guides/${data.upsertCandidateGuide.id}`,
           );
         },
-      }
+      },
     );
   };
 
@@ -77,7 +99,7 @@ function EmbedIndex({
       void router.push(
         `/dashboard/${router.query.dashboardSlug}/embeds/${embedType
           .replace("_", "-")
-          .toLowerCase()}/new`
+          .toLowerCase()}/new`,
       );
     }
   };
@@ -86,7 +108,7 @@ function EmbedIndex({
     router.push(
       `/dashboard/${slug}/embeds/${embedType.toLowerCase().replace("_", "-")}/${
         row.original.id
-      }/manage`
+      }/manage`,
     );
 
   if (isLoading)
