@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { BillWidgetRenderOptions } from "components/BillWidget/BillWidget";
+import { Button } from "components/Button/Button";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { MyBallotEmbedRenderOptions } from "components/MyBallotEmbed/MyBallotEmbed";
 import { PoliticianEmbedRenderOptions } from "components/PoliticianEmbed/PoliticianEmbed";
@@ -19,9 +20,16 @@ import { useAuth } from "hooks/useAuth";
 import useOrganizationStore from "hooks/useOrganizationStore";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
-import { SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
+import {
+  Control,
+  FieldErrors,
+  SubmitHandler,
+  UseFormRegister,
+  useForm,
+} from "react-hook-form";
 import { toast } from "react-toastify";
 import { LANGUAGES } from "utils/constants";
+import styles from "./EmbedBasicsForm.module.scss";
 
 type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
   renderOptions:
@@ -36,13 +44,7 @@ function BillEmbedOptionsForm({
   register: UseFormRegister<UpsertEmbedInputWithOptions>;
 }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-      }}
-    >
+    <div className={styles.optionsContainer}>
       <Checkbox
         id="issueTags"
         name="renderOptions.issueTags"
@@ -114,13 +116,23 @@ function PoliticianEmbedOptionsForm({
 
 function MyBallotEmbedRenderOptionsForm({
   register,
+  control,
+  formStateErrors,
   defaultLanguage,
   handleDefaultLanguageChange,
+  onSaveFixedHeight,
+  isSaveHeightPending,
+  isHeightDirty,
   organizationId,
 }: {
   register: UseFormRegister<UpsertEmbedInputWithOptions>;
+  control: Control<UpsertEmbedInputWithOptions>;
+  formStateErrors: FieldErrors<UpsertEmbedInputWithOptions>;
   defaultLanguage: string;
   handleDefaultLanguageChange: (embedType: EmbedType, value: string) => void;
+  onSaveFixedHeight: () => void;
+  isSaveHeightPending: boolean;
+  isHeightDirty: boolean;
   organizationId?: string;
 }) {
   const { user } = useAuth();
@@ -144,13 +156,43 @@ function MyBallotEmbedRenderOptionsForm({
     (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
   );
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-      }}
-    >
+    <div className={styles.optionsContainer}>
+      <div className={styles.fixedHeightOptionContainer}>
+        <div className={styles.divider} />
+        <div className={styles.fixedHeightOption}>
+          <span style={{ width: "16rem" }}>Fixed height (px)</span>
+          <TextInput
+            hideLabel
+            register={register}
+            control={control}
+            name="renderOptions.height"
+            size="small"
+            rules={{
+              pattern: {
+                value:
+                  /^$|^[aA]uto$|^(600|6[0-9]{2}|7[0-9]{2}|8[0-9]{2}|9[0-9]{2}|1[0-4][0-9]{2}|1500)$/,
+                message: "Enter a value between 600 and 1500, or Auto",
+              },
+            }}
+            errors={
+              (
+                formStateErrors?.renderOptions as
+                  | { height?: { message?: string } }
+                  | undefined
+              )?.height?.message
+            }
+            useToastError
+          />
+          <Button
+            variant="primary"
+            onClick={onSaveFixedHeight}
+            label="Save"
+            size="medium"
+            disabled={isSaveHeightPending || !isHeightDirty}
+          />
+        </div>
+        <div className={styles.divider} />
+      </div>
       <Checkbox
         id="isEndorserVariant"
         name="renderOptions.isEndorserVariant"
@@ -226,7 +268,9 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     register,
     control,
     handleSubmit,
-    formState: { isDirty },
+    getValues,
+    setValue,
+    formState: { isDirty, errors },
     watch,
   } = useForm<UpsertEmbedInputWithOptions>({
     defaultValues: {
@@ -242,12 +286,36 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         socials: embed?.attributes?.renderOptions?.socials,
         publicVoting: embed?.attributes?.renderOptions?.publicVoting,
         defaultLanguage: embed?.attributes?.renderOptions?.defaultLanguage,
+        height:
+          embed?.attributes?.renderOptions?.height ??
+          ("Auto" as unknown as number),
         isEndorserVariant: !!embed?.attributes?.endorserId,
       },
     },
   });
 
+  const parseHeightValue = (
+    h: string | number | undefined
+  ): number | undefined => {
+    if (h == null) return undefined;
+    const s = String(h).trim();
+    if (s === "" || s.toLowerCase() === "auto") return undefined;
+    const n = Number(h);
+    return !Number.isNaN(n) && n >= 600 && n <= 1500 ? n : undefined;
+  };
+
   const onSubmit: SubmitHandler<UpsertEmbedInputWithOptions> = async (data) => {
+    const renderOptions =
+      embed?.embedType === EmbedType.MyBallot
+        ? (() => {
+            const h = (data.renderOptions as MyBallotEmbedRenderOptions).height;
+            return {
+              ...data.renderOptions,
+              height: parseHeightValue(h as string | number | undefined),
+            };
+          })()
+        : data.renderOptions;
+
     upsertEmbed.mutate(
       {
         input: {
@@ -265,7 +333,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
                 .isEndorserVariant
                 ? organizationId
                 : null,
-            renderOptions: data.renderOptions,
+            renderOptions,
           },
         },
       },
@@ -292,20 +360,85 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const name = watch("name");
   const description = watch("description");
   const isEndorserVariant = watch("renderOptions.isEndorserVariant");
+  const height = watch("renderOptions.height");
 
   // Track previous values to detect what changed
   const prevName = useRef(name);
   const prevDescription = useRef(description);
   const prevIsEndorserVariant = useRef(isEndorserVariant);
+  const prevHeight = useRef(height);
 
-  // Autosave logic with delay (excludes endorser variant changes which have immediate save)
+  // Normalize height for comparison (form may have "Auto", "800", saved is number)
+  const normalizedHeight = (val: unknown): number | null => {
+    if (val === "" || val === undefined || val === null) return null;
+    const s = String(val).trim();
+    if (s === "" || s.toLowerCase() === "auto") return null;
+    const n = Number(val);
+    return Number.isNaN(n) ? null : n;
+  };
+
+  const isHeightDirty =
+    normalizedHeight(height) !==
+    normalizedHeight(embed?.attributes?.renderOptions?.height);
+
+  const handleSaveFixedHeight = () => {
+    const raw = getValues("renderOptions.height");
+    const heightValue = parseHeightValue(raw as string | number | undefined);
+    upsertEmbed.mutate(
+      {
+        input: {
+          id: embed?.id,
+          organizationId: organizationId as string,
+          name: embed?.name,
+          embedType: embed?.embedType,
+          attributes: {
+            ...embed?.attributes,
+            renderOptions: {
+              ...embed?.attributes?.renderOptions,
+              height: heightValue,
+            },
+          },
+        },
+      },
+      {
+        onSuccess: () => {
+          if (heightValue == null) {
+            setValue("renderOptions.height", "Auto" as unknown as number, {
+              shouldDirty: false,
+            });
+          }
+          toast("Embed saved!", {
+            type: "success",
+            position: "bottom-right",
+          });
+          void queryClient.invalidateQueries({
+            queryKey: useEmbedByIdQuery.getKey({
+              id: router.query.id as string,
+            }),
+          });
+        },
+        onError: (error) => {
+          toast((error as Error).message, { type: "error" });
+        },
+      }
+    );
+  };
+
+  // Autosave logic with delay (excludes endorser variant and fixed height; those have their own save)
   useEffect(() => {
     if (isDirty) {
-      // Check if the change was to endorser variant - if so, skip autosave
       const isEndorserVariantChange =
         prevIsEndorserVariant.current !== isEndorserVariant;
+      const isHeightChange = prevHeight.current !== height;
+      // Skip autosave when only endorser variant or only height changed
+      const onlyHeightOrEndorserChanged =
+        (isHeightChange &&
+          prevName.current === name &&
+          prevDescription.current === description &&
+          prevIsEndorserVariant.current === isEndorserVariant) ||
+        isEndorserVariantChange;
 
-      if (!isEndorserVariantChange) {
+      if (!onlyHeightOrEndorserChanged) {
         const timer = setTimeout(() => {
           void handleSubmit(onSubmit)(); // Submit form data after debounce
         }, 1000); // Auto-save delay (1 second after last change)
@@ -318,8 +451,9 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     prevName.current = name;
     prevDescription.current = description;
     prevIsEndorserVariant.current = isEndorserVariant;
+    prevHeight.current = height;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDirty, handleSubmit, name, description, isEndorserVariant]);
+  }, [isDirty, handleSubmit, name, description, isEndorserVariant, height]);
 
   // Immediate save for endorser variant changes (no delay for better UX)
   useEffect(() => {
@@ -394,7 +528,12 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         return (
           <MyBallotEmbedRenderOptionsForm
             register={register}
+            control={control}
+            formStateErrors={errors}
             handleDefaultLanguageChange={handleDefaultLanguageChange}
+            onSaveFixedHeight={handleSaveFixedHeight}
+            isSaveHeightPending={upsertEmbed.isPending}
+            isHeightDirty={isHeightDirty}
             defaultLanguage={embed?.attributes?.renderOptions?.defaultLanguage}
             organizationId={organizationId}
           />
@@ -408,13 +547,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
 
   return (
     <form>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}
-      >
+      <div className={styles.optionsContainer}>
         <TextInput
           name="name"
           id="name"
@@ -434,14 +567,6 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           control={control}
         />
       </div>
-      <div
-        style={{
-          width: "100%",
-          height: "1px",
-          borderTop: "1px solid var(--blue-dark)",
-          margin: "1rem 0",
-        }}
-      />
       {renderOptions()}
     </form>
   );

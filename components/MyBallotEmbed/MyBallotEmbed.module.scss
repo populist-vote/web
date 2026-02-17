@@ -2,14 +2,38 @@
 @import "styles/mixins/utils";
 @import "styles/variables/fonts";
 
+.header {
+  border-radius: 15px 15px 0 0;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: $grey-lighter;
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid $grey-light;
+
+  strong {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: $font-primary;
+  }
+
+  .electionInfo {
+    text-align: right;
+  }
+}
+
 .widgetContainer {
   width: 100%;
 
   main {
     padding: 1rem 1.5rem;
+    height: 100%;
+    overflow: scroll;
 
     .content {
-      min-height: 468px;
+      min-height: 400px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -61,28 +85,6 @@
   padding-bottom: 1rem;
   border: 1px solid $grey-light;
   border-radius: 20px;
-}
-
-.header {
-  border-radius: 15px 15px 0 0;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  background-color: $grey-lighter;
-  padding: 0.75rem 1rem !important;
-  border-bottom: 1px solid $grey-light;
-
-  strong {
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: 500;
-    font-family: $font-primary;
-  }
-
-  .electionInfo {
-    text-align: right;
-  }
 }
 
 .addressForm {
@@ -260,7 +262,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  height: 100%;
   gap: 1rem;
 }
 

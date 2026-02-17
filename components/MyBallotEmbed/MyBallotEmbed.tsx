@@ -39,6 +39,7 @@ import { default as clsx } from "clsx";
 
 export interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
+  height?: number;
   isEndorserVariant?: boolean;
 }
 
@@ -232,6 +233,10 @@ export function MyBallotEmbed({
   return (
     <div
       className={clsx(styles.widgetContainer, styles.candidateGuideContainer)}
+      style={{
+        height: renderOptions?.height ? `${renderOptions.height}px` : "auto",
+        minHeight: renderOptions?.height ?? "fit-content",
+      }}
     >
       <header className={styles.header}>
         <strong>{election?.title}</strong>
@@ -249,7 +254,7 @@ export function MyBallotEmbed({
           </strong>
         </span>
       </header>
-      <main>
+      <main className={styles.main}>
         <div
           className={clsx(styles.flexBetween, styles.alignItemsCenter)}
           style={{ margin: "0 0 1rem" }}
