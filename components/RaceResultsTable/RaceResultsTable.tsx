@@ -120,8 +120,12 @@ export function RaceResultsTable({
         header: "Type",
         cell: (info) => {
           const raceType = info.getValue() as string;
-          const party = (info.row.getValue("party") as { name: string })?.name;
-          return titleCase(`${raceType} ${party ? "- " + party : ""}`);
+          const partyName = info.row.original.party?.name;
+          console.log("party name", partyName, "race", info.row.original);
+          if (raceType?.toLowerCase() === "primary" && partyName) {
+            return `${titleCase(raceType)} - ${partyName}`;
+          }
+          return titleCase(raceType);
         },
       },
       {

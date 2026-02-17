@@ -1915,6 +1915,7 @@ input UpdatePoliticianInput {
   facebookUrl: String
   fecCandidateId: String
   firstName: String
+  fullName: String
   homeState: State
   id: UUID!
   instagramUrl: String
@@ -1932,6 +1933,7 @@ input UpdatePoliticianInput {
   preferredName: String
   raceLosses: Int
   raceWins: Int
+  refKey: String
   residenceAddressId: UUID
   slug: String
   suffix: String

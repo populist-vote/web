@@ -43,6 +43,10 @@ query RaceIndex($pageSize: Int, $cursor: String, $filter: RaceFilter) {
         id
         slug
         raceType
+        partyId
+        party {
+          name
+        }
         office {
           name
           title
