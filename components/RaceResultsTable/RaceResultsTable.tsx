@@ -118,12 +118,19 @@ export function RaceResultsTable({
       {
         accessorKey: "raceType",
         header: "Type",
+        size: 200,
         cell: (info) => {
           const raceType = info.getValue() as string;
           const partyName = info.row.original.party?.name;
           console.log("party name", partyName, "race", info.row.original);
           if (raceType?.toLowerCase() === "primary" && partyName) {
-            return `${titleCase(raceType)} - ${partyName}`;
+            if (partyName === "Republican Party") {
+              return `${titleCase(raceType)} - Republican`;
+            } else if (partyName === "Democratic Party") {
+              return `${titleCase(raceType)} - Democratic`;
+            } else {
+              return `${titleCase(raceType)} - ${partyName}`;
+            }
           }
           return titleCase(raceType);
         },
