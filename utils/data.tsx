@@ -1,4 +1,4 @@
-import { IssueTagResult, PoliticalScope, RaceResult } from "generated";
+import { IssueTagResult, PoliticalScope, RaceResult, RaceType } from "generated";
 import { BsBuildingsFill, BsTrainLightrailFrontFill } from "react-icons/bs";
 import { FaBaby, FaCannabis } from "react-icons/fa";
 import { GiMissileLauncher, GiPirateGrave, GiPistolGun } from "react-icons/gi";
@@ -19,10 +19,16 @@ export const groupBy = <T, K extends keyof any>(
     {} as Record<K, T[]>
   );
 
-/** Group key: same officeId for regular races; unique key per special election so each gets its own OfficeRaces. */
-const getRaceGroupKey = (race: RaceResult) =>
-  race.isSpecialElection ? `${race.office.id}-special-${race.id}` : race.office.id;
+/** Group key: same officeId for regular races; special primaries grouped by office; other special elections get their own group. */
+const getRaceGroupKey = (race: RaceResult) => {
+  if (!race.isSpecialElection) return race.office.id;
+  if (race.raceType === RaceType.Primary) {
+    return `${race.office.id}-special-primary`;
+  }
+  return `${race.office.id}-special-${race.id}`;
+};
 
+// Used to pair same office races together (i.e. primaries)
 export const filterRaces = (
   races: RaceResult[],
   politicalScope: PoliticalScope
@@ -40,6 +46,7 @@ export const filterRaces = (
   );
 };
 
+// Split of races into federal, state, local, and judicial
 export const splitRaces = (races: RaceResult[]) => {
   const judicial = groupBy(
     races?.filter(

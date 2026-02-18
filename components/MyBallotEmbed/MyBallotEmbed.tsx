@@ -17,7 +17,7 @@ import {
   useOrganizationByIdQuery,
   VoteType,
 } from "generated";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { Race } from "components/Ballot/Race";
 import Divider from "components/Divider/Divider";
 import { Badge } from "components/Badge/Badge";
@@ -286,12 +286,14 @@ export function MyBallotEmbed({
         <Divider color="var(--grey-light)" style={{ margin: "0 0 1rem" }} />
 
         <div className={styles.content}>
+          {/* Address form for non-endorser variant */}
           {!hasSubmitted && (
             <div className={clsx(styles.center, styles.addressForm)}>
               <form
                 onSubmit={handleSubmit(submitForm)}
                 data-testid="my-ballot-address-form"
               >
+                {/* Endorser variant: Show explainer for endorser variant */}
                 {endorserId ? (
                   <p>
                     {t("enter-address-explainer-endorsements", {
@@ -394,6 +396,7 @@ export function MyBallotEmbed({
             </div>
           )}
           {isLoading && <LoaderFlag theme="gray" />}
+          {/* Main ballot container */}
           {data && !isLoading && hasSubmitted && (
             <div className={styles.ballotContainer}>
               {data.electionById.racesByAddress.length === 0 ? (
@@ -612,69 +615,71 @@ function RaceSection({
   return (
     <FlagSection {...{ label, size, color }}>
       {Object.values(officeRaces).map((races: RaceResult[]) => {
-        return races.map((race) => {
-          return (
-            <div className={styles.raceGroup} key={race.id}>
-              <div
-                className={styles.flexBetween}
-                style={{ marginBottom: "0.5rem" }}
-              >
-                <div className={styles.raceHeader}>
-                  <h3>{race.office.name}</h3>
-                  <Divider vertical color="var(--grey-light)" />
-                  <h4>{race.office.subtitle}</h4>
-                </div>
-                <div className={styles.flexBetween}>
-                  {race.voteType != VoteType.Plurality && (
-                    <Badge size="small">{race.voteType}</Badge>
-                  )}
-                  {race.numElect && (
-                    <Badge size="small" style={{ textTransform: "uppercase" }}>
-                      {t("elect")} {race.numElect}
-                    </Badge>
-                  )}
-                  {race.isSpecialElection && (
-                    <Badge size="small" style={{ textTransform: "uppercase" }}>
-                      Special Election
-                    </Badge>
-                  )}
-                </div>
+        const groupKey = races[0]?.office?.id ?? races[0]?.id ?? Math.random();
+        const race = races[0];
+        return (
+          <div className={styles.raceGroup} key={groupKey}>
+            <div
+              className={styles.flexBetween}
+              style={{ marginBottom: "0.5rem" }}
+            >
+              <div className={styles.raceHeader}>
+                <h3>{race?.office.name}</h3>
+                <Divider vertical color="var(--grey-light)" />
+                <h4>{race?.office.subtitle}</h4>
               </div>
-              <div className={styles.raceContainer}>
-                <Race
-                  race={race as RaceResult}
-                  key={race.id}
-                  theme="light"
-                  itemId={race.id}
-                  isEmbedded={true}
-                  endorserId={endorserId}
-                  endorsedCandidateIds={
-                    endorserId && showAllRaces && getEndorsedCandidateIds
-                      ? getEndorsedCandidateIds(race.id)
-                      : undefined
-                  }
-                />
+              <div className={styles.flexBetween}>
+                {race?.voteType != VoteType.Plurality && (
+                  <Badge size="small">{race?.voteType}</Badge>
+                )}
+                {race?.numElect && (
+                  <Badge size="small" style={{ textTransform: "uppercase" }}>
+                    {t("elect")} {race?.numElect}
+                  </Badge>
+                )}
+                {race?.isSpecialElection && (
+                  <Badge size="small" style={{ textTransform: "uppercase" }}>
+                    Special Election
+                  </Badge>
+                )}
               </div>
-              {race?.results.precinctReportingPercentage != null && (
-                <>
-                  <div className={styles.resultsInfo}>
-                    <small>
-                      Vote totals update every 10 minutes after polls close.
-                    </small>
-                    <Badge size="small" theme="green" lightBackground>
-                      {race?.results?.precinctReportingPercentage}% precincts
-                      reporting
-                    </Badge>
-                  </div>
-                </>
-              )}
-              <RelatedEmbedLinks
-                relatedEmbeds={race.relatedEmbeds}
-                organizationId={organizationId}
-              />
             </div>
-          );
-        });
+            <div className={styles.raceContainer}>
+              {/* Render each race in the group */}
+              {races.map((race) => (
+                <Fragment key={race.id}>
+                  <Race
+                    race={race as RaceResult}
+                    key={race.id}
+                    theme="light"
+                    itemId={race.id}
+                    isEmbedded={true}
+                    endorserId={endorserId}
+                    endorsedCandidateIds={
+                      endorserId && showAllRaces && getEndorsedCandidateIds
+                        ? getEndorsedCandidateIds(race.id)
+                        : undefined
+                    }
+                  />
+                </Fragment>
+              ))}
+            </div>
+            {race?.results.precinctReportingPercentage != null && (
+              <>
+                <div className={styles.resultsInfo}>
+                  <small>
+                    Vote totals update every 10 minutes after polls close.
+                  </small>
+                  <Badge size="small" theme="green" lightBackground>
+                    {race?.results?.precinctReportingPercentage}% precincts
+                    reporting
+                  </Badge>
+                </div>
+              </>
+            )}
+            <RelatedEmbedLinks races={races} organizationId={organizationId} />
+          </div>
+        );
       })}
       {children}
     </FlagSection>
@@ -682,20 +687,33 @@ function RaceSection({
 }
 
 function RelatedEmbedLinks({
-  relatedEmbeds,
+  races,
   organizationId,
 }: {
-  relatedEmbeds: EmbedResult[];
+  races: RaceResult[];
   organizationId?: string;
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
+
+  // Aggregate relatedEmbeds from all races, dedupe by embed id
+  const relatedEmbeds = useMemo(() => {
+    const all = (races ?? []).flatMap((race) => race.relatedEmbeds ?? []);
+    const seen = new Set<string>();
+    return all.filter((embed) => {
+      if (seen.has(embed.id)) return false;
+      seen.add(embed.id);
+      return true;
+    });
+  }, [races]);
 
   const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
     const key = embedType.toLowerCase().replace("_", "-");
     return t(key, { ns: "embeds" });
   };
 
-  if (!relatedEmbeds || relatedEmbeds.length === 0) return null;
+  if (!relatedEmbeds || relatedEmbeds.length === 0) {
+    return null;
+  }
 
   // Only show embeds that have external origins AND belong to the same organization
   const embedsWithOrigins = relatedEmbeds.filter(
@@ -705,8 +723,23 @@ function RelatedEmbedLinks({
       (!organizationId || embed.organizationId === organizationId)
   );
 
+  // console.log("[RelatedEmbedLinks]", {
+  //   embedsWithOriginsLength: embedsWithOrigins.length,
+  //   embedDetails: relatedEmbeds.map((e) => ({
+  //     id: e.id,
+  //     originsLength: e.origins?.length ?? 0,
+  //     organizationId: e.organizationId,
+  //     matchesOrg: !organizationId || e.organizationId === organizationId,
+  //   })),
+  // });
+
   // If no embeds have origins, don't show the More Info section at all
-  if (embedsWithOrigins.length === 0) return null;
+  if (embedsWithOrigins.length === 0) {
+    // console.log(
+    //   "[RelatedEmbedLinks] early exit: no embeds with origins / org match"
+    // );
+    return null;
+  }
 
   return (
     <>
