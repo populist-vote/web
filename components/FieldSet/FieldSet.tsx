@@ -16,7 +16,9 @@ function FieldSet({ heading, color, children, className }: FieldSetProps) {
   return (
     <fieldset className={cx}>
       <legend>{heading}</legend>
-      <div className={styles.flexBetween}>{children}</div>
+      <div className={styles.flexBetween} style={{ alignItems: "start" }}>
+        {children}
+      </div>
     </fieldset>
   );
 }
