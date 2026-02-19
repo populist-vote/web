@@ -677,11 +677,15 @@ function RacesSection({
   } = router.query;
   const [searchValue, setSearchValue] = useState(search as string);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [addRacesError, setAddRacesError] = useState<string | null>(null);
   const embeds = candidateGuide?.embeds || [];
   const selectedRaceIds = embeds.map(
     (embed) => embed.candidateGuideRace?.race?.id
   ) as string[];
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    setIsModalOpen(true);
+    setAddRacesError(null);
+  };
   const closeModal = () => {
     void router.push(
       `/dashboard/${slug}/candidate-guides/${candidateGuide.id}`,
@@ -692,6 +696,7 @@ function RacesSection({
     );
     setIsModalOpen(false);
     setSearchValue("");
+    setAddRacesError(null);
   };
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     router.push(
@@ -728,6 +733,7 @@ function RacesSection({
   const selectedRowArray = (selectedRows as string)?.split(",");
 
   const handleSelectedRows = () => {
+    setAddRacesError(null);
     upsertCandidateGuideMutation.mutate(
       {
         input: {
@@ -746,6 +752,13 @@ function RacesSection({
             }),
           });
           closeModal();
+        },
+        onError: (error) => {
+          const message =
+            error instanceof Error && error.message.length > 0
+              ? error.message
+              : "Something went wrong adding races.";
+          setAddRacesError(message);
         },
       }
     );
@@ -848,6 +861,21 @@ function RacesSection({
             theme="blue"
             selectedRows={selectedRaceIds}
           />
+          {addRacesError && (
+            <div
+              role="alert"
+              style={{
+                marginTop: "1rem",
+                padding: "0.75rem 1rem",
+                backgroundColor: "var(--red-background, rgba(200, 60, 60, 0.15))",
+                color: "var(--red-text, #c0392b)",
+                borderRadius: "4px",
+                textAlign: "center",
+              }}
+            >
+              {addRacesError}
+            </div>
+          )}
           {selectedRows && selectedRows?.length > 0 && (
             <div
               style={{
