@@ -1,4 +1,4 @@
-import { Button, Divider, Layout, TextInput } from "components";
+import { Button, Layout, TextInput } from "components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ReactNode } from "react";
 import { SupportedLocale } from "types/global";
@@ -17,6 +17,7 @@ import { Box } from "components/Box/Box";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
+import styles from "./index.module.scss";
 
 export async function getServerSideProps({
   query,
@@ -205,10 +206,11 @@ export function QuestionEmbedForm({
           gridTemplateRows: "auto 1fr",
         }}
       >
-        <section>
+        <section className={styles.optionsGroup}>
           <TextInput
             id="prompt"
             name="prompt"
+            label="Question Text"
             size="small"
             placeholder="What question would you like to ask?"
             register={register}
@@ -217,36 +219,28 @@ export function QuestionEmbedForm({
               required: "Prompt is required",
             }}
           />
+
+          <TextInput
+            id="responsePlaceholderText"
+            name="responsePlaceholderText"
+            label="Response Placeholder Text"
+            size="small"
+            placeholder="What placeholder text would you like respondents to see?"
+            register={register}
+            control={control}
+          />
         </section>
-        <Divider />
-        <section
-          style={{
-            display: "grid",
-            gap: "1rem",
-            padding: "1rem 0",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateRows: "auto auto",
-              gap: "0.75rem",
-            }}
-          >
+
+        <section className={styles.optionsGroup}>
+          <div className={styles.optionsContainer}>
+            <div className={styles.divider} />
             <Checkbox
               id="allowAnonymousResponses"
               name="allowAnonymousResponses"
               label="Allow Anonymous Responses"
               register={register}
             />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                height: "2rem",
-              }}
-            >
+            <div className={styles.enforceCharLimitContainer}>
               <Checkbox
                 id="enforceCharLimit"
                 name="enforceCharLimit"
@@ -254,10 +248,11 @@ export function QuestionEmbedForm({
                 register={register}
               />
               {watchCharacterLimit && (
-                <div style={{ width: "75px" }}>
+                <div className={styles.charLimitInput}>
                   <TextInput
                     size="small"
                     type="number"
+                    hideLabel={true}
                     id="responseCharLimit"
                     name="responseCharLimit"
                     register={register}
@@ -269,27 +264,13 @@ export function QuestionEmbedForm({
                 </div>
               )}
             </div>
-            <TextInput
-              id="responsePlaceholderText"
-              name="responsePlaceholderText"
-              label="Response Placeholder Text"
-              size="small"
-              placeholder="What placeholder text would you like respondents to see?"
-              register={register}
-              control={control}
-            />
           </div>
+          <div className={styles.divider} />
         </section>
-        <Divider />
+
         <section></section>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginTop: "1rem",
-        }}
-      >
+      <div className={styles.buttonContainer}>
         <Button
           size="medium"
           variant="primary"

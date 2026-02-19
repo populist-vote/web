@@ -93,9 +93,10 @@ export function QuestionWidget({
     <article className={styles.widgetContainer}>
       <main>
         <h3 className={styles.prompt}>{prompt}</h3>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
-            size="small"
+            size="medium"
             name="response"
             placeholder={placeholder}
             textarea
@@ -105,37 +106,40 @@ export function QuestionWidget({
               required: true,
             }}
             control={control}
+            style={{ height: "6rem" }}
           />
-          <br />
-          <TextInput
-            size="small"
-            name="name"
-            placeholder={`Name ${allowAnonymousResponses ? "(Optional)" : ""}`}
-            register={register}
-            control={control}
-            rules={{
-              required: !allowAnonymousResponses,
-            }}
-            style={{ marginBottom: "0.5rem" }}
-          />
-          <TextInput
-            size="small"
-            name="email"
-            placeholder={`Email ${allowAnonymousResponses ? "(Optional)" : ""}`}
-            register={register}
-            control={control}
-            rules={{
-              required: !allowAnonymousResponses,
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
-              },
-            }}
-            typ="email"
-          />
+          <div className={styles.questionWidgetDivider} />
+          <div className={styles.nameEmailContainer}>
+            <TextInput
+              size="medium"
+              name="name"
+              placeholder={`Name ${allowAnonymousResponses ? "(Optional)" : ""}`}
+              register={register}
+              control={control}
+              rules={{
+                required: !allowAnonymousResponses,
+              }}
+              style={{ marginBottom: "0.5rem" }}
+            />
+            <TextInput
+              size="medium"
+              name="email"
+              placeholder={`Email ${allowAnonymousResponses ? "(Optional)" : ""}`}
+              register={register}
+              control={control}
+              rules={{
+                required: !allowAnonymousResponses,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              }}
+              typ="email"
+            />
+          </div>
           <div className={styles.formFooter}>
             <Button
-              size="small"
+              size="medium"
               variant="primary"
               theme={"grey"}
               label="Submit"
