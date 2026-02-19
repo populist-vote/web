@@ -41,6 +41,8 @@ export interface MyBallotEmbedRenderOptions {
   defaultLanguage?: string;
   height?: number;
   isEndorserVariant?: boolean;
+  /** When true, judicial races are shown in a separate "Judicial" section. Default false (judicial included in Federal/State/Local by scope). */
+  splitOutJudicial?: boolean;
 }
 
 export function MyBallotEmbed({
@@ -214,7 +216,10 @@ export function MyBallotEmbed({
     state: stateRacesGroupedByOffice,
     local: localRacesGroupedByOffice,
     judicial: judicialRacesGroupedByOffice,
-  } = splitRaces(racesForGrouping);
+  } = splitRaces(
+    racesForGrouping,
+    renderOptions?.splitOutJudicial ?? false
+  );
 
   const ballotMeasures = data?.electionById.ballotMeasuresByAddress;
 
@@ -471,16 +476,17 @@ export function MyBallotEmbed({
                       ))}
                     </RaceSection>
                   )}
-                  {Object.keys(judicialRacesGroupedByOffice).length > 0 && (
-                    <RaceSection
-                      officeRaces={judicialRacesGroupedByOffice}
-                      label="Judicial"
-                      endorserId={endorserId}
-                      showAllRaces={showAllRaces}
-                      getEndorsedCandidateIds={getEndorsedCandidateIds}
-                      organizationId={organizationId}
-                    />
-                  )}
+                  {renderOptions?.splitOutJudicial &&
+                    Object.keys(judicialRacesGroupedByOffice).length > 0 && (
+                      <RaceSection
+                        officeRaces={judicialRacesGroupedByOffice}
+                        label="Judicial"
+                        endorserId={endorserId}
+                        showAllRaces={showAllRaces}
+                        getEndorsedCandidateIds={getEndorsedCandidateIds}
+                        organizationId={organizationId}
+                      />
+                    )}
                 </>
               )}
             </div>

@@ -44,31 +44,34 @@ function BillEmbedOptionsForm({
   register: UseFormRegister<UpsertEmbedInputWithOptions>;
 }) {
   return (
-    <div className={styles.optionsContainer}>
-      <Checkbox
-        id="issueTags"
-        name="renderOptions.issueTags"
-        label="Issue Tags"
-        register={register}
-      />
-      <Checkbox
-        id="Summary"
-        name="renderOptions.summary"
-        label="Summary"
-        register={register}
-      />
-      <Checkbox
-        id="Sponsors"
-        name="renderOptions.sponsors"
-        label="Sponsors"
-        register={register}
-      />
-      <Checkbox
-        id="publicVoting"
-        name="renderOptions.publicVoting"
-        label="Public Voting"
-        register={register}
-      />
+    <div className={styles.optionsGroup}>
+      <div className={styles.optionsContainer}>
+        <div className={styles.divider} />
+        <Checkbox
+          id="issueTags"
+          name="renderOptions.issueTags"
+          label="Issue Tags"
+          register={register}
+        />
+        <Checkbox
+          id="Summary"
+          name="renderOptions.summary"
+          label="Summary"
+          register={register}
+        />
+        <Checkbox
+          id="Sponsors"
+          name="renderOptions.sponsors"
+          label="Sponsors"
+          register={register}
+        />
+        <Checkbox
+          id="publicVoting"
+          name="renderOptions.publicVoting"
+          label="Public Voting"
+          register={register}
+        />
+      </div>
     </div>
   );
 }
@@ -79,37 +82,34 @@ function PoliticianEmbedOptionsForm({
   register: UseFormRegister<UpsertEmbedInputWithOptions>;
 }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-      }}
-    >
-      <Checkbox
-        id="upcomingRace"
-        name="renderOptions.upcomingRace"
-        label="Upcoming Race (if applicable)"
-        register={register}
-      />
-      <Checkbox
-        id="endorsements"
-        name="renderOptions.endorsements"
-        label="Endorsements"
-        register={register}
-      />
-      <Checkbox
-        id="stats"
-        name="renderOptions.stats"
-        label="Basic information"
-        register={register}
-      />
-      <Checkbox
-        id="socials"
-        name="renderOptions.socials"
-        label="Links"
-        register={register}
-      />
+    <div className={styles.optionsGroup}>
+      <div className={styles.optionsContainer}>
+        <div className={styles.divider} />
+        <Checkbox
+          id="upcomingRace"
+          name="renderOptions.upcomingRace"
+          label="Upcoming Race (if applicable)"
+          register={register}
+        />
+        <Checkbox
+          id="endorsements"
+          name="renderOptions.endorsements"
+          label="Endorsements"
+          register={register}
+        />
+        <Checkbox
+          id="stats"
+          name="renderOptions.stats"
+          label="Basic information"
+          register={register}
+        />
+        <Checkbox
+          id="socials"
+          name="renderOptions.socials"
+          label="Links"
+          register={register}
+        />
+      </div>
     </div>
   );
 }
@@ -156,8 +156,8 @@ function MyBallotEmbedRenderOptionsForm({
     (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
   );
   return (
-    <div className={styles.optionsContainer}>
-      <div className={styles.fixedHeightOptionContainer}>
+    <div className={styles.optionsGroup}>
+      <div className={styles.optionsContainer}>
         <div className={styles.divider} />
         <div className={styles.fixedHeightOption}>
           <span style={{ width: "16rem" }}>Fixed height (px)</span>
@@ -184,6 +184,7 @@ function MyBallotEmbedRenderOptionsForm({
             useToastError
           />
           <Button
+            type="button"
             variant="primary"
             onClick={onSaveFixedHeight}
             label="Save"
@@ -203,6 +204,12 @@ function MyBallotEmbedRenderOptionsForm({
         }
         register={register}
         disabled={!isAdmin}
+      />
+      <Checkbox
+        id="splitOutJudicial"
+        name="renderOptions.splitOutJudicial"
+        label="Show judicial races in a separate section"
+        register={register}
       />
       <div
         style={{
@@ -263,6 +270,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
 
   // Track initial endorser variant value to prevent initial save
   const initialEndorserVariant = useRef<boolean | undefined>(undefined);
+  // Track initial splitOutJudicial value to prevent initial save
+  const initialSplitOutJudicial = useRef<boolean | undefined>(undefined);
 
   const {
     register,
@@ -290,6 +299,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
           embed?.attributes?.renderOptions?.height ??
           ("Auto" as unknown as number),
         isEndorserVariant: !!embed?.attributes?.endorserId,
+        splitOutJudicial:
+          embed?.attributes?.renderOptions?.splitOutJudicial ?? false,
       },
     },
   });
@@ -308,10 +319,13 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     const renderOptions =
       embed?.embedType === EmbedType.MyBallot
         ? (() => {
-            const h = (data.renderOptions as MyBallotEmbedRenderOptions).height;
+            const opts = data.renderOptions as MyBallotEmbedRenderOptions;
+            const h = opts.height;
             return {
               ...data.renderOptions,
               height: parseHeightValue(h as string | number | undefined),
+              // Include explicitly so unchecked checkbox (omitted from form values) overwrites backend
+              splitOutJudicial: opts.splitOutJudicial ?? false,
             };
           })()
         : data.renderOptions;
@@ -360,12 +374,14 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const name = watch("name");
   const description = watch("description");
   const isEndorserVariant = watch("renderOptions.isEndorserVariant");
+  const splitOutJudicial = watch("renderOptions.splitOutJudicial");
   const height = watch("renderOptions.height");
 
   // Track previous values to detect what changed
   const prevName = useRef(name);
   const prevDescription = useRef(description);
   const prevIsEndorserVariant = useRef(isEndorserVariant);
+  const prevSplitOutJudicial = useRef(splitOutJudicial);
   const prevHeight = useRef(height);
 
   // Normalize height for comparison (form may have "Auto", "800", saved is number)
@@ -424,21 +440,33 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     );
   };
 
-  // Autosave logic with delay (excludes endorser variant and fixed height; those have their own save)
+  // Autosave logic with delay (excludes endorser variant, splitOutJudicial, and fixed height; those have their own save)
   useEffect(() => {
     if (isDirty) {
       const isEndorserVariantChange =
         prevIsEndorserVariant.current !== isEndorserVariant;
+      const isSplitOutJudicialChange =
+        prevSplitOutJudicial.current !== splitOutJudicial;
       const isHeightChange = prevHeight.current !== height;
-      // Skip autosave when only endorser variant or only height changed
-      const onlyHeightOrEndorserChanged =
-        (isHeightChange &&
-          prevName.current === name &&
-          prevDescription.current === description &&
-          prevIsEndorserVariant.current === isEndorserVariant) ||
-        isEndorserVariantChange;
+      const onlyHeightChanged =
+        isHeightChange &&
+        prevName.current === name &&
+        prevDescription.current === description &&
+        prevIsEndorserVariant.current === isEndorserVariant &&
+        prevSplitOutJudicial.current === splitOutJudicial;
+      const onlySplitOutJudicialChanged =
+        isSplitOutJudicialChange &&
+        prevName.current === name &&
+        prevDescription.current === description &&
+        prevIsEndorserVariant.current === isEndorserVariant &&
+        prevHeight.current === height;
+      // Skip autosave when only endorser variant, only splitOutJudicial, or only height changed
+      const onlyDeferredFieldsChanged =
+        onlyHeightChanged ||
+        isEndorserVariantChange ||
+        onlySplitOutJudicialChanged;
 
-      if (!onlyHeightOrEndorserChanged) {
+      if (!onlyDeferredFieldsChanged) {
         const timer = setTimeout(() => {
           void handleSubmit(onSubmit)(); // Submit form data after debounce
         }, 1000); // Auto-save delay (1 second after last change)
@@ -451,9 +479,18 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     prevName.current = name;
     prevDescription.current = description;
     prevIsEndorserVariant.current = isEndorserVariant;
+    prevSplitOutJudicial.current = splitOutJudicial;
     prevHeight.current = height;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDirty, handleSubmit, name, description, isEndorserVariant, height]);
+  }, [
+    isDirty,
+    handleSubmit,
+    name,
+    description,
+    isEndorserVariant,
+    splitOutJudicial,
+    height,
+  ]);
 
   // Immediate save for endorser variant changes (no delay for better UX)
   useEffect(() => {
@@ -482,6 +519,29 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEndorserVariant]);
+
+  // Immediate save for splitOutJudicial changes (no delay for better UX, same pattern as endorser variant)
+  useEffect(() => {
+    if (
+      embed?.embedType !== EmbedType.MyBallot ||
+      !embed?.id ||
+      !organizationId
+    )
+      return;
+
+    if (initialSplitOutJudicial.current === undefined) {
+      initialSplitOutJudicial.current = splitOutJudicial;
+      return;
+    }
+
+    if (initialSplitOutJudicial.current === splitOutJudicial) {
+      return;
+    }
+
+    initialSplitOutJudicial.current = splitOutJudicial;
+    void handleSubmit(onSubmit)();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [splitOutJudicial]);
 
   const { organizationId: currentOrganizationId } = useOrganizationStore();
 
@@ -546,8 +606,13 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   if (isLoading) return null;
 
   return (
-    <form>
-      <div className={styles.optionsContainer}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void handleSubmit(onSubmit)(e);
+      }}
+    >
+      <div className={styles.optionsGroup}>
         <TextInput
           name="name"
           id="name"
