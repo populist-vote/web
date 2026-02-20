@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Layout, LoaderFlag, TopNavElections } from "components";
 import { ElectionHeader } from "components/Ballot/ElectionHeader";
 import {
@@ -22,7 +22,6 @@ import { useAuth } from "hooks/useAuth";
 import { VotingGuideProvider } from "hooks/useVotingGuide";
 import useDebounce from "hooks/useDebounce";
 import { useInfiniteQuery } from "@tanstack/react-query";
-
 export async function getServerSideProps({
   locale,
 }: {
@@ -92,14 +91,17 @@ export default function ElectionPage() {
     },
   });
 
-  // 🧠 Merge all pages of races together
-  const races: RaceResult[] =
-    data?.pages?.flatMap(
-      (page) =>
-        page.electionBySlug?.races?.edges?.map(
-          (edge) => edge.node as RaceResult
-        ) ?? []
-    ) ?? [];
+  // Merge all pages of races (backend already orders by priority → district → seat)
+  const races: RaceResult[] = useMemo(
+    () =>
+      data?.pages?.flatMap(
+        (page) =>
+          page.electionBySlug?.races?.edges?.map(
+            (edge) => edge.node as RaceResult
+          ) ?? []
+      ) ?? [],
+    [data?.pages]
+  );
 
   const lastPage = data?.pages?.[data.pages.length - 1];
   const election = lastPage?.electionBySlug;

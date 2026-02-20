@@ -178,9 +178,7 @@ export function MyBallotEmbed({
 
   useEmbedResizer({ origin, embedId });
 
-  if (electionIsLoading) return null;
-
-  // Choose the appropriate data source based on toggle state
+  // Choose the appropriate data source based on toggle state (before early return so hooks run unconditionally)
   const currentData = endorserId && showAllRaces ? allRacesData : data;
 
   // Filter races based on endorser variant and toggle state
@@ -197,7 +195,10 @@ export function MyBallotEmbed({
     }
   ) as RaceResult[];
 
-  const races = filteredRaces || [];
+  // Backend (racesByAddress → get_races_by_address_id) already returns priority → district → seat
+  const racesForGrouping = filteredRaces ?? [];
+
+  if (electionIsLoading) return null;
 
   // Get endorsed candidate IDs for each race when showing all races
   const getEndorsedCandidateIds = (raceId: string) => {
@@ -207,9 +208,6 @@ export function MyBallotEmbed({
     );
     return raceWithEndorsements?.candidates.map((c) => c.id) || [];
   };
-
-  // Use the same races for grouping
-  const racesForGrouping = races;
 
   const {
     federal: federalRacesGroupedByOffice,
@@ -414,12 +412,12 @@ export function MyBallotEmbed({
                 // Endorser variant: Show endorsed candidates in a simplified layout
 
                 <div className={styles.allEndorsementsContainer}>
-                  {races.length === 0 ? (
+                  {racesForGrouping.length === 0 ? (
                     <div className={styles.noResults}>
                       No endorsements on your ballot
                     </div>
                   ) : (
-                    races.map((race) => (
+                    racesForGrouping.map((race) => (
                       <EndorsedCandidate race={race} key={race.id} />
                     ))
                   )}
