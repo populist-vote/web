@@ -259,6 +259,7 @@ query MyBallotByAddress(
         county
         municipality
         district
+        seat
         electionScope
         districtType
         politicalScope

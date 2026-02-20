@@ -46,6 +46,7 @@
     "next-i18next.config.js",
     "scripts/widget-client.ts",
     "scripts/build-search-index.ts",
+    "scripts/codegen-os-shim.js",
     "public/*"
   ]
 }

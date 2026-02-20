@@ -19,6 +19,8 @@ fragment RaceFields on RaceResult {
     county
     municipality
     district
+    seat
+    priority
     electionScope
     districtType
     politicalScope

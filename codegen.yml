@@ -1,7 +1,6 @@
+# Use local schema so codegen doesn't depend on the API being up and always validates against the full schema.
 schema:
-  - ${GRAPHQL_SCHEMA_PATH}:
-      headers:
-        authorization: "Bearer ${POPULIST_API_KEY}"
+  - ./graphql/schema.graphql
 
 documents: "./graphql/**/*.graphql"
 generates:
