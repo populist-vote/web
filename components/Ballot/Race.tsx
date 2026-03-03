@@ -313,11 +313,14 @@ function Race({
     </>
   );
 
+  const partySuffix =
+    party?.fecCode === "DEM" ? " (D)" : party?.fecCode === "REP" ? " (R)" : party?.fecCode === "N" ? " (NP)" : "";
+
   return raceType === RaceType.General ? (
     <div className={clsx(styles.raceContent)}>{$raceContent}</div>
   ) : (
     <FieldSet
-      heading={raceType}
+      heading={raceType + partySuffix}
       color={
         party?.fecCode === "REP"
           ? "red"
