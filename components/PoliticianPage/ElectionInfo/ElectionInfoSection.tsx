@@ -41,13 +41,23 @@ function ElectionInfoSection() {
   });
   const politicianId = data?.politicianBySlug?.id;
   const upcomingRace = data?.politicianBySlug?.upcomingRace;
-  const isPastElection = new Date(upcomingRace?.electionDate) < new Date();
+  // Compare calendar dates so election day still shows "Next Election" (avoids UTC midnight vs local time)
+  const electionDateStr = upcomingRace?.electionDate
+    ? (typeof upcomingRace.electionDate === "string"
+        ? upcomingRace.electionDate
+        : new Date(upcomingRace.electionDate).toISOString()
+      ).slice(0, 10)
+    : "";
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const isPastElection =
+    electionDateStr !== "" && electionDateStr < todayStr;
 
   if (isLoading) return <LoaderFlag />;
 
   const opponents =
     upcomingRace?.candidates?.filter(
-      (candidate) => candidate.id != politicianId
+      (candidate) => candidate.id != politicianId,
     ) || [];
   if (!upcomingRace) return null;
 

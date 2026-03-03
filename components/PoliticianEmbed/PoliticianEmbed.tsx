@@ -45,7 +45,17 @@ export function PoliticianEmbed({
   const biographySource = politician?.biographySource;
   const officeTitle = `${politician?.currentOffice?.title} - ${politician?.currentOffice?.subtitleShort}`;
   const upcomingRace = politician?.upcomingRace;
-  const isPastElection = new Date(upcomingRace?.electionDate) < new Date();
+  // Compare calendar dates so election day still shows "Running For" (avoids UTC midnight vs local time)
+  const electionDateStr = upcomingRace?.electionDate
+    ? (typeof upcomingRace.electionDate === "string"
+        ? upcomingRace.electionDate
+        : new Date(upcomingRace.electionDate).toISOString()
+      ).slice(0, 10)
+    : "";
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const isPastElection =
+    electionDateStr !== "" && electionDateStr < todayStr;
 
   if (isLoading) return <LoaderFlag />;
   if (error) return <div>Something went wrong loading this politician.</div>;
