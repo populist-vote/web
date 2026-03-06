@@ -778,6 +778,7 @@ type History {
 
 input InsertPoliticianInput {
   assets: JSON
+  ballotpediaUrl: String
   biography: String
   biographySource: String
   campaignAddressId: UUID
@@ -844,6 +845,7 @@ scalar JSON
 
 input LoginInput {
   emailOrUsername: String!
+  inviteToken: String
   password: String!
 }
 
@@ -1197,6 +1199,7 @@ input PoliticianFilter {
 type PoliticianResult {
   age: Int
   assets: PoliticianAssets!
+  ballotpediaUrl: String
   biography: String
   biographySource: String
   campaignWebsiteUrl: String
@@ -1905,6 +1908,7 @@ input UpdatePasswordInput {
 
 input UpdatePoliticianInput {
   assets: JSON
+  ballotpediaUrl: String
   biography: String
   biographySource: String
   campaignAddressId: UUID

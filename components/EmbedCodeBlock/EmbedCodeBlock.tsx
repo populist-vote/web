@@ -2,6 +2,7 @@ import { Box } from "components/Box/Box";
 import { useState } from "react";
 import { Button } from "components/Button/Button";
 import styles from "../CodeBlock/CodeBlock.module.scss";
+import embedStyles from "./EmbedCodeBlock.module.scss";
 import { toast } from "react-toastify";
 import hljs from "highlight.js";
 import { useEffect } from "react";
@@ -77,59 +78,69 @@ export function EmbedCodeBlock({ id }: { id: string }) {
 
   const baseSrc = `${window.location.origin}/widget-client-v2.js`;
 
-  const htmlText = `
-  <!-- Place this container where you want the widget to appear -->
-<div class="populist-embed" data-embed-id="${id}"></div>
-
-<!-- Load Populist Widget script once per page -->
+  const stepOneSnippets = {
+    html: `
+<!-- Step 1: Load Populist Widget once per page -->
 <script async src="${baseSrc}"></script>
-  `.trim();
-
-  const reactText = `
-  // Place this div where you want the widget to appear
-<div className="populist-embed" data-embed-id="${id}" />
-
-// Load the Populist widget script once (e.g. in _app.tsx or root useEffect)
+    `.trim(),
+    react: `
+// Step 1: Load the Populist widget script once (e.g. in root app shell)
 useEffect(() => {
-  const existing = document.querySelector(
-    'script[src="${baseSrc}"]'
-  );
-  if (existing) return; // already loaded
+  const existing = document.querySelector('script[src="${baseSrc}"]');
+  if (existing) return;
 
   const script = document.createElement("script");
   script.src = "${baseSrc}";
   script.async = true;
   document.body.appendChild(script);
-
-  return () => {
-    // optional: cleanup if your SPA remounts often
-    // document.body.removeChild(script);
-  };
 }, []);
-  `;
+    `.trim(),
+    nextjs: `
+import Script from "next/script";
 
-  const nextjsText = `
-  import Script from "next/script";
-
-{/* Place widget containers anywhere in your page */}
-<div className="populist-embed" data-embed-id="${id}" />
-
-{/* Load the script once globally (for example in _app.tsx or Layout component) */}
+{/* Step 1: Load the script once globally */}
 <Script src="${baseSrc}" strategy="afterInteractive" async />
-  `;
+    `.trim(),
+  };
 
-  const snippets = {
-    html: htmlText.trim(),
-    react: reactText.trim(),
-    nextjs: nextjsText.trim(),
+  const stepTwoSnippets = {
+    html: `
+<!-- Step 2: Add embed containers anywhere on the page -->
+<div class="populist-embed" data-embed-id="${id}"></div>
+    `.trim(),
+    react: `
+// Step 2: Add embed containers wherever you want widgets rendered
+<div className="populist-embed" data-embed-id="${id}" />
+    `.trim(),
+    nextjs: `
+{/* Step 2: Add embed containers wherever you want widgets rendered */}
+<div className="populist-embed" data-embed-id="${id}" />
+    `.trim(),
   };
 
   return (
     <Box>
+      <p>
+        <strong className={embedStyles.stepBadge}>Step 1</strong> Copy and paste
+        the following code ONCE on any page that will have Populist embeds. If
+        you've already added this script tag to the page, you can skip this
+        step.
+      </p>
       <CodeBlock
         language={language}
         setLanguage={setLanguage}
-        snippets={snippets}
+        snippets={stepOneSnippets}
+      />
+
+      <p>
+        <strong className={embedStyles.stepBadge}>Step 2</strong> Copy and paste
+        the following code where you want this specific embed to show up on the
+        page.
+      </p>
+      <CodeBlock
+        language={language}
+        setLanguage={setLanguage}
+        snippets={stepTwoSnippets}
       />
     </Box>
   );

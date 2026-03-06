@@ -1,0 +1,19 @@
+@import "styles/variables/colors";
+
+.stepBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $blue-dark;
+  border-radius: 999px;
+  background: $blue;
+  color: $white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-right: 0.45rem;
+  padding: 0.22rem 0.56rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
