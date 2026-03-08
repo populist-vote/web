@@ -120,11 +120,14 @@ import Script from "next/script";
 
   return (
     <Box>
-      <p>
-        <strong className={embedStyles.stepBadge}>Step 1</strong> Copy and paste
-        the following code ONCE on any page that will have Populist embeds. If
-        you've already added this script tag to the page, you can skip this
-        step.
+      <p className={embedStyles.stepDescription}>
+        <strong className={embedStyles.stepBadge}>1</strong> Copy and paste the
+        following code <span className={embedStyles.strong}>once</span> on any
+        page that will have Populist embeds.{" "}
+        <span className={embedStyles.subtext}>
+          If you've already added this script tag to the page, you can skip this
+          step.
+        </span>
       </p>
       <CodeBlock
         language={language}
@@ -132,9 +135,9 @@ import Script from "next/script";
         snippets={stepOneSnippets}
       />
 
-      <p>
-        <strong className={embedStyles.stepBadge}>Step 2</strong> Copy and paste
-        the following code where you want this specific embed to show up on the
+      <p className={embedStyles.stepDescription}>
+        <strong className={embedStyles.stepBadge}>2</strong> Copy and paste the
+        following code where you want this specific embed to show up on the
         page.
       </p>
       <CodeBlock
