@@ -8,12 +8,34 @@
   border-radius: 999px;
   background: $blue;
   color: $white;
-  font-size: 0.72rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   line-height: 1;
-  margin-right: 0.45rem;
+  margin-right: 0.2rem;
   padding: 0.22rem 0.56rem;
   text-transform: uppercase;
   vertical-align: middle;
+  margin-bottom: 0.2rem;
+  padding: 0.5rem 0.7rem 0.45rem 0.75rem;
+  font-style: normal;
+}
+
+.stepDescription {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  font-style: italic;
+}
+.strong {
+  font-weight: 700;
+}
+
+.subtext {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-weight: 400;
+  font-style: italic;
+  color: $blue-text;
 }
