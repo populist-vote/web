@@ -1,3 +1,39 @@
+/** Decodes common HTML character references in plain text (e.g. title strings from crawlers). */
+function decodeHtmlEntities(text: string): string {
+  const fromCodePointSafe = (n: number) => {
+    if (n > 0x10ffff || n < 0) {
+      return "\ufffd";
+    }
+    try {
+      return String.fromCodePoint(n);
+    } catch {
+      return "\ufffd";
+    }
+  };
+
+  return text
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex: string) =>
+      fromCodePointSafe(parseInt(hex, 16)),
+    )
+    .replace(/&#(\d+);/g, (_, dec: string) =>
+      fromCodePointSafe(parseInt(dec, 10)),
+    )
+    .replace(
+      /&(amp|lt|gt|quot|apos|nbsp);/gi,
+      (match, name: string) =>
+        (
+          {
+            amp: "&",
+            lt: "<",
+            gt: ">",
+            quot: '"',
+            apos: "'",
+            nbsp: "\u00a0",
+          } as Record<string, string>
+        )[name.toLowerCase()] ?? match,
+    );
+}
+
 function titleCase(str: string): string {
   return str
     .toLowerCase()
@@ -58,6 +94,7 @@ function downloadCsv(csvString: string, fileName = "data.csv") {
 }
 
 export {
+  decodeHtmlEntities,
   titleCase,
   kebabCase,
   splitAtDigitAndJoin,

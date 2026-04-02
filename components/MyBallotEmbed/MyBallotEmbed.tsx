@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { useTranslation } from "next-i18next";
 import { splitRaces } from "utils/data";
+import { decodeHtmlEntities } from "utils/strings";
 import { FlagColor, FlagSection } from "components/FlagSection/FlagSection";
 import { BallotMeasureCard } from "components/BallotMeasureCard/BallotMeasureCard";
 import { getYear } from "utils/dates";
@@ -690,6 +691,8 @@ function RaceSection({
   );
 }
 
+type RelatedEmbedOrigin = EmbedResult["origins"][number];
+
 function RelatedEmbedLinks({
   races,
   organizationId,
@@ -699,49 +702,44 @@ function RelatedEmbedLinks({
 }) {
   const { t } = useTranslation(["auth", "common", "embeds"]);
 
-  // Aggregate relatedEmbeds from all races, dedupe by embed id
-  const relatedEmbeds = useMemo(() => {
-    const all = (races ?? []).flatMap((race) => race.relatedEmbeds ?? []);
-    const seen = new Set<string>();
-    return all.filter((embed) => {
-      if (seen.has(embed.id)) return false;
-      seen.add(embed.id);
+  const moreInfoLinks = useMemo(() => {
+    const allEmbeds = (races ?? []).flatMap((race) => race.relatedEmbeds ?? []);
+    const seenEmbedIds = new Set<string>();
+    const uniqueEmbeds = allEmbeds.filter((embed) => {
+      if (seenEmbedIds.has(embed.id)) return false;
+      seenEmbedIds.add(embed.id);
       return true;
     });
-  }, [races]);
+
+    const withOrigins = uniqueEmbeds.filter(
+      (embed) =>
+        embed.origins.length > 0 &&
+        (!organizationId || embed.organizationId === organizationId)
+    );
+
+    const seenUrls = new Set<string>();
+    const links: { embed: EmbedResult; origin: RelatedEmbedOrigin }[] = [];
+    for (const embed of withOrigins) {
+      for (const origin of embed.origins) {
+        if (!origin.url) continue;
+        if (seenUrls.has(origin.url)) continue;
+        seenUrls.add(origin.url);
+        links.push({ embed, origin });
+      }
+    }
+    return links;
+  }, [races, organizationId]);
 
   const getEmbedTypeTranslationKey = (embedType: EmbedType) => {
-    const key = embedType.toLowerCase().replace("_", "-");
-    return t(key, { ns: "embeds" });
+    const titleCaseLabel = embedType
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+    const key = embedType.toLowerCase().replace(/_/g, "-");
+    return t(key, { ns: "embeds", defaultValue: titleCaseLabel });
   };
 
-  if (!relatedEmbeds || relatedEmbeds.length === 0) {
-    return null;
-  }
-
-  // Only show embeds that have external origins AND belong to the same organization
-  const embedsWithOrigins = relatedEmbeds.filter(
-    (embed) =>
-      embed.origins &&
-      embed.origins.length > 0 &&
-      (!organizationId || embed.organizationId === organizationId)
-  );
-
-  // console.log("[RelatedEmbedLinks]", {
-  //   embedsWithOriginsLength: embedsWithOrigins.length,
-  //   embedDetails: relatedEmbeds.map((e) => ({
-  //     id: e.id,
-  //     originsLength: e.origins?.length ?? 0,
-  //     organizationId: e.organizationId,
-  //     matchesOrg: !organizationId || e.organizationId === organizationId,
-  //   })),
-  // });
-
-  // If no embeds have origins, don't show the More Info section at all
-  if (embedsWithOrigins.length === 0) {
-    // console.log(
-    //   "[RelatedEmbedLinks] early exit: no embeds with origins / org match"
-    // );
+  if (moreInfoLinks.length === 0) {
     return null;
   }
 
@@ -749,24 +747,29 @@ function RelatedEmbedLinks({
     <>
       <ul className={styles.moreInfo}>
         {<h4>{t("more-info", { ns: "embeds" })}</h4>}
-        {embedsWithOrigins.flatMap((embed: EmbedResult) => {
-          // Show only external origin links
-          return embed.origins.map((origin) => {
-            if (!origin) return null;
-            return (
-              <li key={`${embed.id}-${origin.url}`}>
-                <a
-                  href={origin.url}
-                  target={"_blank"}
-                  rel={"noopener noreferrer"}
-                >
-                  {getEmbedTypeTranslationKey(embed.embedType)}
-                  {" — "}
-                  {origin.pageTitle ?? origin.url}
-                </a>
-              </li>
-            );
-          });
+        {moreInfoLinks.map(({ embed, origin }) => {
+          const showEmbedTypeLabel =
+            embed.embedType !== EmbedType.Race &&
+            embed.embedType !== EmbedType.Politician;
+          return (
+            <li key={origin.url}>
+              <a
+                href={origin.url}
+                target={"_blank"}
+                rel={"noopener noreferrer"}
+              >
+                {showEmbedTypeLabel && (
+                  <>
+                    {getEmbedTypeTranslationKey(embed.embedType)}
+                    {" — "}
+                  </>
+                )}
+                {origin.pageTitle != null
+                  ? decodeHtmlEntities(origin.pageTitle)
+                  : origin.url}
+              </a>
+            </li>
+          );
         })}
       </ul>
     </>
