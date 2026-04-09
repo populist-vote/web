@@ -42,6 +42,7 @@ query RaceIndex($pageSize: Int, $cursor: String, $filter: RaceFilter) {
       node {
         id
         slug
+        title
         raceType
         partyId
         party {

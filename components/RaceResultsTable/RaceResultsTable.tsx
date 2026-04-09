@@ -4,7 +4,7 @@ import { LoaderFlag } from "components/LoaderFlag/LoaderFlag";
 import { Table } from "components/Table/Table";
 import {
   PoliticalScope,
-  RaceResult,
+  RaceIndexQuery,
   RaceType,
   State,
   useRaceIndexQuery,
@@ -16,6 +16,21 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { dateString } from "utils/dates";
 import { titleCase } from "utils/strings";
+
+type RaceIndexRow = RaceIndexQuery["races"]["edges"][number]["node"];
+
+/** True if "runoff" appears on the race or office text (aligned with backend race search fields). */
+function rowMentionsRunoff(row: RaceIndexRow): boolean {
+  const office = row.office;
+  const parts = [
+    row.title,
+    row.slug,
+    office?.name,
+    office?.title,
+    office?.subtitle,
+  ].filter((s): s is string => Boolean(s && s.length > 0));
+  return parts.some((s) => s.toLowerCase().includes("runoff"));
+}
 
 export function RaceResultsTable({
   theme = "aqua",
@@ -42,7 +57,7 @@ export function RaceResultsTable({
   } = query;
   const debouncedSearchQuery = useDebounce<string | null>(
     search as string,
-    350
+    350,
   );
   const shouldFetchRaceResults = !!debouncedSearchQuery;
 
@@ -65,15 +80,15 @@ export function RaceResultsTable({
     {
       refetchOnWindowFocus: false,
       enabled: shouldFetchRaceResults,
-    }
+    },
   );
 
   const raceResults = useMemo(
     () => data?.races.edges.map((edge) => edge.node) || [],
-    [data?.races.edges]
-  ) as RaceResult[];
+    [data?.races.edges],
+  );
 
-  const columns = useMemo<ColumnDef<RaceResult>[]>(
+  const columns = useMemo<ColumnDef<RaceIndexRow>[]>(
     () => [
       {
         id: "select",
@@ -118,21 +133,26 @@ export function RaceResultsTable({
       {
         accessorKey: "raceType",
         header: "Type",
-        size: 200,
+        size: 300,
         cell: (info) => {
           const raceType = info.getValue() as string;
           const partyName = info.row.original.party?.name;
-          console.log("party name", partyName, "race", info.row.original);
+          let label: string;
           if (raceType?.toLowerCase() === "primary" && partyName) {
             if (partyName === "Republican Party") {
-              return `${titleCase(raceType)} - Republican`;
+              label = `${titleCase(raceType)} - Republican`;
             } else if (partyName === "Democratic Party") {
-              return `${titleCase(raceType)} - Democratic`;
+              label = `${titleCase(raceType)} - Democratic`;
             } else {
-              return `${titleCase(raceType)} - ${partyName}`;
+              label = `${titleCase(raceType)} - ${partyName}`;
             }
+          } else {
+            label = titleCase(raceType);
           }
-          return titleCase(raceType);
+          if (rowMentionsRunoff(info.row.original)) {
+            label = `${label} - Runoff`;
+          }
+          return label;
         },
       },
       {
@@ -141,10 +161,10 @@ export function RaceResultsTable({
         cell: (info) => dateString(info.getValue() as string, true),
       },
     ],
-    []
+    [],
   );
 
-  const onRowClick = (row: Row<RaceResult>) => {
+  const onRowClick = (row: Row<RaceIndexRow>) => {
     if (multiSelect) {
       row.toggleSelected();
     } else {
@@ -156,7 +176,7 @@ export function RaceResultsTable({
         {
           scroll: false,
           shallow: true,
-        }
+        },
       );
     }
   };

@@ -32,6 +32,7 @@ export function RaceWidget({
   useEmbedResizer({ origin, embedId });
   const _ = renderOptions;
   const race = data?.raceById as RaceResult;
+  const election = race?.election;
   const shouldDisplayRaceLabels =
     race?.voteType === VoteType.RankedChoice || (race?.numElect ?? 0) > 1;
 
@@ -47,9 +48,7 @@ export function RaceWidget({
 
         <span className={styles.raceYear}>
           <strong>
-            {`${getYear(race.electionDate)} - ${
-              race?.isSpecialElection ? " Special " : ""
-            }${race.raceType}`}
+            {getYear(election?.electionDate)} - {election?.title}
           </strong>
         </span>
       </header>
