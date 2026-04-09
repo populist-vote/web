@@ -88,10 +88,6 @@ query CandidateGuideEmbedById($id: ID!) {
     }
     race {
       ...RaceFields
-      election {
-        title
-        electionDate
-      }
     }
   }
 }

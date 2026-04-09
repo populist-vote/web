@@ -1313,6 +1313,11 @@ enum PopularitySort {
   MOST_SUPPORTED
 }
 
+input PrimaryRaceOfficeInput {
+  isSpecialElection: Boolean!
+  officeId: String!
+}
+
 type Progress {
   date: String!
   event: Int!
@@ -1391,6 +1396,11 @@ type Query {
   politicianBySlug(slug: String!): PoliticianResult
   politicianRespondentsByOrganizationId(organizationId: ID!): [PoliticianResult!]!
   politicians(after: String, before: String, filter: PoliticianFilter, first: Int, last: Int): PoliticianResultConnection!
+  """
+  For each (officeId, isSpecialElection) pair, returns all primary races with no winners set.
+  Used to show runoffs/undecided primaries alongside general races.
+  """
+  primaryRacesForGeneral(officeInputs: [PrimaryRaceOfficeInput!]!): [RaceResult!]!
   questionById(id: ID!): QuestionResult!
   raceById(id: String!): RaceResult!
   raceBySlug(slug: String!): RaceResult!

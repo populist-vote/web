@@ -10,6 +10,10 @@ fragment RaceFields on RaceResult {
     fecCode
   }
   electionDate
+  election {
+    title
+    electionDate
+  }
   office {
     id
     name
