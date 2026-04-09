@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What to know about county offices on Texas' March 3 primary ballot - The Texas Tribune</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700;800;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Step 1: Load Populist Widget once per page -->
+  <script async src="https://www.populist.us/widget-client-v2.js"></script>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Merriweather', Georgia, serif;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* === Top Nav Bar === */
+    .tt-top-nav {
+      background: #1a1a1a;
+      padding: 0;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tt-top-nav a {
+      color: #fff;
+      padding: 10px 16px;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .tt-top-nav a:hover {
+      background: #333;
+    }
+
+    .tt-top-nav .donate-link {
+      background: #ffc200;
+      color: #1a1a1a;
+      font-weight: 800;
+      margin-left: 8px;
+    }
+
+    .tt-top-nav .donate-link:hover {
+      background: #e6af00;
+    }
+
+    /* === Header === */
+    .tt-header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 0;
+    }
+
+    .tt-header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tt-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .tt-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: #1a1a1a;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tt-logo-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: #ffc200;
+    }
+
+    .tt-logo-text {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+
+    .tt-header-donate {
+      background: #ffc200;
+      color: #1a1a1a;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .tt-header-donate:hover {
+      background: #e6af00;
+      color: #1a1a1a;
+    }
+
+    /* === Trending Bar === */
+    .tt-trending {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 10px 0;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.78rem;
+    }
+
+    .tt-trending-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      overflow-x: auto;
+    }
+
+    .tt-trending a {
+      color: #555;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .tt-trending a:hover {
+      color: #1a1a1a;
+    }
+
+    .tt-trending .tt-donate-trending {
+      background: #ffc200;
+      color: #1a1a1a;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* === Article Container === */
+    .tt-article-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    /* === Category Label === */
+    .tt-category {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #d4a017;
+      margin-bottom: 12px;
+    }
+
+    /* === Headline === */
+    .tt-headline {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 2.6rem;
+      font-weight: 900;
+      line-height: 1.15;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+    }
+
+    /* === Deck / Subheadline === */
+    .tt-deck {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+      border-left: 3px solid #ffc200;
+      padding-left: 16px;
+    }
+
+    /* === Byline === */
+    .tt-byline {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.82rem;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .tt-byline a {
+      color: #1a1a1a;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .tt-byline a:hover {
+      color: #d4a017;
+    }
+
+    .tt-dateline {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.78rem;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .tt-share-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.78rem;
+      color: #888;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .tt-share-links a {
+      color: #555;
+      margin-left: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.72rem;
+    }
+
+    .tt-share-links a:hover {
+      color: #1a1a1a;
+    }
+
+    /* === Lead Image === */
+    .tt-lead-image {
+      margin-bottom: 32px;
+    }
+
+    .tt-lead-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .tt-lead-image figcaption {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .tt-lead-image figcaption .credit {
+      font-weight: 700;
+      color: #555;
+    }
+
+    /* === Article Body === */
+    .tt-body p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      color: #333;
+    }
+
+    .tt-body h2 {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin: 44px 0 18px;
+      padding-top: 20px;
+      border-top: 2px solid #ffc200;
+    }
+
+    .tt-body h3 {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 28px 0 12px;
+    }
+
+    .tt-body strong {
+      font-weight: 700;
+    }
+
+    .tt-body a {
+      color: #1a6fb5;
+      text-decoration: underline;
+    }
+
+    .tt-body a:hover {
+      color: #d4a017;
+    }
+
+    .tt-body ul, .tt-body ol {
+      margin: 0 0 22px 24px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #333;
+    }
+
+    .tt-body li {
+      margin-bottom: 8px;
+    }
+
+    /* === Populist Embed Sections === */
+    .tt-embed-section {
+      margin: 40px 0;
+      padding: 28px 24px;
+      background: #fafaf5;
+      border: 1px solid #e8e8d8;
+      border-left: 4px solid #ffc200;
+      border-radius: 4px;
+    }
+
+    .tt-embed-label {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .tt-embed-title {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+    }
+
+    .tt-embed-section .populist-embed {
+      margin: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .tt-embed-section .populist-embed iframe {
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none;
+    }
+
+    /* === Info Box === */
+    .tt-info-box {
+      background: #fffbe6;
+      border: 1px solid #ffc200;
+      border-radius: 4px;
+      padding: 20px 24px;
+      margin: 32px 0;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .tt-info-box strong {
+      color: #1a1a1a;
+    }
+
+    /* === Footer === */
+    .tt-footer {
+      background: #1a1a1a;
+      color: #999;
+      padding: 40px 0 20px;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+    }
+
+    .tt-footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .tt-footer-logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .tt-footer p {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .tt-footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 16px;
+      font-size: 0.72rem;
+      color: #666;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .tt-headline {
+        font-size: 1.8rem;
+      }
+
+      .tt-article-container {
+        padding: 24px 16px 40px;
+      }
+
+      .tt-body p, .tt-body ul, .tt-body ol {
+        font-size: 1rem;
+      }
+
+      .tt-top-nav {
+        font-size: 0.65rem;
+      }
+
+      .tt-top-nav a {
+        padding: 10px 10px;
+      }
+
+      .tt-embed-section {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="tt-top-nav">
+    <a href="#">Investigations</a>
+    <a href="#">Guides</a>
+    <a href="#">About</a>
+    <a href="#">Events</a>
+    <a href="#">Data</a>
+    <a href="#">Newsletters</a>
+    <a href="#" class="donate-link">Donate</a>
+  </nav>
+
+  <!-- Header -->
+  <header class="tt-header">
+    <div class="tt-header-inner">
+      <a href="index.html" class="tt-logo">
+        <span class="tt-logo-text">THE TEXAS TRIBUNE</span>
+      </a>
+      <a href="#" class="tt-header-donate">Donate</a>
+    </div>
+  </header>
+
+  <!-- Trending Bar -->
+  <div class="tt-trending">
+    <div class="tt-trending-inner">
+      <a href="#" class="tt-donate-trending">Donate</a>
+      <a href="#">Primary Election Results</a>
+      <a href="#">Crockett's Loss</a>
+      <a href="#">Crenshaw Ousted</a>
+      <a href="#">Hemp Industry</a>
+      <a href="#">ICE Shooting</a>
+    </div>
+  </div>
+
+  <!-- Article -->
+  <article class="tt-article-container">
+
+    <div class="tt-category">State Government</div>
+
+    <h1 class="tt-headline">What to know about county offices on Texas' March 3 primary ballot</h1>
+
+    <p class="tt-deck">The last day to vote early in the Texas primaries is Feb. 27. Election day is March 3. Here's a look at what the officials elected to several local offices oversee.</p>
+
+    <div class="tt-byline">BY <a href="#">RIDDHI BORA</a></div>
+    <div class="tt-dateline">FEB. 17, 2026, 5:00 A.M. CENTRAL</div>
+
+    <div class="tt-share-row">
+      <span></span>
+      <div class="tt-share-links">
+        <a href="#">Republish</a>
+        <a href="#">Share</a>
+      </div>
+    </div>
+
+    <!-- Lead Image -->
+    <figure class="tt-lead-image">
+      <img src="https://images.unsplash.com/photo-1575505586569-646b2ca898fc?w=1200&h=675&fit=crop&auto=format" alt="Interior of a county courthouse in Texas">
+      <figcaption>A county courthouse in Texas. County offices on the primary ballot oversee everything from law enforcement to property taxes. <span class="credit">Credit: Shelby Tauber for The Texas Tribune</span></figcaption>
+    </figure>
+
+    <!-- Article Body -->
+    <div class="tt-body">
+
+      <p>When Texans head to the polls for the March 3 primary, many of the races on their ballots won't be for governor or U.S. senator — they'll be for the local officials who have the most direct impact on daily life. County judges, sheriffs, tax assessor-collectors, constables and other county officers shape everything from property taxes to law enforcement to how roads get built.</p>
+
+      <p>Yet these down-ballot races often get the least attention from voters, in part because it can be hard to find clear information about who's running and what the offices actually do.</p>
+
+      <div class="tt-info-box">
+        <strong>Key dates:</strong> Early voting runs through Feb. 27. Election day is March 3. Enter your address below to see exactly what's on your ballot.
+      </div>
+
+      <!-- Ballot Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Look up your personalized ballot</div>
+        <div class="populist-embed" data-embed-id="e00b53ba-9d9e-44c4-829e-253c3caa0e62"></div>
+      </div>
+
+      <p>Here's a guide to the county offices you'll see on your primary ballot and what the people elected to them actually do.</p>
+
+      <h2>County Judge</h2>
+
+      <p>Despite the title, the county judge in Texas is not primarily a judicial officer. The county judge serves as the presiding officer of the commissioners court — the governing body of the county — and is responsible for the county budget, administrative functions, and emergency management. In smaller counties, the judge may also hear minor civil and criminal cases, but in larger counties the role is almost entirely administrative and legislative.</p>
+
+      <p>The county judge is elected countywide to a four-year term and is often considered the most powerful single official in county government. They set the agenda for commissioners court meetings, cast tie-breaking votes, and serve as the county's point person during disasters and emergencies.</p>
+
+      <h2>Sheriff</h2>
+
+      <p>The county sheriff is the chief law enforcement officer for unincorporated areas of the county — the parts that fall outside city limits. The sheriff's office operates the county jail, serves warrants and civil papers, provides courthouse security, and patrols rural areas. In many Texas counties, the sheriff's office is the primary police force for a majority of the land area.</p>
+
+      <p>Sheriffs are elected countywide to four-year terms. The office carries significant discretion over law enforcement priorities, jail conditions, and cooperation with federal agencies including Immigration and Customs Enforcement.</p>
+
+      <!-- Race Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">See who's running in your local races</div>
+        <div class="populist-embed" data-embed-id="086b0f58-6cf1-4d89-bef8-56c7cbd6a606"></div>
+      </div>
+
+      <h2>District Clerk</h2>
+
+      <p>The district clerk is the official record keeper for all district courts in the county, handling filings for felony criminal cases, civil lawsuits, divorce proceedings, and other matters that come before district-level judges. The office maintains case files, issues subpoenas, and manages jury selection processes.</p>
+
+      <p>This is an elected countywide position with a four-year term. While it may sound like a back-office role, the district clerk's office is essential to the functioning of the justice system — delays or mismanagement can directly affect how quickly cases move through the courts.</p>
+
+      <h2>County Clerk</h2>
+
+      <p>The county clerk wears many hats. This office handles vital records like birth and death certificates, issues marriage licenses, records property deeds and other legal documents, and — critically — administers elections. In many Texas counties, the county clerk is the chief elections officer, responsible for setting up polling places, programming ballot machines, and certifying results.</p>
+
+      <p>The county clerk is elected to a four-year term and serves as the clerk for the commissioners court, maintaining minutes and records of all county business.</p>
+
+      <h2>Tax Assessor-Collector</h2>
+
+      <p>The tax assessor-collector is responsible for collecting property taxes on behalf of the county and other local taxing entities, including school districts, cities, and special districts. In most Texas counties, this office also handles vehicle registration and title transfers — making it one of the county offices that residents interact with most frequently.</p>
+
+      <p>This is a countywide elected position with a four-year term. The office doesn't set tax rates — that's the job of the commissioners court and other taxing entities — but it is responsible for the accurate and timely collection of billions of dollars in revenue.</p>
+
+      <!-- Legislation Tracker Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Track bills affecting Texas county government</div>
+        <div class="populist-embed" data-embed-id="f75c87ef-2e23-4db3-be1f-70f121cc38e3"></div>
+      </div>
+
+      <h2>Constable</h2>
+
+      <p>Constables are elected law enforcement officers who serve specific precincts within a county. Their primary duty is serving legal papers — eviction notices, subpoenas, citations, and other court documents — for the justice of the peace courts. Many constable offices also conduct patrol operations and traffic enforcement in their precincts.</p>
+
+      <p>Each county precinct elects its own constable to a four-year term. The role varies significantly by county: in large urban counties, constable offices may have dozens of deputies and operate like small police departments, while in rural counties a constable may work part-time with no deputies at all.</p>
+
+      <h2>Justice of the Peace</h2>
+
+      <p>Justices of the peace, often called JP judges, handle small claims court cases (up to $20,000), minor criminal offenses (Class C misdemeanors), truancy cases, and landlord-tenant disputes including evictions. They also conduct inquests in cases of unattended deaths and perform marriage ceremonies.</p>
+
+      <p>Like constables, JPs are elected by precinct to four-year terms. In Texas, justices of the peace are not required to be lawyers — a requirement that has been the subject of ongoing debate in the Legislature.</p>
+
+      <!-- Candidate Guide Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Compare candidates running in your district</div>
+        <div class="populist-embed" data-embed-id="d9671106-a9ae-4736-b34e-8c10aa49327a"></div>
+      </div>
+
+      <h2>County Commissioner</h2>
+
+      <p>County commissioners serve on the commissioners court alongside the county judge. Each county is divided into four precincts, and voters in each precinct elect one commissioner to a four-year term. Together with the county judge, the four commissioners set the county tax rate, approve the budget, and oversee county operations.</p>
+
+      <p>Individual commissioners are also responsible for maintaining roads and bridges in their precincts — a duty that makes them particularly influential in rural areas where county roads are the primary transportation infrastructure. Commissioners court decisions affect everything from library funding to first responder resources to whether a county opts into federal programs.</p>
+
+      <h2>Why these races matter</h2>
+
+      <p>County officials collectively manage billions of dollars in public funds and make decisions that directly affect residents' property taxes, access to justice, public safety, and quality of life. Yet primary elections for these offices routinely see low turnout, meaning a relatively small number of voters can determine who holds significant local power.</p>
+
+      <p>In many Texas counties — particularly in areas dominated by one party — the primary election is effectively the general election. Winning the dominant party's primary all but guarantees victory in November, making March 3 the most consequential date on the calendar for these races.</p>
+
+      <!-- Conversations Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Join the conversation: What local issues matter most to you?</div>
+        <div class="populist-embed" data-embed-id="74bd2d60-80b6-40e0-81c8-4f5d6c5d5ace"></div>
+      </div>
+
+      <p><em>Disclosure: The Texas Tribune is a nonprofit news organization supported by members, foundations and corporate sponsors. The organization's financial supporters play no role in its journalism.</em></p>
+
+    </div>
+  </article>
+
+  <!-- Footer -->
+  <footer class="tt-footer">
+    <div class="tt-footer-inner">
+      <div class="tt-footer-logo">THE TEXAS TRIBUNE</div>
+      <p>The Texas Tribune is the only member-supported, digital-first, nonpartisan media organization that informs Texans about public policy, politics, government, and statewide issues.</p>
+      <div class="tt-footer-bottom">
+        &copy; 2026 The Texas Tribune
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
