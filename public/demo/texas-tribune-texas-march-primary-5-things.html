@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polls close today in the Texas primaries. Here are five things to watch. - The Texas Tribune</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700;800;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Step 1: Load Populist Widget once per page -->
+  <script async src="https://www.populist.us/widget-client-v2.js"></script>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Merriweather', Georgia, serif;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* === Top Nav Bar === */
+    .tt-top-nav {
+      background: #1a1a1a;
+      padding: 0;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tt-top-nav a {
+      color: #fff;
+      padding: 10px 16px;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .tt-top-nav a:hover {
+      background: #333;
+    }
+
+    .tt-top-nav .donate-link {
+      background: #ffc200;
+      color: #1a1a1a;
+      font-weight: 800;
+      margin-left: 8px;
+    }
+
+    .tt-top-nav .donate-link:hover {
+      background: #e6af00;
+    }
+
+    /* === Header === */
+    .tt-header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 0;
+    }
+
+    .tt-header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tt-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .tt-logo-text {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+
+    .tt-header-donate {
+      background: #ffc200;
+      color: #1a1a1a;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .tt-header-donate:hover {
+      background: #e6af00;
+      color: #1a1a1a;
+    }
+
+    /* === Trending Bar === */
+    .tt-trending {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 10px 0;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.78rem;
+    }
+
+    .tt-trending-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      overflow-x: auto;
+    }
+
+    .tt-trending a {
+      color: #555;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .tt-trending a:hover {
+      color: #1a1a1a;
+    }
+
+    .tt-trending .tt-donate-trending {
+      background: #ffc200;
+      color: #1a1a1a;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* === Article Container === */
+    .tt-article-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    /* === Category Label === */
+    .tt-category {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #d4a017;
+      margin-bottom: 12px;
+    }
+
+    /* === Headline === */
+    .tt-headline {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 2.6rem;
+      font-weight: 900;
+      line-height: 1.15;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+    }
+
+    /* === Deck / Subheadline === */
+    .tt-deck {
+      font-family: 'Merriweather', Georgia, serif;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+      border-left: 3px solid #ffc200;
+      padding-left: 16px;
+    }
+
+    /* === Byline === */
+    .tt-byline {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.82rem;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .tt-byline a {
+      color: #1a1a1a;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .tt-byline a:hover {
+      color: #d4a017;
+    }
+
+    .tt-dateline {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.78rem;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .tt-share-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.78rem;
+      color: #888;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .tt-share-links a {
+      color: #555;
+      margin-left: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.72rem;
+    }
+
+    .tt-share-links a:hover {
+      color: #1a1a1a;
+    }
+
+    /* === Lead Image === */
+    .tt-lead-image {
+      margin-bottom: 32px;
+    }
+
+    .tt-lead-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .tt-lead-image figcaption {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .tt-lead-image figcaption .credit {
+      font-weight: 700;
+      color: #555;
+    }
+
+    /* === Article Body === */
+    .tt-body p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      color: #333;
+    }
+
+    .tt-body h2 {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin: 44px 0 18px;
+      padding-top: 20px;
+      border-top: 2px solid #ffc200;
+    }
+
+    .tt-body h3 {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 28px 0 12px;
+    }
+
+    .tt-body strong {
+      font-weight: 700;
+    }
+
+    .tt-body a {
+      color: #1a6fb5;
+      text-decoration: underline;
+    }
+
+    .tt-body a:hover {
+      color: #d4a017;
+    }
+
+    .tt-body ul, .tt-body ol {
+      margin: 0 0 22px 24px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #333;
+    }
+
+    .tt-body li {
+      margin-bottom: 8px;
+    }
+
+    /* === Number Badge === */
+    .tt-number {
+      display: inline-block;
+      background: #ffc200;
+      color: #1a1a1a;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: 50%;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    /* === Populist Embed Sections === */
+    .tt-embed-section {
+      margin: 40px 0;
+      padding: 28px 24px;
+      background: #fafaf5;
+      border: 1px solid #e8e8d8;
+      border-left: 4px solid #ffc200;
+      border-radius: 4px;
+    }
+
+    .tt-embed-label {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .tt-embed-title {
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+    }
+
+    .tt-embed-section .populist-embed {
+      margin: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .tt-embed-section .populist-embed iframe {
+      width: 100% !important;
+      max-width: 100% !important;
+      border: none;
+    }
+
+    /* === Info Box === */
+    .tt-info-box {
+      background: #fffbe6;
+      border: 1px solid #ffc200;
+      border-radius: 4px;
+      padding: 20px 24px;
+      margin: 32px 0;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .tt-info-box strong {
+      color: #1a1a1a;
+    }
+
+    /* === Footer === */
+    .tt-footer {
+      background: #1a1a1a;
+      color: #999;
+      padding: 40px 0 20px;
+      font-family: 'Libre Franklin', Arial, sans-serif;
+    }
+
+    .tt-footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .tt-footer-logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .tt-footer p {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .tt-footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 16px;
+      font-size: 0.72rem;
+      color: #666;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .tt-headline {
+        font-size: 1.8rem;
+      }
+
+      .tt-article-container {
+        padding: 24px 16px 40px;
+      }
+
+      .tt-body p, .tt-body ul, .tt-body ol {
+        font-size: 1rem;
+      }
+
+      .tt-top-nav {
+        font-size: 0.65rem;
+      }
+
+      .tt-top-nav a {
+        padding: 10px 10px;
+      }
+
+      .tt-embed-section {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="tt-top-nav">
+    <a href="#">Investigations</a>
+    <a href="#">Guides</a>
+    <a href="#">About</a>
+    <a href="#">Events</a>
+    <a href="#">Data</a>
+    <a href="#">Newsletters</a>
+    <a href="#" class="donate-link">Donate</a>
+  </nav>
+
+  <!-- Header -->
+  <header class="tt-header">
+    <div class="tt-header-inner">
+      <a href="index.html" class="tt-logo">
+        <span class="tt-logo-text">THE TEXAS TRIBUNE</span>
+      </a>
+      <a href="#" class="tt-header-donate">Donate</a>
+    </div>
+  </header>
+
+  <!-- Trending Bar -->
+  <div class="tt-trending">
+    <div class="tt-trending-inner">
+      <a href="#" class="tt-donate-trending">Donate</a>
+      <a href="#">Primary Election Results</a>
+      <a href="#">Crockett's Loss</a>
+      <a href="#">Crenshaw Ousted</a>
+      <a href="#">Hemp Industry</a>
+      <a href="#">ICE Shooting</a>
+    </div>
+  </div>
+
+  <!-- Article -->
+  <article class="tt-article-container">
+
+    <div class="tt-category">Elections</div>
+
+    <h1 class="tt-headline">Polls close today in the Texas primaries. Here are five things to watch.</h1>
+
+    <p class="tt-deck">This Tuesday, Tribune reporters are watching two blockbuster Senate primaries, an open attorney general seat, and more high-stakes, competitive races up and down the Texas ballot.</p>
+
+    <div class="tt-byline">BY <a href="#">GABBY BIRENBAUM</a>, <a href="#">KAYLA GUO</a>, <a href="#">ELEANOR KLIBANOFF</a>, <a href="#">ALEJANDRO SERRANO</a> AND <a href="#">RENZO DOWNEY</a></div>
+    <div class="tt-dateline">MARCH 3, 2026, 5:00 A.M. CENTRAL</div>
+
+    <div class="tt-share-row">
+      <span></span>
+      <div class="tt-share-links">
+        <a href="#">Republish</a>
+        <a href="#">Share</a>
+      </div>
+    </div>
+
+    <!-- Lead Image -->
+    <figure class="tt-lead-image">
+      <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&h=675&fit=crop&auto=format" alt="Texas State Capitol building in Austin">
+      <figcaption>The Texas State Capitol in Austin. Voters head to the polls today for one of the most consequential primary elections in recent memory. <span class="credit">Credit: The Texas Tribune</span></figcaption>
+    </figure>
+
+    <!-- Article Body -->
+    <div class="tt-body">
+
+      <p>It's primary day in Texas. Polls opened at 7 a.m. and close at 7 p.m., and the results will shape the political landscape for the state's biggest offices heading into the fall. With competitive primaries in both parties, an open attorney general's seat, and questions about Gov. Greg Abbott's influence over the Republican field, here are the five things our reporters are watching tonight.</p>
+
+      <div class="tt-info-box">
+        <strong>Polls are open until 7 p.m.</strong> Enter your address below to see every race on your ballot and find your polling location.
+      </div>
+
+      <!-- Ballot Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Look up your personalized ballot</div>
+        <div class="populist-embed" data-embed-id="e00b53ba-9d9e-44c4-829e-253c3caa0e62"></div>
+      </div>
+
+      <h2><span class="tt-number">1</span> The Republican U.S. Senate primary</h2>
+
+      <p>The race to succeed Sen. John Cornyn has drawn a crowded Republican field, but the primary has essentially become a two-person contest. The question tonight is whether either leading candidate can break the 50% threshold needed to avoid a May runoff — and if not, which two candidates will advance.</p>
+
+      <p>Rep. Wesley Hunt, who represents a Houston-area district, has positioned himself as the establishment favorite with significant fundraising advantages and endorsements from party leaders. But he's faced persistent attacks from rivals who argue he hasn't been conservative enough on border security and spending. The primary is a test of whether the Texas GOP's grassroots base will follow the party establishment or chart its own course.</p>
+
+      <p>With multiple candidates splitting the vote, a runoff remains the most likely outcome — setting up what could be a bruising and expensive two-month sprint ahead of the May runoff date.</p>
+
+      <!-- Race Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">See who's running and track live results</div>
+        <div class="populist-embed" data-embed-id="086b0f58-6cf1-4d89-bef8-56c7cbd6a606"></div>
+      </div>
+
+      <h2><span class="tt-number">2</span> The Democratic U.S. Senate primary</h2>
+
+      <p>On the Democratic side, the Senate primary has turned into a high-profile clash between two sitting members of Congress: Rep. Jasmine Crockett of Dallas and Rep. James Talarico of Austin. Crockett, who gained a national following through her sharp questioning in congressional hearings, entered the race as the frontrunner. Talarico, a former teacher and younger member of the delegation, has pitched himself as a candidate who can compete in a general election by appealing to moderates and rural voters.</p>
+
+      <p>The race has been one of the most closely watched Democratic primaries in the country, in part because it could signal the direction of the party in Texas — whether Democrats prioritize energizing their base or expanding the map. Tonight's results will also show whether either candidate has enough support to avoid a runoff or whether this fight continues into May.</p>
+
+      <!-- Candidate Guide Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Compare the candidates side by side</div>
+        <div class="populist-embed" data-embed-id="d9671106-a9ae-4736-b34e-8c10aa49327a"></div>
+      </div>
+
+      <h2><span class="tt-number">3</span> The attorney general's race</h2>
+
+      <p>For the first time in over a decade, the Texas attorney general's race does not include Ken Paxton on the ballot. Paxton's departure has opened the floodgates for candidates in both parties, and the Republican primary in particular has attracted a crowded and contentious field.</p>
+
+      <p>The attorney general's office has become one of the most powerful in state government, leading high-profile lawsuits against the federal government, enforcing state laws on immigration, abortion, and social media, and wielding enormous influence over the legal landscape. The candidates have clashed over who would be most aggressive in using the office as a political weapon — and who has the legal chops to back it up.</p>
+
+      <p>On the Democratic side, the race has drawn candidates who see an opportunity to flip the office for the first time since 1994. Democrats believe the post-Paxton landscape and a competitive Senate race at the top of the ticket could boost turnout enough to make the attorney general's race genuinely competitive in November.</p>
+
+      <!-- Legislation Tracker Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Track key legislation from the Texas Legislature</div>
+        <div class="populist-embed" data-embed-id="f75c87ef-2e23-4db3-be1f-70f121cc38e3"></div>
+      </div>
+
+      <h2><span class="tt-number">4</span> Abbott's grip on the GOP</h2>
+
+      <p>Gov. Greg Abbott has spent the past two years consolidating power within the Texas Republican Party, using his massive campaign war chest to back primary challengers against incumbent Republicans who defied him in the Legislature — particularly those who blocked his school voucher agenda. Tonight is the biggest test yet of whether that strategy is working.</p>
+
+      <p>Abbott has endorsed in dozens of legislative primaries, and in several races his preferred candidates are facing off against Republican incumbents who voted against the voucher bill. If Abbott's candidates win in significant numbers, it will cement his reputation as the most powerful force in Texas politics and all but guarantee that school vouchers pass in the next legislative session. If they lose, it could signal that the governor has overreached — and that Republican voters are not as aligned with his priorities as he believes.</p>
+
+      <p>The results in these legislative races could matter more for the daily lives of Texans than any statewide contest, because they will determine the composition of the Legislature that takes office in January 2027.</p>
+
+      <!-- Politician Info Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">Explore detailed profiles of elected officials</div>
+        <div class="populist-embed" data-embed-id="a5a7108f-2fbb-42a6-b915-a0125951174b"></div>
+      </div>
+
+      <h2><span class="tt-number">5</span> Turnout and the down-ballot races</h2>
+
+      <p>Primary turnout in Texas is historically low — typically under 20% of registered voters participate. But this cycle has several ingredients that could push turnout higher: competitive Senate races in both parties, an open attorney general's seat, Abbott's legislative primary fights, and ongoing national debates over immigration, education, and reproductive rights that have energized voters on both sides.</p>
+
+      <p>Higher turnout could reshape races further down the ballot, including competitive primaries for state board of education, judicial seats, and county offices. In many Texas counties — particularly in deep-red or deep-blue areas — winning the primary is tantamount to winning the general election, making today the only day that truly matters for those races.</p>
+
+      <p>Tribune reporters will be tracking results across the state as they come in tonight. Check back for live updates, analysis, and complete results from every race on the Texas ballot.</p>
+
+      <!-- Conversations Embed -->
+      <div class="tt-embed-section">
+        <div class="tt-embed-label">Powered by Populist</div>
+        <div class="tt-embed-title">What issues are driving your vote today? Join the conversation.</div>
+        <div class="populist-embed" data-embed-id="74bd2d60-80b6-40e0-81c8-4f5d6c5d5ace"></div>
+      </div>
+
+      <p><em>Disclosure: The Texas Tribune is a nonprofit news organization supported by members, foundations and corporate sponsors. The organization's financial supporters play no role in its journalism.</em></p>
+
+    </div>
+  </article>
+
+  <!-- Footer -->
+  <footer class="tt-footer">
+    <div class="tt-footer-inner">
+      <div class="tt-footer-logo">THE TEXAS TRIBUNE</div>
+      <p>The Texas Tribune is the only member-supported, digital-first, nonpartisan media organization that informs Texans about public policy, politics, government, and statewide issues.</p>
+      <div class="tt-footer-bottom">
+        &copy; 2026 The Texas Tribune
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
