@@ -1,5 +1,7 @@
 /* Reset & Base */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -101,7 +103,9 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: #333;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .main-nav a:hover,
@@ -213,13 +217,27 @@ a:hover {
   border-radius: 2px;
 }
 
-.category-tag--business { background: #2980b9; }
-.category-tag--science { background: #27ae60; }
-.category-tag--health { background: #8e44ad; }
-.category-tag--politics { background: #2c3e50; }
-.category-tag--tech { background: #e67e22; }
-.category-tag--sports { background: #c0392b; }
-.category-tag--culture { background: #d35400; }
+.category-tag--business {
+  background: #2980b9;
+}
+.category-tag--science {
+  background: #27ae60;
+}
+.category-tag--health {
+  background: #8e44ad;
+}
+.category-tag--politics {
+  background: #2c3e50;
+}
+.category-tag--tech {
+  background: #e67e22;
+}
+.category-tag--sports {
+  background: #c0392b;
+}
+.category-tag--culture {
+  background: #d35400;
+}
 
 .meta {
   font-family: Arial, Helvetica, sans-serif;
@@ -290,12 +308,12 @@ a:hover {
   background: #fff;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.2s;
 }
 
 .news-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .news-card-body {
@@ -505,8 +523,266 @@ a:hover {
   letter-spacing: 2px;
 }
 
+/* Texas 2026 Runoff Hub & category pages */
+.hub-breadcrumb {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.hub-breadcrumb a {
+  color: #c0392b;
+}
+
+.hub-page-title {
+  font-size: 2.6rem;
+  line-height: 1.15;
+  margin: 0 0 12px;
+}
+
+.hub-dek {
+  font-size: 1.15rem;
+  color: #444;
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+.hub-featured {
+  margin-bottom: 40px;
+}
+
+.hub-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.hub-ballot-section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 40px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.hub-ballot-section h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.hub-related-links {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.hub-related-links h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.hub-related-links ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 24px;
+}
+
+.hub-related-links a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  color: #c0392b;
+}
+
+.hub-index-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.hub-index-block {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px 24px;
+}
+
+.hub-index-block h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+
+.hub-index-list {
+  list-style: none;
+}
+
+.hub-index-list li {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.hub-index-list li:last-child {
+  border-bottom: none;
+}
+
+.hub-index-list a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.hub-index-list a:hover {
+  color: #c0392b;
+}
+
+/* Category page: main + sidebar */
+.category-page-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.category-main {
+  min-width: 0;
+}
+
+.category-sidebar {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  position: sticky;
+  top: 72px;
+}
+
+.category-sidebar h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #c0392b;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.race-sidebar-list {
+  list-style: none;
+}
+
+.race-sidebar-list li {
+  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.race-sidebar-list li:last-child {
+  border-bottom: none;
+}
+
+.race-sidebar-list a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #1a1a1a;
+}
+
+.race-sidebar-list a:hover {
+  color: #c0392b;
+}
+
+.race-sidebar-list .race-meta {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #888;
+  margin-top: 4px;
+}
+
+.story-row-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.story-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.story-row img {
+  width: 220px;
+  min-width: 220px;
+  height: 140px;
+  object-fit: cover;
+}
+
+.story-row-body {
+  padding: 16px 20px 16px 0;
+}
+
+.story-row-body h3 {
+  font-size: 1.2rem;
+  line-height: 1.3;
+  margin: 6px 0 8px;
+}
+
+.story-row-body p {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
+  .hub-featured-grid {
+    grid-template-columns: 1fr;
+  }
+  .hub-index-grid {
+    grid-template-columns: 1fr;
+  }
+  .hub-related-links ul {
+    grid-template-columns: 1fr;
+  }
+  .category-page-layout {
+    grid-template-columns: 1fr;
+  }
+  .category-sidebar {
+    position: static;
+  }
+  .story-row {
+    flex-direction: column;
+  }
+  .story-row img {
+    width: 100%;
+    min-width: 100%;
+    height: 200px;
+  }
   .hero {
     grid-template-columns: 1fr;
   }
