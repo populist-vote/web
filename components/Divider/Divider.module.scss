@@ -5,6 +5,9 @@
 
 .vertical {
   border-top: none;
-  height: 100%;
+  align-self: stretch;
+  width: 0;
+  min-height: 0;
+  height: auto;
   margin: 0 8px;
 }

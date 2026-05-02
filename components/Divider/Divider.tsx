@@ -30,11 +30,15 @@ export function Divider({
 
   const verticalStyle = {
     borderTop: "none",
+    borderRight: "none",
+    borderBottom: "none",
     borderLeft: `1px solid ${color}`,
-    flex: "0 0 auto",
+    alignSelf: "stretch",
+    width: 0,
+    minHeight: 0,
     margin: "0 8px",
-    minHeight: "1.5rem",
-    height: height || "100%",
+    height: height ?? "auto",
+    display: "block",
     ...style,
   };
 
