@@ -9,7 +9,7 @@ import {
   VotingGuideByIdQuery,
 } from "generated";
 import { useVotingGuide } from "hooks/useVotingGuide";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import styles from "./Ballot.module.scss";
 import { AtLeast } from "types/global";
@@ -82,7 +82,7 @@ function Race({
 
               return optimisticNewGuide;
             }
-          }
+          },
         );
       }
 
@@ -118,9 +118,9 @@ function Race({
       {
         onSuccess: () =>
           toast.success(
-            `You've successfully ${isEndorsement ? "endorsed" : "unendorsed"} ${candidateName}.`
+            `You've successfully ${isEndorsement ? "endorsed" : "unendorsed"} ${candidateName}.`,
           ),
-      }
+      },
     );
   };
 
@@ -145,7 +145,10 @@ function Race({
 
   const { raceType, party, candidates, results } = race;
 
-  const incumbentIds = race?.office?.incumbents?.map((i) => i.id) || [];
+  const incumbentIds = useMemo(
+    () => race?.office?.incumbents?.map((i) => i.id) ?? [],
+    [race?.office?.incumbents],
+  );
 
   const sortedCandidates = useMemo(() => {
     const randomizeFn = () => Math.random() - 0.5;
@@ -161,7 +164,7 @@ function Race({
 
     const electionResultsSortFn = (
       a: PoliticianResult,
-      b: PoliticianResult
+      b: PoliticianResult,
     ) => {
       const votePercentageA =
         results?.votesByCandidate.find((c) => c.candidateId === a.id)
@@ -172,12 +175,125 @@ function Race({
       return votePercentageA > votePercentageB ? -1 : 1;
     };
 
-    return candidates
-      ?.sort(randomizeFn)
+    return [...candidates]
+      .sort(randomizeFn)
       .sort(partySortFn)
       .sort(electionResultsSortFn)
       .sort(incumbentSortFn);
-  }, []);
+  }, [candidates, incumbentIds, results?.votesByCandidate]);
+
+  const incumbentsInRace = sortedCandidates.filter((p) =>
+    incumbentIds.includes(p.id),
+  );
+  const otherCandidatesInRace = sortedCandidates.filter(
+    (p) => !incumbentIds.includes(p.id),
+  );
+  const showIncumbentChallengerDivider =
+    candidates.length > 1 &&
+    incumbentsInRace.length > 0 &&
+    otherCandidatesInRace.length > 0;
+
+  const incumbentLabelEl =
+    theme === "dark" ? (
+      <span className={styles.sideText}>INCUMBENT</span>
+    ) : (
+      <span className={styles.sideText} style={{ color: "var(--grey)" }}>
+        INCUMBENT
+      </span>
+    );
+
+  const renderCandidateColumn = (
+    politician: PoliticianResult,
+    sideLabel: ReactNode | null,
+  ) => {
+    const isEndorsing = endorserId
+      ? endorsedCandidateIds
+        ? endorsedCandidateIds.includes(politician.id)
+        : race.candidates.some((c) => c.id === politician.id)
+      : votingGuide?.candidates
+          ?.filter((c) => c.isEndorsement)
+          .map((c) => c.politician.id)
+          .includes(politician.id);
+
+    const hasNote = votingGuide?.candidates
+      ?.filter((c) => c.note?.length)
+      .map((c) => c.politician.id)
+      .includes(politician.id);
+
+    const appendString = votingGuide?.id
+      ? `?votingGuideId=${votingGuide.id}`
+      : "";
+
+    const politicianLink = `/politicians/${encodeURIComponent(
+      politician?.slug,
+    )}${appendString}`;
+
+    const votePercentage = results?.votesByCandidate.find(
+      (c) => c.candidateId === politician.id,
+    )?.votePercentage;
+
+    const isWinner = results?.winners?.map((w) => w.id).includes(politician.id);
+
+    const isOpaque = !!results?.winners && !isWinner;
+
+    const labelLeftProps = {
+      text: votePercentage ? `${votePercentage}%` : null,
+      background: "var(--grey-lighter)",
+      color: "var(--grey-darkest)",
+      icon: isWinner ? (
+        <span className={styles.iconStack}>
+          <FaCircle color="black" />
+          <FaCheckCircle color="var(--green-support)" />
+        </span>
+      ) : null,
+    };
+
+    return (
+      <div
+        className={styles.flexBetween}
+        style={{ height: "auto" }}
+        key={politician.id}
+      >
+        {sideLabel}
+        <Link
+          className={styles.avatarContainer}
+          href={politicianLink}
+          target={isEmbedded ? "_blank" : undefined}
+        >
+          <PartyAvatar
+            theme={theme}
+            size={80}
+            hasIconMenu
+            isEndorsement={isEndorsing}
+            iconSize="1.25rem"
+            hasNote={hasNote}
+            iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
+            handleEndorseCandidate={() =>
+              endorseCandidate(politician.id, politician.fullName)
+            }
+            handleUnendorseCandidate={() =>
+              unendorseCandidate(politician.id, politician.fullName)
+            }
+            handleAddNote={() => handleAddNoteClick(politician)}
+            party={politician?.party as PoliticalParty}
+            src={politician?.assets?.thumbnailImage160 as string}
+            alt={politician.fullName}
+            readOnly={!isGuideOwner}
+            href={politicianLink}
+            target={isEmbedded ? "_blank" : undefined}
+            rel={isEmbedded ? "noopener noreferrer" : undefined}
+            labelLeft={labelLeftProps}
+            opaque={isOpaque}
+          />
+          <span
+            className={clsx(styles.link, styles.avatarName, styles[theme])}
+          >
+            {politician.fullName}
+          </span>
+        </Link>
+      </div>
+    );
+  };
 
   const $raceContent = (
     <>
@@ -194,127 +310,33 @@ function Race({
         />
       )}
       <ScrollableContainer avatarWidth={124}>
-        {sortedCandidates.map((politician: PoliticianResult) => {
-          // Check if candidate is endorsed by organization (in embed mode) or by user's voting guide
-          const isEndorsing = endorserId
-            ? endorsedCandidateIds
-              ? endorsedCandidateIds.includes(politician.id)
-              : race.candidates.some((c) => c.id === politician.id)
-            : votingGuide?.candidates
-                ?.filter((c) => c.isEndorsement)
-                .map((c) => c.politician.id)
-                .includes(politician.id);
-
-          const hasNote = votingGuide?.candidates
-            ?.filter((c) => c.note?.length)
-            .map((c) => c.politician.id)
-            .includes(politician.id);
-
-          const appendString = votingGuide?.id
-            ? `?votingGuideId=${votingGuide.id}`
-            : "";
-
-          const politicianLink = `/politicians/${encodeURIComponent(
-            politician?.slug
-          )}${appendString}`;
-
-          const votePercentage = results?.votesByCandidate.find(
-            (c) => c.candidateId === politician.id
-          )?.votePercentage;
-
-          const isWinner = results?.winners
-            ?.map((w) => w.id)
-            .includes(politician.id);
-
-          const isOpaque = !!results?.winners && !isWinner;
-
-          const labelLeftProps = {
-            text: votePercentage ? `${votePercentage}%` : null,
-            background: "var(--grey-lighter)",
-            color: "var(--grey-darkest)",
-            icon: isWinner ? (
-              <span className={styles.iconStack}>
-                <FaCircle color="black" />
-                <FaCheckCircle color="var(--green-support)" />
-              </span>
-            ) : null,
-          };
-
-          return (
-            <div
-              className={styles.flexBetween}
-              style={{ height: "auto" }}
-              key={politician.id}
-            >
-              {incumbentIds?.includes(politician.id) &&
-                (theme == "dark" ? (
-                  <span className={styles.sideText}>INCUMBENT</span>
-                ) : (
-                  <span
-                    className={styles.sideText}
-                    style={{ color: "var(--grey)" }}
-                  >
-                    INCUMBENT
-                  </span>
-                ))}
-
-              <Link
-                className={styles.avatarContainer}
-                href={politicianLink}
-                target={isEmbedded ? "_blank" : undefined}
-              >
-                <PartyAvatar
-                  theme={theme}
-                  size={80}
-                  hasIconMenu
-                  isEndorsement={isEndorsing}
-                  iconSize="1.25rem"
-                  hasNote={hasNote}
-                  iconType={isEndorsing ? "star" : hasNote ? "note" : "plus"}
-                  handleEndorseCandidate={() =>
-                    endorseCandidate(politician.id, politician.fullName)
-                  }
-                  handleUnendorseCandidate={() =>
-                    unendorseCandidate(politician.id, politician.fullName)
-                  }
-                  handleAddNote={() => handleAddNoteClick(politician)}
-                  party={politician?.party as PoliticalParty}
-                  src={politician?.assets?.thumbnailImage160 as string}
-                  alt={politician.fullName}
-                  readOnly={!isGuideOwner}
-                  href={politicianLink}
-                  target={isEmbedded ? "_blank" : undefined}
-                  rel={isEmbedded ? "noopener noreferrer" : undefined}
-                  labelLeft={labelLeftProps}
-                  opaque={isOpaque}
-                />
-                <span
-                  className={clsx(
-                    styles.link,
-                    styles.avatarName,
-                    styles[theme]
-                  )}
-                >
-                  {politician.fullName}
-                </span>
-              </Link>
-
-              {incumbentIds?.includes(politician.id) &&
-                candidates?.length > 1 &&
-                (theme == "dark" ? (
-                  <Divider vertical />
-                ) : (
-                  <Divider vertical color="var(--grey-light)" />
-                ))}
-            </div>
-          );
-        })}
+        {incumbentsInRace.map((politician, index) =>
+          renderCandidateColumn(
+            politician,
+            index === 0 ? incumbentLabelEl : null,
+          ),
+        )}
+        {showIncumbentChallengerDivider &&
+          (theme === "dark" ? (
+            <Divider vertical />
+          ) : (
+            <Divider vertical color="var(--grey-light)" />
+          ))}
+        {otherCandidatesInRace.map((politician) =>
+          renderCandidateColumn(politician, null),
+        )}
       </ScrollableContainer>
     </>
   );
 
   const partySuffix =
-    party?.fecCode === "DEM" ? " (D)" : party?.fecCode === "REP" ? " (R)" : party?.fecCode === "N" ? " (NP)" : "";
+    party?.fecCode === "DEM"
+      ? " (D)"
+      : party?.fecCode === "REP"
+        ? " (R)"
+        : party?.fecCode === "N"
+          ? " (NP)"
+          : "";
 
   return raceType === RaceType.General ? (
     <div className={clsx(styles.raceContent)}>{$raceContent}</div>
@@ -355,7 +377,7 @@ function ScrollableContainer({
 
       const leftHidden = Math.floor(scrollLeft / avatarWidth);
       const rightHidden = Math.floor(
-        (scrollWidth - scrollLeft - clientWidth) / avatarWidth
+        (scrollWidth - scrollLeft - clientWidth) / avatarWidth,
       );
 
       setHiddenCountLeft(leftHidden);

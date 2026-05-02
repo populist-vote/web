@@ -9,6 +9,7 @@ import {
   EmbedResult,
   EmbedType,
   PoliticalParty,
+  PoliticianResult,
   RaceResult,
   State,
   useBasicElectionByIdQuery,
@@ -17,7 +18,7 @@ import {
   useOrganizationByIdQuery,
   VoteType,
 } from "generated";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Race } from "components/Ballot/Race";
 import Divider from "components/Divider/Divider";
 import { Badge } from "components/Badge/Badge";
@@ -75,7 +76,7 @@ export function MyBallotEmbed({
   }, [renderOptions?.defaultLanguage]);
 
   const defaultValues = JSON.parse(
-    localStorage.getItem("addressValues") || "{}"
+    localStorage.getItem("addressValues") || "{}",
   );
 
   const {
@@ -114,7 +115,7 @@ export function MyBallotEmbed({
     },
     {
       enabled: true, // Always fetch to get organizationId for filtering related embeds
-    }
+    },
   );
 
   const organizationId = embedData?.embedById.organizationId;
@@ -126,7 +127,7 @@ export function MyBallotEmbed({
     },
     {
       enabled: !!organizationId && !!endorserId,
-    }
+    },
   );
 
   const organization = organizationData?.organizationById;
@@ -148,7 +149,7 @@ export function MyBallotEmbed({
         !!getValues().city &&
         !!getValues().state &&
         !!getValues().postalCode,
-    }
+    },
   );
 
   // Get all races without endorser filter when showing all races
@@ -172,7 +173,7 @@ export function MyBallotEmbed({
           !!getValues().postalCode &&
           !!endorserId &&
           showAllRaces,
-      }
+      },
     );
 
   const election = electionData?.electionById;
@@ -193,7 +194,7 @@ export function MyBallotEmbed({
 
       // If endorserId is provided and showAllRaces is false, only show races with endorsed candidates
       return race.candidates.length > 0;
-    }
+    },
   ) as RaceResult[];
 
   // Backend (racesByAddress → get_races_by_address_id) already returns priority → district → seat
@@ -205,7 +206,7 @@ export function MyBallotEmbed({
   const getEndorsedCandidateIds = (raceId: string) => {
     if (!endorserId || !showAllRaces || !data) return [];
     const raceWithEndorsements = data.electionById.racesByAddress?.find(
-      (r) => r.id === raceId
+      (r) => r.id === raceId,
     );
     return raceWithEndorsements?.candidates.map((c) => c.id) || [];
   };
@@ -215,10 +216,7 @@ export function MyBallotEmbed({
     state: stateRacesGroupedByOffice,
     local: localRacesGroupedByOffice,
     judicial: judicialRacesGroupedByOffice,
-  } = splitRaces(
-    racesForGrouping,
-    renderOptions?.splitOutJudicial ?? false
-  );
+  } = splitRaces(racesForGrouping, renderOptions?.splitOutJudicial ?? false);
 
   const ballotMeasures = data?.electionById.ballotMeasuresByAddress;
 
@@ -231,7 +229,7 @@ export function MyBallotEmbed({
       (bm) =>
         bm.electionScope === ElectionScope.County ||
         bm.electionScope === ElectionScope.City ||
-        bm.electionScope === ElectionScope.District
+        bm.electionScope === ElectionScope.District,
     ) || [];
 
   return (
@@ -253,7 +251,7 @@ export function MyBallotEmbed({
                 month: "long",
                 day: "numeric",
                 timeZone: "UTC",
-              }
+              },
             )}
           </strong>
         </span>
@@ -375,7 +373,7 @@ export function MyBallotEmbed({
                 <div
                   className={clsx(
                     styles.centered,
-                    styles.submitAddressButtonContainer
+                    styles.submitAddressButtonContainer,
                   )}
                 >
                   {endorserId ? (
@@ -518,6 +516,73 @@ function EndorsedCandidate({ race }: { race: RaceResult }) {
   const incumbentIds = race?.office?.incumbents?.map((i) => i.id) || [];
   const theme = "light"; // Use light theme for endorser variant
 
+  const incumbentsInRace = race.candidates.filter((c) =>
+    incumbentIds.includes(c.id),
+  );
+  const otherCandidatesInRace = race.candidates.filter(
+    (c) => !incumbentIds.includes(c.id),
+  );
+  const showIncumbentChallengerDivider =
+    race.candidates.length > 1 &&
+    incumbentsInRace.length > 0 &&
+    otherCandidatesInRace.length > 0;
+
+  const incumbentLabelEl = (
+    <span className={styles.sideText} style={{ color: "var(--grey)" }}>
+      INCUMBENT
+    </span>
+  );
+
+  const renderColumn = (
+    politician: PoliticianResult,
+    sideLabel: ReactNode | null,
+  ) => {
+    const politicianLink = `/politicians/${encodeURIComponent(politician?.slug)}`;
+
+    return (
+      <div
+        className={styles.candidateContainer}
+        style={{ height: "auto" }}
+        key={politician.id}
+      >
+        {sideLabel}
+        <Link
+          className={styles.avatarContainer}
+          href={politicianLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <PartyAvatar
+            theme={theme}
+            size={80}
+            hasIconMenu={true}
+            isEndorsement={true}
+            iconSize="1.25rem"
+            hasNote={false}
+            iconType="star"
+            handleEndorseCandidate={() => {}}
+            handleUnendorseCandidate={() => {}}
+            handleAddNote={() => {}}
+            party={politician?.party as PoliticalParty}
+            src={politician?.assets?.thumbnailImage160 as string}
+            alt={politician.fullName}
+            readOnly={true}
+            href={politicianLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            labelLeft={undefined}
+            opaque={false}
+          />
+          <span
+            className={clsx(styles.link, styles.avatarName, styles[theme])}
+          >
+            {politician.fullName}
+          </span>
+        </Link>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.endorsedCandidateContainer}>
       <div className={styles.officeHeader}>
@@ -526,69 +591,15 @@ function EndorsedCandidate({ race }: { race: RaceResult }) {
       </div>
 
       <div className={styles.raceContainer}>
-        {race.candidates.map((politician) => {
-          const politicianLink = `/politicians/${encodeURIComponent(politician?.slug)}`;
-
-          return (
-            <div
-              className={styles.candidateContainer}
-              style={{ height: "auto" }}
-              key={politician.id}
-            >
-              {incumbentIds?.includes(politician.id) && (
-                <span
-                  className={styles.sideText}
-                  style={{ color: "var(--grey)" }}
-                >
-                  INCUMBENT
-                </span>
-              )}
-
-              <Link
-                className={styles.avatarContainer}
-                href={politicianLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <PartyAvatar
-                  theme={theme}
-                  size={80}
-                  hasIconMenu={true}
-                  isEndorsement={true}
-                  iconSize="1.25rem"
-                  hasNote={false}
-                  iconType="star"
-                  handleEndorseCandidate={() => {}}
-                  handleUnendorseCandidate={() => {}}
-                  handleAddNote={() => {}}
-                  party={politician?.party as PoliticalParty}
-                  src={politician?.assets?.thumbnailImage160 as string}
-                  alt={politician.fullName}
-                  readOnly={true}
-                  href={politicianLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  labelLeft={undefined}
-                  opaque={false}
-                />
-                <span
-                  className={clsx(
-                    styles.link,
-                    styles.avatarName,
-                    styles[theme]
-                  )}
-                >
-                  {politician.fullName}
-                </span>
-              </Link>
-
-              {incumbentIds?.includes(politician.id) &&
-                race.candidates?.length > 1 && (
-                  <Divider vertical color="var(--grey-light)" />
-                )}
-            </div>
-          );
-        })}
+        {incumbentsInRace.map((politician, index) =>
+          renderColumn(politician, index === 0 ? incumbentLabelEl : null),
+        )}
+        {showIncumbentChallengerDivider && (
+          <Divider vertical color="var(--grey-light)" />
+        )}
+        {otherCandidatesInRace.map((politician) =>
+          renderColumn(politician, null),
+        )}
       </div>
     </div>
   );
@@ -714,7 +725,7 @@ function RelatedEmbedLinks({
     const withOrigins = uniqueEmbeds.filter(
       (embed) =>
         embed.origins.length > 0 &&
-        (!organizationId || embed.organizationId === organizationId)
+        (!organizationId || embed.organizationId === organizationId),
     );
 
     const seenUrls = new Set<string>();
