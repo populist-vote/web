@@ -733,6 +733,7 @@ function RelatedEmbedLinks({
     for (const embed of withOrigins) {
       for (const origin of embed.origins) {
         if (!origin.url) continue;
+        if (origin.allowLinking === false) continue;
         if (seenUrls.has(origin.url)) continue;
         seenUrls.add(origin.url);
         links.push({ embed, origin });

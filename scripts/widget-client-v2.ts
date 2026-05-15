@@ -44,9 +44,12 @@ type PopulistEmbedWindow = typeof window & {
       iframe.loading = loading as "lazy" | "eager";
       const originUrl = new URL(location.href);
       const originParam = originUrl.toString();
-      const src = `${PopulistEmbed.origin}/embeds/${embedId}?${new URLSearchParams(
-        { origin: originParam }
-      )}`;
+      const params = new URLSearchParams({ origin: originParam });
+      const rawAllow = container.getAttribute("allow-linking");
+      if (rawAllow === "false" || rawAllow === "0") {
+        params.set("allowLinking", "false");
+      }
+      const src = `${PopulistEmbed.origin}/embeds/${embedId}?${params}`;
       iframe.src = src;
 
       iframe.addEventListener("load", () => {

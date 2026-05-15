@@ -43,7 +43,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
             iframe.loading = loading;
             var originUrl = new URL(location.href);
             var originParam = originUrl.toString();
-            var src = "".concat(PopulistEmbed.origin, "/embeds/").concat(embedId, "?").concat(new URLSearchParams({ origin: originParam }));
+            var params = new URLSearchParams({ origin: originParam });
+            var rawAllow = container.getAttribute("allow-linking");
+            if (rawAllow === "false" || rawAllow === "0") {
+                params.set("allowLinking", "false");
+            }
+            var src = "".concat(PopulistEmbed.origin, "/embeds/").concat(embedId, "?").concat(params);
             iframe.src = src;
             iframe.addEventListener("load", function () {
                 iframe.classList.remove("populist-frame--loading");

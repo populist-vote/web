@@ -62,6 +62,7 @@ export default function EmbedPreview() {
             embedId={id as string}
             origin={origin}
             originHost={originHost}
+            allowLinking={query.allowLinking !== "false"}
           />
         </div>
       )}

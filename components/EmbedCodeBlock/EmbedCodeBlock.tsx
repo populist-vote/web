@@ -73,18 +73,34 @@ function CodeBlock({
   );
 }
 
-export function EmbedCodeBlock({ id }: { id: string }) {
+export function EmbedCodeBlock({
+  id,
+  hideHostPageFromMyBallotMoreInfo = false,
+}: {
+  id: string;
+  /** When true, emitted snippets include allow-linking="false" for widget v2 / My Ballot More Info. */
+  hideHostPageFromMyBallotMoreInfo?: boolean;
+}) {
   const [language, setLanguage] = useState<"html" | "react" | "nextjs">("html");
 
   const baseSrc = `${window.location.origin}/widget-client-v2.js`;
 
+  const allowLinkingAttrHtml = hideHostPageFromMyBallotMoreInfo
+    ? '\n    allow-linking="false"'
+    : "";
+
+  /** Hyphenated attrs need a spread in JSX/TSX. */
+  const allowLinkingAttrReact = hideHostPageFromMyBallotMoreInfo
+    ? "\n  {...{ 'allow-linking': 'false' }}"
+    : "";
+
   const stepOneSnippets = {
     html: `
-<!-- Step 1: Load Populist Widget once per page -->
+<!-- Step 1: Enable Populist Widgets to be rendered on the page -->
 <script async src="${baseSrc}"></script>
     `.trim(),
     react: `
-// Step 1: Load the Populist widget script once (e.g. in root app shell)
+// Step 1: Enable Populist Widgets to be rendered on the page
 useEffect(() => {
   const existing = document.querySelector('script[src="${baseSrc}"]');
   if (existing) return;
@@ -98,23 +114,23 @@ useEffect(() => {
     nextjs: `
 import Script from "next/script";
 
-{/* Step 1: Load the script once globally */}
+{/* Step 1: Enable Populist Widgets to be rendered on the page */}
 <Script src="${baseSrc}" strategy="afterInteractive" async />
     `.trim(),
   };
 
   const stepTwoSnippets = {
     html: `
-<!-- Step 2: Add embed containers anywhere on the page -->
-<div class="populist-embed" data-embed-id="${id}"></div>
+<!-- Step 2: Add the embed where you want it rendered on the page -->
+<div class="populist-embed" data-embed-id="${id}"${allowLinkingAttrHtml}></div>
     `.trim(),
     react: `
-// Step 2: Add embed containers wherever you want widgets rendered
-<div className="populist-embed" data-embed-id="${id}" />
+// Step 2: Add the embed where you want it rendered on the page
+<div className="populist-embed" data-embed-id="${id}"${allowLinkingAttrReact} />
     `.trim(),
     nextjs: `
-{/* Step 2: Add embed containers wherever you want widgets rendered */}
-<div className="populist-embed" data-embed-id="${id}" />
+{/* Step 2: Add the embed where you want it rendered on the page */}
+<div className="populist-embed" data-embed-id="${id}"${allowLinkingAttrReact} />
     `.trim(),
   };
 

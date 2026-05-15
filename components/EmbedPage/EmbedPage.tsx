@@ -137,7 +137,19 @@ function EmbedPage({
         </div>
         <div className={clsx(styles.embedCode)}>
           <h3>Embed Code</h3>
-          <EmbedCodeBlock id={id} />
+          <EmbedCodeBlock
+            id={id}
+            hideHostPageFromMyBallotMoreInfo={
+              embedType === EmbedType.Race &&
+              Boolean(
+                (
+                  embed?.attributes?.renderOptions as
+                    | { hideHostPageFromMyBallotMoreInfo?: boolean }
+                    | undefined
+                )?.hideHostPageFromMyBallotMoreInfo,
+              )
+            }
+          />
         </div>
         <EmbedDeployments embedId={embed.id} />
         <div className={styles.dangerZone}>
@@ -180,7 +192,7 @@ export function EmbedDeployments({ embedId }: { embedId: string }) {
         </Box>
       )}
       <div className={styles.deployments}>
-        {embed.origins?.map(({ url, lastPingAt }) => (
+        {embed.origins?.map(({ url, lastPingAt, allowLinking }) => (
           <div className={styles.deploymentRow} key={url}>
             <div className={styles.flexLeft} style={{ width: "100%" }}>
               <ImageWithFallback
@@ -199,6 +211,11 @@ export function EmbedDeployments({ embedId }: { embedId: string }) {
               >
                 {url}
               </Link>
+              {allowLinking === false && (
+                <small style={{ color: "var(--grey)", marginLeft: "0.5rem" }}>
+                  Hidden from My Ballot More Info
+                </small>
+              )}
             </div>
             <div className={styles.flexBetween} style={{ width: "100%" }}>
               {lastPingAt && (
