@@ -682,6 +682,7 @@ input EmbedFilter {
 }
 
 type EmbedOriginResult {
+  allowLinking: Boolean!
   lastPingAt: DateTime!
   pageTitle: String
   url: String!
@@ -1165,6 +1166,7 @@ type PendingInviteResult {
 }
 
 input PingEmbedOriginInput {
+  allowLinking: Boolean
   embedId: UUID!
   url: String!
 }

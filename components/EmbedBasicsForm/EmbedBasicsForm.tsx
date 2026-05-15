@@ -31,11 +31,16 @@ import { toast } from "react-toastify";
 import { LANGUAGES } from "utils/constants";
 import styles from "./EmbedBasicsForm.module.scss";
 
+type RaceEmbedRenderOptions = {
+  hideHostPageFromMyBallotMoreInfo?: boolean;
+};
+
 type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
   renderOptions:
     | BillWidgetRenderOptions
     | PoliticianEmbedRenderOptions
-    | MyBallotEmbedRenderOptions;
+    | MyBallotEmbedRenderOptions
+    | RaceEmbedRenderOptions;
 };
 
 function BillEmbedOptionsForm({
@@ -69,6 +74,26 @@ function BillEmbedOptionsForm({
           id="publicVoting"
           name="renderOptions.publicVoting"
           label="Public Voting"
+          register={register}
+        />
+      </div>
+    </div>
+  );
+}
+
+function RaceEmbedOptionsForm({
+  register,
+}: {
+  register: UseFormRegister<UpsertEmbedInputWithOptions>;
+}) {
+  return (
+    <div className={styles.optionsGroup}>
+      <div className={styles.optionsContainer}>
+        <div className={styles.divider} />
+        <Checkbox
+          id="hideHostPageFromMyBallotMoreInfo"
+          name="renderOptions.hideHostPageFromMyBallotMoreInfo"
+          label="Hide this page from My Ballot “More Info” sections"
           register={register}
         />
       </div>
@@ -147,13 +172,13 @@ function MyBallotEmbedRenderOptionsForm({
       (org) =>
         org.organizationId === organizationId &&
         (org.role === OrganizationRoleType.Admin ||
-          org.role === OrganizationRoleType.Owner)
+          org.role === OrganizationRoleType.Owner),
     );
   const isAdmin = isSystemAdmin || isOrgAdmin;
 
   const availableLanguageCodes = LANGUAGES.map((lang) => lang.code);
   const availableLanguages = LANGUAGES.filter(
-    (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en"
+    (lang) => availableLanguageCodes?.includes(lang.code) || lang.code === "en",
   );
   return (
     <div className={styles.optionsGroup}>
@@ -249,7 +274,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     },
     {
       enabled: !!dashboardSlug,
-    }
+    },
   );
 
   const organizationId = data?.organizationBySlug?.id;
@@ -264,7 +289,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
       (org) =>
         org.organizationId === organizationId &&
         (org.role === OrganizationRoleType.Admin ||
-          org.role === OrganizationRoleType.Owner)
+          org.role === OrganizationRoleType.Owner),
     );
   const isAdmin = isSystemAdmin || isOrgAdmin;
 
@@ -272,6 +297,10 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const initialEndorserVariant = useRef<boolean | undefined>(undefined);
   // Track initial splitOutJudicial value to prevent initial save
   const initialSplitOutJudicial = useRef<boolean | undefined>(undefined);
+  /** Race embed: same pattern as splitOutJudicial — RHF clears isDirty when unchecked matches mount default, so debounced save never runs. */
+  const initialHideHostPageFromMyBallotMoreInfo = useRef<boolean | undefined>(
+    undefined,
+  );
 
   const {
     register,
@@ -301,12 +330,15 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         isEndorserVariant: !!embed?.attributes?.endorserId,
         splitOutJudicial:
           embed?.attributes?.renderOptions?.splitOutJudicial ?? false,
+        hideHostPageFromMyBallotMoreInfo:
+          embed?.attributes?.renderOptions?.hideHostPageFromMyBallotMoreInfo ??
+          false,
       },
     },
   });
 
   const parseHeightValue = (
-    h: string | number | undefined
+    h: string | number | undefined,
   ): number | undefined => {
     if (h == null) return undefined;
     const s = String(h).trim();
@@ -328,7 +360,14 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
               splitOutJudicial: opts.splitOutJudicial ?? false,
             };
           })()
-        : data.renderOptions;
+        : embed?.embedType === EmbedType.Race
+          ? {
+              ...data.renderOptions,
+              hideHostPageFromMyBallotMoreInfo:
+                (data.renderOptions as RaceEmbedRenderOptions)
+                  .hideHostPageFromMyBallotMoreInfo ?? false,
+            }
+          : data.renderOptions;
 
     upsertEmbed.mutate(
       {
@@ -366,7 +405,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         onError: (error) => {
           toast((error as Error).message, { type: "error" });
         },
-      }
+      },
     );
   };
 
@@ -376,6 +415,9 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const isEndorserVariant = watch("renderOptions.isEndorserVariant");
   const splitOutJudicial = watch("renderOptions.splitOutJudicial");
   const height = watch("renderOptions.height");
+  const hideHostPageFromMyBallotMoreInfo = watch(
+    "renderOptions.hideHostPageFromMyBallotMoreInfo",
+  );
 
   // Track previous values to detect what changed
   const prevName = useRef(name);
@@ -383,6 +425,9 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const prevIsEndorserVariant = useRef(isEndorserVariant);
   const prevSplitOutJudicial = useRef(splitOutJudicial);
   const prevHeight = useRef(height);
+  const prevHideHostPageFromMyBallotMoreInfo = useRef(
+    hideHostPageFromMyBallotMoreInfo,
+  );
 
   // Normalize height for comparison (form may have "Auto", "800", saved is number)
   const normalizedHeight = (val: unknown): number | null => {
@@ -436,7 +481,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         onError: (error) => {
           toast((error as Error).message, { type: "error" });
         },
-      }
+      },
     );
   };
 
@@ -453,18 +498,33 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         prevName.current === name &&
         prevDescription.current === description &&
         prevIsEndorserVariant.current === isEndorserVariant &&
-        prevSplitOutJudicial.current === splitOutJudicial;
+        prevSplitOutJudicial.current === splitOutJudicial &&
+        prevHideHostPageFromMyBallotMoreInfo.current ===
+          hideHostPageFromMyBallotMoreInfo;
       const onlySplitOutJudicialChanged =
         isSplitOutJudicialChange &&
         prevName.current === name &&
         prevDescription.current === description &&
         prevIsEndorserVariant.current === isEndorserVariant &&
+        prevHeight.current === height &&
+        prevHideHostPageFromMyBallotMoreInfo.current ===
+          hideHostPageFromMyBallotMoreInfo;
+      const isHideHostPageChange =
+        prevHideHostPageFromMyBallotMoreInfo.current !==
+        hideHostPageFromMyBallotMoreInfo;
+      const onlyHideHostPageFromMyBallotMoreInfoChanged =
+        isHideHostPageChange &&
+        prevName.current === name &&
+        prevDescription.current === description &&
+        prevIsEndorserVariant.current === isEndorserVariant &&
+        prevSplitOutJudicial.current === splitOutJudicial &&
         prevHeight.current === height;
-      // Skip autosave when only endorser variant, only splitOutJudicial, or only height changed
+      // Skip autosave when only endorser variant, only splitOutJudicial, only Race hide-host, or only height changed
       const onlyDeferredFieldsChanged =
         onlyHeightChanged ||
         isEndorserVariantChange ||
-        onlySplitOutJudicialChanged;
+        onlySplitOutJudicialChanged ||
+        onlyHideHostPageFromMyBallotMoreInfoChanged;
 
       if (!onlyDeferredFieldsChanged) {
         const timer = setTimeout(() => {
@@ -481,6 +541,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     prevIsEndorserVariant.current = isEndorserVariant;
     prevSplitOutJudicial.current = splitOutJudicial;
     prevHeight.current = height;
+    prevHideHostPageFromMyBallotMoreInfo.current =
+      hideHostPageFromMyBallotMoreInfo;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isDirty,
@@ -490,6 +552,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     isEndorserVariant,
     splitOutJudicial,
     height,
+    hideHostPageFromMyBallotMoreInfo,
   ]);
 
   // Immediate save for endorser variant changes (no delay for better UX)
@@ -543,11 +606,35 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [splitOutJudicial]);
 
+  // Immediate save for Race "hide host from My Ballot More Info" (same RHF isDirty pitfall as splitOutJudicial)
+  useEffect(() => {
+    if (embed?.embedType !== EmbedType.Race || !embed?.id || !organizationId)
+      return;
+
+    if (initialHideHostPageFromMyBallotMoreInfo.current === undefined) {
+      initialHideHostPageFromMyBallotMoreInfo.current =
+        hideHostPageFromMyBallotMoreInfo ?? false;
+      return;
+    }
+
+    if (
+      initialHideHostPageFromMyBallotMoreInfo.current ===
+      (hideHostPageFromMyBallotMoreInfo ?? false)
+    ) {
+      return;
+    }
+
+    initialHideHostPageFromMyBallotMoreInfo.current =
+      hideHostPageFromMyBallotMoreInfo ?? false;
+    void handleSubmit(onSubmit)();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hideHostPageFromMyBallotMoreInfo]);
+
   const { organizationId: currentOrganizationId } = useOrganizationStore();
 
   const handleDefaultLanguageChange = (
     embedType: EmbedType,
-    language: string
+    language: string,
   ) => {
     upsertEmbed.mutate(
       {
@@ -574,7 +661,7 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         onError: (error) => {
           toast((error as Error).message, { type: "error" });
         },
-      }
+      },
     );
   };
 
@@ -584,6 +671,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         return <BillEmbedOptionsForm register={register} />;
       case EmbedType.Politician:
         return <PoliticianEmbedOptionsForm register={register} />;
+      case EmbedType.Race:
+        return <RaceEmbedOptionsForm register={register} />;
       case EmbedType.MyBallot:
         return (
           <MyBallotEmbedRenderOptionsForm

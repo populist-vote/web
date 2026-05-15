@@ -89,6 +89,7 @@ mutation PingEmbedOrigin($input: PingEmbedOriginInput!) {
   pingEmbedOrigin(input: $input) {
     url
     lastPingAt
+    allowLinking
   }
 }
 

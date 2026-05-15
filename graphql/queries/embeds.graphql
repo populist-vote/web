@@ -20,6 +20,7 @@ query EmbedDeployments($id: ID!) {
     origins {
       url
       lastPingAt
+      allowLinking
     }
   }
 }
@@ -303,6 +304,7 @@ query MyBallotByAddress(
         origins {
           url
           pageTitle
+          allowLinking
         }
         race {
           title

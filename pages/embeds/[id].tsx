@@ -25,13 +25,15 @@ interface EmbedPageProps {
   embedId: string;
   origin: string;
   originHost: string;
+  /** When false, host URL is stored with allow_linking=false (Race embeds + widget v2). Defaults true. */
+  allowLinking: boolean;
 }
 
 export async function getServerSideProps({
   query,
   locale,
 }: {
-  query: { id: string; origin: string };
+  query: { id: string; origin?: string; allowLinking?: string };
   locale: SupportedLocale;
 }) {
   const { originHost } = getOriginHost((query.origin as string) || "");
@@ -41,6 +43,7 @@ export async function getServerSideProps({
       embedId: query.id,
       origin: query.origin || "",
       originHost,
+      allowLinking: query.allowLinking !== "false",
       ...(await serverSideTranslations(
         locale,
         ["auth", "common", "embeds"],
@@ -50,7 +53,12 @@ export async function getServerSideProps({
   };
 }
 
-export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
+export function Embed({
+  embedId,
+  origin,
+  originHost,
+  allowLinking,
+}: EmbedPageProps) {
   const resolvedOrigin =
     originHost || (typeof location === "undefined" ? "" : location.href);
 
@@ -64,7 +72,7 @@ export function Embed({ embedId, origin, originHost }: EmbedPageProps) {
   useEffect(() => {
     if (!resolvedOrigin) return;
     pingEmbedOriginMutation.mutate({
-      input: { embedId, url: origin },
+      input: { embedId, url: origin, allowLinking },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
