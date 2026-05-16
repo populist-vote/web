@@ -93,7 +93,7 @@ function RaceEmbedOptionsForm({
         <Checkbox
           id="hideHostPageFromMyBallotMoreInfo"
           name="renderOptions.hideHostPageFromMyBallotMoreInfo"
-          label="Hide this page from My Ballot “More Info” sections"
+          label="Allow integrated linking in My Ballot embeds"
           register={register}
         />
       </div>
