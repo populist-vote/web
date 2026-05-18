@@ -16,6 +16,7 @@ type PopulistEmbedWindow = typeof window & {
 (function () {
   const w = window as PopulistEmbedWindow;
   if (w.PopulistEmbed?.initialized) return;
+  const containerSelector = "[data-embed-id].populist-embed";
 
   const currentScript = document.currentScript;
   const scriptSrc =
@@ -108,29 +109,43 @@ type PopulistEmbedWindow = typeof window & {
 
     renderAll() {
       PopulistEmbed.appendStyles();
-      const containers = document.querySelectorAll<HTMLElement>(
-        "[data-embed-id].populist-embed"
-      );
+      const containers =
+        document.querySelectorAll<HTMLElement>(containerSelector);
       containers.forEach((container) =>
-        PopulistEmbed.createIframeIn(container)
+        PopulistEmbed.createIframeIn(container),
       );
     },
 
     observeNewContainers() {
+      const findContainers = (node: Node): HTMLElement[] => {
+        if (node.nodeType !== 1) return [];
+
+        const element = node as HTMLElement;
+        const containers = element.matches?.(containerSelector)
+          ? [element]
+          : [];
+
+        return containers.concat(
+          Array.from(element.querySelectorAll<HTMLElement>(containerSelector)),
+        );
+      };
+
       const observer = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
           mutation.addedNodes.forEach((node) => {
-            if (
-              node.nodeType === 1 &&
-              (node as HTMLElement).matches?.("[data-embed-id].populist-embed")
-            ) {
+            const containers = findContainers(node);
+            containers.forEach((container) => {
               PopulistEmbed.log("Detected new embed container");
-              PopulistEmbed.createIframeIn(node as HTMLElement);
-            }
+              PopulistEmbed.createIframeIn(container);
+            });
           });
         }
       });
-      observer.observe(document.body, { childList: true, subtree: true });
+
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+      });
     },
 
     handlePageEvents() {

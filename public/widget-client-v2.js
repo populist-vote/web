@@ -16,6 +16,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     var w = window;
     if ((_a = w.PopulistEmbed) === null || _a === void 0 ? void 0 : _a.initialized)
         return;
+    var containerSelector = "[data-embed-id].populist-embed";
     var currentScript = document.currentScript;
     var scriptSrc = currentScript && currentScript instanceof HTMLScriptElement
         ? currentScript.src
@@ -94,26 +95,38 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
         },
         renderAll: function () {
             PopulistEmbed.appendStyles();
-            var containers = document.querySelectorAll("[data-embed-id].populist-embed");
+            var containers = document.querySelectorAll(containerSelector);
             containers.forEach(function (container) {
                 return PopulistEmbed.createIframeIn(container);
             });
         },
         observeNewContainers: function () {
+            var findContainers = function (node) {
+                var _a;
+                if (node.nodeType !== 1)
+                    return [];
+                var element = node;
+                var containers = ((_a = element.matches) === null || _a === void 0 ? void 0 : _a.call(element, containerSelector))
+                    ? [element]
+                    : [];
+                return containers.concat(Array.from(element.querySelectorAll(containerSelector)));
+            };
             var observer = new MutationObserver(function (mutations) {
                 for (var _i = 0, mutations_1 = mutations; _i < mutations_1.length; _i++) {
                     var mutation = mutations_1[_i];
                     mutation.addedNodes.forEach(function (node) {
-                        var _a, _b;
-                        if (node.nodeType === 1 &&
-                            ((_b = (_a = node).matches) === null || _b === void 0 ? void 0 : _b.call(_a, "[data-embed-id].populist-embed"))) {
+                        var containers = findContainers(node);
+                        containers.forEach(function (container) {
                             PopulistEmbed.log("Detected new embed container");
-                            PopulistEmbed.createIframeIn(node);
-                        }
+                            PopulistEmbed.createIframeIn(container);
+                        });
                     });
                 }
             });
-            observer.observe(document.body, { childList: true, subtree: true });
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true,
+            });
         },
         handlePageEvents: function () {
             window.addEventListener("popstate", function () { return PopulistEmbed.renderAll(); });

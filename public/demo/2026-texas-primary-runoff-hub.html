@@ -8,6 +8,12 @@
     </title>
     <link rel="stylesheet" href="styles.css" />
     <script async src="https://www.populist.us/widget-client-v2.js"></script>
+    <script>
+      if (process.env.NODE_ENV !== "production") {
+        document.currentScript.src =
+          "https://staging.populist.us/widget-client-v2.js";
+      }
+    </script>
   </head>
   <body>
     <div class="top-bar">
