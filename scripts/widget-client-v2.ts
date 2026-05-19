@@ -47,9 +47,10 @@ type PopulistEmbedWindow = typeof window & {
       const originParam = originUrl.toString();
       const params = new URLSearchParams({ origin: originParam });
       const rawAllow = container.getAttribute("allow-linking");
-      if (rawAllow === "false" || rawAllow === "0") {
-        params.set("allowLinking", "false");
-      }
+      params.set(
+        "allowLinking",
+        rawAllow === "false" || rawAllow === "0" ? "false" : "true"
+      );
       const src = `${PopulistEmbed.origin}/embeds/${embedId}?${params}`;
       iframe.src = src;
 

@@ -36,14 +36,16 @@ export async function getServerSideProps({
   query: { id: string; origin?: string; allowLinking?: string };
   locale: SupportedLocale;
 }) {
-  const { originHost } = getOriginHost((query.origin as string) || "");
+  const { origin: normalizedOrigin, originHost } = getOriginHost(
+    (query.origin as string) || ""
+  );
 
   return {
     props: {
       embedId: query.id,
-      origin: query.origin || "",
+      origin: normalizedOrigin || (query.origin as string) || "",
       originHost,
-      allowLinking: query.allowLinking !== "false",
+      allowLinking: (query.allowLinking as string | undefined) !== "false",
       ...(await serverSideTranslations(
         locale,
         ["auth", "common", "embeds"],
@@ -60,7 +62,9 @@ export function Embed({
   allowLinking,
 }: EmbedPageProps) {
   const resolvedOrigin =
-    originHost || (typeof location === "undefined" ? "" : location.href);
+    origin ||
+    originHost ||
+    (typeof location === "undefined" ? "" : location.href);
 
   const pingEmbedOriginMutation = usePingEmbedOriginMutation();
 
@@ -72,7 +76,7 @@ export function Embed({
   useEffect(() => {
     if (!resolvedOrigin) return;
     pingEmbedOriginMutation.mutate({
-      input: { embedId, url: origin, allowLinking },
+      input: { embedId, url: resolvedOrigin, allowLinking },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

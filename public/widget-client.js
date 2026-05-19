@@ -67,9 +67,10 @@
                 if (container.id) {
                     origin_1 += "#".concat(container.id);
                 }
-                var iframeSrc = "".concat(populistOrigin, "/embeds/").concat(embedId, "?").concat(new URLSearchParams({
-                    origin: origin_1,
-                }));
+                var params = new URLSearchParams({ origin: origin_1 });
+                var rawAllow = container.getAttribute("allow-linking");
+                params.set("allowLinking", rawAllow === "false" || rawAllow === "0" ? "false" : "true");
+                var iframeSrc = "".concat(populistOrigin, "/embeds/").concat(embedId, "?").concat(params);
                 var iframe = buildIframe(iframeSrc);
                 container.innerHTML = "";
                 container.appendChild(iframe);
