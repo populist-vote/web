@@ -46,9 +46,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
             var originParam = originUrl.toString();
             var params = new URLSearchParams({ origin: originParam });
             var rawAllow = container.getAttribute("allow-linking");
-            if (rawAllow === "false" || rawAllow === "0") {
-                params.set("allowLinking", "false");
-            }
+            params.set("allowLinking", rawAllow === "false" || rawAllow === "0" ? "false" : "true");
             var src = "".concat(PopulistEmbed.origin, "/embeds/").concat(embedId, "?").concat(params);
             iframe.src = src;
             iframe.addEventListener("load", function () {

@@ -1167,7 +1167,7 @@ type PendingInviteResult {
 
 input PingEmbedOriginInput {
   """
-  When false, this host URL is omitted from My Ballot “More Info” related links. Defaults to true when omitted (backwards compatible).
+  When false, this host URL is omitted from My Ballot “More Info” related links. Defaults to true when omitted.
   """
   allowLinking: Boolean = null
   embedId: UUID!
