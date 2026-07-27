@@ -298,6 +298,24 @@ export function RestApiInspector() {
     [],
   );
 
+  useEffect(() => {
+    const scrollToInspector = () => {
+      if (window.location.hash !== "#try-it-in-staging") {
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        document
+          .getElementById("try-it-in-staging")
+          ?.scrollIntoView({ block: "start" });
+      });
+    };
+
+    scrollToInspector();
+    window.addEventListener("hashchange", scrollToInspector);
+    return () => window.removeEventListener("hashchange", scrollToInspector);
+  }, []);
+
   function updateField(field: keyof InspectorForm, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined }));
@@ -412,7 +430,11 @@ export function RestApiInspector() {
   }
 
   return (
-    <section className={styles.inspector} aria-labelledby="api-inspector-title">
+    <section
+      className={styles.inspector}
+      aria-labelledby="api-inspector-title"
+      id="try-it-in-staging"
+    >
       <header className={styles.header}>
         <div>
           <span className={styles.eyebrow}>Interactive API inspector</span>

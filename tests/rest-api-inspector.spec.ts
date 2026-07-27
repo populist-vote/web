@@ -36,10 +36,11 @@ test("sends the staging request and renders a browsable JSON response", async ({
     });
   });
 
-  await page.goto("/docs/api/ballot-by-address");
+  await page.goto("/docs/api/ballot-by-address#try-it-in-staging");
   await expect(
     page.getByRole("heading", { name: "Try Ballot by Address" }),
   ).toBeVisible();
+  await expect(page.locator("#try-it-in-staging")).toBeInViewport();
   await page.getByRole("button", { name: "Send request" }).click();
 
   await expect(page.getByText("200 OK")).toBeVisible();
