@@ -180,8 +180,18 @@ export const navigationConfig: NavigationConfig = {
         title: "Overview",
         items: [
           { label: "Introduction", href: "/docs/api/introduction" },
-          { label: "Quickstart", href: "/docs/api/quickstart" },
+          { label: "GraphQL Quickstart", href: "/docs/api/quickstart" },
           { label: "Authentication", href: "/docs/api/auth" },
+        ],
+      },
+      {
+        title: "REST API",
+        items: [
+          { label: "REST Overview", href: "/docs/api/rest" },
+          {
+            label: "Ballot by Address",
+            href: "/docs/api/ballot-by-address",
+          },
         ],
       },
       ...generateSchemaNavigation(),

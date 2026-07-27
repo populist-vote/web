@@ -5,15 +5,20 @@ import { Divider, DocsLayout, CodeBlock } from "components";
 <Divider />
 ## Introducing: The Populist public API
 
-The Populist public API provides access to the Populist platform's
-features and data. You can use the API to consume data about elections,
-politicians, bills and more.
+The Populist public API provides access to the Populist platform's features and
+data. You can use the API to consume data about elections, politicians, bills,
+and more.
+
+Populist supports two API styles:
+
+- **GraphQL** for clients that need flexible queries across the complete data
+  graph.
+- **REST** for common datasets with stable, resource-oriented request and
+  response contracts.
 
 ### GraphQL
 
-The Populist public API is built on GraphQL, a query language for your
-API. You can use GraphQL to query the Populist platform for the specific
-data you need.
+Use GraphQL to request exactly the fields your application needs.
 
 A query to the Populist API could looks something like this:
 
@@ -27,6 +32,19 @@ A query to the Populist API could looks something like this:
 }`}
   language="graphql"
 />
+
+### REST
+
+The versioned REST API is available under `/api/v1`. Its first dataset endpoint
+resolves races and ballot measures for a supplied address and election:
+
+<CodeBlock
+  code={`POST https://api.populist.us/api/v1/elections/YOUR_ELECTION_ID/ballot`}
+  language="http"
+/>
+
+Start with the [REST overview](/docs/api/rest), then follow the complete
+[ballot-by-address guide](/docs/api/ballot-by-address).
 
 export default function DocsApiIntroduction({ children }) {
   return <DocsLayout currentPage="api">{children}</DocsLayout>;

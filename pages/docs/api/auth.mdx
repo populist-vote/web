@@ -6,15 +6,22 @@ import { DocsLayout } from "components";
 <Divider />
 ## Authentication
 
-The Populist public API requires an `authorization` header to be set with your request using your API
-key like so:
+Production API access requires an `Authorization` header containing the bearer
+API key supplied during onboarding. This applies to both GraphQL and REST
+requests:
 
 ```json
-"authorization": "Bearer YOUR_API_KEY"
+"Authorization": "Bearer YOUR_API_KEY"
 ```
 
 If you do not have an API key, you can request one by contacting us at
 [info@populist.us](mailto:info@populist.us)
+
+Never put an API key in a browser bundle, URL, query parameter, or client-side
+log. Browser applications should call the Populist API through a trusted
+backend. Authentication and quota requirements can differ in development or
+staging environments; use the base URL and credentials supplied for that
+environment.
 
 export default function DocsApiAuth({ children }) {
   return <DocsLayout currentPage="api">{children}</DocsLayout>;

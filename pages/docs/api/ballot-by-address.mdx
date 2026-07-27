@@ -1,0 +1,319 @@
+import { Divider, DocsLayout, CodeBlock, DocsTable } from "components";
+
+export const ballotCurlExample = String.raw`curl --request POST \
+  --url https://api.populist.us/api/v1/elections/7f7f1111-2222-4333-8444-555555555555/ballot \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --header "X-Request-Id: client-request-123" \
+  --data '{
+    "address": {
+      "line1": "123 Main St",
+      "city": "Minneapolis",
+      "state": "MN",
+      "postalCode": "55401",
+      "country": "US"
+    }
+  }'`;
+
+export const ballotClientExample = [
+  'const electionId = "7f7f1111-2222-4333-8444-555555555555";',
+  "",
+  "const result = await populistRequest(",
+  '  "/elections/" + electionId + "/ballot",',
+  "  {",
+  '    method: "POST",',
+  '    headers: { "Content-Type": "application/json" },',
+  "    body: JSON.stringify({",
+  "      address: {",
+  '        line1: "123 Main St",',
+  '        city: "Minneapolis",',
+  '        state: "MN",',
+  '        postalCode: "55401",',
+  '        country: "US",',
+  "      },",
+  "    }),",
+  "  }",
+  ");",
+  "",
+  "console.log(result.data.coverage);",
+  "console.log(result.data.races);",
+  "console.log(result.data.ballotMeasures);",
+].join("\n");
+
+# API Reference
+
+<Divider />
+
+## Ballot by Address
+
+Resolve Populist's races and ballot measures for a US voting address in a
+specific election.
+
+This endpoint returns informational election data. It is not an official sample
+ballot, voter-registration check, polling-place lookup, or statement of voter
+eligibility. Direct users to the relevant election authority for official
+information.
+
+### Endpoint
+
+<CodeBlock
+  code={`POST https://api.populist.us/api/v1/elections/{electionId}/ballot`}
+  language="http"
+/>
+
+You need an election UUID before making this request. The endpoint does not
+discover elections. Obtain the configured election ID, environment base URL,
+and bearer API key during onboarding.
+
+### Request
+
+<CodeBlock code={ballotCurlExample} language="bash" />
+
+Using the helper from the [REST overview](/docs/api/rest):
+
+<CodeBlock code={ballotClientExample} language="javascript" />
+
+The JSON body is limited to 8 KiB. Unknown JSON fields and unknown query
+parameters are rejected.
+
+<DocsTable
+  headers={["Field", "Required", "Rules"]}
+  rows={[
+    [
+      <code>address.line1</code>,
+      "Yes",
+      "Non-empty after trimming; at most 200 characters; no control characters.",
+    ],
+    [
+      <code>address.line2</code>,
+      "No",
+      "At most 200 characters. Accepted for compatibility, but deliberately not used for district resolution, sent to geocoding, or stored.",
+    ],
+    [
+      <code>address.city</code>,
+      "Yes",
+      "Non-empty after trimming; at most 100 characters; no control characters.",
+    ],
+    [
+      <code>address.state</code>,
+      "Yes",
+      "Valid two-letter US state or territory code, case-insensitive.",
+    ],
+    [<code>address.postalCode</code>, "Yes", "Five-digit ZIP or ZIP+4."],
+    [
+      <code>address.country</code>,
+      "No",
+      "US or USA, case-insensitive. Defaults to US.",
+    ],
+  ]}
+/>
+
+Caller-provided coordinates and legislative districts are rejected. Populist
+derives them from the address.
+
+### Filter candidates by endorsement
+
+Add `endorserId` as an optional organization UUID:
+
+<CodeBlock
+  code={`POST /api/v1/elections/{electionId}/ballot?endorserId={organizationId}`}
+  language="http"
+/>
+
+This filters each race's `candidates` array to candidates endorsed by the
+organization. It does not remove races, ballot measures, result totals, or
+winner references. A race can therefore remain present with an empty
+`candidates` array.
+
+### Response
+
+An abridged success response looks like this:
+
+<CodeBlock
+  code={`{
+  "data": {
+    "election": {
+      "id": "7f7f1111-2222-4333-8444-555555555555",
+      "slug": "minnesota-general-election-2026",
+      "title": "Minnesota General Election",
+      "description": null,
+      "state": "MN",
+      "electionDate": "2026-11-03"
+    },
+    "races": [
+      {
+        "id": "11111111-2222-4333-8444-555555555555",
+        "title": "Mayor",
+        "raceType": "general",
+        "voteType": "plurality",
+        "isSpecialElection": false,
+        "numElect": 1,
+        "office": {
+          "title": "Mayor",
+          "electionScope": "city",
+          "politicalScope": "local",
+          "incumbents": []
+        },
+        "candidates": [],
+        "results": {
+          "totalVotes": null,
+          "precinctReportingPercentage": null,
+          "votesByCandidate": [],
+          "winners": []
+        },
+        "relatedEmbeds": []
+      }
+    ],
+    "ballotMeasures": [],
+    "coverage": {
+      "races": "address_specific",
+      "ballotMeasures": "address_specific",
+      "warnings": []
+    }
+  }
+}`}
+  language="json"
+/>
+
+The complete response schema is available in the
+[OpenAPI contract](/openapi/rest-v1.yaml).
+
+#### Election
+
+`election` contains the stable ID, slug, title, optional description, optional
+state, and `YYYY-MM-DD` election date.
+
+#### Races
+
+Each race contains identity and election fields, the office, running
+candidates, reported results, and public related embeds.
+
+- `raceType` is `primary` or `general`.
+- `voteType` is `plurality` or `rankedchoice`.
+- `office.electionScope` is `national`, `state`, `county`, `city`, or
+  `district`.
+- `office.politicalScope` is `local`, `state`, or `federal`.
+- Candidate and incumbent party, contact, image, and asset fields can be
+  `null`.
+- Result counts and percentages can be `null` until results are available.
+  Percentages are percentage points rounded to one decimal place.
+- `winners` can be empty before a race is called.
+- Administrative embed-origin restrictions are never exposed.
+
+#### Ballot measures
+
+Each measure contains its ID, title, optional description, state, measure code,
+nullable vote and precinct counts, and nullable election scope.
+
+### Geographic coverage
+
+Always inspect `data.coverage` before presenting the response as an
+address-specific ballot.
+
+<DocsTable
+  headers={["Address state", "Race coverage", "Ballot-measure coverage"]}
+  rows={[
+    ["Minnesota", <code>address_specific</code>, <code>address_specific</code>],
+    ["Texas", <code>address_specific</code>, <code>statewide_only</code>],
+    [
+      "Other supported state or territory",
+      <code>statewide_only</code>,
+      <code>statewide_only</code>,
+    ],
+  ]}
+/>
+
+`statewide_only` means district and local matching is unavailable. It does not
+guarantee that every statewide record is present. Display or otherwise handle
+`coverage.warnings`; branch on the stable coverage values rather than warning
+text.
+
+### Ordering
+
+Arrays have deterministic ordering:
+
+- Races use office priority, district, seat, title, and ID.
+- Candidates and incumbents use last name, first name, and ID.
+- Candidate vote rows and related embeds use ID.
+- Ballot measures use title and ID.
+
+Do not use this ordering as a synchronization cursor.
+
+### Errors and retries
+
+<DocsTable
+  headers={["HTTP", "Code", "Meaning"]}
+  rows={[
+    [
+      "400",
+      <code>
+        invalid_path_parameter, invalid_parameter, malformed_query, invalid_body
+      </code>,
+      "Correct the request.",
+    ],
+    ["404", <code>resource_not_found</code>, "The election does not exist."],
+    ["405", <code>method_not_allowed</code>, "Use POST."],
+    ["413", <code>payload_too_large</code>, "Reduce the request below 8 KiB."],
+    [
+      "415",
+      <code>unsupported_media_type</code>,
+      "Send Content-Type: application/json.",
+    ],
+    [
+      "422",
+      <code>invalid_address</code>,
+      "Ask the user to review the address; do not retry unchanged input.",
+    ],
+    ["429", <code>rate_limited</code>, "Retry after Retry-After with jitter."],
+    [
+      "500",
+      <code>internal_error</code>,
+      "Retry cautiously and report persistent failures.",
+    ],
+    [
+      "503",
+      <code>address_service_unavailable</code>,
+      "Retry after Retry-After with jitter.",
+    ],
+    [
+      "504",
+      <code>request_timeout</code>,
+      "Retry once with jitter and report persistent failures.",
+    ],
+  ]}
+/>
+
+Keep retries bounded. Include the response `X-Request-Id`, election ID,
+environment, timestamp, status, and problem code in support reports. Do not
+include the full voter address unless an approved support channel explicitly
+requires it.
+
+### Address privacy
+
+Use HTTPS and prevent application and proxy logs from recording request bodies.
+The address is never returned. `line2` is discarded during validation.
+
+An exact cached address can be reused without geocoding. On a cache miss,
+street, city, state, and ZIP are sent to the configured geocoding service to
+derive coordinates and districts. A temporary address record is used during
+selection and Populist attempts to remove newly created records after
+processing when they are not connected to a user profile.
+
+Abnormal termination or cleanup failure can interrupt that best-effort
+removal. Confirm contractual retention, subprocessors, and deletion
+requirements during onboarding before sending production personal data.
+
+### Client checklist
+
+- Keep the API key in a trusted backend.
+- Test a known Minnesota address and verify both coverage fields.
+- Test invalid JSON, invalid ZIP, unknown election, and unresolvable address.
+- Ensure request and response logs do not contain the address.
+- Propagate `X-Request-Id` without personal data.
+- Implement bounded 429, 503, and 504 retries with jitter.
+- Decide how empty candidate, race, and ballot-measure arrays display.
+- Describe the result as informational rather than an official ballot.
+
+export default function DocsApiBallotByAddress({ children }) {
+  return <DocsLayout currentPage="api">{children}</DocsLayout>;
+}

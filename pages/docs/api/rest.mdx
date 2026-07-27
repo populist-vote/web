@@ -1,0 +1,150 @@
+import { Divider, DocsLayout, CodeBlock } from "components";
+
+export const restQuickstartExample = String.raw`curl --request GET \
+  --url https://api.populist.us/api/v1/ \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Accept: application/json"`;
+
+export const restClientExample = [
+  'const POPULIST_API_BASE_URL = "https://api.populist.us/api/v1";',
+  "",
+  "export class PopulistApiError extends Error {",
+  "  constructor(problem, requestId) {",
+  '    super(problem.detail || "Populist API request failed");',
+  '    this.name = "PopulistApiError";',
+  "    this.status = problem.status;",
+  "    this.code = problem.code;",
+  "    this.requestId = requestId;",
+  "  }",
+  "}",
+  "",
+  "export async function populistRequest(path, options = {}) {",
+  "  const response = await fetch(POPULIST_API_BASE_URL + path, {",
+  "    ...options,",
+  "    headers: {",
+  '      Accept: "application/json",',
+  '      Authorization: "Bearer " + process.env.POPULIST_API_KEY,',
+  '      "X-Request-Id": crypto.randomUUID(),',
+  "      ...options.headers,",
+  "    },",
+  "  });",
+  "",
+  '  const requestId = response.headers.get("x-request-id");',
+  "  const payload = await response.json();",
+  "",
+  "  if (!response.ok) {",
+  "    throw new PopulistApiError(payload, requestId);",
+  "  }",
+  "",
+  "  return { data: payload.data, requestId };",
+  "}",
+].join("\n");
+
+# API Reference
+
+<Divider />
+
+## REST API
+
+The Populist REST API provides stable, resource-oriented access to common
+datasets. Use it when your integration does not need GraphQL's field-level query
+control.
+
+The production base URL is:
+
+<CodeBlock code={`https://api.populist.us/api/v1`} language="http" />
+
+Use the environment URL and bearer API key supplied during onboarding. All
+examples below use production for clarity.
+
+### Quickstart
+
+Check API discovery and liveness:
+
+<CodeBlock code={restQuickstartExample} language="bash" />
+
+The API index advertises the currently available REST resources:
+
+<CodeBlock
+  code={`{
+  "data": {
+    "version": "v1",
+    "health": "/api/v1/health",
+    "states": "/api/v1/states",
+    "ballotByAddress": "/api/v1/elections/{electionId}/ballot"
+  }
+}`}
+  language="json"
+/>
+
+### A small JavaScript client
+
+Keep credentials on your server. This helper adds the standard headers,
+preserves the response request ID, and turns problem responses into typed
+errors:
+
+<CodeBlock code={restClientExample} language="javascript" />
+
+Use this helper from a backend, serverless function, or another trusted runtime.
+Do not expose `POPULIST_API_KEY` through a `NEXT_PUBLIC_` environment variable.
+
+### Successful responses
+
+Dataset endpoints use a top-level `data` envelope. Collection endpoints can
+also include `meta` pagination information.
+
+Every REST response includes `X-Request-Id`. Send your own opaque value, or let
+Populist generate one. Keep that ID in application telemetry because it is the
+best value to provide when troubleshooting. Do not put an address, email, token,
+or other personal data in it.
+
+### Errors
+
+REST errors use `application/problem+json` with a stable machine-readable
+`code`:
+
+<CodeBlock
+  code={`{
+  "type": "about:blank",
+  "title": "Unprocessable Entity",
+  "status": 422,
+  "code": "invalid_address",
+  "detail": "The address could not be resolved to a voting location.",
+  "instance": "/api/v1/elections/7f7f1111-2222-4333-8444-555555555555/ballot"
+}`}
+  language="json"
+/>
+
+Branch on the HTTP status and `code`, not the human-readable `title` or
+`detail`. Correct 400, 404, 405, 413, 415, and 422 responses before trying
+again. Retry 429, 503, and 504 responses only with a bounded exponential
+backoff and jitter. Honor `Retry-After` when it is present.
+
+### HTTP conventions
+
+- Send and accept JSON with `Content-Type: application/json` and
+  `Accept: application/json`.
+- Treat IDs as opaque UUID strings.
+- Ignore response fields your client does not recognize.
+- Handle new enum values defensively.
+- Do not use titles or slugs as stable identity.
+- Use HTTPS for every request.
+- Do not cache responses marked `Cache-Control: no-store`.
+
+### Versioning
+
+The major API version is part of the path. Breaking changes require a new major
+path such as `/api/v2`. Additive fields and enum values can be introduced
+within v1, so clients should be tolerant readers.
+
+### Available datasets
+
+- [Ballot by Address](/docs/api/ballot-by-address): resolve election, race,
+  candidate, result, and ballot-measure data for a US address.
+
+The machine-readable contract is available as
+[OpenAPI 3.1](/openapi/rest-v1.yaml).
+
+export default function DocsApiRest({ children }) {
+  return <DocsLayout currentPage="api">{children}</DocsLayout>;
+}
