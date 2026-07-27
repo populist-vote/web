@@ -8,9 +8,11 @@ import {
 } from "react";
 import styles from "./RestApiInspector.module.scss";
 
-const STAGING_API_BASE_URL = "https://api.staging.populist.us/api/v1";
+const SANDBOX_API_BASE_URL = "https://api.staging.populist.us/api/v1";
 const EXAMPLE_ELECTION_ID = "5fa881d7-f8f3-4b90-9063-45236c85c77a";
 const REQUEST_TIMEOUT_MS = 30_000;
+const API_EXPLORER_HASH = "#api-explorer";
+const LEGACY_API_EXPLORER_HASH = "#try-it-in-staging";
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -126,7 +128,7 @@ function requestUrlFor(form: InspectorForm) {
     ? `?endorserId=${encodeURIComponent(endorserId)}`
     : "";
 
-  return `${STAGING_API_BASE_URL}${path}${query}`;
+  return `${SANDBOX_API_BASE_URL}${path}${query}`;
 }
 
 function requestBodyFor(form: InspectorForm) {
@@ -300,13 +302,16 @@ export function RestApiInspector() {
 
   useEffect(() => {
     const scrollToInspector = () => {
-      if (window.location.hash !== "#try-it-in-staging") {
+      if (
+        window.location.hash !== API_EXPLORER_HASH &&
+        window.location.hash !== LEGACY_API_EXPLORER_HASH
+      ) {
         return;
       }
 
       window.requestAnimationFrame(() => {
         document
-          .getElementById("try-it-in-staging")
+          .getElementById(API_EXPLORER_HASH.slice(1))
           ?.scrollIntoView({ block: "start" });
       });
     };
@@ -385,8 +390,8 @@ export function RestApiInspector() {
         payload: {
           title: aborted ? "Request timed out" : "Request failed",
           detail: aborted
-            ? "The staging API did not respond within 30 seconds."
-            : "The browser could not reach the staging API. Check your connection and try again.",
+            ? "The API sandbox did not respond within 30 seconds."
+            : "The browser could not reach the API sandbox. Check your connection and try again.",
         },
         requestId: null,
         status: 0,
@@ -433,29 +438,30 @@ export function RestApiInspector() {
     <section
       className={styles.inspector}
       aria-labelledby="api-inspector-title"
-      id="try-it-in-staging"
+      id="api-explorer"
     >
       <header className={styles.header}>
         <div>
           <span className={styles.eyebrow}>Interactive API inspector</span>
-          <h3 id="api-inspector-title">Try Ballot by Address</h3>
+          <h3 id="api-inspector-title">Ballot by Address Explorer</h3>
           <p>
-            Send a request to the live staging API and inspect the complete JSON
+            Send a request to the API sandbox and inspect the complete JSON
             response.
           </p>
         </div>
         <span className={styles.environment}>
           <span aria-hidden="true" />
-          Staging
+          Sandbox
         </span>
       </header>
 
       <div className={styles.notice}>
         <strong>Safe testing boundary</strong>
         <span>
-          This tool sends the entered address directly to Populist staging. It
-          does not request an API key, send cookies, or save form and response
-          data in browser storage. Use non-sensitive test addresses only.
+          This tool sends the entered address directly to the Populist API
+          sandbox. It does not request an API key, send cookies, or save form
+          and response data in browser storage. Use non-sensitive test addresses
+          only.
         </span>
       </div>
 

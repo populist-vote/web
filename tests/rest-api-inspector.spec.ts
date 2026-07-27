@@ -5,7 +5,7 @@ const API_PATTERN =
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test("sends the staging request and renders a browsable JSON response", async ({
+test("sends a sandbox request and renders a browsable JSON response", async ({
   page,
 }) => {
   let requestHeaders: Record<string, string> = {};
@@ -36,18 +36,18 @@ test("sends the staging request and renders a browsable JSON response", async ({
     });
   });
 
-  await page.goto("/docs/api/ballot-by-address#try-it-in-staging");
+  await page.goto("/docs/api/ballot-by-address#api-explorer");
   await expect(
-    page.getByRole("heading", { name: "Try Ballot by Address" }),
+    page.getByRole("heading", { name: "Ballot by Address Explorer" }),
   ).toBeVisible();
-  await expect(page.locator("#try-it-in-staging")).toBeInViewport();
+  await expect(page.locator("#api-explorer")).toBeInViewport();
   await page.getByRole("button", { name: "Send request" }).click();
 
   await expect(page.getByText("200 OK")).toBeVisible();
   await expect(page.getByText("Minnesota Primaries 2026")).toBeVisible();
   await expect(
     page
-      .getByRole("region", { name: "Try Ballot by Address" })
+      .getByRole("region", { name: "Ballot by Address Explorer" })
       .getByText("address_specific", { exact: true }),
   ).toBeVisible();
   expect(requestHeaders.authorization).toBeUndefined();
@@ -99,4 +99,9 @@ test("validates locally and formats API problem responses", async ({
   await expect(page.getByText("422 Unprocessable Entity")).toBeVisible();
   await expect(page.getByText('"invalid_address"')).toBeVisible();
   expect(requestCount).toBe(1);
+});
+
+test("keeps the previous explorer anchor working", async ({ page }) => {
+  await page.goto("/docs/api/ballot-by-address#try-it-in-staging");
+  await expect(page.locator("#api-explorer")).toBeInViewport();
 });
