@@ -1,4 +1,10 @@
-import { Divider, DocsLayout, CodeBlock, DocsTable } from "components";
+import {
+  Divider,
+  DocsLayout,
+  CodeBlock,
+  DocsTable,
+  RestApiInspector,
+} from "components";
 
 export const ballotCurlExample = String.raw`curl --request POST \
   --url https://api.populist.us/api/v1/elections/7f7f1111-2222-4333-8444-555555555555/ballot \
@@ -64,6 +70,16 @@ information.
 You need an election UUID before making this request. The endpoint does not
 discover elections. Obtain the configured election ID, environment base URL,
 and bearer API key during onboarding.
+
+### Try it in staging
+
+<RestApiInspector />
+
+The inspector runs entirely in your browser against the staging environment.
+It intentionally has no production mode or API-key field. The included address
+is Minneapolis City Hall; replace it only with non-sensitive test data. For
+production integrations, keep credentials and address handling in a trusted
+backend as described below.
 
 ### Request
 

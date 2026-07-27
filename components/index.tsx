@@ -60,6 +60,7 @@ import { OrganizationDashboardLink } from "./OrganizationDashboardLink";
 import { Modal } from "./Modal/Modal";
 import { CodeBlock } from "./CodeBlock/CodeBlock";
 import { DocsTable } from "./DocsTable/DocsTable";
+import { RestApiInspector } from "./RestApiInspector/RestApiInspector";
 
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
@@ -129,4 +130,5 @@ export {
   Box,
   SearchInput,
   RadioGroup,
+  RestApiInspector,
 };
