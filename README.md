@@ -2,6 +2,9 @@
 
 ## Getting Started
 
+Use Node.js 24.x. The same major version is pinned in `package.json` and used by
+Vercel for builds and functions.
+
 To get started, you'll need a `.env` file. You can simply `cp .env.example .env` and reach out to someone on the team to get the more sensitive credentials if necessary. Alternatively, if you have an account setup with Vercel, you can download their CLI with `npm i -g vercel` and then pull one down securely with `vercel env pull`. This file is .gitignored
 
 First, download the necessary dependencies with `pnpm install`

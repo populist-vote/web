@@ -1,6 +1,9 @@
 {
   "name": "web",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "cscript": "tsc scripts/widget-client-v2.ts --outDir public",
     "generate": "dotenv -c local -- graphql-codegen",
