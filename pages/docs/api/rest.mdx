@@ -71,6 +71,12 @@ The API index advertises the currently available REST resources:
     "version": "v1",
     "health": "/api/v1/health",
     "states": "/api/v1/states",
+    "elections": "/api/v1/elections",
+    "election": "/api/v1/elections/{electionId}",
+    "electionRaces": "/api/v1/elections/{electionId}/races",
+    "electionRace": "/api/v1/elections/{electionId}/races/{raceId}",
+    "electionResults": "/api/v1/elections/{electionId}/results",
+    "electionBallotMeasures": "/api/v1/elections/{electionId}/ballot-measures",
     "ballotByAddress": "/api/v1/elections/{electionId}/ballot"
   }
 }`}
@@ -130,6 +136,8 @@ backoff and jitter. Honor `Retry-After` when it is present.
 - Do not use titles or slugs as stable identity.
 - Use HTTPS for every request.
 - Do not cache responses marked `Cache-Control: no-store`.
+- For cacheable GET resources, honor the response `Cache-Control` freshness
+  and stale-while-revalidate directives.
 
 ### Versioning
 
@@ -139,6 +147,8 @@ within v1, so clients should be tolerant readers.
 
 ### Available datasets
 
+- [Election Data](/docs/api/election-data): discover elections, browse races
+  and ballot measures, and poll a compact election-wide results feed.
 - [Ballot by Address](/docs/api/ballot-by-address): resolve election, race,
   candidate, result, and ballot-measure data for a US address.
 

@@ -189,6 +189,10 @@ export const navigationConfig: NavigationConfig = {
         items: [
           { label: "REST Overview", href: "/docs/api/rest" },
           {
+            label: "Election Data",
+            href: "/docs/api/election-data",
+          },
+          {
             label: "Ballot by Address",
             href: "/docs/api/ballot-by-address",
           },

@@ -142,12 +142,14 @@
   }
 }
 
-.field {
+.field,
+.endpointSelector {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 
-  input {
+  input,
+  select {
     all: unset;
     background: $background-primary;
     border: 1px solid $blue-dark;
@@ -168,6 +170,11 @@
     &[aria-invalid="true"] {
       border-color: $red;
     }
+  }
+
+  select {
+    appearance: auto;
+    cursor: pointer;
   }
 }
 
@@ -196,19 +203,14 @@
   font-size: $text-xxs;
 }
 
-.addressGrid {
+.fieldGrid {
   display: grid;
   gap: 1rem;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
 
-  > label:first-child {
-    grid-column: 1 / -1;
-  }
-
-  > label:nth-child(3),
-  > label:nth-child(5) {
-    grid-column: span 1;
-  }
+.fullWidthField {
+  grid-column: 1 / -1;
 }
 
 .formActions {
@@ -363,7 +365,7 @@
 .summary {
   border-bottom: 1px solid $blue-dark;
   display: grid;
-  grid-template-columns: 2fr 0.65fr 0.65fr 1.2fr;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
 }
 
 .summaryItem {
@@ -550,10 +552,10 @@
     flex-direction: column;
   }
 
-  .addressGrid {
+  .fieldGrid {
     grid-template-columns: 1fr;
 
-    > label {
+    > div {
       grid-column: 1 !important;
     }
   }
@@ -569,18 +571,6 @@
   .requestHeading > code {
     direction: ltr;
     max-width: 100%;
-  }
-
-  .summary {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .summaryItem:nth-child(2) {
-    border-right: 0;
-  }
-
-  .summaryItem:nth-child(-n + 2) {
-    border-bottom: 1px solid $blue-dark;
   }
 
   .responseMeta {
