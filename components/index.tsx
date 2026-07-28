@@ -60,7 +60,23 @@ import { OrganizationDashboardLink } from "./OrganizationDashboardLink";
 import { Modal } from "./Modal/Modal";
 import { CodeBlock } from "./CodeBlock/CodeBlock";
 import { DocsTable } from "./DocsTable/DocsTable";
-import { RestApiInspector } from "./RestApiInspector/RestApiInspector";
+import {
+  ConfigurableRestApiInspector,
+  ElectionRestApiInspector,
+  RestApiInspector,
+} from "./RestApiInspector/RestApiInspector";
+export type {
+  ConfigurableRestApiInspectorProps,
+  ElectionRestEndpoint,
+  InspectorErrors,
+  InspectorSelectOption,
+  InspectorSummaryItem,
+  InspectorValues,
+  JsonPrimitive,
+  JsonValue,
+  RestApiInspectorConfig,
+  RestApiInspectorField,
+} from "./RestApiInspector/RestApiInspector";
 
 export type { EditVotingGuideCandidate, FlagColor, NavItem };
 
@@ -130,5 +146,7 @@ export {
   Box,
   SearchInput,
   RadioGroup,
+  ConfigurableRestApiInspector,
+  ElectionRestApiInspector,
   RestApiInspector,
 };

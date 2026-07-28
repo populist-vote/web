@@ -1,0 +1,313 @@
+import {
+  CodeBlock,
+  Divider,
+  DocsLayout,
+  DocsTable,
+  ElectionRestApiInspector,
+} from "components";
+
+export const electionDataCurlExample = String.raw`curl --request GET \
+  --url "https://api.populist.us/api/v1/elections?state=MN&year=2026&limit=25" \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Accept: application/json" \
+  --header "X-Request-Id: newsroom-election-sync-123"`;
+
+# API Reference
+
+<Divider />
+
+## Election data
+
+Use the election-data endpoints to discover elections, build race and
+ballot-measure pages, and poll a compact results feed on election night. These
+requests do not require or accept a voter address.
+
+The responses are informational. Reported totals can change and are not an
+official result certification. Attribute certified results to the appropriate
+election authority.
+
+### Common newsroom workflows
+
+- Discover upcoming or historical elections by state, year, or text search.
+- Build election landing pages from stable election metadata.
+- Filter an election's races by geography, race type, or political scope.
+- Load one complete race only when a reader opens its detail page.
+- Poll the lightweight results feed without repeatedly downloading candidate
+  profile assets, incumbents, or related embeds.
+- Build ballot-measure explainers from measure text, summaries, geography, and
+  reported yes/no totals.
+
+### API explorer
+
+<ElectionRestApiInspector />
+
+The explorer runs in your browser against the staging sandbox. It sends no
+cookies or API key and does not save request or response data in browser
+storage. Use it to inspect response shape and headers before wiring a
+server-side integration.
+
+### Endpoints
+
+<DocsTable
+  headers={["Endpoint", "Purpose", "Filters"]}
+  rows={[
+    [
+      <code>GET /api/v1/elections</code>,
+      "Discover elections.",
+      <code>state, year, query, limit, offset</code>,
+    ],
+    [
+      <code>GET /api/v1/elections/{"{electionId}"}</code>,
+      "Load one election's metadata.",
+      "None",
+    ],
+    [
+      <code>GET /api/v1/elections/{"{electionId}"}/races</code>,
+      "Load compact, paginated race summaries with office geography and reporting status.",
+      <code>
+        state, raceType, politicalScope, electionScope, districtType, query,
+        limit, offset
+      </code>,
+    ],
+    [
+      <code>
+        GET /api/v1/elections/{"{electionId}"}/races/{"{raceId}"}
+      </code>,
+      "Load one complete race that belongs to the election.",
+      <code>endorserId</code>,
+    ],
+    [
+      <code>GET /api/v1/elections/{"{electionId}"}/results</code>,
+      "Poll a compact, paginated election-wide results feed.",
+      <code>limit, offset</code>,
+    ],
+    [
+      <code>GET /api/v1/elections/{"{electionId}"}/ballot-measures</code>,
+      "Load paginated election-wide ballot measures.",
+      <code>
+        state, status, electionScope, county, municipality, schoolDistrict,
+        limit, offset
+      </code>,
+    ],
+  ]}
+/>
+
+Path IDs are UUIDs. A race detail request returns `404` when the race does not
+belong to the election in the path, even if that race exists in another
+election.
+
+### Discover elections
+
+<CodeBlock code={electionDataCurlExample} language="bash" />
+
+`state` accepts a two-letter US state or territory code. `year` is a four-digit
+year. `query` performs case-insensitive text matching. Filters combine with AND
+semantics.
+
+Collection responses use the standard envelope:
+
+<CodeBlock
+  code={`{
+  "data": [
+    {
+      "id": "5fa881d7-f8f3-4b90-9063-45236c85c77a",
+      "slug": "minnesota-primaries-2026",
+      "title": "Minnesota Primaries 2026",
+      "description": null,
+      "state": "MN",
+      "municipality": null,
+      "electionDate": "2026-08-11"
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "total": 1,
+    "limit": 25,
+    "offset": 0
+  }
+}`}
+  language="json"
+/>
+
+`limit` defaults to 25 and must be between 1 and 100. `offset` defaults to 0
+and must be non-negative. `meta.total` is the number of records matching the
+filters, while `meta.count` is the number in the current response. Ordering is
+deterministic, but offset pagination is not a synchronization cursor; records
+can move between pages when the underlying dataset changes.
+
+### Race data
+
+Race collections return compact directory entries: race identity and type,
+office geography, party, a reporting summary, and `updatedAt`. Use the nested
+race detail endpoint when a reader opens a race page. Race detail reuses the
+complete public race shape from the
+[Ballot by Address endpoint](/docs/api/ballot-by-address), then adds description,
+source links, early-voting date, official website, and update time.
+
+Use collection filters to narrow a desk's beat:
+
+- `raceType`: `primary` or `general`.
+- `politicalScope`: `local`, `state`, or `federal`.
+- `electionScope`: `national`, `state`, `county`, `city`, or `district`.
+- `districtType`: a snake_case district type such as `us_congressional`,
+  `state_senate`, `state_house`, `school`, `county`, or `judicial`.
+- `state`: a two-letter state or territory code.
+- `query`: case-insensitive race-title search.
+
+Race detail also accepts an optional `endorserId` organization UUID. It filters
+the displayed candidate array to that organization's endorsements while
+leaving results unfiltered.
+
+Candidate arrays include running candidates. Result vote rows are the reported
+race totals and can include candidates independently of display filtering.
+Consumers should join candidates and vote rows by stable candidate UUID, never
+by name or array position.
+
+### Lightweight results feed
+
+The election-wide results endpoint is designed for repeated election-night
+polling. Each item identifies its race and office and includes candidate names
+and parties, candidate vote totals, total votes, precinct reporting, winner
+IDs, and `updatedAt`. It omits profile assets, incumbents, and embeds.
+
+<CodeBlock
+  code={`{
+  "data": [
+    {
+      "raceId": "11111111-2222-4333-8444-555555555555",
+      "slug": "minneapolis-mayor-2026",
+      "title": "Mayor",
+      "office": {
+        "id": "22222222-3333-4444-8555-666666666666",
+        "title": "Mayor",
+        "subtitle": "Minneapolis, MN",
+        "state": "MN",
+        "county": "Hennepin",
+        "municipality": "Minneapolis",
+        "district": null,
+        "seat": null,
+        "electionScope": "city",
+        "districtType": null,
+        "politicalScope": "local"
+      },
+      "candidates": [
+        {
+          "id": "44444444-5555-4666-8777-888888888888",
+          "slug": "alex-morgan",
+          "fullName": "Alex Morgan",
+          "party": null,
+          "votes": 18420,
+          "votePercentage": 51.2
+        }
+      ],
+      "totalVotes": 35977,
+      "numPrecinctsReporting": 98,
+      "totalPrecincts": 100,
+      "precinctReportingPercentage": 98.0,
+      "winners": [],
+      "updatedAt": "2026-11-04T03:14:15Z"
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "total": 12,
+    "limit": 25,
+    "offset": 0
+  }
+}`}
+  language="json"
+/>
+
+Treat `updatedAt` as data provenance, not as proof that every upstream result
+changed at that moment. An empty `winners` array means no winner is currently
+recorded; it does not mean the race is tied or uncalled by every authority.
+
+### Ballot measures
+
+The election-wide ballot-measure collection is not address-specific. Use its
+geography and `electionScope` fields before presenting a measure to readers.
+Resources include stable IDs, status, measure code and type, definitions,
+official and Populist summaries, full-text URL, local geography, reported
+yes/no totals, precinct reporting, and `updatedAt`.
+
+`status` is snake_case and can be `introduced`, `in_consideration`, `proposed`,
+`gathering_signatures`, `on_the_ballot`, `became_law`, `failed`, or `unknown`.
+The `county`, `municipality`, and `schoolDistrict` filters match their
+respective geographic fields.
+
+### Null and incomplete results
+
+Null reporting values mean the dataset does not currently contain a value.
+They are not zero:
+
+- `votes: null` means no candidate total has been reported.
+- `totalVotes: null` means a race total is unavailable.
+- `yesVotes: null` or `noVotes: null` means that side's total is unavailable.
+- A null precinct count or percentage means reporting progress cannot be
+  calculated.
+- Percentages are percentage points and are null when the required denominator
+  is missing or zero.
+
+Do not coerce null totals to zero, infer a winner from ordering, or describe a
+race as fully reported unless the reporting fields support that statement.
+
+### Freshness and caching
+
+Successful GET responses advertise an explicit shared-cache policy:
+
+<DocsTable
+  headers={["Resource", "Fresh for", "Stale while revalidating"]}
+  rows={[
+    ["Election list and detail", "300 seconds", "900 seconds"],
+    ["Race list/detail and ballot measures", "60 seconds", "300 seconds"],
+    ["Lightweight results", "5 seconds", "25 seconds"],
+  ]}
+/>
+
+Honor the response `Cache-Control` header rather than hard-coding these values;
+the policy can evolve without a new API version. The result feed's short TTL
+prevents every reader refresh from reaching the origin while keeping updates
+timely. Refresh after the fresh period rather than running a tight polling
+loop. Address-derived ballot responses remain `Cache-Control: no-store`.
+
+### Errors
+
+Errors use `application/problem+json` and the standard problem shape documented
+in the [REST overview](/docs/api/rest).
+
+<DocsTable
+  headers={["HTTP", "Code", "Meaning"]}
+  rows={[
+    [
+      "400",
+      <code>invalid_path_parameter, invalid_parameter, malformed_query</code>,
+      "Correct the UUID, filter, or pagination value.",
+    ],
+    [
+      "404",
+      <code>resource_not_found</code>,
+      "The election does not exist, or the race does not belong to it.",
+    ],
+    ["405", <code>method_not_allowed</code>, "Use GET."],
+    [
+      "500",
+      <code>internal_error</code>,
+      "Retry cautiously and report persistent failures with X-Request-Id.",
+    ],
+  ]}
+/>
+
+An existing election with no matching races, results, or ballot measures
+returns `200` with an empty `data` array and pagination metadata. A missing
+parent election returns `404`.
+
+Keep the response `X-Request-Id`, endpoint, election ID, filters, timestamp,
+status, and problem code in operational logs. Do not include credentials or
+personal data.
+
+The complete machine-readable schemas are in the
+[OpenAPI 3.1 contract](/openapi/rest-v1.yaml).
+
+export default function DocsApiElectionData({ children }) {
+  return <DocsLayout currentPage="api">{children}</DocsLayout>;
+}

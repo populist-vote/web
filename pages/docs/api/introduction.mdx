@@ -35,16 +35,19 @@ A query to the Populist API could looks something like this:
 
 ### REST
 
-The versioned REST API is available under `/api/v1`. Its first dataset endpoint
-resolves races and ballot measures for a supplied address and election:
+The versioned REST API is available under `/api/v1`. Resource-oriented GET
+endpoints support election discovery, race and ballot-measure reporting, and a
+lightweight election-night results feed:
 
 <CodeBlock
-  code={`POST https://api.populist.us/api/v1/elections/YOUR_ELECTION_ID/ballot`}
+  code={`GET https://api.populist.us/api/v1/elections?state=MN&year=2026`}
   language="http"
 />
 
-Start with the [REST overview](/docs/api/rest), then follow the complete
-[ballot-by-address guide](/docs/api/ballot-by-address).
+Start with the [REST overview](/docs/api/rest), then use the
+[election-data guide](/docs/api/election-data) for newsroom reporting workflows
+or the [ballot-by-address guide](/docs/api/ballot-by-address) for
+address-specific coverage.
 
 export default function DocsApiIntroduction({ children }) {
   return <DocsLayout currentPage="api">{children}</DocsLayout>;
