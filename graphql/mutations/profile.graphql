@@ -68,3 +68,30 @@ mutation Logout {
 mutation DeleteAccount {
   deleteAccount
 }
+
+query ApiKeys {
+  apiKeys {
+    id
+    name
+    prefix
+    createdAt
+    lastUsedAt
+  }
+}
+
+mutation CreateApiKey($name: String!) {
+  createApiKey(name: $name) {
+    key
+    apiKey {
+      id
+      name
+      prefix
+      createdAt
+      lastUsedAt
+    }
+  }
+}
+
+mutation RevokeApiKey($id: ID!) {
+  revokeApiKey(id: $id)
+}

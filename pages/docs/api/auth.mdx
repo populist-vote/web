@@ -6,22 +6,49 @@ import { DocsLayout } from "components";
 <Divider />
 ## Authentication
 
-Production API access requires an `Authorization` header containing the bearer
-API key supplied during onboarding. This applies to both GraphQL and REST
-requests:
+Production API access requires an `Authorization` header containing a bearer
+API key. The same key works for GraphQL and REST requests:
 
 ```json
 "Authorization": "Bearer YOUR_API_KEY"
 ```
 
-If you do not have an API key, you can request one by contacting us at
-[info@populist.us](mailto:info@populist.us)
+### Create a key
+
+1. [Register for a Populist account](/register), confirm your email, and sign
+   in.
+2. Open [My Profile](/settings/profile) and find **API keys**.
+3. Give the key a descriptive name and choose **Create API key**.
+4. Copy the secret immediately. Populist stores only its SHA-256 hash, so the
+   full value cannot be shown again.
+
+An account can have up to 10 active keys. The profile page shows each key's
+prefix, creation date, and approximate last-use time. Revoking a key takes
+effect immediately and cannot be undone. Create a replacement before revoking
+a key that is in production use.
+
+API keys inherit the permissions of their owner. Key-management operations
+require an interactive signed-in session; an API key cannot create, list, or
+revoke keys.
+
+### Use the key
+
+Store the secret in a server-side environment variable such as
+`POPULIST_API_KEY`, then send it with either API style:
+
+```bash
+curl https://api.populist.us/api/v1/elections \
+  --header "Authorization: Bearer $POPULIST_API_KEY"
+```
 
 Never put an API key in a browser bundle, URL, query parameter, or client-side
 log. Browser applications should call the Populist API through a trusted
 backend. Authentication and quota requirements can differ in development or
 staging environments; use the base URL and credentials supplied for that
 environment.
+
+If a key may have been exposed, revoke it from **My Profile** and replace it in
+every deployment that used it.
 
 export default function DocsApiAuth({ children }) {
   return <DocsLayout currentPage="api">{children}</DocsLayout>;

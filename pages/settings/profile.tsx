@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import Router, { useRouter } from "next/router";
+import Link from "next/link";
 import { ChangeEvent, ReactNode, useState } from "react";
 import {
   Avatar,
@@ -26,6 +27,9 @@ import {
   useDeleteAccountMutation,
   useCurrentUserQuery,
   useDeleteProfilePictureMutation,
+  useApiKeysQuery,
+  useCreateApiKeyMutation,
+  useRevokeApiKeyMutation,
 } from "generated";
 import { PasswordEntropyMeter } from "components";
 import states from "utils/states";
@@ -389,6 +393,184 @@ const AddressSection = ({
           />
         </div>
       </form>
+    </section>
+  );
+};
+
+const ApiKeysSection = () => {
+  const queryClient = useQueryClient();
+  const [newKey, setNewKey] = useState<{
+    id: string;
+    key: string;
+    name: string;
+  } | null>(null);
+  const { register, control, handleSubmit, formState, reset } = useForm<{
+    name: string;
+  }>({
+    mode: "onChange",
+    defaultValues: { name: "" },
+  });
+  const { data, error: apiKeysError, isLoading } = useApiKeysQuery();
+
+  const refreshKeys = () =>
+    queryClient.invalidateQueries({ queryKey: useApiKeysQuery.getKey() });
+
+  const createApiKeyMutation = useCreateApiKeyMutation({
+    onSuccess: ({ createApiKey }) => {
+      setNewKey({
+        id: createApiKey.apiKey.id,
+        key: createApiKey.key,
+        name: createApiKey.apiKey.name,
+      });
+      reset();
+      void refreshKeys();
+    },
+    onError: (error) =>
+      toast.error(
+        error instanceof Error ? error.message : "Could not create API key",
+      ),
+  });
+  const revokeApiKeyMutation = useRevokeApiKeyMutation({
+    onSuccess: () => {
+      void refreshKeys();
+      toast.success("API key revoked");
+    },
+    onError: (error) =>
+      toast.error(
+        error instanceof Error ? error.message : "Could not revoke API key",
+      ),
+  });
+
+  const copyKey = async () => {
+    if (!newKey) return;
+    try {
+      await navigator.clipboard.writeText(newKey.key);
+      toast.success("API key copied");
+    } catch {
+      toast.error("Copy failed. Select and copy the key manually.");
+    }
+  };
+
+  const revokeKey = (id: string, name: string) => {
+    if (
+      confirm(
+        `Revoke “${name}”? Any application using this key will lose access immediately.`,
+      )
+    ) {
+      if (newKey?.id === id) setNewKey(null);
+      revokeApiKeyMutation.mutate({ id });
+    }
+  };
+
+  return (
+    <section>
+      <h2>API keys</h2>
+      <div className={profileStyles.apiKeysSection}>
+        <p>
+          Create keys for server-side GraphQL and REST integrations. You can
+          have up to 10 active keys.
+        </p>
+        <form
+          onSubmit={handleSubmit(({ name }) => {
+            setNewKey(null);
+            createApiKeyMutation.mutate({ name });
+          })}
+        >
+          <TextInput
+            id="api-key-name"
+            name="name"
+            label="API key name"
+            placeholder="API key name, for example Production website"
+            hideLabel
+            errors={formState.errors.name?.message}
+            register={register}
+            control={control}
+            rules={{
+              required: "API key name is required",
+              maxLength: {
+                value: 100,
+                message: "API key names must be 100 characters or fewer",
+              },
+            }}
+          />
+          <Button
+            disabled={!formState.isValid || createApiKeyMutation.isPending}
+            variant="secondary"
+            size="large"
+            theme="blue"
+            label={
+              createApiKeyMutation.isPending
+                ? "Creating API key..."
+                : "Create API key"
+            }
+            type="submit"
+          />
+        </form>
+
+        {newKey && (
+          <div className={profileStyles.newApiKey} role="status">
+            <strong>Copy this key now</strong>
+            <span>
+              This is the only time the full key for “{newKey.name}” will be
+              shown.
+            </span>
+            <code>{newKey.key}</code>
+            <Button
+              variant="secondary"
+              size="medium"
+              theme="blue"
+              label="Copy API key"
+              type="button"
+              onClick={() => void copyKey()}
+            />
+          </div>
+        )}
+
+        <div className={profileStyles.apiKeyList}>
+          <h3>Active keys</h3>
+          {isLoading ? (
+            <span>Loading API keys...</span>
+          ) : apiKeysError ? (
+            <span role="alert">API keys could not be loaded.</span>
+          ) : data?.apiKeys.length ? (
+            <ul>
+              {data.apiKeys.map((apiKey) => (
+                <li key={apiKey.id}>
+                  <div className={profileStyles.apiKeyDetails}>
+                    <strong>{apiKey.name}</strong>
+                    <code>{apiKey.prefix}…</code>
+                    <span className={profileStyles.apiKeyMetadata}>
+                      Created{" "}
+                      {new Date(
+                        apiKey.createdAt as string,
+                      ).toLocaleDateString()}
+                      {apiKey.lastUsedAt
+                        ? ` · Last used ${new Date(
+                            apiKey.lastUsedAt as string,
+                          ).toLocaleString()}`
+                        : " · Never used"}
+                    </span>
+                  </div>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    theme="red"
+                    label="Revoke"
+                    type="button"
+                    disabled={revokeApiKeyMutation.isPending}
+                    onClick={() => revokeKey(apiKey.id, apiKey.name)}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span>No active API keys.</span>
+          )}
+        </div>
+        <Link href="/docs/api/auth">
+          Read the API key security and usage guide
+        </Link>
+      </div>
     </section>
   );
 };
@@ -787,6 +969,7 @@ function ProfilePage() {
         <AddressSection address={address as AddressResult} userId={user.id} />
         <EmailSection email={email} />
         <PasswordSection />
+        <ApiKeysSection />
         <SignOutSection />
         <DeleteAccountSection />
       </div>

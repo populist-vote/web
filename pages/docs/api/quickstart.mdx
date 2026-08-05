@@ -9,7 +9,11 @@ import styles from "components/DocsLayout/DocsLayout.module.scss";
 Making a request to the Populist API is easy! To get started quickly, copy this snippet into your terminal and run it:
 
 <CodeBlock
-  code={`curl 'https://api.populist.us' -H 'Content-Type: application/json' -X POST -d '{"query": "query { elections(filter: { state: CO }) { title description electionDate } }"}'`}
+  code={`curl 'https://api.populist.us' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -X POST \
+  -d '{"query": "query { elections(filter: { state: CO }) { title description electionDate } }"}'`}
   language="bash"
 />
 
@@ -66,6 +70,8 @@ This will return a list of upcoming elections in Colorado. You can modify the `f
 
 Looking for a resource-oriented integration? See the
 [REST API quickstart](/docs/api/rest).
+Create and manage credentials from [My Profile](/settings/profile); see
+[Authentication](/docs/api/auth) for storage, rotation, and revocation guidance.
 
 export default function DocsGuidesQuickStart({ children }) {
   return <DocsLayout currentPage="api">{children}</DocsLayout>;
