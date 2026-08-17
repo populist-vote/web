@@ -689,7 +689,7 @@ const PasswordSection = () => {
     {
       refetchOnWindowFocus: false,
       enabled: debouncedPassword.length > 0,
-    }
+    },
   );
 
   const {
@@ -923,7 +923,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale as SupportedLocale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18nextConfig,
       )),
     },
   };
@@ -941,7 +941,7 @@ function ProfilePage() {
     },
     {
       enabled: !!user?.id,
-    }
+    },
   );
   if (isLoading && fetchStatus !== "idle") return <LoaderFlag />;
   if (!userProfile) return null;
