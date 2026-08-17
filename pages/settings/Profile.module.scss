@@ -142,6 +142,84 @@
     gap: 1.25rem;
   }
 
+  .apiKeysSection {
+    align-items: stretch;
+
+    > p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    > form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    > a {
+      color: var(--aqua);
+      text-align: center;
+    }
+  }
+
+  .newApiKey {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--yellow);
+    border-radius: 0.25rem;
+    background: rgb(255 255 255 / 8%);
+
+    code {
+      padding: 0.75rem;
+      overflow-wrap: anywhere;
+      user-select: all;
+      background: rgb(0 0 0 / 25%);
+    }
+  }
+
+  .apiKeyList {
+    h3 {
+      margin: 0 0 0.75rem;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-top: 1px solid rgb(255 255 255 / 20%);
+
+      .apiKeyDetails {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .apiKeyMetadata,
+      code {
+        font-size: $text-sm;
+      }
+
+      button {
+        width: auto;
+        flex-shrink: 0;
+      }
+    }
+  }
+
   input[type="file"],
   input[type="submit"] {
     display: none;
