@@ -57,6 +57,14 @@ type AddressResult {
   state: State!
 }
 
+type ApiKeyResult {
+  createdAt: DateTime!
+  id: ID!
+  lastUsedAt: DateTime
+  name: String!
+  prefix: String!
+}
+
 enum ArgumentPosition {
   NEUTRAL
   OPPOSE
@@ -545,6 +553,12 @@ type CreateUserResult {
   id: ID!
 }
 
+type CreatedApiKeyResult {
+  apiKey: ApiKeyResult!
+  """The secret is returned only once and cannot be recovered later."""
+  key: String!
+}
+
 """
 Implement the DateTime<Utc> scalar
 
@@ -859,6 +873,11 @@ type Mutation {
   beginUserRegistration(input: BeginUserRegistrationInput!): LoginResult!
   confirmUserEmail(confirmationToken: String!): Boolean!
   copyQuestionSubmission(questionSubmissionId: ID!, targetQuestionId: ID!): QuestionSubmissionResult!
+  """
+  Creates an API key for the current registered user.
+  The secret is returned once and only its hash is stored.
+  """
+  createApiKey(name: String!): CreatedApiKeyResult!
   createConversation(input: CreateConversationInput!): ConversationResult!
   createUser(input: CreateUserInput!): CreateUserResult!
   deleteAccount: ID!
@@ -898,6 +917,8 @@ type Mutation {
   removePoliticianOffice(id: ID!): Boolean!
   requestPasswordReset(email: String!): Boolean!
   resetPassword(input: ResetPasswordInput!): Boolean!
+  """Immediately revokes an API key owned by the current registered user."""
+  revokeApiKey(id: ID!): Boolean!
   setAllCandidateGuideRacesEmailed(candidateGuideId: ID!, wereCandidatesEmailed: Boolean!): Boolean!
   updateAddress(address: AddressInput!): AddressResult!
   updateArgument(id: ID!, input: UpdateArgumentInput!): ArgumentResult!
@@ -1336,6 +1357,8 @@ type PublicVotes {
 
 type Query {
   allIssueTags: [IssueTagResult!]!
+  """Lists active API keys owned by the current registered user."""
+  apiKeys: [ApiKeyResult!]!
   ballotMeasureById(id: ID!): BallotMeasureResult
   ballotMeasures(after: String, before: String, filter: BallotMeasureFilter, first: Int, last: Int, sort: BallotMeasureSort): BallotMeasureResultConnection!
   billById(id: ID!): BillResult
@@ -1354,7 +1377,7 @@ type Query {
   conversationsByOrganization(limit: Int, organizationId: ID!): [ConversationResult!]!
   countiesByState(state: State!): [String!]!
   """
-  Provides current user based on JWT found in client's access_token cookie
+  Provides the current user for an authenticated cookie, JWT, or API key.
   """
   currentUser: AuthTokenResult
   electionById(id: ID!): ElectionResult!
