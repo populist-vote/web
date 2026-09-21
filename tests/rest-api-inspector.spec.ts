@@ -38,11 +38,12 @@ test("sends a sandbox request and renders a browsable JSON response", async ({
     });
   });
 
-  await page.goto("/docs/api/ballot-by-address#api-explorer");
+  // Anchor scrolling is covered separately; exercise form submission after a
+  // plain navigation so the delayed hash scroll cannot move the click target.
+  await page.goto("/docs/api/ballot-by-address");
   await expect(
     page.getByRole("heading", { name: "Ballot by Address Explorer" }),
   ).toBeVisible();
-  await expect(page.locator("#api-explorer")).toBeInViewport();
   await page.getByRole("button", { name: "Send request" }).click();
 
   await expect(page.getByText("200 OK")).toBeVisible();
@@ -103,10 +104,12 @@ test("validates locally and formats API problem responses", async ({
   expect(requestCount).toBe(1);
 });
 
-test("keeps the previous explorer anchor working", async ({ page }) => {
-  await page.goto("/docs/api/ballot-by-address#try-it-in-staging");
-  await expect(page.locator("#api-explorer")).toBeInViewport();
-});
+for (const anchor of ["api-explorer", "try-it-in-staging"]) {
+  test(`navigates to the explorer using #${anchor}`, async ({ page }) => {
+    await page.goto(`/docs/api/ballot-by-address#${anchor}`);
+    await expect(page.locator("#api-explorer")).toBeInViewport();
+  });
+}
 
 test("sends GET election requests without a body or content type", async ({
   page,
