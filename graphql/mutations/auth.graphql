@@ -58,8 +58,18 @@ mutation ConfirmUserEmail($token: String!) {
   confirmUserEmail(confirmationToken: $token)
 }
 
-mutation LogIn($emailOrUsername: String!, $password: String!) {
-  login(input: { emailOrUsername: $emailOrUsername, password: $password }) {
+mutation LogIn(
+  $emailOrUsername: String!
+  $password: String!
+  $inviteToken: String
+) {
+  login(
+    input: {
+      emailOrUsername: $emailOrUsername
+      password: $password
+      inviteToken: $inviteToken
+    }
+  ) {
     userId
   }
 }

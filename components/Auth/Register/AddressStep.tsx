@@ -168,6 +168,7 @@ function AddressStep() {
             </div>
           </div>
           <Button
+            disabled={handleUserRegistration.isPending}
             label={t("complete-registration")}
             size="large"
             variant="primary"
@@ -178,6 +179,7 @@ function AddressStep() {
         <Button
           variant="text"
           onClick={skipAddressStep}
+          disabled={handleUserRegistration.isPending}
           label="Skip this step for now"
           size="small"
         />

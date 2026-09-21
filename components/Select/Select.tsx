@@ -64,7 +64,7 @@ function Select<TFormValues extends Record<string, unknown>>({
       <select
         className={styles.select}
         {...(register && name && register(name, rules))}
-        onChange={onChange}
+        {...(onChange ? { onChange } : {})}
         value={value}
         {...props}
       >
