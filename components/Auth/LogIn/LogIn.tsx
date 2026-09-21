@@ -2,7 +2,7 @@ import { Button, LoaderFlag, TextInput } from "components";
 import { useCurrentUserQuery, useLogInMutation } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../Auth.module.scss";
 import layoutStyles from "../../BasicLayout/BasicLayout.module.scss";
@@ -16,8 +16,20 @@ function LogIn() {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors, isValid, isDirty },
   } = useForm({ mode: "onChange" });
+
+  const inviteToken =
+    typeof router.query.inviteToken === "string"
+      ? router.query.inviteToken
+      : undefined;
+
+  useEffect(() => {
+    if (typeof router.query.email === "string") {
+      setValue("emailOrUsername", router.query.email, { shouldValidate: true });
+    }
+  }, [router.query.email, setValue]);
 
   const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -27,7 +39,15 @@ function LogIn() {
     staleTime: 1000 * 60 * 15, // 15 minutes
   });
   const user = data?.currentUser;
-  if (user) void router.push(`/${router.query.next || "/home"}`);
+  useEffect(() => {
+    // An invite must go through login so the API can accept it, even if a
+    // previous session is still active.
+    if (user && !inviteToken) {
+      void router.push(
+        `/${String(router.query.next || "home").replace(/^\/+/, "")}`,
+      );
+    }
+  }, [user, inviteToken, router]);
 
   const login = useLogInMutation({
     onError: (error) => {
@@ -37,7 +57,9 @@ function LogIn() {
       getCurrentUser.refetch().then((result) => {
         if (result.data?.currentUser) {
           if (router.query.next) {
-            void router.push(`/${router.query.next}`);
+            void router.push(
+              `/${String(router.query.next).replace(/^\/+/, "")}`,
+            );
           } else void router.push("/home");
         }
       }),
@@ -45,7 +67,7 @@ function LogIn() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const submitForm = (data: any) => {
-    login.mutate(data);
+    login.mutate({ ...data, inviteToken });
   };
 
   let message = "";
@@ -62,7 +84,10 @@ function LogIn() {
       <h1>{message}</h1>
       <p className={styles.subtitle}>
         <Trans i18nKey={"auth:no-account-helper"}>
-          <Link href="/register" className={styles.textLink}></Link>
+          <Link
+            href={{ pathname: "/register", query: router.query }}
+            className={styles.textLink}
+          ></Link>
         </Trans>
       </p>
       <div className={styles.formWrapper}>

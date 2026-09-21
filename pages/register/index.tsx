@@ -10,11 +10,11 @@ import { useRouter } from "next/router";
 import { SupportedLocale } from "types/global";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nextConfig from "next-i18next.config";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 export const updateAction = (
   state: { loginFormState: BeginUserRegistrationInput },
-  payload: Partial<BeginUserRegistrationInput>
+  payload: Partial<BeginUserRegistrationInput>,
 ) => {
   return {
     ...state,
@@ -36,7 +36,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18nextConfig,
       )),
     },
   };
@@ -46,7 +46,15 @@ function Register() {
   const router = useRouter();
   const { data, isLoading } = useCurrentUserQuery();
   const user = data?.currentUser;
-  if (user) void router.push(`/${router.query.next || "/home"}`);
+  useEffect(() => {
+    if (user) {
+      void router.push(
+        router.query.inviteToken
+          ? { pathname: "/login", query: router.query }
+          : `/${String(router.query.next || "home").replace(/^\/+/, "")}`,
+      );
+    }
+  }, [user, router]);
 
   createStore({
     loginFormState: {

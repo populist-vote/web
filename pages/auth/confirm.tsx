@@ -1,7 +1,7 @@
 import { BasicLayout, Button } from "components";
 import { useConfirmUserEmailMutation } from "generated";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import styles from "components/Auth/Auth.module.scss";
 import layoutStyles from "components/BasicLayout/BasicLayout.module.scss";
 import Link from "next/link";
@@ -21,24 +21,55 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18nextConfig,
       )),
     },
   };
 }
 
 function ConfirmEmail() {
-  const { query } = useRouter();
+  const { query, isReady } = useRouter();
   const { token } = query;
-  const mutation = useConfirmUserEmailMutation();
+  const [status, setStatus] = useState<"pending" | "success" | "error">(
+    "pending",
+  );
+  const confirmation = useRef<{
+    token: string;
+    request: Promise<unknown>;
+  } | null>(null);
 
   useEffect(() => {
-    mutation.mutate({ token: token as string });
-  }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (!isReady) return;
+    if (typeof token !== "string" || !token) {
+      setStatus("error");
+      return;
+    }
+    // Reuse the same request when Strict Mode replays effects: confirmation
+    // tokens are single-use. Each effect subscribes to the result separately.
+    if (confirmation.current?.token !== token) {
+      confirmation.current = {
+        token,
+        request: useConfirmUserEmailMutation.fetcher({ token })(),
+      };
+    }
+    let active = true;
+    setStatus("pending");
+    confirmation.current.request.then(
+      () => {
+        if (active) setStatus("success");
+      },
+      () => {
+        if (active) setStatus("error");
+      },
+    );
+    return () => {
+      active = false;
+    };
+  }, [token, isReady]);
 
-  if (mutation.isPending) return <LoaderFlag />;
+  if (status === "pending") return <LoaderFlag />;
 
-  if (!mutation.isSuccess)
+  if (status === "error")
     return (
       <div className={styles.container}>
         <h1>Whoops!</h1>

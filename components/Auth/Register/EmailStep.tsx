@@ -31,7 +31,7 @@ function EmailStep() {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setError,
   } = useForm({
     reValidateMode: "onChange",
@@ -40,22 +40,6 @@ function EmailStep() {
       password: loginFormState.password,
     },
   });
-
-  const {
-    refetch: validateEmailAvailable,
-    isLoading: isValidateEmailLoading,
-    fetchStatus: validateEmailFetchStatus,
-  } = useValidateEmailAvailableQuery(
-    {
-      email: loginFormState.email,
-    },
-    // Only want to run this on form submission
-    {
-      retry: false,
-      refetchOnWindowFocus: false,
-      enabled: false,
-    }
-  );
 
   const {
     data: passwordEntropyData = {
@@ -74,7 +58,7 @@ function EmailStep() {
     {
       refetchOnWindowFocus: false,
       enabled: loginFormState.password.length > 0,
-    }
+    },
   );
 
   const {
@@ -83,61 +67,46 @@ function EmailStep() {
     message,
   } = passwordEntropyData?.validatePasswordEntropy ?? {};
 
-  const submitForm = (data: { email: string; password: string }) => {
-    if (actions?.updateAction) {
-      actions.updateAction(data);
-    }
-    validateEmailAvailable()
-      .then(
-        // Shamefully typecast to any
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ({ data: response, error }: { data: any; error: any }) => {
-          if (response?.validateEmailAvailable) {
-            void router.push({
-              pathname: "/register/address",
-              query: { ...query },
-            });
-          } else {
-            setError(
-              "email",
-              {
-                type: "manual",
-                message: "Email address is already in use",
-              },
-              {
-                shouldFocus: true,
-              }
-            );
-          }
+  const loginHref = {
+    pathname: "/login",
+    query: { ...query, email: prefillEmail ?? loginFormState.email },
+  };
 
-          // Handle errors like network down - eventually we should useAlert here and
-          // create an alertContext for more global errors
-          if (error instanceof Error) {
-            setError(
-              "email",
-              {
-                type: "manual",
-                message: error?.message,
-              },
-              {
-                shouldFocus: true,
-              }
-            );
-          }
-        }
-      )
-      .catch((error) => {
+  const submitForm = async (data: { email: string; password: string }) => {
+    const email = data.email.trim().toLowerCase();
+    actions.updateAction({ ...data, email });
+
+    try {
+      // Read the submitted value directly: invite-prefilled fields and browser
+      // autofill do not necessarily update the persisted registration state.
+      const response = await useValidateEmailAvailableQuery.fetcher({
+        email,
+      })();
+      if (response.validateEmailAvailable) {
+        await router.push({ pathname: "/register/address", query });
+      } else if (query.inviteToken) {
+        await router.push({
+          pathname: "/login",
+          query: { ...query, email },
+        });
+      } else {
         setError(
           "email",
-          {
-            type: "manual",
-            message: error?.message,
-          },
-          {
-            shouldFocus: true,
-          }
+          { type: "manual", message: "Email address is already in use" },
+          { shouldFocus: true },
         );
-      });
+      }
+    } catch (error) {
+      setError(
+        "email",
+        {
+          type: "manual",
+          message:
+            error instanceof Error ? error.message : "Unable to check email",
+        },
+        { shouldFocus: true },
+      );
+    }
   };
 
   return (
@@ -149,7 +118,7 @@ function EmailStep() {
         {t("please-create-account-copy")}{" "}
         <span className={styles.signInSubtitle}>
           <Trans i18nKey={"auth:have-account-helper"}>
-            <Link href="/login" className={styles.textLink}></Link>
+            <Link href={loginHref} className={styles.textLink}></Link>
           </Trans>
         </span>
       </p>
@@ -158,7 +127,7 @@ function EmailStep() {
           <div
             className={clsx(
               styles.inputWrapper,
-              errors.email && styles.invalid
+              errors.email && styles.invalid,
             )}
           >
             <TextInput
@@ -169,7 +138,7 @@ function EmailStep() {
               register={register}
               control={control}
               rules={{
-                // Need to update email synchronously so that we can revalidate it on each form submission
+                // Keep the email available when moving between registration steps.
                 onChange: (e) => {
                   if (actions?.updateAction) {
                     actions.updateAction({ email: e.target.value });
@@ -223,12 +192,12 @@ function EmailStep() {
             variant="primary"
             type="submit"
             label={
-              isValidateEmailLoading && validateEmailFetchStatus != "idle"
+              isSubmitting
                 ? t("loading", { ns: "common" })
                 : t("continue", { ns: "common" })
             }
             disabled={
-              (isValidateEmailLoading && validateEmailFetchStatus != "idle") ||
+              isSubmitting ||
               (isEntropyCalcLoading && passwordEntropyFetchStatus != "idle") ||
               !isPasswordValid
             }

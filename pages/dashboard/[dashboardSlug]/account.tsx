@@ -387,6 +387,7 @@ function MembersSection({
               style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
             >
               <TextInput
+                id="invite-email"
                 size="small"
                 label="Email"
                 name="email"
