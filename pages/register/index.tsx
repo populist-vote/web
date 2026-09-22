@@ -1,3 +1,4 @@
+import { InviteAccountGuard } from "components/Auth/InviteAccountGuard";
 import { createStore } from "little-state-machine";
 import {
   BeginUserRegistrationInput,
@@ -78,7 +79,7 @@ function Register() {
 
 Register.getLayout = (page: ReactNode) => (
   <BasicLayout hideFooter hideAuthButtons>
-    {page}
+    <InviteAccountGuard>{page}</InviteAccountGuard>
   </BasicLayout>
 );
 

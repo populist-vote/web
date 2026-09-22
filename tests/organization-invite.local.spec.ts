@@ -342,16 +342,16 @@ test("a different signed-in account cannot accept someone else's invitation", as
   const recipientPage = await recipient.newPage();
   await login(recipientPage, wrongEmail);
   await recipientPage.goto(link);
-  await expect(recipientPage).toHaveURL(/\/login\?/);
-  await recipientPage.getByPlaceholder("Email or username").fill(wrongEmail);
-  await recipientPage
-    .getByPlaceholder("Password", { exact: true })
-    .fill(password);
-  await recipientPage
-    .getByRole("button", { name: "Sign in", exact: true })
-    .click();
+  await expect(recipientPage).toHaveURL(/\/auth\/invite-account\?/);
   await expect(
-    recipientPage.getByText(/invitation is invalid or expired/i),
+    recipientPage.getByText(`This invitation is for ${email}.`, {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    recipientPage.getByText(`You’re currently signed in as ${wrongEmail}.`, {
+      exact: true,
+    }),
   ).toBeVisible();
   expect(
     sql(
@@ -361,6 +361,23 @@ test("a different signed-in account cannot accept someone else's invitation", as
   expect(
     sql(
       `SELECT count(*) FROM invite_token WHERE email=${quote(email)} AND accepted_at IS NOT NULL;`,
+    ),
+  ).toBe("0");
+  await recipientPage
+    .getByRole("button", { name: "Switch accounts and continue" })
+    .click();
+  await expect(recipientPage).toHaveURL(/\/register\?/);
+  expect(
+    (await recipient.cookies(apiUrl)).map((cookie) => cookie.name),
+  ).not.toContain("access_token");
+  expect(
+    (await recipient.cookies(apiUrl)).map((cookie) => cookie.name),
+  ).not.toContain("refresh_token");
+  await register(recipientPage, recipientPage.url(), email);
+  await assertMember(recipientPage, org, email);
+  expect(
+    sql(
+      `SELECT count(*) FROM organization_users ou JOIN populist_user u ON u.id=ou.user_id WHERE u.email=${quote(wrongEmail)} AND ou.organization_id=${quote(org)};`,
     ),
   ).toBe("0");
   await recipient.close();
