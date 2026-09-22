@@ -1,3 +1,4 @@
+import { InviteAccountGuard } from "components/Auth/InviteAccountGuard";
 import { BasicLayout } from "components";
 import { AddressStep } from "components/Auth/Register/AddressStep";
 import nextI18nextConfig from "next-i18next.config";
@@ -16,7 +17,7 @@ export async function getServerSideProps({
       ...(await serverSideTranslations(
         locale,
         ["auth", "common"],
-        nextI18nextConfig
+        nextI18nextConfig,
       )),
     },
   };
@@ -28,7 +29,7 @@ function Register() {
 
 Register.getLayout = (page: ReactNode) => (
   <BasicLayout hideFooter hideAuthButtons>
-    {page}
+    <InviteAccountGuard>{page}</InviteAccountGuard>
   </BasicLayout>
 );
 
