@@ -47,7 +47,7 @@ export default function CandidateGuideIntake() {
     },
     {
       enabled: !!politicianData?.politicianByIntakeToken?.id,
-    }
+    },
   );
   const { data: organizationData } = useOrganizationByIdQuery(
     {
@@ -55,7 +55,7 @@ export default function CandidateGuideIntake() {
     },
     {
       enabled: !!data?.candidateGuideById.organizationId,
-    }
+    },
   );
 
   const organizationLogoUrl =
@@ -67,7 +67,7 @@ export default function CandidateGuideIntake() {
     },
     {
       enabled: !!raceId,
-    }
+    },
   );
   const politician =
     politicianData?.politicianByIntakeToken as PoliticianResult;
@@ -79,7 +79,7 @@ export default function CandidateGuideIntake() {
       questions
         ?.flatMap((question) => question.submissionsByCandidateId)
         .filter((submission) => submission && !!submission.response),
-    [questions]
+    [questions],
   );
 
   const existingSubmissionsHash = useMemo(
@@ -89,9 +89,9 @@ export default function CandidateGuideIntake() {
           ...acc,
           [question.id]: question.submissionsByCandidateId[0]?.response ?? "",
         }),
-        {}
+        {},
       ),
-    [data?.candidateGuideById.questions]
+    [data?.candidateGuideById.questions],
   );
 
   const { register, handleSubmit, setValue, getValues, control, formState } =
@@ -100,7 +100,7 @@ export default function CandidateGuideIntake() {
     });
 
   const [hasSubmitted, setHasSubmitted] = useState(
-    !!existingSubmissionsArray?.length
+    !!existingSubmissionsArray?.length,
   );
   const [isEditing, setIsEditing] = useState(!hasSubmitted);
 
@@ -109,7 +109,7 @@ export default function CandidateGuideIntake() {
       Object.entries(existingSubmissionsHash).forEach(
         ([questionId, response]) => {
           setValue(questionId, response as string);
-        }
+        },
       );
     }
 
@@ -123,7 +123,7 @@ export default function CandidateGuideIntake() {
   const queryClient = useQueryClient();
 
   const embedId = data?.candidateGuideById.embeds.find(
-    (e) => e?.race?.id === raceId
+    (e) => e?.race?.id === raceId,
   )?.id;
 
   const areSubmissionsClosed =
@@ -134,7 +134,7 @@ export default function CandidateGuideIntake() {
     try {
       for (const [questionId, response] of Object.entries(data)) {
         const existingSubmissionId = questions?.find(
-          (question) => question.id === questionId
+          (question) => question.id === questionId,
         )?.submissionsByCandidateId[0]?.id;
 
         if (!response && !existingSubmissionId) continue;
@@ -158,7 +158,7 @@ export default function CandidateGuideIntake() {
             onError: (error) => {
               throw error;
             },
-          }
+          },
         );
       }
     } catch (error) {
@@ -197,8 +197,8 @@ export default function CandidateGuideIntake() {
             <Image
               src={organizationLogoUrl as string}
               alt="Organization Logo"
-              height={100}
-              width={400}
+              height={200}
+              width={800}
               style={{ objectFit: "contain" }}
             />
           )}

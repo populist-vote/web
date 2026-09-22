@@ -120,13 +120,21 @@ function collectionFrom(
   return null;
 }
 
-function resourceFrom(payload: JsonValue, key: string) {
+function resourceFrom(
+  payload: JsonValue,
+  key: string,
+): { [key: string]: JsonValue } | null {
   const data = dataFrom(payload);
   if (!isJsonRecord(data)) {
     return null;
   }
 
-  return isJsonRecord(data[key]) ? data[key] : data;
+  const resource = data[key];
+  if (isJsonRecord(resource)) {
+    return resource;
+  }
+
+  return data;
 }
 
 function titleFrom(resource: { [key: string]: JsonValue } | null) {
