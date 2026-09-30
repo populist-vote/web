@@ -185,7 +185,15 @@ Once questions and races are added to a candidate guide group, you can export ou
 
 - The date and time of the last submission by the candidate.
 
-Use this exported spreadsheet with your preferred email list management software to send emails to each of the candidates. Using each column in the spreadsheet, you can personalize the emails to include the candidate's name and the link they will use to respond to the guide questions.
+#### Widget Script
+
+- The script tag that enables Populist widgets on a host page. Add this **once** per page, even if the page has multiple candidate guide embeds. The value is the same on every row.
+
+#### Embed Code
+
+- The HTML container for that race's candidate guide embed. Each race has its own `data-embed-id`. Paste this where the guide should appear. Candidates in the same race share the same embed code.
+
+Use this exported spreadsheet with your preferred email list management software to send emails to each of the candidates. Using each column in the spreadsheet, you can personalize the emails to include the candidate's name and the link they will use to respond to the guide questions. You can also copy `widget_script` and `embed_code` into a webpage to publish the race's candidate guide.
 
 ### Managing Submissions
 
