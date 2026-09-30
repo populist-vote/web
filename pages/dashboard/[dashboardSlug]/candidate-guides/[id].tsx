@@ -49,7 +49,7 @@ import { RaceResultsTable } from "components/RaceResultsTable/RaceResultsTable";
 import { PoliticalScopeFilters } from "components/PoliticianFilters/PoliticianFilters";
 import { confirmDialog } from "utils/messages";
 import { toast } from "react-toastify";
-import { downloadCsv } from "utils/strings";
+import { downloadCsv, kebabCase } from "utils/strings";
 import { useAuth } from "hooks/useAuth";
 import { renderSubmissionState } from "utils/dates";
 import { Tooltip } from "components/Tooltip/Tooltip";
@@ -770,7 +770,11 @@ function RacesSection({
     exportMutation.mutate(
       { candidateGuideId: candidateGuide.id },
       {
-        onSuccess: (data) => downloadCsv(data.downloadAllCandidateGuideData),
+        onSuccess: (data) =>
+          downloadCsv(
+            data.downloadAllCandidateGuideData,
+            `${kebabCase(candidateGuide.name || "candidate-guide")}-data.csv`
+          ),
         onError: (error) => toast.error((error as Error).message),
       }
     );
@@ -787,6 +791,7 @@ function RacesSection({
             size="small"
             label="Export All Data"
             onClick={handleDataExport}
+            disabled={exportMutation.isPending}
           />
           <Button
             theme="blue"
