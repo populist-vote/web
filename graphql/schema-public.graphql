@@ -625,6 +625,8 @@ type OfficeResult {
   seat: String
   slug: String!
   state: State
+  """Single-member subdivision of a school or hospital district"""
+  subdistrict: String
   subtitle: String
   subtitleShort: String
   termLength: Int

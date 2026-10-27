@@ -125,6 +125,7 @@ fragment ElectionInfo on PoliticianResult {
       county
       municipality
       district
+      subdistrict
       schoolDistrict
       districtType
       electionScope

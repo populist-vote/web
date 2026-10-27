@@ -633,6 +633,8 @@ enum DistrictType {
   STATE_HOUSE
   STATE_SENATE
   TRANSPORTATION
+  TX_COLLEGE
+  TX_SPECIAL
   US_CONGRESSIONAL
   VOTING_PRECINCT
 }
@@ -1016,6 +1018,8 @@ type OfficeResult {
   seat: String
   slug: String!
   state: State
+  """Single-member subdivision of a school or hospital district"""
+  subdistrict: String
   subtitle: String
   subtitleShort: String
   termLength: Int
@@ -2107,6 +2111,7 @@ input UpsertOfficeInput {
   seat: String
   slug: String
   state: State
+  subdistrict: String
   subtitle: String
   subtitleShort: String
   termLength: Int
