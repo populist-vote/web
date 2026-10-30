@@ -11,6 +11,7 @@ interface BadgeProps {
     | "red"
     | "yellow"
     | "grey"
+    | "grey-light"
     | "violet"
     | "orange"
     | "salmon"
@@ -46,6 +47,7 @@ function Badge({
   ...rest
 }: PropsWithChildren<BadgeProps>) {
   const cx = clsx(styles.container, styles[size as string], {
+    [styles.iconLeft as string]: !!iconLeft,
     [styles.selected as string]: !!selected,
     [styles.solid as string]: variant === "solid",
     [styles.lightBackground as string]: lightBackground,
