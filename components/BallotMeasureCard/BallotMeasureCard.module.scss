@@ -7,8 +7,23 @@
   height: 100%;
   border: 1px solid $grey-light;
 
+  .header {
+    justify-content: center;
+    text-align: center;
+
+    strong {
+      text-align: center;
+      width: 100%;
+    }
+  }
+
   header strong {
     text-transform: uppercase;
+  }
+
+  .description {
+    margin: 0.25rem 1rem 0.75rem;
+    line-height: 1.6rem;
   }
 
   .cardContent {
@@ -23,7 +38,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
+    margin: 1rem 0.5rem 0.5rem;
   }
 
   .votes {
@@ -37,6 +52,13 @@
     font-size: 1em;
     color: #333;
     height: auto;
+  }
+
+  .precinctsReporting {
+    margin-top: 1rem;
+    color: $grey-darker;
+    font-style: italic;
+    font-size: 0.875rem;
   }
 }
 

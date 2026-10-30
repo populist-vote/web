@@ -61,6 +61,8 @@ type BallotMeasureResult {
   ballotMeasureCode: String!
   definitions: String
   description: String
+  district: String
+  districtType: DistrictType
   election: ElectionResult!
   electionId: ID!
   electionScope: ElectionScope
@@ -76,6 +78,7 @@ type BallotMeasureResult {
   slug: String!
   state: State!
   status: BallotMeasureStatus!
+  subdistrict: String
   title: String!
   totalPrecincts: Int
   yesVotes: Int

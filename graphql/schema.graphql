@@ -112,6 +112,8 @@ type BallotMeasureResult {
   ballotMeasureCode: String!
   definitions: String
   description: String
+  district: String
+  districtType: DistrictType
   election: ElectionResult!
   electionId: ID!
   electionScope: ElectionScope
@@ -127,6 +129,7 @@ type BallotMeasureResult {
   slug: String!
   state: State!
   status: BallotMeasureStatus!
+  subdistrict: String
   title: String!
   totalPrecincts: Int
   yesVotes: Int
@@ -903,7 +906,8 @@ type Mutation {
   deleteVotingGuide(id: ID!): DeleteVotingGuideResult!
   deleteVotingGuideCandidateNote(candidateId: ID!, votingGuideId: ID!): VotingGuideCandidateResult!
   """
-  Download all candidate guide data as a CSV string, must be converted to CSV file by client
+  Download all candidate guide data as a CSV string, must be converted to CSV file by client.
+  Includes widget_script (once-per-page) and embed_code (per-race container) columns.
   """
   downloadAllCandidateGuideData(candidateGuideId: ID!, raceId: ID): String!
   downvoteArgument(argumentId: ID!, populistUserId: ID!): Boolean!
@@ -1018,7 +1022,7 @@ type OfficeResult {
   seat: String
   slug: String!
   state: State
-  """Single-member subdivision of a school or hospital district"""
+  """Single-member subdivision / subdistrict, if exists."""
   subdistrict: String
   subtitle: String
   subtitleShort: String
@@ -2005,6 +2009,8 @@ input UpsertBallotMeasureInput {
   countyFips: String
   definitions: String
   description: String
+  district: String
+  districtType: DistrictType
   electionId: UUID
   electionScope: ElectionScope
   fullTextUrl: String
@@ -2018,6 +2024,7 @@ input UpsertBallotMeasureInput {
   slug: String
   state: State
   status: BallotMeasureStatus
+  subdistrict: String
   title: String
 }
 

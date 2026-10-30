@@ -6,7 +6,6 @@ import { RiCloseCircleFill } from "react-icons/ri";
 
 export function BallotMeasureCard({
   measure = {},
-  year,
 }: {
   measure: Partial<BallotMeasureResult>;
   year: number;
@@ -16,16 +15,16 @@ export function BallotMeasureCard({
   const totalVotes = (yesVotes ?? 0) + (noVotes ?? 0);
   const yesPercentage =
     totalVotes > 0
-      ? (((yesVotes ?? 0) / totalVotes) * 100).toFixed(2) + "%"
+      ? (((yesVotes ?? 0) / totalVotes) * 100).toFixed(1) + "%"
       : "YES";
   const noPercentage =
     totalVotes > 0
-      ? (((noVotes ?? 0) / totalVotes) * 100).toFixed(2) + "%"
+      ? (((noVotes ?? 0) / totalVotes) * 100).toFixed(1) + "%"
       : "NO";
   const precinctReportingPercentage =
     (numPrecinctsReporting ?? 0) > 0
       ? (((numPrecinctsReporting ?? 0) / (totalPrecincts ?? 1)) * 100).toFixed(
-          0
+          0,
         ) + "%"
       : "0";
 
@@ -34,8 +33,7 @@ export function BallotMeasureCard({
   return (
     <div className={styles.billCard}>
       <header className={styles.header}>
-        <strong>{`${measure.state} - ${measure.ballotMeasureCode}`}</strong>
-        <strong>{year}</strong>
+        <strong>{`${measure.ballotMeasureCode}`}</strong>
       </header>
       <div className={styles.cardContent}>
         <h2 className={styles.title}>{measure.title}</h2>
@@ -46,20 +44,22 @@ export function BallotMeasureCard({
             style={{ justifyContent: hasResults ? "flex-start" : "center" }}
           >
             <Badge
+              theme="grey-light"
               iconLeft={
-                <FaCheckCircle size={18} color="var(--green-support)" />
+                <FaCheckCircle size={24} color="var(--green-support)" />
               }
             >
               {yesPercentage}
             </Badge>
             <Badge
-              iconLeft={<RiCloseCircleFill size={18} color="var(--red)" />}
+              theme="grey-light"
+              iconLeft={<RiCloseCircleFill size={28} color="var(--red)" />}
             >
               {noPercentage}
             </Badge>
           </div>
           {hasResults && (
-            <Badge theme="green" lightBackground>
+            <Badge theme="green" lightBackground size="small">
               {precinctReportingPercentage} precincts reporting
             </Badge>
           )}

@@ -161,6 +161,22 @@ $small-size: 1.825rem;
     }
   }
 
+  &.grey-light {
+    background: $grey-lightest;
+    color: $grey-darkest;
+    border: 1px solid $grey-lighter;
+
+    &.selected {
+      background: $grey-lighter;
+      border: 2px solid $grey-darker;
+    }
+
+    &.solid {
+      background: $grey-lighter;
+      color: $white;
+    }
+  }
+
   &.salmon {
     background: rgba(255, 143, 143, 0.1);
     border: 1px solid $salmon;
@@ -244,6 +260,11 @@ $small-size: 1.825rem;
     line-height: 1.5rem;
     min-height: $extra-large-size;
     padding: 0 2.25rem;
+  }
+
+  &.iconLeft {
+    padding-left: 0.5rem;
+    gap: 0.5rem;
   }
 
   .dismissButton:hover {
