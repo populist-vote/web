@@ -98,14 +98,6 @@ enum AuthorType {
   POLITICIAN
 }
 
-enum BallotMeasureJurisdiction {
-  CITY
-  COUNTY
-  SCHOOL_DISTRICT
-  SPECIAL_DISTRICT
-  STATE
-}
-
 input BallotMeasureFilter {
   electionId: UUID
   issueTag: String
@@ -115,6 +107,14 @@ input BallotMeasureFilter {
   state: State
   status: BallotMeasureStatus
   year: Int
+}
+
+enum BallotMeasureJurisdiction {
+  CITY
+  COUNTY
+  SCHOOL_DISTRICT
+  SPECIAL_DISTRICT
+  STATE
 }
 
 type BallotMeasureResult {
