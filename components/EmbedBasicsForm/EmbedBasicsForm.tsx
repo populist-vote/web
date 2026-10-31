@@ -333,6 +333,17 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const ballotMeasureOptionsInitialized = useRef(false);
   const initialFullTextLink = useRef(false);
   const initialScrollableDescription = useRef(false);
+  /** Legislation and politician option checkboxes have the same isDirty pitfall. */
+  const legislationOptionsInitialized = useRef(false);
+  const initialIssueTags = useRef(false);
+  const initialSummary = useRef(false);
+  const initialSponsors = useRef(false);
+  const initialPublicVoting = useRef(false);
+  const politicianOptionsInitialized = useRef(false);
+  const initialUpcomingRace = useRef(false);
+  const initialEndorsements = useRef(false);
+  const initialStats = useRef(false);
+  const initialSocials = useRef(false);
 
   const {
     register,
@@ -412,7 +423,39 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
                   (data.renderOptions as BallotMeasureWidgetRenderOptions)
                     .scrollableDescription ?? false,
               }
-            : data.renderOptions;
+            : embed?.embedType === EmbedType.Legislation
+              ? {
+                  ...data.renderOptions,
+                  issueTags:
+                    (data.renderOptions as BillWidgetRenderOptions).issueTags ??
+                    false,
+                  summary:
+                    (data.renderOptions as BillWidgetRenderOptions).summary ??
+                    false,
+                  sponsors:
+                    (data.renderOptions as BillWidgetRenderOptions).sponsors ??
+                    false,
+                  publicVoting:
+                    (data.renderOptions as BillWidgetRenderOptions)
+                      .publicVoting ?? false,
+                }
+              : embed?.embedType === EmbedType.Politician
+                ? {
+                    ...data.renderOptions,
+                    upcomingRace:
+                      (data.renderOptions as PoliticianEmbedRenderOptions)
+                        .upcomingRace ?? false,
+                    endorsements:
+                      (data.renderOptions as PoliticianEmbedRenderOptions)
+                        .endorsements ?? false,
+                    stats:
+                      (data.renderOptions as PoliticianEmbedRenderOptions)
+                        .stats ?? false,
+                    socials:
+                      (data.renderOptions as PoliticianEmbedRenderOptions)
+                        .socials ?? false,
+                  }
+                : data.renderOptions;
 
     upsertEmbed.mutate(
       {
@@ -465,6 +508,14 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   );
   const fullTextLink = watch("renderOptions.fullTextLink");
   const scrollableDescription = watch("renderOptions.scrollableDescription");
+  const issueTags = watch("renderOptions.issueTags");
+  const summary = watch("renderOptions.summary");
+  const sponsors = watch("renderOptions.sponsors");
+  const publicVoting = watch("renderOptions.publicVoting");
+  const upcomingRace = watch("renderOptions.upcomingRace");
+  const endorsements = watch("renderOptions.endorsements");
+  const stats = watch("renderOptions.stats");
+  const socials = watch("renderOptions.socials");
 
   // Track previous values to detect what changed
   const prevName = useRef(name);
@@ -477,6 +528,14 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   );
   const prevFullTextLink = useRef(fullTextLink);
   const prevScrollableDescription = useRef(scrollableDescription);
+  const prevIssueTags = useRef(issueTags);
+  const prevSummary = useRef(summary);
+  const prevSponsors = useRef(sponsors);
+  const prevPublicVoting = useRef(publicVoting);
+  const prevUpcomingRace = useRef(upcomingRace);
+  const prevEndorsements = useRef(endorsements);
+  const prevStats = useRef(stats);
+  const prevSocials = useRef(socials);
 
   // Normalize height for comparison (form may have "Auto", "800", saved is number)
   const normalizedHeight = (val: unknown): number | null => {
@@ -582,13 +641,55 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         prevHeight.current === height &&
         prevHideHostPageFromMyBallotMoreInfo.current ===
           hideHostPageFromMyBallotMoreInfo;
-      // Skip autosave when only endorser variant, only splitOutJudicial, only Race hide-host, only ballot-measure options, or only height changed
+      const isLegislationOptionChange =
+        prevIssueTags.current !== issueTags ||
+        prevSummary.current !== summary ||
+        prevSponsors.current !== sponsors ||
+        prevPublicVoting.current !== publicVoting;
+      const onlyLegislationOptionsChanged =
+        isLegislationOptionChange &&
+        prevName.current === name &&
+        prevDescription.current === description &&
+        prevIsEndorserVariant.current === isEndorserVariant &&
+        prevSplitOutJudicial.current === splitOutJudicial &&
+        prevHeight.current === height &&
+        prevHideHostPageFromMyBallotMoreInfo.current ===
+          hideHostPageFromMyBallotMoreInfo &&
+        prevFullTextLink.current === fullTextLink &&
+        prevScrollableDescription.current === scrollableDescription &&
+        prevUpcomingRace.current === upcomingRace &&
+        prevEndorsements.current === endorsements &&
+        prevStats.current === stats &&
+        prevSocials.current === socials;
+      const isPoliticianOptionChange =
+        prevUpcomingRace.current !== upcomingRace ||
+        prevEndorsements.current !== endorsements ||
+        prevStats.current !== stats ||
+        prevSocials.current !== socials;
+      const onlyPoliticianOptionsChanged =
+        isPoliticianOptionChange &&
+        prevName.current === name &&
+        prevDescription.current === description &&
+        prevIsEndorserVariant.current === isEndorserVariant &&
+        prevSplitOutJudicial.current === splitOutJudicial &&
+        prevHeight.current === height &&
+        prevHideHostPageFromMyBallotMoreInfo.current ===
+          hideHostPageFromMyBallotMoreInfo &&
+        prevFullTextLink.current === fullTextLink &&
+        prevScrollableDescription.current === scrollableDescription &&
+        prevIssueTags.current === issueTags &&
+        prevSummary.current === summary &&
+        prevSponsors.current === sponsors &&
+        prevPublicVoting.current === publicVoting;
+      // Skip autosave when only a field with its own immediate save changed
       const onlyDeferredFieldsChanged =
         onlyHeightChanged ||
         isEndorserVariantChange ||
         onlySplitOutJudicialChanged ||
         onlyHideHostPageFromMyBallotMoreInfoChanged ||
-        onlyBallotMeasureOptionsChanged;
+        onlyBallotMeasureOptionsChanged ||
+        onlyLegislationOptionsChanged ||
+        onlyPoliticianOptionsChanged;
 
       if (!onlyDeferredFieldsChanged) {
         const timer = setTimeout(() => {
@@ -609,6 +710,14 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
       hideHostPageFromMyBallotMoreInfo;
     prevFullTextLink.current = fullTextLink;
     prevScrollableDescription.current = scrollableDescription;
+    prevIssueTags.current = issueTags;
+    prevSummary.current = summary;
+    prevSponsors.current = sponsors;
+    prevPublicVoting.current = publicVoting;
+    prevUpcomingRace.current = upcomingRace;
+    prevEndorsements.current = endorsements;
+    prevStats.current = stats;
+    prevSocials.current = socials;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isDirty,
@@ -621,6 +730,14 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     hideHostPageFromMyBallotMoreInfo,
     fullTextLink,
     scrollableDescription,
+    issueTags,
+    summary,
+    sponsors,
+    publicVoting,
+    upcomingRace,
+    endorsements,
+    stats,
+    socials,
   ]);
 
   // Immediate save for endorser variant changes (no delay for better UX)
@@ -728,6 +845,82 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     void handleSubmit(onSubmit)();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fullTextLink, scrollableDescription]);
+
+  // Immediate save for legislation option checkboxes. Same isDirty pitfall as ballot measures.
+  useEffect(() => {
+    if (embed?.embedType !== EmbedType.Legislation) return;
+
+    const nextIssueTags = !!issueTags;
+    const nextSummary = !!summary;
+    const nextSponsors = !!sponsors;
+    const nextPublicVoting = !!publicVoting;
+
+    if (!legislationOptionsInitialized.current) {
+      legislationOptionsInitialized.current = true;
+      initialIssueTags.current = nextIssueTags;
+      initialSummary.current = nextSummary;
+      initialSponsors.current = nextSponsors;
+      initialPublicVoting.current = nextPublicVoting;
+      return;
+    }
+
+    if (
+      initialIssueTags.current === nextIssueTags &&
+      initialSummary.current === nextSummary &&
+      initialSponsors.current === nextSponsors &&
+      initialPublicVoting.current === nextPublicVoting
+    ) {
+      return;
+    }
+
+    initialIssueTags.current = nextIssueTags;
+    initialSummary.current = nextSummary;
+    initialSponsors.current = nextSponsors;
+    initialPublicVoting.current = nextPublicVoting;
+
+    if (!embed.id || !organizationId) return;
+
+    void handleSubmit(onSubmit)();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [issueTags, summary, sponsors, publicVoting]);
+
+  // Immediate save for politician option checkboxes. Same isDirty pitfall as ballot measures.
+  useEffect(() => {
+    if (embed?.embedType !== EmbedType.Politician) return;
+
+    const nextUpcomingRace = !!upcomingRace;
+    const nextEndorsements = !!endorsements;
+    const nextStats = !!stats;
+    const nextSocials = !!socials;
+
+    if (!politicianOptionsInitialized.current) {
+      politicianOptionsInitialized.current = true;
+      initialUpcomingRace.current = nextUpcomingRace;
+      initialEndorsements.current = nextEndorsements;
+      initialStats.current = nextStats;
+      initialSocials.current = nextSocials;
+      return;
+    }
+
+    if (
+      initialUpcomingRace.current === nextUpcomingRace &&
+      initialEndorsements.current === nextEndorsements &&
+      initialStats.current === nextStats &&
+      initialSocials.current === nextSocials
+    ) {
+      return;
+    }
+
+    initialUpcomingRace.current = nextUpcomingRace;
+    initialEndorsements.current = nextEndorsements;
+    initialStats.current = nextStats;
+    initialSocials.current = nextSocials;
+
+    if (!embed.id || !organizationId) return;
+
+    void handleSubmit(onSubmit)();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [upcomingRace, endorsements, stats, socials]);
 
   const { organizationId: currentOrganizationId } = useOrganizationStore();
 
