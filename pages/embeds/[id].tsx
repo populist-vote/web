@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BillTrackerWidget } from "components/BillTrackerWidget/BillTrackerWidget";
 import { BillWidget } from "components/BillWidget/BillWidget";
+import { BallotMeasureWidget } from "components/BallotMeasureWidget/BallotMeasureWidget";
 import { CandidateGuideEmbed } from "components/CandidateGuideEmbed/CandidateGuideEmbed";
 import { ConversationEmbed } from "components/ConversationEmbed/ConversationEmbed";
 import { PoliticianEmbed } from "components/PoliticianEmbed/PoliticianEmbed";
@@ -86,6 +87,7 @@ export function Embed({
   const billId = data?.embedById?.attributes?.billId;
   const billIds = data?.embedById?.attributes?.billIds;
   const raceId = data?.embedById?.attributes?.raceId;
+  const ballotMeasureId = data?.embedById?.attributes?.ballotMeasureId;
   const candidateGuideId = data?.embedById?.attributes?.candidateGuideId;
   const electionId = data?.embedById?.attributes?.electionId;
   const endorserId = data?.embedById?.attributes?.endorserId;
@@ -141,6 +143,15 @@ export function Embed({
       return (
         <RaceWidget
           raceId={raceId}
+          embedId={embedId}
+          origin={resolvedOrigin}
+          renderOptions={renderOptions}
+        />
+      );
+    case EmbedType.BallotMeasure:
+      return (
+        <BallotMeasureWidget
+          ballotMeasureId={ballotMeasureId}
           embedId={embedId}
           origin={resolvedOrigin}
           renderOptions={renderOptions}

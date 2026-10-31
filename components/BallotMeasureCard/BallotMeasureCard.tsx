@@ -29,6 +29,8 @@ export function BallotMeasureCard({
       : "0";
 
   const hasResults = totalVotes > 0 && (numPrecinctsReporting ?? 0) > 0;
+  const yesShowsPercentage = !Number.isNaN(Number.parseFloat(yesPercentage));
+  const noShowsPercentage = !Number.isNaN(Number.parseFloat(noPercentage));
 
   return (
     <div className={styles.billCard}>
@@ -44,7 +46,8 @@ export function BallotMeasureCard({
             style={{ justifyContent: hasResults ? "flex-start" : "center" }}
           >
             <Badge
-              theme="grey-light"
+              theme={yesShowsPercentage ? "green-support" : "grey-light"}
+              lightBackground={yesShowsPercentage}
               iconLeft={
                 <FaCheckCircle size={24} color="var(--green-support)" />
               }
@@ -52,14 +55,15 @@ export function BallotMeasureCard({
               {yesPercentage}
             </Badge>
             <Badge
-              theme="grey-light"
+              theme={noShowsPercentage ? "red" : "grey-light"}
+              lightBackground={noShowsPercentage}
               iconLeft={<RiCloseCircleFill size={28} color="var(--red)" />}
             >
               {noPercentage}
             </Badge>
           </div>
           {hasResults && (
-            <Badge theme="green" lightBackground size="small">
+            <Badge theme="grey-light" lightBackground size="small">
               {precinctReportingPercentage} precincts reporting
             </Badge>
           )}

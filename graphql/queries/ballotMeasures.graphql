@@ -1,0 +1,28 @@
+query BallotMeasureSearch($filter: BallotMeasureFilter) {
+  ballotMeasures(first: 100, filter: $filter) {
+    edges {
+      node {
+        ...EmbedBallotMeasureFields
+      }
+    }
+  }
+}
+
+query BallotMeasureById($id: ID!) {
+  ballotMeasureById(id: $id) {
+    id
+    title
+    description
+    ballotMeasureCode
+    fullTextUrl
+    yesVotes
+    noVotes
+    numPrecinctsReporting
+    totalPrecincts
+    election {
+      id
+      title
+      electionDate
+    }
+  }
+}

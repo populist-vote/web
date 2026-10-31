@@ -34,6 +34,15 @@ query LegislationEmbedById($id: ID!) {
   }
 }
 
+query BallotMeasureEmbedById($id: ID!) {
+  embedById(id: $id) {
+    ...EmbedFields
+    ballotMeasure {
+      ...EmbedBallotMeasureFields
+    }
+  }
+}
+
 query LegislationTrackerEmbedById($id: ID!) {
   embedById(id: $id) {
     ...EmbedFields

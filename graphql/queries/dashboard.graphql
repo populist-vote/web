@@ -30,6 +30,18 @@ query LegislationEmbedsByOrganization($id: ID!) {
   }
 }
 
+query BallotMeasureEmbedsByOrganization($id: ID!) {
+  embedsByOrganization(
+    organizationId: $id
+    filter: { embedType: BALLOT_MEASURE }
+  ) {
+    ...EmbedBasics
+    ballotMeasure {
+      ...EmbedBallotMeasureFields
+    }
+  }
+}
+
 query LegislationTrackerEmbedsByOrganization($id: ID!) {
   embedsByOrganization(
     organizationId: $id
@@ -126,6 +138,21 @@ query MyBallotEmbedsByOrganization($id: ID!) {
       id
       title
     }
+  }
+}
+
+fragment EmbedBallotMeasureFields on BallotMeasureResult {
+  id
+  title
+  description
+  ballotMeasureCode
+  county
+  fullTextUrl
+  status
+  election {
+    id
+    title
+    electionDate
   }
 }
 
