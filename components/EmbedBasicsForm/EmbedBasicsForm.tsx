@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { BillWidgetRenderOptions } from "components/BillWidget/BillWidget";
+import { BallotMeasureWidgetRenderOptions } from "components/BallotMeasureWidget/BallotMeasureWidget";
 import { Button } from "components/Button/Button";
 import { Checkbox } from "components/Checkbox/Checkbox";
 import { MyBallotEmbedRenderOptions } from "components/MyBallotEmbed/MyBallotEmbed";
@@ -40,8 +41,35 @@ type UpsertEmbedInputWithOptions = UpsertEmbedInput & {
     | BillWidgetRenderOptions
     | PoliticianEmbedRenderOptions
     | MyBallotEmbedRenderOptions
-    | RaceEmbedRenderOptions;
+    | RaceEmbedRenderOptions
+    | BallotMeasureWidgetRenderOptions;
 };
+
+function BallotMeasureEmbedOptionsForm({
+  register,
+}: {
+  register: UseFormRegister<UpsertEmbedInputWithOptions>;
+}) {
+  return (
+    <div className={styles.optionsGroup}>
+      <div className={styles.optionsContainer}>
+        <div className={styles.divider} />
+        <Checkbox
+          id="fullTextLink"
+          name="renderOptions.fullTextLink"
+          label="Full text link"
+          register={register}
+        />
+        <Checkbox
+          id="scrollableDescription"
+          name="renderOptions.scrollableDescription"
+          label="Scrollable description"
+          register={register}
+        />
+      </div>
+    </div>
+  );
+}
 
 function BillEmbedOptionsForm({
   register,
@@ -301,6 +329,10 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const initialHideHostPageFromMyBallotMoreInfo = useRef<boolean | undefined>(
     undefined,
   );
+  /** Ballot measure checkboxes are not in the debounced isDirty listener's dependency list, so only the click that first sets isDirty saves. */
+  const ballotMeasureOptionsInitialized = useRef(false);
+  const initialFullTextLink = useRef(false);
+  const initialScrollableDescription = useRef(false);
 
   const {
     register,
@@ -333,6 +365,9 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         hideHostPageFromMyBallotMoreInfo:
           embed?.attributes?.renderOptions?.hideHostPageFromMyBallotMoreInfo ??
           false,
+        fullTextLink: embed?.attributes?.renderOptions?.fullTextLink ?? true,
+        scrollableDescription:
+          embed?.attributes?.renderOptions?.scrollableDescription ?? false,
       },
     },
   });
@@ -367,7 +402,17 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
                 (data.renderOptions as RaceEmbedRenderOptions)
                   .hideHostPageFromMyBallotMoreInfo ?? false,
             }
-          : data.renderOptions;
+          : embed?.embedType === EmbedType.BallotMeasure
+            ? {
+                ...data.renderOptions,
+                fullTextLink:
+                  (data.renderOptions as BallotMeasureWidgetRenderOptions)
+                    .fullTextLink ?? false,
+                scrollableDescription:
+                  (data.renderOptions as BallotMeasureWidgetRenderOptions)
+                    .scrollableDescription ?? false,
+              }
+            : data.renderOptions;
 
     upsertEmbed.mutate(
       {
@@ -418,6 +463,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const hideHostPageFromMyBallotMoreInfo = watch(
     "renderOptions.hideHostPageFromMyBallotMoreInfo",
   );
+  const fullTextLink = watch("renderOptions.fullTextLink");
+  const scrollableDescription = watch("renderOptions.scrollableDescription");
 
   // Track previous values to detect what changed
   const prevName = useRef(name);
@@ -428,6 +475,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
   const prevHideHostPageFromMyBallotMoreInfo = useRef(
     hideHostPageFromMyBallotMoreInfo,
   );
+  const prevFullTextLink = useRef(fullTextLink);
+  const prevScrollableDescription = useRef(scrollableDescription);
 
   // Normalize height for comparison (form may have "Auto", "800", saved is number)
   const normalizedHeight = (val: unknown): number | null => {
@@ -518,13 +567,28 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
         prevDescription.current === description &&
         prevIsEndorserVariant.current === isEndorserVariant &&
         prevSplitOutJudicial.current === splitOutJudicial &&
-        prevHeight.current === height;
-      // Skip autosave when only endorser variant, only splitOutJudicial, only Race hide-host, or only height changed
+        prevHeight.current === height &&
+        prevFullTextLink.current === fullTextLink &&
+        prevScrollableDescription.current === scrollableDescription;
+      const isBallotMeasureOptionChange =
+        prevFullTextLink.current !== fullTextLink ||
+        prevScrollableDescription.current !== scrollableDescription;
+      const onlyBallotMeasureOptionsChanged =
+        isBallotMeasureOptionChange &&
+        prevName.current === name &&
+        prevDescription.current === description &&
+        prevIsEndorserVariant.current === isEndorserVariant &&
+        prevSplitOutJudicial.current === splitOutJudicial &&
+        prevHeight.current === height &&
+        prevHideHostPageFromMyBallotMoreInfo.current ===
+          hideHostPageFromMyBallotMoreInfo;
+      // Skip autosave when only endorser variant, only splitOutJudicial, only Race hide-host, only ballot-measure options, or only height changed
       const onlyDeferredFieldsChanged =
         onlyHeightChanged ||
         isEndorserVariantChange ||
         onlySplitOutJudicialChanged ||
-        onlyHideHostPageFromMyBallotMoreInfoChanged;
+        onlyHideHostPageFromMyBallotMoreInfoChanged ||
+        onlyBallotMeasureOptionsChanged;
 
       if (!onlyDeferredFieldsChanged) {
         const timer = setTimeout(() => {
@@ -543,6 +607,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     prevHeight.current = height;
     prevHideHostPageFromMyBallotMoreInfo.current =
       hideHostPageFromMyBallotMoreInfo;
+    prevFullTextLink.current = fullTextLink;
+    prevScrollableDescription.current = scrollableDescription;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isDirty,
@@ -553,6 +619,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     splitOutJudicial,
     height,
     hideHostPageFromMyBallotMoreInfo,
+    fullTextLink,
+    scrollableDescription,
   ]);
 
   // Immediate save for endorser variant changes (no delay for better UX)
@@ -630,6 +698,37 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hideHostPageFromMyBallotMoreInfo]);
 
+  // Immediate save for ballot measure option checkboxes. The debounced listener
+  // only schedules a save when isDirty changes, so clicks after the first never save.
+  useEffect(() => {
+    if (embed?.embedType !== EmbedType.BallotMeasure) return;
+
+    const nextFullTextLink = !!fullTextLink;
+    const nextScrollableDescription = !!scrollableDescription;
+
+    if (!ballotMeasureOptionsInitialized.current) {
+      ballotMeasureOptionsInitialized.current = true;
+      initialFullTextLink.current = nextFullTextLink;
+      initialScrollableDescription.current = nextScrollableDescription;
+      return;
+    }
+
+    if (
+      initialFullTextLink.current === nextFullTextLink &&
+      initialScrollableDescription.current === nextScrollableDescription
+    ) {
+      return;
+    }
+
+    initialFullTextLink.current = nextFullTextLink;
+    initialScrollableDescription.current = nextScrollableDescription;
+
+    if (!embed.id || !organizationId) return;
+
+    void handleSubmit(onSubmit)();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fullTextLink, scrollableDescription]);
+
   const { organizationId: currentOrganizationId } = useOrganizationStore();
 
   const handleDefaultLanguageChange = (
@@ -669,6 +768,8 @@ function EmbedBasicsForm({ embed }: { embed: EmbedResult | null }) {
     switch (embed?.embedType) {
       case EmbedType.Legislation:
         return <BillEmbedOptionsForm register={register} />;
+      case EmbedType.BallotMeasure:
+        return <BallotMeasureEmbedOptionsForm register={register} />;
       case EmbedType.Politician:
         return <PoliticianEmbedOptionsForm register={register} />;
       case EmbedType.Race:

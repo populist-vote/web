@@ -178,7 +178,14 @@ export function ContentTypeNav({
   const slug = router.query.dashboardSlug as string;
 
   return (
-    <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "1rem",
+        marginTop: "1.5rem",
+        flexWrap: "wrap",
+      }}
+    >
       <Link href={`/dashboard/${slug}/conversations`}>
         <Badge
           theme="salmon"
@@ -241,6 +248,17 @@ export function ContentTypeNav({
           label="Race"
           selected={embedType === EmbedType.Race}
           onClick={() => localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "race")}
+        />
+      </Link>
+      <Link href={`/dashboard/${slug}/embeds/ballot-measure`}>
+        <Badge
+          theme="orange"
+          clickable
+          label="Ballot Measure"
+          selected={embedType === EmbedType.BallotMeasure}
+          onClick={() =>
+            localStorage.setItem(LAST_SELECTED_EMBED_TYPE, "ballot-measure")
+          }
         />
       </Link>
       <Link href={`/dashboard/${slug}/embeds/question`}>

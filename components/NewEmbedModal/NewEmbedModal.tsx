@@ -131,6 +131,13 @@ export function NewEmbedModal({
           </Link>
 
           <Link
+            href="/dashboard/[dashboardSlug]/embeds/ballot-measure/new"
+            as={`/dashboard/${dashboardSlug}/embeds/ballot-measure/new`}
+          >
+            <Button variant="super" size="large" label="Ballot Measure" />
+          </Link>
+
+          <Link
             href="/dashboard/[dashboardSlug]/embeds/question/new"
             as={`/dashboard/${dashboardSlug}/embeds/question/new`}
           >

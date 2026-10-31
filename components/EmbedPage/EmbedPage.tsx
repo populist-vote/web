@@ -29,6 +29,7 @@ import { ImageWithFallback } from "components/ImageWithFallback/ImageWithFallbac
 import Link from "next/link";
 import { Tooltip } from "components/Tooltip/Tooltip";
 import { MyBallotEmbed } from "components/MyBallotEmbed/MyBallotEmbed";
+import { BallotMeasureWidget } from "components/BallotMeasureWidget/BallotMeasureWidget";
 
 function EmbedPage({
   id,
@@ -50,6 +51,7 @@ function EmbedPage({
   const candidateGuideId = data?.embedById?.attributes
     ?.candidateGuideId as string;
   const raceId = data?.embedById?.attributes?.raceId as string;
+  const ballotMeasureId = data?.embedById?.attributes?.ballotMeasureId as string;
   const electionId = data?.embedById?.attributes?.electionId as string;
   const endorserId = data?.embedById?.attributes?.endorserId as string;
   const embed = data?.embedById as EmbedResult;
@@ -88,6 +90,15 @@ function EmbedPage({
         return (
           <RaceWidget
             raceId={raceId}
+            embedId={id}
+            origin={window.location.origin}
+            renderOptions={renderOptions}
+          />
+        );
+      case EmbedType.BallotMeasure:
+        return (
+          <BallotMeasureWidget
+            ballotMeasureId={ballotMeasureId}
             embedId={id}
             origin={window.location.origin}
             renderOptions={renderOptions}

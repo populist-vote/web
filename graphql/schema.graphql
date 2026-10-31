@@ -98,8 +98,18 @@ enum AuthorType {
   POLITICIAN
 }
 
+enum BallotMeasureJurisdiction {
+  CITY
+  COUNTY
+  SCHOOL_DISTRICT
+  SPECIAL_DISTRICT
+  STATE
+}
+
 input BallotMeasureFilter {
+  electionId: UUID
   issueTag: String
+  jurisdiction: BallotMeasureJurisdiction
   politicalScope: PoliticalScope
   query: String
   state: State
@@ -110,6 +120,7 @@ input BallotMeasureFilter {
 type BallotMeasureResult {
   arguments: [ArgumentResult!]!
   ballotMeasureCode: String!
+  county: String
   definitions: String
   description: String
   district: String
@@ -741,6 +752,7 @@ type EmbedResult {
 }
 
 enum EmbedType {
+  BALLOT_MEASURE
   CANDIDATE_GUIDE
   CONVERSATION
   LEGISLATION
